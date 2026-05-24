@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CPTS Pilot — Cockpit</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+:root {
+  --blue-900: #1E3A8A;
+  --blue-700: #1D4ED8;
+  --blue-600: #2563EB;
+  --blue-500: #3B82F6;
+  --blue-100: #DBEAFE;
+  --blue-50: #EFF6FF;
+  --teal-700: #0F766E;
+  --teal-600: #0D9488;
+  --teal-100: #CCFBF1;
+  --slate-900: #0F172A;
+  --slate-700: #334155;
+  --slate-600: #475569;
+  --slate-500: #64748B;
+  --slate-400: #94A3B8;
+  --slate-300: #CBD5E1;
+  --slate-200: #E2E8F0;
+  --slate-100: #F1F5F9;
+  --slate-50: #F8FAFC;
+  --orange-600: #EA580C;
+  --orange-100: #FFEDD5;
+  --red-600: #DC2626;
+  --white: #FFFFFF;
+  --tech: #2563EB;
+  --commercial: #0D9488;
+  --strategie: #7C3AED;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background: var(--slate-50);
+  color: var(--slate-900);
+  height: 100vh;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Layout */
+.app { display: flex; height: 100vh; }
+
+/* Sidebar */
+.sidebar {
+  width: 240px;
+  background: var(--slate-900);
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+.logo {
+  padding: 20px 20px 16px;
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: -0.025em;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.logo .dot { color: var(--blue-500); }
+.logo .sub { display:block; font-size: 11px; font-weight: 500; color: var(--slate-400); letter-spacing: 0.04em; margin-top: 4px; text-transform: uppercase;}
+.nav { flex: 1; padding: 12px 0; }
+.nav-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 20px; cursor: pointer;
+  font-size: 14px; font-weight: 500; color: var(--slate-300);
+  border-left: 3px solid transparent; transition: all .15s;
+}
+.nav-item:hover { background: rgba(255,255,255,0.04); color: var(--white); }
+.nav-item.active { background: rgba(59,130,246,0.12); border-left-color: var(--blue-500); color: var(--white); }
+.nav-item svg { width: 18px; height: 18px; flex-shrink: 0; }
+.nav-footer { padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 11px; color: var(--slate-500); }
+.nav-footer button {
+  width: 100%; margin-bottom: 8px; padding: 8px; border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.12); background: transparent;
+  color: var(--slate-300); font-size: 12px; cursor: pointer; font-family: inherit; font-weight: 500;
+}
+.nav-footer button:hover { background: rgba(255,255,255,0.06); color: var(--white); }
+
+/* Main */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.topbar {
+  height: 60px; background: var(--white); border-bottom: 1px solid var(--slate-200);
+  display: flex; align-items: center; justify-content: space-between; padding: 0 24px; flex-shrink: 0;
+}
+.topbar h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; }
+.topbar .actions { display: flex; gap: 10px; }
+.btn {
+  padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer;
+  font-family: inherit; font-size: 13px; font-weight: 600; transition: all .15s;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.btn-primary { background: var(--blue-700); color: var(--white); }
+.btn-primary:hover { background: var(--blue-600); }
+.btn-ghost { background: var(--slate-100); color: var(--slate-700); }
+.btn-ghost:hover { background: var(--slate-200); }
+.content { flex: 1; overflow: auto; position: relative; }
+
+/* Graph view */
+#graph-canvas { width: 100%; height: 100%; display: block; cursor: grab; background:
+  radial-gradient(circle at 1px 1px, var(--slate-200) 1px, transparent 0); background-size: 24px 24px; }
+#graph-canvas:active { cursor: grabbing; }
+.graph-legend {
+  position: absolute; bottom: 20px; left: 20px; background: var(--white);
+  border: 1px solid var(--slate-200); border-radius: 12px; padding: 14px 16px;
+  box-shadow: 0 8px 24px rgba(15,23,42,0.08); font-size: 12px;
+}
+.graph-legend h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--slate-500); margin-bottom: 10px; }
+.legend-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; color: var(--slate-700); }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+/* Panels (notes, tasks, etc) */
+.panel { padding: 24px; max-width: 1100px; margin: 0 auto; }
+.panel-grid { display: grid; gap: 16px; }
+.card {
+  background: var(--white); border: 1px solid var(--slate-200); border-radius: 12px;
+  padding: 18px; box-shadow: 0 1px 2px rgba(15,23,42,0.04); transition: all .15s;
+}
+.card:hover { box-shadow: 0 4px 12px rgba(15,23,42,0.08); }
+.card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+.card p { font-size: 13px; color: var(--slate-600); line-height: 1.6; }
+.card .meta { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+.tag {
+  font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px;
+}
+.tag-tech { background: var(--blue-100); color: var(--blue-700); }
+.tag-commercial { background: var(--teal-100); color: var(--teal-700); }
+.tag-strategie { background: #EDE9FE; color: #7C3AED; }
+
+/* Tasks */
+.task-col { display: flex; flex-direction: column; gap: 10px; }
+.task-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.task-column { background: var(--slate-100); border-radius: 12px; padding: 14px; }
+.task-column h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--slate-500); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.task-count { background: var(--slate-300); color: var(--slate-700); border-radius: 20px; padding: 1px 8px; font-size: 11px; }
+.task-card {
+  background: var(--white); border: 1px solid var(--slate-200); border-radius: 8px;
+  padding: 12px; font-size: 13px; cursor: pointer; box-shadow: 0 1px 2px rgba(15,23,42,0.04);
+}
+.task-card:hover { border-color: var(--blue-500); }
+.task-card .task-cat { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
+.dot-status { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+
+/* Prospects table */
+table { width: 100%; border-collapse: collapse; background: var(--white); border-radius: 12px; overflow: hidden; border: 1px solid var(--slate-200); }
+th { background: var(--blue-700); color: var(--white); text-align: left; padding: 12px 16px; font-size: 12px; font-weight: 600; }
+td { padding: 12px 16px; font-size: 13px; border-top: 1px solid var(--slate-100); color: var(--slate-700); }
+tr:hover td { background: var(--blue-50); }
+.status-pill { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+.status-contact { background: var(--blue-100); color: var(--blue-700); }
+.status-demo { background: var(--orange-100); color: var(--orange-600); }
+.status-nego { background: #EDE9FE; color: #7C3AED; }
+.status-client { background: var(--teal-100); color: var(--teal-700); }
+
+/* Modal */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(15,23,42,0.5); display: none;
+  align-items: center; justify-content: center; z-index: 100;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--white); border-radius: 16px; padding: 24px; width: 480px; max-width: 90vw;
+  max-height: 85vh; overflow: auto; box-shadow: 0 24px 48px rgba(15,23,42,0.2);
+}
+.modal h2 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+.field { margin-bottom: 14px; }
+.field label { display: block; font-size: 12px; font-weight: 600; color: var(--slate-600); margin-bottom: 6px; }
+.field input, .field textarea, .field select {
+  width: 100%; padding: 9px 12px; border: 1px solid var(--slate-200); border-radius: 8px;
+  font-family: inherit; font-size: 13px; color: var(--slate-900);
+}
+.field textarea { resize: vertical; min-height: 80px; }
+.field input:focus, .field textarea:focus, .field select:focus { outline: none; border-color: var(--blue-500); }
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+.empty { text-align: center; padding: 60px 20px; color: var(--slate-400); }
+.empty svg { width: 48px; height: 48px; margin-bottom: 16px; opacity: 0.4; }
+.section-title { font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--slate-500); margin: 24px 0 12px; font-weight: 600; }
+.node-detail { position: absolute; top: 20px; right: 20px; width: 300px; background: var(--white); border: 1px solid var(--slate-200); border-radius: 12px; padding: 18px; box-shadow: 0 8px 24px rgba(15,23,42,0.12); display: none; }
+.node-detail.open { display: block; }
+.node-detail h3 { font-size: 16px; margin-bottom: 8px; }
+.node-detail .close { position: absolute; top: 12px; right: 12px; cursor: pointer; color: var(--slate-400); border:none; background:none; font-size: 18px; }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo">CPTS Pilot<span class="dot">.</span><span class="sub">Cockpit</span></div>
+    <nav class="nav">
+      <div class="nav-item active" data-view="graph">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5" cy="6" r="3"/><circle cx="19" cy="6" r="3"/><circle cx="12" cy="18" r="3"/><path d="M5 9v3a2 2 0 002 2h10a2 2 0 002-2V9M12 14v1"/></svg>
+        Architecture
+      </div>
+      <div class="nav-item" data-view="notes">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5"/></svg>
+        Notes
+      </div>
+      <div class="nav-item" data-view="tasks">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        Tâches
+      </div>
+      <div class="nav-item" data-view="strategie">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20M12 2a10 10 0 010 20M12 2a10 10 0 000 20"/></svg>
+        Stratégie
+      </div>
+      <div class="nav-item" data-view="prospects">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 7a4 4 0 100 8 4 4 0 000-8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        Prospects
+      </div>
+    </nav>
+    <div class="nav-footer">
+      <button onclick="exportData()">⬇ Exporter (JSON)</button>
+      <button onclick="document.getElementById('import-file').click()">⬆ Importer</button>
+      <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
+      <div style="margin-top:8px;">Sauvegarde auto activée</div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <h1 id="view-title">Architecture du code</h1>
+      <div class="actions" id="view-actions"></div>
+    </div>
+    <div class="content" id="content"></div>
+  </main>
+</div>
+
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" id="modal"></div>
+</div>
+
+<script>
+// ============ ÉTAT & PERSISTANCE ============
+const STORE_KEY = 'cpts_pilot_cockpit_v1';
+let state = {
+  nodes: [],      // {id, label, category, type, description, x, y}
+  links: [],      // {source, target}
+  notes: [],      // {id, title, body, category, links:[noteIds]}
+  tasks: [],      // {id, title, category, status}
+  strategie: [],  // {id, title, body}
+  prospects: []   // {id, nom, contact, statut, notes}
+};
+
+function load() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    if (raw) state = JSON.parse(raw);
+  } catch(e) { console.warn('Pas de données sauvegardées'); }
+  if (!state.nodes) state.nodes = [];
+  if (!state.links) state.links = [];
+  if (!state.notes) state.notes = [];
+  if (!state.tasks) state.tasks = [];
+  if (!state.strategie) state.strategie = [];
+  if (!state.prospects) state.prospects = [];
+}
+function save() {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
+  catch(e) { alert('Erreur de sauvegarde'); }
+}
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+
+// ============ NAVIGATION ============
+let currentView = 'graph';
+const titles = { graph:'Architecture du code', notes:'Notes thématiques', tasks:'Gestion des tâches', strategie:'Stratégie commerciale', prospects:'Prospects CPTS' };
+
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => {
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+    item.classList.add('active');
+    currentView = item.dataset.view;
+    document.getElementById('view-title').textContent = titles[currentView];
+    render();
+  });
+});
+
+const catLabel = { tech:'Technique', commercial:'Commercial', strategie:'Stratégie' };
+const catClass = { tech:'tag-tech', commercial:'tag-commercial', strategie:'tag-strategie' };
+
+function render() {
+  const content = document.getElementById('content');
+  const actions = document.getElementById('view-actions');
+  content.innerHTML = '';
+  actions.innerHTML = '';
+  if (currentView === 'graph') renderGraph(content, actions);
+  else if (currentView === 'notes') renderNotes(content, actions);
+  else if (currentView === 'tasks') renderTasks(content, actions);
+  else if (currentView === 'strategie') renderStrategie(content, actions);
+  else if (currentView === 'prospects') renderProspects(content, actions);
+}
+
+// ============ VUE GRAPHE (ARCHITECTURE) ============
+let graphState = { offsetX: 0, offsetY: 0, scale: 1, dragging: null, panning: false, lastX: 0, lastY: 0 };
+
+function renderGraph(content, actions) {
+  actions.innerHTML = `
+    <button class="btn btn-ghost" onclick="openNodeModal()">+ Nœud</button>
+    <button class="btn btn-primary" onclick="toggleLinkMode()" id="link-btn">↔ Relier</button>`;
+  content.innerHTML = `
+    <canvas id="graph-canvas"></canvas>
+    <div class="graph-legend">
+      <h4>Catégories</h4>
+      <div class="legend-row"><span class="legend-dot" style="background:var(--tech)"></span> Technique</div>
+      <div class="legend-row"><span class="legend-dot" style="background:var(--commercial)"></span> Commercial</div>
+      <div class="legend-row"><span class="legend-dot" style="background:var(--strategie)"></span> Stratégie</div>
+      <div style="margin-top:10px;font-size:11px;color:var(--slate-400)">Glisser un nœud pour le déplacer<br>Molette pour zoomer · Fond pour naviguer</div>
+    </div>
+    <div class="node-detail" id="node-detail"></div>`;
+  const canvas = document.getElementById('graph-canvas');
+  setupGraph(canvas);
+}
+
+let linkMode = false, linkSource = null;
+function toggleLinkMode() {
+  linkMode = !linkMode; linkSource = null;
+  const btn = document.getElementById('link-btn');
+  btn.style.background = linkMode ? 'var(--teal-600)' : '';
+  btn.style.color = linkMode ? '#fff' : '';
+  btn.textContent = linkMode ? '✓ Mode liaison' : '↔ Relier';
+}
+
+const catColors = { tech:'#2563EB', commercial:'#0D9488', strategie:'#7C3AED' };
+
+function setupGraph(canvas) {
+  const ctx = canvas.getContext('2d');
+  function resize() {
+    const r = canvas.parentElement.getBoundingClientRect();
+    canvas.width = r.width; canvas.height = r.height;
+    draw();
+  }
+  window.addEventListener('resize', resize);
+
+  function worldToScreen(x, y) {
+    return { x: x * graphState.scale + graphState.offsetX, y: y * graphState.scale + graphState.offsetY };
+  }
+  function screenToWorld(x, y) {
+    return { x: (x - graphState.offsetX) / graphState.scale, y: (y - graphState.offsetY) / graphState.scale };
+  }
+
+  function draw() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    // Links
+    ctx.lineWidth = 1.5 * graphState.scale;
+    state.links.forEach(l => {
+      const s = state.nodes.find(n => n.id === l.source);
+      const t = state.nodes.find(n => n.id === l.target);
+      if (!s || !t) return;
+      const ss = worldToScreen(s.x, s.y), ts = worldToScreen(t.x, t.y);
+      ctx.beginPath();
+      ctx.moveTo(ss.x, ss.y); ctx.lineTo(ts.x, ts.y);
+      ctx.strokeStyle = 'rgba(148,163,184,0.5)';
+      ctx.stroke();
+    });
+    // Nodes
+    state.nodes.forEach(n => {
+      const p = worldToScreen(n.x, n.y);
+      const r = 26 * graphState.scale;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, r, 0, Math.PI*2);
+      ctx.fillStyle = catColors[n.category] || '#64748B';
+      ctx.fill();
+      if (linkSource === n.id) { ctx.lineWidth = 3; ctx.strokeStyle = '#0D9488'; ctx.stroke(); }
+      // Label
+      ctx.fillStyle = '#0F172A';
+      ctx.font = `${13*graphState.scale}px Manrope, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.fillText(n.label, p.x, p.y + r + 16*graphState.scale);
+      // Type icon (initial)
+      ctx.fillStyle = '#fff';
+      ctx.font = `600 ${12*graphState.scale}px Manrope, sans-serif`;
+      ctx.fillText((n.type||'•').charAt(0).toUpperCase(), p.x, p.y + 4*graphState.scale);
+    });
+  }
+
+  function nodeAt(sx, sy) {
+    for (let i = state.nodes.length-1; i>=0; i--) {
+      const n = state.nodes[i];
+      const p = worldToScreen(n.x, n.y);
+      const r = 26 * graphState.scale;
+      if (Math.hypot(sx-p.x, sy-p.y) <= r) return n;
+    }
+    return null;
+  }
+
+  canvas.addEventListener('mousedown', e => {
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+    const node = nodeAt(mx, my);
+    if (linkMode && node) {
+      if (!linkSource) { linkSource = node.id; draw(); }
+      else if (linkSource !== node.id) {
+        const exists = state.links.some(l => (l.source===linkSource&&l.target===node.id)||(l.source===node.id&&l.target===linkSource));
+        if (!exists) { state.links.push({source:linkSource, target:node.id}); save(); }
+        linkSource = null; draw();
+      }
+      return;
+    }
+    if (node) { graphState.dragging = node; }
+    else { graphState.panning = true; graphState.lastX = mx; graphState.lastY = my; }
+  });
+  canvas.addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+    if (graphState.dragging) {
+      const w = screenToWorld(mx, my);
+      graphState.dragging.x = w.x; graphState.dragging.y = w.y; draw();
+    } else if (graphState.panning) {
+      graphState.offsetX += mx - graphState.lastX;
+      graphState.offsetY += my - graphState.lastY;
+      graphState.lastX = mx; graphState.lastY = my; draw();
+    }
+  });
+  canvas.addEventListener('mouseup', e => {
+    if (graphState.dragging) { save(); }
+    graphState.dragging = null; graphState.panning = false;
+  });
+  canvas.addEventListener('dblclick', e => {
+    const rect = canvas.getBoundingClientRect();
+    const node = nodeAt(e.clientX-rect.left, e.clientY-rect.top);
+    if (node) showNodeDetail(node);
+  });
+  canvas.addEventListener('wheel', e => {
+    e.preventDefault();
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX-rect.left, my = e.clientY-rect.top;
+    const before = screenToWorld(mx, my);
+    graphState.scale *= e.deltaY > 0 ? 0.92 : 1.08;
+    graphState.scale = Math.max(0.3, Math.min(3, graphState.scale));
+    const after = screenToWorld(mx, my);
+    graphState.offsetX += (after.x - before.x) * graphState.scale;
+    graphState.offsetY += (after.y - before.y) * graphState.scale;
+    draw();
+  });
+  resize();
+}
+
+function showNodeDetail(node) {
+  const d = document.getElementById('node-detail');
+  d.innerHTML = `
+    <button class="close" onclick="document.getElementById('node-detail').classList.remove('open')">×</button>
+    <h3>${esc(node.label)}</h3>
+    <div class="meta" style="margin-bottom:10px;"><span class="tag ${catClass[node.category]}">${catLabel[node.category]}</span>
+    <span class="tag" style="background:var(--slate-100);color:var(--slate-600)">${esc(node.type||'')}</span></div>
+    <p style="font-size:13px;color:var(--slate-600);line-height:1.6;">${esc(node.description||'Pas de description')}</p>
+    <div style="margin-top:14px;display:flex;gap:8px;">
+      <button class="btn btn-ghost" onclick="openNodeModal('${node.id}')">Modifier</button>
+      <button class="btn btn-ghost" style="color:var(--red-600)" onclick="deleteNode('${node.id}')">Supprimer</button>
+    </div>`;
+  d.classList.add('open');
+}
+
+function openNodeModal(id) {
+  const node = id ? state.nodes.find(n=>n.id===id) : null;
+  const m = document.getElementById('modal');
+  m.innerHTML = `
+    <h2>${node?'Modifier':'Nouveau'} nœud</h2>
+    <div class="field"><label>Nom</label><input id="n-label" value="${node?esc(node.label):''}" placeholder="Ex: Route /api/membres"></div>
+    <div class="field"><label>Catégorie</label><select id="n-category">
+      <option value="tech" ${node?.category==='tech'?'selected':''}>Technique</option>
+      <option value="commercial" ${node?.category==='commercial'?'selected':''}>Commercial</option>
+      <option value="strategie" ${node?.category==='strategie'?'selected':''}>Stratégie</option>
+    </select></div>
+    <div class="field"><label>Type</label><input id="n-type" value="${node?esc(node.type||''):''}" placeholder="Ex: Route, Module, Fonctionnalité, Composant"></div>
+    <div class="field"><label>Description</label><textarea id="n-desc" placeholder="Détails techniques, rôle, dépendances...">${node?esc(node.description||''):''}</textarea></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="saveNode('${id||''}')">Enregistrer</button>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function saveNode(id) {
+  const label = document.getElementById('n-label').value.trim();
+  if (!label) return alert('Le nom est requis');
+  const data = {
+    label, category: document.getElementById('n-category').value,
+    type: document.getElementById('n-type').value.trim(),
+    description: document.getElementById('n-desc').value.trim()
+  };
+  if (id) { Object.assign(state.nodes.find(n=>n.id===id), data); }
+  else { state.nodes.push({ id: uid(), ...data, x: 200+Math.random()*300, y: 150+Math.random()*200 }); }
+  save(); closeModal();
+  document.getElementById('node-detail').classList.remove('open');
+  render();
+}
+function deleteNode(id) {
+  if (!confirm('Supprimer ce nœud et ses liens ?')) return;
+  state.nodes = state.nodes.filter(n=>n.id!==id);
+  state.links = state.links.filter(l=>l.source!==id && l.target!==id);
+  save(); document.getElementById('node-detail').classList.remove('open'); render();
+}
+
+// ============ VUE NOTES ============
+function renderNotes(content, actions) {
+  actions.innerHTML = `<button class="btn btn-primary" onclick="openNoteModal()">+ Note</button>`;
+  if (state.notes.length === 0) {
+    content.innerHTML = `<div class="panel"><div class="empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5"/></svg>
+      <p>Aucune note pour l'instant. Crée ta première note thématique.</p></div></div>`;
+    return;
+  }
+  let html = '<div class="panel"><div class="panel-grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr))">';
+  state.notes.forEach(note => {
+    const linked = (note.links||[]).map(lid => state.notes.find(n=>n.id===lid)).filter(Boolean);
+    html += `<div class="card" onclick="openNoteModal('${note.id}')">
+      <h3>${esc(note.title)}</h3>
+      <p>${esc((note.body||'').slice(0,140))}${(note.body||'').length>140?'…':''}</p>
+      <div class="meta">
+        <span class="tag ${catClass[note.category]}">${catLabel[note.category]}</span>
+        ${linked.length?`<span class="tag" style="background:var(--slate-100);color:var(--slate-500)">🔗 ${linked.length} liée${linked.length>1?'s':''}</span>`:''}
+      </div></div>`;
+  });
+  html += '</div></div>';
+  content.innerHTML = html;
+}
+function openNoteModal(id) {
+  const note = id ? state.notes.find(n=>n.id===id) : null;
+  const others = state.notes.filter(n=>!id || n.id!==id);
+  const m = document.getElementById('modal');
+  m.innerHTML = `
+    <h2>${note?'Modifier':'Nouvelle'} note</h2>
+    <div class="field"><label>Titre</label><input id="note-title" value="${note?esc(note.title):''}"></div>
+    <div class="field"><label>Catégorie</label><select id="note-category">
+      <option value="tech" ${note?.category==='tech'?'selected':''}>Technique</option>
+      <option value="commercial" ${note?.category==='commercial'?'selected':''}>Commercial</option>
+      <option value="strategie" ${note?.category==='strategie'?'selected':''}>Stratégie</option>
+    </select></div>
+    <div class="field"><label>Contenu</label><textarea id="note-body" style="min-height:140px">${note?esc(note.body||''):''}</textarea></div>
+    <div class="field"><label>Relier à d'autres notes</label>
+      <select id="note-links" multiple style="min-height:80px">
+        ${others.map(n=>`<option value="${n.id}" ${note?.links?.includes(n.id)?'selected':''}>${esc(n.title)}</option>`).join('')}
+      </select>
+      <div style="font-size:11px;color:var(--slate-400);margin-top:4px">Ctrl/Cmd + clic pour sélectionner plusieurs</div>
+    </div>
+    <div class="modal-actions">
+      ${note?`<button class="btn btn-ghost" style="color:var(--red-600);margin-right:auto" onclick="deleteNote('${id}')">Supprimer</button>`:''}
+      <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="saveNote('${id||''}')">Enregistrer</button>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function saveNote(id) {
+  const title = document.getElementById('note-title').value.trim();
+  if (!title) return alert('Le titre est requis');
+  const links = Array.from(document.getElementById('note-links').selectedOptions).map(o=>o.value);
+  const data = { title, category: document.getElementById('note-category').value,
+    body: document.getElementById('note-body').value.trim(), links };
+  if (id) Object.assign(state.notes.find(n=>n.id===id), data);
+  else state.notes.push({ id: uid(), ...data });
+  save(); closeModal(); render();
+}
+function deleteNote(id) {
+  if (!confirm('Supprimer cette note ?')) return;
+  state.notes = state.notes.filter(n=>n.id!==id);
+  state.notes.forEach(n => { if(n.links) n.links = n.links.filter(l=>l!==id); });
+  save(); closeModal(); render();
+}
+
+// ============ VUE TÂCHES ============
+function renderTasks(content, actions) {
+  actions.innerHTML = `<button class="btn btn-primary" onclick="openTaskModal()">+ Tâche</button>`;
+  const cols = [
+    { key:'todo', label:'À faire', dot:'var(--slate-300)' },
+    { key:'doing', label:'En cours', dot:'var(--blue-500)' },
+    { key:'done', label:'Terminé', dot:'var(--teal-600)' }
+  ];
+  let html = '<div class="panel" style="max-width:none"><div class="task-board">';
+  cols.forEach(col => {
+    const tasks = state.tasks.filter(t=>t.status===col.key);
+    html += `<div class="task-column"><h3><span class="dot-status" style="background:${col.dot}"></span>${col.label}<span class="task-count">${tasks.length}</span></h3><div class="task-col">`;
+    tasks.forEach(t => {
+      html += `<div class="task-card" onclick="openTaskModal('${t.id}')">
+        <div class="task-cat" style="color:${catColors[t.category]}">${catLabel[t.category]}</div>
+        ${esc(t.title)}</div>`;
+    });
+    html += '</div></div>';
+  });
+  html += '</div></div>';
+  content.innerHTML = html;
+}
+function openTaskModal(id) {
+  const task = id ? state.tasks.find(t=>t.id===id) : null;
+  const m = document.getElementById('modal');
+  m.innerHTML = `
+    <h2>${task?'Modifier':'Nouvelle'} tâche</h2>
+    <div class="field"><label>Intitulé</label><input id="task-title" value="${task?esc(task.title):''}"></div>
+    <div class="field"><label>Catégorie</label><select id="task-category">
+      <option value="tech" ${task?.category==='tech'?'selected':''}>Technique</option>
+      <option value="commercial" ${task?.category==='commercial'?'selected':''}>Commercial</option>
+      <option value="strategie" ${task?.category==='strategie'?'selected':''}>Stratégie</option>
+    </select></div>
+    <div class="field"><label>Statut</label><select id="task-status">
+      <option value="todo" ${task?.status==='todo'?'selected':''}>À faire</option>
+      <option value="doing" ${task?.status==='doing'?'selected':''}>En cours</option>
+      <option value="done" ${task?.status==='done'?'selected':''}>Terminé</option>
+    </select></div>
+    <div class="modal-actions">
+      ${task?`<button class="btn btn-ghost" style="color:var(--red-600);margin-right:auto" onclick="deleteTask('${id}')">Supprimer</button>`:''}
+      <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="saveTask('${id||''}')">Enregistrer</button>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function saveTask(id) {
+  const title = document.getElementById('task-title').value.trim();
+  if (!title) return alert('L\'intitulé est requis');
+  const data = { title, category: document.getElementById('task-category').value, status: document.getElementById('task-status').value };
+  if (id) Object.assign(state.tasks.find(t=>t.id===id), data);
+  else state.tasks.push({ id: uid(), ...data });
+  save(); closeModal(); render();
+}
+function deleteTask(id) {
+  state.tasks = state.tasks.filter(t=>t.id!==id);
+  save(); closeModal(); render();
+}
+
+// ============ VUE STRATÉGIE ============
+function renderStrategie(content, actions) {
+  actions.innerHTML = `<button class="btn btn-primary" onclick="openStratModal()">+ Élément</button>`;
+  if (state.strategie.length === 0) {
+    content.innerHTML = `<div class="panel"><div class="empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 2v20M2 12h20"/></svg>
+      <p>Pose ici ta stratégie : positionnement, roadmap commerciale, pricing, partenariats…</p></div></div>`;
+    return;
+  }
+  let html = '<div class="panel">';
+  state.strategie.forEach(s => {
+    html += `<div class="card" style="margin-bottom:16px" onclick="openStratModal('${s.id}')">
+      <h3>${esc(s.title)}</h3>
+      <p style="white-space:pre-wrap">${esc(s.body||'')}</p></div>`;
+  });
+  html += '</div>';
+  content.innerHTML = html;
+}
+function openStratModal(id) {
+  const s = id ? state.strategie.find(x=>x.id===id) : null;
+  const m = document.getElementById('modal');
+  m.innerHTML = `
+    <h2>${s?'Modifier':'Nouvel'} élément stratégique</h2>
+    <div class="field"><label>Titre</label><input id="strat-title" value="${s?esc(s.title):''}" placeholder="Ex: Positionnement, Pricing, Roadmap Q3..."></div>
+    <div class="field"><label>Contenu</label><textarea id="strat-body" style="min-height:180px">${s?esc(s.body||''):''}</textarea></div>
+    <div class="modal-actions">
+      ${s?`<button class="btn btn-ghost" style="color:var(--red-600);margin-right:auto" onclick="deleteStrat('${id}')">Supprimer</button>`:''}
+      <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="saveStrat('${id||''}')">Enregistrer</button>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function saveStrat(id) {
+  const title = document.getElementById('strat-title').value.trim();
+  if (!title) return alert('Le titre est requis');
+  const data = { title, body: document.getElementById('strat-body').value.trim() };
+  if (id) Object.assign(state.strategie.find(x=>x.id===id), data);
+  else state.strategie.push({ id: uid(), ...data });
+  save(); closeModal(); render();
+}
+function deleteStrat(id) {
+  if(!confirm('Supprimer ?')) return;
+  state.strategie = state.strategie.filter(x=>x.id!==id);
+  save(); closeModal(); render();
+}
+
+// ============ VUE PROSPECTS ============
+const statutLabels = { contact:'Premier contact', demo:'Démo planifiée', nego:'En négociation', client:'Client signé' };
+const statutClass = { contact:'status-contact', demo:'status-demo', nego:'status-nego', client:'status-client' };
+function renderProspects(content, actions) {
+  actions.innerHTML = `<button class="btn btn-primary" onclick="openProspectModal()">+ Prospect</button>`;
+  if (state.prospects.length === 0) {
+    content.innerHTML = `<div class="panel"><div class="empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 7a4 4 0 100 8 4 4 0 000-8z"/></svg>
+      <p>Suis ici tes CPTS prospects, de la prise de contact à la signature.</p></div></div>`;
+    return;
+  }
+  let html = '<div class="panel" style="max-width:none"><table><thead><tr><th>CPTS</th><th>Contact</th><th>Statut</th><th>Notes</th></tr></thead><tbody>';
+  state.prospects.forEach(p => {
+    html += `<tr onclick="openProspectModal('${p.id}')" style="cursor:pointer">
+      <td style="font-weight:600;color:var(--slate-900)">${esc(p.nom)}</td>
+      <td>${esc(p.contact||'—')}</td>
+      <td><span class="status-pill ${statutClass[p.statut]}">${statutLabels[p.statut]}</span></td>
+      <td style="color:var(--slate-500)">${esc((p.notes||'').slice(0,50))}${(p.notes||'').length>50?'…':''}</td></tr>`;
+  });
+  html += '</tbody></table></div>';
+  content.innerHTML = html;
+}
+function openProspectModal(id) {
+  const p = id ? state.prospects.find(x=>x.id===id) : null;
+  const m = document.getElementById('modal');
+  m.innerHTML = `
+    <h2>${p?'Modifier':'Nouveau'} prospect</h2>
+    <div class="field"><label>Nom de la CPTS</label><input id="prosp-nom" value="${p?esc(p.nom):''}"></div>
+    <div class="field"><label>Contact (nom, email, téléphone)</label><input id="prosp-contact" value="${p?esc(p.contact||''):''}"></div>
+    <div class="field"><label>Statut</label><select id="prosp-statut">
+      <option value="contact" ${p?.statut==='contact'?'selected':''}>Premier contact</option>
+      <option value="demo" ${p?.statut==='demo'?'selected':''}>Démo planifiée</option>
+      <option value="nego" ${p?.statut==='nego'?'selected':''}>En négociation</option>
+      <option value="client" ${p?.statut==='client'?'selected':''}>Client signé</option>
+    </select></div>
+    <div class="field"><label>Notes</label><textarea id="prosp-notes">${p?esc(p.notes||''):''}</textarea></div>
+    <div class="modal-actions">
+      ${p?`<button class="btn btn-ghost" style="color:var(--red-600);margin-right:auto" onclick="deleteProspect('${id}')">Supprimer</button>`:''}
+      <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="saveProspect('${id||''}')">Enregistrer</button>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function saveProspect(id) {
+  const nom = document.getElementById('prosp-nom').value.trim();
+  if (!nom) return alert('Le nom est requis');
+  const data = { nom, contact: document.getElementById('prosp-contact').value.trim(),
+    statut: document.getElementById('prosp-statut').value, notes: document.getElementById('prosp-notes').value.trim() };
+  if (id) Object.assign(state.prospects.find(x=>x.id===id), data);
+  else state.prospects.push({ id: uid(), ...data });
+  save(); closeModal(); render();
+}
+function deleteProspect(id) {
+  if(!confirm('Supprimer ce prospect ?')) return;
+  state.prospects = state.prospects.filter(x=>x.id!==id);
+  save(); closeModal(); render();
+}
+
+// ============ UTILS ============
+function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
+function esc(s) { return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+document.getElementById('modal-overlay').addEventListener('click', e => { if(e.target.id==='modal-overlay') closeModal(); });
+
+function exportData() {
+  const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'cpts-pilot-cockpit-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+}
+function importData(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try { state = JSON.parse(ev.target.result); save(); render(); alert('Données importées !'); }
+    catch(err) { alert('Fichier invalide'); }
+  };
+  reader.readAsText(file);
+}
+
+// ============ INIT ============
+load();
+render();
+</script>
+</body>
+</html>
