@@ -297,6 +297,51 @@ tr:hover td { background: var(--blue-50); }
 }
 .today-empty-mini a { color: var(--blue-700); cursor: pointer; font-weight: 600; }
 .today-empty-mini a:hover { text-decoration: underline; }
+
+/* Recherche topbar */
+.topbar { gap: 20px; }
+.search-bar {
+  position: relative; flex: 0 1 360px; max-width: 360px;
+  display: none; align-items: center;
+}
+.search-bar.visible { display: flex; }
+.search-bar input {
+  width: 100%; padding: 9px 36px 9px 36px;
+  border: 1px solid var(--slate-200); border-radius: 8px;
+  background: var(--slate-50); font-family: inherit; font-size: 13px;
+  color: var(--slate-900); outline: none;
+  transition: all .15s;
+}
+.search-bar input::placeholder { color: var(--slate-400); }
+.search-bar input:focus, .search-bar input:hover { background: var(--white); border-color: var(--slate-300); }
+.search-bar input:focus { border-color: var(--blue-500); box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+.search-bar .search-icon {
+  position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+  width: 14px; height: 14px; color: var(--slate-400); pointer-events: none;
+}
+.search-bar .search-clear {
+  position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+  width: 20px; height: 20px; border: none; background: var(--slate-200);
+  color: var(--slate-600); border-radius: 50%;
+  cursor: pointer; display: none; align-items: center; justify-content: center;
+  font-size: 14px; line-height: 1; font-family: inherit; padding: 0;
+}
+.search-bar.has-value .search-clear { display: flex; }
+.search-bar .search-clear:hover { background: var(--slate-300); color: var(--slate-900); }
+.search-bar .search-kbd {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  font-size: 10px; color: var(--slate-400); pointer-events: none;
+  background: var(--white); border: 1px solid var(--slate-200);
+  padding: 2px 6px; border-radius: 4px; font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.search-bar.has-value .search-kbd,
+.search-bar:focus-within .search-kbd { display: none; }
+.search-empty {
+  text-align: center; padding: 40px 20px; color: var(--slate-400);
+  font-size: 13px;
+}
+.search-empty strong { color: var(--slate-600); }
 </style>
 </head>
 <body>
@@ -340,6 +385,12 @@ tr:hover td { background: var(--blue-50); }
   <main class="main">
     <div class="topbar">
       <h1 id="view-title">Architecture du code</h1>
+      <div class="search-bar" id="search-bar">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
+        <input type="text" id="search-input" oninput="updateSearch(this.value)" autocomplete="off">
+        <span class="search-kbd">/</span>
+        <button class="search-clear" onclick="clearSearch()" title="Effacer (Esc)">×</button>
+      </div>
       <div class="actions" id="view-actions"></div>
     </div>
     <div class="content" id="content"></div>
@@ -386,14 +437,53 @@ function uid() { return Date.now().toString(36) + Math.random().toString(36).sli
 let currentView = 'today';
 const titles = { today:'Aujourd\'hui', graph:'Architecture du code', notes:'Notes thématiques', tasks:'Gestion des tâches', strategie:'Stratégie commerciale', prospects:'Prospects CPTS' };
 
+// Recherche : vues filtrables + placeholders
+let searchQuery = '';
+const searchPlaceholders = {
+  notes: 'Rechercher dans les notes…',
+  tasks: 'Rechercher une tâche…',
+  strategie: 'Rechercher dans la stratégie…',
+  prospects: 'Rechercher une CPTS, un contact…'
+};
+
 document.querySelectorAll('.nav-item').forEach(item => {
-  item.addEventListener('click', () => {
-    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-    item.classList.add('active');
-    currentView = item.dataset.view;
-    document.getElementById('view-title').textContent = titles[currentView];
-    render();
-  });
+  item.addEventListener('click', () => goTo(item.dataset.view));
+});
+
+function updateSearch(value) {
+  searchQuery = value;
+  const bar = document.getElementById('search-bar');
+  bar.classList.toggle('has-value', !!value);
+  render();
+  const input = document.getElementById('search-input');
+  if (input && document.activeElement !== input) {
+    input.focus();
+    input.setSelectionRange(value.length, value.length);
+  }
+}
+
+function clearSearch() {
+  searchQuery = '';
+  const input = document.getElementById('search-input');
+  if (input) input.value = '';
+  document.getElementById('search-bar').classList.remove('has-value');
+  render();
+}
+
+// Raccourcis clavier : "/" pour focus la recherche, "Esc" pour la vider/déblurer
+document.addEventListener('keydown', e => {
+  const isTyping = ['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName);
+  if (e.key === '/' && !isTyping && searchPlaceholders[currentView]) {
+    e.preventDefault();
+    const input = document.getElementById('search-input');
+    if (input) input.focus();
+  } else if (e.key === 'Escape') {
+    const input = document.getElementById('search-input');
+    if (document.activeElement === input) {
+      if (searchQuery) clearSearch();
+      else input.blur();
+    }
+  }
 });
 
 const catLabel = { tech:'Technique', commercial:'Commercial', strategie:'Stratégie' };
@@ -404,6 +494,20 @@ function render() {
   const actions = document.getElementById('view-actions');
   content.innerHTML = '';
   actions.innerHTML = '';
+
+  // Sync la barre de recherche selon la vue
+  const searchBar = document.getElementById('search-bar');
+  const searchInput = document.getElementById('search-input');
+  if (searchPlaceholders[currentView]) {
+    searchBar.classList.add('visible');
+    searchInput.placeholder = searchPlaceholders[currentView];
+    if (searchInput.value !== searchQuery) searchInput.value = searchQuery;
+    searchBar.classList.toggle('has-value', !!searchQuery);
+  } else {
+    searchBar.classList.remove('visible', 'has-value');
+    searchInput.value = '';
+  }
+
   if (currentView === 'today') renderToday(content, actions);
   else if (currentView === 'graph') renderGraph(content, actions);
   else if (currentView === 'notes') renderNotes(content, actions);
@@ -415,8 +519,16 @@ function render() {
 function goTo(view) {
   document.querySelectorAll('.nav-item').forEach(i => i.classList.toggle('active', i.dataset.view === view));
   currentView = view;
+  searchQuery = '';  // reset à chaque changement de vue
   document.getElementById('view-title').textContent = titles[view];
   render();
+}
+
+// Helper : filtre une liste sur plusieurs champs
+function matchSearch(item, fields) {
+  if (!searchQuery) return true;
+  const q = searchQuery.toLowerCase();
+  return fields.some(f => (f||'').toString().toLowerCase().includes(q));
 }
 
 // ============ VUE AUJOURD'HUI ============
@@ -796,8 +908,13 @@ function renderNotes(content, actions) {
       <p>Aucune note pour l'instant. Crée ta première note thématique.</p></div></div>`;
     return;
   }
+  const filtered = state.notes.filter(n => matchSearch(n, [n.title, n.body, catLabel[n.category]]));
+  if (filtered.length === 0) {
+    content.innerHTML = `<div class="panel"><div class="search-empty">Aucune note ne contient <strong>« ${esc(searchQuery)} »</strong></div></div>`;
+    return;
+  }
   let html = '<div class="panel"><div class="panel-grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr))">';
-  state.notes.forEach(note => {
+  filtered.forEach(note => {
     const linked = (note.links||[]).map(lid => state.notes.find(n=>n.id===lid)).filter(Boolean);
     html += `<div class="card" onclick="openNoteModal('${note.id}')">
       <h3>${esc(note.title)}</h3>
@@ -861,9 +978,14 @@ function renderTasks(content, actions) {
     { key:'doing', label:'En cours', dot:'var(--blue-500)' },
     { key:'done', label:'Terminé', dot:'var(--teal-600)' }
   ];
+  const filtered = state.tasks.filter(t => matchSearch(t, [t.title, catLabel[t.category]]));
+  if (searchQuery && filtered.length === 0) {
+    content.innerHTML = `<div class="panel"><div class="search-empty">Aucune tâche ne contient <strong>« ${esc(searchQuery)} »</strong></div></div>`;
+    return;
+  }
   let html = '<div class="panel" style="max-width:none"><div class="task-board">';
   cols.forEach(col => {
-    const tasks = state.tasks.filter(t=>t.status===col.key);
+    const tasks = filtered.filter(t=>t.status===col.key);
     html += `<div class="task-column"><h3><span class="dot-status" style="background:${col.dot}"></span>${col.label}<span class="task-count">${tasks.length}</span></h3><div class="task-col">`;
     tasks.forEach(t => {
       html += `<div class="task-card" onclick="openTaskModal('${t.id}')">
@@ -920,8 +1042,13 @@ function renderStrategie(content, actions) {
       <p>Pose ici ta stratégie : positionnement, roadmap commerciale, pricing, partenariats…</p></div></div>`;
     return;
   }
+  const filtered = state.strategie.filter(s => matchSearch(s, [s.title, s.body]));
+  if (filtered.length === 0) {
+    content.innerHTML = `<div class="panel"><div class="search-empty">Aucun élément ne contient <strong>« ${esc(searchQuery)} »</strong></div></div>`;
+    return;
+  }
   let html = '<div class="panel">';
-  state.strategie.forEach(s => {
+  filtered.forEach(s => {
     html += `<div class="card" style="margin-bottom:16px" onclick="openStratModal('${s.id}')">
       <h3>${esc(s.title)}</h3>
       <p style="white-space:pre-wrap">${esc(s.body||'')}</p></div>`;
@@ -968,8 +1095,13 @@ function renderProspects(content, actions) {
       <p>Suis ici tes CPTS prospects, de la prise de contact à la signature.</p></div></div>`;
     return;
   }
+  const filtered = state.prospects.filter(p => matchSearch(p, [p.nom, p.contact, p.notes, statutLabels[p.statut]]));
+  if (filtered.length === 0) {
+    content.innerHTML = `<div class="panel"><div class="search-empty">Aucun prospect ne contient <strong>« ${esc(searchQuery)} »</strong></div></div>`;
+    return;
+  }
   let html = '<div class="panel" style="max-width:none"><table><thead><tr><th>CPTS</th><th>Contact</th><th>Statut</th><th>Notes</th></tr></thead><tbody>';
-  state.prospects.forEach(p => {
+  filtered.forEach(p => {
     html += `<tr onclick="openProspectModal('${p.id}')" style="cursor:pointer">
       <td style="font-weight:600;color:var(--slate-900)">${esc(p.nom)}</td>
       <td>${esc(p.contact||'—')}</td>
