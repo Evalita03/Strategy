@@ -347,12 +347,79 @@ tr:hover td { background: var(--blue-50); }
   font-size: 13px;
 }
 .search-empty strong { color: var(--slate-600); }
+
+/* Capture rapide */
+.sidebar-capture {
+  margin: 14px 16px 4px; padding: 11px 14px;
+  background: linear-gradient(135deg, var(--blue-700), var(--blue-600));
+  color: var(--white); border: none; border-radius: 10px;
+  font-family: inherit; font-size: 13px; font-weight: 600;
+  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: all .2s;
+  box-shadow: 0 4px 12px rgba(29,78,216,0.3);
+  letter-spacing: -0.005em;
+}
+.sidebar-capture:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(29,78,216,0.4);
+}
+.sidebar-capture svg { width: 16px; height: 16px; }
+.sidebar-capture .kbd {
+  font-size: 10px; background: rgba(255,255,255,0.2);
+  padding: 2px 7px; border-radius: 5px; font-weight: 700;
+  margin-left: 4px; letter-spacing: 0.02em;
+}
+
+.modal.qc-mode { padding: 0; width: 560px; max-height: none; overflow: hidden; }
+.qc-input-wrap { padding: 22px 24px 14px; }
+.qc-input {
+  width: 100%; border: none; outline: none;
+  font-family: inherit; font-size: 18px; font-weight: 500;
+  color: var(--slate-900); background: transparent;
+}
+.qc-input::placeholder { color: var(--slate-400); font-weight: 400; }
+.qc-hint {
+  font-size: 11px; color: var(--slate-500); margin-top: 10px;
+  font-weight: 500; letter-spacing: 0.01em;
+}
+.qc-hint kbd {
+  background: var(--slate-100); border: 1px solid var(--slate-200);
+  padding: 1px 6px; border-radius: 4px; font-family: inherit;
+  font-size: 10px; font-weight: 700; color: var(--slate-700);
+}
+.qc-types {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 8px; padding: 14px 24px 22px;
+  border-top: 1px solid var(--slate-100);
+  background: var(--slate-50);
+}
+.qc-type {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 14px 8px;
+  background: var(--white); border: 1px solid var(--slate-200);
+  border-radius: 10px; cursor: pointer;
+  font-family: inherit; font-size: 12px; font-weight: 700;
+  color: var(--slate-700);
+  transition: all .15s;
+}
+.qc-type:hover { border-color: var(--blue-500); background: var(--blue-50); color: var(--blue-700); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(15,23,42,0.06); }
+.qc-type svg { width: 20px; height: 20px; }
+.qc-type .qc-type-hotkey {
+  font-size: 9px; color: var(--slate-400); margin-top: -2px;
+  letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600;
+}
+
 </style>
 </head>
 <body>
 <div class="app">
   <aside class="sidebar">
     <div class="logo">CPTS Pilot<span class="dot">.</span><span class="sub">Cockpit</span></div>
+    <button class="sidebar-capture" onclick="openQuickCapture()" title="Capture rapide (N)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Capture rapide
+      <span class="kbd">N</span>
+    </button>
     <nav class="nav">
       <div class="nav-item active" data-view="today">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
@@ -475,14 +542,19 @@ function clearSearch() {
   render();
 }
 
-// Raccourcis clavier : "/" pour focus la recherche, "Esc" pour la vider/déblurer
+// Raccourcis clavier : "/" pour focus la recherche, "N" pour capture rapide, "Esc" pour fermer/vider
 document.addEventListener('keydown', e => {
   const isTyping = ['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName);
+  const modalOpen = document.getElementById('modal-overlay').classList.contains('open');
   if (e.key === '/' && !isTyping && searchPlaceholders[currentView]) {
     e.preventDefault();
     const input = document.getElementById('search-input');
     if (input) input.focus();
+  } else if ((e.key === 'n' || e.key === 'N') && !isTyping && !modalOpen) {
+    e.preventDefault();
+    openQuickCapture();
   } else if (e.key === 'Escape') {
+    if (modalOpen) { closeModal(); return; }
     const input = document.getElementById('search-input');
     if (document.activeElement === input) {
       if (searchQuery) clearSearch();
@@ -1185,9 +1257,88 @@ function deleteProspect(id) {
 }
 
 // ============ UTILS ============
-function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.getElementById('modal').classList.remove('qc-mode');
+}
 function esc(s) { return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 document.getElementById('modal-overlay').addEventListener('click', e => { if(e.target.id==='modal-overlay') closeModal(); });
+
+// ============ CAPTURE RAPIDE ============
+function openQuickCapture() {
+  const m = document.getElementById('modal');
+  m.classList.add('qc-mode');
+  m.innerHTML = `
+    <div class="qc-input-wrap">
+      <input id="qc-input" class="qc-input" type="text" placeholder="Tape un titre (optionnel), puis choisis le type…" autocomplete="off">
+      <div class="qc-hint">
+        Choisis un type ci-dessous. Le formulaire s'ouvrira pré-rempli.
+        · <kbd>Entrée</kbd> Tâche · <kbd>Maj+Entrée</kbd> Note · <kbd>Esc</kbd> Fermer
+      </div>
+    </div>
+    <div class="qc-types">
+      <button class="qc-type" onclick="quickOpen('task')" title="Nouvelle tâche">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        Tâche
+        <span class="qc-type-hotkey">Entrée</span>
+      </button>
+      <button class="qc-type" onclick="quickOpen('note')" title="Nouvelle note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5"/></svg>
+        Note
+        <span class="qc-type-hotkey">Maj+Entrée</span>
+      </button>
+      <button class="qc-type" onclick="quickOpen('prospect')" title="Nouveau prospect">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a8 8 0 0116 0v1"/></svg>
+        Prospect
+        <span class="qc-type-hotkey">Clic</span>
+      </button>
+      <button class="qc-type" onclick="quickOpen('strat')" title="Nouvel élément stratégique">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2v20M2 12h20"/></svg>
+        Stratégie
+        <span class="qc-type-hotkey">Clic</span>
+      </button>
+    </div>
+  `;
+  document.getElementById('modal-overlay').classList.add('open');
+  setTimeout(() => {
+    const input = document.getElementById('qc-input');
+    if (!input) return;
+    input.focus();
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        quickOpen(e.shiftKey ? 'note' : 'task');
+      }
+    });
+  }, 30);
+}
+
+// Ouvre le formulaire de création standard du type choisi, pré-rempli si du texte a été saisi
+function quickOpen(type) {
+  const input = document.getElementById('qc-input');
+  const text = input ? input.value.trim() : '';
+  closeModal();
+  // Petit délai pour laisser le modal-overlay se réinitialiser proprement
+  setTimeout(() => {
+    if (type === 'task') {
+      openTaskModal();
+      if (text) document.getElementById('task-title').value = text;
+    } else if (type === 'note') {
+      openNoteModal();
+      if (text) {
+        const lines = text.split('\n');
+        document.getElementById('note-title').value = lines[0].slice(0, 80);
+        if (lines.length > 1) document.getElementById('note-body').value = lines.slice(1).join('\n').trim();
+      }
+    } else if (type === 'prospect') {
+      openProspectModal();
+      if (text) document.getElementById('prosp-nom').value = text;
+    } else if (type === 'strat') {
+      openStratModal();
+      if (text) document.getElementById('strat-title').value = text;
+    }
+  }, 30);
+}
 
 function exportData() {
   const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
