@@ -142,7 +142,12 @@ body {
   background: var(--white); border: 1px solid var(--slate-200); border-radius: 8px;
   padding: 12px; font-size: 13px; cursor: pointer; box-shadow: 0 1px 2px rgba(15,23,42,0.04);
 }
-.task-card:hover { border-color: var(--blue-500); }
+.task-card:hover { border-color: var(--blue-500); cursor: grab; }
+.task-card { user-select: none; transition: opacity .15s, transform .1s, border-color .15s; }
+.task-card:active { cursor: grabbing; }
+.task-card.dragging { opacity: 0.4; transform: scale(0.97); cursor: grabbing; }
+.task-column { transition: background-color .15s, outline .15s; }
+.task-column.drop-target { background: var(--blue-50); outline: 2px dashed var(--blue-500); outline-offset: -4px; }
 .task-card .task-cat { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
 .dot-status { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
 
@@ -986,9 +991,9 @@ function renderTasks(content, actions) {
   let html = '<div class="panel" style="max-width:none"><div class="task-board">';
   cols.forEach(col => {
     const tasks = filtered.filter(t=>t.status===col.key);
-    html += `<div class="task-column"><h3><span class="dot-status" style="background:${col.dot}"></span>${col.label}<span class="task-count">${tasks.length}</span></h3><div class="task-col">`;
+    html += `<div class="task-column" ondragover="taskDragOver(event)" ondragleave="taskDragLeave(event)" ondrop="taskDrop(event,'${col.key}')"><h3><span class="dot-status" style="background:${col.dot}"></span>${col.label}<span class="task-count">${tasks.length}</span></h3><div class="task-col">`;
     tasks.forEach(t => {
-      html += `<div class="task-card" onclick="openTaskModal('${t.id}')">
+      html += `<div class="task-card" draggable="true" ondragstart="taskDragStart(event,'${t.id}')" ondragend="taskDragEnd(event)" onclick="openTaskModal('${t.id}')">
         <div class="task-cat" style="color:${catColors[t.category]}">${catLabel[t.category]}</div>
         ${esc(t.title)}</div>`;
     });
@@ -996,6 +1001,38 @@ function renderTasks(content, actions) {
   });
   html += '</div></div>';
   content.innerHTML = html;
+}
+
+// Drag-and-drop des tâches entre colonnes
+function taskDragStart(e, id) {
+  e.dataTransfer.setData('text/plain', id);
+  e.dataTransfer.effectAllowed = 'move';
+  e.target.classList.add('dragging');
+}
+function taskDragEnd(e) {
+  e.target.classList.remove('dragging');
+  document.querySelectorAll('.task-column.drop-target').forEach(c => c.classList.remove('drop-target'));
+}
+function taskDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  e.currentTarget.classList.add('drop-target');
+}
+function taskDragLeave(e) {
+  if (!e.currentTarget.contains(e.relatedTarget)) {
+    e.currentTarget.classList.remove('drop-target');
+  }
+}
+function taskDrop(e, newStatus) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drop-target');
+  const id = e.dataTransfer.getData('text/plain');
+  if (!id) return;
+  const task = state.tasks.find(t => t.id === id);
+  if (!task || task.status === newStatus) return;
+  task.status = newStatus;
+  save();
+  render();
 }
 function openTaskModal(id) {
   const task = id ? state.tasks.find(t=>t.id===id) : null;
