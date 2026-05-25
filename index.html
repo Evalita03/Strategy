@@ -184,6 +184,119 @@ tr:hover td { background: var(--blue-50); }
 .node-detail.open { display: block; }
 .node-detail h3 { font-size: 16px; margin-bottom: 8px; }
 .node-detail .close { position: absolute; top: 12px; right: 12px; cursor: pointer; color: var(--slate-400); border:none; background:none; font-size: 18px; }
+
+/* Vue Aujourd'hui */
+.today-header { padding: 12px 0 28px; }
+.today-eyebrow {
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--blue-700); margin-bottom: 10px;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.today-eyebrow::before {
+  content: ''; display: inline-block; width: 18px; height: 1px; background: var(--blue-500);
+}
+.today-greet { font-size: 34px; font-weight: 800; letter-spacing: -0.035em; margin-bottom: 6px; color: var(--slate-900); line-height: 1.1; }
+.today-greet .dot { color: var(--blue-500); }
+.today-date { font-size: 14px; color: var(--slate-500); margin-bottom: 24px; }
+.today-date .day { color: var(--slate-700); font-weight: 600; }
+.today-intention {
+  position: relative;
+  display: flex; align-items: center; gap: 16px;
+  background: var(--white); border: 1px solid var(--slate-200);
+  border-radius: 14px; padding: 18px 22px 18px 26px;
+  box-shadow: 0 1px 2px rgba(15,23,42,0.04);
+  transition: border-color .2s, box-shadow .2s;
+  overflow: hidden;
+}
+.today-intention::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+  background: linear-gradient(180deg, var(--blue-500), var(--teal-600));
+}
+.today-intention:focus-within { border-color: var(--blue-500); box-shadow: 0 4px 16px rgba(29,78,216,0.08); }
+.today-intention label { font-size: 11px; font-weight: 700; color: var(--blue-700); text-transform: uppercase; letter-spacing: 0.07em; white-space: nowrap; }
+.today-intention input {
+  flex: 1; border: none; outline: none;
+  font-family: inherit; font-size: 15px; font-weight: 500; color: var(--slate-900);
+  background: transparent;
+}
+.today-intention input::placeholder { color: var(--slate-400); font-style: italic; font-weight: 400; }
+
+.today-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 32px; }
+.today-section h3 {
+  font-size: 13px; text-transform: uppercase; letter-spacing: 0.07em;
+  color: var(--slate-700); margin-bottom: 16px; font-weight: 700;
+  display: flex; align-items: center; gap: 10px;
+}
+.today-section h3 .count-pill {
+  font-size: 11px; font-weight: 700; color: var(--slate-600);
+  background: var(--slate-100); border-radius: 20px; padding: 2px 9px;
+  letter-spacing: 0.02em;
+}
+.today-list { display: flex; flex-direction: column; gap: 6px; }
+.today-item {
+  position: relative; background: var(--white); border: 1px solid var(--slate-200);
+  border-radius: 10px; padding: 12px 16px;
+  font-size: 13px; color: var(--slate-700);
+  cursor: pointer; transition: all .18s ease;
+  display: flex; align-items: center; gap: 12px;
+  overflow: hidden;
+}
+.today-item::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--blue-500); transform: scaleY(0); transform-origin: center;
+  transition: transform .2s ease;
+}
+.today-item:hover {
+  border-color: var(--blue-500); transform: translateX(3px);
+  box-shadow: 0 4px 12px rgba(15,23,42,0.06);
+}
+.today-item:hover::before { transform: scaleY(1); }
+.today-item:active { transform: translateX(3px) scale(0.99); }
+.today-item .item-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 0 3px currentColor; opacity: 1; }
+.today-item .item-dot { box-shadow: none; }
+.today-item .item-meta { margin-left: auto; font-size: 11px; color: var(--slate-400); white-space: nowrap; font-weight: 500; }
+.today-item .item-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; color: var(--slate-900); }
+
+.today-subgroup {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--slate-500); margin: 16px 0 8px; font-weight: 700;
+  display: flex; align-items: center; gap: 9px;
+}
+.today-subgroup:first-child { margin-top: 0; }
+.today-subgroup .sub-dot { width: 8px; height: 8px; border-radius: 50%; }
+.today-subgroup .sub-count { color: var(--slate-400); font-weight: 600; }
+
+.today-pulse {
+  margin-top: 32px; background: var(--white);
+  border: 1px solid var(--slate-200); border-radius: 14px;
+  padding: 22px 28px;
+  display: flex; gap: 0; flex-wrap: wrap; align-items: center;
+  box-shadow: 0 1px 2px rgba(15,23,42,0.04);
+}
+.pulse-item {
+  display: flex; flex-direction: column; padding: 0 28px;
+  border-left: 1px solid var(--slate-200);
+}
+.pulse-item:first-child { border-left: none; padding-left: 0; }
+.pulse-value {
+  font-size: 28px; font-weight: 800; color: var(--slate-900);
+  letter-spacing: -0.03em; line-height: 1;
+}
+.pulse-label {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em;
+  color: var(--slate-500); margin-top: 6px; font-weight: 700;
+}
+.today-pulse .scan-info {
+  margin-left: auto; font-size: 11px; color: var(--slate-400);
+  text-align: right; font-weight: 500; padding-left: 20px;
+}
+.today-empty-mini {
+  font-size: 13px; color: var(--slate-500); padding: 24px 16px;
+  background: var(--slate-50); border: 1px dashed var(--slate-200);
+  border-radius: 10px; text-align: center; line-height: 1.6;
+}
+.today-empty-mini a { color: var(--blue-700); cursor: pointer; font-weight: 600; }
+.today-empty-mini a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -191,7 +304,11 @@ tr:hover td { background: var(--blue-50); }
   <aside class="sidebar">
     <div class="logo">CPTS Pilot<span class="dot">.</span><span class="sub">Cockpit</span></div>
     <nav class="nav">
-      <div class="nav-item active" data-view="graph">
+      <div class="nav-item active" data-view="today">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        Aujourd'hui
+      </div>
+      <div class="nav-item" data-view="graph">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5" cy="6" r="3"/><circle cx="19" cy="6" r="3"/><circle cx="12" cy="18" r="3"/><path d="M5 9v3a2 2 0 002 2h10a2 2 0 002-2V9M12 14v1"/></svg>
         Architecture
       </div>
@@ -242,7 +359,8 @@ let state = {
   notes: [],      // {id, title, body, category, links:[noteIds]}
   tasks: [],      // {id, title, category, status}
   strategie: [],  // {id, title, body}
-  prospects: []   // {id, nom, contact, statut, notes}
+  prospects: [],  // {id, nom, contact, statut, notes}
+  today: { intention: '', date: '' }  // intention du jour + date à laquelle elle a été posée
 };
 
 function load() {
@@ -256,6 +374,7 @@ function load() {
   if (!state.tasks) state.tasks = [];
   if (!state.strategie) state.strategie = [];
   if (!state.prospects) state.prospects = [];
+  if (!state.today) state.today = { intention: '', date: '' };
 }
 function save() {
   try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
@@ -264,8 +383,8 @@ function save() {
 function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
 
 // ============ NAVIGATION ============
-let currentView = 'graph';
-const titles = { graph:'Architecture du code', notes:'Notes thématiques', tasks:'Gestion des tâches', strategie:'Stratégie commerciale', prospects:'Prospects CPTS' };
+let currentView = 'today';
+const titles = { today:'Aujourd\'hui', graph:'Architecture du code', notes:'Notes thématiques', tasks:'Gestion des tâches', strategie:'Stratégie commerciale', prospects:'Prospects CPTS' };
 
 document.querySelectorAll('.nav-item').forEach(item => {
   item.addEventListener('click', () => {
@@ -285,11 +404,139 @@ function render() {
   const actions = document.getElementById('view-actions');
   content.innerHTML = '';
   actions.innerHTML = '';
-  if (currentView === 'graph') renderGraph(content, actions);
+  if (currentView === 'today') renderToday(content, actions);
+  else if (currentView === 'graph') renderGraph(content, actions);
   else if (currentView === 'notes') renderNotes(content, actions);
   else if (currentView === 'tasks') renderTasks(content, actions);
   else if (currentView === 'strategie') renderStrategie(content, actions);
   else if (currentView === 'prospects') renderProspects(content, actions);
+}
+
+function goTo(view) {
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.toggle('active', i.dataset.view === view));
+  currentView = view;
+  document.getElementById('view-title').textContent = titles[view];
+  render();
+}
+
+// ============ VUE AUJOURD'HUI ============
+function renderToday(content, actions) {
+  actions.innerHTML = '';
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  const todayKey = now.toISOString().slice(0, 10);
+  const intentionValue = (state.today.date === todayKey) ? state.today.intention : '';
+
+  const doing = state.tasks.filter(t => t.status === 'doing');
+  const todo = state.tasks.filter(t => t.status === 'todo').slice(0, 3);
+  const demo = state.prospects.filter(p => p.statut === 'demo');
+  const nego = state.prospects.filter(p => p.statut === 'nego');
+
+  const totalRoutes = archData?.stats?.total_routes ?? '—';
+  const totalModules = archData?.stats?.total_modules ?? '—';
+  const scanInfo = archData?.generated_at ? 'Dernier scan ' + formatRelativeDate(archData.generated_at) : 'Aucun scan';
+  const activeProspects = state.prospects.filter(p => p.statut !== 'client').length;
+  const activeTasks = state.tasks.filter(t => t.status !== 'done').length;
+
+  let html = '<div class="panel" style="max-width:1100px">';
+
+  const parts = dateStr.split(' ');
+  const dayName = capitalize(parts[0]);
+  const restDate = parts.slice(1).join(' ');
+
+  html += `
+    <div class="today-header">
+      <div class="today-eyebrow">Pilotage du jour</div>
+      <div class="today-greet">Bonjour Eva<span class="dot">.</span></div>
+      <div class="today-date"><span class="day">${dayName}</span> ${restDate}</div>
+      <div class="today-intention">
+        <label>Mon intention</label>
+        <input id="today-intention" type="text" placeholder="Sur quoi je veux concentrer mon énergie aujourd'hui ?" value="${esc(intentionValue)}" oninput="saveIntention(this.value)">
+      </div>
+    </div>`;
+
+  html += '<div class="today-grid">';
+
+  // Tâches actives
+  const tasksCount = doing.length + todo.length;
+  html += `<div class="today-section"><h3>Tâches actives${tasksCount?`<span class="count-pill">${tasksCount}</span>`:''}</h3>`;
+  if (doing.length === 0 && todo.length === 0) {
+    html += `<div class="today-empty-mini">Aucune tâche active.<br><a onclick="goTo('tasks')">Créer une tâche →</a></div>`;
+  } else {
+    if (doing.length > 0) {
+      html += `<div class="today-subgroup"><span class="sub-dot" style="background:var(--blue-500)"></span>En cours <span class="sub-count">· ${doing.length}</span></div><div class="today-list">`;
+      doing.forEach(t => {
+        html += `<div class="today-item" onclick="goToTaskFromToday('${t.id}')"><span class="item-dot" style="background:${catColors[t.category]||'var(--slate-400)'}"></span><span class="item-label">${esc(t.title)}</span><span class="item-meta">${catLabel[t.category]||''}</span></div>`;
+      });
+      html += '</div>';
+    }
+    if (todo.length > 0) {
+      html += `<div class="today-subgroup"><span class="sub-dot" style="background:var(--slate-300)"></span>À attaquer <span class="sub-count">· ${todo.length}</span></div><div class="today-list">`;
+      todo.forEach(t => {
+        html += `<div class="today-item" onclick="goToTaskFromToday('${t.id}')"><span class="item-dot" style="background:${catColors[t.category]||'var(--slate-400)'}"></span><span class="item-label">${esc(t.title)}</span><span class="item-meta">${catLabel[t.category]||''}</span></div>`;
+      });
+      html += '</div>';
+    }
+  }
+  html += '</div>';
+
+  // Prospects chauds
+  const prospectsCount = demo.length + nego.length;
+  html += `<div class="today-section"><h3>Prospects chauds${prospectsCount?`<span class="count-pill">${prospectsCount}</span>`:''}</h3>`;
+  if (demo.length === 0 && nego.length === 0) {
+    html += `<div class="today-empty-mini">Aucun prospect en démo ou négo.<br><a onclick="goTo('prospects')">Ajouter un prospect →</a></div>`;
+  } else {
+    if (nego.length > 0) {
+      html += `<div class="today-subgroup"><span class="sub-dot" style="background:#7C3AED"></span>En négo <span class="sub-count">· ${nego.length}</span></div><div class="today-list">`;
+      nego.forEach(p => {
+        html += `<div class="today-item" onclick="goToProspectFromToday('${p.id}')"><span class="item-label">${esc(p.nom)}</span>${p.contact?`<span class="item-meta">${esc(p.contact)}</span>`:''}</div>`;
+      });
+      html += '</div>';
+    }
+    if (demo.length > 0) {
+      html += `<div class="today-subgroup"><span class="sub-dot" style="background:var(--orange-600)"></span>Démo planifiée <span class="sub-count">· ${demo.length}</span></div><div class="today-list">`;
+      demo.forEach(p => {
+        html += `<div class="today-item" onclick="goToProspectFromToday('${p.id}')"><span class="item-label">${esc(p.nom)}</span>${p.contact?`<span class="item-meta">${esc(p.contact)}</span>`:''}</div>`;
+      });
+      html += '</div>';
+    }
+  }
+  html += '</div>';
+
+  html += '</div>'; // close today-grid
+
+  // Pouls projet
+  html += `<div class="today-pulse">
+    <div class="pulse-item"><span class="pulse-value">${totalRoutes}</span><span class="pulse-label">Routes</span></div>
+    <div class="pulse-item"><span class="pulse-value">${totalModules}</span><span class="pulse-label">Modules</span></div>
+    <div class="pulse-item"><span class="pulse-value">${activeTasks}</span><span class="pulse-label">Tâches actives</span></div>
+    <div class="pulse-item"><span class="pulse-value">${activeProspects}</span><span class="pulse-label">Prospects actifs</span></div>
+    <div class="scan-info">${scanInfo}</div>
+  </div>`;
+
+  html += '</div>';
+  content.innerHTML = html;
+}
+
+function saveIntention(value) {
+  state.today.intention = value;
+  state.today.date = new Date().toISOString().slice(0, 10);
+  save();
+}
+
+function goToTaskFromToday(id) { goTo('tasks'); openTaskModal(id); }
+function goToProspectFromToday(id) { goTo('prospects'); openProspectModal(id); }
+
+function capitalize(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''; }
+
+function formatRelativeDate(iso) {
+  const d = new Date(iso);
+  const diffH = Math.floor((Date.now() - d.getTime()) / 3600000);
+  if (diffH < 1) return 'il y a moins d\'1h';
+  if (diffH < 24) return 'il y a ' + diffH + 'h';
+  const diffD = Math.floor(diffH / 24);
+  if (diffD < 7) return 'il y a ' + diffD + 'j';
+  return 'le ' + d.toLocaleDateString('fr-FR', { day:'numeric', month:'short' });
 }
 
 // ============ VUE GRAPHE (ARCHITECTURE) ============
@@ -794,6 +1041,20 @@ function importData(e) {
 // ============ INIT ============
 load();
 render();
+
+// Charge architecture.json en arrière-plan pour alimenter le pouls projet
+// même si l'utilisateur n'a pas encore visité la vue Architecture.
+(async () => {
+  if (archData) return;
+  try {
+    const resp = await fetch('architecture.json?t=' + Date.now());
+    if (resp.ok) {
+      archData = await resp.json();
+      buildNodesFromArch();
+      if (currentView === 'today') render();
+    }
+  } catch(e) {}
+})();
 </script>
 </body>
 </html>
