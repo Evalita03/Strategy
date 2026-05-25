@@ -295,22 +295,58 @@ function render() {
 // ============ VUE GRAPHE (ARCHITECTURE) ============
 let graphState = { offsetX: 0, offsetY: 0, scale: 1, dragging: null, panning: false, lastX: 0, lastY: 0 };
 
+let archData = null;
 function renderGraph(content, actions) {
   actions.innerHTML = `
-    <button class="btn btn-ghost" onclick="openNodeModal()">+ Nœud</button>
+    <button class="btn btn-ghost" onclick="reloadArch()">⟳ Recharger le code</button>
+    <button class="btn btn-ghost" onclick="openNodeModal()">+ Nœud manuel</button>
     <button class="btn btn-primary" onclick="toggleLinkMode()" id="link-btn">↔ Relier</button>`;
   content.innerHTML = `
     <canvas id="graph-canvas"></canvas>
     <div class="graph-legend">
-      <h4>Catégories</h4>
-      <div class="legend-row"><span class="legend-dot" style="background:var(--tech)"></span> Technique</div>
-      <div class="legend-row"><span class="legend-dot" style="background:var(--commercial)"></span> Commercial</div>
-      <div class="legend-row"><span class="legend-dot" style="background:var(--strategie)"></span> Stratégie</div>
-      <div style="margin-top:10px;font-size:11px;color:var(--slate-400)">Glisser un nœud pour le déplacer<br>Molette pour zoomer · Fond pour naviguer</div>
+      <h4>Architecture du code</h4>
+      <div id="legend-content" style="font-size:11px;color:var(--slate-400)">Chargement...</div>
     </div>
     <div class="node-detail" id="node-detail"></div>`;
   const canvas = document.getElementById('graph-canvas');
+  loadArch(canvas);
+}
+function reloadArch() { archData = null; render(); }
+async function loadArch(canvas) {
+  if (!archData) {
+    try {
+      const resp = await fetch('architecture.json?t=' + Date.now());
+      if (resp.ok) { archData = await resp.json(); buildNodesFromArch(); }
+    } catch(e) { console.log('Pas de architecture.json'); }
+  }
+  updateLegend();
   setupGraph(canvas);
+}
+function buildNodesFromArch() {
+  if (!archData || !archData.modules) return;
+  const manual = state.nodes.filter(n => !n.fromArch);
+  const arch = [];
+  const cx = 480, cy = 340, R = 250, n = archData.modules.length;
+  archData.modules.forEach((mod, i) => {
+    const a = (i/n)*Math.PI*2 - Math.PI/2;
+    const size = Math.min(58, 24 + mod.route_count*0.3);
+    arch.push({ id:'arch_'+mod.name, label:mod.name, category:mod.category,
+      type:mod.route_count+' routes', color:mod.color, radius:size,
+      x:cx+Math.cos(a)*R, y:cy+Math.sin(a)*R, fromArch:true,
+      routes:mod.routes||[], routeCount:mod.route_count, fileCount:mod.file_count });
+  });
+  state.nodes = [...arch, ...manual];
+}
+function updateLegend() {
+  const el = document.getElementById('legend-content');
+  if (!el) return;
+  if (archData && archData.stats) {
+    const s = archData.stats;
+    const d = new Date(archData.generated_at).toLocaleString('fr-FR');
+    el.innerHTML = '<div style="color:var(--slate-700);font-weight:600;margin-bottom:6px">'+s.total_routes+' routes · '+s.total_modules+' modules</div><div style="margin-bottom:8px">'+s.files_scanned+' fichiers scannés</div><div style="color:var(--slate-400);font-size:10px">Généré le '+d+'</div><div style="margin-top:10px;color:var(--slate-400);font-size:10px">Clic sur un module → ses routes<br>Glisser · Molette pour zoomer</div>';
+  } else {
+    el.innerHTML = '<div style="color:var(--slate-500)">Aucun architecture.json trouvé.<br><br>Lance le script de scan dans ta plateforme et place architecture.json à la racine de Strategy.</div>';
+  }
 }
 
 let linkMode = false, linkSource = null;
@@ -357,21 +393,24 @@ function setupGraph(canvas) {
     // Nodes
     state.nodes.forEach(n => {
       const p = worldToScreen(n.x, n.y);
-      const r = 26 * graphState.scale;
+      const r = (n.radius || 26) * graphState.scale;
       ctx.beginPath();
       ctx.arc(p.x, p.y, r, 0, Math.PI*2);
-      ctx.fillStyle = catColors[n.category] || '#64748B';
+      ctx.fillStyle = n.color || catColors[n.category] || '#64748B';
       ctx.fill();
       if (linkSource === n.id) { ctx.lineWidth = 3; ctx.strokeStyle = '#0D9488'; ctx.stroke(); }
-      // Label
       ctx.fillStyle = '#0F172A';
-      ctx.font = `${13*graphState.scale}px Manrope, sans-serif`;
+      ctx.font = `600 ${13*graphState.scale}px Manrope, sans-serif`;
       ctx.textAlign = 'center';
       ctx.fillText(n.label, p.x, p.y + r + 16*graphState.scale);
-      // Type icon (initial)
       ctx.fillStyle = '#fff';
-      ctx.font = `600 ${12*graphState.scale}px Manrope, sans-serif`;
-      ctx.fillText((n.type||'•').charAt(0).toUpperCase(), p.x, p.y + 4*graphState.scale);
+      if (n.fromArch) {
+        ctx.font = `700 ${Math.max(11,14*graphState.scale)}px Manrope, sans-serif`;
+        ctx.fillText(n.routeCount, p.x, p.y + 5*graphState.scale);
+      } else {
+        ctx.font = `600 ${12*graphState.scale}px Manrope, sans-serif`;
+        ctx.fillText((n.type||'+').charAt(0).toUpperCase(), p.x, p.y + 4*graphState.scale);
+      }
     });
   }
 
@@ -379,7 +418,7 @@ function setupGraph(canvas) {
     for (let i = state.nodes.length-1; i>=0; i--) {
       const n = state.nodes[i];
       const p = worldToScreen(n.x, n.y);
-      const r = 26 * graphState.scale;
+      const r = (n.radius || 26) * graphState.scale;
       if (Math.hypot(sx-p.x, sy-p.y) <= r) return n;
     }
     return null;
@@ -422,6 +461,14 @@ function setupGraph(canvas) {
     const node = nodeAt(e.clientX-rect.left, e.clientY-rect.top);
     if (node) showNodeDetail(node);
   });
+  let cs = 0;
+  canvas.addEventListener('mousedown', () => { cs = Date.now(); });
+  canvas.addEventListener('click', e => {
+    if (Date.now() - cs > 200) return;
+    const rect = canvas.getBoundingClientRect();
+    const node = nodeAt(e.clientX-rect.left, e.clientY-rect.top);
+    if (node && node.fromArch && !linkMode) showNodeDetail(node);
+  });
   canvas.addEventListener('wheel', e => {
     e.preventDefault();
     const rect = canvas.getBoundingClientRect();
@@ -439,16 +486,17 @@ function setupGraph(canvas) {
 
 function showNodeDetail(node) {
   const d = document.getElementById('node-detail');
-  d.innerHTML = `
-    <button class="close" onclick="document.getElementById('node-detail').classList.remove('open')">×</button>
-    <h3>${esc(node.label)}</h3>
-    <div class="meta" style="margin-bottom:10px;"><span class="tag ${catClass[node.category]}">${catLabel[node.category]}</span>
-    <span class="tag" style="background:var(--slate-100);color:var(--slate-600)">${esc(node.type||'')}</span></div>
-    <p style="font-size:13px;color:var(--slate-600);line-height:1.6;">${esc(node.description||'Pas de description')}</p>
-    <div style="margin-top:14px;display:flex;gap:8px;">
-      <button class="btn btn-ghost" onclick="openNodeModal('${node.id}')">Modifier</button>
-      <button class="btn btn-ghost" style="color:var(--red-600)" onclick="deleteNode('${node.id}')">Supprimer</button>
-    </div>`;
+  if (node.fromArch) {
+    let rh = '';
+    (node.routes||[]).slice(0,40).forEach(r => {
+      const prot = (r.protections||[]).length ? ' · 🔒' : '';
+      rh += `<div style="padding:6px 0;border-bottom:1px solid var(--slate-100);font-size:11px"><span style="font-family:monospace;color:var(--blue-700)">${esc(r.path)}</span>${prot}<div style="color:var(--slate-400);font-size:10px">${esc(r.function||'')}() · ${(r.methods||['GET']).join(', ')}</div></div>`;
+    });
+    const more = (node.routes||[]).length > 40 ? `<div style="color:var(--slate-400);font-size:11px;margin-top:6px">... et ${(node.routes||[]).length-40} autres routes</div>` : '';
+    d.innerHTML = `<button class="close" onclick="document.getElementById('node-detail').classList.remove('open')">×</button><h3 style="color:${node.color}">${esc(node.label)}</h3><div style="color:var(--slate-500);font-size:12px;margin-bottom:12px">${node.routeCount} routes · ${node.fileCount} fichiers</div><div style="max-height:300px;overflow:auto">${rh || '<span style="color:var(--slate-400)">Routes non détaillées</span>'}${more}</div>`;
+  } else {
+    d.innerHTML = `<button class="close" onclick="document.getElementById('node-detail').classList.remove('open')">×</button><h3>${esc(node.label)}</h3><div class="meta" style="margin-bottom:10px;"><span class="tag ${catClass[node.category]||''}">${catLabel[node.category]||node.category}</span><span class="tag" style="background:var(--slate-100);color:var(--slate-600)">${esc(node.type||'')}</span></div><p style="font-size:13px;color:var(--slate-600);line-height:1.6;">${esc(node.description||'Pas de description')}</p><div style="margin-top:14px;display:flex;gap:8px;"><button class="btn btn-ghost" onclick="openNodeModal('${node.id}')">Modifier</button><button class="btn btn-ghost" style="color:var(--red-600)" onclick="deleteNode('${node.id}')">Supprimer</button></div>`;
+  }
   d.classList.add('open');
 }
 

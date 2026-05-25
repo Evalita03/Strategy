@@ -1,0 +1,5722 @@
+{
+  "generated_at": "2026-05-25T13:54:15.777988",
+  "stats": {
+    "files_scanned": 56,
+    "total_blueprints": 15,
+    "total_routes": 443,
+    "total_modules": 11
+  },
+  "modules": [
+    {
+      "name": "admin",
+      "category": "admin",
+      "color": "#64748B",
+      "route_count": 116,
+      "file_count": 6,
+      "routes": [
+        {
+          "path": "/admin/actualites",
+          "blueprint_var": "bp",
+          "function": "admin_actualites",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/missions.py"
+        },
+        {
+          "path": "/admin/actualites/<int:id>/modifier",
+          "blueprint_var": "bp",
+          "function": "modifier_actualite",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/missions.py"
+        },
+        {
+          "path": "/admin/actualites/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "supprimer_actualite",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/missions.py"
+        },
+        {
+          "path": "/admin/actualites/ajouter",
+          "blueprint_var": "bp",
+          "function": "ajouter_actualite",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/missions.py"
+        },
+        {
+          "path": "/admin/annonces",
+          "blueprint_var": "bp",
+          "function": "annonces_liste",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/admin/annonces.py"
+        },
+        {
+          "path": "/admin/annonces",
+          "blueprint_var": "bp",
+          "function": "annonces_creer",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/admin/annonces.py"
+        },
+        {
+          "path": "/admin/annonces/<int:annonce_id>",
+          "blueprint_var": "bp",
+          "function": "annonces_modifier",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/admin/annonces.py"
+        },
+        {
+          "path": "/admin/annonces/<int:annonce_id>/archiver",
+          "blueprint_var": "bp",
+          "function": "annonces_archiver",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/admin/annonces.py"
+        },
+        {
+          "path": "/admin/annonces/<int:annonce_id>/editer",
+          "blueprint_var": "bp",
+          "function": "annonces_editer",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/admin/annonces.py"
+        },
+        {
+          "path": "/admin/annonces/nouvelle",
+          "blueprint_var": "bp",
+          "function": "annonces_nouvelle",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/admin/annonces.py"
+        },
+        {
+          "path": "/admin/comptes-en-attente",
+          "blueprint_var": "bp",
+          "function": "comptes_en_attente",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/users.py"
+        },
+        {
+          "path": "/admin/comptes-en-attente/<int:id>/refuser",
+          "blueprint_var": "bp",
+          "function": "refuser_compte_en_attente",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/users.py"
+        },
+        {
+          "path": "/admin/comptes-en-attente/<int:id>/valider",
+          "blueprint_var": "bp",
+          "function": "valider_compte_en_attente",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/users.py"
+        },
+        {
+          "path": "/admin/corbeille",
+          "blueprint_var": "bp",
+          "function": "corbeille",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/corbeille/purger",
+          "blueprint_var": "bp",
+          "function": "corbeille_purger",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/corbeille/restaurer",
+          "blueprint_var": "bp",
+          "function": "corbeille_restaurer",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/demo-feedbacks",
+          "blueprint_var": "bp",
+          "function": "demo_feedbacks_liste",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/demo_feedback.py"
+        },
+        {
+          "path": "/admin/demo-feedbacks/<int:fb_id>/marquer-lu",
+          "blueprint_var": "bp",
+          "function": "demo_feedback_marquer_lu",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/demo_feedback.py"
+        },
+        {
+          "path": "/admin/demo-feedbacks/<int:fb_id>/marquer-non-lu",
+          "blueprint_var": "bp",
+          "function": "demo_feedback_marquer_non_lu",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/demo_feedback.py"
+        },
+        {
+          "path": "/admin/demo-feedbacks/<int:fb_id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "demo_feedback_supprimer",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/demo_feedback.py"
+        },
+        {
+          "path": "/admin/demo-feedbacks/export/excel",
+          "blueprint_var": "bp",
+          "function": "demo_feedbacks_export_excel",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/demo_feedback.py"
+        },
+        {
+          "path": "/admin/demo-feedbacks/export/pdf",
+          "blueprint_var": "bp",
+          "function": "demo_feedbacks_export_pdf",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/demo_feedback.py"
+        },
+        {
+          "path": "/admin/demo-feedbacks/export/word",
+          "blueprint_var": "bp",
+          "function": "demo_feedbacks_export_word",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/demo_feedback.py"
+        },
+        {
+          "path": "/admin/demo-visites",
+          "blueprint_var": "bp",
+          "function": "demo_visites_liste",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/demo_feedback.py"
+        },
+        {
+          "path": "/admin/demo-visites/export/excel",
+          "blueprint_var": "bp",
+          "function": "demo_visites_export_excel",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/demo_feedback.py"
+        },
+        {
+          "path": "/admin/demo/force-reset",
+          "blueprint_var": "bp",
+          "function": "demo_force_reset",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/demo_feedback.py"
+        },
+        {
+          "path": "/admin/demo/purge-mes-donnees",
+          "blueprint_var": "bp",
+          "function": "demo_purge_mes_donnees",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/demo_feedback.py"
+        },
+        {
+          "path": "/admin/echeances-tb/<int:id>/modifier",
+          "blueprint_var": "bp",
+          "function": "admin_echeance_tb_modifier",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/echeances-tb/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "admin_echeance_tb_supprimer",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/echeances-tb/ajouter",
+          "blueprint_var": "bp",
+          "function": "admin_echeance_tb_ajouter",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/gestion",
+          "blueprint_var": "bp",
+          "function": "admin_gestion",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/journal-audit",
+          "blueprint_var": "bp",
+          "function": "journal_audit",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages",
+          "blueprint_var": "bp",
+          "function": "admin_parametrages",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/actions/<int:id>/modifier",
+          "blueprint_var": "bp",
+          "function": "modifier_action",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/missions.py"
+        },
+        {
+          "path": "/admin/parametrages/actions/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "supprimer_action",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/missions.py"
+        },
+        {
+          "path": "/admin/parametrages/actions/ajouter",
+          "blueprint_var": "bp",
+          "function": "ajouter_action",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/missions.py"
+        },
+        {
+          "path": "/admin/parametrages/alertes-tresorerie",
+          "blueprint_var": "bp",
+          "function": "admin_parametres_alertes_tresorerie",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/bureau",
+          "blueprint_var": "bp",
+          "function": "admin_bureau",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/bureau/<int:id>/deplacer",
+          "blueprint_var": "bp",
+          "function": "deplacer_membre_bureau",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/bureau/<int:id>/modifier",
+          "blueprint_var": "bp",
+          "function": "modifier_membre_bureau",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/bureau/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "supprimer_membre_bureau",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/bureau/ajouter",
+          "blueprint_var": "bp",
+          "function": "ajouter_membre_bureau",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/categories-professionnels",
+          "blueprint_var": "bp",
+          "function": "admin_categories_professionnels",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/categories-projets/<int:id>/deplacer",
+          "blueprint_var": "bp",
+          "function": "deplacer_categorie_projet",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/categories-projets/<int:id>/modifier",
+          "blueprint_var": "bp",
+          "function": "modifier_categorie_projet",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/categories-projets/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "supprimer_categorie_projet",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/categories-projets/ajouter",
+          "blueprint_var": "bp",
+          "function": "ajouter_categorie_projet",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/categories-projets/reorder",
+          "blueprint_var": "bp",
+          "function": "reorder_categories_projets",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/categories/<int:id>/deplacer",
+          "blueprint_var": "bp",
+          "function": "deplacer_categorie_professionnel",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/categories/<int:id>/modifier",
+          "blueprint_var": "bp",
+          "function": "modifier_categorie_professionnel",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/categories/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "supprimer_categorie_professionnel",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/categories/ajouter",
+          "blueprint_var": "bp",
+          "function": "ajouter_categorie_professionnel",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/echeances",
+          "blueprint_var": "bp",
+          "function": "admin_parametres_echeances",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/echeances-tb",
+          "blueprint_var": "bp",
+          "function": "admin_parametres_echeances_tb",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/echeances/periode",
+          "blueprint_var": "bp",
+          "function": "modifier_periode_echeance",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/generaux",
+          "blueprint_var": "bp",
+          "function": "admin_parametres_generaux",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/indemnites",
+          "blueprint_var": "bp",
+          "function": "admin_parametres_indemnites",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/missions",
+          "blueprint_var": "bp",
+          "function": "admin_missions",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/missions.py"
+        },
+        {
+          "path": "/admin/parametrages/missions/<int:id>/modifier",
+          "blueprint_var": "bp",
+          "function": "modifier_mission",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/missions.py"
+        },
+        {
+          "path": "/admin/parametrages/missions/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "supprimer_mission",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/missions.py"
+        },
+        {
+          "path": "/admin/parametrages/missions/ajouter",
+          "blueprint_var": "bp",
+          "function": "ajouter_mission",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/missions.py"
+        },
+        {
+          "path": "/admin/parametrages/modes-compensation/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "supprimer_mode_compensation",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/modes-compensation/ajouter",
+          "blueprint_var": "bp",
+          "function": "ajouter_mode_compensation",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/modes-remuneration/<code>/supprimer",
+          "blueprint_var": "bp",
+          "function": "supprimer_mode_remuneration",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/modes-remuneration/ajouter",
+          "blueprint_var": "bp",
+          "function": "ajouter_mode_remuneration",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/modes-versement/<int:id>/deplacer",
+          "blueprint_var": "bp",
+          "function": "deplacer_mode_versement",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/modes-versement/<int:id>/modifier",
+          "blueprint_var": "bp",
+          "function": "modifier_mode_versement",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/modes-versement/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "supprimer_mode_versement",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/modes-versement/ajouter",
+          "blueprint_var": "bp",
+          "function": "ajouter_mode_versement",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/modules/activation",
+          "blueprint_var": "bp",
+          "function": "admin_sauver_activation_modules",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/natures-depenses",
+          "blueprint_var": "bp",
+          "function": "admin_natures_depenses",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/natures-depenses/<int:id>/deplacer",
+          "blueprint_var": "bp",
+          "function": "deplacer_nature_depense",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/natures-depenses/<int:id>/modifier",
+          "blueprint_var": "bp",
+          "function": "modifier_nature_depense",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/natures-depenses/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "supprimer_nature_depense",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/natures-depenses/ajouter",
+          "blueprint_var": "bp",
+          "function": "ajouter_nature_depense",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/permissions",
+          "blueprint_var": "bp",
+          "function": "admin_sauver_permissions",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/professions/<int:id>/modifier",
+          "blueprint_var": "bp",
+          "function": "modifier_profession",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/professions/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "supprimer_profession",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/professions/ajouter",
+          "blueprint_var": "bp",
+          "function": "ajouter_profession",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/rubriques",
+          "blueprint_var": "bp",
+          "function": "admin_rubriques",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/sous-categories-projets/<int:cat_id>",
+          "blueprint_var": "bp",
+          "function": "lister_sous_categories_projet",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/sous-categories-projets/<int:id>/modifier",
+          "blueprint_var": "bp",
+          "function": "modifier_sous_categorie_projet",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/sous-categories-projets/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "supprimer_sous_categorie_projet",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/sous-categories-projets/ajouter",
+          "blueprint_var": "bp",
+          "function": "ajouter_sous_categorie_projet",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/sous-categories-projets/reorder",
+          "blueprint_var": "bp",
+          "function": "reorder_sous_categories_projets",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/taux-professions",
+          "blueprint_var": "bp",
+          "function": "admin_taux_professions",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/taux-professions/modifier",
+          "blueprint_var": "bp",
+          "function": "modifier_taux_profession",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/theme",
+          "blueprint_var": "bp",
+          "function": "admin_theme",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/themes",
+          "blueprint_var": "bp",
+          "function": "admin_themes",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/themes/selectionner",
+          "blueprint_var": "bp",
+          "function": "selectionner_theme",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/trimestres",
+          "blueprint_var": "bp",
+          "function": "admin_trimestres",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/trimestres/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "supprimer_parametrage_trimestre",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/types-frais/<int:id>/modifier",
+          "blueprint_var": "bp",
+          "function": "modifier_type_frais",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/types-frais/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "supprimer_type_frais",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/types-frais/ajouter",
+          "blueprint_var": "bp",
+          "function": "ajouter_type_frais",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/types-membres/<int:id>/deplacer",
+          "blueprint_var": "bp",
+          "function": "deplacer_type_membre",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/types-membres/<int:id>/modifier",
+          "blueprint_var": "bp",
+          "function": "modifier_type_membre",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/types-membres/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "supprimer_type_membre",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/types-membres/ajouter",
+          "blueprint_var": "bp",
+          "function": "ajouter_type_membre",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/parametrages/virements-sepa",
+          "blueprint_var": "bp",
+          "function": "admin_virements_sepa",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/permissions",
+          "blueprint_var": "bp",
+          "function": "admin_permissions",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        },
+        {
+          "path": "/admin/roles-personnalises",
+          "blueprint_var": "bp",
+          "function": "liste_roles",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/roles.py"
+        },
+        {
+          "path": "/admin/roles-personnalises/<int:id>/modifier",
+          "blueprint_var": "bp",
+          "function": "modifier_role",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/roles.py"
+        },
+        {
+          "path": "/admin/roles-personnalises/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "supprimer_role",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/roles.py"
+        },
+        {
+          "path": "/admin/roles-personnalises/nouveau",
+          "blueprint_var": "bp",
+          "function": "nouveau_role",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/roles.py"
+        },
+        {
+          "path": "/admin/utilisateurs",
+          "blueprint_var": "bp",
+          "function": "liste_utilisateurs",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/users.py"
+        },
+        {
+          "path": "/admin/utilisateurs/<int:id>/activer",
+          "blueprint_var": "bp",
+          "function": "activer_utilisateur",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/users.py"
+        },
+        {
+          "path": "/admin/utilisateurs/<int:id>/desactiver",
+          "blueprint_var": "bp",
+          "function": "desactiver_utilisateur",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/users.py"
+        },
+        {
+          "path": "/admin/utilisateurs/<int:id>/membre",
+          "blueprint_var": "bp",
+          "function": "lier_membre_utilisateur",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/users.py"
+        },
+        {
+          "path": "/admin/utilisateurs/<int:id>/reinitialiser-invitation",
+          "blueprint_var": "bp",
+          "function": "reinitialiser_invitation",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/users.py"
+        },
+        {
+          "path": "/admin/utilisateurs/<int:id>/role",
+          "blueprint_var": "bp",
+          "function": "changer_role_utilisateur",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/users.py"
+        },
+        {
+          "path": "/admin/utilisateurs/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "supprimer_utilisateur",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/users.py"
+        },
+        {
+          "path": "/admin/utilisateurs/creer",
+          "blueprint_var": "bp",
+          "function": "creer_utilisateur_form",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/users.py"
+        },
+        {
+          "path": "/admin/utilisateurs/creer",
+          "blueprint_var": "bp",
+          "function": "creer_utilisateur",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/users.py"
+        },
+        {
+          "path": "/admin/utilisateurs/invitation/<int:token_id>",
+          "blueprint_var": "bp",
+          "function": "voir_invitation",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/admin/users.py"
+        },
+        {
+          "path": "/api/taux-horaire",
+          "blueprint_var": "bp",
+          "function": "api_taux_horaire",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/admin/parametrages.py"
+        }
+      ]
+    },
+    {
+      "name": "auth",
+      "category": "auth",
+      "color": "#475569",
+      "route_count": 8,
+      "file_count": 1,
+      "routes": [
+        {
+          "path": "/changer-mot-de-passe",
+          "blueprint_var": "auth_bp",
+          "function": "changer_mot_de_passe",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/routes_auth.py"
+        },
+        {
+          "path": "/inscription",
+          "blueprint_var": "auth_bp",
+          "function": "inscription",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "protections": [],
+          "file": "routes/routes_auth.py"
+        },
+        {
+          "path": "/login",
+          "blueprint_var": "auth_bp",
+          "function": "login",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "protections": [],
+          "file": "routes/routes_auth.py"
+        },
+        {
+          "path": "/logout",
+          "blueprint_var": "auth_bp",
+          "function": "logout",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/routes_auth.py"
+        },
+        {
+          "path": "/mot-de-passe-oublie",
+          "blueprint_var": "auth_bp",
+          "function": "mot_de_passe_oublie",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "protections": [],
+          "file": "routes/routes_auth.py"
+        },
+        {
+          "path": "/rejoindre/<token>",
+          "blueprint_var": "auth_bp",
+          "function": "activer_compte",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "protections": [],
+          "file": "routes/routes_auth.py"
+        },
+        {
+          "path": "/rejoindre/code",
+          "blueprint_var": "auth_bp",
+          "function": "activer_par_code",
+          "methods": [
+            "POST"
+          ],
+          "protections": [],
+          "file": "routes/routes_auth.py"
+        },
+        {
+          "path": "/reset-mot-de-passe/<token>",
+          "blueprint_var": "auth_bp",
+          "function": "reset_mot_de_passe",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "protections": [],
+          "file": "routes/routes_auth.py"
+        }
+      ]
+    },
+    {
+      "name": "coordination",
+      "category": "coordination",
+      "color": "#1D4ED8",
+      "route_count": 67,
+      "file_count": 5,
+      "routes": [
+        {
+          "path": "/api/coordination/action/<int:id>/budget",
+          "blueprint_var": "coordination_api_bp",
+          "function": "api_action_budget",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "blueprints/coordination/api.py"
+        },
+        {
+          "path": "/api/coordination/action/<int:id>/solde-enveloppe",
+          "blueprint_var": "coordination_api_bp",
+          "function": "api_action_solde_enveloppe",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/coordination/api.py"
+        },
+        {
+          "path": "/api/coordination/echeances-aci",
+          "blueprint_var": "coordination_api_bp",
+          "function": "api_coordination_echeances_aci",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "blueprints/coordination/api.py"
+        },
+        {
+          "path": "/api/coordination/indicateur/<int:id>/historique",
+          "blueprint_var": "coordination_api_bp",
+          "function": "api_historique_indicateur",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "blueprints/coordination/api.py"
+        },
+        {
+          "path": "/api/coordination/stats",
+          "blueprint_var": "coordination_api_bp",
+          "function": "api_coordination_stats",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "blueprints/coordination/api.py"
+        },
+        {
+          "path": "/api/coordination/taches",
+          "blueprint_var": "coordination_api_bp",
+          "function": "api_coordination_taches_liste",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "blueprints/coordination/api.py"
+        },
+        {
+          "path": "/api/coordination/taches",
+          "blueprint_var": "coordination_api_bp",
+          "function": "api_coordination_taches_creer",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "blueprints/coordination/api.py"
+        },
+        {
+          "path": "/api/coordination/taches/<int:id>",
+          "blueprint_var": "coordination_api_bp",
+          "function": "api_coordination_taches_modifier",
+          "methods": [
+            "PUT"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "blueprints/coordination/api.py"
+        },
+        {
+          "path": "/api/coordination/taches/<int:id>",
+          "blueprint_var": "coordination_api_bp",
+          "function": "api_coordination_taches_supprimer",
+          "methods": [
+            "DELETE"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "blueprints/coordination/api.py"
+        },
+        {
+          "path": "/api/coordination/taches/<int:id>/archiver",
+          "blueprint_var": "coordination_api_bp",
+          "function": "api_coordination_taches_archiver",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "blueprints/coordination/api.py"
+        },
+        {
+          "path": "/api/coordination/taches/<int:id>/cocher",
+          "blueprint_var": "coordination_api_bp",
+          "function": "api_coordination_taches_cocher",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "blueprints/coordination/api.py"
+        },
+        {
+          "path": "/api/coordination/taches/orphelines",
+          "blueprint_var": "coordination_api_bp",
+          "function": "api_coordination_taches_orphelines",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "blueprints/coordination/api.py"
+        },
+        {
+          "path": "/api/coordination/taches/reorder",
+          "blueprint_var": "coordination_api_bp",
+          "function": "api_coordination_taches_reorder",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "blueprints/coordination/api.py"
+        },
+        {
+          "path": "/coordination",
+          "blueprint_var": "bp",
+          "function": "suivi_contrat_aci",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/pilotage.py"
+        },
+        {
+          "path": "/coordination/action/<int:action_id>",
+          "blueprint_var": "bp",
+          "function": "coordination_action_detail",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/pilotage.py"
+        },
+        {
+          "path": "/coordination/dialogues-de-gestion",
+          "blueprint_var": "bp",
+          "function": "dialogues_gestion",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/dialogues.py"
+        },
+        {
+          "path": "/coordination/dialogues-de-gestion/document/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "dialogues_document_supprimer",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/dialogues.py"
+        },
+        {
+          "path": "/coordination/dialogues-de-gestion/document/<int:id>/telecharger",
+          "blueprint_var": "bp",
+          "function": "dialogues_document_telecharger",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/dialogues.py"
+        },
+        {
+          "path": "/coordination/dialogues-de-gestion/engagement/<int:id>/modifier",
+          "blueprint_var": "bp",
+          "function": "dialogues_engagement_modifier",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/dialogues.py"
+        },
+        {
+          "path": "/coordination/dialogues-de-gestion/engagement/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "dialogues_engagement_supprimer",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/dialogues.py"
+        },
+        {
+          "path": "/coordination/dialogues-de-gestion/engagement/creer",
+          "blueprint_var": "bp",
+          "function": "dialogues_engagement_creer",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/dialogues.py"
+        },
+        {
+          "path": "/coordination/dialogues-de-gestion/export/excel",
+          "blueprint_var": "bp",
+          "function": "dialogues_export_excel",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/dialogues.py"
+        },
+        {
+          "path": "/coordination/dialogues-de-gestion/export/word",
+          "blueprint_var": "bp",
+          "function": "dialogues_export_word",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/dialogues.py"
+        },
+        {
+          "path": "/coordination/dialogues-de-gestion/preparation/<int:id>",
+          "blueprint_var": "bp",
+          "function": "dialogues_preparation_detail",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/preparations.py"
+        },
+        {
+          "path": "/coordination/dialogues-de-gestion/preparation/<int:id>/generer-ordre-du-jour",
+          "blueprint_var": "bp",
+          "function": "dialogues_preparation_generer_odj",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/preparations.py"
+        },
+        {
+          "path": "/coordination/dialogues-de-gestion/preparation/<int:id>/generer-synthese",
+          "blueprint_var": "bp",
+          "function": "dialogues_preparation_generer_synthese",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/preparations.py"
+        },
+        {
+          "path": "/coordination/dialogues-de-gestion/preparation/<int:id>/modifier",
+          "blueprint_var": "bp",
+          "function": "dialogues_preparation_modifier",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/preparations.py"
+        },
+        {
+          "path": "/coordination/dialogues-de-gestion/preparation/<int:id>/rattacher-seance",
+          "blueprint_var": "bp",
+          "function": "dialogues_preparation_rattacher",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/preparations.py"
+        },
+        {
+          "path": "/coordination/dialogues-de-gestion/preparation/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "dialogues_preparation_supprimer",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/preparations.py"
+        },
+        {
+          "path": "/coordination/dialogues-de-gestion/preparation/<int:id>/valider",
+          "blueprint_var": "bp",
+          "function": "dialogues_preparation_valider",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/preparations.py"
+        },
+        {
+          "path": "/coordination/dialogues-de-gestion/preparation/creer",
+          "blueprint_var": "bp",
+          "function": "dialogues_preparation_creer",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/preparations.py"
+        },
+        {
+          "path": "/coordination/dialogues-de-gestion/seance/<int:id>",
+          "blueprint_var": "bp",
+          "function": "dialogues_seance_detail",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/dialogues.py"
+        },
+        {
+          "path": "/coordination/dialogues-de-gestion/seance/<int:id>/comparaison",
+          "blueprint_var": "bp",
+          "function": "dialogues_seance_comparaison",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/preparations.py"
+        },
+        {
+          "path": "/coordination/dialogues-de-gestion/seance/<int:id>/document/upload",
+          "blueprint_var": "bp",
+          "function": "dialogues_document_upload",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/dialogues.py"
+        },
+        {
+          "path": "/coordination/dialogues-de-gestion/seance/<int:id>/modifier",
+          "blueprint_var": "bp",
+          "function": "dialogues_seance_modifier",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/dialogues.py"
+        },
+        {
+          "path": "/coordination/dialogues-de-gestion/seance/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "dialogues_seance_supprimer",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/dialogues.py"
+        },
+        {
+          "path": "/coordination/dialogues-de-gestion/seance/creer",
+          "blueprint_var": "bp",
+          "function": "dialogues_seance_creer",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/dialogues.py"
+        },
+        {
+          "path": "/coordination/dialogues-de-gestion/templates-participants",
+          "blueprint_var": "bp",
+          "function": "dialogues_templates_participants",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/preparations.py"
+        },
+        {
+          "path": "/coordination/dialogues-de-gestion/templates-participants/<int:id>/modifier",
+          "blueprint_var": "bp",
+          "function": "dialogues_template_participants_modifier",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/preparations.py"
+        },
+        {
+          "path": "/coordination/dialogues-de-gestion/templates-participants/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "dialogues_template_participants_supprimer",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/preparations.py"
+        },
+        {
+          "path": "/coordination/dialogues-de-gestion/templates-participants/creer",
+          "blueprint_var": "bp",
+          "function": "dialogues_template_participants_creer",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/preparations.py"
+        },
+        {
+          "path": "/coordination/document/<int:id>/statut",
+          "blueprint_var": "bp",
+          "function": "changer_statut_piece_coordination",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/pilotage.py"
+        },
+        {
+          "path": "/coordination/document/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "supprimer_piece_coordination",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/pilotage.py"
+        },
+        {
+          "path": "/coordination/document/<int:id>/telecharger",
+          "blueprint_var": "bp",
+          "function": "telecharger_piece_coordination",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/pilotage.py"
+        },
+        {
+          "path": "/coordination/document/upload",
+          "blueprint_var": "bp",
+          "function": "upload_piece_coordination",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/pilotage.py"
+        },
+        {
+          "path": "/coordination/import-excel",
+          "blueprint_var": "bp",
+          "function": "coordination_import_excel",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/pilotage.py"
+        },
+        {
+          "path": "/coordination/import-excel/confirmer",
+          "blueprint_var": "bp",
+          "function": "coordination_import_confirmer",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/pilotage.py"
+        },
+        {
+          "path": "/coordination/indicateur/<int:id>/echeance",
+          "blueprint_var": "bp",
+          "function": "coordination_indicateur_echeance",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/pilotage.py"
+        },
+        {
+          "path": "/coordination/indicateur/<int:id>/modifier",
+          "blueprint_var": "bp",
+          "function": "modifier_indicateur",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/pilotage.py"
+        },
+        {
+          "path": "/coordination/indicateur/<int:id>/suivi",
+          "blueprint_var": "bp",
+          "function": "ajouter_suivi_indicateur",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/pilotage.py"
+        },
+        {
+          "path": "/coordination/indicateur/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "supprimer_indicateur",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/pilotage.py"
+        },
+        {
+          "path": "/coordination/indicateur/<int:id>/valeur",
+          "blueprint_var": "bp",
+          "function": "coordination_indicateur_valeur",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/pilotage.py"
+        },
+        {
+          "path": "/coordination/indicateur/ajouter",
+          "blueprint_var": "bp",
+          "function": "ajouter_indicateur",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/pilotage.py"
+        },
+        {
+          "path": "/coordination/mission/<int:id>/budget",
+          "blueprint_var": "bp",
+          "function": "coordination_mission_budget",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/pilotage.py"
+        },
+        {
+          "path": "/coordination/module",
+          "blueprint_var": "coordination_pages_bp",
+          "function": "coordination_module",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "blueprints/coordination/routes.py"
+        },
+        {
+          "path": "/coordination/piece-demandee/<int:id>/delete-fichier",
+          "blueprint_var": "bp",
+          "function": "coordination_piece_demandee_delete_fichier",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/pilotage.py"
+        },
+        {
+          "path": "/coordination/piece-demandee/<int:id>/download",
+          "blueprint_var": "bp",
+          "function": "coordination_piece_demandee_download",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/pilotage.py"
+        },
+        {
+          "path": "/coordination/piece-demandee/<int:id>/preview",
+          "blueprint_var": "bp",
+          "function": "coordination_piece_demandee_preview",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/pilotage.py"
+        },
+        {
+          "path": "/coordination/piece-demandee/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "coordination_piece_demandee_supprimer",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/pilotage.py"
+        },
+        {
+          "path": "/coordination/piece-demandee/<int:id>/upload",
+          "blueprint_var": "bp",
+          "function": "coordination_piece_demandee_upload",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/pilotage.py"
+        },
+        {
+          "path": "/coordination/search",
+          "blueprint_var": "coordination_pages_bp",
+          "function": "coordination_search",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "blueprints/coordination/routes.py"
+        },
+        {
+          "path": "/coordination/sous-action/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "coordination_sous_action_supprimer",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/pilotage.py"
+        },
+        {
+          "path": "/coordination/sous-action/<int:id>/update",
+          "blueprint_var": "bp",
+          "function": "coordination_sous_action_update",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/pilotage.py"
+        },
+        {
+          "path": "/coordination/sous-action/<int:sa_id>/piece-demandee/ajouter",
+          "blueprint_var": "bp",
+          "function": "coordination_piece_demandee_ajouter",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/pilotage.py"
+        },
+        {
+          "path": "/coordination/sous-action/ajouter",
+          "blueprint_var": "bp",
+          "function": "coordination_sous_action_ajouter",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/pilotage.py"
+        },
+        {
+          "path": "/coordination/tableau-de-bord",
+          "blueprint_var": "bp",
+          "function": "coordination_dashboard",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/coordination/pilotage.py"
+        },
+        {
+          "path": "/coordination/tasks-summary/<status>",
+          "blueprint_var": "coordination_pages_bp",
+          "function": "tasks_summary",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "blueprints/coordination/routes.py"
+        }
+      ]
+    },
+    {
+      "name": "design_system",
+      "category": "design",
+      "color": "#8B5CF6",
+      "route_count": 2,
+      "file_count": 1,
+      "routes": [
+        {
+          "path": "/",
+          "blueprint_var": "bp",
+          "function": "index",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/routes_design_system.py"
+        },
+        {
+          "path": "/dashboard-preview",
+          "blueprint_var": "bp",
+          "function": "dashboard_preview",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/routes_design_system.py"
+        }
+      ]
+    },
+    {
+      "name": "hub",
+      "category": "hub",
+      "color": "#6366F1",
+      "route_count": 22,
+      "file_count": 1,
+      "routes": [
+        {
+          "path": "/annuaire-territoire",
+          "blueprint_var": "hub_bp",
+          "function": "annuaire_territoire",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "blueprints/hub/routes.py"
+        },
+        {
+          "path": "/api/mon-profil/exercice",
+          "blueprint_var": "hub_bp",
+          "function": "api_get_exercice",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/hub/routes.py"
+        },
+        {
+          "path": "/api/mon-profil/exercice",
+          "blueprint_var": "hub_bp",
+          "function": "api_save_exercice",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/hub/routes.py"
+        },
+        {
+          "path": "/api/mon-profil/pratique",
+          "blueprint_var": "hub_bp",
+          "function": "api_save_pratique",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/hub/routes.py"
+        },
+        {
+          "path": "/api/suggestions/parcours",
+          "blueprint_var": "hub_bp",
+          "function": "api_suggestions_parcours",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/hub/routes.py"
+        },
+        {
+          "path": "/api/suggestions/protocoles",
+          "blueprint_var": "hub_bp",
+          "function": "api_suggestions_protocoles",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/hub/routes.py"
+        },
+        {
+          "path": "/completer-mes-coordonnees",
+          "blueprint_var": "hub_bp",
+          "function": "completer_coordonnees",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/hub/routes.py"
+        },
+        {
+          "path": "/hub/activites-recentes",
+          "blueprint_var": "hub_bp",
+          "function": "activites_recentes",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/hub/routes.py"
+        },
+        {
+          "path": "/hub/espace-discussion",
+          "blueprint_var": "hub_bp",
+          "function": "espace_discussion",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/hub/routes.py"
+        },
+        {
+          "path": "/hub/flux-actualites",
+          "blueprint_var": "hub_bp",
+          "function": "flux_actualites",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/hub/routes.py"
+        },
+        {
+          "path": "/hub/notifications",
+          "blueprint_var": "hub_bp",
+          "function": "drawer_notifications",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/hub/routes.py"
+        },
+        {
+          "path": "/hub/notifications/tout-lire",
+          "blueprint_var": "hub_bp",
+          "function": "marquer_toutes_lues",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/hub/routes.py"
+        },
+        {
+          "path": "/mes-groupes",
+          "blueprint_var": "hub_bp",
+          "function": "mes_groupes",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/hub/routes.py"
+        },
+        {
+          "path": "/mes-indemnisations",
+          "blueprint_var": "hub_bp",
+          "function": "mes_indemnisations",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/hub/routes.py"
+        },
+        {
+          "path": "/mes-indemnisations/corriger-frais/<int:id>",
+          "blueprint_var": "hub_bp",
+          "function": "corriger_frais_indemnisations",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/hub/routes.py"
+        },
+        {
+          "path": "/mes-indemnisations/corriger-heures/<int:id>",
+          "blueprint_var": "hub_bp",
+          "function": "corriger_heures_indemnisations",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/hub/routes.py"
+        },
+        {
+          "path": "/mes-indemnisations/declarer-frais",
+          "blueprint_var": "hub_bp",
+          "function": "declarer_frais_indemnisations",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/hub/routes.py"
+        },
+        {
+          "path": "/mes-indemnisations/declarer-heures",
+          "blueprint_var": "hub_bp",
+          "function": "declarer_heures_indemnisations",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/hub/routes.py"
+        },
+        {
+          "path": "/mes-indemnisations/demander-reouverture/<int:id>",
+          "blueprint_var": "hub_bp",
+          "function": "demander_reouverture_decompte",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/hub/routes.py"
+        },
+        {
+          "path": "/mes-indemnisations/exporter-csv",
+          "blueprint_var": "hub_bp",
+          "function": "exporter_indemnisations_csv",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/hub/routes.py"
+        },
+        {
+          "path": "/mon-espace/declarer-heures",
+          "blueprint_var": "hub_bp",
+          "function": "declarer_heures",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/hub/routes.py"
+        },
+        {
+          "path": "/mon-profil",
+          "blueprint_var": "hub_bp",
+          "function": "mon_profil",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/hub/routes.py"
+        }
+      ]
+    },
+    {
+      "name": "meetings",
+      "category": "meetings",
+      "color": "#0891B2",
+      "route_count": 45,
+      "file_count": 2,
+      "routes": [
+        {
+          "path": "/api/meetings",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_meetings_list",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_meetings_create",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_meetings_get",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_meetings_update",
+          "methods": [
+            "PUT"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_meetings_delete",
+          "methods": [
+            "DELETE"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/archive",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_archive",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/cloturer",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_meetings_close",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/cr-file",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_cr_file_upload",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/cr-file",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_cr_file_delete",
+          "methods": [
+            "DELETE"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/cr-file/download",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_cr_file_download",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/cr-file/preview",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_cr_file_preview",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/cr-file/view",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_cr_file_view",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/creer-decomptes",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_meetings_create_decomptes",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/delegation/demander",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_delegation_demander",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/delegation/repondre",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_delegation_repondre",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/emargement",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_meetings_emargement_get",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/emargement",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_meetings_emargement_save",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/emargement/deverrouiller",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_emargement_deverrouiller",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/emargement/historique",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_emargement_historique",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/emargement/pdf",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_meetings_emargement_pdf",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/emargement/verrouiller",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_emargement_verrouiller",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/envoyer-invitations",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_meetings_send_invitations",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/fichiers",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_fichiers_list",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/fichiers",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_fichiers_upload",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/fichiers/<int:fid>",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_fichiers_delete",
+          "methods": [
+            "DELETE"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/fichiers/<int:fid>/download",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_fichiers_download",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/fichiers/<int:fid>/preview",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_fichiers_preview",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/fichiers/<int:fid>/view",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_fichiers_view",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/pdf/convocation",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_pdf_convocation",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/pdf/pv",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_pdf_pv",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/proposer-decomptes",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_meetings_propose_decomptes",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/share",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_mark_shared",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/suggestions",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_meeting_suggestions_list",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/suggestions",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_meeting_suggestions_create",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/suggestions/<int:sid>",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_meeting_suggestions_update",
+          "methods": [
+            "PATCH"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/suggestions/<int:sid>",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_meeting_suggestions_delete",
+          "methods": [
+            "DELETE"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/taches",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_meetings_tasks",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/<int:id>/toggle-skip",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_toggle_skip",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/categories",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_categories_list",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/categories",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_categories_create",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/modal",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_meetings_modal",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/api/meetings/sous-actions/<int:action_id>",
+          "blueprint_var": "meetings_api_bp",
+          "function": "api_meetings_sous_actions",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/meetings/api.py"
+        },
+        {
+          "path": "/calendrier",
+          "blueprint_var": "meetings_bp",
+          "function": "calendrier",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "blueprints/meetings/routes.py"
+        },
+        {
+          "path": "/gestion-reunions",
+          "blueprint_var": "meetings_bp",
+          "function": "gestion",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "blueprints/meetings/routes.py"
+        },
+        {
+          "path": "/reunions",
+          "blueprint_var": "meetings_bp",
+          "function": "index",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "blueprints/meetings/routes.py"
+        }
+      ]
+    },
+    {
+      "name": "membres",
+      "category": "membres",
+      "color": "#3B82F6",
+      "route_count": 25,
+      "file_count": 1,
+      "routes": [
+        {
+          "path": "/membres",
+          "blueprint_var": "membres_bp",
+          "function": "liste_membres",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "bureau_required"
+          ],
+          "file": "routes/routes_membres.py"
+        },
+        {
+          "path": "/membres/<int:id>",
+          "blueprint_var": "membres_bp",
+          "function": "fiche_membre",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "bureau_required"
+          ],
+          "file": "routes/routes_membres.py"
+        },
+        {
+          "path": "/membres/<int:id>/document/<string:doc_type>",
+          "blueprint_var": "membres_bp",
+          "function": "telecharger_document_membre",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "bureau_required"
+          ],
+          "file": "routes/routes_membres.py"
+        },
+        {
+          "path": "/membres/<int:id>/modifier",
+          "blueprint_var": "membres_bp",
+          "function": "modifier_membre",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "bureau_required"
+          ],
+          "file": "routes/routes_membres.py"
+        },
+        {
+          "path": "/membres/<int:id>/restaurer",
+          "blueprint_var": "membres_bp",
+          "function": "restaurer_membre",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "bureau_required"
+          ],
+          "file": "routes/routes_membres.py"
+        },
+        {
+          "path": "/membres/<int:id>/supprimer",
+          "blueprint_var": "membres_bp",
+          "function": "supprimer_membre",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "bureau_required"
+          ],
+          "file": "routes/routes_membres.py"
+        },
+        {
+          "path": "/membres/<int:id>/supprimer-definitif",
+          "blueprint_var": "membres_bp",
+          "function": "supprimer_membre_definitif",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/routes_membres.py"
+        },
+        {
+          "path": "/membres/inscriptions",
+          "blueprint_var": "membres_bp",
+          "function": "gestion_inscriptions",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/routes_membres.py"
+        },
+        {
+          "path": "/membres/nouveau",
+          "blueprint_var": "membres_bp",
+          "function": "nouveau_membre",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "bureau_required"
+          ],
+          "file": "routes/routes_membres.py"
+        },
+        {
+          "path": "/vie-associative",
+          "blueprint_var": "membres_bp",
+          "function": "vie_associative",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/routes_membres.py"
+        },
+        {
+          "path": "/vie-associative/ag",
+          "blueprint_var": "membres_bp",
+          "function": "vie_associative_ag",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/routes_membres.py"
+        },
+        {
+          "path": "/vie-associative/bureau",
+          "blueprint_var": "membres_bp",
+          "function": "vie_associative_bureau",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "bureau_required"
+          ],
+          "file": "routes/routes_membres.py"
+        },
+        {
+          "path": "/vie-associative/bureau/attribuer",
+          "blueprint_var": "membres_bp",
+          "function": "attribuer_role_membre",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "bureau_required"
+          ],
+          "file": "routes/routes_membres.py"
+        },
+        {
+          "path": "/vie-associative/bureau/attribution/<int:id>/supprimer",
+          "blueprint_var": "membres_bp",
+          "function": "supprimer_attribution_role",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "bureau_required"
+          ],
+          "file": "routes/routes_membres.py"
+        },
+        {
+          "path": "/vie-associative/documents-fondateurs",
+          "blueprint_var": "membres_bp",
+          "function": "vie_associative_documents_fondateurs",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/routes_membres.py"
+        },
+        {
+          "path": "/vie-associative/organigramme",
+          "blueprint_var": "membres_bp",
+          "function": "vie_associative_organigramme",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "bureau_required"
+          ],
+          "file": "routes/routes_membres.py"
+        },
+        {
+          "path": "/vie-associative/organigramme/ajouter-membre",
+          "blueprint_var": "membres_bp",
+          "function": "ajouter_membre_organigramme",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "bureau_required"
+          ],
+          "file": "routes/routes_membres.py"
+        },
+        {
+          "path": "/vie-associative/organigramme/connexions",
+          "blueprint_var": "membres_bp",
+          "function": "sauvegarder_connexions_organigramme",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "bureau_required"
+          ],
+          "file": "routes/routes_membres.py"
+        },
+        {
+          "path": "/vie-associative/organigramme/save-positions",
+          "blueprint_var": "membres_bp",
+          "function": "save_organigramme_positions",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "bureau_required"
+          ],
+          "file": "routes/routes_membres.py"
+        },
+        {
+          "path": "/vie-associative/organigramme/supprimer-membre/<int:membre_role_id>",
+          "blueprint_var": "membres_bp",
+          "function": "supprimer_membre_organigramme",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "bureau_required"
+          ],
+          "file": "routes/routes_membres.py"
+        },
+        {
+          "path": "/vie-associative/organigramme/upload-photo/<int:id>",
+          "blueprint_var": "membres_bp",
+          "function": "upload_organigramme_photo",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "bureau_required"
+          ],
+          "file": "routes/routes_membres.py"
+        },
+        {
+          "path": "/vie-associative/roles",
+          "blueprint_var": "membres_bp",
+          "function": "vie_associative_roles",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/routes_membres.py"
+        },
+        {
+          "path": "/vie-associative/roles/<int:id>/modifier",
+          "blueprint_var": "membres_bp",
+          "function": "modifier_role_cpts",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/routes_membres.py"
+        },
+        {
+          "path": "/vie-associative/roles/ajouter",
+          "blueprint_var": "membres_bp",
+          "function": "ajouter_role_cpts",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "admin_required"
+          ],
+          "file": "routes/routes_membres.py"
+        },
+        {
+          "path": "/vie-associative/rubriques/<slug>",
+          "blueprint_var": "membres_bp",
+          "function": "vie_associative_rubrique",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "routes/routes_membres.py"
+        }
+      ]
+    },
+    {
+      "name": "notifications",
+      "category": "notifications",
+      "color": "#F59E0B",
+      "route_count": 3,
+      "file_count": 1,
+      "routes": [
+        {
+          "path": "/api/notifications",
+          "blueprint_var": "notifications_bp",
+          "function": "get_notifications",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/notifications/routes.py"
+        },
+        {
+          "path": "/api/notifications/<int:notif_id>/lire",
+          "blueprint_var": "notifications_bp",
+          "function": "marquer_lue",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/notifications/routes.py"
+        },
+        {
+          "path": "/api/notifications/tout-lire",
+          "blueprint_var": "notifications_bp",
+          "function": "tout_marquer_lues",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/notifications/routes.py"
+        }
+      ]
+    },
+    {
+      "name": "projects",
+      "category": "projects",
+      "color": "#0F766E",
+      "route_count": 49,
+      "file_count": 2,
+      "routes": [
+        {
+          "path": "/api/coordination/tasks",
+          "blueprint_var": "projects_api_bp",
+          "function": "create_task_standalone",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/frais/<int:fid>/justificatifs",
+          "blueprint_var": "projects_api_bp",
+          "function": "upload_frais_justificatif_direct",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects",
+          "blueprint_var": "projects_api_bp",
+          "function": "create",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>",
+          "blueprint_var": "projects_api_bp",
+          "function": "update",
+          "methods": [
+            "PATCH"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/archive",
+          "blueprint_var": "projects_api_bp",
+          "function": "archive",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/delete",
+          "blueprint_var": "projects_api_bp",
+          "function": "delete",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/depenses",
+          "blueprint_var": "projects_api_bp",
+          "function": "list_depenses",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/depenses",
+          "blueprint_var": "projects_api_bp",
+          "function": "create_depense",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/depenses/<int:fid>",
+          "blueprint_var": "projects_api_bp",
+          "function": "delete_depense",
+          "methods": [
+            "DELETE"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/depenses/<int:fid>/justificatifs",
+          "blueprint_var": "projects_api_bp",
+          "function": "upload_depense_justificatif",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/depenses/<int:fid>/justificatifs/<int:jid>",
+          "blueprint_var": "projects_api_bp",
+          "function": "delete_depense_justificatif",
+          "methods": [
+            "DELETE"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/documents",
+          "blueprint_var": "projects_api_bp",
+          "function": "list_documents",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/documents/<int:doc_id>",
+          "blueprint_var": "projects_api_bp",
+          "function": "delete_document",
+          "methods": [
+            "DELETE"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/documents/<int:doc_id>/download",
+          "blueprint_var": "projects_api_bp",
+          "function": "download_document",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/documents/<int:doc_id>/move",
+          "blueprint_var": "projects_api_bp",
+          "function": "move_document",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/documents/<int:doc_id>/rename",
+          "blueprint_var": "projects_api_bp",
+          "function": "rename_document",
+          "methods": [
+            "PATCH"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/documents/<int:doc_id>/share",
+          "blueprint_var": "projects_api_bp",
+          "function": "share_document",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/documents/upload",
+          "blueprint_var": "projects_api_bp",
+          "function": "upload_document",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/fiche-action",
+          "blueprint_var": "projects_api_bp",
+          "function": "upload_fiche_action",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/fiche-layout",
+          "blueprint_var": "projects_api_bp",
+          "function": "save_fiche_layout",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/folders",
+          "blueprint_var": "projects_api_bp",
+          "function": "create_folder",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/folders/<int:fid>",
+          "blueprint_var": "projects_api_bp",
+          "function": "rename_folder",
+          "methods": [
+            "PATCH"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/folders/<int:fid>",
+          "blueprint_var": "projects_api_bp",
+          "function": "delete_folder",
+          "methods": [
+            "DELETE"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/members",
+          "blueprint_var": "projects_api_bp",
+          "function": "get_group_members",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/modal-edit",
+          "blueprint_var": "projects_api_bp",
+          "function": "modal_edit",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/restore",
+          "blueprint_var": "projects_api_bp",
+          "function": "restore",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/suggestions",
+          "blueprint_var": "projects_api_bp",
+          "function": "create_suggestion",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/suggestions",
+          "blueprint_var": "projects_api_bp",
+          "function": "list_suggestions",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/suggestions/<int:sid>",
+          "blueprint_var": "projects_api_bp",
+          "function": "update_suggestion",
+          "methods": [
+            "PATCH"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/suggestions/<int:sid>",
+          "blueprint_var": "projects_api_bp",
+          "function": "delete_suggestion",
+          "methods": [
+            "DELETE"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/tasks",
+          "blueprint_var": "projects_api_bp",
+          "function": "list_tasks",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/tasks",
+          "blueprint_var": "projects_api_bp",
+          "function": "create_task",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/tasks/<int:tid>",
+          "blueprint_var": "projects_api_bp",
+          "function": "update_task",
+          "methods": [
+            "PATCH"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/tasks/<int:tid>",
+          "blueprint_var": "projects_api_bp",
+          "function": "delete_task",
+          "methods": [
+            "DELETE"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/tasks/<int:tid>/comments",
+          "blueprint_var": "projects_api_bp",
+          "function": "list_task_comments",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/tasks/<int:tid>/comments",
+          "blueprint_var": "projects_api_bp",
+          "function": "create_task_comment",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/tasks/<int:tid>/comments/<int:cid>",
+          "blueprint_var": "projects_api_bp",
+          "function": "delete_task_comment",
+          "methods": [
+            "DELETE"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/<int:id>/tasks/reorder",
+          "blueprint_var": "projects_api_bp",
+          "function": "reorder_tasks",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/by-action/<int:action_id>/members",
+          "blueprint_var": "projects_api_bp",
+          "function": "get_group_members_by_action",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/modal",
+          "blueprint_var": "projects_api_bp",
+          "function": "modal",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/modal-aci",
+          "blueprint_var": "projects_api_bp",
+          "function": "modal_aci",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/projects/modal-standard",
+          "blueprint_var": "projects_api_bp",
+          "function": "modal_standard",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/tasks/<int:tid>/archive",
+          "blueprint_var": "projects_api_bp",
+          "function": "archive_task",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/api/tasks/<int:tid>/done",
+          "blueprint_var": "projects_api_bp",
+          "function": "mark_task_done",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/api.py"
+        },
+        {
+          "path": "/partage/document/<token>",
+          "blueprint_var": "projects_bp",
+          "function": "shared_document",
+          "methods": [
+            "GET"
+          ],
+          "protections": [],
+          "file": "blueprints/projects/routes.py"
+        },
+        {
+          "path": "/projets-groupes",
+          "blueprint_var": "projects_bp",
+          "function": "index",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "blueprints/projects/routes.py"
+        },
+        {
+          "path": "/projets-groupes/<int:id>",
+          "blueprint_var": "projects_bp",
+          "function": "detail",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "blueprints/projects/routes.py"
+        },
+        {
+          "path": "/projets-groupes/<int:id>/documents",
+          "blueprint_var": "projects_bp",
+          "function": "documents",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required",
+            "module_access"
+          ],
+          "file": "blueprints/projects/routes.py"
+        },
+        {
+          "path": "/uploads/projects/<path:filename>",
+          "blueprint_var": "projects_bp",
+          "function": "serve_project_image",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "blueprints/projects/routes.py"
+        }
+      ]
+    },
+    {
+      "name": "tresorerie",
+      "category": "tresorerie",
+      "color": "#0D9488",
+      "route_count": 105,
+      "file_count": 14,
+      "routes": [
+        {
+          "path": "/accueil",
+          "blueprint_var": "bp",
+          "function": "accueil",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/dashboard.py"
+        },
+        {
+          "path": "/alertes/<int:id>/acquitter",
+          "blueprint_var": "bp",
+          "function": "acquitter_alerte",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/dashboard.py"
+        },
+        {
+          "path": "/api/alertes-tresorerie",
+          "blueprint_var": "bp",
+          "function": "api_alertes_tresorerie",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/suivi.py"
+        },
+        {
+          "path": "/api/alertes-tresorerie/<int:id>/acquitter",
+          "blueprint_var": "bp",
+          "function": "acquitter_alerte_tresorerie",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/suivi.py"
+        },
+        {
+          "path": "/api/archives/archiver",
+          "blueprint_var": "bp",
+          "function": "archiver_manuel",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/archives.py"
+        },
+        {
+          "path": "/api/archives/desarchiver",
+          "blueprint_var": "bp",
+          "function": "desarchiver",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/archives.py"
+        },
+        {
+          "path": "/api/inbox/rejeter",
+          "blueprint_var": "bp",
+          "function": "inbox_rejeter",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/dashboard.py"
+        },
+        {
+          "path": "/api/inbox/valider",
+          "blueprint_var": "bp",
+          "function": "inbox_valider",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/dashboard.py"
+        },
+        {
+          "path": "/api/membre/<int:membre_id>/actions",
+          "blueprint_var": "bp",
+          "function": "get_membre_actions",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/frais.py"
+        },
+        {
+          "path": "/api/validations/commentaire",
+          "blueprint_var": "bp",
+          "function": "validation_commentaire",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/validations.py"
+        },
+        {
+          "path": "/api/validations/detail",
+          "blueprint_var": "bp",
+          "function": "validation_detail",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/validations.py"
+        },
+        {
+          "path": "/api/validations/devalider",
+          "blueprint_var": "bp",
+          "function": "validation_devalider",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/validations.py"
+        },
+        {
+          "path": "/api/validations/modifier",
+          "blueprint_var": "bp",
+          "function": "validation_modifier",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/validations.py"
+        },
+        {
+          "path": "/api/validations/refuser-post-validation",
+          "blueprint_var": "bp",
+          "function": "validation_refuser_post_validation",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/validations.py"
+        },
+        {
+          "path": "/api/validations/rejeter",
+          "blueprint_var": "bp",
+          "function": "validation_rejeter",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/validations.py"
+        },
+        {
+          "path": "/api/validations/relancer",
+          "blueprint_var": "bp",
+          "function": "validation_relancer",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/validations.py"
+        },
+        {
+          "path": "/api/validations/valider",
+          "blueprint_var": "bp",
+          "function": "validation_valider",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/validations.py"
+        },
+        {
+          "path": "/decompte/<int:id>/upload-justificatif",
+          "blueprint_var": "bp",
+          "function": "upload_justificatif_decompte",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/heures.py"
+        },
+        {
+          "path": "/export/bilan-annuel",
+          "blueprint_var": "bp",
+          "function": "export_bilan_annuel",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/exports.py"
+        },
+        {
+          "path": "/export/comptable/<int:annee>",
+          "blueprint_var": "bp",
+          "function": "export_comptable",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/exports.py"
+        },
+        {
+          "path": "/export/decomptes-heures",
+          "blueprint_var": "bp",
+          "function": "export_decomptes_heures",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/exports.py"
+        },
+        {
+          "path": "/export/depenses-mission/<int:annee>",
+          "blueprint_var": "bp",
+          "function": "export_depenses_mission",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/exports.py"
+        },
+        {
+          "path": "/export/frais",
+          "blueprint_var": "bp",
+          "function": "export_frais_excel",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/exports.py"
+        },
+        {
+          "path": "/export/membres",
+          "blueprint_var": "bp",
+          "function": "export_membres",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/exports.py"
+        },
+        {
+          "path": "/export/synthese/<int:annee>",
+          "blueprint_var": "bp",
+          "function": "export_synthese",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/exports.py"
+        },
+        {
+          "path": "/export/trimestre",
+          "blueprint_var": "bp",
+          "function": "export_trimestre",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/exports.py"
+        },
+        {
+          "path": "/export/virements",
+          "blueprint_var": "bp",
+          "function": "export_virements",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/exports.py"
+        },
+        {
+          "path": "/exportations",
+          "blueprint_var": "bp",
+          "function": "exportations",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/exports.py"
+        },
+        {
+          "path": "/frais",
+          "blueprint_var": "bp",
+          "function": "liste_frais",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/frais.py"
+        },
+        {
+          "path": "/frais/<int:id>/modifier",
+          "blueprint_var": "bp",
+          "function": "modifier_frais",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/frais.py"
+        },
+        {
+          "path": "/frais/<int:id>/rejeter",
+          "blueprint_var": "bp",
+          "function": "rejeter_frais",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/frais.py"
+        },
+        {
+          "path": "/frais/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "supprimer_frais",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/frais.py"
+        },
+        {
+          "path": "/frais/<int:id>/upload-justificatif",
+          "blueprint_var": "bp",
+          "function": "upload_justificatif_frais",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/frais.py"
+        },
+        {
+          "path": "/frais/<int:id>/valider",
+          "blueprint_var": "bp",
+          "function": "valider_frais",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/frais.py"
+        },
+        {
+          "path": "/frais/nouveau",
+          "blueprint_var": "bp",
+          "function": "nouveau_frais",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/frais.py"
+        },
+        {
+          "path": "/heures",
+          "blueprint_var": "bp",
+          "function": "liste_heures",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/heures.py"
+        },
+        {
+          "path": "/heures/<int:id>/modifier",
+          "blueprint_var": "bp",
+          "function": "modifier_decompte",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/heures.py"
+        },
+        {
+          "path": "/heures/<int:id>/rejeter",
+          "blueprint_var": "bp",
+          "function": "rejeter_decompte",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/heures.py"
+        },
+        {
+          "path": "/heures/<int:id>/reouvrir-derogation",
+          "blueprint_var": "bp",
+          "function": "reouvrir_decompte_derogation",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/heures.py"
+        },
+        {
+          "path": "/heures/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "supprimer_decompte",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/heures.py"
+        },
+        {
+          "path": "/heures/<int:id>/valider",
+          "blueprint_var": "bp",
+          "function": "valider_decompte",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/heures.py"
+        },
+        {
+          "path": "/heures/nouveau",
+          "blueprint_var": "bp",
+          "function": "nouveau_decompte",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/heures.py"
+        },
+        {
+          "path": "/justificatifs",
+          "blueprint_var": "bp",
+          "function": "liste_justificatifs",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/justificatifs.py"
+        },
+        {
+          "path": "/justificatifs/<int:id>/preview",
+          "blueprint_var": "bp",
+          "function": "preview_justificatif",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/justificatifs.py"
+        },
+        {
+          "path": "/justificatifs/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "supprimer_justificatif",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/justificatifs.py"
+        },
+        {
+          "path": "/justificatifs/<int:id>/telecharger",
+          "blueprint_var": "bp",
+          "function": "telecharger_justificatif",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/justificatifs.py"
+        },
+        {
+          "path": "/justificatifs/upload",
+          "blueprint_var": "bp",
+          "function": "upload_justificatif",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/justificatifs.py"
+        },
+        {
+          "path": "/membres/<int:id>/iban",
+          "blueprint_var": "bp",
+          "function": "update_membre_iban",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/virements.py"
+        },
+        {
+          "path": "/recapitulatif",
+          "blueprint_var": "bp",
+          "function": "recapitulatif",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/suivi.py"
+        },
+        {
+          "path": "/remunerations",
+          "blueprint_var": "bp",
+          "function": "remunerations",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/remunerations.py"
+        },
+        {
+          "path": "/remunerations/detail-membre/<int:membre_id>",
+          "blueprint_var": "bp",
+          "function": "remunerations_detail_membre",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/remunerations.py"
+        },
+        {
+          "path": "/remunerations/export-csv",
+          "blueprint_var": "bp",
+          "function": "remunerations_export_csv",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/remunerations.py"
+        },
+        {
+          "path": "/remunerations/preparer-virements",
+          "blueprint_var": "bp",
+          "function": "remunerations_preparer_virements",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/remunerations.py"
+        },
+        {
+          "path": "/saisie-rapide-heures",
+          "blueprint_var": "bp",
+          "function": "saisie_rapide_heures",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/dashboard.py"
+        },
+        {
+          "path": "/tableau-de-bord",
+          "blueprint_var": "bp",
+          "function": "dashboard",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/dashboard.py"
+        },
+        {
+          "path": "/tresorerie",
+          "blueprint_var": "bp",
+          "function": "tresorerie",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/suivi.py"
+        },
+        {
+          "path": "/tresorerie/activite-membres",
+          "blueprint_var": "bp",
+          "function": "activite_membres",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/activite.py"
+        },
+        {
+          "path": "/tresorerie/api/action-detail/<int:action_id>/<int:annee>",
+          "blueprint_var": "bp",
+          "function": "api_action_detail",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/suivi.py"
+        },
+        {
+          "path": "/tresorerie/api/projets-pour-action/<int:action_id>",
+          "blueprint_var": "bp",
+          "function": "projets_pour_action",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/depenses_asso.py"
+        },
+        {
+          "path": "/tresorerie/api/suivi-mensuel/<int:annee>",
+          "blueprint_var": "bp",
+          "function": "api_suivi_mensuel",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/suivi.py"
+        },
+        {
+          "path": "/tresorerie/banking/unlock",
+          "blueprint_var": "bp",
+          "function": "banking_unlock",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/banking.py"
+        },
+        {
+          "path": "/tresorerie/declarations/groupee",
+          "blueprint_var": "bp",
+          "function": "declaration_groupee",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/declarations.py"
+        },
+        {
+          "path": "/tresorerie/declarations/unique",
+          "blueprint_var": "bp",
+          "function": "declaration_unique",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/declarations.py"
+        },
+        {
+          "path": "/tresorerie/depenses-asso",
+          "blueprint_var": "bp",
+          "function": "creer_depense_asso",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required",
+            "bureau_required"
+          ],
+          "file": "routes/tresorerie/depenses_asso.py"
+        },
+        {
+          "path": "/tresorerie/depenses-asso/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "supprimer_depense_asso",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/depenses_asso.py"
+        },
+        {
+          "path": "/tresorerie/depenses-asso/list",
+          "blueprint_var": "bp",
+          "function": "list_depenses_asso",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/depenses_asso.py"
+        },
+        {
+          "path": "/tresorerie/depenses-manuelles-actions",
+          "blueprint_var": "bp",
+          "function": "add_depense_manuelle",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/suivi.py"
+        },
+        {
+          "path": "/tresorerie/depenses-manuelles-actions/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "delete_depense_manuelle",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/suivi.py"
+        },
+        {
+          "path": "/tresorerie/detail-activites-action",
+          "blueprint_var": "bp",
+          "function": "detail_activites_action",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/suivi.py"
+        },
+        {
+          "path": "/tresorerie/detail-justificatifs-action",
+          "blueprint_var": "bp",
+          "function": "detail_justificatifs_action",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/suivi.py"
+        },
+        {
+          "path": "/tresorerie/detail-recettes-action",
+          "blueprint_var": "bp",
+          "function": "detail_justificatifs_recette_action",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/suivi.py"
+        },
+        {
+          "path": "/tresorerie/justificatifs",
+          "blueprint_var": "bp",
+          "function": "liste_justificatifs_tous",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/justificatifs.py"
+        },
+        {
+          "path": "/tresorerie/justificatifs-cellule",
+          "blueprint_var": "bp",
+          "function": "justificatifs_cellule",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/justificatifs.py"
+        },
+        {
+          "path": "/tresorerie/justificatifs-tresorerie",
+          "blueprint_var": "bp",
+          "function": "liste_justificatifs_tresorerie",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/justificatifs.py"
+        },
+        {
+          "path": "/tresorerie/justificatifs/export-csv",
+          "blueprint_var": "bp",
+          "function": "export_justificatifs_csv",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/justificatifs.py"
+        },
+        {
+          "path": "/tresorerie/justificatifs/export-zip",
+          "blueprint_var": "bp",
+          "function": "export_justificatifs_zip",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/justificatifs.py"
+        },
+        {
+          "path": "/tresorerie/justificatifs/upload",
+          "blueprint_var": "bp",
+          "function": "upload_justificatif_tresorerie",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/justificatifs.py"
+        },
+        {
+          "path": "/tresorerie/rubriques/<int:id>/deplacer",
+          "blueprint_var": "bp",
+          "function": "deplacer_rubrique",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/suivi.py"
+        },
+        {
+          "path": "/tresorerie/rubriques/<int:id>/groupe-visuel",
+          "blueprint_var": "bp",
+          "function": "modifier_groupe_visuel",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/suivi.py"
+        },
+        {
+          "path": "/tresorerie/rubriques/<int:id>/renommer",
+          "blueprint_var": "bp",
+          "function": "renommer_rubrique",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/suivi.py"
+        },
+        {
+          "path": "/tresorerie/rubriques/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "supprimer_rubrique",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/suivi.py"
+        },
+        {
+          "path": "/tresorerie/rubriques/ajouter",
+          "blueprint_var": "bp",
+          "function": "ajouter_rubrique",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/suivi.py"
+        },
+        {
+          "path": "/tresorerie/solde-bancaire",
+          "blueprint_var": "bp",
+          "function": "save_solde_bancaire",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/suivi.py"
+        },
+        {
+          "path": "/tresorerie/suivi-actions/cellule",
+          "blueprint_var": "bp",
+          "function": "suivi_actions_cellule",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/suivi.py"
+        },
+        {
+          "path": "/tresorerie/suivi-mensuel",
+          "blueprint_var": "bp",
+          "function": "suivi_mensuel",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/suivi.py"
+        },
+        {
+          "path": "/tresorerie/suivi-mensuel/cellule",
+          "blueprint_var": "bp",
+          "function": "suivi_mensuel_cellule",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/suivi.py"
+        },
+        {
+          "path": "/virements",
+          "blueprint_var": "bp",
+          "function": "liste_virements",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/virements.py"
+        },
+        {
+          "path": "/virements/<int:id>/detail",
+          "blueprint_var": "bp",
+          "function": "virement_detail",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/virements.py"
+        },
+        {
+          "path": "/virements/<int:id>/marquer-effectue",
+          "blueprint_var": "bp",
+          "function": "marquer_virement_effectue",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/virements.py"
+        },
+        {
+          "path": "/virements/<int:id>/marquer-ordonne",
+          "blueprint_var": "bp",
+          "function": "marquer_virement_ordonne",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/virements.py"
+        },
+        {
+          "path": "/virements/<int:id>/modifier",
+          "blueprint_var": "bp",
+          "function": "modifier_virement",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/virements.py"
+        },
+        {
+          "path": "/virements/<int:id>/supprimer",
+          "blueprint_var": "bp",
+          "function": "supprimer_virement",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/virements.py"
+        },
+        {
+          "path": "/virements/generer-document-ordre",
+          "blueprint_var": "bp",
+          "function": "generer_document_ordre",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/virements.py"
+        },
+        {
+          "path": "/virements/lots",
+          "blueprint_var": "bp",
+          "function": "liste_lots",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/virements.py"
+        },
+        {
+          "path": "/virements/lots/<int:id>",
+          "blueprint_var": "bp",
+          "function": "detail_lot",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/virements.py"
+        },
+        {
+          "path": "/virements/lots/<int:id>/annuler",
+          "blueprint_var": "bp",
+          "function": "annuler_lot",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/virements.py"
+        },
+        {
+          "path": "/virements/lots/<int:id>/exporter-csv",
+          "blueprint_var": "bp",
+          "function": "exporter_lot_csv",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/virements.py"
+        },
+        {
+          "path": "/virements/lots/<int:id>/exporter-pdf",
+          "blueprint_var": "bp",
+          "function": "exporter_lot_pdf",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/virements.py"
+        },
+        {
+          "path": "/virements/lots/<int:id>/exporter-xml",
+          "blueprint_var": "bp",
+          "function": "exporter_lot_xml",
+          "methods": [
+            "GET"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/virements.py"
+        },
+        {
+          "path": "/virements/lots/<int:id>/marquer-envoye",
+          "blueprint_var": "bp",
+          "function": "marquer_lot_envoye",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/virements.py"
+        },
+        {
+          "path": "/virements/lots/<int:id>/marquer-execute",
+          "blueprint_var": "bp",
+          "function": "marquer_lot_execute",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/virements.py"
+        },
+        {
+          "path": "/virements/lots/nouveau",
+          "blueprint_var": "bp",
+          "function": "nouveau_lot",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/virements.py"
+        },
+        {
+          "path": "/virements/marquer-effectue-groupe",
+          "blueprint_var": "bp",
+          "function": "marquer_virements_effectues_groupe",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/virements.py"
+        },
+        {
+          "path": "/virements/marquer-ordonne-groupe",
+          "blueprint_var": "bp",
+          "function": "marquer_virements_ordonnes_groupe",
+          "methods": [
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/virements.py"
+        },
+        {
+          "path": "/virements/nouveau",
+          "blueprint_var": "bp",
+          "function": "nouveau_virement",
+          "methods": [
+            "GET",
+            "POST"
+          ],
+          "protections": [
+            "login_required"
+          ],
+          "file": "routes/tresorerie/virements.py"
+        }
+      ]
+    },
+    {
+      "name": "vitrine",
+      "category": "vitrine",
+      "color": "#EC4899",
+      "route_count": 1,
+      "file_count": 1,
+      "routes": [
+        {
+          "path": "/",
+          "blueprint_var": "vitrine_bp",
+          "function": "home",
+          "methods": [
+            "GET"
+          ],
+          "protections": [],
+          "file": "blueprints/vitrine/routes.py"
+        }
+      ]
+    }
+  ],
+  "blueprints": [
+    {
+      "var": "membres_bp",
+      "name": "membres",
+      "file": "routes/routes_membres.py"
+    },
+    {
+      "var": "auth_bp",
+      "name": "auth",
+      "file": "routes/routes_auth.py"
+    },
+    {
+      "var": "bp",
+      "name": "design_system",
+      "file": "routes/routes_design_system.py"
+    },
+    {
+      "var": "admin_bp",
+      "name": "admin",
+      "file": "routes/admin/__init__.py"
+    },
+    {
+      "var": "tresorerie_bp",
+      "name": "tresorerie",
+      "file": "routes/tresorerie/__init__.py"
+    },
+    {
+      "var": "coordination_bp",
+      "name": "coordination",
+      "file": "routes/coordination/__init__.py"
+    },
+    {
+      "var": "meetings_api_bp",
+      "name": "meetings_api",
+      "file": "blueprints/meetings/api.py"
+    },
+    {
+      "var": "meetings_bp",
+      "name": "meetings",
+      "file": "blueprints/meetings/routes.py"
+    },
+    {
+      "var": "notifications_bp",
+      "name": "notifications",
+      "file": "blueprints/notifications/routes.py"
+    },
+    {
+      "var": "projects_api_bp",
+      "name": "projects_api",
+      "file": "blueprints/projects/api.py"
+    },
+    {
+      "var": "projects_bp",
+      "name": "projects",
+      "file": "blueprints/projects/routes.py"
+    },
+    {
+      "var": "vitrine_bp",
+      "name": "vitrine",
+      "file": "blueprints/vitrine/routes.py"
+    },
+    {
+      "var": "coordination_api_bp",
+      "name": "coordination_api",
+      "file": "blueprints/coordination/api.py"
+    },
+    {
+      "var": "coordination_pages_bp",
+      "name": "coordination_pages",
+      "file": "blueprints/coordination/routes.py"
+    },
+    {
+      "var": "hub_bp",
+      "name": "hub",
+      "file": "blueprints/hub/routes.py"
+    }
+  ]
+}
