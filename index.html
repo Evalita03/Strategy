@@ -188,6 +188,41 @@ body {
 .task-column.drop-target { background: var(--blue-50); outline: 2px dashed var(--blue-500); outline-offset: -4px; }
 .task-card .task-cat { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
 .dot-status { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+.task-note-snippet { margin-top: 6px; font-size: 11.5px; color: var(--slate-500); line-height: 1.4; }
+
+/* Écran To do (Idées + kanban) */
+.todo-section { margin-bottom: 30px; }
+.todo-section:last-child { margin-bottom: 0; }
+.todo-section-title {
+  font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--slate-700); margin-bottom: 14px; font-weight: 700;
+  display: flex; align-items: center; gap: 10px;
+}
+.todo-section-title svg { width: 16px; height: 16px; color: var(--slate-400); flex-shrink: 0; }
+.todo-section-title .count-pill { font-size: 11px; font-weight: 700; color: var(--slate-600); background: var(--slate-100); border-radius: 20px; padding: 2px 9px; }
+.idea-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.idea-card {
+  position: relative; background: var(--white); border: 1px solid var(--slate-200);
+  border-radius: 12px; padding: 16px; cursor: pointer;
+  box-shadow: 0 1px 2px rgba(15,23,42,0.04); transition: all .15s;
+}
+.idea-card:hover { box-shadow: 0 4px 12px rgba(15,23,42,0.08); border-color: var(--slate-300); }
+.idea-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; padding-right: 66px; color: var(--slate-900); line-height: 1.35; }
+.idea-card p { font-size: 12.5px; color: var(--slate-600); line-height: 1.5; }
+.idea-card .meta { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.idea-promote {
+  position: absolute; top: 12px; right: 12px;
+  font-family: inherit; font-size: 11px; font-weight: 600;
+  color: var(--blue-700); background: var(--blue-50); border: 1px solid var(--blue-100);
+  border-radius: 7px; padding: 4px 9px; cursor: pointer; transition: all .15s;
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.idea-promote:hover { background: var(--blue-700); color: var(--white); border-color: var(--blue-700); }
+.todo-empty-zone {
+  font-size: 13px; color: var(--slate-500); padding: 22px 18px;
+  background: var(--slate-50); border: 1px dashed var(--slate-200);
+  border-radius: 12px; line-height: 1.6;
+}
 
 /* Prospects table */
 table { width: 100%; border-collapse: collapse; background: var(--white); border-radius: 12px; overflow: hidden; border: 1px solid var(--slate-200); }
@@ -485,16 +520,9 @@ tr:hover td { background: var(--blue-50); }
         </div>
       </div>
 
-      <div class="nav-group collapsed">
-        <div class="nav-group-header">
-          <svg class="grp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z"/></svg>
-          To do
-          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-        </div>
-        <div class="nav-group-items">
-          <div class="nav-subitem" data-view="notes"><span class="sub-bullet"></span>Notes</div>
-          <div class="nav-subitem" data-view="tasks"><span class="sub-bullet"></span>Tâches</div>
-        </div>
+      <div class="nav-item" data-view="todo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z"/></svg>
+        To do
       </div>
 
       <div class="nav-group collapsed">
@@ -598,8 +626,7 @@ const titles = {
   graph:'Architecture du code',
   roadmap:'Roadmap produit',
   monitoring:'Monitoring',
-  notes:'Notes thématiques',
-  tasks:'Gestion des tâches',
+  todo:'To do',
   'strat-vision':'Stratégie — Vision',
   'strat-marche':'Stratégie — Prise de marché',
   'strat-pricing':'Stratégie — Pricing',
@@ -611,8 +638,7 @@ const titles = {
 // Recherche : vues filtrables + placeholders
 let searchQuery = '';
 const searchPlaceholders = {
-  notes: 'Rechercher dans les notes…',
-  tasks: 'Rechercher une tâche…',
+  todo: 'Rechercher une idée, une tâche…',
   'strat-vision': 'Rechercher dans la vision…',
   'strat-marche': 'Rechercher dans la prise de marché…',
   'strat-pricing': 'Rechercher dans le pricing…',
@@ -694,8 +720,7 @@ function render() {
   else if (currentView === 'graph') renderGraph(content, actions);
   else if (currentView === 'roadmap') renderPlaceholder(content, actions, 'roadmap');
   else if (currentView === 'monitoring') renderPlaceholder(content, actions, 'monitoring');
-  else if (currentView === 'notes') renderNotes(content, actions);
-  else if (currentView === 'tasks') renderTasks(content, actions);
+  else if (currentView === 'todo') renderTodo(content, actions);
   else if (currentView === 'strat-vision') renderStrategie(content, actions, 'vision');
   else if (currentView === 'strat-marche') renderStrategie(content, actions, 'marche');
   else if (currentView === 'strat-pricing') renderStrategie(content, actions, 'pricing');
@@ -764,7 +789,7 @@ function renderToday(content, actions) {
   const tasksCount = doing.length + todo.length;
   html += `<div class="today-section"><h3>Tâches actives${tasksCount?`<span class="count-pill">${tasksCount}</span>`:''}</h3>`;
   if (doing.length === 0 && todo.length === 0) {
-    html += `<div class="today-empty-mini">Aucune tâche active.<br><a onclick="goTo('tasks')">Créer une tâche →</a></div>`;
+    html += `<div class="today-empty-mini">Aucune tâche active.<br><a onclick="goTo('todo')">Créer une tâche →</a></div>`;
   } else {
     if (doing.length > 0) {
       html += `<div class="today-subgroup"><span class="sub-dot" style="background:var(--blue-500)"></span>En cours <span class="sub-count">· ${doing.length}</span></div><div class="today-list">`;
@@ -827,7 +852,7 @@ function saveIntention(value) {
   save();
 }
 
-function goToTaskFromToday(id) { goTo('tasks'); openTaskModal(id); }
+function goToTaskFromToday(id) { goTo('todo'); openTaskModal(id); }
 function goToProspectFromToday(id) {
   const p = state.prospects.find(x=>x.id===id);
   goTo(p && p.statut==='client' ? 'clients-valides' : 'clients-prospects');
@@ -1094,40 +1119,89 @@ function deleteNode(id) {
   save(); document.getElementById('node-detail').classList.remove('open'); render();
 }
 
-// ============ VUE NOTES ============
-function renderNotes(content, actions) {
-  actions.innerHTML = `<button class="btn btn-primary" onclick="openNoteModal()">+ Note</button>`;
+// ============ VUE TO DO (Idées + Tâches) ============
+function renderTodo(content, actions) {
+  actions.innerHTML = `
+    <button class="btn btn-ghost" onclick="openNoteModal()">+ Idée</button>
+    <button class="btn btn-primary" onclick="openTaskModal()">+ Tâche</button>`;
+
+  const notes = state.notes.filter(n => matchSearch(n, [n.title, n.body, catLabel[n.category]]));
+  const tasks = state.tasks.filter(t => matchSearch(t, [t.title, t.body, catLabel[t.category]]));
+
+  let html = '<div class="panel" style="max-width:none">';
+
+  // --- Section Idées ---
+  html += `<div class="todo-section">
+    <h3 class="todo-section-title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7c.6.5 1 1.3 1 2.1h6c0-.8.4-1.6 1-2.1A7 7 0 0012 2z"/></svg>
+      Idées${notes.length?`<span class="count-pill">${notes.length}</span>`:''}
+    </h3>`;
   if (state.notes.length === 0) {
-    content.innerHTML = `<div class="panel"><div class="empty">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5"/></svg>
-      <p>Aucune note pour l'instant. Crée ta première note thématique.</p></div></div>`;
-    return;
+    html += `<div class="todo-empty-zone">Aucune idée capturée. Note une pensée ici — tu pourras la transformer en tâche en un clic.</div>`;
+  } else if (notes.length === 0) {
+    html += `<div class="todo-empty-zone">Aucune idée ne contient « ${esc(searchQuery)} ».</div>`;
+  } else {
+    html += '<div class="idea-grid">';
+    notes.forEach(note => {
+      const linked = (note.links||[]).map(lid => state.notes.find(n=>n.id===lid)).filter(Boolean);
+      html += `<div class="idea-card" onclick="openNoteModal('${note.id}')">
+        <button class="idea-promote" onclick="event.stopPropagation();promoteNote('${note.id}')" title="Transformer en tâche">→ tâche</button>
+        <h4>${esc(note.title)}</h4>
+        ${note.body?`<p>${esc(note.body.slice(0,120))}${note.body.length>120?'…':''}</p>`:''}
+        <div class="meta">
+          <span class="tag ${catClass[note.category]}">${catLabel[note.category]}</span>
+          ${linked.length?`<span class="tag" style="background:var(--slate-100);color:var(--slate-500)">🔗 ${linked.length}</span>`:''}
+        </div>
+      </div>`;
+    });
+    html += '</div>';
   }
-  const filtered = state.notes.filter(n => matchSearch(n, [n.title, n.body, catLabel[n.category]]));
-  if (filtered.length === 0) {
-    content.innerHTML = `<div class="panel"><div class="search-empty">Aucune note ne contient <strong>« ${esc(searchQuery)} »</strong></div></div>`;
-    return;
-  }
-  let html = '<div class="panel"><div class="panel-grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr))">';
-  filtered.forEach(note => {
-    const linked = (note.links||[]).map(lid => state.notes.find(n=>n.id===lid)).filter(Boolean);
-    html += `<div class="card" onclick="openNoteModal('${note.id}')">
-      <h3>${esc(note.title)}</h3>
-      <p>${esc((note.body||'').slice(0,140))}${(note.body||'').length>140?'…':''}</p>
-      <div class="meta">
-        <span class="tag ${catClass[note.category]}">${catLabel[note.category]}</span>
-        ${linked.length?`<span class="tag" style="background:var(--slate-100);color:var(--slate-500)">🔗 ${linked.length} liée${linked.length>1?'s':''}</span>`:''}
-      </div></div>`;
+  html += '</div>';
+
+  // --- Section Kanban ---
+  const cols = [
+    { key:'todo', label:'À faire', dot:'var(--slate-300)' },
+    { key:'doing', label:'En cours', dot:'var(--blue-500)' },
+    { key:'done', label:'Terminé', dot:'var(--teal-600)' }
+  ];
+  html += `<div class="todo-section">
+    <h3 class="todo-section-title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+      Tâches${tasks.length?`<span class="count-pill">${tasks.length}</span>`:''}
+    </h3>`;
+  html += '<div class="task-board">';
+  cols.forEach(col => {
+    const colTasks = tasks.filter(t=>t.status===col.key);
+    html += `<div class="task-column" ondragover="taskDragOver(event)" ondragleave="taskDragLeave(event)" ondrop="taskDrop(event,'${col.key}')"><h3><span class="dot-status" style="background:${col.dot}"></span>${col.label}<span class="task-count">${colTasks.length}</span></h3><div class="task-col">`;
+    colTasks.forEach(t => {
+      html += `<div class="task-card" draggable="true" ondragstart="taskDragStart(event,'${t.id}')" ondragend="taskDragEnd(event)" onclick="openTaskModal('${t.id}')">
+        <div class="task-cat" style="color:${catColors[t.category]}">${catLabel[t.category]}</div>
+        ${esc(t.title)}
+        ${t.body?`<div class="task-note-snippet">${esc(t.body.slice(0,60))}${t.body.length>60?'…':''}</div>`:''}</div>`;
+    });
+    html += '</div></div>';
   });
   html += '</div></div>';
+
+  html += '</div>';
   content.innerHTML = html;
+}
+
+function promoteNote(id) {
+  const note = state.notes.find(n => n.id === id);
+  if (!note) return;
+  state.tasks.push({ id: uid(), title: note.title, category: note.category, status: 'todo', body: note.body || '' });
+  state.notes = state.notes.filter(n => n.id !== id);
+  state.notes.forEach(n => { if (n.links) n.links = n.links.filter(l => l !== id); });
+  save(); render();
 }
 function openNoteModal(id) {
   const note = id ? state.notes.find(n=>n.id===id) : null;
   const others = state.notes.filter(n=>!id || n.id!==id);
   const m = document.getElementById('modal');
+  m.classList.remove('qc-mode');
   m.innerHTML = `
-    <h2>${note?'Modifier':'Nouvelle'} note</h2>
+    <h2>${note?'Modifier l\'idée':'Nouvelle idée'}</h2>
     <div class="field"><label>Titre</label><input id="note-title" value="${note?esc(note.title):''}"></div>
     <div class="field"><label>Catégorie</label><select id="note-category">
       <option value="tech" ${note?.category==='tech'?'selected':''}>Technique</option>
@@ -1135,7 +1209,7 @@ function openNoteModal(id) {
       <option value="strategie" ${note?.category==='strategie'?'selected':''}>Stratégie</option>
     </select></div>
     <div class="field"><label>Contenu</label><textarea id="note-body" style="min-height:140px">${note?esc(note.body||''):''}</textarea></div>
-    <div class="field"><label>Relier à d'autres notes</label>
+    <div class="field"><label>Relier à d'autres idées</label>
       <select id="note-links" multiple style="min-height:80px">
         ${others.map(n=>`<option value="${n.id}" ${note?.links?.includes(n.id)?'selected':''}>${esc(n.title)}</option>`).join('')}
       </select>
@@ -1159,38 +1233,10 @@ function saveNote(id) {
   save(); closeModal(); render();
 }
 function deleteNote(id) {
-  if (!confirm('Supprimer cette note ?')) return;
+  if (!confirm('Supprimer cette idée ?')) return;
   state.notes = state.notes.filter(n=>n.id!==id);
   state.notes.forEach(n => { if(n.links) n.links = n.links.filter(l=>l!==id); });
   save(); closeModal(); render();
-}
-
-// ============ VUE TÂCHES ============
-function renderTasks(content, actions) {
-  actions.innerHTML = `<button class="btn btn-primary" onclick="openTaskModal()">+ Tâche</button>`;
-  const cols = [
-    { key:'todo', label:'À faire', dot:'var(--slate-300)' },
-    { key:'doing', label:'En cours', dot:'var(--blue-500)' },
-    { key:'done', label:'Terminé', dot:'var(--teal-600)' }
-  ];
-  const filtered = state.tasks.filter(t => matchSearch(t, [t.title, catLabel[t.category]]));
-  if (searchQuery && filtered.length === 0) {
-    content.innerHTML = `<div class="panel"><div class="search-empty">Aucune tâche ne contient <strong>« ${esc(searchQuery)} »</strong></div></div>`;
-    return;
-  }
-  let html = '<div class="panel" style="max-width:none"><div class="task-board">';
-  cols.forEach(col => {
-    const tasks = filtered.filter(t=>t.status===col.key);
-    html += `<div class="task-column" ondragover="taskDragOver(event)" ondragleave="taskDragLeave(event)" ondrop="taskDrop(event,'${col.key}')"><h3><span class="dot-status" style="background:${col.dot}"></span>${col.label}<span class="task-count">${tasks.length}</span></h3><div class="task-col">`;
-    tasks.forEach(t => {
-      html += `<div class="task-card" draggable="true" ondragstart="taskDragStart(event,'${t.id}')" ondragend="taskDragEnd(event)" onclick="openTaskModal('${t.id}')">
-        <div class="task-cat" style="color:${catColors[t.category]}">${catLabel[t.category]}</div>
-        ${esc(t.title)}</div>`;
-    });
-    html += '</div></div>';
-  });
-  html += '</div></div>';
-  content.innerHTML = html;
 }
 
 // Drag-and-drop des tâches entre colonnes
@@ -1240,6 +1286,7 @@ function openTaskModal(id) {
       <option value="doing" ${task?.status==='doing'?'selected':''}>En cours</option>
       <option value="done" ${task?.status==='done'?'selected':''}>Terminé</option>
     </select></div>
+    <div class="field"><label>Détails (optionnel)</label><textarea id="task-body" style="min-height:90px">${task?esc(task.body||''):''}</textarea></div>
     <div class="modal-actions">
       ${task?`<button class="btn btn-ghost" style="color:var(--red-600);margin-right:auto" onclick="deleteTask('${id}')">Supprimer</button>`:''}
       <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
@@ -1250,7 +1297,7 @@ function openTaskModal(id) {
 function saveTask(id) {
   const title = document.getElementById('task-title').value.trim();
   if (!title) return alert('L\'intitulé est requis');
-  const data = { title, category: document.getElementById('task-category').value, status: document.getElementById('task-status').value };
+  const data = { title, category: document.getElementById('task-category').value, status: document.getElementById('task-status').value, body: document.getElementById('task-body').value.trim() };
   if (id) Object.assign(state.tasks.find(t=>t.id===id), data);
   else state.tasks.push({ id: uid(), ...data });
   save(); closeModal(); render();
@@ -1438,7 +1485,7 @@ function openQuickCapture() {
       <input id="qc-input" class="qc-input" type="text" placeholder="Tape un titre (optionnel), puis choisis le type…" autocomplete="off">
       <div class="qc-hint">
         Choisis un type ci-dessous. Le formulaire s'ouvrira pré-rempli.
-        · <kbd>Entrée</kbd> Tâche · <kbd>Maj+Entrée</kbd> Note · <kbd>Esc</kbd> Fermer
+        · <kbd>Entrée</kbd> Tâche · <kbd>Maj+Entrée</kbd> Idée · <kbd>Esc</kbd> Fermer
       </div>
     </div>
     <div class="qc-types">
@@ -1447,9 +1494,9 @@ function openQuickCapture() {
         Tâche
         <span class="qc-type-hotkey">Entrée</span>
       </button>
-      <button class="qc-type" onclick="quickOpen('note')" title="Nouvelle note">
+      <button class="qc-type" onclick="quickOpen('note')" title="Nouvelle idée">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5"/></svg>
-        Note
+        Idée
         <span class="qc-type-hotkey">Maj+Entrée</span>
       </button>
       <button class="qc-type" onclick="quickOpen('prospect')" title="Nouveau prospect">
