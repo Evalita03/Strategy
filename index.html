@@ -74,25 +74,51 @@ body {
 .nav-item:hover { background: rgba(255,255,255,0.04); color: var(--white); }
 .nav-item.active { background: rgba(59,130,246,0.12); border-left-color: var(--blue-500); color: var(--white); }
 .nav-item svg { width: 18px; height: 18px; flex-shrink: 0; }
-.nav-footer { padding: 14px 16px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 11px; color: var(--slate-500); }
-.nav-footer button {
-  width: 100%; margin-bottom: 6px; padding: 8px 10px; border-radius: 8px;
+
+/* Nav à 2 niveaux */
+.nav { overflow-y: auto; }
+.nav-divider { height: 1px; background: rgba(255,255,255,0.07); margin: 10px 20px; }
+.nav-group-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 20px; cursor: pointer; user-select: none;
+  font-size: 11px; font-weight: 700; color: var(--slate-400);
+  text-transform: uppercase; letter-spacing: 0.05em;
+  transition: color .15s;
+}
+.nav-group-header:hover { color: var(--white); }
+.nav-group-header svg.grp-icon { width: 17px; height: 17px; flex-shrink: 0; opacity: 0.85; }
+.nav-group-header .chevron {
+  margin-left: auto; width: 13px; height: 13px; opacity: 0.5;
+  transition: transform .2s ease;
+}
+.nav-group.collapsed .nav-group-header .chevron { transform: rotate(-90deg); }
+.nav-group-items { max-height: 360px; overflow: hidden; transition: max-height .25s ease; }
+.nav-group.collapsed .nav-group-items { max-height: 0; }
+.nav-subitem {
+  display: flex; align-items: center; gap: 11px;
+  padding: 9px 20px 9px 35px; cursor: pointer;
+  font-size: 13.5px; font-weight: 500; color: var(--slate-300);
+  border-left: 3px solid transparent; transition: all .15s;
+}
+.nav-subitem:hover { background: rgba(255,255,255,0.04); color: var(--white); }
+.nav-subitem.active { background: rgba(59,130,246,0.12); border-left-color: var(--blue-500); color: var(--white); }
+.nav-subitem .sub-bullet { width: 5px; height: 5px; border-radius: 50%; background: currentColor; opacity: 0.45; flex-shrink: 0; }
+.nav-subitem.active .sub-bullet { opacity: 1; background: var(--blue-500); }
+
+.nav-footer { padding: 12px 14px; border-top: 1px solid rgba(255,255,255,0.08); }
+.footer-settings {
+  width: 100%; display: flex; align-items: center; gap: 8px;
+  padding: 9px 11px; border-radius: 8px; text-align: left;
   border: 1px solid rgba(255,255,255,0.12); background: transparent;
-  color: var(--slate-300); font-size: 12px; cursor: pointer; font-family: inherit; font-weight: 500;
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-  transition: all .15s;
+  color: var(--slate-300); font-family: inherit; font-size: 11px; font-weight: 500;
+  cursor: pointer; transition: all .15s;
 }
-.nav-footer button:hover { background: rgba(255,255,255,0.06); color: var(--white); border-color: rgba(255,255,255,0.2); }
-.nav-footer .backup-status {
-  font-size: 10.5px; color: var(--slate-400); padding: 8px 4px 4px;
-  display: flex; align-items: center; gap: 6px; line-height: 1.3;
-}
-.nav-footer .backup-status .status-dot {
-  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
-}
-.nav-footer .footer-divider {
-  height: 1px; background: rgba(255,255,255,0.06); margin: 10px 0;
-}
+.footer-settings:hover { background: rgba(255,255,255,0.06); color: var(--white); border-color: rgba(255,255,255,0.2); }
+.footer-settings .backup-status { flex: 1; min-width: 0; display: flex; align-items: center; gap: 7px; font-size: 10.5px; color: var(--slate-400); }
+.footer-settings:hover .backup-status { color: inherit; }
+.footer-settings .backup-status .status-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.footer-settings .backup-status .bs-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.footer-settings .gear { width: 15px; height: 15px; flex-shrink: 0; opacity: 0.7; }
 
 /* Main */
 .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
@@ -194,6 +220,12 @@ tr:hover td { background: var(--blue-50); }
 .field textarea { resize: vertical; min-height: 80px; }
 .field input:focus, .field textarea:focus, .field select:focus { outline: none; border-color: var(--blue-500); }
 .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+.settings-section { margin-bottom: 18px; }
+.settings-section > h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--slate-500); margin-bottom: 10px; font-weight: 700; }
+.settings-row { display: flex; gap: 10px; }
+.settings-row .btn { flex: 1; justify-content: center; }
+.settings-status { font-size: 12px; padding: 10px 12px; background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 8px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.settings-status .status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 .empty { text-align: center; padding: 60px 20px; color: var(--slate-400); }
 .empty svg { width: 48px; height: 48px; margin-bottom: 16px; opacity: 0.4; }
 .section-title { font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--slate-500); margin: 24px 0 12px; font-weight: 600; }
@@ -437,34 +469,71 @@ tr:hover td { background: var(--blue-50); }
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
         Aujourd'hui
       </div>
-      <div class="nav-item" data-view="graph">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5" cy="6" r="3"/><circle cx="19" cy="6" r="3"/><circle cx="12" cy="18" r="3"/><path d="M5 9v3a2 2 0 002 2h10a2 2 0 002-2V9M12 14v1"/></svg>
-        Architecture
+
+      <div class="nav-divider"></div>
+
+      <div class="nav-group collapsed">
+        <div class="nav-group-header">
+          <svg class="grp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          Plateforme
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="nav-group-items">
+          <div class="nav-subitem" data-view="graph"><span class="sub-bullet"></span>Architecture</div>
+          <div class="nav-subitem" data-view="roadmap"><span class="sub-bullet"></span>Roadmap</div>
+          <div class="nav-subitem" data-view="monitoring"><span class="sub-bullet"></span>Monitoring</div>
+        </div>
       </div>
-      <div class="nav-item" data-view="notes">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5"/></svg>
-        Notes
+
+      <div class="nav-group collapsed">
+        <div class="nav-group-header">
+          <svg class="grp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z"/></svg>
+          To do
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="nav-group-items">
+          <div class="nav-subitem" data-view="notes"><span class="sub-bullet"></span>Notes</div>
+          <div class="nav-subitem" data-view="tasks"><span class="sub-bullet"></span>Tâches</div>
+        </div>
       </div>
-      <div class="nav-item" data-view="tasks">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
-        Tâches
+
+      <div class="nav-group collapsed">
+        <div class="nav-group-header">
+          <svg class="grp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          Stratégie globale
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="nav-group-items">
+          <div class="nav-subitem" data-view="strat-vision"><span class="sub-bullet"></span>Vision</div>
+          <div class="nav-subitem" data-view="strat-marche"><span class="sub-bullet"></span>Prise de marché</div>
+          <div class="nav-subitem" data-view="strat-pricing"><span class="sub-bullet"></span>Pricing</div>
+        </div>
       </div>
-      <div class="nav-item" data-view="strategie">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20M12 2a10 10 0 010 20M12 2a10 10 0 000 20"/></svg>
-        Stratégie
+
+      <div class="nav-group collapsed">
+        <div class="nav-group-header">
+          <svg class="grp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 7a4 4 0 100 8 4 4 0 000-8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          Client
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="nav-group-items">
+          <div class="nav-subitem" data-view="clients-valides"><span class="sub-bullet"></span>Clients validés</div>
+          <div class="nav-subitem" data-view="clients-prospects"><span class="sub-bullet"></span>Prospects</div>
+        </div>
       </div>
-      <div class="nav-item" data-view="prospects">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 7a4 4 0 100 8 4 4 0 000-8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-        Prospects
+
+      <div class="nav-divider"></div>
+
+      <div class="nav-item" data-view="communication">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        Communication
       </div>
     </nav>
     <div class="nav-footer">
-      <button onclick="openGhConfigModal()" title="Configurer le backup auto vers Github">☁ Backup Github</button>
-      <button onclick="doManualBackup()" id="manual-backup-btn" title="Sauvegarder maintenant">↑ Sauvegarder maintenant</button>
-      <div class="backup-status" id="backup-status"></div>
-      <div class="footer-divider"></div>
-      <button onclick="exportData()">⬇ Exporter (JSON)</button>
-      <button onclick="document.getElementById('import-file').click()">⬆ Importer</button>
+      <button class="footer-settings" onclick="openSettingsModal()" title="Réglages & sauvegarde">
+        <span class="backup-status" id="backup-status"></span>
+        <svg class="gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      </button>
       <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
     </div>
   </aside>
@@ -513,6 +582,8 @@ function load() {
   if (!state.strategie) state.strategie = [];
   if (!state.prospects) state.prospects = [];
   if (!state.today) state.today = { intention: '', date: '' };
+  // Migration : les éléments stratégie sans section rejoignent « Vision »
+  state.strategie.forEach(s => { if (!s.section) s.section = 'vision'; });
 }
 function save() {
   try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
@@ -522,19 +593,38 @@ function uid() { return Date.now().toString(36) + Math.random().toString(36).sli
 
 // ============ NAVIGATION ============
 let currentView = 'today';
-const titles = { today:'Aujourd\'hui', graph:'Architecture du code', notes:'Notes thématiques', tasks:'Gestion des tâches', strategie:'Stratégie commerciale', prospects:'Prospects CPTS' };
+const titles = {
+  today:'Aujourd\'hui',
+  graph:'Architecture du code',
+  roadmap:'Roadmap produit',
+  monitoring:'Monitoring',
+  notes:'Notes thématiques',
+  tasks:'Gestion des tâches',
+  'strat-vision':'Stratégie — Vision',
+  'strat-marche':'Stratégie — Prise de marché',
+  'strat-pricing':'Stratégie — Pricing',
+  'clients-valides':'Clients validés',
+  'clients-prospects':'Prospects CPTS',
+  communication:'Communication'
+};
 
 // Recherche : vues filtrables + placeholders
 let searchQuery = '';
 const searchPlaceholders = {
   notes: 'Rechercher dans les notes…',
   tasks: 'Rechercher une tâche…',
-  strategie: 'Rechercher dans la stratégie…',
-  prospects: 'Rechercher une CPTS, un contact…'
+  'strat-vision': 'Rechercher dans la vision…',
+  'strat-marche': 'Rechercher dans la prise de marché…',
+  'strat-pricing': 'Rechercher dans le pricing…',
+  'clients-valides': 'Rechercher un client…',
+  'clients-prospects': 'Rechercher une CPTS, un contact…'
 };
 
-document.querySelectorAll('.nav-item').forEach(item => {
+document.querySelectorAll('.nav-item, .nav-subitem').forEach(item => {
   item.addEventListener('click', () => goTo(item.dataset.view));
+});
+document.querySelectorAll('.nav-group-header').forEach(h => {
+  h.addEventListener('click', () => h.closest('.nav-group').classList.toggle('collapsed'));
 });
 
 function updateSearch(value) {
@@ -602,17 +692,26 @@ function render() {
 
   if (currentView === 'today') renderToday(content, actions);
   else if (currentView === 'graph') renderGraph(content, actions);
+  else if (currentView === 'roadmap') renderPlaceholder(content, actions, 'roadmap');
+  else if (currentView === 'monitoring') renderPlaceholder(content, actions, 'monitoring');
   else if (currentView === 'notes') renderNotes(content, actions);
   else if (currentView === 'tasks') renderTasks(content, actions);
-  else if (currentView === 'strategie') renderStrategie(content, actions);
-  else if (currentView === 'prospects') renderProspects(content, actions);
+  else if (currentView === 'strat-vision') renderStrategie(content, actions, 'vision');
+  else if (currentView === 'strat-marche') renderStrategie(content, actions, 'marche');
+  else if (currentView === 'strat-pricing') renderStrategie(content, actions, 'pricing');
+  else if (currentView === 'clients-valides') renderProspects(content, actions, 'clients');
+  else if (currentView === 'clients-prospects') renderProspects(content, actions, 'prospects');
+  else if (currentView === 'communication') renderPlaceholder(content, actions, 'communication');
 }
 
 function goTo(view) {
-  document.querySelectorAll('.nav-item').forEach(i => i.classList.toggle('active', i.dataset.view === view));
+  document.querySelectorAll('.nav-item, .nav-subitem').forEach(i => i.classList.toggle('active', i.dataset.view === view));
+  // Déplie le groupe contenant la sous-vue active
+  const active = document.querySelector('.nav-subitem.active');
+  if (active) { const g = active.closest('.nav-group'); if (g) g.classList.remove('collapsed'); }
   currentView = view;
   searchQuery = '';  // reset à chaque changement de vue
-  document.getElementById('view-title').textContent = titles[view];
+  document.getElementById('view-title').textContent = titles[view] || '';
   render();
 }
 
@@ -688,7 +787,7 @@ function renderToday(content, actions) {
   const prospectsCount = demo.length + nego.length;
   html += `<div class="today-section"><h3>Prospects chauds${prospectsCount?`<span class="count-pill">${prospectsCount}</span>`:''}</h3>`;
   if (demo.length === 0 && nego.length === 0) {
-    html += `<div class="today-empty-mini">Aucun prospect en démo ou négo.<br><a onclick="goTo('prospects')">Ajouter un prospect →</a></div>`;
+    html += `<div class="today-empty-mini">Aucun prospect en démo ou négo.<br><a onclick="goTo('clients-prospects')">Ajouter un prospect →</a></div>`;
   } else {
     if (nego.length > 0) {
       html += `<div class="today-subgroup"><span class="sub-dot" style="background:#7C3AED"></span>En négo <span class="sub-count">· ${nego.length}</span></div><div class="today-list">`;
@@ -729,7 +828,11 @@ function saveIntention(value) {
 }
 
 function goToTaskFromToday(id) { goTo('tasks'); openTaskModal(id); }
-function goToProspectFromToday(id) { goTo('prospects'); openProspectModal(id); }
+function goToProspectFromToday(id) {
+  const p = state.prospects.find(x=>x.id===id);
+  goTo(p && p.statut==='client' ? 'clients-valides' : 'clients-prospects');
+  openProspectModal(id);
+}
 
 function capitalize(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''; }
 
@@ -1158,15 +1261,22 @@ function deleteTask(id) {
 }
 
 // ============ VUE STRATÉGIE ============
-function renderStrategie(content, actions) {
-  actions.innerHTML = `<button class="btn btn-primary" onclick="openStratModal()">+ Élément</button>`;
-  if (state.strategie.length === 0) {
+const stratMeta = {
+  vision:  { label:'Vision',          prompt:'Ta vision : où tu veux emmener CPTS Pilot, ta raison d’être, ton cap à long terme.' },
+  marche:  { label:'Prise de marché', prompt:'Comment tu attaques le marché : cibles prioritaires, canaux, arguments, go-to-market.' },
+  pricing: { label:'Pricing',         prompt:'Ton modèle de prix : offres, paliers, logique tarifaire.' }
+};
+function renderStrategie(content, actions, section) {
+  const meta = stratMeta[section] || stratMeta.vision;
+  actions.innerHTML = `<button class="btn btn-primary" onclick="openStratModal(null,'${section}')">+ Élément</button>`;
+  const items = state.strategie.filter(s => (s.section||'vision') === section);
+  if (items.length === 0) {
     content.innerHTML = `<div class="panel"><div class="empty">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 2v20M2 12h20"/></svg>
-      <p>Pose ici ta stratégie : positionnement, roadmap commerciale, pricing, partenariats…</p></div></div>`;
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+      <p>${meta.prompt}</p></div></div>`;
     return;
   }
-  const filtered = state.strategie.filter(s => matchSearch(s, [s.title, s.body]));
+  const filtered = items.filter(s => matchSearch(s, [s.title, s.body]));
   if (filtered.length === 0) {
     content.innerHTML = `<div class="panel"><div class="search-empty">Aucun élément ne contient <strong>« ${esc(searchQuery)} »</strong></div></div>`;
     return;
@@ -1180,12 +1290,19 @@ function renderStrategie(content, actions) {
   html += '</div>';
   content.innerHTML = html;
 }
-function openStratModal(id) {
+function openStratModal(id, section) {
   const s = id ? state.strategie.find(x=>x.id===id) : null;
+  const sec = s ? (s.section||'vision') : (section||'vision');
   const m = document.getElementById('modal');
+  m.classList.remove('qc-mode');
   m.innerHTML = `
     <h2>${s?'Modifier':'Nouvel'} élément stratégique</h2>
-    <div class="field"><label>Titre</label><input id="strat-title" value="${s?esc(s.title):''}" placeholder="Ex: Positionnement, Pricing, Roadmap Q3..."></div>
+    <div class="field"><label>Titre</label><input id="strat-title" value="${s?esc(s.title):''}" placeholder="Ex: Positionnement, Cible prioritaire, Offre Starter..."></div>
+    <div class="field"><label>Section</label><select id="strat-section">
+      <option value="vision" ${sec==='vision'?'selected':''}>Vision</option>
+      <option value="marche" ${sec==='marche'?'selected':''}>Prise de marché</option>
+      <option value="pricing" ${sec==='pricing'?'selected':''}>Pricing</option>
+    </select></div>
     <div class="field"><label>Contenu</label><textarea id="strat-body" style="min-height:180px">${s?esc(s.body||''):''}</textarea></div>
     <div class="modal-actions">
       ${s?`<button class="btn btn-ghost" style="color:var(--red-600);margin-right:auto" onclick="deleteStrat('${id}')">Supprimer</button>`:''}
@@ -1197,7 +1314,7 @@ function openStratModal(id) {
 function saveStrat(id) {
   const title = document.getElementById('strat-title').value.trim();
   if (!title) return alert('Le titre est requis');
-  const data = { title, body: document.getElementById('strat-body').value.trim() };
+  const data = { title, section: document.getElementById('strat-section').value, body: document.getElementById('strat-body').value.trim() };
   if (id) Object.assign(state.strategie.find(x=>x.id===id), data);
   else state.strategie.push({ id: uid(), ...data });
   save(); closeModal(); render();
@@ -1208,20 +1325,51 @@ function deleteStrat(id) {
   save(); closeModal(); render();
 }
 
+// ============ VUES EN PRÉPARATION ============
+const viewPlaceholders = {
+  roadmap: {
+    icon: '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
+    title: 'Roadmap produit',
+    desc: 'Bientôt : les jalons et versions de la plateforme CPTS Pilot, organisés par trimestre.'
+  },
+  monitoring: {
+    icon: '<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
+    title: 'Monitoring',
+    desc: 'Bientôt : la santé de la plateforme (erreurs, usage, disponibilité) en un coup d’œil.'
+  },
+  communication: {
+    icon: '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>',
+    title: 'Communication',
+    desc: 'Bientôt : ta communication — messages clés, supports, canaux. On le construira ensemble.'
+  }
+};
+function renderPlaceholder(content, actions, key) {
+  actions.innerHTML = '';
+  const p = viewPlaceholders[key];
+  content.innerHTML = `<div class="panel"><div class="empty">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${p.icon}</svg>
+    <p style="font-size:15px;font-weight:700;color:var(--slate-600);margin-bottom:8px">${p.title}</p>
+    <p style="max-width:360px;margin:0 auto;line-height:1.6">${p.desc}</p>
+    <p style="margin-top:16px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--slate-400)">Espace en préparation</p>
+  </div></div>`;
+}
+
 // ============ VUE PROSPECTS ============
 const statutLabels = { contact:'Premier contact', demo:'Démo planifiée', nego:'En négociation', client:'Client signé' };
 const statutClass = { contact:'status-contact', demo:'status-demo', nego:'status-nego', client:'status-client' };
-function renderProspects(content, actions) {
-  actions.innerHTML = `<button class="btn btn-primary" onclick="openProspectModal()">+ Prospect</button>`;
-  if (state.prospects.length === 0) {
+function renderProspects(content, actions, mode) {
+  const isClients = mode === 'clients';
+  actions.innerHTML = `<button class="btn btn-primary" onclick="openProspectModal(null,'${isClients?'client':'contact'}')">+ ${isClients?'Client':'Prospect'}</button>`;
+  const base = state.prospects.filter(p => isClients ? p.statut === 'client' : p.statut !== 'client');
+  if (base.length === 0) {
     content.innerHTML = `<div class="panel"><div class="empty">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 7a4 4 0 100 8 4 4 0 000-8z"/></svg>
-      <p>Suis ici tes CPTS prospects, de la prise de contact à la signature.</p></div></div>`;
+      <p>${isClients ? 'Tes CPTS clientes signées apparaîtront ici.' : 'Suis ici tes CPTS prospects, de la prise de contact à la négociation.'}</p></div></div>`;
     return;
   }
-  const filtered = state.prospects.filter(p => matchSearch(p, [p.nom, p.contact, p.notes, statutLabels[p.statut]]));
+  const filtered = base.filter(p => matchSearch(p, [p.nom, p.contact, p.notes, statutLabels[p.statut]]));
   if (filtered.length === 0) {
-    content.innerHTML = `<div class="panel"><div class="search-empty">Aucun prospect ne contient <strong>« ${esc(searchQuery)} »</strong></div></div>`;
+    content.innerHTML = `<div class="panel"><div class="search-empty">Aucun ${isClients?'client':'prospect'} ne contient <strong>« ${esc(searchQuery)} »</strong></div></div>`;
     return;
   }
   let html = '<div class="panel" style="max-width:none"><table><thead><tr><th>CPTS</th><th>Contact</th><th>Statut</th><th>Notes</th></tr></thead><tbody>';
@@ -1235,18 +1383,20 @@ function renderProspects(content, actions) {
   html += '</tbody></table></div>';
   content.innerHTML = html;
 }
-function openProspectModal(id) {
+function openProspectModal(id, defaultStatut) {
   const p = id ? state.prospects.find(x=>x.id===id) : null;
+  const st = p ? p.statut : (defaultStatut || 'contact');
   const m = document.getElementById('modal');
+  m.classList.remove('qc-mode');
   m.innerHTML = `
-    <h2>${p?'Modifier':'Nouveau'} prospect</h2>
+    <h2>${p?'Modifier':'Nouveau'} ${st==='client'?'client':'prospect'}</h2>
     <div class="field"><label>Nom de la CPTS</label><input id="prosp-nom" value="${p?esc(p.nom):''}"></div>
     <div class="field"><label>Contact (nom, email, téléphone)</label><input id="prosp-contact" value="${p?esc(p.contact||''):''}"></div>
     <div class="field"><label>Statut</label><select id="prosp-statut">
-      <option value="contact" ${p?.statut==='contact'?'selected':''}>Premier contact</option>
-      <option value="demo" ${p?.statut==='demo'?'selected':''}>Démo planifiée</option>
-      <option value="nego" ${p?.statut==='nego'?'selected':''}>En négociation</option>
-      <option value="client" ${p?.statut==='client'?'selected':''}>Client signé</option>
+      <option value="contact" ${st==='contact'?'selected':''}>Premier contact</option>
+      <option value="demo" ${st==='demo'?'selected':''}>Démo planifiée</option>
+      <option value="nego" ${st==='nego'?'selected':''}>En négociation</option>
+      <option value="client" ${st==='client'?'selected':''}>Client signé</option>
     </select></div>
     <div class="field"><label>Notes</label><textarea id="prosp-notes">${p?esc(p.notes||''):''}</textarea></div>
     <div class="modal-actions">
@@ -1346,10 +1496,10 @@ function quickOpen(type) {
         if (lines.length > 1) document.getElementById('note-body').value = lines.slice(1).join('\n').trim();
       }
     } else if (type === 'prospect') {
-      openProspectModal();
+      openProspectModal(null, 'contact');
       if (text) document.getElementById('prosp-nom').value = text;
     } else if (type === 'strat') {
-      openStratModal();
+      openStratModal(null, 'vision');
       if (text) document.getElementById('strat-title').value = text;
     }
   }, 30);
@@ -1468,27 +1618,48 @@ function updateBackupStatus() {
   const el = document.getElementById('backup-status');
   if (!el) return;
   const cfg = getGhConfig();
-  if (!cfg.token) {
-    el.innerHTML = '<span class="status-dot" style="background:var(--slate-600)"></span>Backup non configuré';
-    el.title = '';
-    return;
+  let dot, text, title = '';
+  if (!cfg.token) { dot = 'var(--slate-500)'; text = 'Backup non configuré'; }
+  else if (cfg.lastError) { dot = 'var(--red-600)'; text = 'Erreur de backup'; title = cfg.lastError; }
+  else if (cfg.lastBackup) {
+    dot = 'var(--teal-600)'; text = 'Sauvegardé ' + formatRelativeDate(cfg.lastBackup);
+    title = 'Dernier backup : ' + new Date(cfg.lastBackup).toLocaleString('fr-FR') + '\nProchain backup auto dans 6h';
   }
-  if (cfg.lastError) {
-    el.innerHTML = '<span class="status-dot" style="background:var(--red-600)"></span>Erreur — clique pour reconfigurer';
-    el.title = cfg.lastError;
-    el.style.cursor = 'pointer';
-    el.onclick = openGhConfigModal;
-    return;
-  }
-  if (cfg.lastBackup) {
-    el.innerHTML = `<span class="status-dot" style="background:var(--teal-600)"></span>Sauvegardé ${formatRelativeDate(cfg.lastBackup)}`;
-    el.title = 'Dernier backup : ' + new Date(cfg.lastBackup).toLocaleString('fr-FR') + '\nProchain backup auto dans 6h';
-    el.style.cursor = 'default';
-    el.onclick = null;
-  } else {
-    el.innerHTML = '<span class="status-dot" style="background:var(--orange-600)"></span>En attente du premier backup';
-    el.title = '';
-  }
+  else { dot = 'var(--orange-600)'; text = 'Premier backup en attente'; }
+  el.innerHTML = `<span class="status-dot" style="background:${dot}"></span><span class="bs-text">${text}</span>`;
+  el.title = title;
+}
+
+function openSettingsModal() {
+  const cfg = getGhConfig();
+  let dot, status;
+  if (!cfg.token) { dot = 'var(--slate-500)'; status = 'Backup Github non configuré'; }
+  else if (cfg.lastError) { dot = 'var(--red-600)'; status = 'Erreur : ' + esc(cfg.lastError); }
+  else if (cfg.lastBackup) { dot = 'var(--teal-600)'; status = 'Dernière sauvegarde ' + formatRelativeDate(cfg.lastBackup); }
+  else { dot = 'var(--orange-600)'; status = 'En attente du premier backup'; }
+  const m = document.getElementById('modal');
+  m.classList.remove('qc-mode');
+  m.innerHTML = `
+    <h2>Réglages & sauvegarde</h2>
+    <div class="settings-section">
+      <h3>Sauvegarde Github</h3>
+      <div class="settings-status"><span class="status-dot" style="background:${dot}"></span>${status}</div>
+      <div class="settings-row">
+        <button class="btn btn-ghost" onclick="openGhConfigModal()">${cfg.token?'Reconfigurer':'☁ Configurer'}</button>
+        <button class="btn btn-primary" id="manual-backup-btn" onclick="doManualBackup()">↑ Sauvegarder maintenant</button>
+      </div>
+    </div>
+    <div class="settings-section">
+      <h3>Données locales</h3>
+      <div class="settings-row">
+        <button class="btn btn-ghost" onclick="exportData()">⬇ Exporter (JSON)</button>
+        <button class="btn btn-ghost" onclick="document.getElementById('import-file').click()">⬆ Importer</button>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Fermer</button>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
 }
 
 function openGhConfigModal() {
