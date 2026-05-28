@@ -223,6 +223,28 @@ body {
   background: var(--slate-50); border: 1px dashed var(--slate-200);
   border-radius: 12px; line-height: 1.6;
 }
+.todo-section-controls { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.lens-toggle { display: inline-flex; background: var(--slate-100); border-radius: 8px; padding: 3px; gap: 2px; }
+.lens-toggle button { border: none; background: transparent; font-family: inherit; font-size: 12px; font-weight: 600; color: var(--slate-500); padding: 5px 11px; border-radius: 6px; cursor: pointer; transition: all .15s; }
+.lens-toggle button.active { background: var(--white); color: var(--blue-700); box-shadow: 0 1px 2px rgba(15,23,42,0.08); }
+.btn-sm { padding: 6px 11px; font-size: 12px; }
+#idea-link-btn.active { background: var(--teal-600); color: var(--white); }
+.idea-canvas-wrap {
+  position: relative; height: 480px; border: 1px solid var(--slate-200);
+  border-radius: 12px; overflow: hidden; background-color: var(--white);
+  background-image: radial-gradient(circle at 1px 1px, var(--slate-200) 1px, transparent 0);
+  background-size: 22px 22px;
+}
+.idea-canvas-wrap canvas { width: 100%; height: 100%; display: block; cursor: grab; }
+.idea-canvas-wrap canvas:active { cursor: grabbing; }
+.idea-canvas-hint {
+  position: absolute; bottom: 10px; left: 12px; font-size: 11px; color: var(--slate-500);
+  background: rgba(255,255,255,0.85); padding: 4px 9px; border-radius: 6px; pointer-events: none;
+}
+.idea-canvas-empty {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  text-align: center; color: var(--slate-400); font-size: 13px; padding: 24px; pointer-events: none;
+}
 
 /* Prospects table */
 table { width: 100%; border-collapse: collapse; background: var(--white); border-radius: 12px; overflow: hidden; border: 1px solid var(--slate-200); }
@@ -533,6 +555,7 @@ tr:hover td { background: var(--blue-50); }
         </div>
         <div class="nav-group-items">
           <div class="nav-subitem" data-view="strat-vision"><span class="sub-bullet"></span>Vision</div>
+          <div class="nav-subitem" data-view="idees"><span class="sub-bullet"></span>Idées</div>
           <div class="nav-subitem" data-view="strat-marche"><span class="sub-bullet"></span>Prise de marché</div>
           <div class="nav-subitem" data-view="strat-pricing"><span class="sub-bullet"></span>Pricing</div>
         </div>
@@ -628,6 +651,7 @@ const titles = {
   monitoring:'Monitoring',
   todo:'To do',
   'strat-vision':'Stratégie — Vision',
+  idees:'Stratégie — Idées',
   'strat-marche':'Stratégie — Prise de marché',
   'strat-pricing':'Stratégie — Pricing',
   'clients-valides':'Clients validés',
@@ -638,7 +662,8 @@ const titles = {
 // Recherche : vues filtrables + placeholders
 let searchQuery = '';
 const searchPlaceholders = {
-  todo: 'Rechercher une idée, une tâche…',
+  todo: 'Rechercher une tâche…',
+  idees: 'Rechercher une idée…',
   'strat-vision': 'Rechercher dans la vision…',
   'strat-marche': 'Rechercher dans la prise de marché…',
   'strat-pricing': 'Rechercher dans le pricing…',
@@ -721,6 +746,7 @@ function render() {
   else if (currentView === 'roadmap') renderPlaceholder(content, actions, 'roadmap');
   else if (currentView === 'monitoring') renderPlaceholder(content, actions, 'monitoring');
   else if (currentView === 'todo') renderTodo(content, actions);
+  else if (currentView === 'idees') renderIdees(content, actions);
   else if (currentView === 'strat-vision') renderStrategie(content, actions, 'vision');
   else if (currentView === 'strat-marche') renderStrategie(content, actions, 'marche');
   else if (currentView === 'strat-pricing') renderStrategie(content, actions, 'pricing');
@@ -1121,23 +1147,82 @@ function deleteNode(id) {
 
 // ============ VUE TO DO (Idées + Tâches) ============
 function renderTodo(content, actions) {
-  actions.innerHTML = `
-    <button class="btn btn-ghost" onclick="openNoteModal()">+ Idée</button>
-    <button class="btn btn-primary" onclick="openTaskModal()">+ Tâche</button>`;
-
-  const notes = state.notes.filter(n => matchSearch(n, [n.title, n.body, catLabel[n.category]]));
+  actions.innerHTML = `<button class="btn btn-primary" onclick="openTaskModal()">+ Tâche</button>`;
+  const cols = [
+    { key:'todo', label:'À faire', dot:'var(--slate-300)' },
+    { key:'doing', label:'En cours', dot:'var(--blue-500)' },
+    { key:'done', label:'Terminé', dot:'var(--teal-600)' }
+  ];
   const tasks = state.tasks.filter(t => matchSearch(t, [t.title, t.body, catLabel[t.category]]));
+  if (searchQuery && tasks.length === 0) {
+    content.innerHTML = `<div class="panel"><div class="search-empty">Aucune tâche ne contient <strong>« ${esc(searchQuery)} »</strong></div></div>`;
+    return;
+  }
+  let html = '<div class="panel" style="max-width:none"><div class="task-board">';
+  cols.forEach(col => {
+    const colTasks = tasks.filter(t=>t.status===col.key);
+    html += `<div class="task-column" ondragover="taskDragOver(event)" ondragleave="taskDragLeave(event)" ondrop="taskDrop(event,'${col.key}')"><h3><span class="dot-status" style="background:${col.dot}"></span>${col.label}<span class="task-count">${colTasks.length}</span></h3><div class="task-col">`;
+    colTasks.forEach(t => {
+      html += `<div class="task-card" draggable="true" ondragstart="taskDragStart(event,'${t.id}')" ondragend="taskDragEnd(event)" onclick="openTaskModal('${t.id}')">
+        <div class="task-cat" style="color:${catColors[t.category]}">${catLabel[t.category]}</div>
+        ${esc(t.title)}
+        ${t.body?`<div class="task-note-snippet">${esc(t.body.slice(0,60))}${t.body.length>60?'…':''}</div>`:''}</div>`;
+    });
+    html += '</div></div>';
+  });
+  html += '</div></div>';
+  content.innerHTML = html;
+}
 
-  let html = '<div class="panel" style="max-width:none">';
+function promoteNote(id) {
+  const note = state.notes.find(n => n.id === id);
+  if (!note) return;
+  state.tasks.push({ id: uid(), title: note.title, category: note.category, status: 'todo', body: note.body || '' });
+  state.notes = state.notes.filter(n => n.id !== id);
+  state.notes.forEach(n => { if (n.links) n.links = n.links.filter(l => l !== id); });
+  save(); render();
+}
 
-  // --- Section Idées ---
-  html += `<div class="todo-section">
-    <h3 class="todo-section-title">
+// ============ VUE IDÉES (carte mentale) ============
+let ideaLens = 'map';
+let ideaGraphState = { offsetX: 0, offsetY: 0, scale: 1, dragging: null, panning: false, lastX: 0, lastY: 0 };
+let ideaLinkMode = false, ideaLinkSource = null;
+let redrawIdeas = null;
+
+function setIdeaLens(lens) { ideaLens = lens; ideaLinkMode = false; ideaLinkSource = null; render(); }
+function toggleIdeaLink() {
+  ideaLinkMode = !ideaLinkMode; ideaLinkSource = null;
+  const btn = document.getElementById('idea-link-btn');
+  if (btn) { btn.classList.toggle('active', ideaLinkMode); btn.textContent = ideaLinkMode ? '✓ Relier' : '↔ Relier'; }
+  if (redrawIdeas) redrawIdeas();
+}
+
+function renderIdees(content, actions) {
+  actions.innerHTML = `<button class="btn btn-primary" onclick="openNoteModal()">+ Idée</button>`;
+  const notes = state.notes.filter(n => matchSearch(n, [n.title, n.body, catLabel[n.category]]));
+
+  let html = '<div class="panel" style="max-width:none"><div class="todo-section">';
+  html += `<h3 class="todo-section-title">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7c.6.5 1 1.3 1 2.1h6c0-.8.4-1.6 1-2.1A7 7 0 0012 2z"/></svg>
-      Idées${notes.length?`<span class="count-pill">${notes.length}</span>`:''}
+      Idées${state.notes.length?`<span class="count-pill">${state.notes.length}</span>`:''}
+      <span class="todo-section-controls">
+        <span class="lens-toggle">
+          <button class="${ideaLens==='map'?'active':''}" onclick="setIdeaLens('map')">Carte mentale</button>
+          <button class="${ideaLens==='cards'?'active':''}" onclick="setIdeaLens('cards')">Cartes</button>
+        </span>
+        ${ideaLens==='map'?`<button class="btn btn-ghost btn-sm" id="idea-link-btn" onclick="toggleIdeaLink()">↔ Relier</button>`:''}
+      </span>
     </h3>`;
-  if (state.notes.length === 0) {
-    html += `<div class="todo-empty-zone">Aucune idée capturée. Note une pensée ici — tu pourras la transformer en tâche en un clic.</div>`;
+
+  if (ideaLens === 'map') {
+    html += `<div class="idea-canvas-wrap">
+      <canvas id="idea-canvas"></canvas>
+      ${state.notes.length===0
+        ? `<div class="idea-canvas-empty">Aucune idée. Clique « + Idée » : elle apparaîtra ici, et tu pourras la relier aux autres.</div>`
+        : `<div class="idea-canvas-hint">Glisser une bulle · molette pour zoomer · « Relier » pour connecter · clic pour ouvrir</div>`}
+    </div>`;
+  } else if (state.notes.length === 0) {
+    html += `<div class="todo-empty-zone">Aucune idée capturée. Note une pensée — tu pourras la relier aux autres ou la transformer en tâche.</div>`;
   } else if (notes.length === 0) {
     html += `<div class="todo-empty-zone">Aucune idée ne contient « ${esc(searchQuery)} ».</div>`;
   } else {
@@ -1156,44 +1241,126 @@ function renderTodo(content, actions) {
     });
     html += '</div>';
   }
-  html += '</div>';
-
-  // --- Section Kanban ---
-  const cols = [
-    { key:'todo', label:'À faire', dot:'var(--slate-300)' },
-    { key:'doing', label:'En cours', dot:'var(--blue-500)' },
-    { key:'done', label:'Terminé', dot:'var(--teal-600)' }
-  ];
-  html += `<div class="todo-section">
-    <h3 class="todo-section-title">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
-      Tâches${tasks.length?`<span class="count-pill">${tasks.length}</span>`:''}
-    </h3>`;
-  html += '<div class="task-board">';
-  cols.forEach(col => {
-    const colTasks = tasks.filter(t=>t.status===col.key);
-    html += `<div class="task-column" ondragover="taskDragOver(event)" ondragleave="taskDragLeave(event)" ondrop="taskDrop(event,'${col.key}')"><h3><span class="dot-status" style="background:${col.dot}"></span>${col.label}<span class="task-count">${colTasks.length}</span></h3><div class="task-col">`;
-    colTasks.forEach(t => {
-      html += `<div class="task-card" draggable="true" ondragstart="taskDragStart(event,'${t.id}')" ondragend="taskDragEnd(event)" onclick="openTaskModal('${t.id}')">
-        <div class="task-cat" style="color:${catColors[t.category]}">${catLabel[t.category]}</div>
-        ${esc(t.title)}
-        ${t.body?`<div class="task-note-snippet">${esc(t.body.slice(0,60))}${t.body.length>60?'…':''}</div>`:''}</div>`;
-    });
-    html += '</div></div>';
-  });
   html += '</div></div>';
-
-  html += '</div>';
   content.innerHTML = html;
+
+  if (ideaLens === 'map') {
+    const canvas = document.getElementById('idea-canvas');
+    if (canvas) setupIdeaGraph(canvas);
+  }
 }
 
-function promoteNote(id) {
-  const note = state.notes.find(n => n.id === id);
-  if (!note) return;
-  state.tasks.push({ id: uid(), title: note.title, category: note.category, status: 'todo', body: note.body || '' });
-  state.notes = state.notes.filter(n => n.id !== id);
-  state.notes.forEach(n => { if (n.links) n.links = n.links.filter(l => l !== id); });
-  save(); render();
+function layoutIdeasIfNeeded() {
+  const anchors = { tech:{x:300,y:230}, commercial:{x:660,y:230}, strategie:{x:480,y:470} };
+  const counts = {};
+  state.notes.forEach(n => { if (typeof n.x==='number' && typeof n.y==='number') { const c = anchors[n.category]?n.category:'tech'; counts[c]=(counts[c]||0)+1; } });
+  let changed = false;
+  state.notes.forEach(n => {
+    if (typeof n.x === 'number' && typeof n.y === 'number') return;
+    const cat = anchors[n.category] ? n.category : 'tech';
+    const k = counts[cat] || 0; counts[cat] = k + 1;
+    const ring = 1 + Math.floor(k/6);
+    const ang = (k % 6) * (Math.PI/3) + ring*0.6;
+    n.x = anchors[cat].x + Math.cos(ang)*55*ring;
+    n.y = anchors[cat].y + Math.sin(ang)*55*ring;
+    changed = true;
+  });
+  if (changed) save();
+}
+
+function ideaEdges() {
+  const seen = new Set(), edges = [];
+  state.notes.forEach(n => {
+    (n.links||[]).forEach(tid => {
+      if (!state.notes.find(x=>x.id===tid)) return;
+      const key = [n.id, tid].sort().join('|');
+      if (seen.has(key)) return; seen.add(key);
+      edges.push({ source:n.id, target:tid });
+    });
+  });
+  return edges;
+}
+
+function linkIdeas(aId, bId) {
+  const a = state.notes.find(n=>n.id===aId), b = state.notes.find(n=>n.id===bId);
+  if (!a || !b) return;
+  a.links = a.links || []; b.links = b.links || [];
+  if (!a.links.includes(bId) && !b.links.includes(aId)) { a.links.push(bId); save(); }
+}
+
+function setupIdeaGraph(canvas) {
+  const ctx = canvas.getContext('2d');
+  layoutIdeasIfNeeded();
+  const gs = ideaGraphState;
+  const R = 30;
+  const byId = id => state.notes.find(n => n.id === id);
+  function resize() { const r = canvas.parentElement.getBoundingClientRect(); canvas.width = r.width; canvas.height = r.height; draw(); }
+  function w2s(x,y) { return { x: x*gs.scale+gs.offsetX, y: y*gs.scale+gs.offsetY }; }
+  function s2w(x,y) { return { x: (x-gs.offsetX)/gs.scale, y: (y-gs.offsetY)/gs.scale }; }
+  function draw() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.lineWidth = 1.5*gs.scale; ctx.strokeStyle = 'rgba(148,163,184,0.55)';
+    ideaEdges().forEach(e => {
+      const s = byId(e.source), t = byId(e.target); if (!s||!t) return;
+      const a = w2s(s.x,s.y), b = w2s(t.x,t.y);
+      ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+    });
+    state.notes.forEach(n => {
+      const p = w2s(n.x,n.y), r = R*gs.scale;
+      ctx.beginPath(); ctx.arc(p.x,p.y,r,0,Math.PI*2);
+      ctx.fillStyle = catColors[n.category] || '#64748B'; ctx.fill();
+      if (ideaLinkSource===n.id) { ctx.lineWidth = 3; ctx.strokeStyle = '#0D9488'; ctx.stroke(); }
+      ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.font = `700 ${13*gs.scale}px Manrope, sans-serif`;
+      ctx.fillText(((n.title||'').trim()[0]||'•').toUpperCase(), p.x, p.y);
+      ctx.fillStyle = '#0F172A'; ctx.textBaseline = 'alphabetic';
+      ctx.font = `600 ${12*gs.scale}px Manrope, sans-serif`;
+      const label = (n.title||'').length>22 ? n.title.slice(0,21)+'…' : (n.title||'');
+      ctx.fillText(label, p.x, p.y + r + 15*gs.scale);
+    });
+  }
+  function nodeAt(sx,sy) {
+    for (let i=state.notes.length-1; i>=0; i--) {
+      const n = state.notes[i]; const p = w2s(n.x,n.y);
+      if (Math.hypot(sx-p.x, sy-p.y) <= R*gs.scale) return n;
+    }
+    return null;
+  }
+  let downAt = 0;
+  canvas.onmousedown = e => {
+    downAt = Date.now();
+    const rect = canvas.getBoundingClientRect(); const mx = e.clientX-rect.left, my = e.clientY-rect.top;
+    const node = nodeAt(mx,my);
+    if (ideaLinkMode && node) {
+      if (!ideaLinkSource) { ideaLinkSource = node.id; draw(); }
+      else if (ideaLinkSource !== node.id) { linkIdeas(ideaLinkSource, node.id); ideaLinkSource = null; draw(); }
+      return;
+    }
+    if (node) { gs.dragging = node; } else { gs.panning = true; gs.lastX = mx; gs.lastY = my; }
+  };
+  canvas.onmousemove = e => {
+    const rect = canvas.getBoundingClientRect(); const mx = e.clientX-rect.left, my = e.clientY-rect.top;
+    if (gs.dragging) { const wld = s2w(mx,my); gs.dragging.x = wld.x; gs.dragging.y = wld.y; draw(); }
+    else if (gs.panning) { gs.offsetX += mx-gs.lastX; gs.offsetY += my-gs.lastY; gs.lastX = mx; gs.lastY = my; draw(); }
+  };
+  canvas.onmouseup = () => { if (gs.dragging) save(); gs.dragging = null; gs.panning = false; };
+  canvas.onclick = e => {
+    if (Date.now()-downAt > 200 || ideaLinkMode) return;
+    const rect = canvas.getBoundingClientRect();
+    const node = nodeAt(e.clientX-rect.left, e.clientY-rect.top);
+    if (node) openNoteModal(node.id);
+  };
+  canvas.onwheel = e => {
+    e.preventDefault();
+    const rect = canvas.getBoundingClientRect(); const mx = e.clientX-rect.left, my = e.clientY-rect.top;
+    const before = s2w(mx,my);
+    gs.scale *= e.deltaY>0 ? 0.92 : 1.08; gs.scale = Math.max(0.4, Math.min(2.5, gs.scale));
+    const after = s2w(mx,my);
+    gs.offsetX += (after.x-before.x)*gs.scale; gs.offsetY += (after.y-before.y)*gs.scale;
+    draw();
+  };
+  redrawIdeas = draw;
+  resize();
 }
 function openNoteModal(id) {
   const note = id ? state.notes.find(n=>n.id===id) : null;
