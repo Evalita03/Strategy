@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "generated_at": "2026-05-29",
   "source": "Plateforme-CPTS (CLAUDE.md, SESSION_STATUS.md, docs/plans/, docs/superpowers/plans/, presentation/demo-5mai/, docs/brand/)",
   "encarts": {
@@ -76,23 +76,119 @@
     ]
   },
   "roadmap": [
-    { "title": "Calendrier — modale création contextuelle", "month": "2026-02", "status": "done" },
-    { "title": "Deadlines auto + Émargement", "month": "2026-02", "status": "done" },
-    { "title": "Refonte Paramétrages Elite", "month": "2026-02", "status": "done" },
-    { "title": "Optimisation Calendrier", "month": "2026-02", "status": "done" },
-    { "title": "Blueprint Meetings extrait", "month": "2026-02", "status": "done" },
-    { "title": "Hub Projets refonte", "month": "2026-02", "status": "done" },
-    { "title": "Custom Roles RBAC", "month": "2026-04", "status": "done" },
-    { "title": "Lifecycle des déclarations", "month": "2026-04", "status": "done" },
-    { "title": "PDF officielle d'émargement", "month": "2026-04", "status": "done" },
-    { "title": "Modal Frais Groupe enrichie", "month": "2026-04", "status": "done" },
-    { "title": "Page Permissions → Admin Gestion", "month": "2026-04", "status": "done" },
-    { "title": "Workflow déclarations + notifications", "month": "2026-04", "status": "done" },
-    { "title": "Gestion nouvelles inscriptions", "month": "2026-04", "status": "done" },
-    { "title": "Mode Démo public", "month": "2026-04", "status": "done" },
-    { "title": "Statuts unifiés Trésorerie", "month": "2026-05", "status": "done" },
-    { "title": "Vie Associative — modules", "month": "2026-05", "status": "done" },
-    { "title": "Démo CPTS pilote (5 mai)", "month": "2026-05", "status": "done", "body": "20 min au bureau de la CPTS pilote — démo live + slides + one-pager." },
-    { "title": "Site vitrine V1", "month": "2026-05", "status": "done", "body": "Homepage publique sur /, arc narratif 9 sections + 2 moments interactifs (role switcher, carrousel circuits)." }
+    {
+      "title": "Calendrier — modale création contextuelle",
+      "month": "2026-02",
+      "status": "done",
+      "body": "Modale intelligente à 3 modes qui adapte ses champs selon le type d'entrée : Réunion GT (classique), Évènement (premium), Information (deadline / rappel / info diverse)."
+    },
+    {
+      "title": "Deadlines auto + Émargement",
+      "month": "2026-02",
+      "status": "done",
+      "body": "Sync automatique des tâches Cockpit → entrées calendrier (couleur rouge, badge « Auto (Cockpit) »). Suivi présence en DB avec checkbox + PDF officiel d'émargement GT."
+    },
+    {
+      "title": "Refonte Paramétrages Elite",
+      "month": "2026-02",
+      "status": "done",
+      "body": "Page unique /admin/parametrages refondée à 4 onglets Alpine.js : Missions/Actions, Identité, Utilisateurs, paramètres avancés."
+    },
+    {
+      "title": "Optimisation Calendrier",
+      "month": "2026-02",
+      "status": "done",
+      "body": "Suppression des natures figées, catégories dynamiques en DB, pièces jointes multiples sur les entrées, communication post-création (partage WhatsApp + email)."
+    },
+    {
+      "title": "Blueprint Meetings extrait",
+      "month": "2026-02",
+      "status": "done",
+      "body": "Extraction de la gestion des réunions dans un Blueprint Flask dédié `meetings` : routes + api + sidebar + intégration FullCalendar."
+    },
+    {
+      "title": "Hub Projets — refonte",
+      "month": "2026-02",
+      "status": "done",
+      "body": "Transformation de Projets & Groupes en Hub collaboratif : 5 chantiers, tabs, wizard de création, relations M2M membres (Alpine.js + HTMX + SortableJS)."
+    },
+    {
+      "title": "Custom Roles RBAC",
+      "month": "2026-04",
+      "status": "done",
+      "body": "Rôles personnalisés avec permissions configurables par action et par module + matrice admin. 6 rôles hiérarchiques + rôles libres."
+    },
+    {
+      "title": "Lifecycle des déclarations",
+      "month": "2026-04",
+      "status": "done",
+      "body": "Dé-validation motivée des déclarations, upload de justificatifs autorisé à tout statut, audit trail des transitions."
+    },
+    {
+      "title": "PDF officielle d'émargement",
+      "month": "2026-04",
+      "status": "done",
+      "body": "PDF émargement officiel stocké sur disque, accessible depuis l'historique, l'onglet activité et les justificatifs."
+    },
+    {
+      "title": "Modal Frais Groupe enrichie",
+      "month": "2026-04",
+      "status": "done",
+      "body": "Modale frais retravaillée avec upload de justificatifs optionnel + badge « sans justificatif » visible pour le trésorier."
+    },
+    {
+      "title": "Refonte déclarations d'activité (trésorier)",
+      "month": "2026-04",
+      "status": "done",
+      "body": "Onglet « Nouvelle déclaration » trésorier refondu : déclaration combinée heures + ICPA + frais sur une période en une seule saisie (au lieu de 3 formulaires séparés)."
+    },
+    {
+      "title": "Page Permissions → Admin Gestion",
+      "month": "2026-04",
+      "status": "done",
+      "body": "Page Permissions sortie de Paramétrages vers /admin/permissions, accessible depuis Admin Gestion."
+    },
+    {
+      "title": "Workflow déclarations + notifications",
+      "month": "2026-04",
+      "status": "done",
+      "body": "Conteneur unifié DeclarationActivite, validation granulaire des éléments, cloche de notifications dans le hub adhérent."
+    },
+    {
+      "title": "Gestion des nouvelles inscriptions",
+      "month": "2026-04",
+      "status": "done",
+      "body": "Rôle système `secretaire`, flag `auto_inscription`, card « Nouvelles inscriptions » dans Vie Associative pour valider les arrivants."
+    },
+    {
+      "title": "Mode Démo public",
+      "month": "2026-04",
+      "status": "done",
+      "body": "Démo publique sur /demo, sandbox seed « CPTS Horizon Santé », auto-reset toutes les 30 minutes."
+    },
+    {
+      "title": "Statuts unifiés Trésorerie",
+      "month": "2026-05",
+      "status": "done",
+      "body": "Nomenclature unifiée pour heures / frais / virements, workflow trésorier ↔ membre, garde-fous anti-oubli."
+    },
+    {
+      "title": "Vie Associative — modules",
+      "month": "2026-05",
+      "status": "done",
+      "body": "Modules Documents fondateurs, Assemblées générales, Rubriques libres — préparation pour la démo du 5 mai."
+    },
+    {
+      "title": "Démo CPTS pilote (5 mai)",
+      "month": "2026-05",
+      "status": "done",
+      "body": "20 min au bureau de la CPTS pilote : démo live + slides + one-pager distribué. Lancement de la phase pilote de 4 semaines en conditions réelles."
+    },
+    {
+      "title": "Site vitrine V1",
+      "month": "2026-05",
+      "status": "done",
+      "body": "Homepage publique sur la racine du domaine, arc narratif 9 sections + 2 moments interactifs (role switcher, carrousel des circuits ACI ↔ Trésorerie)."
+    }
   ]
 }
