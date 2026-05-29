@@ -207,17 +207,61 @@ body {
   box-shadow: 0 1px 2px rgba(15,23,42,0.04); transition: all .15s;
 }
 .idea-card:hover { box-shadow: 0 4px 12px rgba(15,23,42,0.08); border-color: var(--slate-300); }
-.idea-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; padding-right: 66px; color: var(--slate-900); line-height: 1.35; }
+.idea-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; padding-right: 104px; color: var(--slate-900); line-height: 1.35; }
 .idea-card p { font-size: 12.5px; color: var(--slate-600); line-height: 1.5; }
 .idea-card .meta { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-.idea-promote {
-  position: absolute; top: 12px; right: 12px;
+.idea-card-actions { position: absolute; top: 12px; right: 12px; display: flex; gap: 6px; }
+.idea-act {
   font-family: inherit; font-size: 11px; font-weight: 600;
-  color: var(--blue-700); background: var(--blue-50); border: 1px solid var(--blue-100);
-  border-radius: 7px; padding: 4px 9px; cursor: pointer; transition: all .15s;
-  display: inline-flex; align-items: center; gap: 4px;
+  border-radius: 7px; padding: 4px 8px; cursor: pointer; transition: all .15s;
+  border: 1px solid; display: inline-flex; align-items: center; gap: 4px;
 }
+.idea-classify { color: var(--teal-700); background: var(--teal-100); border-color: var(--teal-100); }
+.idea-classify:hover { background: var(--teal-600); color: var(--white); border-color: var(--teal-600); }
+.idea-promote { color: var(--blue-700); background: var(--blue-50); border-color: var(--blue-100); }
 .idea-promote:hover { background: var(--blue-700); color: var(--white); border-color: var(--blue-700); }
+.ai-reason {
+  font-size: 13px; color: var(--slate-700); line-height: 1.5;
+  padding: 10px 12px; background: var(--blue-50); border: 1px solid var(--blue-100);
+  border-radius: 8px; margin-bottom: 16px;
+}
+
+/* Stratégie globale — Hub d'encarts (mosaïque) */
+.hub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; grid-auto-flow: dense; align-items: start; }
+.encart {
+  background: var(--white); border: 1px solid var(--slate-200); border-radius: 14px;
+  padding: 18px; cursor: pointer; box-shadow: 0 1px 2px rgba(15,23,42,0.04);
+  transition: all .15s; display: flex; flex-direction: column; min-height: 128px;
+}
+.encart:hover { box-shadow: 0 8px 22px rgba(15,23,42,0.09); border-color: var(--slate-300); transform: translateY(-2px); }
+.encart-lg { grid-column: span 2; }
+.encart-title { font-size: 15px; font-weight: 700; color: var(--slate-900); margin-bottom: 8px; letter-spacing: -0.01em; }
+.encart .encart-text { font-size: 13px; color: var(--slate-600); line-height: 1.55; white-space: pre-wrap; flex: 1; }
+.encart-empty { font-size: 12.5px; color: var(--slate-400); font-style: italic; flex: 1; }
+.encart-badge { margin-top: 12px; align-self: flex-start; font-size: 11px; font-weight: 700; color: var(--blue-700); background: var(--blue-50); border: 1px solid var(--blue-100); border-radius: 20px; padding: 2px 10px; }
+/* Modale d'édition d'un encart */
+.encart-modal-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.encart-name { flex: 1; font-family: inherit; font-size: 18px; font-weight: 700; color: var(--slate-900); border: none; background: transparent; padding: 4px 6px; border-radius: 6px; letter-spacing: -0.01em; }
+.encart-name:hover { background: var(--slate-50); }
+.encart-name:focus { outline: none; background: var(--slate-50); box-shadow: 0 0 0 2px var(--blue-100); }
+.encart-size-btn { border: 1px solid var(--slate-200); background: var(--white); border-radius: 7px; font-family: inherit; font-size: 11px; font-weight: 600; color: var(--slate-600); cursor: pointer; padding: 5px 10px; white-space: nowrap; flex-shrink: 0; }
+.encart-size-btn:hover { border-color: var(--blue-500); color: var(--blue-700); }
+.encart-text-edit { width: 100%; min-height: 160px; resize: vertical; border: 1px solid var(--slate-200); border-radius: 8px; padding: 12px; font-family: inherit; font-size: 13.5px; line-height: 1.6; color: var(--slate-700); }
+.encart-text-edit:focus { outline: none; border-color: var(--blue-500); }
+.encart-apports { margin-top: 16px; }
+.contrib-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--slate-400); font-weight: 700; margin-bottom: 8px; }
+.contrib { display: flex; align-items: flex-start; gap: 10px; padding: 8px 10px; background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 8px; margin-bottom: 6px; }
+.contrib-main { flex: 1; min-width: 0; }
+.contrib-main .ct { font-size: 13px; font-weight: 600; color: var(--slate-900); }
+.contrib-main .cb { font-size: 12.5px; color: var(--slate-600); line-height: 1.5; margin-top: 2px; white-space: pre-wrap; }
+.contrib-main .cm { font-size: 10.5px; color: var(--slate-400); margin-top: 5px; }
+.contrib-acts { display: flex; gap: 4px; flex-shrink: 0; }
+.contrib-acts button {
+  background: var(--white); border: 1px solid var(--slate-200); border-radius: 6px;
+  font-family: inherit; font-size: 11px; font-weight: 600; color: var(--slate-600);
+  cursor: pointer; padding: 3px 8px; transition: all .15s; white-space: nowrap;
+}
+.contrib-acts button:hover { border-color: var(--blue-500); color: var(--blue-700); }
 .todo-empty-zone {
   font-size: 13px; color: var(--slate-500); padding: 22px 18px;
   background: var(--slate-50); border: 1px dashed var(--slate-200);
@@ -489,7 +533,7 @@ tr:hover td { background: var(--blue-50); }
   font-size: 10px; font-weight: 700; color: var(--slate-700);
 }
 .qc-types {
-  display: grid; grid-template-columns: repeat(4, 1fr);
+  display: grid; grid-template-columns: repeat(3, 1fr);
   gap: 8px; padding: 14px 24px 22px;
   border-top: 1px solid var(--slate-100);
   background: var(--slate-50);
@@ -557,7 +601,7 @@ tr:hover td { background: var(--blue-50); }
           <div class="nav-subitem" data-view="strat-vision"><span class="sub-bullet"></span>Vision</div>
           <div class="nav-subitem" data-view="idees"><span class="sub-bullet"></span>Idées</div>
           <div class="nav-subitem" data-view="strat-marche"><span class="sub-bullet"></span>Prise de marché</div>
-          <div class="nav-subitem" data-view="strat-pricing"><span class="sub-bullet"></span>Pricing</div>
+          <div class="nav-subitem" data-view="strat-pricing"><span class="sub-bullet"></span>Tarification</div>
         </div>
       </div>
 
@@ -633,8 +677,30 @@ function load() {
   if (!state.strategie) state.strategie = [];
   if (!state.prospects) state.prospects = [];
   if (!state.today) state.today = { intention: '', date: '' };
-  // Migration : les éléments stratégie sans section rejoignent « Vision »
-  state.strategie.forEach(s => { if (!s.section) s.section = 'vision'; });
+  // Stratégie globale en piliers (par section)
+  if (!state.strategiePillars) state.strategiePillars = {};
+  ['vision','marche','pricing'].forEach(s => { if (!Array.isArray(state.strategiePillars[s])) state.strategiePillars[s] = []; });
+  if (!state.strategieSeeded) {
+    const defaults = {
+      vision: ['Notre cap', 'Pour qui', 'Pourquoi maintenant'],
+      marche: ['Cibles prioritaires', 'Canaux', 'Arguments clés'],
+      pricing: ['Modèle', 'Offres', 'Logique tarifaire']
+    };
+    Object.keys(defaults).forEach(s => {
+      if (state.strategiePillars[s].length === 0)
+        state.strategiePillars[s] = defaults[s].map(name => ({ id: uid(), name, text: '', contributions: [] }));
+    });
+    // Migration des anciens éléments plats vers le 1er pilier de leur section
+    if (Array.isArray(state.strategie) && state.strategie.length) {
+      state.strategie.forEach(it => {
+        const sec = state.strategiePillars[it.section] ? it.section : 'vision';
+        const p = state.strategiePillars[sec][0];
+        if (p) p.contributions.push({ id: uid(), title: it.title, body: it.body || '', from: 'import', date: '' });
+      });
+      state.strategie = [];
+    }
+    state.strategieSeeded = true;
+  }
 }
 function save() {
   try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
@@ -653,7 +719,7 @@ const titles = {
   'strat-vision':'Stratégie — Vision',
   idees:'Stratégie — Idées',
   'strat-marche':'Stratégie — Prise de marché',
-  'strat-pricing':'Stratégie — Pricing',
+  'strat-pricing':'Stratégie — Tarification',
   'clients-valides':'Clients validés',
   'clients-prospects':'Prospects CPTS',
   communication:'Communication'
@@ -664,9 +730,6 @@ let searchQuery = '';
 const searchPlaceholders = {
   todo: 'Rechercher une tâche…',
   idees: 'Rechercher une idée…',
-  'strat-vision': 'Rechercher dans la vision…',
-  'strat-marche': 'Rechercher dans la prise de marché…',
-  'strat-pricing': 'Rechercher dans le pricing…',
   'clients-valides': 'Rechercher un client…',
   'clients-prospects': 'Rechercher une CPTS, un contact…'
 };
@@ -1153,7 +1216,7 @@ function renderTodo(content, actions) {
     { key:'doing', label:'En cours', dot:'var(--blue-500)' },
     { key:'done', label:'Terminé', dot:'var(--teal-600)' }
   ];
-  const tasks = state.tasks.filter(t => matchSearch(t, [t.title, t.body, catLabel[t.category]]));
+  const tasks = state.tasks.filter(t => matchSearch(t, [t.title, t.body]));
   if (searchQuery && tasks.length === 0) {
     content.innerHTML = `<div class="panel"><div class="search-empty">Aucune tâche ne contient <strong>« ${esc(searchQuery)} »</strong></div></div>`;
     return;
@@ -1164,7 +1227,6 @@ function renderTodo(content, actions) {
     html += `<div class="task-column" ondragover="taskDragOver(event)" ondragleave="taskDragLeave(event)" ondrop="taskDrop(event,'${col.key}')"><h3><span class="dot-status" style="background:${col.dot}"></span>${col.label}<span class="task-count">${colTasks.length}</span></h3><div class="task-col">`;
     colTasks.forEach(t => {
       html += `<div class="task-card" draggable="true" ondragstart="taskDragStart(event,'${t.id}')" ondragend="taskDragEnd(event)" onclick="openTaskModal('${t.id}')">
-        <div class="task-cat" style="color:${catColors[t.category]}">${catLabel[t.category]}</div>
         ${esc(t.title)}
         ${t.body?`<div class="task-note-snippet">${esc(t.body.slice(0,60))}${t.body.length>60?'…':''}</div>`:''}</div>`;
     });
@@ -1177,7 +1239,7 @@ function renderTodo(content, actions) {
 function promoteNote(id) {
   const note = state.notes.find(n => n.id === id);
   if (!note) return;
-  state.tasks.push({ id: uid(), title: note.title, category: note.category, status: 'todo', body: note.body || '' });
+  state.tasks.push({ id: uid(), title: note.title, status: 'todo', body: note.body || '' });
   state.notes = state.notes.filter(n => n.id !== id);
   state.notes.forEach(n => { if (n.links) n.links = n.links.filter(l => l !== id); });
   save(); render();
@@ -1199,7 +1261,7 @@ function toggleIdeaLink() {
 
 function renderIdees(content, actions) {
   actions.innerHTML = `<button class="btn btn-primary" onclick="openNoteModal()">+ Idée</button>`;
-  const notes = state.notes.filter(n => matchSearch(n, [n.title, n.body, catLabel[n.category]]));
+  const notes = state.notes.filter(n => matchSearch(n, [n.title, n.body]));
 
   let html = '<div class="panel" style="max-width:none"><div class="todo-section">';
   html += `<h3 class="todo-section-title">
@@ -1230,13 +1292,13 @@ function renderIdees(content, actions) {
     notes.forEach(note => {
       const linked = (note.links||[]).map(lid => state.notes.find(n=>n.id===lid)).filter(Boolean);
       html += `<div class="idea-card" onclick="openNoteModal('${note.id}')">
-        <button class="idea-promote" onclick="event.stopPropagation();promoteNote('${note.id}')" title="Transformer en tâche">→ tâche</button>
+        <div class="idea-card-actions">
+          <button class="idea-act idea-classify" onclick="event.stopPropagation();startClassify('${note.id}',this)" title="Classer avec l'IA">✨</button>
+          <button class="idea-act idea-promote" onclick="event.stopPropagation();promoteNote('${note.id}')" title="Transformer en tâche">→ tâche</button>
+        </div>
         <h4>${esc(note.title)}</h4>
         ${note.body?`<p>${esc(note.body.slice(0,120))}${note.body.length>120?'…':''}</p>`:''}
-        <div class="meta">
-          <span class="tag ${catClass[note.category]}">${catLabel[note.category]}</span>
-          ${linked.length?`<span class="tag" style="background:var(--slate-100);color:var(--slate-500)">🔗 ${linked.length}</span>`:''}
-        </div>
+        ${linked.length?`<div class="meta"><span class="tag" style="background:var(--slate-100);color:var(--slate-500)">🔗 ${linked.length}</span></div>`:''}
       </div>`;
     });
     html += '</div>';
@@ -1251,18 +1313,16 @@ function renderIdees(content, actions) {
 }
 
 function layoutIdeasIfNeeded() {
-  const anchors = { tech:{x:300,y:230}, commercial:{x:660,y:230}, strategie:{x:480,y:470} };
-  const counts = {};
-  state.notes.forEach(n => { if (typeof n.x==='number' && typeof n.y==='number') { const c = anchors[n.category]?n.category:'tech'; counts[c]=(counts[c]||0)+1; } });
+  const cx = 470, cy = 320;
+  let placed = state.notes.filter(n => typeof n.x === 'number' && typeof n.y === 'number').length;
   let changed = false;
   state.notes.forEach(n => {
     if (typeof n.x === 'number' && typeof n.y === 'number') return;
-    const cat = anchors[n.category] ? n.category : 'tech';
-    const k = counts[cat] || 0; counts[cat] = k + 1;
-    const ring = 1 + Math.floor(k/6);
-    const ang = (k % 6) * (Math.PI/3) + ring*0.6;
-    n.x = anchors[cat].x + Math.cos(ang)*55*ring;
-    n.y = anchors[cat].y + Math.sin(ang)*55*ring;
+    const k = placed++;
+    const ring = 1 + Math.floor(k / 8);
+    const ang = (k % 8) * (Math.PI / 4) + ring * 0.5;
+    n.x = cx + Math.cos(ang) * 95 * ring;
+    n.y = cy + Math.sin(ang) * 72 * ring;
     changed = true;
   });
   if (changed) save();
@@ -1308,7 +1368,7 @@ function setupIdeaGraph(canvas) {
     state.notes.forEach(n => {
       const p = w2s(n.x,n.y), r = R*gs.scale;
       ctx.beginPath(); ctx.arc(p.x,p.y,r,0,Math.PI*2);
-      ctx.fillStyle = catColors[n.category] || '#64748B'; ctx.fill();
+      ctx.fillStyle = '#3B82F6'; ctx.fill();
       if (ideaLinkSource===n.id) { ctx.lineWidth = 3; ctx.strokeStyle = '#0D9488'; ctx.stroke(); }
       ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.font = `700 ${13*gs.scale}px Manrope, sans-serif`;
@@ -1370,12 +1430,7 @@ function openNoteModal(id) {
   m.innerHTML = `
     <h2>${note?'Modifier l\'idée':'Nouvelle idée'}</h2>
     <div class="field"><label>Titre</label><input id="note-title" value="${note?esc(note.title):''}"></div>
-    <div class="field"><label>Catégorie</label><select id="note-category">
-      <option value="tech" ${note?.category==='tech'?'selected':''}>Technique</option>
-      <option value="commercial" ${note?.category==='commercial'?'selected':''}>Commercial</option>
-      <option value="strategie" ${note?.category==='strategie'?'selected':''}>Stratégie</option>
-    </select></div>
-    <div class="field"><label>Contenu</label><textarea id="note-body" style="min-height:140px">${note?esc(note.body||''):''}</textarea></div>
+    <div class="field"><label>Description</label><textarea id="note-body" style="min-height:140px" placeholder="Décris ton idée…">${note?esc(note.body||''):''}</textarea></div>
     <div class="field"><label>Relier à d'autres idées</label>
       <select id="note-links" multiple style="min-height:80px">
         ${others.map(n=>`<option value="${n.id}" ${note?.links?.includes(n.id)?'selected':''}>${esc(n.title)}</option>`).join('')}
@@ -1384,6 +1439,7 @@ function openNoteModal(id) {
     </div>
     <div class="modal-actions">
       ${note?`<button class="btn btn-ghost" style="color:var(--red-600);margin-right:auto" onclick="deleteNote('${id}')">Supprimer</button>`:''}
+      ${note?`<button class="btn btn-ghost" onclick="startClassify('${id}',this)">✨ Classer</button>`:''}
       <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
       <button class="btn btn-primary" onclick="saveNote('${id||''}')">Enregistrer</button>
     </div>`;
@@ -1393,8 +1449,7 @@ function saveNote(id) {
   const title = document.getElementById('note-title').value.trim();
   if (!title) return alert('Le titre est requis');
   const links = Array.from(document.getElementById('note-links').selectedOptions).map(o=>o.value);
-  const data = { title, category: document.getElementById('note-category').value,
-    body: document.getElementById('note-body').value.trim(), links };
+  const data = { title, body: document.getElementById('note-body').value.trim(), links };
   if (id) Object.assign(state.notes.find(n=>n.id===id), data);
   else state.notes.push({ id: uid(), ...data });
   save(); closeModal(); render();
@@ -1443,11 +1498,6 @@ function openTaskModal(id) {
   m.innerHTML = `
     <h2>${task?'Modifier':'Nouvelle'} tâche</h2>
     <div class="field"><label>Intitulé</label><input id="task-title" value="${task?esc(task.title):''}"></div>
-    <div class="field"><label>Catégorie</label><select id="task-category">
-      <option value="tech" ${task?.category==='tech'?'selected':''}>Technique</option>
-      <option value="commercial" ${task?.category==='commercial'?'selected':''}>Commercial</option>
-      <option value="strategie" ${task?.category==='strategie'?'selected':''}>Stratégie</option>
-    </select></div>
     <div class="field"><label>Statut</label><select id="task-status">
       <option value="todo" ${task?.status==='todo'?'selected':''}>À faire</option>
       <option value="doing" ${task?.status==='doing'?'selected':''}>En cours</option>
@@ -1464,7 +1514,7 @@ function openTaskModal(id) {
 function saveTask(id) {
   const title = document.getElementById('task-title').value.trim();
   if (!title) return alert('L\'intitulé est requis');
-  const data = { title, category: document.getElementById('task-category').value, status: document.getElementById('task-status').value, body: document.getElementById('task-body').value.trim() };
+  const data = { title, status: document.getElementById('task-status').value, body: document.getElementById('task-body').value.trim() };
   if (id) Object.assign(state.tasks.find(t=>t.id===id), data);
   else state.tasks.push({ id: uid(), ...data });
   save(); closeModal(); render();
@@ -1474,69 +1524,118 @@ function deleteTask(id) {
   save(); closeModal(); render();
 }
 
-// ============ VUE STRATÉGIE ============
+// ============ VUE STRATÉGIE (Hub d'encarts) ============
 const stratMeta = {
   vision:  { label:'Vision',          prompt:'Ta vision : où tu veux emmener CPTS Pilot, ta raison d’être, ton cap à long terme.' },
   marche:  { label:'Prise de marché', prompt:'Comment tu attaques le marché : cibles prioritaires, canaux, arguments, go-to-market.' },
-  pricing: { label:'Pricing',         prompt:'Ton modèle de prix : offres, paliers, logique tarifaire.' }
+  pricing: { label:'Tarification',    prompt:'Ton modèle de prix : offres, paliers, logique tarifaire.' }
 };
+const sectionLabels = { vision:'Vision', marche:'Prise de marché', pricing:'Tarification' };
+function findPillar(section, pid) { return (state.strategiePillars[section]||[]).find(p=>p.id===pid); }
+
 function renderStrategie(content, actions, section) {
-  const meta = stratMeta[section] || stratMeta.vision;
-  actions.innerHTML = `<button class="btn btn-primary" onclick="openStratModal(null,'${section}')">+ Élément</button>`;
-  const items = state.strategie.filter(s => (s.section||'vision') === section);
-  if (items.length === 0) {
-    content.innerHTML = `<div class="panel"><div class="empty">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-      <p>${meta.prompt}</p></div></div>`;
-    return;
+  actions.innerHTML = `<button class="btn btn-primary" onclick="addEncart('${section}')">+ Encart</button>`;
+  const encarts = state.strategiePillars[section] || [];
+  let html = '<div class="panel" style="max-width:1100px">';
+  if (encarts.length === 0) {
+    html += `<div class="empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="10" width="8" height="11" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/></svg>
+      <p>Aucun encart. Clique « + Encart » pour composer cette section.</p></div>`;
+  } else {
+    html += '<div class="hub-grid">';
+    encarts.forEach(p => { html += renderEncartCard(section, p); });
+    html += '</div>';
   }
-  const filtered = items.filter(s => matchSearch(s, [s.title, s.body]));
-  if (filtered.length === 0) {
-    content.innerHTML = `<div class="panel"><div class="search-empty">Aucun élément ne contient <strong>« ${esc(searchQuery)} »</strong></div></div>`;
-    return;
-  }
-  let html = '<div class="panel">';
-  filtered.forEach(s => {
-    html += `<div class="card" style="margin-bottom:16px" onclick="openStratModal('${s.id}')">
-      <h3>${esc(s.title)}</h3>
-      <p style="white-space:pre-wrap">${esc(s.body||'')}</p></div>`;
-  });
   html += '</div>';
   content.innerHTML = html;
 }
-function openStratModal(id, section) {
-  const s = id ? state.strategie.find(x=>x.id===id) : null;
-  const sec = s ? (s.section||'vision') : (section||'vision');
+function renderEncartCard(section, p) {
+  const n = (p.contributions||[]).length;
+  const preview = (p.text||'').trim();
+  const max = p.size === 'large' ? 420 : 200;
+  return `<div class="encart ${p.size==='large'?'encart-lg':''}" onclick="openEncartModal('${section}','${p.id}')">
+    <div class="encart-title">${esc(p.name)}</div>
+    ${preview ? `<div class="encart-text">${esc(preview.slice(0,max))}${preview.length>max?'…':''}</div>` : `<div class="encart-empty">Vide — clique pour rédiger</div>`}
+    ${n ? `<div class="encart-badge">▸ ${n} apport${n>1?'s':''}</div>` : ''}
+  </div>`;
+}
+function addEncart(section) {
+  state.strategiePillars[section] = state.strategiePillars[section] || [];
+  const p = { id: uid(), name: 'Nouvel encart', text: '', size: 'normal', contributions: [] };
+  state.strategiePillars[section].push(p);
+  save(); render(); openEncartModal(section, p.id);
+}
+function openEncartModal(section, pid) {
+  const p = findPillar(section, pid); if (!p) return;
+  const contribs = p.contributions || [];
   const m = document.getElementById('modal');
   m.classList.remove('qc-mode');
   m.innerHTML = `
-    <h2>${s?'Modifier':'Nouvel'} élément stratégique</h2>
-    <div class="field"><label>Titre</label><input id="strat-title" value="${s?esc(s.title):''}" placeholder="Ex: Positionnement, Cible prioritaire, Offre Starter..."></div>
-    <div class="field"><label>Section</label><select id="strat-section">
-      <option value="vision" ${sec==='vision'?'selected':''}>Vision</option>
-      <option value="marche" ${sec==='marche'?'selected':''}>Prise de marché</option>
-      <option value="pricing" ${sec==='pricing'?'selected':''}>Pricing</option>
-    </select></div>
-    <div class="field"><label>Contenu</label><textarea id="strat-body" style="min-height:180px">${s?esc(s.body||''):''}</textarea></div>
+    <div class="encart-modal-head">
+      <input class="encart-name" value="${esc(p.name)}" onchange="renamePillar('${section}','${pid}',this.value)">
+      <button class="encart-size-btn" onclick="toggleEncartSize('${section}','${pid}')">${p.size==='large'?'▭ Réduire':'▭ Agrandir'}</button>
+    </div>
+    <textarea id="encart-text" class="encart-text-edit" placeholder="Rédige le contenu de cet encart…" onblur="savePillarText('${section}','${pid}',this.value)">${esc(p.text||'')}</textarea>
+    ${contribs.length ? `<div class="encart-apports"><div class="contrib-label">Apports · ${contribs.length}</div>${contribs.map(c => `
+      <div class="contrib">
+        <div class="contrib-main">
+          <div class="ct">${esc(c.title)}</div>
+          ${c.body?`<div class="cb">${esc(c.body)}</div>`:''}
+          <div class="cm">venu d'${c.from==='tâche'?'une tâche':"une idée"}${c.date?` · ${esc(c.date)}`:''}</div>
+        </div>
+        <div class="contrib-acts">
+          <button title="Intégrer dans le texte" onclick="integrateContrib('${section}','${pid}','${c.id}')">↥ intégrer</button>
+          <button title="Retirer" onclick="deleteContrib('${section}','${pid}','${c.id}')">×</button>
+        </div>
+      </div>`).join('')}</div>` : ''}
     <div class="modal-actions">
-      ${s?`<button class="btn btn-ghost" style="color:var(--red-600);margin-right:auto" onclick="deleteStrat('${id}')">Supprimer</button>`:''}
-      <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
-      <button class="btn btn-primary" onclick="saveStrat('${id||''}')">Enregistrer</button>
+      <button class="btn btn-ghost" style="color:var(--red-600);margin-right:auto" onclick="deleteEncart('${section}','${pid}')">Supprimer l'encart</button>
+      <button class="btn btn-primary" onclick="savePillarText('${section}','${pid}',document.getElementById('encart-text').value);closeModal();render();">Fermer</button>
     </div>`;
   document.getElementById('modal-overlay').classList.add('open');
 }
-function saveStrat(id) {
-  const title = document.getElementById('strat-title').value.trim();
-  if (!title) return alert('Le titre est requis');
-  const data = { title, section: document.getElementById('strat-section').value, body: document.getElementById('strat-body').value.trim() };
-  if (id) Object.assign(state.strategie.find(x=>x.id===id), data);
-  else state.strategie.push({ id: uid(), ...data });
+function renamePillar(section, pid, name) {
+  const p = findPillar(section, pid); if (!p) return;
+  p.name = name.trim() || 'Encart'; save();
+}
+function savePillarText(section, pid, text) {
+  const p = findPillar(section, pid); if (!p) return;
+  p.text = text; save();
+}
+function toggleEncartSize(section, pid) {
+  syncEncartText(section, pid);
+  const p = findPillar(section, pid); if (!p) return;
+  p.size = p.size === 'large' ? 'normal' : 'large';
+  save(); openEncartModal(section, pid);
+}
+function deleteEncart(section, pid) {
+  const p = findPillar(section, pid); if (!p) return;
+  const n = (p.contributions||[]).length;
+  if (!confirm(`Supprimer l'encart « ${p.name} »${n?` et ses ${n} apport(s)`:''} ?`)) return;
+  state.strategiePillars[section] = state.strategiePillars[section].filter(x=>x.id!==pid);
   save(); closeModal(); render();
 }
-function deleteStrat(id) {
-  if(!confirm('Supprimer ?')) return;
-  state.strategie = state.strategie.filter(x=>x.id!==id);
-  save(); closeModal(); render();
+function syncEncartText(section, pid) {
+  const ta = document.getElementById('encart-text');
+  if (!ta) return;
+  const p = findPillar(section, pid); if (p) p.text = ta.value;
+}
+function integrateContrib(section, pid, cid) {
+  syncEncartText(section, pid);
+  const p = findPillar(section, pid); if (!p) return;
+  const c = (p.contributions||[]).find(x=>x.id===cid); if (!c) return;
+  const add = (c.title ? c.title : '') + (c.body ? (c.title?' : ':'') + c.body : '');
+  p.text = (p.text ? p.text.trimEnd() + '\n\n' : '') + add;
+  p.contributions = p.contributions.filter(x=>x.id!==cid);
+  save();
+  if (document.getElementById('encart-text')) openEncartModal(section, pid); else render();
+}
+function deleteContrib(section, pid, cid) {
+  syncEncartText(section, pid);
+  const p = findPillar(section, pid); if (!p) return;
+  p.contributions = (p.contributions||[]).filter(x=>x.id!==cid);
+  save();
+  if (document.getElementById('encart-text')) openEncartModal(section, pid); else render();
 }
 
 // ============ VUES EN PRÉPARATION ============
@@ -1671,11 +1770,6 @@ function openQuickCapture() {
         Prospect
         <span class="qc-type-hotkey">Clic</span>
       </button>
-      <button class="qc-type" onclick="quickOpen('strat')" title="Nouvel élément stratégique">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2v20M2 12h20"/></svg>
-        Stratégie
-        <span class="qc-type-hotkey">Clic</span>
-      </button>
     </div>
   `;
   document.getElementById('modal-overlay').classList.add('open');
@@ -1712,9 +1806,6 @@ function quickOpen(type) {
     } else if (type === 'prospect') {
       openProspectModal(null, 'contact');
       if (text) document.getElementById('prosp-nom').value = text;
-    } else if (type === 'strat') {
-      openStratModal(null, 'vision');
-      if (text) document.getElementById('strat-title').value = text;
     }
   }, 30);
 }
@@ -1851,6 +1942,10 @@ function openSettingsModal() {
   else if (cfg.lastError) { dot = 'var(--red-600)'; status = 'Erreur : ' + esc(cfg.lastError); }
   else if (cfg.lastBackup) { dot = 'var(--teal-600)'; status = 'Dernière sauvegarde ' + formatRelativeDate(cfg.lastBackup); }
   else { dot = 'var(--orange-600)'; status = 'En attente du premier backup'; }
+  const aiCfg = getAiConfig();
+  const aiModelLabels = { 'claude-haiku-4-5':'Haiku', 'claude-sonnet-4-6':'Sonnet', 'claude-opus-4-8':'Opus' };
+  const aiDot = aiCfg.key ? 'var(--teal-600)' : 'var(--slate-500)';
+  const aiStatus = aiCfg.key ? ('Activé · ' + (aiModelLabels[aiCfg.model] || aiCfg.model || 'Haiku')) : 'Non configuré';
   const m = document.getElementById('modal');
   m.classList.remove('qc-mode');
   m.innerHTML = `
@@ -1861,6 +1956,13 @@ function openSettingsModal() {
       <div class="settings-row">
         <button class="btn btn-ghost" onclick="openGhConfigModal()">${cfg.token?'Reconfigurer':'☁ Configurer'}</button>
         <button class="btn btn-primary" id="manual-backup-btn" onclick="doManualBackup()">↑ Sauvegarder maintenant</button>
+      </div>
+    </div>
+    <div class="settings-section">
+      <h3>Assistant IA</h3>
+      <div class="settings-status"><span class="status-dot" style="background:${aiDot}"></span>${aiStatus}</div>
+      <div class="settings-row">
+        <button class="btn btn-ghost" onclick="openAiConfigModal()">${aiCfg.key?'Reconfigurer':'☆ Configurer'}</button>
       </div>
     </div>
     <div class="settings-section">
@@ -1959,6 +2061,189 @@ function disableGhBackup() {
   if (backupInterval) { clearInterval(backupInterval); backupInterval = null; }
   closeModal();
   updateBackupStatus();
+}
+
+// ============ ASSISTANT IA (classement des idées) ============
+const AI_CONFIG_KEY = 'cpts_ai_config';
+function getAiConfig() {
+  try { return JSON.parse(localStorage.getItem(AI_CONFIG_KEY) || '{}'); }
+  catch { return {}; }
+}
+function setAiConfig(c) { localStorage.setItem(AI_CONFIG_KEY, JSON.stringify(c)); }
+
+// Appel direct à l'API Claude depuis le navigateur. Sortie JSON garantie par structured output.
+async function classifyIdea(note, cfgOverride) {
+  const cfg = cfgOverride || getAiConfig();
+  if (!cfg.key) throw new Error('Assistant IA non configuré');
+  const SYSTEM = `Tu es l'assistant de classement du cockpit de pilotage de CPTS Pilot (un logiciel pour les CPTS — Communautés Professionnelles Territoriales de Santé). On te donne une « idée » (note libre). Choisis sa destination.
+Deux chemins :
+- Si l'idée est une ACTION concrète à réaliser → destination "tache" (elle ira dans le tableau To do).
+- Si l'idée est une INTUITION / orientation stratégique déjà mûre → range-la directement dans la stratégie : "vision" (cap, raison d'être, long terme), "marche" (prise de marché : cibles, canaux, go-to-market), ou "pricing" (modèle de prix, offres).
+- Si rien ne colle vraiment → "idee" (la garder en l'état).
+reason : une phrase courte (max 15 mots) en français justifiant le choix.
+Réponds uniquement via le schéma fourni.`;
+  const SCHEMA = {
+    type: 'object',
+    properties: {
+      destination: { type: 'string', enum: ['vision', 'marche', 'pricing', 'tache', 'idee'] },
+      reason: { type: 'string' }
+    },
+    required: ['destination', 'reason'],
+    additionalProperties: false
+  };
+  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      'x-api-key': cfg.key,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: cfg.model || 'claude-haiku-4-5',
+      max_tokens: 400,
+      system: [{ type: 'text', text: SYSTEM, cache_control: { type: 'ephemeral' } }],
+      messages: [{ role: 'user', content: `Titre : ${note.title}\n\nContenu : ${note.body || '(vide)'}` }],
+      output_config: { format: { type: 'json_schema', schema: SCHEMA } }
+    })
+  });
+  if (!resp.ok) {
+    const err = await resp.json().catch(() => ({}));
+    throw new Error(err.error?.message || `Erreur API (${resp.status})`);
+  }
+  const data = await resp.json();
+  const txt = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+  try { return JSON.parse(txt); }
+  catch { throw new Error('Réponse de l\'IA illisible'); }
+}
+
+async function startClassify(noteId, btn) {
+  const note = state.notes.find(n => n.id === noteId);
+  if (!note) return;
+  if (!getAiConfig().key) { alert('Configure d\'abord l\'assistant IA dans les Réglages.'); openAiConfigModal(); return; }
+  if (btn) { btn.dataset.old = btn.textContent; btn.textContent = '…'; btn.disabled = true; }
+  try {
+    const suggestion = await classifyIdea(note);
+    openClassifyModal(noteId, suggestion);
+  } catch (e) {
+    alert('Classement IA impossible : ' + e.message);
+    if (btn) { btn.textContent = btn.dataset.old || '✨'; btn.disabled = false; }
+  }
+}
+
+const classifyDestLabels = { vision:'Stratégie › Vision', marche:'Stratégie › Prise de marché', pricing:'Stratégie › Tarification', tache:'Tâche (To do)', idee:'Rester une idée' };
+function openClassifyModal(noteId, s) {
+  const note = state.notes.find(n => n.id === noteId);
+  if (!note) return;
+  const dest = classifyDestLabels[s.destination] ? s.destination : 'idee';
+  const m = document.getElementById('modal');
+  m.classList.remove('qc-mode');
+  m.innerHTML = `
+    <h2>Classer l'idée</h2>
+    <div style="font-weight:700;font-size:15px;margin-bottom:10px">${esc(note.title)}</div>
+    <div class="ai-reason">💡 <strong>Suggestion de Claude</strong> — ${esc(s.reason || '')}</div>
+    <div class="field"><label>Destination</label><select id="cl-dest" onchange="updateClassifyPillars()">
+      <option value="vision" ${dest==='vision'?'selected':''}>Stratégie › Vision</option>
+      <option value="marche" ${dest==='marche'?'selected':''}>Stratégie › Prise de marché</option>
+      <option value="pricing" ${dest==='pricing'?'selected':''}>Stratégie › Tarification</option>
+      <option value="tache" ${dest==='tache'?'selected':''}>Tâche (To do)</option>
+      <option value="idee" ${dest==='idee'?'selected':''}>Rester une idée</option>
+    </select></div>
+    <div class="field" id="cl-pillar-field"><label>Encart</label><select id="cl-pillar"></select></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="applyClassify('${noteId}')">Classer</button>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+  updateClassifyPillars();
+}
+function updateClassifyPillars() {
+  const dest = document.getElementById('cl-dest').value;
+  const field = document.getElementById('cl-pillar-field');
+  const sel = document.getElementById('cl-pillar');
+  if (['vision','marche','pricing'].includes(dest)) {
+    field.style.display = '';
+    const pillars = state.strategiePillars[dest] || [];
+    sel.innerHTML = pillars.length
+      ? pillars.map(p => `<option value="${p.id}">${esc(p.name)}</option>`).join('')
+      : '<option value="">(un encart sera créé)</option>';
+  } else {
+    field.style.display = 'none';
+  }
+}
+function applyClassify(noteId) {
+  const note = state.notes.find(n => n.id === noteId);
+  if (!note) { closeModal(); return; }
+  const dest = document.getElementById('cl-dest').value;
+  if (dest === 'tache') { closeModal(); promoteNote(noteId); return; }
+  if (dest === 'idee') { closeModal(); return; }
+  const pillarId = document.getElementById('cl-pillar').value;
+  closeModal();
+  fileIdeaToStrategy(noteId, dest, pillarId);
+}
+function shortDate() { return new Date().toLocaleDateString('fr-FR', { day:'numeric', month:'short' }); }
+function fileIdeaToStrategy(noteId, section, pillarId) {
+  const note = state.notes.find(n => n.id === noteId);
+  if (!note) return;
+  state.strategiePillars[section] = state.strategiePillars[section] || [];
+  let p = state.strategiePillars[section].find(x => x.id === pillarId) || state.strategiePillars[section][0];
+  if (!p) { p = { id: uid(), name: 'Apports', text: '', contributions: [] }; state.strategiePillars[section].push(p); }
+  p.contributions = p.contributions || [];
+  p.contributions.push({ id: uid(), title: note.title, body: note.body || '', from: 'idée', date: shortDate() });
+  state.notes = state.notes.filter(n => n.id !== noteId);
+  state.notes.forEach(n => { if (n.links) n.links = n.links.filter(l => l !== noteId); });
+  save(); render();
+}
+
+function openAiConfigModal() {
+  const cfg = getAiConfig();
+  const has = !!cfg.key;
+  const model = cfg.model || 'claude-haiku-4-5';
+  const m = document.getElementById('modal');
+  m.classList.remove('qc-mode');
+  m.innerHTML = `
+    <h2>Assistant IA (Claude)</h2>
+    <p style="font-size:13px;color:var(--slate-600);line-height:1.6;margin-bottom:16px;">
+      Analyse tes idées et propose de les ranger dans la stratégie ou en tâche (tu valides à chaque fois).<br><br>
+      <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener" style="color:var(--blue-700);font-weight:600;">Obtenir une clé API Anthropic →</a> (compte avec un peu de crédit requis). La clé reste dans ton navigateur.
+    </p>
+    <div class="field"><label>Clé API</label><input id="ai-key" type="password" placeholder="${has?'Laisse vide pour conserver la clé actuelle':'sk-ant-...'}" autocomplete="off"></div>
+    <div class="field"><label>Modèle</label><select id="ai-model">
+      <option value="claude-haiku-4-5" ${model==='claude-haiku-4-5'?'selected':''}>Haiku — rapide & économique (recommandé)</option>
+      <option value="claude-sonnet-4-6" ${model==='claude-sonnet-4-6'?'selected':''}>Sonnet — équilibré</option>
+      <option value="claude-opus-4-8" ${model==='claude-opus-4-8'?'selected':''}>Opus — le plus fin (plus cher)</option>
+    </select></div>
+    <div id="ai-status" style="font-size:12px;color:var(--slate-600);padding:10px 12px;background:var(--slate-50);border-radius:8px;display:none;margin-bottom:12px;border:1px solid var(--slate-200);"></div>
+    <div class="modal-actions">
+      ${has?`<button class="btn btn-ghost" style="color:var(--red-600);margin-right:auto" onclick="disableAi()">Désactiver</button>`:''}
+      <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-primary" id="ai-save-btn" onclick="saveAiConfig()">Tester et activer</button>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+  setTimeout(() => document.getElementById('ai-key')?.focus(), 30);
+}
+async function saveAiConfig() {
+  const keyInput = document.getElementById('ai-key').value.trim();
+  const existing = getAiConfig();
+  const cfg = { key: keyInput || existing.key || '', model: document.getElementById('ai-model').value };
+  const status = document.getElementById('ai-status');
+  const btn = document.getElementById('ai-save-btn');
+  status.style.display = 'block';
+  if (!cfg.key) { status.style.color = 'var(--red-600)'; status.textContent = 'La clé API est requise.'; return; }
+  status.style.color = 'var(--slate-600)'; status.textContent = 'Test de la connexion à Claude…'; btn.disabled = true;
+  try {
+    await classifyIdea({ title: 'Test', body: 'Vérification de la connexion.' }, cfg);
+    setAiConfig(cfg);
+    status.style.color = 'var(--teal-700)'; status.textContent = '✓ Connexion OK. Assistant activé.';
+    setTimeout(() => closeModal(), 1200);
+  } catch (e) {
+    status.style.color = 'var(--red-600)'; status.textContent = '✗ ' + e.message;
+  } finally { btn.disabled = false; }
+}
+function disableAi() {
+  if (!confirm('Désactiver l\'assistant IA et oublier la clé ?')) return;
+  localStorage.removeItem(AI_CONFIG_KEY);
+  closeModal();
 }
 
 // ============ INIT ============
