@@ -1,0 +1,98 @@
+{
+  "version": 1,
+  "generated_at": "2026-05-29",
+  "source": "Plateforme-CPTS (CLAUDE.md, SESSION_STATUS.md, docs/plans/, docs/superpowers/plans/, presentation/demo-5mai/, docs/brand/)",
+  "encarts": {
+    "vision": [
+      {
+        "name": "Notre cap",
+        "size": "large",
+        "text": "« Chaque rôle a ses outils. Tout est connecté. Vous pilotez sereinement. »\n\nUn SaaS natif des CPTS — par une coordinatrice, pour les coordinatrices. Pas un outil de plus : l'outil qui s'adapte à la CPTS, pas l'inverse."
+      },
+      {
+        "name": "Pour qui",
+        "size": "normal",
+        "text": "Les bureaux de CPTS — président·e, trésorier·e, secrétaire — et leurs coordinateurs. Quatre expériences sur mesure sur une seule base de données."
+      },
+      {
+        "name": "Ce qui nous distingue",
+        "size": "normal",
+        "text": "Role-first natif CPTS · Lien dynamique ACI ↔ Trésorerie (budgets calculés, pas saisis) · Indicateurs ARS auto-agrégés depuis le pilotage · RBAC configurable par CPTS."
+      },
+      {
+        "name": "Nos valeurs",
+        "size": "normal",
+        "text": "Sérénité du pilotage · Transparence comme moteur d'engagement des membres · Sobriété visuelle assumée (règle 95/5, cobalt en accent) · Respect du temps des coordinateurs."
+      }
+    ],
+    "marche": [
+      {
+        "name": "À qui on parle",
+        "size": "large",
+        "text": "Aux bureaux des CPTS pilotes — présidents, trésoriers, secrétaires, coordinateurs. On vend à des pairs, pas à des DSI ni à des acheteurs."
+      },
+      {
+        "name": "Le moment de vérité",
+        "size": "normal",
+        "text": "Le dialogue de gestion ARS. C'est le rendez-vous où nos cockpits prouvent leur valeur d'un coup d'œil — c'est là que se gagnent les convictions."
+      },
+      {
+        "name": "Notre go-to-market",
+        "size": "normal",
+        "text": "Démo face-à-face de 20 min au bureau d'une CPTS · Mode démo public web (sandbox auto-resettable) · Site vitrine V1 sur la racine du domaine."
+      },
+      {
+        "name": "Arguments qui frappent",
+        "size": "large",
+        "text": "« Aucun autre outil ne le propose nativement » (cockpit ACI)\n« Plus d'Excel. Plus de peur. Plus d'oublis. » (trésorerie)\n« La transparence devient un argument d'engagement. » (membres)"
+      },
+      {
+        "name": "La promesse pilote",
+        "size": "normal",
+        "text": "4 semaines de test en conditions réelles, support direct, retours intégrés au produit. « Votre retour façonne le produit. Littéralement. »"
+      }
+    ],
+    "pricing": [
+      {
+        "name": "Le modèle",
+        "size": "large",
+        "text": "Un forfait par CPTS — pas par utilisateur. Quelle que soit la taille — 20 ou 200 membres — vous payez un forfait fixe. Lisible, prévisible, sans surfacturation à l'usage."
+      },
+      {
+        "name": "Nos engagements",
+        "size": "normal",
+        "text": "Sans engagement. Migration incluse. Pas de préavis, pas de surprise. Reprise des données + paramétrage + 1 h de formation par rôle + 90 jours de support = inclus."
+      },
+      {
+        "name": "Phase pilote",
+        "size": "normal",
+        "text": "Accès complet offert pendant 4 semaines à la CPTS pilote. La grille se discute en face-à-face, calibrée à la taille de la CPTS."
+      },
+      {
+        "name": "Le pitch tarif",
+        "size": "normal",
+        "text": "Pas de prix figés en V1. Annoncé verbatim en démo : « Le tarif est public, sans engagement, adapté à la taille de la CPTS. On regarde ça en face-à-face dans la semaine. »"
+      }
+    ]
+  },
+  "roadmap": [
+    { "title": "Calendrier — modale création contextuelle", "month": "2026-02", "status": "done" },
+    { "title": "Deadlines auto + Émargement", "month": "2026-02", "status": "done" },
+    { "title": "Refonte Paramétrages Elite", "month": "2026-02", "status": "done" },
+    { "title": "Optimisation Calendrier", "month": "2026-02", "status": "done" },
+    { "title": "Blueprint Meetings extrait", "month": "2026-02", "status": "done" },
+    { "title": "Hub Projets refonte", "month": "2026-02", "status": "done" },
+    { "title": "Custom Roles RBAC", "month": "2026-04", "status": "done" },
+    { "title": "Lifecycle des déclarations", "month": "2026-04", "status": "done" },
+    { "title": "PDF officielle d'émargement", "month": "2026-04", "status": "done" },
+    { "title": "Modal Frais Groupe enrichie", "month": "2026-04", "status": "done" },
+    { "title": "Page Permissions → Admin Gestion", "month": "2026-04", "status": "done" },
+    { "title": "Workflow déclarations + notifications", "month": "2026-04", "status": "done" },
+    { "title": "Gestion nouvelles inscriptions", "month": "2026-04", "status": "done" },
+    { "title": "Mode Démo public", "month": "2026-04", "status": "done" },
+    { "title": "Statuts unifiés Trésorerie", "month": "2026-05", "status": "done" },
+    { "title": "Vie Associative — modules", "month": "2026-05", "status": "done" },
+    { "title": "Démo CPTS pilote (5 mai)", "month": "2026-05", "status": "done", "body": "20 min au bureau de la CPTS pilote — démo live + slides + one-pager." },
+    { "title": "Site vitrine V1", "month": "2026-05", "status": "done", "body": "Homepage publique sur /, arc narratif 9 sections + 2 moments interactifs (role switcher, carrousel circuits)." }
+  ]
+}
