@@ -2123,7 +2123,7 @@ function openSettingsModal() {
     <div class="settings-section">
       <h3>Synthèse plateforme</h3>
       <div class="settings-row">
-        <button class="btn btn-ghost" onclick="loadStrategySeed()">⤓ Charger depuis Plateforme-CPTS</button>
+        <button class="btn btn-ghost" onclick="loadStrategySeed()">⤓ Charger / synchroniser depuis Plateforme-CPTS</button>
       </div>
     </div>
     <div class="settings-section">
@@ -2407,13 +2407,47 @@ function disableAi() {
   closeModal();
 }
 
-// ============ SYNTHÈSE PLATEFORME (seed JSON) ============
-async function loadStrategySeed() {
-  if (!confirm('Charger la synthèse depuis Plateforme-CPTS ?\n\nCette action remplace les encarts des sections Vision, Prise de marché et Tarification (tes modifications éventuelles seront écrasées), et remplit la Roadmap avec les jalons issus du repo plateforme.\n\nContinuer ?')) return;
+// ============ SYNTHÈSE PLATEFORME (seed JSON + roadmap.json dynamique) ============
+// Décodage base64 UTF-8 propre (les contenus français contiennent des accents)
+function b64ToUtf8(b64) {
+  const bin = atob((b64 || '').replace(/\s/g, ''));
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new TextDecoder('utf-8').decode(bytes);
+}
+// Lit Plateforme-CPTS/roadmap.json via l'API GitHub (repo privé → token du backup)
+async function fetchDynamicRoadmap() {
+  const cfg = getGhConfig();
+  if (!cfg.token) return { items: [], note: 'token GitHub non configuré' };
+  const owner = cfg.owner || 'Evalita03';
+  const url = `https://api.github.com/repos/${owner}/Plateforme-CPTS/contents/roadmap.json?ref=main&t=${Date.now()}`;
   try {
+    const resp = await fetch(url, {
+      headers: { 'Authorization': `token ${cfg.token}`, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    if (resp.status === 404) return { items: [], note: 'roadmap.json pas encore créé côté Plateforme-CPTS' };
+    if (!resp.ok) { const e = await resp.json().catch(()=>({})); return { items: [], note: `API GitHub : ${e.message || resp.status}` }; }
+    const data = await resp.json();
+    const text = b64ToUtf8(data.content);
+    const parsed = JSON.parse(text);
+    return { items: Array.isArray(parsed.items) ? parsed.items : [], updated_at: parsed.updated_at };
+  } catch (e) {
+    return { items: [], note: 'lecture impossible : ' + e.message };
+  }
+}
+
+async function loadStrategySeed() {
+  if (!confirm('Charger / synchroniser depuis Plateforme-CPTS ?\n\n• Encarts Vision / Prise de marché / Tarification : remplacés par la synthèse (tes éventuelles modifs seront écrasées).\n• Roadmap : jalons historiques + étapes en cours/à venir lues en direct dans Plateforme-CPTS (via ton token GitHub).\n\nContinuer ?')) return;
+  try {
+    // 1. Seed statique (encarts + jalons historiques) servi par github.io
     const resp = await fetch('strategy-seed.json?t=' + Date.now());
     if (!resp.ok) throw new Error(`strategy-seed.json introuvable (${resp.status})`);
     const seed = await resp.json();
+
+    // 2. Roadmap dynamique en direct depuis Plateforme-CPTS (API GitHub)
+    const dyn = await fetchDynamicRoadmap();
+
+    // Encarts
     if (seed.encarts) {
       ['vision', 'marche', 'pricing'].forEach(sec => {
         if (Array.isArray(seed.encarts[sec])) {
@@ -2425,15 +2459,23 @@ async function loadStrategySeed() {
         }
       });
     }
-    if (Array.isArray(seed.roadmap)) {
-      state.roadmap = seed.roadmap.map(r => ({
-        id: uid(), title: r.title, month: r.month || null,
-        status: ['done','doing','planned'].includes(r.status) ? r.status : 'planned',
-        body: r.body || ''
-      }));
-    }
+    // Roadmap = historique du seed + items dynamiques (doing/planned/done)
+    const seedItems = Array.isArray(seed.roadmap) ? seed.roadmap : [];
+    state.roadmap = [...seedItems, ...dyn.items].map(r => ({
+      id: uid(),
+      title: r.title || '(sans titre)',
+      month: r.month || null,
+      status: ['done', 'doing', 'planned'].includes(r.status) ? r.status : 'planned',
+      body: r.body || ''
+    }));
+
     save(); closeModal(); render();
-    alert('✓ Synthèse plateforme chargée.\nVa voir Stratégie globale et la Roadmap.');
+    let msg = `✓ Synthèse chargée.\n${seedItems.length} jalons historiques`;
+    if (dyn.items.length) msg += ` + ${dyn.items.length} en cours / à venir (lus dans Plateforme-CPTS`;
+    if (dyn.updated_at) msg += `, mis à jour le ${dyn.updated_at}`;
+    if (dyn.items.length) msg += ')';
+    if (!dyn.items.length && dyn.note) msg += `\n\nRoadmap dynamique : ${dyn.note}.`;
+    alert(msg);
   } catch (e) {
     alert('Chargement impossible : ' + e.message);
   }
