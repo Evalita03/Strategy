@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "exportedAt": "2026-05-29T22:25:59.196Z",
-  "origin": "manual-backup",
+  "exportedAt": "2026-05-29T22:35:02.588Z",
+  "origin": "auto-backup",
   "data": {
     "nodes": [
       {
@@ -5721,133 +5721,133 @@
     },
     "roadmap": [
       {
-        "id": "mprhmzr2mved3",
+        "id": "mprhrekibzpec",
         "title": "Calendrier — modale création contextuelle",
         "month": "2026-02",
         "status": "done",
         "body": "Modale intelligente à 3 modes qui adapte ses champs selon le type d'entrée : Réunion GT (classique), Évènement (premium), Information (deadline / rappel / info diverse)."
       },
       {
-        "id": "mprhmzr2rb83v",
+        "id": "mprhrekiw4bgd",
         "title": "Deadlines auto + Émargement",
         "month": "2026-02",
         "status": "done",
         "body": "Sync automatique des tâches Cockpit → entrées calendrier (couleur rouge, badge « Auto (Cockpit) »). Suivi présence en DB avec checkbox + PDF officiel d'émargement GT."
       },
       {
-        "id": "mprhmzr274ebo",
+        "id": "mprhreki00u5r",
         "title": "Refonte Paramétrages Elite",
         "month": "2026-02",
         "status": "done",
         "body": "Page unique /admin/parametrages refondée à 4 onglets Alpine.js : Missions/Actions, Identité, Utilisateurs, paramètres avancés."
       },
       {
-        "id": "mprhmzr2ofimv",
+        "id": "mprhreki0htbn",
         "title": "Optimisation Calendrier",
         "month": "2026-02",
         "status": "done",
         "body": "Suppression des natures figées, catégories dynamiques en DB, pièces jointes multiples sur les entrées, communication post-création (partage WhatsApp + email)."
       },
       {
-        "id": "mprhmzr2ux0b5",
+        "id": "mprhrekiqhi88",
         "title": "Blueprint Meetings extrait",
         "month": "2026-02",
         "status": "done",
         "body": "Extraction de la gestion des réunions dans un Blueprint Flask dédié `meetings` : routes + api + sidebar + intégration FullCalendar."
       },
       {
-        "id": "mprhmzr2dhy3d",
+        "id": "mprhreking5hj",
         "title": "Hub Projets — refonte",
         "month": "2026-02",
         "status": "done",
         "body": "Transformation de Projets & Groupes en Hub collaboratif : 5 chantiers, tabs, wizard de création, relations M2M membres (Alpine.js + HTMX + SortableJS)."
       },
       {
-        "id": "mprhmzr2vj0v6",
+        "id": "mprhrekiobog5",
         "title": "Custom Roles RBAC",
         "month": "2026-04",
         "status": "done",
         "body": "Rôles personnalisés avec permissions configurables par action et par module + matrice admin. 6 rôles hiérarchiques + rôles libres."
       },
       {
-        "id": "mprhmzr2uk5xz",
+        "id": "mprhrekicjsef",
         "title": "Lifecycle des déclarations",
         "month": "2026-04",
         "status": "done",
         "body": "Dé-validation motivée des déclarations, upload de justificatifs autorisé à tout statut, audit trail des transitions."
       },
       {
-        "id": "mprhmzr2a1bqy",
+        "id": "mprhreki0myma",
         "title": "PDF officielle d'émargement",
         "month": "2026-04",
         "status": "done",
         "body": "PDF émargement officiel stocké sur disque, accessible depuis l'historique, l'onglet activité et les justificatifs."
       },
       {
-        "id": "mprhmzr2u3npm",
+        "id": "mprhrekiyfb3o",
         "title": "Modal Frais Groupe enrichie",
         "month": "2026-04",
         "status": "done",
         "body": "Modale frais retravaillée avec upload de justificatifs optionnel + badge « sans justificatif » visible pour le trésorier."
       },
       {
-        "id": "mprhmzr20ypl0",
+        "id": "mprhrekiht2oz",
         "title": "Refonte déclarations d'activité (trésorier)",
         "month": "2026-04",
         "status": "done",
         "body": "Onglet « Nouvelle déclaration » trésorier refondu : déclaration combinée heures + ICPA + frais sur une période en une seule saisie (au lieu de 3 formulaires séparés)."
       },
       {
-        "id": "mprhmzr2opf2d",
+        "id": "mprhrekiz5eos",
         "title": "Page Permissions → Admin Gestion",
         "month": "2026-04",
         "status": "done",
         "body": "Page Permissions sortie de Paramétrages vers /admin/permissions, accessible depuis Admin Gestion."
       },
       {
-        "id": "mprhmzr2xvwas",
+        "id": "mprhrekimv6p9",
         "title": "Workflow déclarations + notifications",
         "month": "2026-04",
         "status": "done",
         "body": "Conteneur unifié DeclarationActivite, validation granulaire des éléments, cloche de notifications dans le hub adhérent."
       },
       {
-        "id": "mprhmzr2ovi8h",
+        "id": "mprhrekijn5fm",
         "title": "Gestion des nouvelles inscriptions",
         "month": "2026-04",
         "status": "done",
         "body": "Rôle système `secretaire`, flag `auto_inscription`, card « Nouvelles inscriptions » dans Vie Associative pour valider les arrivants."
       },
       {
-        "id": "mprhmzr2rlkeq",
+        "id": "mprhrekis8fmd",
         "title": "Mode Démo public",
         "month": "2026-04",
         "status": "done",
         "body": "Démo publique sur /demo, sandbox seed « CPTS Horizon Santé », auto-reset toutes les 30 minutes."
       },
       {
-        "id": "mprhmzr2puenr",
+        "id": "mprhrekisfuuw",
         "title": "Statuts unifiés Trésorerie",
         "month": "2026-05",
         "status": "done",
         "body": "Nomenclature unifiée pour heures / frais / virements, workflow trésorier ↔ membre, garde-fous anti-oubli."
       },
       {
-        "id": "mprhmzr2sqv0a",
+        "id": "mprhrekim9xqs",
         "title": "Vie Associative — modules",
         "month": "2026-05",
         "status": "done",
         "body": "Modules Documents fondateurs, Assemblées générales, Rubriques libres — préparation pour la démo du 5 mai."
       },
       {
-        "id": "mprhmzr265wx6",
+        "id": "mprhreki9w07n",
         "title": "Démo CPTS pilote (5 mai)",
         "month": "2026-05",
         "status": "done",
         "body": "20 min au bureau de la CPTS pilote : démo live + slides + one-pager distribué. Lancement de la phase pilote de 4 semaines en conditions réelles."
       },
       {
-        "id": "mprhmzr2tlwt5",
+        "id": "mprhreki7nnbe",
         "title": "Site vitrine V1",
         "month": "2026-05",
         "status": "done",
@@ -5857,28 +5857,28 @@
     "strategiePillars": {
       "vision": [
         {
-          "id": "mprhmzr2qb9re",
+          "id": "mprhrekh5dmfi",
           "name": "Notre cap",
           "text": "« Chaque rôle a ses outils. Tout est connecté. Vous pilotez sereinement. »\n\nUn SaaS natif des CPTS — par une coordinatrice, pour les coordinatrices. Pas un outil de plus : l'outil qui s'adapte à la CPTS, pas l'inverse.",
           "size": "large",
           "contributions": []
         },
         {
-          "id": "mprhmzr2crj9d",
+          "id": "mprhreki7dab9",
           "name": "Pour qui",
           "text": "Les bureaux de CPTS — président·e, trésorier·e, secrétaire — et leurs coordinateurs. Quatre expériences sur mesure sur une seule base de données.",
           "size": "normal",
           "contributions": []
         },
         {
-          "id": "mprhmzr2i4gla",
+          "id": "mprhrekiqp914",
           "name": "Ce qui nous distingue",
           "text": "Role-first natif CPTS · Lien dynamique ACI ↔ Trésorerie (budgets calculés, pas saisis) · Indicateurs ARS auto-agrégés depuis le pilotage · RBAC configurable par CPTS.",
           "size": "normal",
           "contributions": []
         },
         {
-          "id": "mprhmzr2i7qgm",
+          "id": "mprhreki3k6m9",
           "name": "Nos valeurs",
           "text": "Sérénité du pilotage · Transparence comme moteur d'engagement des membres · Sobriété visuelle assumée (règle 95/5, cobalt en accent) · Respect du temps des coordinateurs.",
           "size": "normal",
@@ -5887,35 +5887,35 @@
       ],
       "marche": [
         {
-          "id": "mprhmzr2srxlo",
+          "id": "mprhreki4e469",
           "name": "À qui on parle",
           "text": "Aux bureaux des CPTS pilotes — présidents, trésoriers, secrétaires, coordinateurs. On vend à des pairs, pas à des DSI ni à des acheteurs.",
           "size": "large",
           "contributions": []
         },
         {
-          "id": "mprhmzr2hh2md",
+          "id": "mprhreki7s4ci",
           "name": "Le moment de vérité",
           "text": "Le dialogue de gestion ARS. C'est le rendez-vous où nos cockpits prouvent leur valeur d'un coup d'œil — c'est là que se gagnent les convictions.",
           "size": "normal",
           "contributions": []
         },
         {
-          "id": "mprhmzr28wuph",
+          "id": "mprhreki6ylm6",
           "name": "Notre go-to-market",
           "text": "Démo face-à-face de 20 min au bureau d'une CPTS · Mode démo public web (sandbox auto-resettable) · Site vitrine V1 sur la racine du domaine.",
           "size": "normal",
           "contributions": []
         },
         {
-          "id": "mprhmzr257pvp",
+          "id": "mprhrekiudu0p",
           "name": "Arguments qui frappent",
           "text": "« Aucun autre outil ne le propose nativement » (cockpit ACI)\n« Plus d'Excel. Plus de peur. Plus d'oublis. » (trésorerie)\n« La transparence devient un argument d'engagement. » (membres)",
           "size": "large",
           "contributions": []
         },
         {
-          "id": "mprhmzr2psqqq",
+          "id": "mprhrekip0n7x",
           "name": "La promesse pilote",
           "text": "4 semaines de test en conditions réelles, support direct, retours intégrés au produit. « Votre retour façonne le produit. Littéralement. »",
           "size": "normal",
@@ -5924,28 +5924,28 @@
       ],
       "pricing": [
         {
-          "id": "mprhmzr2o6uh0",
+          "id": "mprhrekik0z78",
           "name": "Le modèle",
           "text": "Un forfait par CPTS — pas par utilisateur. Quelle que soit la taille — 20 ou 200 membres — vous payez un forfait fixe. Lisible, prévisible, sans surfacturation à l'usage.",
           "size": "large",
           "contributions": []
         },
         {
-          "id": "mprhmzr20qq0x",
+          "id": "mprhrekitexno",
           "name": "Nos engagements",
           "text": "Sans engagement. Migration incluse. Pas de préavis, pas de surprise. Reprise des données + paramétrage + 1 h de formation par rôle + 90 jours de support = inclus.",
           "size": "normal",
           "contributions": []
         },
         {
-          "id": "mprhmzr2zkj2i",
+          "id": "mprhrekioz6au",
           "name": "Phase pilote",
           "text": "Accès complet offert pendant 4 semaines à la CPTS pilote. La grille se discute en face-à-face, calibrée à la taille de la CPTS.",
           "size": "normal",
           "contributions": []
         },
         {
-          "id": "mprhmzr29m4xa",
+          "id": "mprhrekimihpv",
           "name": "Le pitch tarif",
           "text": "Pas de prix figés en V1. Annoncé verbatim en démo : « Le tarif est public, sans engagement, adapté à la taille de la CPTS. On regarde ça en face-à-face dans la semaine. »",
           "size": "normal",
