@@ -249,6 +249,32 @@ body {
 .encart-text-edit { width: 100%; min-height: 160px; resize: vertical; border: 1px solid var(--slate-200); border-radius: 8px; padding: 12px; font-family: inherit; font-size: 13.5px; line-height: 1.6; color: var(--slate-700); }
 .encart-text-edit:focus { outline: none; border-color: var(--blue-500); }
 .encart-apports { margin-top: 16px; }
+
+/* Group cards (aperçu de regroupement) */
+.group-card {
+  background: var(--white); border: 1px solid var(--slate-200); border-radius: 14px;
+  padding: 20px 22px; cursor: pointer; box-shadow: 0 1px 2px rgba(15,23,42,0.04);
+  transition: all .15s; display: flex; flex-direction: column; min-height: 168px;
+}
+.group-card:hover { box-shadow: 0 10px 26px rgba(15,23,42,0.10); border-color: var(--blue-500); transform: translateY(-2px); }
+.group-card-head {
+  font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--blue-700); margin-bottom: 12px;
+}
+.group-card-lead { flex: 1; font-size: 13.5px; color: var(--slate-700); line-height: 1.55; }
+.group-card-count {
+  margin-top: 14px; align-self: flex-start;
+  font-size: 11.5px; font-weight: 700; color: var(--slate-600);
+  background: var(--slate-100); border-radius: 20px; padding: 3px 11px;
+}
+.group-card:hover .group-card-count { background: var(--blue-50); color: var(--blue-700); }
+
+/* Modale large (vue d'un groupe ouvert) */
+.modal.modal-wide { width: min(960px, 92vw); }
+.modal-wide .hub-grid { gap: 14px; }
+.modal-wide-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 18px; }
+.modal-wide-head h2 { margin: 0; }
+.modal-wide-head .meta { font-size: 12px; color: var(--slate-500); font-weight: 600; }
 .contrib-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--slate-400); font-weight: 700; margin-bottom: 8px; }
 .contrib { display: flex; align-items: flex-start; gap: 10px; padding: 8px 10px; background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 8px; margin-bottom: 6px; }
 .contrib-main { flex: 1; min-width: 0; }
@@ -1574,39 +1600,84 @@ function renderStrategie(content, actions, section) {
     html += `<div class="empty">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="10" width="8" height="11" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/></svg>
       <p>Aucun encart. Clique « + Encart » pour composer cette section.</p></div>`;
-  } else {
-    html += '<div class="hub-grid">';
-    encarts.forEach(p => { html += renderEncartCard(section, p); });
     html += '</div>';
+    content.innerHTML = html;
+    return;
   }
-  html += '</div>';
+  // Regroupement par champ "group" (ou « Sans catégorie » si absent), en préservant l'ordre d'apparition
+  const order = [];
+  const map = new Map();
+  encarts.forEach(p => {
+    const g = (p.group || '').trim() || 'Sans catégorie';
+    if (!map.has(g)) { map.set(g, []); order.push(g); }
+    map.get(g).push(p);
+  });
+  html += '<div class="hub-grid">';
+  order.forEach(g => {
+    const items = map.get(g);
+    const lead = items.find(p => p.size === 'large') || items[0];
+    const preview = (lead.text || '').trim().slice(0, 200);
+    html += `<div class="group-card" data-section="${section}" data-group="${esc(g)}" onclick="openGroupModalFromEl(this)">
+      <div class="group-card-head">${esc(g)}</div>
+      <div class="group-card-lead">${esc(preview)}${(lead.text||'').length>200?'…':''}</div>
+      <div class="group-card-count">${items.length} encart${items.length>1?'s':''} ▸</div>
+    </div>`;
+  });
+  html += '</div></div>';
   content.innerHTML = html;
 }
-function renderEncartCard(section, p) {
-  const n = (p.contributions||[]).length;
-  const preview = (p.text||'').trim();
-  const max = p.size === 'large' ? 420 : 200;
-  return `<div class="encart ${p.size==='large'?'encart-lg':''}" onclick="openEncartModal('${section}','${p.id}')">
-    <div class="encart-title">${esc(p.name)}</div>
-    ${preview ? `<div class="encart-text">${esc(preview.slice(0,max))}${preview.length>max?'…':''}</div>` : `<div class="encart-empty">Vide — clique pour rédiger</div>`}
-    ${n ? `<div class="encart-badge">▸ ${n} apport${n>1?'s':''}</div>` : ''}
-  </div>`;
+function openGroupModalFromEl(el) { openGroupModal(el.dataset.section, el.dataset.group); }
+function openGroupModal(section, groupName) {
+  const all = state.strategiePillars[section] || [];
+  const items = all.filter(p => ((p.group || '').trim() || 'Sans catégorie') === groupName);
+  const m = document.getElementById('modal');
+  m.classList.remove('qc-mode');
+  m.classList.add('modal-wide');
+  m.innerHTML = `
+    <div class="modal-wide-head">
+      <h2>${esc(groupName)}</h2>
+      <span class="meta">${items.length} encart${items.length>1?'s':''}</span>
+    </div>
+    <div class="hub-grid" style="margin-bottom:20px">
+      ${items.map(p => {
+        const n = (p.contributions||[]).length;
+        const preview = (p.text||'').trim();
+        const max = p.size === 'large' ? 420 : 220;
+        return `<div class="encart ${p.size==='large'?'encart-lg':''}" onclick="openEncartModal('${section}','${p.id}')">
+          <div class="encart-title">${esc(p.name)}</div>
+          ${preview ? `<div class="encart-text">${esc(preview.slice(0,max))}${preview.length>max?'…':''}</div>` : `<div class="encart-empty">Vide — clique pour rédiger</div>`}
+          ${n ? `<div class="encart-badge">▸ ${n} apport${n>1?'s':''}</div>` : ''}
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" data-section="${section}" data-group="${esc(groupName)}" onclick="addEncartFromGroupEl(this)">+ Encart dans ce groupe</button>
+      <button class="btn btn-primary" onclick="closeModal()">Fermer</button>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
 }
-function addEncart(section) {
+function addEncartFromGroupEl(el) { addEncart(el.dataset.section, el.dataset.group); }
+function addEncart(section, group) {
   state.strategiePillars[section] = state.strategiePillars[section] || [];
-  const p = { id: uid(), name: 'Nouvel encart', text: '', size: 'normal', contributions: [] };
+  const p = { id: uid(), name: 'Nouvel encart', text: '', size: 'normal', group: group || '', contributions: [] };
   state.strategiePillars[section].push(p);
   save(); render(); openEncartModal(section, p.id);
 }
 function openEncartModal(section, pid) {
   const p = findPillar(section, pid); if (!p) return;
   const contribs = p.contributions || [];
+  const allGroups = [...new Set((state.strategiePillars[section]||[]).map(x => (x.group||'').trim()).filter(Boolean))].sort();
   const m = document.getElementById('modal');
   m.classList.remove('qc-mode');
+  m.classList.remove('modal-wide');
   m.innerHTML = `
     <div class="encart-modal-head">
       <input class="encart-name" value="${esc(p.name)}" onchange="renamePillar('${section}','${pid}',this.value)">
       <button class="encart-size-btn" onclick="toggleEncartSize('${section}','${pid}')">${p.size==='large'?'▭ Réduire':'▭ Agrandir'}</button>
+    </div>
+    <div class="field" style="margin-bottom:10px"><label>Catégorie</label>
+      <input id="encart-group" value="${esc(p.group||'')}" placeholder="Ex: Cap & origine" list="encart-group-list" onblur="setEncartGroup('${section}','${pid}',this.value)">
+      <datalist id="encart-group-list">${allGroups.map(g => `<option value="${esc(g)}"></option>`).join('')}</datalist>
     </div>
     <textarea id="encart-text" class="encart-text-edit" placeholder="Rédige le contenu de cet encart…" onblur="savePillarText('${section}','${pid}',this.value)">${esc(p.text||'')}</textarea>
     ${contribs.length ? `<div class="encart-apports"><div class="contrib-label">Apports · ${contribs.length}</div>${contribs.map(c => `
@@ -1634,6 +1705,10 @@ function renamePillar(section, pid, name) {
 function savePillarText(section, pid, text) {
   const p = findPillar(section, pid); if (!p) return;
   p.text = text; save();
+}
+function setEncartGroup(section, pid, group) {
+  const p = findPillar(section, pid); if (!p) return;
+  p.group = (group || '').trim(); save();
 }
 function toggleEncartSize(section, pid) {
   syncEncartText(section, pid);
@@ -1892,7 +1967,9 @@ function deleteProspect(id) {
 // ============ UTILS ============
 function closeModal() {
   document.getElementById('modal-overlay').classList.remove('open');
-  document.getElementById('modal').classList.remove('qc-mode');
+  const m = document.getElementById('modal');
+  m.classList.remove('qc-mode');
+  m.classList.remove('modal-wide');
 }
 function esc(s) { return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 document.getElementById('modal-overlay').addEventListener('click', e => { if(e.target.id==='modal-overlay') closeModal(); });
