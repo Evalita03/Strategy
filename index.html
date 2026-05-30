@@ -289,6 +289,17 @@ body {
 .arb-list { margin: 0; padding-left: 18px; }
 .arb-list li { font-size: 13.5px; color: var(--slate-700); line-height: 1.6; margin: 3px 0; }
 .agent-report-note { margin-top: 14px; font-size: 12.5px; color: var(--slate-500); font-style: italic; border-top: 1px dashed var(--slate-200); padding-top: 10px; }
+/* Mot du Chef Produit sur la page d'accueil */
+.today-cap { margin: 0 0 22px; padding: 18px 20px; background: var(--blue-50); border: 1px solid var(--blue-100); border-left: 3px solid var(--blue-500); border-radius: 12px; }
+.today-cap-hidden { display: none; }
+.cap-eyebrow { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; color: var(--blue-700); margin-bottom: 10px; }
+.cap-mark { font-style: normal; }
+.cap-chantier { display: flex; flex-direction: column; gap: 2px; margin-bottom: 8px; }
+.cap-chantier-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--slate-500); }
+.cap-chantier-titre { font-size: 16px; font-weight: 700; color: var(--slate-900); letter-spacing: -0.01em; }
+.cap-pourquoi { font-size: 13px; color: var(--slate-600); line-height: 1.55; margin-bottom: 10px; }
+.cap-link { font-size: 12.5px; font-weight: 600; color: var(--blue-700); cursor: pointer; }
+.cap-link:hover { text-decoration: underline; }
 
 /* Bandeau hero en tête de section Stratégie */
 .strat-hero {
@@ -1118,6 +1129,23 @@ function renderToday(content, actions) {
 
   html += '</div>';
   content.innerHTML = html;
+  loadCapToday();
+}
+
+async function loadCapToday() {
+  const box = document.getElementById('today-cap'); if (!box) return;
+  try {
+    const resp = await fetch('agents/chef-produit.json?t=' + Date.now());
+    if (!resp.ok) return;
+    const r = await resp.json();
+    const pc = r.prochain_chantier || {};
+    box.innerHTML = `
+      <div class="cap-eyebrow"><span class="cap-mark">🧭</span> Le mot du Chef Produit${r.updated_at ? ' · ' + esc(r.updated_at) : ''}</div>
+      ${pc.titre ? `<div class="cap-chantier"><span class="cap-chantier-label">Prochain chantier</span><span class="cap-chantier-titre">${esc(pc.titre)}</span></div>` : ''}
+      ${pc.pourquoi ? `<div class="cap-pourquoi">${esc(pc.pourquoi)}</div>` : ''}
+      <a class="cap-link" onclick="openAgentModal('chef-produit')">Lire le rapport complet →</a>`;
+    box.classList.remove('today-cap-hidden');
+  } catch (e) { /* silencieux : pas de rapport, pas d'encart */ }
 }
 
 function saveIntention(value) {
