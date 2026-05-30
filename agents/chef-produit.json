@@ -1,0 +1,18 @@
+{
+  "agent": "chef-produit",
+  "updated_at": "2026-05-30",
+  "trigger": "premier passage",
+  "etat": "La plateforme est solide et déjà démontrable : trésorerie complète, cockpit ACI lié à la trésorerie, vie associative, mode démo public, site vitrine V1 — tout ce qui figure sur la roadmap est livré. La démo pilote du 5 mai a eu lieu. Depuis, tout ton temps part dans un gros chantier non écrit nulle part : le « fléchage » des déclarations (router chaque dépense vers ACI ou fonctionnement), 24 commits en cours, encore actif. C'est ça qui traîne — du vrai travail, mais sans spec ni ligne d'arrivée claire, et hors radar de la roadmap.",
+  "prochain_chantier": {
+    "titre": "Cadrer et clôturer le fléchage (ACI / fonctionnement)",
+    "pourquoi": "C'est le seul chantier ouvert et il répond aux 3 demandes terrain non couvertes (N1/N2/N3 du tracker : dépenses asso, charges fixes, ventilation analytique). Le finir = trésorerie vraiment complète pour vendre ; le laisser ouvert sans cadrage = il s'étale et bloque la suite à 3-6 mois de la commercialisation."
+  },
+  "a_anticiper": [
+    "Écrire la spec du fléchage a posteriori : sans elle, impossible de savoir quand c'est fini ni de le revendre.",
+    "Réintégrer le fléchage dans la roadmap (strategy-seed.json) — il manque, alors qu'il pèse 24 commits.",
+    "Mettre à jour CLAUDE.md / AUDIT_TECHNIQUE / SESSION_STATUS (figés à fév-mars) avant qu'un futur toi ne se perde.",
+    "Multi-CPTS : l'archi est prête mais non activée — à planifier dès qu'une 2e CPTS se profile, pas après.",
+    "Repasser sur la vitrine et le mode démo une fois le fléchage stabilisé : ce sont eux qui convertissent."
+  ],
+  "note": "Tu as un produit qui tient debout, c'est rare en solo — le risque n'est plus de manquer de fonctions mais de partir dans un chantier qui s'étire. On finit le fléchage proprement, on le pose dans la roadmap, et tu reviens en position de vendre."
+}

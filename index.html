@@ -356,9 +356,25 @@ body {
   animation: groupExp .22s ease;
 }
 @keyframes groupExp { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
-.group-expansion-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; grid-auto-flow: dense; align-items: start; }
-.group-expansion-actions { margin-top: 16px; display: flex; gap: 10px; }
-.group-expansion .encart { background: var(--white); }
+.group-expansion-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+  align-items: stretch;
+}
+.group-expansion-actions { margin-top: 18px; display: flex; gap: 10px; }
+.group-expansion .encart { background: var(--white); min-height: 168px; }
+/* Dans la zone dépliée : on neutralise la distinction large/normal pour un rendu harmonieux */
+.group-expansion .encart-lg { grid-column: auto; }
+.group-expansion .encart .encart-title,
+.group-expansion .encart-lg .encart-title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.012em;
+  line-height: 1.3;
+  margin-bottom: 10px;
+}
+.group-expansion .encart .encart-text { font-size: 13.5px; line-height: 1.55; }
 
 /* Modale large (vue d'un groupe ouvert) */
 .modal.modal-wide { width: min(960px, 92vw); }
