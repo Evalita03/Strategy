@@ -237,7 +237,7 @@ body {
 .encart:hover { box-shadow: 0 8px 22px rgba(15,23,42,0.09); border-color: var(--slate-300); transform: translateY(-2px); }
 .encart-lg { grid-column: span 2; }
 .encart-title { font-size: 15px; font-weight: 700; color: var(--slate-900); margin-bottom: 8px; letter-spacing: -0.01em; }
-.encart-lg .encart-title { font-family: var(--font-display); font-weight: 700; font-size: 22px; letter-spacing: -0.015em; line-height: 1.15; margin-bottom: 12px; }
+.encart-lg .encart-title { font-size: 19px; font-weight: 800; letter-spacing: -0.018em; line-height: 1.2; margin-bottom: 10px; }
 .modal-wide-head h2 { font-family: var(--font-display); font-weight: 700; font-size: 26px; letter-spacing: -0.015em; }
 .encart .encart-text { font-size: 13px; color: var(--slate-600); line-height: 1.55; white-space: pre-wrap; flex: 1; }
 .encart-empty { font-size: 12.5px; color: var(--slate-400); font-style: italic; flex: 1; }
@@ -261,7 +261,7 @@ body {
 .org-pole-tag { font-size: 12.5px; color: var(--slate-500); font-style: italic; flex: 1; }
 .org-pole-count { font-size: 11px; font-weight: 700; color: var(--slate-400); white-space: nowrap; }
 .org-agents { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
-.org-agent { background: var(--white); border: 1px solid var(--slate-200); border-radius: 14px; padding: 18px 20px; box-shadow: 0 1px 2px rgba(15,23,42,0.04); transition: all .15s; display: flex; flex-direction: column; }
+.org-agent { background: var(--white); border: 1px solid var(--slate-200); border-radius: 14px; padding: 18px 20px; box-shadow: 0 1px 2px rgba(15,23,42,0.04); transition: all .15s; display: flex; flex-direction: column; cursor: pointer; }
 .org-agent:hover { box-shadow: 0 8px 22px rgba(15,23,42,0.09); border-color: var(--slate-300); transform: translateY(-2px); }
 .org-agent-next { border-color: var(--blue-500); box-shadow: 0 0 0 1px var(--blue-500); }
 .org-agent-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 4px; }
@@ -273,6 +273,22 @@ body {
 .org-agent-role { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--blue-700); margin: 2px 0 10px; }
 .org-agent-mission { font-size: 13px; color: var(--slate-600); line-height: 1.55; flex: 1; }
 .org-agent-quand { margin-top: 12px; font-size: 12.5px; color: var(--slate-500); font-style: italic; border-top: 1px dashed var(--slate-200); padding-top: 10px; }
+/* Modale agent — fiche mission + dernier rapport */
+.agent-fiche { background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 12px; padding: 16px 18px; margin-bottom: 18px; }
+.agent-fiche-role { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--blue-700); margin-bottom: 10px; }
+.agent-fiche-line { font-size: 13.5px; color: var(--slate-700); line-height: 1.55; margin: 6px 0; }
+.agent-fiche-line strong { color: var(--slate-900); }
+.agent-report { border-top: 1px solid var(--slate-200); padding-top: 16px; }
+.agent-report-loading, .agent-report-empty { font-size: 13px; color: var(--slate-400); font-style: italic; }
+.agent-report-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.agent-report-title { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--slate-900); }
+.agent-report-when { font-size: 11px; color: var(--slate-400); white-space: nowrap; }
+.agent-report-block { margin-bottom: 14px; }
+.arb-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--blue-700); margin-bottom: 5px; }
+.arb-text { font-size: 13.5px; color: var(--slate-700); line-height: 1.55; }
+.arb-list { margin: 0; padding-left: 18px; }
+.arb-list li { font-size: 13.5px; color: var(--slate-700); line-height: 1.6; margin: 3px 0; }
+.agent-report-note { margin-top: 14px; font-size: 12.5px; color: var(--slate-500); font-style: italic; border-top: 1px dashed var(--slate-200); padding-top: 10px; }
 
 /* Bandeau hero en tête de section Stratégie */
 .strat-hero {
@@ -1772,8 +1788,10 @@ function toggleGroupFromEl(el) {
   const section = el.dataset.section;
   const group = el.dataset.group;
   if (!expandedGroups[section]) expandedGroups[section] = new Set();
-  if (expandedGroups[section].has(group)) expandedGroups[section].delete(group);
-  else expandedGroups[section].add(group);
+  const wasOpen = expandedGroups[section].has(group);
+  // Accordéon strict : ferme tout, puis ouvre le clic si c'était fermé
+  expandedGroups[section].clear();
+  if (!wasOpen) expandedGroups[section].add(group);
   render();
 }
 function openGroupModal(section, groupName) {
@@ -1990,7 +2008,7 @@ function renderOrganigramme(content, actions) {
       <div class="org-agents">
         ${pole.agents.map(a => {
           const s = orgStatut[a.statut] || orgStatut.todo;
-          return `<div class="org-agent ${a.statut === 'next' ? 'org-agent-next' : ''}">
+          return `<div class="org-agent ${a.statut === 'next' ? 'org-agent-next' : ''}" onclick="openAgentModal('${slugifyAgent(a.name)}')">
             <div class="org-agent-head">
               <span class="org-agent-name">${esc(a.name)}</span>
               <span class="org-badge ${s.cls}">${s.label}</span>
@@ -2005,6 +2023,60 @@ function renderOrganigramme(content, actions) {
   });
   html += '</div>';
   content.innerHTML = html;
+}
+function slugifyAgent(name) {
+  return (name || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
+    .replace(/['’\s]+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-').replace(/^-|-$/g, '');
+}
+function findAgentBySlug(slug) {
+  for (const pole of ORGANIGRAMME.poles)
+    for (const a of pole.agents)
+      if (slugifyAgent(a.name) === slug) return { a, pole: pole.name };
+  return null;
+}
+async function openAgentModal(slug) {
+  const f = findAgentBySlug(slug); if (!f) return;
+  const a = f.a, s = orgStatut[a.statut] || orgStatut.todo;
+  const m = document.getElementById('modal');
+  m.classList.remove('qc-mode'); m.classList.add('modal-wide');
+  m.innerHTML = `
+    <div class="modal-wide-head">
+      <h2>${esc(a.name)}</h2>
+      <span class="org-badge ${s.cls}">${s.label}</span>
+    </div>
+    <div class="agent-fiche">
+      <div class="agent-fiche-role">${esc(f.pole)} · ${esc(a.role)}</div>
+      <p class="agent-fiche-line"><strong>Mission.</strong> ${esc(a.mission)}</p>
+      <p class="agent-fiche-line"><strong>Quand l'appeler.</strong> ${esc(a.quand)}</p>
+    </div>
+    <div class="agent-report" id="agent-report"><div class="agent-report-loading">Chargement du dernier rapport…</div></div>
+    <div class="modal-actions"><button class="btn btn-primary" onclick="closeModal()">Fermer</button></div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+  try {
+    const resp = await fetch('agents/' + slug + '.json?t=' + Date.now());
+    const box = document.getElementById('agent-report'); if (!box) return;
+    if (!resp.ok) {
+      box.innerHTML = `<div class="agent-report-empty">Aucun rapport pour le moment. ${a.statut === 'active' ? 'Il en déposera un à sa prochaine ronde.' : 'Cet agent n\'est pas encore créé.'}</div>`;
+      return;
+    }
+    box.innerHTML = renderAgentReport(await resp.json());
+  } catch (e) {
+    const box = document.getElementById('agent-report');
+    if (box) box.innerHTML = `<div class="agent-report-empty">Rapport indisponible pour le moment.</div>`;
+  }
+}
+function renderAgentReport(r) {
+  const when = r.updated_at ? `Mis à jour le ${esc(r.updated_at)}${r.trigger ? ' · ' + esc(r.trigger) : ''}` : '';
+  let h = `<div class="agent-report-head"><span class="agent-report-title">Dernier rapport</span><span class="agent-report-when">${when}</span></div>`;
+  if (r.etat) h += `<div class="agent-report-block"><div class="arb-label">Où on en est</div><div class="arb-text">${esc(r.etat)}</div></div>`;
+  if (r.prochain_chantier) {
+    const pc = r.prochain_chantier;
+    h += `<div class="agent-report-block"><div class="arb-label">Prochain chantier</div><div class="arb-text"><strong>${esc(pc.titre || '')}</strong>${pc.pourquoi ? ' — ' + esc(pc.pourquoi) : ''}</div></div>`;
+  }
+  if (Array.isArray(r.a_anticiper) && r.a_anticiper.length)
+    h += `<div class="agent-report-block"><div class="arb-label">À anticiper</div><ul class="arb-list">${r.a_anticiper.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>`;
+  if (r.note) h += `<div class="agent-report-note">${esc(r.note)}</div>`;
+  return h;
 }
 
 function renderPlaceholder(content, actions, key) {
