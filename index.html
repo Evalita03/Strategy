@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CPTS Pilot — Cockpit</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,800;1,9..144,500;1,9..144,700&display=swap');
 :root {
+  --font-display: 'Fraunces', Georgia, serif;
   --blue-900: #1E3A8A;
   --blue-700: #1D4ED8;
   --blue-600: #2563EB;
@@ -236,6 +237,8 @@ body {
 .encart:hover { box-shadow: 0 8px 22px rgba(15,23,42,0.09); border-color: var(--slate-300); transform: translateY(-2px); }
 .encart-lg { grid-column: span 2; }
 .encart-title { font-size: 15px; font-weight: 700; color: var(--slate-900); margin-bottom: 8px; letter-spacing: -0.01em; }
+.encart-lg .encart-title { font-family: var(--font-display); font-weight: 700; font-size: 22px; letter-spacing: -0.015em; line-height: 1.15; margin-bottom: 12px; }
+.modal-wide-head h2 { font-family: var(--font-display); font-weight: 700; font-size: 26px; letter-spacing: -0.015em; }
 .encart .encart-text { font-size: 13px; color: var(--slate-600); line-height: 1.55; white-space: pre-wrap; flex: 1; }
 .encart-empty { font-size: 12.5px; color: var(--slate-400); font-style: italic; flex: 1; }
 .encart-badge { margin-top: 12px; align-self: flex-start; font-size: 11px; font-weight: 700; color: var(--blue-700); background: var(--blue-50); border: 1px solid var(--blue-100); border-radius: 20px; padding: 2px 10px; }
@@ -250,24 +253,79 @@ body {
 .encart-text-edit:focus { outline: none; border-color: var(--blue-500); }
 .encart-apports { margin-top: 16px; }
 
+/* Organigramme — équipe d'agents */
+.org-intro { max-width: 760px; font-size: 13.5px; color: var(--slate-600); line-height: 1.6; margin-bottom: 26px; padding: 14px 16px; background: var(--blue-50); border: 1px solid var(--blue-100); border-radius: 12px; }
+.org-pole { margin-bottom: 30px; }
+.org-pole-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--slate-200); }
+.org-pole-name { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--blue-700); }
+.org-pole-tag { font-size: 12.5px; color: var(--slate-500); font-style: italic; flex: 1; }
+.org-pole-count { font-size: 11px; font-weight: 700; color: var(--slate-400); white-space: nowrap; }
+.org-agents { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+.org-agent { background: var(--white); border: 1px solid var(--slate-200); border-radius: 14px; padding: 18px 20px; box-shadow: 0 1px 2px rgba(15,23,42,0.04); transition: all .15s; display: flex; flex-direction: column; }
+.org-agent:hover { box-shadow: 0 8px 22px rgba(15,23,42,0.09); border-color: var(--slate-300); transform: translateY(-2px); }
+.org-agent-next { border-color: var(--blue-500); box-shadow: 0 0 0 1px var(--blue-500); }
+.org-agent-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 4px; }
+.org-agent-name { font-size: 16px; font-weight: 700; color: var(--slate-900); letter-spacing: -0.01em; }
+.org-badge { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 20px; padding: 3px 10px; white-space: nowrap; flex-shrink: 0; }
+.org-badge-next { color: var(--blue-700); background: var(--blue-50); border: 1px solid var(--blue-100); }
+.org-badge-todo { color: var(--slate-500); background: var(--slate-50); border: 1px solid var(--slate-200); }
+.org-badge-active { color: var(--teal-700); background: var(--teal-100); border: 1px solid var(--teal-100); }
+.org-agent-role { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--blue-700); margin: 2px 0 10px; }
+.org-agent-mission { font-size: 13px; color: var(--slate-600); line-height: 1.55; flex: 1; }
+.org-agent-quand { margin-top: 12px; font-size: 12.5px; color: var(--slate-500); font-style: italic; border-top: 1px dashed var(--slate-200); padding-top: 10px; }
+
+/* Bandeau hero en tête de section Stratégie */
+.strat-hero {
+  display: flex; align-items: center; gap: 22px;
+  padding: 18px 4px 28px; margin-bottom: 6px;
+  border-bottom: 1px solid var(--slate-200);
+}
+.strat-hero .mixer-mark { width: 56px; height: 56px; flex-shrink: 0; color: var(--slate-900); }
+.strat-hero-text { flex: 1; min-width: 0; }
+.strat-hero-title {
+  font-family: var(--font-display); font-weight: 700; font-size: 32px;
+  letter-spacing: -0.02em; color: var(--slate-900); line-height: 1.1;
+}
+.strat-hero-title .accent {
+  font-style: italic; font-weight: 500; color: var(--blue-700);
+}
+.strat-hero-tagline {
+  margin-top: 8px; font-size: 14px; color: var(--slate-600);
+  line-height: 1.55; font-style: italic; max-width: 720px;
+}
+
+/* Marque Mixer (4 curseurs, handle cobalt sur track 3) */
+.mixer-mark { display: inline-block; vertical-align: middle; }
+.mixer-mark .track { stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; opacity: 0.28; }
+.mixer-mark .handle { fill: currentColor; }
+.mixer-mark .handle-cobalt { fill: var(--blue-700); }
+
 /* Group cards (aperçu de regroupement) */
 .group-card {
   background: var(--white); border: 1px solid var(--slate-200); border-radius: 14px;
-  padding: 20px 22px; cursor: pointer; box-shadow: 0 1px 2px rgba(15,23,42,0.04);
-  transition: all .15s; display: flex; flex-direction: column; min-height: 168px;
+  padding: 22px 24px; cursor: pointer; box-shadow: 0 1px 2px rgba(15,23,42,0.04);
+  transition: all .18s ease; display: flex; flex-direction: column; min-height: 184px;
+  position: relative; overflow: hidden;
 }
-.group-card:hover { box-shadow: 0 10px 26px rgba(15,23,42,0.10); border-color: var(--blue-500); transform: translateY(-2px); }
+.group-card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--blue-700); transform: scaleY(0); transform-origin: center;
+  transition: transform .25s ease;
+}
+.group-card:hover { box-shadow: 0 12px 28px rgba(15,23,42,0.10); border-color: var(--slate-300); transform: translateY(-2px); }
+.group-card:hover::before { transform: scaleY(1); }
 .group-card-head {
-  font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em;
-  color: var(--blue-700); margin-bottom: 12px;
+  font-family: var(--font-display); font-weight: 500; font-style: italic;
+  font-size: 19px; color: var(--slate-900); margin-bottom: 12px;
+  letter-spacing: -0.01em; line-height: 1.2;
 }
-.group-card-lead { flex: 1; font-size: 13.5px; color: var(--slate-700); line-height: 1.55; }
+.group-card-lead { flex: 1; font-size: 13.5px; color: var(--slate-700); line-height: 1.6; }
 .group-card-count {
-  margin-top: 14px; align-self: flex-start;
-  font-size: 11.5px; font-weight: 700; color: var(--slate-600);
-  background: var(--slate-100); border-radius: 20px; padding: 3px 11px;
+  margin-top: 16px; align-self: flex-start;
+  font-size: 11px; font-weight: 700; color: var(--slate-500);
+  text-transform: uppercase; letter-spacing: 0.06em;
 }
-.group-card:hover .group-card-count { background: var(--blue-50); color: var(--blue-700); }
+.group-card:hover .group-card-count { color: var(--blue-700); }
 
 /* Modale large (vue d'un groupe ouvert) */
 .modal.modal-wide { width: min(960px, 92vw); }
@@ -660,6 +718,7 @@ tr:hover td { background: var(--blue-50); }
           <div class="nav-subitem" data-view="idees"><span class="sub-bullet"></span>Idées</div>
           <div class="nav-subitem" data-view="strat-marche"><span class="sub-bullet"></span>Prise de marché</div>
           <div class="nav-subitem" data-view="strat-pricing"><span class="sub-bullet"></span>Tarification</div>
+          <div class="nav-subitem" data-view="strat-organigramme"><span class="sub-bullet"></span>Organigramme</div>
         </div>
       </div>
 
@@ -779,6 +838,7 @@ const titles = {
   idees:'Stratégie — Idées',
   'strat-marche':'Stratégie — Prise de marché',
   'strat-pricing':'Stratégie — Tarification',
+  'strat-organigramme':'Stratégie — Organigramme des agents',
   'clients-valides':'Clients validés',
   'clients-prospects':'Prospects CPTS',
   communication:'Communication'
@@ -872,6 +932,7 @@ function render() {
   else if (currentView === 'strat-vision') renderStrategie(content, actions, 'vision');
   else if (currentView === 'strat-marche') renderStrategie(content, actions, 'marche');
   else if (currentView === 'strat-pricing') renderStrategie(content, actions, 'pricing');
+  else if (currentView === 'strat-organigramme') renderOrganigramme(content, actions);
   else if (currentView === 'clients-valides') renderProspects(content, actions, 'clients');
   else if (currentView === 'clients-prospects') renderProspects(content, actions, 'prospects');
   else if (currentView === 'communication') renderPlaceholder(content, actions, 'communication');
@@ -1764,6 +1825,95 @@ const viewPlaceholders = {
     desc: 'Bientôt : ta communication — messages clés, supports, canaux. On le construira ensemble.'
   }
 };
+// ============ VUE ORGANIGRAMME (équipe d'agents) ============
+const ORGANIGRAMME = {
+  intro: "L'équipe d'agents qui t'épaule pour piloter CPTS Pilot. On l'étoffe au fil de nos décisions : chaque agent est « embauché » quand le besoin devient réel — pas avant. Un pôle commence souvent avec un seul agent, puis grossit.",
+  poles: [
+    {
+      name: "Produit", tagline: "Construire et garder le cap",
+      agents: [
+        { name: "Chef Produit", statut: "next", role: "Le coup d'avance",
+          mission: "Lit tout le repo et la roadmap, sait toujours où on en est, et projette : prochain chantier, vision, fonctionnalités à déployer.",
+          quand: "« Par quoi je commence ? Où on en est ? Qu'est-ce qui vient après ? »" },
+        { name: "Monitoring", statut: "todo", role: "La plateforme en marche",
+          mission: "Surveille le produit en production et fait remonter bugs, alertes et incidents (Sentry) directement sur le cockpit.",
+          quand: "« Est-ce que ça tourne ? Qu'est-ce qui a planté ? »" }
+      ]
+    },
+    {
+      name: "Sécurité & Conformité", tagline: "Protéger le code et les données",
+      agents: [
+        { name: "Audit Risk", statut: "todo", role: "Le code sous contrôle",
+          mission: "Inspecte le code : failles de sécurité, dette technique. Les remonte et propose les corrections pour sécuriser.",
+          quand: "« Mon code est-il sûr et propre ? »" },
+        { name: "Le DPO", statut: "todo", role: "Les données protégées",
+          mission: "Veille à la conformité des données : RGPD, hébergement, usage CPTS. Détecte les manquements et propose comment les couvrir.",
+          quand: "« Est-ce que j'ai le droit ? C'est conforme ? »" }
+      ]
+    },
+    {
+      name: "Marché", tagline: "Regarder dehors",
+      agents: [
+        { name: "L'Observatoire", statut: "todo", role: "La veille",
+          mission: "Surveille le monde extérieur : réglementaire (lois, réformes CPTS) et concurrentiel (concurrents — prix, communication, positionnement).",
+          quand: "« Qu'est-ce qui bouge sur le marché ? »" }
+      ]
+    },
+    {
+      name: "Marque", tagline: "La voix et l'image",
+      agents: [
+        { name: "Le Studio", statut: "todo", role: "Marque & communication",
+          mission: "Identité visuelle, logo, positionnement, contenus et diffusion. S'adapte à la vision et aux décisions prises.",
+          quand: "« Comment je me présente et je communique ? »" }
+      ]
+    },
+    {
+      name: "Business", tagline: "Trouver et tenir les clients",
+      agents: [
+        { name: "Le Business", statut: "todo", role: "Commercial → gestion clients",
+          mission: "Aujourd'hui commercial : prospection des CPTS, démo, devis, onboarding. Demain : facturation et gestion clients. Un pôle qui grossira.",
+          quand: "« Comment je trouve et je signe des CPTS ? »" }
+      ]
+    }
+  ]
+};
+const orgStatut = {
+  next:   { label: "Premier à créer", cls: "org-badge-next" },
+  todo:   { label: "À venir",         cls: "org-badge-todo" },
+  active: { label: "Actif",           cls: "org-badge-active" }
+};
+function renderOrganigramme(content, actions) {
+  actions.innerHTML = '';
+  const o = ORGANIGRAMME;
+  let html = '<div class="panel" style="max-width:1100px">';
+  html += `<div class="org-intro">${esc(o.intro)}</div>`;
+  o.poles.forEach(pole => {
+    html += `<div class="org-pole">
+      <div class="org-pole-head">
+        <span class="org-pole-name">${esc(pole.name)}</span>
+        <span class="org-pole-tag">${esc(pole.tagline)}</span>
+        <span class="org-pole-count">${pole.agents.length} agent${pole.agents.length > 1 ? 's' : ''}</span>
+      </div>
+      <div class="org-agents">
+        ${pole.agents.map(a => {
+          const s = orgStatut[a.statut] || orgStatut.todo;
+          return `<div class="org-agent ${a.statut === 'next' ? 'org-agent-next' : ''}">
+            <div class="org-agent-head">
+              <span class="org-agent-name">${esc(a.name)}</span>
+              <span class="org-badge ${s.cls}">${s.label}</span>
+            </div>
+            <div class="org-agent-role">${esc(a.role)}</div>
+            <div class="org-agent-mission">${esc(a.mission)}</div>
+            <div class="org-agent-quand">${esc(a.quand)}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  });
+  html += '</div>';
+  content.innerHTML = html;
+}
+
 function renderPlaceholder(content, actions, key) {
   actions.innerHTML = '';
   const p = viewPlaceholders[key];
