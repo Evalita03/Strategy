@@ -342,16 +342,30 @@ body {
   text-transform: uppercase; letter-spacing: 0.06em;
 }
 .group-card:hover .group-card-count { color: var(--blue-700); }
-.group-card.is-expanded { border-color: var(--blue-500); box-shadow: 0 6px 16px rgba(29,78,216,0.10); }
+.group-card.is-expanded {
+  background: var(--blue-50);
+  border-color: var(--blue-500);
+  box-shadow: 0 6px 16px rgba(29,78,216,0.12);
+}
 .group-card.is-expanded::before { transform: scaleY(1); }
 .group-card.is-expanded .group-card-count { color: var(--blue-700); }
+.group-card.is-expanded .group-card-lead { color: var(--slate-800); }
+
+/* Quand un groupe est ouvert, les autres se mettent en retrait pour focaliser */
+.hub-grid.has-focus .group-card:not(.is-expanded) {
+  opacity: 0.38;
+  transition: opacity .25s ease;
+}
+.hub-grid.has-focus .group-card:not(.is-expanded):hover {
+  opacity: 1;
+}
 
 .group-expansion {
   grid-column: 1 / -1;
   margin: -4px 0 10px;
   padding: 22px 24px 18px;
-  background: var(--slate-50);
-  border: 1px solid var(--slate-200);
+  background: var(--blue-50);
+  border: 1px solid var(--blue-100);
   border-radius: 14px;
   animation: groupExp .22s ease;
 }
@@ -1040,6 +1054,8 @@ function renderToday(content, actions) {
         <input id="today-intention" type="text" placeholder="Sur quoi je veux concentrer mon énergie aujourd'hui ?" value="${esc(intentionValue)}" oninput="saveIntention(this.value)">
       </div>
     </div>`;
+
+  html += '<div id="today-cap" class="today-cap today-cap-hidden"></div>';
 
   html += '<div class="today-grid">';
 
@@ -1765,7 +1781,7 @@ function renderStrategie(content, actions, section) {
   });
   if (!expandedGroups[section]) expandedGroups[section] = new Set();
   const opened = expandedGroups[section];
-  html += '<div class="hub-grid">';
+  html += `<div class="hub-grid${opened.size?' has-focus':''}">`;
   order.forEach(g => {
     const items = map.get(g);
     const lead = items.find(p => p.size === 'large') || items[0];
