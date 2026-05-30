@@ -326,6 +326,23 @@ body {
   text-transform: uppercase; letter-spacing: 0.06em;
 }
 .group-card:hover .group-card-count { color: var(--blue-700); }
+.group-card.is-expanded { border-color: var(--blue-500); box-shadow: 0 6px 16px rgba(29,78,216,0.10); }
+.group-card.is-expanded::before { transform: scaleY(1); }
+.group-card.is-expanded .group-card-count { color: var(--blue-700); }
+
+.group-expansion {
+  grid-column: 1 / -1;
+  margin: -4px 0 10px;
+  padding: 22px 24px 18px;
+  background: var(--slate-50);
+  border: 1px solid var(--slate-200);
+  border-radius: 14px;
+  animation: groupExp .22s ease;
+}
+@keyframes groupExp { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+.group-expansion-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; grid-auto-flow: dense; align-items: start; }
+.group-expansion-actions { margin-top: 16px; display: flex; gap: 10px; }
+.group-expansion .encart { background: var(--white); }
 
 /* Modale large (vue d'un groupe ouvert) */
 .modal.modal-wide { width: min(960px, 92vw); }
@@ -1691,6 +1708,8 @@ function renderStratHero(section) {
 const sectionLabels = { vision:'Vision', marche:'Prise de marché', pricing:'Tarification' };
 function findPillar(section, pid) { return (state.strategiePillars[section]||[]).find(p=>p.id===pid); }
 
+let expandedGroups = { vision: new Set(), marche: new Set(), pricing: new Set() };
+
 function renderStrategie(content, actions, section) {
   actions.innerHTML = `<button class="btn btn-primary" onclick="addEncart('${section}')">+ Encart</button>`;
   const encarts = state.strategiePillars[section] || [];
@@ -1712,21 +1731,51 @@ function renderStrategie(content, actions, section) {
     if (!map.has(g)) { map.set(g, []); order.push(g); }
     map.get(g).push(p);
   });
+  if (!expandedGroups[section]) expandedGroups[section] = new Set();
+  const opened = expandedGroups[section];
   html += '<div class="hub-grid">';
   order.forEach(g => {
     const items = map.get(g);
     const lead = items.find(p => p.size === 'large') || items[0];
     const preview = (lead.text || '').trim().slice(0, 200);
-    html += `<div class="group-card" data-section="${section}" data-group="${esc(g)}" onclick="openGroupModalFromEl(this)">
+    const isExp = opened.has(g);
+    html += `<div class="group-card ${isExp?'is-expanded':''}" data-section="${section}" data-group="${esc(g)}" onclick="toggleGroupFromEl(this)">
       <div class="group-card-head">${esc(g)}</div>
       <div class="group-card-lead">${esc(preview)}${(lead.text||'').length>200?'…':''}</div>
-      <div class="group-card-count">${items.length} encart${items.length>1?'s':''} ▸</div>
+      <div class="group-card-count">${items.length} encart${items.length>1?'s':''} ${isExp?'▴':'▾'}</div>
     </div>`;
+    if (isExp) {
+      html += `<div class="group-expansion">
+        <div class="group-expansion-grid">
+          ${items.map(p => renderEncartCard(section, p)).join('')}
+        </div>
+        <div class="group-expansion-actions">
+          <button class="btn btn-ghost btn-sm" data-section="${section}" data-group="${esc(g)}" onclick="event.stopPropagation();addEncartFromGroupEl(this)">+ Encart dans ce groupe</button>
+        </div>
+      </div>`;
+    }
   });
   html += '</div></div>';
   content.innerHTML = html;
 }
-function openGroupModalFromEl(el) { openGroupModal(el.dataset.section, el.dataset.group); }
+function renderEncartCard(section, p) {
+  const n = (p.contributions||[]).length;
+  const preview = (p.text||'').trim();
+  const max = p.size === 'large' ? 420 : 220;
+  return `<div class="encart ${p.size==='large'?'encart-lg':''}" onclick="event.stopPropagation();openEncartModal('${section}','${p.id}')">
+    <div class="encart-title">${esc(p.name)}</div>
+    ${preview ? `<div class="encart-text">${esc(preview.slice(0,max))}${preview.length>max?'…':''}</div>` : `<div class="encart-empty">Vide — clique pour rédiger</div>`}
+    ${n ? `<div class="encart-badge">▸ ${n} apport${n>1?'s':''}</div>` : ''}
+  </div>`;
+}
+function toggleGroupFromEl(el) {
+  const section = el.dataset.section;
+  const group = el.dataset.group;
+  if (!expandedGroups[section]) expandedGroups[section] = new Set();
+  if (expandedGroups[section].has(group)) expandedGroups[section].delete(group);
+  else expandedGroups[section].add(group);
+  render();
+}
 function openGroupModal(section, groupName) {
   const all = state.strategiePillars[section] || [];
   const items = all.filter(p => ((p.group || '').trim() || 'Sans catégorie') === groupName);
@@ -1761,6 +1810,11 @@ function addEncart(section, group) {
   state.strategiePillars[section] = state.strategiePillars[section] || [];
   const p = { id: uid(), name: 'Nouvel encart', text: '', size: 'normal', group: group || '', contributions: [] };
   state.strategiePillars[section].push(p);
+  // déroule auto le groupe pour qu'on voie où l'encart atterrit
+  if (group) {
+    if (!expandedGroups[section]) expandedGroups[section] = new Set();
+    expandedGroups[section].add(group);
+  }
   save(); render(); openEncartModal(section, p.id);
 }
 function openEncartModal(section, pid) {
