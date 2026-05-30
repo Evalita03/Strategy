@@ -2556,8 +2556,11 @@ async function loadStrategySeed() {
       const source = live || fallback;
       if (Array.isArray(source)) {
         state.strategiePillars[sec] = source.map(e => ({
-          id: uid(), name: e.name, text: e.text || '',
+          id: uid(),
+          name: e.name,
+          text: e.text || '',
           size: e.size === 'large' ? 'large' : 'normal',
+          group: (e.group || '').trim(),
           contributions: []
         }));
       }
