@@ -2436,32 +2436,60 @@ async function fetchDynamicRoadmap() {
   }
 }
 
-async function loadStrategySeed() {
-  if (!confirm('Charger / synchroniser depuis Plateforme-CPTS ?\n\n• Encarts Vision / Prise de marché / Tarification : remplacés par la synthèse (tes éventuelles modifs seront écrasées).\n• Roadmap : jalons historiques + étapes en cours/à venir lues en direct dans Plateforme-CPTS (via ton token GitHub).\n\nContinuer ?')) return;
+// Lit Plateforme-CPTS/strategy.json (encarts Vision/Marché/Tarification, idem roadmap)
+async function fetchDynamicStrategy() {
+  const cfg = getGhConfig();
+  if (!cfg.token) return { encarts: null, note: 'token GitHub non configuré' };
+  const owner = cfg.owner || 'Evalita03';
+  const url = `https://api.github.com/repos/${owner}/Plateforme-CPTS/contents/strategy.json?ref=main&t=${Date.now()}`;
   try {
-    // 1. Seed statique (encarts + jalons historiques) servi par github.io
+    const resp = await fetch(url, {
+      headers: { 'Authorization': `token ${cfg.token}`, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    if (resp.status === 404) return { encarts: null, note: 'strategy.json pas encore créé côté Plateforme-CPTS' };
+    if (!resp.ok) { const e = await resp.json().catch(()=>({})); return { encarts: null, note: `API GitHub : ${e.message || resp.status}` }; }
+    const data = await resp.json();
+    const text = b64ToUtf8(data.content);
+    const parsed = JSON.parse(text);
+    return { encarts: parsed.encarts || null, updated_at: parsed.updated_at };
+  } catch (e) {
+    return { encarts: null, note: 'lecture impossible : ' + e.message };
+  }
+}
+
+async function loadStrategySeed() {
+  if (!confirm('Charger / synchroniser depuis Plateforme-CPTS ?\n\n• Encarts Vision / Prise de marché / Tarification : remplacés par la version la plus récente (strategy.json sur Plateforme-CPTS si présent, sinon mon seed statique). Tes éventuelles modifs locales seront écrasées.\n• Roadmap : jalons historiques + étapes en cours/à venir lues en direct dans Plateforme-CPTS.\n\nContinuer ?')) return;
+  try {
+    // 1. Seed statique (fallback encarts + jalons historiques)
     const resp = await fetch('strategy-seed.json?t=' + Date.now());
     if (!resp.ok) throw new Error(`strategy-seed.json introuvable (${resp.status})`);
     const seed = await resp.json();
 
-    // 2. Roadmap dynamique en direct depuis Plateforme-CPTS (API GitHub)
-    const dyn = await fetchDynamicRoadmap();
+    // 2. Lectures dynamiques en parallèle (API GitHub sur Plateforme-CPTS)
+    const [dynRoad, dynStrat] = await Promise.all([
+      fetchDynamicRoadmap(),
+      fetchDynamicStrategy()
+    ]);
 
-    // Encarts
-    if (seed.encarts) {
-      ['vision', 'marche', 'pricing'].forEach(sec => {
-        if (Array.isArray(seed.encarts[sec])) {
-          state.strategiePillars[sec] = seed.encarts[sec].map(e => ({
-            id: uid(), name: e.name, text: e.text || '',
-            size: e.size === 'large' ? 'large' : 'normal',
-            contributions: []
-          }));
-        }
-      });
-    }
-    // Roadmap = historique du seed + items dynamiques (doing/planned/done)
+    // Encarts : strategy.json (live) si dispo, sinon fallback seed
+    let dynEncartsCount = 0;
+    ['vision', 'marche', 'pricing'].forEach(sec => {
+      const live = dynStrat.encarts && Array.isArray(dynStrat.encarts[sec]) ? dynStrat.encarts[sec] : null;
+      const fallback = seed.encarts && Array.isArray(seed.encarts[sec]) ? seed.encarts[sec] : null;
+      const source = live || fallback;
+      if (Array.isArray(source)) {
+        state.strategiePillars[sec] = source.map(e => ({
+          id: uid(), name: e.name, text: e.text || '',
+          size: e.size === 'large' ? 'large' : 'normal',
+          contributions: []
+        }));
+      }
+      if (live) dynEncartsCount += live.length;
+    });
+
+    // Roadmap = historique du seed + items dynamiques
     const seedItems = Array.isArray(seed.roadmap) ? seed.roadmap : [];
-    state.roadmap = [...seedItems, ...dyn.items].map(r => ({
+    state.roadmap = [...seedItems, ...dynRoad.items].map(r => ({
       id: uid(),
       title: r.title || '(sans titre)',
       month: r.month || null,
@@ -2470,11 +2498,25 @@ async function loadStrategySeed() {
     }));
 
     save(); closeModal(); render();
-    let msg = `✓ Synthèse chargée.\n${seedItems.length} jalons historiques`;
-    if (dyn.items.length) msg += ` + ${dyn.items.length} en cours / à venir (lus dans Plateforme-CPTS`;
-    if (dyn.updated_at) msg += `, mis à jour le ${dyn.updated_at}`;
-    if (dyn.items.length) msg += ')';
-    if (!dyn.items.length && dyn.note) msg += `\n\nRoadmap dynamique : ${dyn.note}.`;
+    // Message récap : encarts + roadmap, source par source
+    let msg = '✓ Synthèse chargée.\n\n';
+    msg += 'ENCARTS — ';
+    if (dynEncartsCount) {
+      msg += `${dynEncartsCount} en direct depuis Plateforme-CPTS`;
+      if (dynStrat.updated_at) msg += ` (maj ${dynStrat.updated_at})`;
+      msg += '.';
+    } else {
+      msg += `seed statique (${dynStrat.note || 'fallback'}).`;
+    }
+    msg += '\nROADMAP — ';
+    msg += `${seedItems.length} jalons historiques`;
+    if (dynRoad.items.length) {
+      msg += ` + ${dynRoad.items.length} en cours/à venir (Plateforme-CPTS`;
+      if (dynRoad.updated_at) msg += `, maj ${dynRoad.updated_at}`;
+      msg += ').';
+    } else if (dynRoad.note) {
+      msg += `.\n(roadmap dynamique : ${dynRoad.note})`;
+    } else msg += '.';
     alert(msg);
   } catch (e) {
     alert('Chargement impossible : ' + e.message);
