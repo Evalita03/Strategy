@@ -1646,10 +1646,48 @@ function deleteTask(id) {
 
 // ============ VUE STRATÉGIE (Hub d'encarts) ============
 const stratMeta = {
-  vision:  { label:'Vision',          prompt:'Ta vision : où tu veux emmener CPTS Pilot, ta raison d’être, ton cap à long terme.' },
-  marche:  { label:'Prise de marché', prompt:'Comment tu attaques le marché : cibles prioritaires, canaux, arguments, go-to-market.' },
-  pricing: { label:'Tarification',    prompt:'Ton modèle de prix : offres, paliers, logique tarifaire.' }
+  vision:  { label:'Vision',          accent:'cap',     fallback:'Là où on va, et pourquoi.',                prompt:'Ta vision : où tu veux emmener CPTS Pilot, ta raison d’être, ton cap à long terme.' },
+  marche:  { label:'Prise de marché', accent:'marché',  fallback:'À qui on s’adresse, et comment on entre.', prompt:'Comment tu attaques le marché : cibles prioritaires, canaux, arguments, go-to-market.' },
+  pricing: { label:'Tarification',    accent:'rapport', fallback:'Notre rapport au prix, posé clair.',        prompt:'Ton modèle de prix : offres, paliers, logique tarifaire.' }
 };
+// Marque Mixer : 4 curseurs verticaux, handle 3 en cobalt (cf. docs/brand/README de Plateforme-CPTS)
+function mixerMarkSvg() {
+  return `<svg class="mixer-mark" viewBox="0 0 60 60" fill="none">
+    <line class="track" x1="14" y1="8" x2="14" y2="52"/>
+    <line class="track" x1="26" y1="8" x2="26" y2="52"/>
+    <line class="track" x1="38" y1="8" x2="38" y2="52"/>
+    <line class="track" x1="50" y1="8" x2="50" y2="52"/>
+    <rect class="handle" x="10" y="18" width="8" height="8" rx="1.5"/>
+    <rect class="handle" x="22" y="30" width="8" height="8" rx="1.5"/>
+    <rect class="handle handle-cobalt" x="34" y="10" width="8" height="8" rx="1.5"/>
+    <rect class="handle" x="46" y="38" width="8" height="8" rx="1.5"/>
+  </svg>`;
+}
+function getStratTagline(section) {
+  const encarts = state.strategiePillars[section] || [];
+  const lead = encarts.find(e => e.size === 'large') || encarts[0];
+  if (!lead || !lead.text) return stratMeta[section]?.fallback || '';
+  const first = lead.text.replace(/«|»/g, '').split(/[.!?]\s/)[0].trim();
+  return first.length > 130 ? first.slice(0, 127) + '…' : first;
+}
+function renderStratHero(section) {
+  const meta = stratMeta[section] || {};
+  const label = meta.label || '';
+  const accent = meta.accent || '';
+  // Met l'accent en italique cobalt sur le dernier mot reconnu
+  let title = esc(label);
+  if (accent) {
+    const re = new RegExp('(' + accent.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'i');
+    title = esc(label).replace(re, '<span class="accent">$1</span>');
+  }
+  return `<div class="strat-hero">
+    ${mixerMarkSvg()}
+    <div class="strat-hero-text">
+      <div class="strat-hero-title">${title}</div>
+      <div class="strat-hero-tagline">${esc(getStratTagline(section))}</div>
+    </div>
+  </div>`;
+}
 const sectionLabels = { vision:'Vision', marche:'Prise de marché', pricing:'Tarification' };
 function findPillar(section, pid) { return (state.strategiePillars[section]||[]).find(p=>p.id===pid); }
 
@@ -1657,6 +1695,7 @@ function renderStrategie(content, actions, section) {
   actions.innerHTML = `<button class="btn btn-primary" onclick="addEncart('${section}')">+ Encart</button>`;
   const encarts = state.strategiePillars[section] || [];
   let html = '<div class="panel" style="max-width:1100px">';
+  html += renderStratHero(section);
   if (encarts.length === 0) {
     html += `<div class="empty">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="10" width="8" height="11" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/></svg>
