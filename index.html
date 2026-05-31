@@ -303,8 +303,14 @@ body {
 .cap-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 2px; }
 .cap-task-btn { font-family: inherit; font-size: 12.5px; font-weight: 700; color: var(--white); background: var(--blue-700); border: none; border-radius: 8px; padding: 7px 14px; cursor: pointer; transition: background .15s; }
 .cap-task-btn:hover { background: var(--blue-500); }
-.cap-task-btn-done { background: var(--teal-600); cursor: default; }
+.cap-task-btn-done { background: var(--teal-600); color: var(--white); cursor: default; }
 .cap-task-btn:disabled { opacity: 1; }
+.cap-task-btn-alt { background: var(--white); color: var(--blue-700); border: 1px solid var(--blue-100); }
+.cap-task-btn-alt:hover { background: var(--blue-50); }
+.report-btn-row { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+.jalon-mini { font-family: inherit; font-size: 10.5px; font-weight: 700; color: var(--blue-700); background: var(--blue-50); border: 1px solid var(--blue-100); border-radius: 12px; padding: 1px 8px; cursor: pointer; margin-left: 4px; white-space: nowrap; }
+.jalon-mini:hover { background: var(--blue-100); }
+.jalon-mini:disabled { color: var(--teal-700); background: var(--teal-100); border-color: var(--teal-100); cursor: default; }
 
 /* Bandeau hero en tête de section Stratégie */
 .strat-hero {
@@ -1152,6 +1158,7 @@ async function loadCapToday() {
       ${pc.pourquoi ? `<div class="cap-pourquoi">${esc(pc.pourquoi)}</div>` : ''}
       <div class="cap-actions">
         ${pc.titre ? `<button class="cap-task-btn" onclick="createTaskFromChantier(event)">+ Créer la tâche</button>` : ''}
+        ${pc.titre ? `<button class="cap-task-btn cap-task-btn-alt" onclick="createJalonFromChantier(event)">+ Roadmap</button>` : ''}
         <a class="cap-link" onclick="openAgentModal('chef-produit')">Lire le rapport complet →</a>
       </div>`;
     box.classList.remove('today-cap-hidden');
@@ -1174,6 +1181,34 @@ function createTaskFromChantier(ev) {
   });
   save();
   if (btn) { btn.textContent = '✓ Ajouté à ton To do'; btn.disabled = true; btn.classList.add('cap-task-btn-done'); }
+}
+
+function currentMonthStr() { return new Date().toISOString().slice(0, 7); }
+function roadmapHas(title) {
+  return (state.roadmap || []).some(x => (x.title || '').trim().toLowerCase() === title.trim().toLowerCase());
+}
+function createJalonFromChantier(ev) {
+  const btn = ev && ev.currentTarget;
+  const r = chefProduitReport;
+  if (!r || !r.prochain_chantier || !r.prochain_chantier.titre) return;
+  const titre = r.prochain_chantier.titre.trim();
+  if (roadmapHas(titre)) { if (btn) { btn.textContent = 'Déjà dans la roadmap'; btn.disabled = true; btn.classList.add('cap-task-btn-done'); } return; }
+  state.roadmap = state.roadmap || [];
+  state.roadmap.push({ id: uid(), title: titre, month: currentMonthStr(), status: 'planned', body: 'Préconisé par Magnus (Chef Produit).\n\n' + (r.prochain_chantier.pourquoi || '') });
+  save();
+  if (btn) { btn.textContent = '✓ Ajouté à la roadmap'; btn.disabled = true; btn.classList.add('cap-task-btn-done'); }
+}
+function createJalonFromAnticipe(ev, idx) {
+  const btn = ev && ev.currentTarget;
+  const r = chefProduitReport;
+  const item = r && Array.isArray(r.a_anticiper) ? r.a_anticiper[idx] : null;
+  if (!item) return;
+  const titre = String(item).trim();
+  if (roadmapHas(titre)) { if (btn) { btn.textContent = '✓ déjà'; btn.disabled = true; } return; }
+  state.roadmap = state.roadmap || [];
+  state.roadmap.push({ id: uid(), title: titre, month: null, status: 'planned', body: 'Anticipé par Magnus (Chef Produit).' });
+  save();
+  if (btn) { btn.textContent = '✓ ajouté'; btn.disabled = true; }
 }
 
 function saveIntention(value) {
@@ -2161,10 +2196,10 @@ function renderAgentReport(r) {
   if (r.etat) h += `<div class="agent-report-block"><div class="arb-label">Où on en est</div><div class="arb-text">${esc(r.etat)}</div></div>`;
   if (r.prochain_chantier) {
     const pc = r.prochain_chantier;
-    h += `<div class="agent-report-block"><div class="arb-label">Prochain chantier</div><div class="arb-text"><strong>${esc(pc.titre || '')}</strong>${pc.pourquoi ? ' — ' + esc(pc.pourquoi) : ''}</div>${pc.titre ? `<button class="cap-task-btn" style="margin-top:10px" onclick="createTaskFromChantier(event)">+ Créer la tâche dans mon To do</button>` : ''}</div>`;
+    h += `<div class="agent-report-block"><div class="arb-label">Prochain chantier</div><div class="arb-text"><strong>${esc(pc.titre || '')}</strong>${pc.pourquoi ? ' — ' + esc(pc.pourquoi) : ''}</div>${pc.titre ? `<div class="report-btn-row"><button class="cap-task-btn" onclick="createTaskFromChantier(event)">+ Créer la tâche</button><button class="cap-task-btn cap-task-btn-alt" onclick="createJalonFromChantier(event)">+ Ajouter à la roadmap</button></div>` : ''}</div>`;
   }
   if (Array.isArray(r.a_anticiper) && r.a_anticiper.length)
-    h += `<div class="agent-report-block"><div class="arb-label">À anticiper</div><ul class="arb-list">${r.a_anticiper.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>`;
+    h += `<div class="agent-report-block"><div class="arb-label">À anticiper</div><ul class="arb-list">${r.a_anticiper.map((x, i) => `<li>${esc(x)} <button class="jalon-mini" onclick="createJalonFromAnticipe(event, ${i})">+ roadmap</button></li>`).join('')}</ul></div>`;
   if (r.note) h += `<div class="agent-report-note">${esc(r.note)}</div>`;
   return h;
 }
