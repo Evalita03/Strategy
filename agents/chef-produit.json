@@ -18,6 +18,26 @@
         "Repasser sur la vitrine et le mode démo une fois le fléchage stabilisé : ce sont eux qui convertissent."
       ],
       "note": "Tu as un produit qui tient debout, c'est rare en solo — le risque n'est plus de manquer de fonctions mais de partir dans un chantier qui s'étire. On finit le fléchage proprement, on le pose dans la roadmap, et tu reviens en position de vendre."
+    },
+    {
+      "agent": "chef-produit",
+      "updated_at": "2026-05-31",
+      "trigger": "ronde manuelle",
+      "etat": "Correction de cap par rapport à hier : le fléchage n'est PAS un chantier qui s'étire, il est livré. Le code prouve qu'il a été mergé sur main le 24/05 (PR #7), avec 24 tests E2E (tests/test_flechage_destination.py) couvrant le cycle déclaration → override destination → rollback, la XSS corrigée et le cas démo seedé. La dernière activité git réelle date du 25/05 — depuis le 30/05, rien n'a bougé côté code, c'est normal. Le produit est donc fonctionnellement complet et démontrable. Le vrai manque n'est plus technique mais documentaire : le fléchage existe sans spec écrite et reste absent de la roadmap (strategy-seed.json + cockpit), donc invisible et non revendable en l'état.",
+      "prochain_chantier": {
+        "titre": "Capitaliser le fléchage : spec a posteriori + entrée roadmap",
+        "pourquoi": "Le code est fini et testé, mais un chantier non documenté est un chantier qu'on ne peut ni revendre, ni expliquer en démo, ni retrouver dans 3 mois. Une spec courte (problème ACI/fonctionnement, ce qui est construit, ce qui ne l'est pas) + une ligne 'done' dans la roadmap suffisent à transformer 24 commits invisibles en argument commercial. C'est 2h de travail qui ferment le sujet proprement et te remettent en position de vendre."
+      },
+      "a_anticiper": [
+        "Roadmap cockpit désynchronisée : 3 items en 'doing' (vues par rôle, validation des déclarations refus/relances, vitrine) sont en réalité déjà livrés sur main — à passer en 'done' pour ne pas piloter sur une carte fausse.",
+        "Multi-CPTS reste le seul vrai chantier neuf devant toi (item 'Mise en service d'une nouvelle CPTS cliente', planned) : l'archi est prête mais non activée — à cadrer dès qu'une 2e CPTS se profile.",
+        "CLAUDE.md / AUDIT_TECHNIQUE / SESSION_STATUS toujours figés à fév-mars : à rafraîchir avant de repartir sur un gros chantier.",
+        "Repasser sur vitrine + mode démo pour vérifier qu'ils montrent bien le fléchage (cas réaffectation déjà seedé) — c'est eux qui convertissent."
+      ],
+      "faits": [
+        "Cadrer et clôturer le fléchage (ACI / fonctionnement)"
+      ],
+      "note": "Hier je te poussais à finir le fléchage ; en vérifiant le code je vois qu'il est déjà fini et bien testé depuis le 24/05 — bravo, c'était du solide. Le piège maintenant c'est de le laisser invisible. Prochaine action unique : écris-moi 15 lignes de spec a posteriori (je peux te la rédiger) et ajoute une ligne 'fléchage des dépenses' en done dans la roadmap. Après ça, le sujet est clos et tu repars propre vers le multi-CPTS."
     }
   ]
 }

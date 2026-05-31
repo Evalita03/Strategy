@@ -656,6 +656,17 @@ tr:hover td { background: var(--blue-50); }
 .arch-drill-crumb a:hover { text-decoration: underline; }
 .arch-drill-crumb .sep { color: var(--slate-300); }
 .arch-drill-crumb .here { color: var(--slate-700); font-weight: 600; }
+.fg-tip {
+  position: fixed; z-index: 50; pointer-events: none; max-width: 280px;
+  background: var(--white); border: 1px solid var(--slate-200); border-radius: 10px; padding: 10px 12px;
+  box-shadow: 0 8px 28px rgba(15,23,42,0.16); font-size: 12px;
+}
+.fg-tip .t { font-weight: 700; color: var(--slate-900); font-size: 13px; margin-bottom: 3px; }
+.fg-tip .d { color: var(--slate-600); line-height: 1.45; margin-bottom: 5px; }
+.fg-tip .m { color: var(--slate-500); margin-bottom: 4px; }
+.fg-tip .m code { font-family: 'SFMono-Regular', Consolas, monospace; font-size: 11px; color: var(--blue-700); word-break: break-all; }
+.fg-tip .acc { font-weight: 600; margin-bottom: 5px; }
+.fg-tip .h { color: var(--slate-400); font-size: 11px; border-top: 1px solid var(--slate-100); padding-top: 5px; }
 
 /* Vue Aujourd'hui */
 .today-header { padding: 12px 0 28px; }
@@ -1425,28 +1436,26 @@ function formatRelativeDate(iso) {
 }
 
 // ============ VUE GRAPHE (ARCHITECTURE) ============
-let graphState = { offsetX: 0, offsetY: 0, scale: 1, dragging: null, panning: false, lastX: 0, lastY: 0 };
-
-// Navigation visuelle en poupées russes : overview → fichiers d'un module → routes d'un fichier
-let archView = { mode: 'overview', module: null, file: null, nodes: [], center: null };
-let archRedraw = null, archCanvas = null, archAnimRAF = null;
+// Graphe fluide façon Obsidian : caméra (zoom/pan) + simulation physique
+let graphCam = { scale: 1, offsetX: 0, offsetY: 0 };
 
 let archData = null;
 function renderGraph(content, actions) {
-  archView = { mode: 'overview', module: null, file: null, nodes: [], center: null };
   actions.innerHTML = `
     <button class="btn btn-ghost" onclick="reloadArch()">⟳ Recharger le code</button>
+    <button class="btn btn-ghost" onclick="fgFit()">⊡ Recadrer</button>
+    <button class="btn btn-ghost" onclick="toggleLens()" id="lens-btn">🎨 Couleur : Sécurité</button>
     <button class="btn btn-ghost" onclick="openArchExplorer()">🔍 Explorer</button>
     <button class="btn btn-ghost" onclick="openNodeModal()">+ Nœud manuel</button>
     <button class="btn btn-primary" onclick="toggleLinkMode()" id="link-btn">↔ Relier</button>`;
   content.innerHTML = `
     <canvas id="graph-canvas"></canvas>
-    <div class="arch-drill-bar" id="arch-drill-bar" style="display:none"></div>
     <div class="graph-legend">
       <h4>Architecture du code</h4>
       <div id="legend-content" style="font-size:11px;color:var(--slate-400)">Chargement...</div>
     </div>
     <div class="node-detail" id="node-detail"></div>
+    <div class="fg-tip" id="fg-tip" style="display:none"></div>
     <div id="arch-explorer-mount"></div>`;
   const canvas = document.getElementById('graph-canvas');
   loadArch(canvas);
@@ -1460,6 +1469,7 @@ async function loadArch(canvas) {
       if (resp.ok) { archData = await resp.json(); buildNodesFromArch(); }
     } catch(e) { console.log('Pas de architecture.json'); }
   }
+  fgInit();
   updateLegend();
   setupGraph(canvas);
 }
@@ -1483,8 +1493,16 @@ function updateLegend() {
   if (!el) return;
   if (archData && archData.stats) {
     const s = archData.stats;
-    const d = new Date(archData.generated_at).toLocaleString('fr-FR');
-    el.innerHTML = '<div style="color:var(--slate-700);font-weight:600;margin-bottom:6px">'+s.total_routes+' routes · '+s.total_modules+' modules</div><div style="margin-bottom:8px">'+s.files_scanned+' fichiers scannés</div><div style="color:var(--slate-400);font-size:10px">Généré le '+d+'</div><div style="margin-top:10px;color:var(--slate-400);font-size:10px">Clic sur un module → zoom sur ses fichiers<br>puis ses routes. ← Retour pour remonter.</div>';
+    let colorBlock;
+    if (fgLens === 'secu') {
+      colorBlock = '<div style="margin-top:10px;font-size:10px;color:var(--slate-400);margin-bottom:4px">Couleur des routes = qui peut y accéder :</div>'
+        + Object.values(ARCH_ACCESS).map(a => `<div class="legend-row" style="font-size:11px"><span class="legend-dot" style="background:${a.color}"></span>${a.label}</div>`).join('');
+    } else {
+      colorBlock = '<div style="margin-top:10px;color:var(--slate-400);font-size:10px">Couleur = zone fonctionnelle (le module).<br>Bascule sur « Sécurité » pour voir les accès.</div>';
+    }
+    el.innerHTML = '<div style="color:var(--slate-700);font-weight:600;margin-bottom:6px">'+s.total_routes+' routes · '+s.total_modules+' modules</div>'
+      + colorBlock
+      + '<div style="margin-top:10px;color:var(--slate-400);font-size:10px">Clic sur un nœud = le déplier · re-clic = replier<br>Glisser pour déplacer · molette = zoom · double-clic = recadrer</div>';
   } else {
     el.innerHTML = '<div style="color:var(--slate-500)">Aucun architecture.json trouvé.<br><br>Lance le script de scan dans ta plateforme et place architecture.json à la racine de Strategy.</div>';
   }
@@ -1503,262 +1521,335 @@ const catColors = { tech:'#2563EB', commercial:'#0D9488', strategie:'#7C3AED' };
 
 function truncLabel(s, max) { s = String(s||''); return s.length > max ? s.slice(0, max-1) + '…' : s; }
 
-function setupGraph(canvas) {
-  const ctx = canvas.getContext('2d');
-  archCanvas = canvas;
-  function resize() {
-    const r = canvas.parentElement.getBoundingClientRect();
-    canvas.width = r.width; canvas.height = r.height;
-    draw();
-  }
-  window.addEventListener('resize', resize);
+// ===== Niveaux d'accès : on traduit les protections du code en langage clair =====
+const ARCH_ACCESS = {
+  public:   { label: 'Accès libre (public)', color: '#16A34A' },
+  login:    { label: 'Connexion requise',     color: '#2563EB' },
+  restrict: { label: 'Accès restreint',       color: '#D97706' },
+  admin:    { label: 'Réservé aux admins',    color: '#7C3AED' }
+};
+function routeAccess(r) {
+  const p = r.protections || [];
+  if (p.includes('admin_required')) return 'admin';
+  if (p.includes('bureau_required') || p.includes('module_access')) return 'restrict';
+  if (p.length) return 'login';
+  return 'public';
+}
+// Libellés en français clair (au lieu des noms techniques)
+function frFile(file) {
+  let n = (file || '').split('/').pop().replace(/\.py$/, '').replace(/^routes?_/, '').replace(/_/g, ' ').trim();
+  return n ? n.charAt(0).toUpperCase() + n.slice(1) : 'Fichier';
+}
+function frRoute(r) {
+  const path = (r.path || ''), method = (r.methods || ['GET'])[0];
+  const segs = path.split('/').filter(s => s && !s.startsWith('<'));
+  const last = (segs[segs.length - 1] || '').toLowerCase();
+  let verb;
+  if (/ajouter|add|create|nouveau|new/.test(last)) verb = 'Ajouter';
+  else if (/modifier|edit|update/.test(last)) verb = 'Modifier';
+  else if (/supprimer|delete|remove/.test(last)) verb = 'Supprimer';
+  else if (/liste|list/.test(last)) verb = 'Liste';
+  else if (/export|telecharger|download/.test(last)) verb = 'Exporter';
+  else if (/valider|valid|envoyer/.test(last)) verb = 'Valider';
+  else if (/voir|view|detail|fiche|afficher/.test(last)) verb = 'Voir';
+  else verb = ({ GET:'Voir', POST:'Enregistrer', PUT:'Modifier', PATCH:'Modifier', DELETE:'Supprimer' })[method] || 'Action';
+  const subjSegs = segs.filter(s => !/(ajouter|add|create|nouveau|new|modifier|edit|update|supprimer|delete|remove|liste|list|voir|view|detail|fiche|afficher|export|telecharger|download|valider|valid|envoyer)/i.test(s));
+  const subject = (subjSegs[subjSegs.length - 1] || segs[0] || last || 'élément').replace(/_/g, ' ');
+  return verb + ' · ' + subject;
+}
 
-  function worldToScreen(x, y) {
-    return { x: x * graphState.scale + graphState.offsetX, y: y * graphState.scale + graphState.offsetY };
-  }
-  function screenToWorld(x, y) {
-    return { x: (x - graphState.offsetX) / graphState.scale, y: (y - graphState.offsetY) / graphState.scale };
-  }
+// ===== Graphe à simulation physique (façon Obsidian) =====
+let fg = { nodes: [], links: [] };
+let fgCanvas = null, fgCtx = null, fgRAF = null, fgResize = null, fgTemp = 6;
+let fgHover = null, fgDrag = null, fgPan = null, fgDownPos = null, fgDownTime = 0, fgMoved = false;
+let fgLens = 'secu';
+let fgSettled = false, fgCalm = 0;
 
-  function displayNodes() { return archView.mode === 'overview' ? state.nodes : archView.nodes; }
+function archNodeColor(n) {
+  if (n.kind === 'route') return fgLens === 'secu' ? (ARCH_ACCESS[n.access] || ARCH_ACCESS.login).color : (n.zoneColor || '#64748B');
+  return n.zoneColor || catColors[n.category] || '#64748B';
+}
+function toggleLens() {
+  fgLens = fgLens === 'secu' ? 'zone' : 'secu';
+  const b = document.getElementById('lens-btn');
+  if (b) b.textContent = '🎨 Couleur : ' + (fgLens === 'secu' ? 'Sécurité' : 'Zones');
+  updateLegend();
+}
 
-  function draw() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    const S = graphState.scale;
-    if (archView.mode === 'overview') {
-      // Liens (uniquement en vue d'ensemble)
-      ctx.lineWidth = 1.5 * S;
-      state.links.forEach(l => {
-        const s = state.nodes.find(n => n.id === l.source);
-        const t = state.nodes.find(n => n.id === l.target);
-        if (!s || !t) return;
-        const ss = worldToScreen(s.x, s.y), ts = worldToScreen(t.x, t.y);
-        ctx.beginPath(); ctx.moveTo(ss.x, ss.y); ctx.lineTo(ts.x, ts.y);
-        ctx.strokeStyle = 'rgba(148,163,184,0.5)'; ctx.stroke();
-      });
-    } else if (archView.center) {
-      // Rayons du nœud central vers ses enfants
-      const cp = worldToScreen(archView.center.x, archView.center.y);
-      ctx.lineWidth = 1.5 * S;
-      archView.nodes.forEach(n => {
-        if (n.kind === 'back') return;
-        const p = worldToScreen(n.x, n.y);
-        ctx.beginPath(); ctx.moveTo(cp.x, cp.y); ctx.lineTo(p.x, p.y);
-        ctx.strokeStyle = 'rgba(148,163,184,0.35)'; ctx.stroke();
-      });
-    }
-    // Nœuds
-    displayNodes().forEach(n => {
-      const p = worldToScreen(n.x, n.y);
-      const r = (n.radius || 26) * S;
-      ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, Math.PI*2);
-      ctx.fillStyle = n.color || catColors[n.category] || '#64748B';
-      ctx.globalAlpha = n.kind === 'back' ? 0.92 : 1;
-      ctx.fill(); ctx.globalAlpha = 1;
-      if (n.locked) { ctx.lineWidth = 2.5; ctx.strokeStyle = '#EA580C'; ctx.stroke(); }
-      if (linkSource === n.id) { ctx.lineWidth = 3; ctx.strokeStyle = '#0D9488'; ctx.stroke(); }
-      // Libellé sous le nœud
-      ctx.fillStyle = '#0F172A';
-      ctx.font = `600 ${13*S}px Manrope, sans-serif`;
-      ctx.textAlign = 'center';
-      const lbl = (archView.mode === 'overview') ? n.label : truncLabel(n.label, 24);
-      ctx.fillText(lbl, p.x, p.y + r + 16*S);
-      // Contenu du nœud
-      ctx.fillStyle = '#fff';
-      if (n.kind === 'back') {
-        ctx.font = `700 ${Math.max(11,15*S)}px Manrope, sans-serif`;
-        ctx.fillText('↩', p.x, p.y + 6*S);
-      } else if (n.kind === 'route') {
-        ctx.font = `700 ${Math.max(11,13*S)}px Manrope, sans-serif`;
-        ctx.fillText(n.locked ? '🔒' : '→', p.x, p.y + 5*S);
-      } else if (n.badge != null) {
-        ctx.font = `700 ${Math.max(11,14*S)}px Manrope, sans-serif`;
-        ctx.fillText(n.badge, p.x, p.y + 5*S);
-      } else if (n.fromArch) {
-        ctx.font = `700 ${Math.max(11,14*S)}px Manrope, sans-serif`;
-        ctx.fillText(n.routeCount, p.x, p.y + 5*S);
-      } else {
-        ctx.font = `600 ${12*S}px Manrope, sans-serif`;
-        ctx.fillText((n.type||'+').charAt(0).toUpperCase(), p.x, p.y + 4*S);
-      }
+function fgInit() {
+  fg = { nodes: [], links: [] }; fgTemp = 8;
+  if (!archData || !archData.modules) return;
+  const mods = archData.modules, n = mods.length, cx = 480, cy = 360, R = 250;
+  mods.forEach((m, i) => {
+    const a = (i / n) * Math.PI * 2 - Math.PI / 2;
+    fg.nodes.push({
+      id: 'arch_' + m.name, kind: 'module', mod: m.name, label: m.name,
+      zoneColor: m.color, category: m.category, parent: null, expanded: false,
+      r: Math.min(58, 20 + Math.sqrt(m.route_count || 1) * 3.4),
+      x: cx + Math.cos(a) * R, y: cy + Math.sin(a) * R, vx: 0, vy: 0
+    });
+  });
+  // Nœuds créés manuellement par l'utilisateur, intégrés au même graphe
+  state.nodes.filter(nd => !nd.fromArch).forEach(nd => {
+    fg.nodes.push({
+      id: nd.id, kind: 'manual', label: nd.label, zoneColor: catColors[nd.category] || '#64748B',
+      category: nd.category, parent: null, expanded: false, r: 24,
+      x: nd.x != null ? nd.x : cx, y: nd.y != null ? nd.y : cy, vx: 0, vy: 0, manualRef: nd
+    });
+  });
+}
+function fgNode(id) { return fg.nodes.find(n => n.id === id); }
+function fgChildren(id) { return fg.nodes.filter(n => n.parent === id); }
+function fgWake() { fgTemp = 6; fgSettled = false; fgCalm = 0; }
+
+function fgToggle(node) { if (node.expanded) fgCollapse(node); else fgExpand(node); }
+function fgExpand(node) {
+  const mod = getArchModule(node.mod); if (!mod) return;
+  const created = [];
+  if (node.kind === 'module') {
+    archFilesOf(mod).forEach(f => {
+      const id = 'file_' + node.mod + '::' + f.file;
+      if (fgNode(id)) return;
+      created.push({ id, kind: 'file', mod: node.mod, file: f.file, label: frFile(f.file),
+        zoneColor: mod.color, parent: node.id, expanded: false, count: f.routes.length,
+        r: Math.min(40, 12 + Math.sqrt(f.routes.length || 1) * 3),
+        x: node.x + (Math.random()-.5)*70, y: node.y + (Math.random()-.5)*70, vx: 0, vy: 0 });
+    });
+  } else if (node.kind === 'file') {
+    (mod.routes || []).filter(r => (r.file || 'fichier non identifié') === node.file).forEach(r => {
+      const key = (r.function || '') + '|' + (r.path || '');
+      const id = 'route_' + node.mod + '::' + node.file + '::' + key;
+      if (fgNode(id)) return;
+      created.push({ id, kind: 'route', mod: node.mod, file: node.file, routeKey: key,
+        label: frRoute(r), rawPath: r.path, zoneColor: mod.color, access: routeAccess(r),
+        parent: node.id, expanded: false, r: 9,
+        x: node.x + (Math.random()-.5)*60, y: node.y + (Math.random()-.5)*60, vx: 0, vy: 0 });
     });
   }
-  archRedraw = draw;
+  created.forEach(c => { fg.nodes.push(c); fg.links.push({ a: node.id, b: c.id }); });
+  node.expanded = true; fgWake();
+}
+function fgCollapse(node) {
+  const kill = new Set(), stack = [node.id];
+  while (stack.length) { const cur = stack.pop(); fgChildren(cur).forEach(c => { kill.add(c.id); stack.push(c.id); }); }
+  fg.nodes.forEach(nd => { if (kill.has(nd.id)) nd.expanded = false; });
+  fg.nodes = fg.nodes.filter(nd => !kill.has(nd.id));
+  fg.links = fg.links.filter(l => !kill.has(l.a) && !kill.has(l.b));
+  node.expanded = false; fgWake();
+}
 
-  function nodeAt(sx, sy) {
-    const nodes = displayNodes();
-    for (let i = nodes.length-1; i>=0; i--) {
-      const n = nodes[i];
-      const p = worldToScreen(n.x, n.y);
-      const r = (n.radius || 26) * graphState.scale;
-      if (Math.hypot(sx-p.x, sy-p.y) <= r) return n;
+// Liens effectifs = structure dépliée + liens manuels dont les 2 bouts sont visibles
+function fgLinks() {
+  const links = fg.links.slice();
+  (state.links || []).forEach(l => { if (fgNode(l.source) && fgNode(l.target)) links.push({ a: l.source, b: l.target, manual: true }); });
+  return links;
+}
+
+// --- Caméra ---
+function w2s(x, y) { return { x: x * graphCam.scale + graphCam.offsetX, y: y * graphCam.scale + graphCam.offsetY }; }
+function s2w(x, y) { return { x: (x - graphCam.offsetX) / graphCam.scale, y: (y - graphCam.offsetY) / graphCam.scale }; }
+function fgFit() {
+  if (!fgCanvas || !fg.nodes.length) return;
+  let minX = 1e9, minY = 1e9, maxX = -1e9, maxY = -1e9;
+  fg.nodes.forEach(n => { minX = Math.min(minX, n.x-n.r); maxX = Math.max(maxX, n.x+n.r); minY = Math.min(minY, n.y-n.r); maxY = Math.max(maxY, n.y+n.r); });
+  const W = fgCanvas.width, H = fgCanvas.height, pad = 90;
+  let s = Math.min((W-pad)/Math.max(1, maxX-minX), (H-pad)/Math.max(1, maxY-minY));
+  s = Math.max(0.25, Math.min(1.6, s));
+  graphCam.scale = s;
+  graphCam.offsetX = W/2 - ((minX+maxX)/2)*s;
+  graphCam.offsetY = H/2 - ((minY+maxY)/2)*s;
+}
+
+// --- Simulation (Fruchterman-Reingold, refroidissement doux) ---
+function fgPhysics() {
+  const nodes = fg.nodes, K = 135, cx = 480, cy = 360;
+  for (let i = 0; i < nodes.length; i++) { nodes[i].fx = 0; nodes[i].fy = 0; }
+  for (let i = 0; i < nodes.length; i++) {
+    const a = nodes[i];
+    for (let j = i+1; j < nodes.length; j++) {
+      const b = nodes[j];
+      let dx = a.x-b.x, dy = a.y-b.y, d = Math.sqrt(dx*dx+dy*dy);
+      if (d < 0.01) { dx = Math.random()-.5; dy = Math.random()-.5; d = 0.5; }
+      const rep = (K*K) / d, ux = dx/d, uy = dy/d;
+      a.fx += ux*rep; a.fy += uy*rep; b.fx -= ux*rep; b.fy -= uy*rep;
     }
-    return null;
   }
+  fgLinks().forEach(l => {
+    const a = fgNode(l.a), b = fgNode(l.b); if (!a || !b) return;
+    let dx = b.x-a.x, dy = b.y-a.y, d = Math.sqrt(dx*dx+dy*dy) || 0.01;
+    const att = (d*d) / K, ux = dx/d, uy = dy/d;
+    a.fx += ux*att; a.fy += uy*att; b.fx -= ux*att; b.fy -= uy*att;
+  });
+  // Gravité douce vers le centre pour éviter la dérive
+  nodes.forEach(n => { n.fx += (cx-n.x)*0.012; n.fy += (cy-n.y)*0.012; });
+  // Déplacement borné par la température (refroidit pour se stabiliser)
+  const T = fgTemp;
+  let maxDisp = 0;
+  nodes.forEach(n => {
+    if (n === fgDrag) return;
+    const m = Math.sqrt(n.fx*n.fx + n.fy*n.fy) || 0.0001;
+    const dx = n.fx/m * Math.min(m, T), dy = n.fy/m * Math.min(m, T);
+    n.x += dx; n.y += dy;
+    const disp = Math.abs(dx) + Math.abs(dy);
+    if (disp > maxDisp) maxDisp = disp;
+  });
+  fgTemp = Math.max(0.05, fgTemp * 0.95);
+  return maxDisp;
+}
 
-  canvas.addEventListener('mousedown', e => {
-    const rect = canvas.getBoundingClientRect();
-    const mx = e.clientX - rect.left, my = e.clientY - rect.top;
-    const node = nodeAt(mx, my);
-    if (linkMode && archView.mode === 'overview' && node) {
-      if (!linkSource) { linkSource = node.id; draw(); }
+function fgDraw() {
+  const ctx = fgCtx, S = graphCam.scale;
+  ctx.clearRect(0, 0, fgCanvas.width, fgCanvas.height);
+  let near = null;
+  if (fgHover) { near = new Set([fgHover.id]); fgLinks().forEach(l => { if (l.a === fgHover.id) near.add(l.b); if (l.b === fgHover.id) near.add(l.a); }); }
+  // Liens
+  fgLinks().forEach(l => {
+    const a = fgNode(l.a), b = fgNode(l.b); if (!a || !b) return;
+    const pa = w2s(a.x, a.y), pb = w2s(b.x, b.y);
+    const dim = near && !(near.has(a.id) && near.has(b.id));
+    ctx.beginPath(); ctx.moveTo(pa.x, pa.y); ctx.lineTo(pb.x, pb.y);
+    ctx.strokeStyle = l.manual ? (dim ? 'rgba(13,148,136,0.15)' : 'rgba(13,148,136,0.55)') : (dim ? 'rgba(148,163,184,0.10)' : 'rgba(148,163,184,0.40)');
+    ctx.lineWidth = (l.manual ? 2 : 1.3) * Math.max(0.5, S); ctx.stroke();
+  });
+  // Nœuds
+  fg.nodes.forEach(n => {
+    const p = w2s(n.x, n.y), r = n.r * S;
+    const dim = near && !near.has(n.id);
+    ctx.globalAlpha = dim ? 0.22 : 1;
+    ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, Math.PI*2);
+    ctx.fillStyle = archNodeColor(n); ctx.fill();
+    if (linkSource === n.id) { ctx.lineWidth = 3; ctx.strokeStyle = '#0D9488'; ctx.stroke(); }
+    else if (n === fgHover) { ctx.lineWidth = 3; ctx.strokeStyle = '#0F172A'; ctx.stroke(); }
+    else if (n.expanded) { ctx.lineWidth = 2; ctx.strokeStyle = 'rgba(255,255,255,0.9)'; ctx.stroke(); }
+    // Chiffre au centre (nb de routes)
+    ctx.fillStyle = '#fff'; ctx.textAlign = 'center';
+    if (n.kind === 'module') { const m = getArchModule(n.mod); ctx.font = `700 ${Math.max(10,13*S)}px Manrope, sans-serif`; ctx.fillText(m ? m.route_count : '', p.x, p.y + 4*S); }
+    else if (n.kind === 'file') { ctx.font = `700 ${Math.max(9,11*S)}px Manrope, sans-serif`; ctx.fillText(n.count, p.x, p.y + 4*S); }
+    else if (n.kind === 'manual') { ctx.font = `700 ${Math.max(10,12*S)}px Manrope, sans-serif`; ctx.fillText('✦', p.x, p.y + 4*S); }
+    // Libellé (caché si trop petit, sauf survol)
+    const showLabel = (n === fgHover) || n.kind === 'module' || n.kind === 'manual' || r > 13;
+    if (showLabel && !dim) {
+      ctx.fillStyle = '#0F172A'; ctx.font = `600 ${Math.max(10,12*S)}px Manrope, sans-serif`;
+      ctx.fillText(truncLabel(n.label, n.kind === 'route' ? 26 : 20), p.x, p.y + r + 14*S);
+    }
+    ctx.globalAlpha = 1;
+  });
+}
+
+function fgNodeAt(sx, sy) {
+  for (let i = fg.nodes.length-1; i >= 0; i--) {
+    const n = fg.nodes[i], p = w2s(n.x, n.y);
+    if (Math.hypot(sx-p.x, sy-p.y) <= n.r*graphCam.scale + 2) return n;
+  }
+  return null;
+}
+
+function fgClick(node) {
+  if (node.kind === 'route') { openArchExplorer(); archOpenRoute(node.mod, node.file, node.routeKey); return; }
+  if (node.kind === 'manual') { showNodeDetail(node.manualRef); return; }
+  fgToggle(node);
+}
+
+function fgTip(node, clientX, clientY) {
+  const tip = document.getElementById('fg-tip'); if (!tip) return;
+  if (!node) { tip.style.display = 'none'; return; }
+  let html = '';
+  if (node.kind === 'module') {
+    const m = getArchModule(node.mod);
+    html = `<div class="t">${esc(node.label)}</div><div class="d">${esc(ARCH_MODULE_FR[node.mod] || "Module de l'application.")}</div>`
+      + `<div class="m">${m ? m.route_count : 0} routes · ${m ? m.file_count : 0} fichiers</div>`
+      + `<div class="h">${node.expanded ? 'Clic : replier' : 'Clic : déplier ses fichiers'}</div>`;
+  } else if (node.kind === 'file') {
+    html = `<div class="t">📄 ${esc(node.label)}</div><div class="m">${node.count} routes · <code>${esc(node.file)}</code></div>`
+      + `<div class="h">${node.expanded ? 'Clic : replier' : 'Clic : déplier ses routes'}</div>`;
+  } else if (node.kind === 'route') {
+    const a = ARCH_ACCESS[node.access] || ARCH_ACCESS.login;
+    html = `<div class="t">${esc(node.label)}</div><div class="m"><code>${esc(node.rawPath || '')}</code></div>`
+      + `<div class="acc" style="color:${a.color}">● ${esc(a.label)}</div><div class="h">Clic : voir la fiche détaillée</div>`;
+  } else {
+    html = `<div class="t">${esc(node.label)}</div><div class="h">Nœud que tu as créé · clic pour ouvrir</div>`;
+  }
+  tip.innerHTML = html; tip.style.display = 'block';
+  const tw = tip.offsetWidth, th = tip.offsetHeight;
+  let x = clientX + 16, y = clientY + 16;
+  if (x + tw > window.innerWidth - 10) x = clientX - tw - 16;
+  if (y + th > window.innerHeight - 10) y = clientY - th - 16;
+  tip.style.left = x + 'px'; tip.style.top = y + 'px';
+}
+
+function fgLoop() {
+  if (!fgCanvas || !document.body.contains(fgCanvas)) { fgRAF = null; return; }
+  // Tant que ce n'est pas stabilisé, on simule ; sinon on fige (plus aucun mouvement parasite)
+  if (!fgSettled) {
+    const md = fgPhysics();
+    if (fgDrag) fgCalm = 0;
+    else if (md < 0.4) { if (++fgCalm > 24) fgSettled = true; }
+    else fgCalm = 0;
+  }
+  fgDraw();
+  fgRAF = requestAnimationFrame(fgLoop);
+}
+
+function setupGraph(canvas) {
+  fgCanvas = canvas; fgCtx = canvas.getContext('2d');
+  if (fgRAF) cancelAnimationFrame(fgRAF);
+  if (fgResize) window.removeEventListener('resize', fgResize);
+  fgResize = function () { const r = canvas.parentElement.getBoundingClientRect(); canvas.width = r.width; canvas.height = r.height; };
+  window.addEventListener('resize', fgResize);
+  fgResize();
+  // On stabilise la disposition AVANT le premier affichage, puis on fige et on recadre
+  fgTemp = 6;
+  for (let i = 0; i < 240; i++) fgPhysics();
+  fgSettled = true; fgCalm = 0; fgTemp = 0.05;
+  fgFit();
+
+  canvas.onmousedown = e => {
+    const rect = canvas.getBoundingClientRect(), mx = e.clientX-rect.left, my = e.clientY-rect.top;
+    const node = fgNodeAt(mx, my);
+    fgDownPos = { x: mx, y: my }; fgDownTime = Date.now(); fgMoved = false;
+    if (linkMode && node) {
+      if (!linkSource) linkSource = node.id;
       else if (linkSource !== node.id) {
-        const exists = state.links.some(l => (l.source===linkSource&&l.target===node.id)||(l.source===node.id&&l.target===linkSource));
-        if (!exists) { state.links.push({source:linkSource, target:node.id}); save(); }
-        linkSource = null; draw();
+        state.links = state.links || [];
+        const ex = state.links.some(l => (l.source===linkSource&&l.target===node.id)||(l.source===node.id&&l.target===linkSource));
+        if (!ex) { state.links.push({ source: linkSource, target: node.id }); save(); }
+        linkSource = null;
       }
       return;
     }
-    // En drill : pas de déplacement de nœud, seulement le panoramique
-    if (node && archView.mode === 'overview') { graphState.dragging = node; }
-    else { graphState.panning = true; graphState.lastX = mx; graphState.lastY = my; }
-  });
-  canvas.addEventListener('mousemove', e => {
-    const rect = canvas.getBoundingClientRect();
-    const mx = e.clientX - rect.left, my = e.clientY - rect.top;
-    if (graphState.dragging) {
-      const w = screenToWorld(mx, my);
-      graphState.dragging.x = w.x; graphState.dragging.y = w.y; draw();
-    } else if (graphState.panning) {
-      graphState.offsetX += mx - graphState.lastX;
-      graphState.offsetY += my - graphState.lastY;
-      graphState.lastX = mx; graphState.lastY = my; draw();
-    }
-  });
-  canvas.addEventListener('mouseup', e => {
-    if (graphState.dragging) { save(); }
-    graphState.dragging = null; graphState.panning = false;
-  });
-  let cs = 0;
-  canvas.addEventListener('mousedown', () => { cs = Date.now(); });
-  canvas.addEventListener('click', e => {
-    if (Date.now() - cs > 220) return; // c'était un glisser, pas un clic
-    const rect = canvas.getBoundingClientRect();
-    const node = nodeAt(e.clientX-rect.left, e.clientY-rect.top);
-    if (!node) return;
-    if (archView.mode === 'overview') {
-      if (linkMode) return;
-      if (node.fromArch) archEnterModule(node.label);
-      else showNodeDetail(node);
-    } else {
-      archNodeClick(node);
-    }
-  });
-  canvas.addEventListener('wheel', e => {
+    if (node) { fgDrag = node; fgWake(); }
+    else { fgPan = { x: mx, y: my, ox: graphCam.offsetX, oy: graphCam.offsetY }; }
+  };
+  canvas.onmousemove = e => {
+    const rect = canvas.getBoundingClientRect(), mx = e.clientX-rect.left, my = e.clientY-rect.top;
+    if (fgDownPos && (Math.abs(mx-fgDownPos.x) > 4 || Math.abs(my-fgDownPos.y) > 4)) fgMoved = true;
+    if (fgDrag) { const w = s2w(mx, my); fgDrag.x = w.x; fgDrag.y = w.y; fgDrag.vx = 0; fgDrag.vy = 0; fgWake(); fgTip(null); return; }
+    if (fgPan) { graphCam.offsetX = fgPan.ox + (mx-fgPan.x); graphCam.offsetY = fgPan.oy + (my-fgPan.y); return; }
+    const node = fgNodeAt(mx, my);
+    fgHover = node;
+    canvas.style.cursor = node ? 'pointer' : 'grab';
+    fgTip(node, e.clientX, e.clientY);
+  };
+  canvas.onmouseup = () => {
+    if (fgDrag && fgDrag.manualRef) { fgDrag.manualRef.x = fgDrag.x; fgDrag.manualRef.y = fgDrag.y; save(); }
+    const wasDrag = fgMoved || (Date.now() - fgDownTime > 250);
+    const node = fgDrag;
+    fgDrag = null; fgPan = null; fgDownPos = null;
+    if (!wasDrag && node && !linkMode) fgClick(node);
+  };
+  canvas.onmouseleave = () => { fgHover = null; fgDrag = null; fgPan = null; fgDownPos = null; fgTip(null); };
+  canvas.ondblclick = () => { fgFit(); };
+  canvas.onwheel = e => {
     e.preventDefault();
-    const rect = canvas.getBoundingClientRect();
-    const mx = e.clientX-rect.left, my = e.clientY-rect.top;
-    const before = screenToWorld(mx, my);
-    graphState.scale *= e.deltaY > 0 ? 0.92 : 1.08;
-    graphState.scale = Math.max(0.3, Math.min(3, graphState.scale));
-    const after = screenToWorld(mx, my);
-    graphState.offsetX += (after.x - before.x) * graphState.scale;
-    graphState.offsetY += (after.y - before.y) * graphState.scale;
-    draw();
-  });
-  resize();
-}
-
-// ---- Navigation visuelle en poupées russes ----
-const ARCH_CX = 480, ARCH_CY = 340;
-function archNodeClick(node) {
-  if (node.kind === 'back') { archDrillUp(); return; }
-  if (node.kind === 'file') { archEnterFile(node.file); return; }
-  if (node.kind === 'route') { openArchExplorer(); archOpenRoute(archView.module, node.file, node.routeKey); return; }
-}
-function archEnterModule(name) {
-  archView.mode = 'drill'; archView.module = name; archView.file = null;
-  buildDrillNodes();
-}
-function archEnterFile(file) {
-  archView.file = file;
-  buildDrillNodes();
-}
-function archDrillUp() {
-  if (archView.file) { archView.file = null; buildDrillNodes(); }
-  else { archExitDrill(); }
-}
-function archExitDrill() {
-  archView.mode = 'overview'; archView.module = null; archView.file = null; archView.nodes = []; archView.center = null;
-  updateDrillBar();
-  frameTo(ARCH_CX, ARCH_CY, 320);
-}
-function buildDrillNodes() {
-  const mod = getArchModule(archView.module);
-  if (!mod) { archExitDrill(); return; }
-  const color = mod.color || '#64748B';
-  const nodes = [];
-  let children, centerLabel, centerSub;
-  if (!archView.file) {
-    // Niveau fichiers
-    children = archFilesOf(mod).map(f => ({
-      kind: 'file', file: f.file, label: '📄 ' + f.file.split('/').pop(),
-      badge: f.routes.length, color, radius: Math.min(54, 26 + f.routes.length*0.5)
-    }));
-    centerLabel = mod.name; centerSub = (children.length) + ' fichiers';
-  } else {
-    // Niveau routes d'un fichier
-    const routes = (mod.routes || []).filter(r => (r.file || 'fichier non identifié') === archView.file);
-    children = routes.map(r => ({
-      kind: 'route', file: archView.file, routeKey: (r.function||'') + '|' + (r.path||''),
-      label: r.path || r.function || '?', color, radius: 30, locked: (r.protections||[]).length > 0
-    }));
-    centerLabel = archView.file.split('/').pop(); centerSub = routes.length + ' routes';
-  }
-  // Disposition en anneau autour du centre
-  const n = children.length || 1;
-  const ring = Math.max(190, n * 30);
-  children.forEach((c, i) => {
-    const a = (i / n) * Math.PI * 2 - Math.PI / 2;
-    c.x = ARCH_CX + Math.cos(a) * ring;
-    c.y = ARCH_CY + Math.sin(a) * ring;
-  });
-  const center = { kind: 'back', label: centerLabel, sub: centerSub, color, radius: 50, x: ARCH_CX, y: ARCH_CY };
-  nodes.push(center, ...children);
-  archView.nodes = nodes;
-  archView.center = center;
-  const maxR = children.reduce((m, c) => Math.max(m, c.radius), 50);
-  updateDrillBar();
-  frameTo(ARCH_CX, ARCH_CY, ring + maxR + 70);
-}
-
-// Cadrage animé : amène le monde pour que (cx,cy) soit centré et que `worldR` tienne à l'écran
-function frameTo(cx, cy, worldR) {
-  const cv = archCanvas; if (!cv) return;
-  const W = cv.width, H = cv.height;
-  const target = Math.max(0.3, Math.min(3, (Math.min(W, H) / 2 - 40) / worldR));
-  const tox = W / 2 - cx * target;
-  const toy = H / 2 - cy * target;
-  animateGraph(target, tox, toy);
-}
-function animateGraph(ts, tox, toy) {
-  if (archAnimRAF) cancelAnimationFrame(archAnimRAF);
-  const s0 = graphState.scale, ox0 = graphState.offsetX, oy0 = graphState.offsetY;
-  const t0 = performance.now(), dur = 360;
-  function ease(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2; }
-  function step(now) {
-    const k = Math.min(1, (now - t0) / dur), e = ease(k);
-    graphState.scale = s0 + (ts - s0) * e;
-    graphState.offsetX = ox0 + (tox - ox0) * e;
-    graphState.offsetY = oy0 + (toy - oy0) * e;
-    if (archRedraw) archRedraw();
-    if (k < 1) archAnimRAF = requestAnimationFrame(step); else archAnimRAF = null;
-  }
-  archAnimRAF = requestAnimationFrame(step);
-}
-
-function updateDrillBar() {
-  const bar = document.getElementById('arch-drill-bar');
-  if (!bar) return;
-  if (archView.mode === 'overview') { bar.style.display = 'none'; bar.innerHTML = ''; return; }
-  bar.style.display = 'flex';
-  let crumb = `<a onclick="archExitDrill()">Architecture</a>`;
-  if (archView.module) {
-    if (archView.file) crumb += `<span class="sep">›</span><a onclick="archDrillUp()">${esc(archView.module)}</a>`;
-    else crumb += `<span class="sep">›</span><span class="here">${esc(archView.module)}</span>`;
-  }
-  if (archView.file) crumb += `<span class="sep">›</span><span class="here">${esc(archView.file.split('/').pop())}</span>`;
-  bar.innerHTML = `<button class="arch-back-btn" onclick="archDrillUp()">← Retour</button><div class="arch-drill-crumb">${crumb}</div>`;
+    const rect = canvas.getBoundingClientRect(), mx = e.clientX-rect.left, my = e.clientY-rect.top;
+    const before = s2w(mx, my);
+    graphCam.scale *= e.deltaY > 0 ? 0.9 : 1.1;
+    graphCam.scale = Math.max(0.08, Math.min(4, graphCam.scale));
+    const after = s2w(mx, my);
+    graphCam.offsetX += (after.x-before.x) * graphCam.scale;
+    graphCam.offsetY += (after.y-before.y) * graphCam.scale;
+  };
+  fgLoop();
 }
 
 function showNodeDetail(node) {
