@@ -345,6 +345,27 @@ body {
 .ac-chat-note { font-size: 11.5px; color: var(--slate-400); margin-top: 10px; }
 .ac-chat-setup { text-align: center; padding: 30px 16px; }
 .ac-chat-setup p { font-size: 13.5px; color: var(--slate-600); line-height: 1.6; margin: 0 auto 14px; max-width: 460px; }
+.ac-suivi { display: flex; flex-direction: column; gap: 10px; }
+.suivi-row { display: flex; gap: 14px; align-items: flex-start; justify-content: space-between; border: 1px solid var(--slate-200); border-radius: 12px; padding: 12px 15px; background: var(--white); }
+.suivi-row.is-faite { opacity: .7; }
+.suivi-row.is-ecartee { opacity: .55; }
+.suivi-main { flex: 1; min-width: 0; }
+.suivi-titre { font-size: 13.5px; font-weight: 600; color: var(--slate-900); line-height: 1.45; }
+.suivi-row.is-faite .suivi-titre, .suivi-row.is-ecartee .suivi-titre { text-decoration: line-through; }
+.suivi-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 7px; }
+.suivi-type, .suivi-flag { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 20px; padding: 2px 9px; }
+.suivi-type { color: var(--slate-500); background: var(--slate-50); border: 1px solid var(--slate-200); }
+.suivi-flag { color: var(--blue-700); background: var(--blue-50); border: 1px solid var(--blue-100); }
+.suivi-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; flex-shrink: 0; }
+.suivi-etat { font-size: 11px; font-weight: 700; white-space: nowrap; }
+.suivi-etat.is-active { color: var(--blue-700); }
+.suivi-etat.is-faite { color: var(--teal-700); }
+.suivi-etat.is-ecartee { color: var(--slate-400); }
+.suivi-actions { display: flex; gap: 6px; }
+.suivi-btn { font-family: inherit; font-size: 11px; font-weight: 600; color: var(--white); background: var(--teal-600); border: none; border-radius: 7px; padding: 5px 10px; cursor: pointer; white-space: nowrap; }
+.suivi-btn:hover { filter: brightness(1.05); }
+.suivi-btn-ghost { color: var(--slate-600); background: var(--white); border: 1px solid var(--slate-200); }
+.suivi-btn-ghost:hover { background: var(--slate-50); }
 
 /* Bandeau hero en tête de section Stratégie */
 .strat-hero {
@@ -914,6 +935,7 @@ function load() {
   if (!state.prospects) state.prospects = [];
   if (!state.today) state.today = { intention: '', date: '' };
   if (!Array.isArray(state.roadmap)) state.roadmap = [];
+  if (!Array.isArray(state.precos)) state.precos = [];
   // Stratégie globale en piliers (par section)
   if (!state.strategiePillars) state.strategiePillars = {};
   ['vision','marche','pricing'].forEach(s => { if (!Array.isArray(state.strategiePillars[s])) state.strategiePillars[s] = []; });
@@ -1189,6 +1211,7 @@ async function loadCapToday() {
     const reps = (data && Array.isArray(data.journal)) ? data.journal : [data];
     const r = reps[reps.length - 1] || {};
     chefProduitReport = r;
+    registerReportPrecos(r, 'chef-produit');
     const pc = r.prochain_chantier || {};
     box.innerHTML = `
       <div class="cap-eyebrow"><span class="cap-mark">🧭</span> Le mot de Magnus, Chef Produit${r.updated_at ? ' · ' + esc(r.updated_at) : ''}</div>
@@ -1203,6 +1226,23 @@ async function loadCapToday() {
   } catch (e) { /* silencieux : pas de rapport, pas d'encart */ }
 }
 
+// Registre de suivi des préconisations (proposée → en tâche/roadmap → faite/écartée)
+function precoKey(text) { return (text || '').trim().toLowerCase().replace(/\s+/g, ' ').slice(0, 120); }
+function upsertPreco(titre, type, fromDate, agentSlug) {
+  const key = precoKey(titre); if (!key) return null;
+  let p = (state.precos || []).find(x => x.key === key && x.agent === agentSlug);
+  if (!p) { p = { id: uid(), key, titre: (titre || '').trim(), type, fromDate: fromDate || '', agent: agentSlug, enTache: false, enRoadmap: false, etat: 'active' }; state.precos.push(p); return { p, added: true }; }
+  return { p, added: false };
+}
+function registerReportPrecos(r, agentSlug) {
+  if (!r) return;
+  const date = r.updated_at || ''; let added = false;
+  if (r.prochain_chantier && r.prochain_chantier.titre) { const res = upsertPreco(r.prochain_chantier.titre, 'chantier', date, agentSlug); if (res && res.added) added = true; }
+  if (Array.isArray(r.a_anticiper)) r.a_anticiper.forEach(x => { const res = upsertPreco(String(x), 'anticiper', date, agentSlug); if (res && res.added) added = true; });
+  if (added) save();
+}
+function markPreco(id, etat) { const p = (state.precos || []).find(x => x.id === id); if (!p) return; p.etat = etat; save(); render(); }
+
 function createTaskFromChantier(ev) {
   const btn = ev && ev.currentTarget;
   const r = chefProduitReport;
@@ -1213,10 +1253,13 @@ function createTaskFromChantier(ev) {
     if (btn) { btn.textContent = 'Déjà dans ton To do'; btn.disabled = true; btn.classList.add('cap-task-btn-done'); }
     return;
   }
+  const id = uid();
   state.tasks.push({
-    id: uid(), title: titre, status: 'todo', category: 'tech',
+    id, title: titre, status: 'todo', category: 'tech',
     body: 'Préconisé par Magnus (Chef Produit).\n\n' + (r.prochain_chantier.pourquoi || '')
   });
+  const pr = upsertPreco(titre, 'chantier', r.updated_at || '', 'chef-produit');
+  if (pr && pr.p) { pr.p.enTache = true; pr.p.taskId = id; if (pr.p.etat === 'ecartee') pr.p.etat = 'active'; }
   save();
   if (btn) { btn.textContent = '✓ Ajouté à ton To do'; btn.disabled = true; btn.classList.add('cap-task-btn-done'); }
 }
@@ -1232,7 +1275,10 @@ function createJalonFromChantier(ev) {
   const titre = r.prochain_chantier.titre.trim();
   if (roadmapHas(titre)) { if (btn) { btn.textContent = 'Déjà dans la roadmap'; btn.disabled = true; btn.classList.add('cap-task-btn-done'); } return; }
   state.roadmap = state.roadmap || [];
-  state.roadmap.push({ id: uid(), title: titre, month: currentMonthStr(), status: 'planned', body: 'Préconisé par Magnus (Chef Produit).\n\n' + (r.prochain_chantier.pourquoi || '') });
+  const jid = uid();
+  state.roadmap.push({ id: jid, title: titre, month: currentMonthStr(), status: 'planned', body: 'Préconisé par Magnus (Chef Produit).\n\n' + (r.prochain_chantier.pourquoi || '') });
+  const pr = upsertPreco(titre, 'chantier', r.updated_at || '', 'chef-produit');
+  if (pr && pr.p) { pr.p.enRoadmap = true; pr.p.jalonId = jid; if (pr.p.etat === 'ecartee') pr.p.etat = 'active'; }
   save();
   if (btn) { btn.textContent = '✓ Ajouté à la roadmap'; btn.disabled = true; btn.classList.add('cap-task-btn-done'); }
 }
@@ -1244,7 +1290,10 @@ function createJalonFromAnticipe(ev, idx) {
   const titre = String(item).trim();
   if (roadmapHas(titre)) { if (btn) { btn.textContent = '✓ déjà'; btn.disabled = true; } return; }
   state.roadmap = state.roadmap || [];
-  state.roadmap.push({ id: uid(), title: titre, month: null, status: 'planned', body: 'Anticipé par Magnus (Chef Produit).' });
+  const jid = uid();
+  state.roadmap.push({ id: jid, title: titre, month: null, status: 'planned', body: 'Anticipé par Magnus (Chef Produit).' });
+  const pr = upsertPreco(titre, 'anticiper', r.updated_at || '', 'chef-produit');
+  if (pr && pr.p) { pr.p.enRoadmap = true; pr.p.jalonId = jid; }
   save();
   if (btn) { btn.textContent = '✓ ajouté'; btn.disabled = true; }
 }
@@ -2247,7 +2296,7 @@ let currentAgentSlug = null;
 let agentTab = 'today';
 let agentConsoleData = null;   // { journal:[...] } ou objet rapport unique (back-compat)
 let magnusChat = [];
-const agentTabLabel = { today: "Aujourd'hui", chat: 'Échanger', journal: 'Journal', fiche: 'Fiche' };
+const agentTabLabel = { today: "Aujourd'hui", suivi: 'Suivi', journal: 'Journal', chat: 'Échanger', fiche: 'Fiche' };
 
 function openAgentConsole(slug) {
   currentAgentSlug = slug; agentTab = 'today'; magnusChat = []; agentConsoleData = null;
@@ -2276,7 +2325,7 @@ function renderAgentConsole(content, actions) {
         <div class="ac-role">Pôle ${esc(f.pole)} · ${esc(a.role)}</div>
       </div>
       <div class="agent-tabs">
-        ${['today', 'chat', 'journal', 'fiche'].map(t => `<button class="agent-tab ${agentTab === t ? 'is-active' : ''}" onclick="setAgentTab('${t}')">${agentTabLabel[t]}</button>`).join('')}
+        ${['today', 'suivi', 'journal', 'chat', 'fiche'].map(t => `<button class="agent-tab ${agentTab === t ? 'is-active' : ''}" onclick="setAgentTab('${t}')">${agentTabLabel[t]}</button>`).join('')}
       </div>
       <div class="agent-tab-body" id="agent-tab-body"><div class="agent-report-loading">Chargement…</div></div>
     </div>`;
@@ -2286,7 +2335,9 @@ function renderAgentConsole(content, actions) {
       .then(r => r.ok ? r.json() : false)
       .then(data => {
         agentConsoleData = data || {};
-        if (currentAgentSlug === 'chef-produit') { const reps = agentReportsFromData(agentConsoleData); chefProduitReport = reps[reps.length - 1] || null; }
+        const reps = agentReportsFromData(agentConsoleData); const latest = reps[reps.length - 1] || null;
+        if (currentAgentSlug === 'chef-produit') chefProduitReport = latest;
+        registerReportPrecos(latest, currentAgentSlug);
         renderAgentTabBody();
       })
       .catch(() => { agentConsoleData = {}; renderAgentTabBody(); });
@@ -2300,6 +2351,7 @@ function renderAgentTabBody() {
   const latest = reps[reps.length - 1] || null;
   const f = findAgentBySlug(currentAgentSlug); const a = f ? f.a : {};
   if (agentTab === 'today') box.innerHTML = latest && (latest.etat || latest.prochain_chantier) ? `<div class="agent-report" style="border:none;padding:0">${renderAgentReport(latest)}</div>` : agentEmpty(a);
+  else if (agentTab === 'suivi') box.innerHTML = renderAgentTabSuivi();
   else if (agentTab === 'journal') box.innerHTML = renderAgentTabJournal(reps);
   else if (agentTab === 'fiche') box.innerHTML = renderAgentTabFiche(f);
   else if (agentTab === 'chat') { box.innerHTML = renderAgentTabChat(); scrollChatBottom(); }
@@ -2315,6 +2367,26 @@ function renderAgentTabJournal(reps) {
       ${r.etat ? `<div class="ac-jtext">${esc(r.etat)}</div>` : ''}
       ${r.prochain_chantier && r.prochain_chantier.titre ? `<div class="ac-jchantier">→ ${esc(r.prochain_chantier.titre)}</div>` : ''}
     </div>`).join('') + `</div>`;
+}
+function renderAgentTabSuivi() {
+  const list = (state.precos || []).filter(p => p.agent === currentAgentSlug);
+  if (!list.length) return `<div class="agent-report-empty">Aucune préconisation suivie pour l'instant. Dès que Magnus propose un chantier ou un point à anticiper, il apparaît ici — et tu suis ce que tu en fais.</div>`;
+  const order = { active: 0, faite: 1, ecartee: 2 };
+  const sorted = list.slice().sort((a, b) => (order[a.etat] - order[b.etat]));
+  return `<div class="ac-suivi">` + sorted.map(p => {
+    const badges = `<span class="suivi-type">${p.type === 'chantier' ? 'Chantier' : 'À anticiper'}</span>` +
+      (p.enTache ? `<span class="suivi-flag">En tâche</span>` : '') +
+      (p.enRoadmap ? `<span class="suivi-flag">En roadmap</span>` : '');
+    const etatLabel = p.etat === 'faite' ? '✓ Faite' : (p.etat === 'ecartee' ? '✕ Écartée' : '● Active');
+    const cls = p.etat === 'faite' ? 'is-faite' : (p.etat === 'ecartee' ? 'is-ecartee' : 'is-active');
+    const actions = p.etat === 'active'
+      ? `<button class="suivi-btn" onclick="markPreco('${p.id}','faite')">Faite</button><button class="suivi-btn suivi-btn-ghost" onclick="markPreco('${p.id}','ecartee')">Écarter</button>`
+      : `<button class="suivi-btn suivi-btn-ghost" onclick="markPreco('${p.id}','active')">Réactiver</button>`;
+    return `<div class="suivi-row ${cls}">
+      <div class="suivi-main"><div class="suivi-titre">${esc(p.titre)}</div><div class="suivi-badges">${badges}</div></div>
+      <div class="suivi-right"><span class="suivi-etat ${cls}">${etatLabel}</span><div class="suivi-actions">${actions}</div></div>
+    </div>`;
+  }).join('') + `</div>`;
 }
 function renderAgentTabFiche(f) {
   if (!f) return '';
