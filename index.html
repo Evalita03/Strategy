@@ -1140,7 +1140,7 @@ async function loadCapToday() {
     const r = await resp.json();
     const pc = r.prochain_chantier || {};
     box.innerHTML = `
-      <div class="cap-eyebrow"><span class="cap-mark">🧭</span> Le mot du Chef Produit${r.updated_at ? ' · ' + esc(r.updated_at) : ''}</div>
+      <div class="cap-eyebrow"><span class="cap-mark">🧭</span> Le mot de Magnus, Chef Produit${r.updated_at ? ' · ' + esc(r.updated_at) : ''}</div>
       ${pc.titre ? `<div class="cap-chantier"><span class="cap-chantier-label">Prochain chantier</span><span class="cap-chantier-titre">${esc(pc.titre)}</span></div>` : ''}
       ${pc.pourquoi ? `<div class="cap-pourquoi">${esc(pc.pourquoi)}</div>` : ''}
       <a class="cap-link" onclick="openAgentModal('chef-produit')">Lire le rapport complet →</a>`;
@@ -2003,10 +2003,10 @@ const ORGANIGRAMME = {
     {
       name: "Produit", tagline: "Construire et garder le cap",
       agents: [
-        { name: "Chef Produit", statut: "active", role: "Le coup d'avance",
+        { prenom: "Magnus", name: "Chef Produit", statut: "active", role: "Le coup d'avance",
           mission: "Lit tout le repo et la roadmap, sait toujours où on en est, et projette : prochain chantier, vision, fonctionnalités à déployer.",
           quand: "« Par quoi je commence ? Où on en est ? Qu'est-ce qui vient après ? »" },
-        { name: "Monitoring", statut: "todo", role: "La plateforme en marche",
+        { prenom: "Otto", name: "Monitoring", statut: "todo", role: "La plateforme en marche",
           mission: "Surveille le produit en production et fait remonter bugs, alertes et incidents (Sentry) directement sur le cockpit.",
           quand: "« Est-ce que ça tourne ? Qu'est-ce qui a planté ? »" }
       ]
@@ -2014,10 +2014,10 @@ const ORGANIGRAMME = {
     {
       name: "Sécurité & Conformité", tagline: "Protéger le code et les données",
       agents: [
-        { name: "Audit Risk", statut: "todo", role: "Le code sous contrôle",
+        { prenom: "Iris", name: "Audit Risk", statut: "todo", role: "Le code sous contrôle",
           mission: "Inspecte le code : failles de sécurité, dette technique. Les remonte et propose les corrections pour sécuriser.",
           quand: "« Mon code est-il sûr et propre ? »" },
-        { name: "Le DPO", statut: "todo", role: "Les données protégées",
+        { prenom: "Cléo", name: "Le DPO", statut: "todo", role: "Les données protégées",
           mission: "Veille à la conformité des données : RGPD, hébergement, usage CPTS. Détecte les manquements et propose comment les couvrir.",
           quand: "« Est-ce que j'ai le droit ? C'est conforme ? »" }
       ]
@@ -2025,7 +2025,7 @@ const ORGANIGRAMME = {
     {
       name: "Marché", tagline: "Regarder dehors",
       agents: [
-        { name: "L'Observatoire", statut: "todo", role: "La veille",
+        { prenom: "Orion", name: "L'Observatoire", statut: "todo", role: "La veille",
           mission: "Surveille le monde extérieur : réglementaire (lois, réformes CPTS) et concurrentiel (concurrents — prix, communication, positionnement).",
           quand: "« Qu'est-ce qui bouge sur le marché ? »" }
       ]
@@ -2033,7 +2033,7 @@ const ORGANIGRAMME = {
     {
       name: "Marque", tagline: "La voix et l'image",
       agents: [
-        { name: "Le Studio", statut: "todo", role: "Marque & communication",
+        { prenom: "Stella", name: "Le Studio", statut: "todo", role: "Marque & communication",
           mission: "Identité visuelle, logo, positionnement, contenus et diffusion. S'adapte à la vision et aux décisions prises.",
           quand: "« Comment je me présente et je communique ? »" }
       ]
@@ -2041,7 +2041,7 @@ const ORGANIGRAMME = {
     {
       name: "Business", tagline: "Trouver et tenir les clients",
       agents: [
-        { name: "Le Business", statut: "todo", role: "Commercial → gestion clients",
+        { prenom: "Carla", name: "Le Business", statut: "todo", role: "Commercial → gestion clients",
           mission: "Aujourd'hui commercial : prospection des CPTS, démo, devis, onboarding. Demain : facturation et gestion clients. Un pôle qui grossira.",
           quand: "« Comment je trouve et je signe des CPTS ? »" }
       ]
@@ -2070,10 +2070,10 @@ function renderOrganigramme(content, actions) {
           const s = orgStatut[a.statut] || orgStatut.todo;
           return `<div class="org-agent ${a.statut === 'next' ? 'org-agent-next' : ''}" onclick="openAgentModal('${slugifyAgent(a.name)}')">
             <div class="org-agent-head">
-              <span class="org-agent-name">${esc(a.name)}</span>
+              <span class="org-agent-name">${esc(a.prenom || a.name)}</span>
               <span class="org-badge ${s.cls}">${s.label}</span>
             </div>
-            <div class="org-agent-role">${esc(a.role)}</div>
+            <div class="org-agent-role">${a.prenom ? esc(a.name) + ' · ' : ''}${esc(a.role)}</div>
             <div class="org-agent-mission">${esc(a.mission)}</div>
             <div class="org-agent-quand">${esc(a.quand)}</div>
           </div>`;
@@ -2101,11 +2101,11 @@ async function openAgentModal(slug) {
   m.classList.remove('qc-mode'); m.classList.add('modal-wide');
   m.innerHTML = `
     <div class="modal-wide-head">
-      <h2>${esc(a.name)}</h2>
+      <h2>${esc(a.prenom || a.name)}</h2>
       <span class="org-badge ${s.cls}">${s.label}</span>
     </div>
     <div class="agent-fiche">
-      <div class="agent-fiche-role">${esc(f.pole)} · ${esc(a.role)}</div>
+      <div class="agent-fiche-role">${esc(f.pole)} · ${a.prenom ? esc(a.name) + ' · ' : ''}${esc(a.role)}</div>
       <p class="agent-fiche-line"><strong>Mission.</strong> ${esc(a.mission)}</p>
       <p class="agent-fiche-line"><strong>Quand l'appeler.</strong> ${esc(a.quand)}</p>
     </div>
