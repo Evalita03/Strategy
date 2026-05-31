@@ -591,6 +591,57 @@ tr:hover td { background: var(--blue-50); }
 .node-detail h3 { font-size: 16px; margin-bottom: 8px; }
 .node-detail .close { position: absolute; top: 12px; right: 12px; cursor: pointer; color: var(--slate-400); border:none; background:none; font-size: 18px; }
 
+/* Explorateur d'architecture (poupées russes) */
+.arch-explorer {
+  position: absolute; top: 16px; right: 16px; bottom: 16px; width: 440px; max-width: calc(100% - 32px);
+  background: var(--white); border: 1px solid var(--slate-200); border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(15,23,42,0.16); display: flex; flex-direction: column; overflow: hidden; z-index: 5;
+}
+.arch-exp-head { padding: 16px 18px 12px; border-bottom: 1px solid var(--slate-100); }
+.arch-exp-title { display: flex; align-items: center; justify-content: space-between; }
+.arch-exp-title h3 { font-size: 15px; font-weight: 700; color: var(--slate-900); }
+.arch-exp-title .close { cursor: pointer; color: var(--slate-400); border:none; background:none; font-size: 20px; line-height: 1; }
+.arch-exp-title .close:hover { color: var(--slate-700); }
+.arch-search { position: relative; margin-top: 12px; }
+.arch-search input {
+  width: 100%; padding: 9px 12px 9px 34px; border-radius: 9px; border: 1px solid var(--slate-200);
+  background: var(--slate-50); font-family: inherit; font-size: 13px; color: var(--slate-900); outline: none;
+}
+.arch-search input:focus { background: var(--white); border-color: var(--blue-500); box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+.arch-search .ico { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--slate-400); font-size: 13px; }
+.arch-crumb { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; padding: 10px 18px; font-size: 12px; border-bottom: 1px solid var(--slate-100); background: var(--slate-50); }
+.arch-crumb a { color: var(--blue-600); cursor: pointer; text-decoration: none; }
+.arch-crumb a:hover { text-decoration: underline; }
+.arch-crumb .sep { color: var(--slate-300); }
+.arch-crumb .here { color: var(--slate-500); font-weight: 600; }
+.arch-exp-body { flex: 1; overflow-y: auto; padding: 14px 18px 20px; }
+.arch-note { background: var(--blue-50); border: 1px solid var(--blue-100); border-radius: 10px; padding: 10px 12px; font-size: 12px; color: var(--slate-600); line-height: 1.5; margin-bottom: 14px; }
+.arch-note b { color: var(--blue-700); }
+.arch-row {
+  display: flex; align-items: center; gap: 11px; padding: 11px 12px; border: 1px solid var(--slate-200);
+  border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: all .12s; background: var(--white);
+}
+.arch-row:hover { border-color: var(--blue-500); box-shadow: 0 2px 10px rgba(15,23,42,0.06); transform: translateY(-1px); }
+.arch-row.flat { cursor: default; }
+.arch-row.flat:hover { border-color: var(--slate-200); box-shadow: none; transform: none; }
+.arch-dot { width: 12px; height: 12px; border-radius: 4px; flex-shrink: 0; }
+.arch-row .main { flex: 1; min-width: 0; }
+.arch-row .name { font-size: 13px; font-weight: 600; color: var(--slate-900); word-break: break-word; }
+.arch-row .name code { font-family: 'SFMono-Regular', Consolas, monospace; font-size: 12px; color: var(--blue-700); font-weight: 600; }
+.arch-row .sub { font-size: 11px; color: var(--slate-500); margin-top: 2px; word-break: break-word; }
+.arch-row .count { font-size: 11px; font-weight: 700; color: var(--slate-500); background: var(--slate-100); border-radius: 20px; padding: 2px 9px; flex-shrink: 0; }
+.arch-row .chev { color: var(--slate-300); flex-shrink: 0; font-size: 14px; }
+.arch-cat { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--slate-400); font-weight: 600; margin: 16px 0 8px; }
+.arch-cat:first-child { margin-top: 0; }
+.arch-chip { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; border-radius: 6px; padding: 3px 9px; margin: 0 5px 5px 0; }
+.arch-chip.method { background: var(--blue-50); color: var(--blue-700); }
+.arch-chip.protec { background: var(--orange-100); color: var(--orange-600); }
+.arch-detail-block { margin-bottom: 16px; }
+.arch-detail-block .lbl { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--slate-400); font-weight: 600; margin-bottom: 6px; }
+.arch-detail-block .val { font-size: 13px; color: var(--slate-700); line-height: 1.5; }
+.arch-detail-block .val code { font-family: 'SFMono-Regular', Consolas, monospace; font-size: 12px; background: var(--slate-100); padding: 2px 6px; border-radius: 5px; color: var(--slate-700); word-break: break-all; }
+.arch-empty { color: var(--slate-400); font-size: 13px; text-align: center; padding: 30px 10px; }
+
 /* Vue Aujourd'hui */
 .today-header { padding: 12px 0 28px; }
 .today-eyebrow {
@@ -829,6 +880,11 @@ tr:hover td { background: var(--blue-50); }
 
       <div class="nav-divider"></div>
 
+      <div class="nav-item" data-view="strat-organigramme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 7a4 4 0 100 8 4 4 0 000-8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        Equipe
+      </div>
+
       <div class="nav-group collapsed">
         <div class="nav-group-header">
           <svg class="grp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
@@ -858,7 +914,6 @@ tr:hover td { background: var(--blue-50); }
           <div class="nav-subitem" data-view="idees"><span class="sub-bullet"></span>Idées</div>
           <div class="nav-subitem" data-view="strat-marche"><span class="sub-bullet"></span>Prise de marché</div>
           <div class="nav-subitem" data-view="strat-pricing"><span class="sub-bullet"></span>Tarification</div>
-          <div class="nav-subitem" data-view="strat-organigramme"><span class="sub-bullet"></span>Organigramme</div>
         </div>
       </div>
 
@@ -979,7 +1034,7 @@ const titles = {
   idees:'Stratégie — Idées',
   'strat-marche':'Stratégie — Prise de marché',
   'strat-pricing':'Stratégie — Tarification',
-  'strat-organigramme':'Stratégie — Organigramme des agents',
+  'strat-organigramme':'Equipe',
   agent:'Espace agent',
   'clients-valides':'Clients validés',
   'clients-prospects':'Prospects CPTS',
@@ -1330,6 +1385,7 @@ let archData = null;
 function renderGraph(content, actions) {
   actions.innerHTML = `
     <button class="btn btn-ghost" onclick="reloadArch()">⟳ Recharger le code</button>
+    <button class="btn btn-ghost" onclick="openArchExplorer()">🔍 Explorer</button>
     <button class="btn btn-ghost" onclick="openNodeModal()">+ Nœud manuel</button>
     <button class="btn btn-primary" onclick="toggleLinkMode()" id="link-btn">↔ Relier</button>`;
   content.innerHTML = `
@@ -1338,9 +1394,11 @@ function renderGraph(content, actions) {
       <h4>Architecture du code</h4>
       <div id="legend-content" style="font-size:11px;color:var(--slate-400)">Chargement...</div>
     </div>
-    <div class="node-detail" id="node-detail"></div>`;
+    <div class="node-detail" id="node-detail"></div>
+    <div id="arch-explorer-mount"></div>`;
   const canvas = document.getElementById('graph-canvas');
   loadArch(canvas);
+  if (archExplorerOpen) renderArchExplorer();
 }
 function reloadArch() { archData = null; render(); }
 async function loadArch(canvas) {
@@ -1374,7 +1432,7 @@ function updateLegend() {
   if (archData && archData.stats) {
     const s = archData.stats;
     const d = new Date(archData.generated_at).toLocaleString('fr-FR');
-    el.innerHTML = '<div style="color:var(--slate-700);font-weight:600;margin-bottom:6px">'+s.total_routes+' routes · '+s.total_modules+' modules</div><div style="margin-bottom:8px">'+s.files_scanned+' fichiers scannés</div><div style="color:var(--slate-400);font-size:10px">Généré le '+d+'</div><div style="margin-top:10px;color:var(--slate-400);font-size:10px">Clic sur un module → ses routes<br>Glisser · Molette pour zoomer</div>';
+    el.innerHTML = '<div style="color:var(--slate-700);font-weight:600;margin-bottom:6px">'+s.total_routes+' routes · '+s.total_modules+' modules</div><div style="margin-bottom:8px">'+s.files_scanned+' fichiers scannés</div><div style="color:var(--slate-400);font-size:10px">Généré le '+d+'</div><div style="margin-top:10px;color:var(--slate-400);font-size:10px">Clic sur un module → l\'explore en détail<br>Glisser · Molette pour zoomer</div>';
   } else {
     el.innerHTML = '<div style="color:var(--slate-500)">Aucun architecture.json trouvé.<br><br>Lance le script de scan dans ta plateforme et place architecture.json à la racine de Strategy.</div>';
   }
@@ -1490,7 +1548,8 @@ function setupGraph(canvas) {
   canvas.addEventListener('dblclick', e => {
     const rect = canvas.getBoundingClientRect();
     const node = nodeAt(e.clientX-rect.left, e.clientY-rect.top);
-    if (node) showNodeDetail(node);
+    if (!node) return;
+    if (node.fromArch) openArchExplorer(node.label); else showNodeDetail(node);
   });
   let cs = 0;
   canvas.addEventListener('mousedown', () => { cs = Date.now(); });
@@ -1498,7 +1557,7 @@ function setupGraph(canvas) {
     if (Date.now() - cs > 200) return;
     const rect = canvas.getBoundingClientRect();
     const node = nodeAt(e.clientX-rect.left, e.clientY-rect.top);
-    if (node && node.fromArch && !linkMode) showNodeDetail(node);
+    if (node && node.fromArch && !linkMode) openArchExplorer(node.label);
   });
   canvas.addEventListener('wheel', e => {
     e.preventDefault();
@@ -1529,6 +1588,238 @@ function showNodeDetail(node) {
     d.innerHTML = `<button class="close" onclick="document.getElementById('node-detail').classList.remove('open')">×</button><h3>${esc(node.label)}</h3><div class="meta" style="margin-bottom:10px;"><span class="tag ${catClass[node.category]||''}">${catLabel[node.category]||node.category}</span><span class="tag" style="background:var(--slate-100);color:var(--slate-600)">${esc(node.type||'')}</span></div><p style="font-size:13px;color:var(--slate-600);line-height:1.6;">${esc(node.description||'Pas de description')}</p><div style="margin-top:14px;display:flex;gap:8px;"><button class="btn btn-ghost" onclick="openNodeModal('${node.id}')">Modifier</button><button class="btn btn-ghost" style="color:var(--red-600)" onclick="deleteNode('${node.id}')">Supprimer</button></div>`;
   }
   d.classList.add('open');
+}
+
+// ============ EXPLORATEUR D'ARCHITECTURE (poupées russes) ============
+// Explications en français simple — l'interface est là pour comprendre son code.
+const ARCH_MODULE_FR = {
+  admin: "Le centre de pilotage réservé aux administrateurs : gérer toute la plateforme.",
+  auth: "Connexion, inscription, mots de passe — la porte d'entrée sécurisée.",
+  coordination: "Les outils du quotidien pour coordonner la CPTS.",
+  design_system: "Les briques visuelles réutilisables de l'interface (boutons, composants).",
+  hub: "Le tableau de bord d'accueil une fois connecté.",
+  meetings: "La gestion des réunions et rendez-vous.",
+  membres: "L'annuaire et la gestion des membres.",
+  notifications: "Les alertes et messages envoyés aux utilisateurs.",
+  projects: "Le suivi des projets et des missions.",
+  tresorerie: "La gestion financière : budgets, paiements, comptabilité.",
+  vitrine: "Le site public, visible sans être connecté."
+};
+const ARCH_METHOD_FR = {
+  GET: "Afficher / consulter une page ou des données",
+  POST: "Envoyer ou enregistrer de nouvelles données",
+  PUT: "Remplacer des données existantes",
+  PATCH: "Modifier une partie des données",
+  DELETE: "Supprimer des données"
+};
+const ARCH_PROTEC_FR = {
+  login_required: { label: "Connexion obligatoire", desc: "Il faut être connecté pour y accéder." },
+  admin_required: { label: "Réservé aux admins", desc: "Seuls les administrateurs peuvent y accéder." },
+  coordinateur_required: { label: "Réservé aux coordinateurs", desc: "Accès limité aux coordinateurs." }
+};
+function archProtec(p) { return ARCH_PROTEC_FR[p] || { label: p, desc: "Condition de sécurité à remplir." }; }
+
+let archExplorerOpen = false;
+let archNav = { module: null, file: null, routeKey: null };
+let archQuery = '';
+
+function jss(s) { return String(s == null ? '' : s).replace(/\\/g, '\\\\').replace(/'/g, "\\'"); }
+function getArchModule(name) { return (archData && archData.modules || []).find(m => m.name === name); }
+function archFilesOf(mod) {
+  const map = {};
+  (mod.routes || []).forEach(r => {
+    const f = r.file || 'fichier non identifié';
+    (map[f] = map[f] || []).push(r);
+  });
+  return Object.keys(map).map(f => ({ file: f, routes: map[f] })).sort((a, b) => b.routes.length - a.routes.length);
+}
+
+function openArchExplorer(moduleName) {
+  archExplorerOpen = true;
+  archQuery = '';
+  archNav = { module: moduleName || null, file: null, routeKey: null };
+  renderArchExplorer();
+}
+function closeArchExplorer() {
+  archExplorerOpen = false;
+  const mount = document.getElementById('arch-explorer-mount');
+  if (mount) mount.innerHTML = '';
+}
+function archGoHome() { archNav = { module: null, file: null, routeKey: null }; renderArchExplorer(); }
+function archGoModule(name) { archNav = { module: name, file: null, routeKey: null }; renderArchExplorer(); }
+function archGoFile(file) { archNav.file = file; archNav.routeKey = null; renderArchExplorer(); }
+function archOpenRoute(moduleName, file, key) {
+  archNav = { module: moduleName, file: file, routeKey: key };
+  archQuery = '';
+  renderArchExplorer();
+}
+function archSetQuery(q) {
+  archQuery = q;
+  renderArchExplorerBody();
+  renderArchCrumb();
+}
+
+function renderArchExplorer() {
+  const mount = document.getElementById('arch-explorer-mount');
+  if (!mount) return;
+  if (!archExplorerOpen) { mount.innerHTML = ''; return; }
+  mount.innerHTML = `
+    <div class="arch-explorer">
+      <div class="arch-exp-head">
+        <div class="arch-exp-title">
+          <h3>🧭 Explorateur du code</h3>
+          <button class="close" onclick="closeArchExplorer()">×</button>
+        </div>
+        <div class="arch-search">
+          <span class="ico">🔍</span>
+          <input id="arch-search-input" placeholder="Rechercher une route, un fichier, un module…"
+                 value="${esc(archQuery)}" oninput="archSetQuery(this.value)">
+        </div>
+      </div>
+      <div class="arch-crumb" id="arch-crumb"></div>
+      <div class="arch-exp-body" id="arch-exp-body"></div>
+    </div>`;
+  renderArchCrumb();
+  renderArchExplorerBody();
+}
+
+function renderArchCrumb() {
+  const el = document.getElementById('arch-crumb');
+  if (!el) return;
+  if (archQuery) { el.innerHTML = `<span class="here">Résultats pour « ${esc(archQuery)} »</span>`; return; }
+  let parts = [`<a onclick="archGoHome()">Architecture</a>`];
+  if (archNav.module) {
+    if (archNav.file || archNav.routeKey) parts.push(`<span class="sep">›</span><a onclick="archGoModule('${jss(archNav.module)}')">${esc(archNav.module)}</a>`);
+    else parts.push(`<span class="sep">›</span><span class="here">${esc(archNav.module)}</span>`);
+  }
+  if (archNav.file) {
+    const short = archNav.file.split('/').pop();
+    if (archNav.routeKey) parts.push(`<span class="sep">›</span><a onclick="archGoFile('${jss(archNav.file)}')">${esc(short)}</a>`);
+    else parts.push(`<span class="sep">›</span><span class="here">${esc(short)}</span>`);
+  }
+  if (archNav.routeKey) parts.push(`<span class="sep">›</span><span class="here">détail</span>`);
+  el.innerHTML = parts.join(' ');
+}
+
+function renderArchExplorerBody() {
+  const el = document.getElementById('arch-exp-body');
+  if (!el) return;
+  if (!archData || !archData.modules) {
+    el.innerHTML = `<div class="arch-empty">Aucune donnée d'architecture chargée.<br>Clique sur « ⟳ Recharger le code ».</div>`;
+    return;
+  }
+  if (archQuery && archQuery.trim().length >= 1) { el.innerHTML = archSearchHtml(archQuery.trim()); return; }
+  if (archNav.routeKey) { el.innerHTML = archRouteHtml(); return; }
+  if (archNav.file) { el.innerHTML = archFileHtml(); return; }
+  if (archNav.module) { el.innerHTML = archModuleHtml(); return; }
+  el.innerHTML = archHomeHtml();
+}
+
+function archHomeHtml() {
+  const s = archData.stats || {};
+  let h = `<div class="arch-note">Ton application est découpée en <b>${(archData.modules||[]).length} modules</b> (${s.total_routes||0} routes au total). Un <b>module</b> est une grande zone fonctionnelle. Clique pour ouvrir ce qu'il contient.</div>`;
+  const mods = [...archData.modules].sort((a, b) => (b.route_count||0) - (a.route_count||0));
+  mods.forEach(m => {
+    const desc = ARCH_MODULE_FR[m.name] || 'Module de l\'application.';
+    h += `<div class="arch-row" onclick="archGoModule('${jss(m.name)}')">
+      <span class="arch-dot" style="background:${m.color||'#64748B'}"></span>
+      <div class="main"><div class="name">${esc(m.name)}</div><div class="sub">${esc(desc)}</div></div>
+      <span class="count">${m.route_count||0}</span><span class="chev">›</span></div>`;
+  });
+  return h;
+}
+
+function archModuleHtml() {
+  const mod = getArchModule(archNav.module);
+  if (!mod) return `<div class="arch-empty">Module introuvable.</div>`;
+  const files = archFilesOf(mod);
+  const desc = ARCH_MODULE_FR[mod.name] || 'Module de l\'application.';
+  let h = `<div class="arch-note"><b>${esc(mod.name)}</b> — ${esc(desc)}<br><br>Il contient <b>${files.length} fichier(s)</b> de code et <b>${mod.route_count||0} routes</b>. Un <b>fichier</b> regroupe des routes qui vont ensemble.</div>`;
+  files.forEach(f => {
+    const short = f.file.split('/').pop();
+    h += `<div class="arch-row" onclick="archGoFile('${jss(f.file)}')">
+      <span class="arch-dot" style="background:${mod.color||'#64748B'};border-radius:3px"></span>
+      <div class="main"><div class="name">📄 ${esc(short)}</div><div class="sub">${esc(f.file)}</div></div>
+      <span class="count">${f.routes.length}</span><span class="chev">›</span></div>`;
+  });
+  return h;
+}
+
+function archFileHtml() {
+  const mod = getArchModule(archNav.module);
+  if (!mod) return `<div class="arch-empty">Module introuvable.</div>`;
+  const routes = (mod.routes || []).filter(r => (r.file || 'fichier non identifié') === archNav.file);
+  const short = archNav.file.split('/').pop();
+  let h = `<div class="arch-note"><b>${esc(short)}</b> contient <b>${routes.length} route(s)</b>. Une <b>route</b> est une adresse de l'application (une page ou une action). Clique pour voir ce qu'elle fait.</div>`;
+  routes.forEach(r => {
+    const key = (r.function || '') + '|' + (r.path || '');
+    const methods = (r.methods || ['GET']).join(', ');
+    const lock = (r.protections || []).length ? ' 🔒' : '';
+    h += `<div class="arch-row" onclick="archOpenRoute('${jss(mod.name)}','${jss(archNav.file)}','${jss(key)}')">
+      <span class="arch-dot" style="background:${mod.color||'#64748B'};border-radius:50%"></span>
+      <div class="main"><div class="name"><code>${esc(r.path||'')}</code>${lock}</div><div class="sub">${esc(r.function||'')}() · ${esc(methods)}</div></div>
+      <span class="chev">›</span></div>`;
+  });
+  return h;
+}
+
+function archRouteHtml() {
+  const mod = getArchModule(archNav.module);
+  if (!mod) return `<div class="arch-empty">Module introuvable.</div>`;
+  const r = (mod.routes || []).find(x => ((x.function||'') + '|' + (x.path||'')) === archNav.routeKey
+    && (x.file || 'fichier non identifié') === archNav.file);
+  if (!r) return `<div class="arch-empty">Route introuvable.</div>`;
+  const methods = r.methods || ['GET'];
+  const protec = r.protections || [];
+  let h = `<div class="arch-note">Voici en clair ce que fait cette route — son adresse, ce qu'elle permet de faire, et qui peut y accéder.</div>`;
+  h += `<div class="arch-detail-block"><div class="lbl">Adresse (l'URL)</div><div class="val"><code>${esc(r.path||'')}</code></div></div>`;
+  h += `<div class="arch-detail-block"><div class="lbl">Ce qu'elle permet</div><div class="val">`;
+  methods.forEach(m => { h += `<div style="margin-bottom:4px"><span class="arch-chip method">${esc(m)}</span> ${esc(ARCH_METHOD_FR[m] || 'Action sur la route')}</div>`; });
+  h += `</div></div>`;
+  h += `<div class="arch-detail-block"><div class="lbl">Qui peut y accéder</div><div class="val">`;
+  if (!protec.length) h += `Accès libre — aucune condition de sécurité détectée.`;
+  else protec.forEach(p => { const x = archProtec(p); h += `<div style="margin-bottom:4px"><span class="arch-chip protec">🔒 ${esc(x.label)}</span> ${esc(x.desc)}</div>`; });
+  h += `</div></div>`;
+  h += `<div class="arch-detail-block"><div class="lbl">Le code qui s'exécute</div><div class="val">Fonction <code>${esc(r.function||'?')}()</code><br>dans le fichier <code>${esc(r.file||'?')}</code></div></div>`;
+  return h;
+}
+
+function archSearchHtml(q) {
+  const ql = q.toLowerCase();
+  const modHits = [], routeHits = [];
+  (archData.modules || []).forEach(m => {
+    if (m.name.toLowerCase().includes(ql)) modHits.push(m);
+    (m.routes || []).forEach(r => {
+      if ((r.path||'').toLowerCase().includes(ql) || (r.function||'').toLowerCase().includes(ql) || (r.file||'').toLowerCase().includes(ql)) {
+        routeHits.push({ m, r });
+      }
+    });
+  });
+  if (!modHits.length && !routeHits.length) return `<div class="arch-empty">Rien trouvé pour « ${esc(q)} ».</div>`;
+  let h = '';
+  if (modHits.length) {
+    h += `<div class="arch-cat">Modules (${modHits.length})</div>`;
+    modHits.forEach(m => {
+      h += `<div class="arch-row" onclick="archGoModule('${jss(m.name)}')">
+        <span class="arch-dot" style="background:${m.color||'#64748B'}"></span>
+        <div class="main"><div class="name">${esc(m.name)}</div><div class="sub">${esc(ARCH_MODULE_FR[m.name]||'')}</div></div>
+        <span class="count">${m.route_count||0}</span><span class="chev">›</span></div>`;
+    });
+  }
+  const shown = routeHits.slice(0, 80);
+  if (routeHits.length) {
+    h += `<div class="arch-cat">Routes (${routeHits.length}${routeHits.length>80?' · 80 affichées':''})</div>`;
+    shown.forEach(({ m, r }) => {
+      const key = (r.function || '') + '|' + (r.path || '');
+      const file = r.file || 'fichier non identifié';
+      const lock = (r.protections || []).length ? ' 🔒' : '';
+      h += `<div class="arch-row" onclick="archOpenRoute('${jss(m.name)}','${jss(file)}','${jss(key)}')">
+        <span class="arch-dot" style="background:${m.color||'#64748B'};border-radius:50%"></span>
+        <div class="main"><div class="name"><code>${esc(r.path||'')}</code>${lock}</div><div class="sub">${esc(m.name)} · ${esc(r.function||'')}()</div></div>
+        <span class="chev">›</span></div>`;
+    });
+  }
+  return h;
 }
 
 function openNodeModal(id) {
@@ -2315,7 +2606,7 @@ function renderAgentConsole(content, actions) {
   const a = f.a, s = orgStatut[a.statut] || orgStatut.todo;
   document.getElementById('view-title').textContent = 'Espace ' + a.name;
   actions.innerHTML = `
-    <button class="btn btn-ghost" onclick="goTo('strat-organigramme')">← Organigramme</button>
+    <button class="btn btn-ghost" onclick="goTo('strat-organigramme')">← Equipe</button>
     <button class="btn btn-ghost" onclick="openAgentRunInfo()">▶ Faire tourner</button>
     <button class="btn btn-ghost" onclick="openAiConfigModal()">⚙ Configurer</button>`;
   content.innerHTML = `
