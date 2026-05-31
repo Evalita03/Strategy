@@ -315,6 +315,9 @@ body {
 .agent-console-head { margin-bottom: 16px; }
 .ac-name { font-size: 22px; font-weight: 800; color: var(--slate-900); letter-spacing: -0.02em; display: flex; align-items: center; gap: 10px; }
 .ac-role { font-size: 13px; color: var(--slate-500); margin-top: 4px; }
+.ac-fresh { font-size: 11.5px; color: var(--slate-400); margin-top: 6px; }
+.ac-stale { color: #B45309; font-weight: 700; }
+.cap-stale { color: #B45309; font-weight: 700; font-size: 11px; }
 .agent-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--slate-200); margin-bottom: 20px; flex-wrap: wrap; }
 .agent-tab { font-family: inherit; font-size: 13px; font-weight: 600; color: var(--slate-500); background: none; border: none; border-bottom: 2px solid transparent; padding: 10px 14px; cursor: pointer; margin-bottom: -1px; }
 .agent-tab:hover { color: var(--slate-900); }
@@ -1315,8 +1318,9 @@ async function loadCapToday() {
     chefProduitReport = r;
     registerReportPrecos(r, 'chef-produit');
     const pc = r.prochain_chantier || {};
+    const fr = reportFreshness(r.updated_at);
     box.innerHTML = `
-      <div class="cap-eyebrow"><span class="cap-mark">🧭</span> Le mot de Magnus, Chef Produit${r.updated_at ? ' · ' + esc(r.updated_at) : ''}</div>
+      <div class="cap-eyebrow"><span class="cap-mark">🧭</span> Le mot de Magnus, Chef Produit${r.updated_at ? ' · ' + esc(fr.label) : ''}${fr.stale ? ' <span class="cap-stale">⚠ à rafraîchir</span>' : ''}</div>
       ${pc.titre ? `<div class="cap-chantier"><span class="cap-chantier-label">Prochain chantier</span><span class="cap-chantier-titre">${esc(pc.titre)}</span></div>` : ''}
       ${pc.pourquoi ? `<div class="cap-pourquoi">${esc(pc.pourquoi)}</div>` : ''}
       <div class="cap-actions">
@@ -1573,7 +1577,7 @@ let fg = { nodes: [], links: [] };
 let fgCanvas = null, fgCtx = null, fgRAF = null, fgResize = null, fgTemp = 6;
 let fgHover = null, fgDrag = null, fgPan = null, fgDownPos = null, fgDownTime = 0, fgMoved = false;
 let fgLens = 'secu';
-let fgSettled = false, fgCalm = 0;
+let fgSettled = false, fgCalm = 0, fgFitTarget = null, fgCamRAF = null;
 
 function archNodeColor(n) {
   if (n.kind === 'route') return fgLens === 'secu' ? (ARCH_ACCESS[n.access] || ARCH_ACCESS.login).color : (n.zoneColor || '#64748B');
@@ -1615,6 +1619,8 @@ function fgWake() { fgTemp = 6; fgSettled = false; fgCalm = 0; }
 function fgToggle(node) { if (node.expanded) fgCollapse(node); else fgExpand(node); }
 function fgExpand(node) {
   const mod = getArchModule(node.mod); if (!mod) return;
+  // Accordéon : on referme les « frères » déjà ouverts (même niveau) pour éviter l'accumulation
+  fg.nodes.filter(s => s !== node && s.parent === node.parent && s.expanded).forEach(s => fgCollapse(s));
   const created = [];
   if (node.kind === 'module') {
     archFilesOf(mod).forEach(f => {
@@ -1637,7 +1643,7 @@ function fgExpand(node) {
     });
   }
   created.forEach(c => { fg.nodes.push(c); fg.links.push({ a: node.id, b: c.id }); });
-  node.expanded = true; fgWake();
+  node.expanded = true; fgFitTarget = node; fgWake();
 }
 function fgCollapse(node) {
   const kill = new Set(), stack = [node.id];
@@ -1668,6 +1674,32 @@ function fgFit() {
   graphCam.scale = s;
   graphCam.offsetX = W/2 - ((minX+maxX)/2)*s;
   graphCam.offsetY = H/2 - ((minY+maxY)/2)*s;
+}
+// Boîte englobante d'un nœud + ses descendants + ses ancêtres (pour recadrer sur ce qu'on vient d'ouvrir)
+function fgSubtreeBBox(node) {
+  const ids = new Set([node.id]), stack = [node.id];
+  while (stack.length) { const c = stack.pop(); fgChildren(c).forEach(k => { ids.add(k.id); stack.push(k.id); }); }
+  let cur = node; while (cur && cur.parent) { const par = fgNode(cur.parent); if (!par) break; ids.add(par.id); cur = par; }
+  let minX = 1e9, minY = 1e9, maxX = -1e9, maxY = -1e9;
+  fg.nodes.forEach(n => { if (!ids.has(n.id)) return; minX = Math.min(minX, n.x-n.r); maxX = Math.max(maxX, n.x+n.r); minY = Math.min(minY, n.y-n.r); maxY = Math.max(maxY, n.y+n.r); });
+  return { minX, minY, maxX, maxY };
+}
+// Anime la caméra vers une boîte englobante (transition douce)
+function fgAnimateToBox(box) {
+  if (!fgCanvas || box.maxX < box.minX) return;
+  const W = fgCanvas.width, H = fgCanvas.height, pad = 130;
+  let s = Math.min((W-pad)/Math.max(1, box.maxX-box.minX), (H-pad)/Math.max(1, box.maxY-box.minY));
+  s = Math.max(0.12, Math.min(1.5, s));
+  const tox = W/2 - ((box.minX+box.maxX)/2)*s, toy = H/2 - ((box.minY+box.maxY)/2)*s;
+  if (fgCamRAF) cancelAnimationFrame(fgCamRAF);
+  const s0 = graphCam.scale, ox0 = graphCam.offsetX, oy0 = graphCam.offsetY, t0 = performance.now(), dur = 450;
+  const ease = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;
+  function step(now) {
+    const k = Math.min(1, (now-t0)/dur), e = ease(k);
+    graphCam.scale = s0 + (s-s0)*e; graphCam.offsetX = ox0 + (tox-ox0)*e; graphCam.offsetY = oy0 + (toy-oy0)*e;
+    fgCamRAF = k < 1 ? requestAnimationFrame(step) : null;
+  }
+  fgCamRAF = requestAnimationFrame(step);
 }
 
 // --- Simulation (Fruchterman-Reingold, refroidissement doux) ---
@@ -1828,8 +1860,13 @@ function fgLoop() {
   if (!fgSettled) {
     const md = fgPhysics();
     if (fgDrag) fgCalm = 0;
-    else if (md < 0.4) { if (++fgCalm > 24) fgSettled = true; }
-    else fgCalm = 0;
+    else if (md < 0.4) {
+      if (++fgCalm > 24) {
+        fgSettled = true;
+        // Une fois posé, on recadre en douceur sur le nœud qu'on vient d'ouvrir
+        if (fgFitTarget) { fgAnimateToBox(fgSubtreeBBox(fgFitTarget)); fgFitTarget = null; }
+      }
+    } else fgCalm = 0;
   }
   fgDraw();
   fgRAF = requestAnimationFrame(fgLoop);
@@ -2957,6 +2994,7 @@ function renderAgentConsole(content, actions) {
       <div class="agent-console-head">
         <div class="ac-name">${esc(a.name)} <span class="org-badge ${s.cls}">${s.label}</span></div>
         <div class="ac-role">Pôle ${esc(f.pole)} · ${esc(a.role)}</div>
+        <div class="ac-fresh" id="ac-fresh"></div>
       </div>
       <div class="agent-tabs">
         ${['today', 'suivi', 'journal', 'chat', 'fiche'].map(t => `<button class="agent-tab ${agentTab === t ? 'is-active' : ''}" onclick="setAgentTab('${t}')">${agentTabLabel[t]}</button>`).join('')}
@@ -2979,8 +3017,24 @@ function renderAgentConsole(content, actions) {
 }
 function setAgentTab(t) { agentTab = t; render(); }
 
+function reportFreshness(dateStr) {
+  if (!dateStr) return { days: null, label: 'aucune ronde', stale: true };
+  const d = new Date(dateStr + 'T00:00:00');
+  if (isNaN(d.getTime())) return { days: null, label: dateStr, stale: false };
+  const days = Math.floor((Date.now() - d.getTime()) / 86400000);
+  const label = days <= 0 ? "aujourd'hui" : days === 1 ? 'hier' : 'il y a ' + days + ' jours';
+  return { days, label, stale: days > 7 };
+}
+function fillFreshness() {
+  const el = document.getElementById('ac-fresh'); if (!el) return;
+  const reps = agentReportsFromData(agentConsoleData); const latest = reps[reps.length - 1];
+  if (!latest || !latest.updated_at) { el.innerHTML = ''; return; }
+  const f = reportFreshness(latest.updated_at);
+  el.innerHTML = `Dernière ronde : ${esc(f.label)}` + (f.stale ? ` <span class="ac-stale">⚠ à rafraîchir</span>` : '');
+}
 function renderAgentTabBody() {
   const box = document.getElementById('agent-tab-body'); if (!box) return;
+  fillFreshness();
   const reps = agentReportsFromData(agentConsoleData);
   const latest = reps[reps.length - 1] || null;
   const f = findAgentBySlug(currentAgentSlug); const a = f ? f.a : {};
