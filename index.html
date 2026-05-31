@@ -311,6 +311,40 @@ body {
 .jalon-mini { font-family: inherit; font-size: 10.5px; font-weight: 700; color: var(--blue-700); background: var(--blue-50); border: 1px solid var(--blue-100); border-radius: 12px; padding: 1px 8px; cursor: pointer; margin-left: 4px; white-space: nowrap; }
 .jalon-mini:hover { background: var(--blue-100); }
 .jalon-mini:disabled { color: var(--teal-700); background: var(--teal-100); border-color: var(--teal-100); cursor: default; }
+/* Console d'agent (Espace Magnus) */
+.agent-console-head { margin-bottom: 16px; }
+.ac-name { font-size: 22px; font-weight: 800; color: var(--slate-900); letter-spacing: -0.02em; display: flex; align-items: center; gap: 10px; }
+.ac-role { font-size: 13px; color: var(--slate-500); margin-top: 4px; }
+.agent-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--slate-200); margin-bottom: 20px; flex-wrap: wrap; }
+.agent-tab { font-family: inherit; font-size: 13px; font-weight: 600; color: var(--slate-500); background: none; border: none; border-bottom: 2px solid transparent; padding: 10px 14px; cursor: pointer; margin-bottom: -1px; }
+.agent-tab:hover { color: var(--slate-900); }
+.agent-tab.is-active { color: var(--blue-700); border-bottom-color: var(--blue-500); }
+.agent-tab-body { min-height: 220px; }
+.ac-journal { display: flex; flex-direction: column; gap: 12px; }
+.ac-jentry { border: 1px solid var(--slate-200); border-radius: 12px; padding: 14px 16px; background: var(--white); }
+.ac-jdate { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--blue-700); margin-bottom: 8px; }
+.ac-jtext { font-size: 13px; color: var(--slate-600); line-height: 1.55; }
+.ac-jchantier { font-size: 12.5px; font-weight: 600; color: var(--slate-700); margin-top: 8px; }
+.ac-fiche { display: flex; flex-direction: column; gap: 14px; max-width: 640px; }
+.ac-fiche-row { display: flex; gap: 12px; font-size: 13.5px; color: var(--slate-700); }
+.ac-fiche-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--blue-700); min-width: 120px; }
+.ac-fiche-block .ac-fiche-label { margin-bottom: 5px; }
+.ac-fiche-text { font-size: 13.5px; color: var(--slate-700); line-height: 1.55; }
+.ac-fiche-note { font-size: 12px; color: var(--slate-500); background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 10px; padding: 12px 14px; }
+.ac-fiche-note code { font-family: monospace; font-size: 11.5px; color: var(--blue-700); }
+.ac-chat { display: flex; flex-direction: column; }
+.ac-chat-msgs { display: flex; flex-direction: column; gap: 10px; max-height: 400px; overflow-y: auto; padding: 4px; margin-bottom: 12px; }
+.ac-chat-hint { font-size: 13px; color: var(--slate-400); font-style: italic; text-align: center; padding: 30px 10px; }
+.ac-msg { font-size: 13.5px; line-height: 1.55; padding: 10px 14px; border-radius: 14px; max-width: 80%; white-space: pre-wrap; }
+.ac-msg-user { align-self: flex-end; background: var(--blue-700); color: var(--white); border-bottom-right-radius: 4px; }
+.ac-msg-assistant { align-self: flex-start; background: var(--slate-50); color: var(--slate-900); border: 1px solid var(--slate-200); border-bottom-left-radius: 4px; }
+.ac-msg-pending { color: var(--slate-400); font-style: italic; }
+.ac-chat-input { display: flex; gap: 10px; align-items: flex-end; }
+.ac-chat-input textarea { flex: 1; font-family: inherit; font-size: 13.5px; border: 1px solid var(--slate-200); border-radius: 10px; padding: 10px 12px; resize: vertical; }
+.ac-chat-input textarea:focus { outline: none; border-color: var(--blue-500); }
+.ac-chat-note { font-size: 11.5px; color: var(--slate-400); margin-top: 10px; }
+.ac-chat-setup { text-align: center; padding: 30px 16px; }
+.ac-chat-setup p { font-size: 13.5px; color: var(--slate-600); line-height: 1.6; margin: 0 auto 14px; max-width: 460px; }
 
 /* Bandeau hero en tête de section Stratégie */
 .strat-hero {
@@ -924,6 +958,7 @@ const titles = {
   'strat-marche':'Stratégie — Prise de marché',
   'strat-pricing':'Stratégie — Tarification',
   'strat-organigramme':'Stratégie — Organigramme des agents',
+  agent:'Espace agent',
   'clients-valides':'Clients validés',
   'clients-prospects':'Prospects CPTS',
   communication:'Communication'
@@ -1018,6 +1053,7 @@ function render() {
   else if (currentView === 'strat-marche') renderStrategie(content, actions, 'marche');
   else if (currentView === 'strat-pricing') renderStrategie(content, actions, 'pricing');
   else if (currentView === 'strat-organigramme') renderOrganigramme(content, actions);
+  else if (currentView === 'agent') renderAgentConsole(content, actions);
   else if (currentView === 'clients-valides') renderProspects(content, actions, 'clients');
   else if (currentView === 'clients-prospects') renderProspects(content, actions, 'prospects');
   else if (currentView === 'communication') renderPlaceholder(content, actions, 'communication');
@@ -1149,7 +1185,9 @@ async function loadCapToday() {
   try {
     const resp = await fetch('agents/chef-produit.json?t=' + Date.now());
     if (!resp.ok) return;
-    const r = await resp.json();
+    const data = await resp.json();
+    const reps = (data && Array.isArray(data.journal)) ? data.journal : [data];
+    const r = reps[reps.length - 1] || {};
     chefProduitReport = r;
     const pc = r.prochain_chantier || {};
     box.innerHTML = `
@@ -1159,7 +1197,7 @@ async function loadCapToday() {
       <div class="cap-actions">
         ${pc.titre ? `<button class="cap-task-btn" onclick="createTaskFromChantier(event)">+ Créer la tâche</button>` : ''}
         ${pc.titre ? `<button class="cap-task-btn cap-task-btn-alt" onclick="createJalonFromChantier(event)">+ Roadmap</button>` : ''}
-        <a class="cap-link" onclick="openAgentModal('chef-produit')">Lire le rapport complet →</a>
+        <a class="cap-link" onclick="openAgentConsole('chef-produit')">Ouvrir l'espace de Magnus →</a>
       </div>`;
     box.classList.remove('today-cap-hidden');
   } catch (e) { /* silencieux : pas de rapport, pas d'encart */ }
@@ -2131,7 +2169,7 @@ function renderOrganigramme(content, actions) {
       <div class="org-agents">
         ${pole.agents.map(a => {
           const s = orgStatut[a.statut] || orgStatut.todo;
-          return `<div class="org-agent ${a.statut === 'next' ? 'org-agent-next' : ''}" onclick="openAgentModal('${slugifyAgent(a.name)}')">
+          return `<div class="org-agent ${a.statut === 'next' ? 'org-agent-next' : ''}" onclick="openAgentConsole('${slugifyAgent(a.name)}')">
             <div class="org-agent-head">
               <span class="org-agent-name">${esc(a.prenom || a.name)}</span>
               <span class="org-badge ${s.cls}">${s.label}</span>
@@ -2202,6 +2240,161 @@ function renderAgentReport(r) {
     h += `<div class="agent-report-block"><div class="arb-label">À anticiper</div><ul class="arb-list">${r.a_anticiper.map((x, i) => `<li>${esc(x)} <button class="jalon-mini" onclick="createJalonFromAnticipe(event, ${i})">+ roadmap</button></li>`).join('')}</ul></div>`;
   if (r.note) h += `<div class="agent-report-note">${esc(r.note)}</div>`;
   return h;
+}
+
+// ============ CONSOLE D'AGENT (Espace Magnus) ============
+let currentAgentSlug = null;
+let agentTab = 'today';
+let agentConsoleData = null;   // { journal:[...] } ou objet rapport unique (back-compat)
+let magnusChat = [];
+const agentTabLabel = { today: "Aujourd'hui", chat: 'Échanger', journal: 'Journal', fiche: 'Fiche' };
+
+function openAgentConsole(slug) {
+  currentAgentSlug = slug; agentTab = 'today'; magnusChat = []; agentConsoleData = null;
+  goTo('agent');
+}
+function agentReportsFromData(data) {
+  if (!data) return [];
+  if (Array.isArray(data.journal)) return data.journal;
+  return [data];
+}
+function currentAgentName() { const f = findAgentBySlug(currentAgentSlug); return f ? f.a.name : "l'agent"; }
+
+function renderAgentConsole(content, actions) {
+  const f = currentAgentSlug ? findAgentBySlug(currentAgentSlug) : null;
+  if (!f) { content.innerHTML = '<div class="panel"><div class="empty"><p>Agent introuvable.</p></div></div>'; return; }
+  const a = f.a, s = orgStatut[a.statut] || orgStatut.todo;
+  document.getElementById('view-title').textContent = 'Espace ' + a.name;
+  actions.innerHTML = `
+    <button class="btn btn-ghost" onclick="goTo('strat-organigramme')">← Organigramme</button>
+    <button class="btn btn-ghost" onclick="openAgentRunInfo()">▶ Faire tourner</button>
+    <button class="btn btn-ghost" onclick="openAiConfigModal()">⚙ Configurer</button>`;
+  content.innerHTML = `
+    <div class="panel" style="max-width:1000px">
+      <div class="agent-console-head">
+        <div class="ac-name">${esc(a.name)} <span class="org-badge ${s.cls}">${s.label}</span></div>
+        <div class="ac-role">Pôle ${esc(f.pole)} · ${esc(a.role)}</div>
+      </div>
+      <div class="agent-tabs">
+        ${['today', 'chat', 'journal', 'fiche'].map(t => `<button class="agent-tab ${agentTab === t ? 'is-active' : ''}" onclick="setAgentTab('${t}')">${agentTabLabel[t]}</button>`).join('')}
+      </div>
+      <div class="agent-tab-body" id="agent-tab-body"><div class="agent-report-loading">Chargement…</div></div>
+    </div>`;
+  if (agentConsoleData !== null) { renderAgentTabBody(); }
+  else {
+    fetch('agents/' + currentAgentSlug + '.json?t=' + Date.now())
+      .then(r => r.ok ? r.json() : false)
+      .then(data => {
+        agentConsoleData = data || {};
+        if (currentAgentSlug === 'chef-produit') { const reps = agentReportsFromData(agentConsoleData); chefProduitReport = reps[reps.length - 1] || null; }
+        renderAgentTabBody();
+      })
+      .catch(() => { agentConsoleData = {}; renderAgentTabBody(); });
+  }
+}
+function setAgentTab(t) { agentTab = t; render(); }
+
+function renderAgentTabBody() {
+  const box = document.getElementById('agent-tab-body'); if (!box) return;
+  const reps = agentReportsFromData(agentConsoleData);
+  const latest = reps[reps.length - 1] || null;
+  const f = findAgentBySlug(currentAgentSlug); const a = f ? f.a : {};
+  if (agentTab === 'today') box.innerHTML = latest && (latest.etat || latest.prochain_chantier) ? `<div class="agent-report" style="border:none;padding:0">${renderAgentReport(latest)}</div>` : agentEmpty(a);
+  else if (agentTab === 'journal') box.innerHTML = renderAgentTabJournal(reps);
+  else if (agentTab === 'fiche') box.innerHTML = renderAgentTabFiche(f);
+  else if (agentTab === 'chat') { box.innerHTML = renderAgentTabChat(); scrollChatBottom(); }
+}
+function agentEmpty(a) { return `<div class="agent-report-empty">Aucun rapport pour le moment. ${a && a.statut === 'active' ? 'Lance une ronde pour générer son premier point.' : "Cet agent n'est pas encore créé."}</div>`; }
+
+function renderAgentTabJournal(reps) {
+  const real = reps.filter(r => r && (r.etat || r.prochain_chantier));
+  if (!real.length) return `<div class="agent-report-empty">Aucun rapport pour le moment. Chaque ronde de Magnus viendra s'ajouter ici.</div>`;
+  return `<div class="ac-journal">` + real.slice().reverse().map(r => `
+    <div class="ac-jentry">
+      <div class="ac-jdate">${esc(r.updated_at || '')}${r.trigger ? ' · ' + esc(r.trigger) : ''}</div>
+      ${r.etat ? `<div class="ac-jtext">${esc(r.etat)}</div>` : ''}
+      ${r.prochain_chantier && r.prochain_chantier.titre ? `<div class="ac-jchantier">→ ${esc(r.prochain_chantier.titre)}</div>` : ''}
+    </div>`).join('') + `</div>`;
+}
+function renderAgentTabFiche(f) {
+  if (!f) return '';
+  const a = f.a;
+  return `<div class="ac-fiche">
+    <div class="ac-fiche-row"><span class="ac-fiche-label">Pôle</span><span>${esc(f.pole)}</span></div>
+    <div class="ac-fiche-row"><span class="ac-fiche-label">Rôle</span><span>${esc(a.role)}</span></div>
+    <div class="ac-fiche-block"><div class="ac-fiche-label">Mission</div><div class="ac-fiche-text">${esc(a.mission)}</div></div>
+    <div class="ac-fiche-block"><div class="ac-fiche-label">Quand l'appeler</div><div class="ac-fiche-text">${esc(a.quand)}</div></div>
+    <div class="ac-fiche-note">Ses instructions complètes vivent dans <code>.claude/agents/${esc(currentAgentSlug)}.md</code> — lisibles et modifiables à tout moment.</div>
+  </div>`;
+}
+function renderAgentTabChat() {
+  const cfg = getAiConfig();
+  if (!cfg.key) {
+    return `<div class="ac-chat-setup">
+      <p>Pour échanger avec ${esc(currentAgentName())}, connecte ta clé Claude (la même que ton assistant d'idées).</p>
+      <button class="btn btn-primary" onclick="openAiConfigModal()">Connecter ma clé</button>
+      <p class="ac-chat-note" style="margin-top:16px">Ici, ${esc(currentAgentName())} discute et conseille — il ne lit pas ton code en direct (il s'appuie sur son dernier rapport).</p>
+    </div>`;
+  }
+  const msgs = magnusChat.map(m => `<div class="ac-msg ac-msg-${m.role}">${esc(m.content)}</div>`).join('');
+  return `<div class="ac-chat">
+    <div class="ac-chat-msgs" id="ac-chat-msgs">${msgs || `<div class="ac-chat-hint">Pose une question à ${esc(currentAgentName())} : son rapport, le prochain chantier, une orientation produit…</div>`}</div>
+    <div class="ac-chat-input">
+      <textarea id="ac-chat-text" rows="2" placeholder="Écris à ${esc(currentAgentName())}… (Entrée pour envoyer)" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendToMagnus();}"></textarea>
+      <button class="btn btn-primary" id="ac-send" onclick="sendToMagnus()">Envoyer</button>
+    </div>
+    <div class="ac-chat-note">${esc(currentAgentName())} discute et conseille ici ; pour relire le code à jour, c'est une « ronde » (session ou auto).</div>
+  </div>`;
+}
+async function sendToMagnus() {
+  const ta = document.getElementById('ac-chat-text'); if (!ta) return;
+  const text = ta.value.trim(); if (!text) return;
+  magnusChat.push({ role: 'user', content: text });
+  renderAgentTabBody();
+  const box = document.getElementById('ac-chat-msgs');
+  if (box) { box.innerHTML += `<div class="ac-msg ac-msg-assistant ac-msg-pending">Magnus réfléchit…</div>`; scrollChatBottom(); }
+  try {
+    const reply = await chatWithMagnus();
+    magnusChat.push({ role: 'assistant', content: reply });
+  } catch (e) {
+    magnusChat.push({ role: 'assistant', content: '⚠ ' + (e.message || 'Erreur') });
+  }
+  renderAgentTabBody(); scrollChatBottom();
+  const t2 = document.getElementById('ac-chat-text'); if (t2) t2.focus();
+}
+function scrollChatBottom() { const b = document.getElementById('ac-chat-msgs'); if (b) b.scrollTop = b.scrollHeight; }
+async function chatWithMagnus() {
+  const cfg = getAiConfig();
+  if (!cfg.key) throw new Error('Clé Claude non configurée');
+  const reps = agentReportsFromData(agentConsoleData);
+  const latest = reps[reps.length - 1] || {};
+  const SYSTEM = `Tu es Magnus, le Chef Produit de CPTS Pilot (plateforme de gestion pour les CPTS — Communautés Professionnelles Territoriales de Santé). Tu discutes avec Eva, coordinatrice CPTS et fondatrice solo qui code seule et débute sur Git. Ton : d'égale à égale, simple, zéro jargon inutile, franc et bienveillant, réponses courtes. Tu parles produit et stratégie produit — pas marketing, juridique ni sécurité (tu renvoies vers les autres agents si besoin).
+IMPORTANT : dans ce chat tu n'as PAS accès au code en direct (tu es dans le navigateur). Tu raisonnes à partir de ton dernier rapport ci-dessous et de ce qu'Eva te dit. Si une question demande de relire le code à jour, dis-le et propose de lancer une « ronde » en session.
+TON DERNIER RAPPORT (JSON) : ${JSON.stringify(latest)}`;
+  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json', 'x-api-key': cfg.key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+    body: JSON.stringify({
+      model: cfg.model || 'claude-haiku-4-5',
+      max_tokens: 800,
+      system: [{ type: 'text', text: SYSTEM, cache_control: { type: 'ephemeral' } }],
+      messages: magnusChat.map(m => ({ role: m.role, content: m.content }))
+    })
+  });
+  if (!resp.ok) { const err = await resp.json().catch(() => ({})); throw new Error(err.error?.message || `Erreur API (${resp.status})`); }
+  const data = await resp.json();
+  return (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('').trim() || '(réponse vide)';
+}
+function openAgentRunInfo() {
+  const m = document.getElementById('modal'); m.classList.remove('qc-mode', 'modal-wide');
+  m.innerHTML = `<h2>Faire tourner Magnus</h2>
+    <p style="font-size:13.5px;color:var(--slate-600);line-height:1.65">
+      Une « ronde » complète (Magnus relit <strong>tout</strong> ton code et ta roadmap) tourne dans un environnement qui a accès à ton repo :<br><br>
+      • <strong>Aujourd'hui (manuel)</strong> : dis-moi en session « fais tourner Magnus » → il refait son rapport, qui s'affiche ici.<br>
+      • <strong>Bientôt (auto)</strong> : avec ta clé API, il tournera seul (à chaque push + le lundi).<br><br>
+      L'onglet « Échanger » te laisse <strong>discuter</strong> avec lui tout de suite, sans ronde.</p>
+    <div class="modal-actions"><button class="btn btn-primary" onclick="closeModal()">Compris</button></div>`;
+  document.getElementById('modal-overlay').classList.add('open');
 }
 
 function renderPlaceholder(content, actions, key) {
