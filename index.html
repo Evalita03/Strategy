@@ -1320,7 +1320,7 @@ function registerReportPrecos(r, agentSlug) {
   const date = r.updated_at || ''; let added = false;
   if (r.prochain_chantier && r.prochain_chantier.titre) { const res = upsertPreco(r.prochain_chantier.titre, 'chantier', date, agentSlug); if (res && res.added) added = true; }
   if (Array.isArray(r.a_anticiper)) r.a_anticiper.forEach(x => { const res = upsertPreco(String(x), 'anticiper', date, agentSlug); if (res && res.added) added = true; });
-  // Magnus a observé dans le code que des chantiers sont réalisés → on les marque « Faite »
+  // Magnus a observé dans le code que des chantiers/tâches sont réalisés → on les marque « Faite »
   if (Array.isArray(r.faits)) r.faits.forEach(titre => {
     const k = precoKey(String(titre));
     const p = (state.precos || []).find(x => x.key === k && x.agent === agentSlug);
@@ -1328,6 +1328,9 @@ function registerReportPrecos(r, agentSlug) {
       p.etat = 'faite'; added = true;
       if (p.taskId) { const t = (state.tasks || []).find(x => x.id === p.taskId); if (t) t.status = 'done'; }
     }
+    // n'importe quelle tâche (même créée à la main) dont le titre correspond → Terminé
+    const t2 = (state.tasks || []).find(x => precoKey(x.title) === k && x.status !== 'done');
+    if (t2) { t2.status = 'done'; added = true; }
   });
   if (added) save();
 }
