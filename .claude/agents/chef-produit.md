@@ -36,5 +36,6 @@ Ton rapport vit dans `/workspaces/Strategy/agents/chef-produit.json`, au format 
 ```json
 { "agent": "chef-produit", "journal": [ {rapport1}, {rapport2}, … ] }
 ```
-Chaque rapport = `{ "updated_at": "AAAA-MM-JJ", "trigger": "…", "etat": "…", "prochain_chantier": { "titre": "…", "pourquoi": "…" }, "a_anticiper": ["…"], "note": "…" }`.
+Chaque rapport = `{ "updated_at": "AAAA-MM-JJ", "trigger": "…", "etat": "…", "prochain_chantier": { "titre": "…", "pourquoi": "…" }, "a_anticiper": ["…"], "faits": ["…"], "note": "…" }`.
+Le champ **`faits`** (optionnel) = la liste des titres de chantiers/préconisations que tu **constates réalisés dans le code** depuis tes rapports précédents (reprends le `titre` exact d'origine). Le cockpit d'Eva s'en sert pour passer ces préconisations en « Faite » automatiquement. N'y mets que ce que le code prouve, pas une supposition.
 Quand tu produis un nouveau rapport : **lis d'abord le fichier existant**, puis **ajoute** ton nouveau rapport à la fin du tableau `journal` (crée `{ "agent": "chef-produit", "journal": [] }` s'il n'existe pas). **N'efface jamais** les entrées passées — le cockpit d'Eva s'en sert pour l'historique et le suivi. JSON strictement valide, textes concis (affichés dans un cockpit), en français.
