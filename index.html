@@ -1030,6 +1030,7 @@ function load() {
   if (!Array.isArray(state.roadmap)) state.roadmap = [];
   if (!Array.isArray(state.precos)) state.precos = [];
   if (!state.agentChats || typeof state.agentChats !== 'object') state.agentChats = {};
+  if (!state.agentConfig || typeof state.agentConfig !== 'object') state.agentConfig = {};
   // Stratégie globale en piliers (par section)
   if (!state.strategiePillars) state.strategiePillars = {};
   ['vision','marche','pricing'].forEach(s => { if (!Array.isArray(state.strategiePillars[s])) state.strategiePillars[s] = []; });
@@ -2988,7 +2989,7 @@ function renderAgentConsole(content, actions) {
   actions.innerHTML = `
     <button class="btn btn-ghost" onclick="goTo('strat-organigramme')">← Equipe</button>
     <button class="btn btn-ghost" onclick="openAgentRunInfo()">▶ Faire tourner</button>
-    <button class="btn btn-ghost" onclick="openAiConfigModal()">⚙ Configurer</button>`;
+    <button class="btn btn-ghost" onclick="openAgentConfigModal()">⚙ Régler</button>`;
   content.innerHTML = `
     <div class="panel" style="max-width:1000px">
       <div class="agent-console-head">
@@ -3084,8 +3085,36 @@ function renderAgentTabFiche(f) {
     <div class="ac-fiche-row"><span class="ac-fiche-label">Rôle</span><span>${esc(a.role)}</span></div>
     <div class="ac-fiche-block"><div class="ac-fiche-label">Mission</div><div class="ac-fiche-text">${esc(a.mission)}</div></div>
     <div class="ac-fiche-block"><div class="ac-fiche-label">Quand l'appeler</div><div class="ac-fiche-text">${esc(a.quand)}</div></div>
-    <div class="ac-fiche-note">Ses instructions complètes vivent dans <code>.claude/agents/${esc(currentAgentSlug)}.md</code> — lisibles et modifiables à tout moment.</div>
+    <div class="ac-fiche-note">Ses instructions complètes (pour ses rondes) vivent dans <code>.claude/agents/${esc(currentAgentSlug)}.md</code> — lisibles et modifiables à tout moment.</div>
+    <div class="ac-fiche-row" style="align-items:center"><span class="ac-fiche-label">Réglages</span><button class="btn btn-ghost btn-sm" onclick="openAgentConfigModal()">⚙ Régler le chat (modèle, consignes)</button></div>
   </div>`;
+}
+function getAgentConfig(slug) { if (!state.agentConfig || typeof state.agentConfig !== 'object') state.agentConfig = {}; return state.agentConfig[slug] || {}; }
+function openAgentConfigModal() {
+  const slug = currentAgentSlug; const f = findAgentBySlug(slug); if (!f) return;
+  const cfg = getAgentConfig(slug);
+  const m = document.getElementById('modal'); m.classList.remove('qc-mode', 'modal-wide');
+  m.innerHTML = `<h2>Réglages de ${esc(f.a.name)}</h2>
+    <p style="font-size:12.5px;color:var(--slate-500);line-height:1.6;margin-bottom:14px">Ces réglages pilotent l'<strong>échange</strong> (onglet « Échanger »). Pour ses rondes d'analyse profonde, sa fiche complète vit dans son fichier <code>.claude/agents/${esc(slug)}.md</code>.</p>
+    <div class="field"><label>Modèle du chat</label><select id="agc-model">
+      <option value="" ${!cfg.model ? 'selected' : ''}>Par défaut (celui de ton assistant)</option>
+      <option value="claude-haiku-4-5" ${cfg.model === 'claude-haiku-4-5' ? 'selected' : ''}>Haiku — rapide & économique</option>
+      <option value="claude-sonnet-4-6" ${cfg.model === 'claude-sonnet-4-6' ? 'selected' : ''}>Sonnet — équilibré (recommandé)</option>
+      <option value="claude-opus-4-8" ${cfg.model === 'claude-opus-4-8' ? 'selected' : ''}>Opus — le plus fin</option>
+    </select></div>
+    <div class="field"><label>Consignes permanentes (ton, priorités…)</label><textarea id="agc-consignes" style="min-height:90px" placeholder="Ex : concentre-toi sur la route vers la commercialisation ; sois bref ; challenge-moi.">${esc(cfg.consignes || '')}</textarea></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" style="margin-right:auto" onclick="openAiConfigModal()">Clé API…</button>
+      <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="saveAgentConfig()">Enregistrer</button>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function saveAgentConfig() {
+  const slug = currentAgentSlug;
+  if (!state.agentConfig || typeof state.agentConfig !== 'object') state.agentConfig = {};
+  state.agentConfig[slug] = { model: document.getElementById('agc-model').value || '', consignes: document.getElementById('agc-consignes').value.trim() };
+  save(); closeModal(); render();
 }
 function renderAgentTabChat() {
   const cfg = getAiConfig();
@@ -3138,6 +3167,8 @@ async function chatWithMagnus() {
   const precos = (state.precos || []).filter(p => p.agent === currentAgentSlug)
     .map(p => `- ${p.titre} [${p.etat}${p.enTache ? ', en tâche' : ''}${p.enRoadmap ? ', en roadmap' : ''}]`).join('\n') || '(aucun pour l\'instant)';
   const roadmap = (state.roadmap || []).map(x => `- ${x.title} [${x.status}${x.month ? ', ' + x.month : ''}]`).join('\n') || '(vide)';
+  const acfg = getAgentConfig(currentAgentSlug);
+  const acConsignes = acfg.consignes ? `\n\nCONSIGNES PERMANENTES D'EVA (à respecter) : ${acfg.consignes}` : '';
   const SYSTEM = `Tu es Magnus, le Chef Produit de CPTS Pilot (plateforme de gestion pour les CPTS — Communautés Professionnelles Territoriales de Santé). Tu discutes avec Eva, coordinatrice CPTS et fondatrice solo qui code seule et débute sur Git. Ton : d'égale à égale, simple, zéro jargon inutile, franc et bienveillant, réponses courtes et bien structurées (markdown : **gras**, listes à puces). Tu parles produit et stratégie produit — pas marketing, juridique ni sécurité (tu renvoies vers les autres agents si besoin).
 IMPORTANT : dans ce chat tu n'as PAS accès au code en direct (navigateur). Tu t'appuies sur le contexte ci-dessous + ce qu'Eva te dit. Si une question demande de relire le code à jour, dis-le et propose une « ronde » en session.
 
@@ -3147,12 +3178,12 @@ LE SUIVI DE TES PRÉCONISATIONS :
 ${precos}
 
 LA ROADMAP D'EVA (source de vérité) :
-${roadmap}`;
+${roadmap}${acConsignes}`;
   const resp = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: { 'content-type': 'application/json', 'x-api-key': cfg.key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
     body: JSON.stringify({
-      model: cfg.model || 'claude-haiku-4-5',
+      model: acfg.model || cfg.model || 'claude-haiku-4-5',
       max_tokens: 900,
       system: [{ type: 'text', text: SYSTEM, cache_control: { type: 'ephemeral' } }],
       messages: getAgentChat().map(m => ({ role: m.role, content: m.content }))
