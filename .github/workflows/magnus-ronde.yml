@@ -1,0 +1,63 @@
+name: Magnus — ronde produit
+
+on:
+  workflow_dispatch: {}          # bouton « Run workflow » (et le bouton ▶ du cockpit, plus tard)
+  schedule:
+    - cron: '0 6 * * 1'          # chaque lundi 06:00 UTC — bilan hebdo
+
+permissions:
+  contents: write                # pour committer le rapport mis à jour
+
+concurrency:
+  group: magnus-ronde
+  cancel-in-progress: false
+
+jobs:
+  ronde:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Garde-fou — clé API présente ?
+        run: |
+          if [ -z "${{ secrets.ANTHROPIC_API_KEY }}" ]; then
+            echo "::error::Secret ANTHROPIC_API_KEY manquant. Ajoute-le dans Settings → Secrets and variables → Actions."
+            exit 1
+          fi
+
+      - name: Récupérer le cockpit (Strategy)
+        uses: actions/checkout@v4
+
+      - name: Cloner la plateforme (le code que Magnus analyse)
+        run: |
+          if [ -n "${{ secrets.PLATEFORME_TOKEN }}" ]; then
+            git clone --depth 30 "https://x-access-token:${{ secrets.PLATEFORME_TOKEN }}@github.com/Evalita03/Plateforme-CPTS.git" Plateforme-CPTS
+            echo "Plateforme clonée."
+          else
+            echo "::warning::Pas de secret PLATEFORME_TOKEN — Magnus tournera sans relire le code de la plateforme."
+          fi
+
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Magnus fait sa ronde
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          npx --yes @anthropic-ai/claude-code@latest -p "$(cat .github/magnus-ronde-prompt.md)" \
+            --model claude-opus-4-8 \
+            --allowedTools "Read,Grep,Glob,Bash,Write,Edit" \
+            --dangerously-skip-permissions
+
+      - name: Publier le rapport s'il a changé
+        run: |
+          if ! git diff --quiet -- agents/chef-produit.json; then
+            git config user.name "magnus-bot"
+            git config user.email "bot@cpts-pilot.local"
+            git add agents/chef-produit.json
+            git commit -m "Magnus — ronde auto $(date -u +%Y-%m-%d) [skip ci]"
+            git push
+            echo "Rapport publié."
+          else
+            echo "Rapport inchangé, rien à publier."
+          fi

@@ -2003,9 +2003,56 @@ const ARCH_PROTEC_FR = {
 };
 function archProtec(p) { return ARCH_PROTEC_FR[p] || { label: p, desc: "Condition de sécurité à remplir." }; }
 
-let archExplorerOpen = false;
+// Pourquoi cette partie existe (le rôle dans ton produit, en clair)
+const ARCH_MODULE_WHY = {
+  admin: "C'est ton poste de pilotage : sans lui, tu ne pourrais pas gérer la plateforme (contenus, membres, réglages) depuis l'intérieur.",
+  auth: "C'est la porte d'entrée : elle protège tout le reste. Sans elle, n'importe qui accéderait aux données.",
+  coordination: "C'est le cœur métier de ta CPTS au quotidien : ce pour quoi tes utilisateurs viennent.",
+  design_system: "Ce sont des composants visuels réutilisés partout : ça garde l'interface cohérente et évite de refaire 10 fois la même chose.",
+  hub: "C'est l'accueil après connexion : le point de départ d'où l'utilisateur rejoint tout le reste.",
+  meetings: "Les réunions sont un acte central d'une CPTS : organiser, convoquer, suivre.",
+  membres: "Une CPTS, c'est d'abord ses professionnels : il faut les recenser et les gérer.",
+  notifications: "Pour que les gens ne ratent rien : alertes, rappels, messages.",
+  projects: "Une CPTS porte des projets de santé : il faut les piloter et les suivre.",
+  tresorerie: "Là où passe l'argent : budgets, paiements, justificatifs. Sensible, donc très encadré.",
+  vitrine: "La partie visible publiquement : ta façade, avant même que quelqu'un se connecte."
+};
+
+// Liste lisible de « ce qu'on peut faire » : on regroupe les routes par sujet + verbes
+function archCapabilities(mod) {
+  const bySubject = {};
+  (mod.routes || []).forEach(r => {
+    const c = frRoute(r);                 // "Verbe · sujet"
+    const idx = c.indexOf(' · ');
+    if (idx < 0) return;
+    const verb = c.slice(0, idx), subj = c.slice(idx + 3).trim();
+    if (!subj) return;
+    (bySubject[subj] = bySubject[subj] || new Set()).add(verb.toLowerCase());
+  });
+  return Object.keys(bySubject)
+    .map(s => ({ subject: s, verbs: [...bySubject[s]], n: bySubject[s].size }))
+    .sort((a, b) => b.n - a.n);
+}
+// Répartition des accès dans une partie (sécurité)
+function archSecurity(mod) {
+  const c = { public: 0, login: 0, restrict: 0, admin: 0, total: 0 };
+  (mod.routes || []).forEach(r => { c[routeAccess(r)]++; c.total++; });
+  return c;
+}
+// Poids relatif d'un module (pour dire « grosse » / « petite » partie)
+function archWeight(name) {
+  const counts = (archData.modules || []).map(m => m.route_count || 0).sort((a, b) => b - a);
+  const mod = getArchModule(name); if (!mod) return '';
+  const rc = mod.route_count || 0, max = counts[0] || 1, rank = counts.indexOf(rc);
+  if (rank < 3 && rc > max * 0.4) return 'une des plus grosses parties';
+  if (rc < max * 0.15) return 'une petite partie';
+  return 'une partie de taille moyenne';
+}
+
+let archExplorerOpen = false, archMode = 'explore';
 let archNav = { module: null, file: null, routeKey: null };
 let archQuery = '';
+let archExplainMsgs = [], archExplainBusy = false;
 
 function jss(s) { return String(s == null ? '' : s).replace(/\\/g, '\\\\').replace(/'/g, "\\'"); }
 function getArchModule(name) { return (archData && archData.modules || []).find(m => m.name === name); }
