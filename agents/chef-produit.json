@@ -38,6 +38,26 @@
         "Cadrer et clôturer le fléchage (ACI / fonctionnement)"
       ],
       "note": "Hier je te poussais à finir le fléchage ; en vérifiant le code je vois qu'il est déjà fini et bien testé depuis le 24/05 — bravo, c'était du solide. Le piège maintenant c'est de le laisser invisible. Prochaine action unique : écris-moi 15 lignes de spec a posteriori (je peux te la rédiger) et ajoute une ligne 'fléchage des dépenses' en done dans la roadmap. Après ça, le sujet est clos et tu repars propre vers le multi-CPTS."
+    },
+    {
+      "updated_at": "2026-06-01",
+      "trigger": "ronde auto",
+      "etat": "Grosse semaine, et du concret livré. Deux des trois chantiers 'en cours' de ta roadmap sont en réalité finis et mergés sur main aujourd'hui. 1) 'Vues par rôle' : un espace d'accueil qui s'adapte au rôle de chacun (logic/role_workspace.py, mappe direction→président, coordinateur→coordination, etc.), spécifié (docs/superpowers/specs/2026-05-30-coord-mon-espace-design.md) et testé (tests/test_role_workspace.py), avec une refonte complète du 'Mon Espace' coordination (Enveloppes ACI, actualités vie asso, relais trésorier, agenda). 2) 'Validation des déclarations : refus, relances et archives' : refus avec motif (frais.py/heures.py), relance tracée + mail (validations.py), archivage auto à 6 mois (archives.py) — tout est là. Nuance honnête : 'vues par rôle' est livré comme espace adaptatif (chacun voit le sien), PAS comme un switcher 'voir en tant que' pour la direction — ce switcher n'existe pas dans le code. Signal neuf : tu testes l'auto-déploiement sur Scalingo (2 commits chore aujourd'hui) — hébergement en France, donc argument RGPD pour vendre.",
+      "prochain_chantier": {
+        "titre": "Mettre la vitrine publique en ligne sur Scalingo",
+        "pourquoi": "C'est le dernier 'en cours' de ta roadmap et le seul qui touche directement la première vente : la porte d'entrée commerciale. Elle peut maintenant montrer les vues par rôle qui viennent d'atterrir, et tu prépares déjà l'hébergement Scalingo — les deux convergent. Une vitrine V2 finie + un lien public hébergé en France = tu peux enfin envoyer une URL à une CPTS au lieu de faire visiter en partage d'écran. Le multi-CPTS (juillet) n'est pas nécessaire pour signer le premier client : une CPTS = une instance suffit."
+      },
+      "a_anticiper": [
+        "Go-live Scalingo : une fois l'auto-deploy stable, boucler sauvegardes DB + variables d'env prod + nom de domaine avec l'Audit Risk et le DPO — l'hébergement France est un argument de vente, mets-le en avant sur la vitrine.",
+        "Multi-CPTS (planned juillet) : archi prête mais non activée — à cadrer dès qu'une 2e CPTS se profile, pas après.",
+        "Décider si un switcher démo 'voir en tant que [rôle]' vaut le coup pour la vitrine : aujourd'hui chacun voit son espace, mais montrer les 5 vues d'un coup vendrait fort en démo.",
+        "Docs : CLAUDE.md a été remis à jour aujourd'hui (2026-06-01), mais SESSION_STATUS.md reste figé au 16/02 — à rafraîchir avant le prochain gros chantier."
+      ],
+      "faits": [
+        "Vues par rôle (coordination / trésorier / secrétaire / membre)",
+        "Validation des déclarations : refus, relances et archives"
+      ],
+      "note": "Deux chantiers cochés en une ronde, et bien faits : 'vues par rôle' a même eu sa spec écrite avant le code (le 30/05) — exactement le réflexe qui te manquait sur le fléchage. Il ne reste qu'une chose entre toi et un lien à envoyer à une CPTS : la vitrine publique en ligne. Tu as déjà commencé l'hébergement Scalingo, alors finissons ce qu'on a ouvert avant d'ouvrir le multi-CPTS. Prochaine action unique : termine la vitrine V2 et pose-la sur Scalingo — je te cadre la page si tu veux."
     }
   ]
 }
