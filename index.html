@@ -3213,7 +3213,7 @@ function renderAgentConsole(content, actions) {
   document.getElementById('view-title').textContent = 'Espace ' + (a.prenom || a.name);
   actions.innerHTML = `
     <button class="btn btn-ghost" onclick="goTo('strat-organigramme')">← Equipe</button>
-    <button class="btn btn-ghost" onclick="openAgentRunInfo()">▶ Faire tourner</button>
+    <button class="btn btn-ghost" onclick="runAgentRonde()">▶ Faire tourner</button>
     <button class="btn btn-ghost" onclick="openAgentConfigModal()">⚙ Régler</button>`;
   content.innerHTML = `
     <div class="panel" style="max-width:1000px">
@@ -3420,6 +3420,44 @@ ${roadmap}${acConsignes}`;
   if (!resp.ok) { const err = await resp.json().catch(() => ({})); throw new Error(err.error?.message || `Erreur API (${resp.status})`); }
   const data = await resp.json();
   return (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('').trim() || '(réponse vide)';
+}
+async function runAgentRonde() {
+  // Seul Magnus (chef-produit) a un workflow de ronde branché pour l'instant
+  if (currentAgentSlug !== 'chef-produit') { openAgentRunInfo(); return; }
+  const cfg = getGhConfig();
+  if (!cfg.token) {
+    alert('Pour lancer une ronde dans le cloud, il faut d\'abord configurer ta sauvegarde GitHub (⚙ en bas de la barre latérale) — c\'est elle qui fournit le jeton.');
+    openGhConfigModal();
+    return;
+  }
+  if (!confirm('Lancer une ronde de Magnus dans le cloud ?\n\nIl relit ton code et écrit un nouveau rapport (~3 à 5 min, quelques centimes d\'API). Tu rechargeras ton cockpit ensuite pour voir le résultat.')) return;
+  const owner = cfg.owner || 'Evalita03';
+  const repo = cfg.repo || 'Strategy';
+  const url = `https://api.github.com/repos/${owner}/${repo}/actions/workflows/magnus-ronde.yml/dispatches`;
+  const m = document.getElementById('modal'); m.classList.remove('qc-mode', 'modal-wide');
+  try {
+    const resp = await fetch(url, {
+      method: 'POST',
+      headers: { 'Authorization': `token ${cfg.token}`, 'Accept': 'application/vnd.github+json', 'content-type': 'application/json' },
+      body: JSON.stringify({ ref: 'main' })
+    });
+    if (resp.status === 204) {
+      m.innerHTML = `<h2>🚀 Ronde lancée</h2>
+        <p style="font-size:13.5px;color:var(--slate-600);line-height:1.65">Magnus tourne maintenant dans le cloud. Ça prend <strong>3 à 5 minutes</strong>.<br><br>Reviens dans quelques minutes et <strong>recharge ton cockpit</strong> (Ctrl+Maj+R) : son nouveau rapport apparaîtra ici et sur ta page d'accueil.</p>
+        <div class="modal-actions"><button class="btn btn-primary" onclick="closeModal()">Super</button></div>`;
+    } else {
+      const err = await resp.json().catch(() => ({}));
+      let hint = err.message || ('Erreur ' + resp.status);
+      if (resp.status === 403) hint = 'Ton jeton GitHub n\'a pas le droit de lancer des workflows. Il lui faut la permission « Actions » (jeton fine-grained) ou les scopes « repo » + « workflow » (jeton classique).';
+      else if (resp.status === 404) hint = 'Workflow introuvable. Vérifie que le fichier magnus-ronde.yml est bien sur la branche main, et que le jeton pointe vers le repo Strategy.';
+      m.innerHTML = `<h2>⚠️ Lancement impossible</h2>
+        <p style="font-size:13.5px;color:var(--slate-600);line-height:1.65">${esc(hint)}<br><br>En attendant, tu peux lancer la ronde depuis l'onglet <strong>Actions</strong> de GitHub, ou me dire « fais tourner Magnus » en session.</p>
+        <div class="modal-actions"><button class="btn btn-primary" onclick="closeModal()">Compris</button></div>`;
+    }
+    document.getElementById('modal-overlay').classList.add('open');
+  } catch (e) {
+    alert('Erreur réseau au lancement : ' + (e.message || e));
+  }
 }
 function openAgentRunInfo() {
   const m = document.getElementById('modal'); m.classList.remove('qc-mode', 'modal-wide');
