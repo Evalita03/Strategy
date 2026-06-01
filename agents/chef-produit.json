@@ -58,6 +58,28 @@
         "Validation des déclarations : refus, relances et archives"
       ],
       "note": "Deux chantiers cochés en une ronde, et bien faits : 'vues par rôle' a même eu sa spec écrite avant le code (le 30/05) — exactement le réflexe qui te manquait sur le fléchage. Il ne reste qu'une chose entre toi et un lien à envoyer à une CPTS : la vitrine publique en ligne. Tu as déjà commencé l'hébergement Scalingo, alors finissons ce qu'on a ouvert avant d'ouvrir le multi-CPTS. Prochaine action unique : termine la vitrine V2 et pose-la sur Scalingo — je te cadre la page si tu veux."
+    },
+    {
+      "updated_at": "2026-06-01",
+      "trigger": "ronde auto",
+      "etat": "Le build est complet : les 3 chantiers 'en cours' de ta roadmap sont tous écrits dans le code. La vitrine n'est plus une V1 minimale — home.html assemble une vraie page de vente (hero, piliers, circuits, modules, aperçu des rôles via _role_switch, tarifs, drawer migration, CTA démo), exactement le périmètre promis dans la roadmap. 'Vues par rôle' a été mergée sur main aujourd'hui (merge c0952af) et 'Validation des déclarations : refus, relances, archives' est là (routes/tresorerie/validations.py + archives.py). Le mouvement réel du jour : tu câbles le go-live. 4 commits 'chore' aujourd'hui poussent l'auto-deploy Scalingo, le dernier (19:35) abandonne Railway. Nuance honnête : aucun fichier de conf Scalingo dans le repo (juste Procfile gunicorn + runtime python-3.11.7), le déploiement passe par le webhook GitHub — donc le code est prêt, mais la mise en ligne reste en cours de test, pas confirmée live.",
+      "prochain_chantier": {
+        "titre": "Finaliser le go-live Scalingo (vitrine + app en ligne, France)",
+        "pourquoi": "C'est le seul chantier réellement ouvert et le dernier verrou avant la première vente : tant que l'URL n'est pas live, tu ne peux pas envoyer un lien à une CPTS, tu fais visiter en partage d'écran. Le build est fini, l'auto-deploy est déjà amorcé — il ne reste qu'à le stabiliser, brancher le domaine (cptspilot.fr est déjà dans le JSON-LD de la vitrine) et vérifier que la page publique répond. Hébergement en France = argument RGPD direct pour signer. Le multi-CPTS (juillet) n'est pas nécessaire : une CPTS = une instance suffit pour le premier client."
+      },
+      "a_anticiper": [
+        "Une fois l'auto-deploy stable : boucler sauvegardes DB prod, variables d'env prod, domaine cptspilot.fr + HTTPS — à cadrer avec l'Audit Risk et le DPO. Mets l'hébergement France en avant sur la vitrine, c'est un argument de vente.",
+        "Le webhook se déclenche sur TOUT push : évite de polluer main avec des commits 'test auto-deploy' (4 aujourd'hui) une fois le pipeline stable — un push de vrai code suffira à déployer.",
+        "Multi-CPTS (planned juillet) : archi prête mais non activée — à cadrer quand une 2e CPTS se profile, pas avant.",
+        "SESSION_STATUS.md toujours figé au 16/02 (CLAUDE.md, lui, est à jour au 01/06) — à rafraîchir avant le prochain gros chantier pour ne pas piloter sur une carte périmée.",
+        "Switcher démo 'voir en tant que [rôle]' : la vitrine a son _role_switch, mais dans l'app c'est un espace adaptatif (chacun voit le sien), pas un switcher live — à trancher si tu veux montrer les 5 vues d'un coup en démo."
+      ],
+      "faits": [
+        "Vues par rôle (coordination / trésorier / secrétaire / membre)",
+        "Validation des déclarations : refus, relances et archives",
+        "Site vitrine public CPTS Pilot"
+      ],
+      "note": "Tu n'as plus rien à construire pour signer un premier client — tout est dans le code, vitrine comprise. Le seul geste qui reste est technique, pas produit : poser la plateforme en ligne. Tu as déjà lancé Scalingo aujourd'hui et tu as eu raison de lâcher Railway. Prochaine action unique : stabilise l'auto-deploy, vérifie que la vitrine répond sur son URL, et branche cptspilot.fr. Le jour où ce lien existe, tu passes de 'je te montre' à 'va voir' — et là on rouvre le multi-CPTS."
     }
   ]
 }
