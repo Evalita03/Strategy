@@ -1594,22 +1594,24 @@ function toggleLens() {
 function fgInit() {
   fg = { nodes: [], links: [] }; fgTemp = 8;
   if (!archData || !archData.modules) return;
-  const mods = archData.modules, n = mods.length, cx = 480, cy = 360, R = 250;
+  const mods = archData.modules, n = mods.length, cx = 480, cy = 360, R = Math.max(340, n * 44);
   mods.forEach((m, i) => {
     const a = (i / n) * Math.PI * 2 - Math.PI / 2;
+    const hx = cx + Math.cos(a) * R, hy = cy + Math.sin(a) * R;
     fg.nodes.push({
       id: 'arch_' + m.name, kind: 'module', mod: m.name, label: m.name,
       zoneColor: m.color, category: m.category, parent: null, expanded: false,
       r: Math.min(58, 20 + Math.sqrt(m.route_count || 1) * 3.4),
-      x: cx + Math.cos(a) * R, y: cy + Math.sin(a) * R, vx: 0, vy: 0
+      x: hx, y: hy, hx, hy, vx: 0, vy: 0
     });
   });
   // Nœuds créés manuellement par l'utilisateur, intégrés au même graphe
   state.nodes.filter(nd => !nd.fromArch).forEach(nd => {
+    const hx = nd.x != null ? nd.x : cx, hy = nd.y != null ? nd.y : cy;
     fg.nodes.push({
       id: nd.id, kind: 'manual', label: nd.label, zoneColor: catColors[nd.category] || '#64748B',
       category: nd.category, parent: null, expanded: false, r: 24,
-      x: nd.x != null ? nd.x : cx, y: nd.y != null ? nd.y : cy, vx: 0, vy: 0, manualRef: nd
+      x: hx, y: hy, hx, hy, vx: 0, vy: 0, manualRef: nd
     });
   });
 }
@@ -1620,8 +1622,6 @@ function fgWake() { fgTemp = 6; fgSettled = false; fgCalm = 0; }
 function fgToggle(node) { if (node.expanded) fgCollapse(node); else fgExpand(node); }
 function fgExpand(node) {
   const mod = getArchModule(node.mod); if (!mod) return;
-  // Accordéon : on referme les « frères » déjà ouverts (même niveau) pour éviter l'accumulation
-  fg.nodes.filter(s => s !== node && s.parent === node.parent && s.expanded).forEach(s => fgCollapse(s));
   const created = [];
   if (node.kind === 'module') {
     archFilesOf(mod).forEach(f => {
@@ -1703,28 +1703,46 @@ function fgAnimateToBox(box) {
   fgCamRAF = requestAnimationFrame(step);
 }
 
-// --- Simulation (Fruchterman-Reingold, refroidissement doux) ---
+// --- Simulation : carte stable (modules ancrés) + amas compacts locaux ---
 function fgPhysics() {
-  const nodes = fg.nodes, K = 155, cx = 480, cy = 360;
+  const nodes = fg.nodes, CUT2 = 320 * 320;
   for (let i = 0; i < nodes.length; i++) { nodes[i].fx = 0; nodes[i].fy = 0; }
+  // Répulsion locale (au-delà d'une portée, on s'ignore → les amas restent groupés près de leur module)
   for (let i = 0; i < nodes.length; i++) {
     const a = nodes[i];
     for (let j = i+1; j < nodes.length; j++) {
       const b = nodes[j];
-      let dx = a.x-b.x, dy = a.y-b.y, d = Math.sqrt(dx*dx+dy*dy);
-      if (d < 0.01) { dx = Math.random()-.5; dy = Math.random()-.5; d = 0.5; }
-      const rep = (K*K) / d, ux = dx/d, uy = dy/d;
-      a.fx += ux*rep; a.fy += uy*rep; b.fx -= ux*rep; b.fy -= uy*rep;
+      let dx = a.x-b.x, dy = a.y-b.y, d2 = dx*dx+dy*dy;
+      if (d2 > CUT2) continue;
+      let d = Math.sqrt(d2);
+      if (d < 0.01) { dx = Math.random()-.5; dy = Math.random()-.5; d = 0.5; d2 = 0.25; }
+      // frères (même parent) : se repoussent fort pour s'étaler en éventail ; sinon répulsion douce
+      const sameParent = a.parent && a.parent === b.parent;
+      let f = (sameParent ? 9000 : 4200) / d2;
+      if (f > 7) f = 7;
+      const ux = dx/d, uy = dy/d;
+      a.fx += ux*f; a.fy += uy*f; b.fx -= ux*f; b.fy -= uy*f;
     }
   }
+  // Ressorts : enfant tenu court près de son parent ; liens manuels plus lâches
   fgLinks().forEach(l => {
     const a = fgNode(l.a), b = fgNode(l.b); if (!a || !b) return;
     let dx = b.x-a.x, dy = b.y-a.y, d = Math.sqrt(dx*dx+dy*dy) || 0.01;
-    const att = (d*d) / K, ux = dx/d, uy = dy/d;
-    a.fx += ux*att; a.fy += uy*att; b.fx -= ux*att; b.fy -= uy*att;
+    const rest = l.manual ? 130 : (a.r + b.r + 30);
+    const k = l.manual ? 0.015 : 0.05;
+    const f = (d - rest) * k, ux = dx/d, uy = dy/d;
+    a.fx += ux*f; a.fy += uy*f; b.fx -= ux*f; b.fy -= uy*f;
   });
-  // Gravité douce vers le centre pour éviter la dérive
-  nodes.forEach(n => { n.fx += (cx-n.x)*0.012; n.fy += (cy-n.y)*0.012; });
+  nodes.forEach(n => {
+    if (n.parent === null) {
+      // Modules / nœuds manuels : ancrés à leur position d'origine → carte stable et reconnaissable
+      n.fx += (n.hx - n.x) * 0.06; n.fy += (n.hy - n.y) * 0.06;
+    } else {
+      // Enfants : légère cohésion vers leur parent (l'amas reste compact)
+      const p = fgNode(n.parent);
+      if (p) { n.fx += (p.x - n.x) * 0.02; n.fy += (p.y - n.y) * 0.02; }
+    }
+  });
   // Déplacement borné par la température (refroidit pour se stabiliser)
   const T = fgTemp;
   let maxDisp = 0;
@@ -1906,7 +1924,9 @@ function setupGraph(canvas) {
   canvas.onmousemove = e => {
     const rect = canvas.getBoundingClientRect(), mx = e.clientX-rect.left, my = e.clientY-rect.top;
     if (fgDownPos && (Math.abs(mx-fgDownPos.x) > 4 || Math.abs(my-fgDownPos.y) > 4)) fgMoved = true;
-    if (fgDrag) { const w = s2w(mx, my); fgDrag.x = w.x; fgDrag.y = w.y; fgDrag.vx = 0; fgDrag.vy = 0; fgWake(); fgTip(null); return; }
+    if (fgDrag) { const w = s2w(mx, my); fgDrag.x = w.x; fgDrag.y = w.y; fgDrag.vx = 0; fgDrag.vy = 0;
+      if (fgDrag.parent === null) { fgDrag.hx = w.x; fgDrag.hy = w.y; } // déplacer un module redéfinit son ancrage
+      fgWake(); fgTip(null); return; }
     if (fgPan) { graphCam.offsetX = fgPan.ox + (mx-fgPan.x); graphCam.offsetY = fgPan.oy + (my-fgPan.y); return; }
     const node = fgNodeAt(mx, my);
     fgHover = node;
