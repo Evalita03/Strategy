@@ -682,6 +682,22 @@ tr:hover td { background: var(--blue-50); }
 .fg-tip .m code { font-family: 'SFMono-Regular', Consolas, monospace; font-size: 11px; color: var(--blue-700); word-break: break-all; }
 .fg-tip .acc { font-weight: 600; margin-bottom: 5px; }
 .fg-tip .h { color: var(--slate-400); font-size: 11px; border-top: 1px solid var(--slate-100); padding-top: 5px; }
+/* Comprendre mon code — onglets + fiches + explique-moi */
+.arch-modes { display: flex; gap: 6px; margin-top: 12px; }
+.arch-mode { flex: 1; font-family: inherit; font-size: 12.5px; font-weight: 600; padding: 7px 10px; border-radius: 9px; border: 1px solid var(--slate-200); background: var(--slate-50); color: var(--slate-600); cursor: pointer; }
+.arch-mode:hover { border-color: var(--slate-300); }
+.arch-mode.on { background: var(--blue-700); color: var(--white); border-color: var(--blue-700); }
+.arch-ask { width: 100%; font-family: inherit; font-size: 13px; font-weight: 600; padding: 10px 12px; border-radius: 10px; border: 1px dashed var(--blue-500); background: var(--blue-50); color: var(--blue-700); cursor: pointer; margin-bottom: 16px; }
+.arch-ask:hover { background: var(--blue-100); }
+.arch-caps { list-style: none; margin: 0; padding: 0; }
+.arch-caps li { font-size: 13px; color: var(--slate-700); padding: 4px 0; border-bottom: 1px solid var(--slate-100); }
+.arch-caps li:last-child { border-bottom: none; }
+.arch-caps .vb { color: var(--slate-400); font-size: 11.5px; }
+.arch-exp-body.explain { display: flex; flex-direction: column; }
+.arch-explain-msgs { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding: 4px 2px 12px; }
+.arch-explain-input { display: flex; gap: 8px; align-items: flex-end; border-top: 1px solid var(--slate-100); padding-top: 12px; }
+.arch-explain-input textarea { flex: 1; font-family: inherit; font-size: 13.5px; border: 1px solid var(--slate-200); border-radius: 10px; padding: 9px 11px; resize: none; }
+.arch-explain-input textarea:focus { outline: none; border-color: var(--blue-500); }
 
 /* Vue Aujourd'hui */
 .today-header { padding: 12px 0 28px; }
@@ -1673,10 +1689,11 @@ function fgFit() {
   let minX = 1e9, minY = 1e9, maxX = -1e9, maxY = -1e9;
   fg.nodes.forEach(n => { minX = Math.min(minX, n.x-n.r); maxX = Math.max(maxX, n.x+n.r); minY = Math.min(minY, n.y-n.r); maxY = Math.max(maxY, n.y+n.r); });
   const W = fgCanvas.width, H = fgCanvas.height, pad = 90;
-  let s = Math.min((W-pad)/Math.max(1, maxX-minX), (H-pad)/Math.max(1, maxY-minY));
+  const drawer = archExplorerOpen ? 456 : 0, availW = Math.max(200, W - drawer);
+  let s = Math.min((availW-pad)/Math.max(1, maxX-minX), (H-pad)/Math.max(1, maxY-minY));
   s = Math.max(0.25, Math.min(1.6, s));
   graphCam.scale = s;
-  graphCam.offsetX = W/2 - ((minX+maxX)/2)*s;
+  graphCam.offsetX = availW/2 - ((minX+maxX)/2)*s;
   graphCam.offsetY = H/2 - ((minY+maxY)/2)*s;
 }
 // Boîte englobante d'un nœud + ses descendants + ses ancêtres (pour recadrer sur ce qu'on vient d'ouvrir)
@@ -1692,9 +1709,10 @@ function fgSubtreeBBox(node) {
 function fgAnimateToBox(box) {
   if (!fgCanvas || box.maxX < box.minX) return;
   const W = fgCanvas.width, H = fgCanvas.height, pad = 130;
-  let s = Math.min((W-pad)/Math.max(1, box.maxX-box.minX), (H-pad)/Math.max(1, box.maxY-box.minY));
+  const drawer = archExplorerOpen ? 456 : 0, availW = Math.max(200, W - drawer);
+  let s = Math.min((availW-pad)/Math.max(1, box.maxX-box.minX), (H-pad)/Math.max(1, box.maxY-box.minY));
   s = Math.max(0.12, Math.min(1.5, s));
-  const tox = W/2 - ((box.minX+box.maxX)/2)*s, toy = H/2 - ((box.minY+box.maxY)/2)*s;
+  const tox = availW/2 - ((box.minX+box.maxX)/2)*s, toy = H/2 - ((box.minY+box.maxY)/2)*s;
   if (fgCamRAF) cancelAnimationFrame(fgCamRAF);
   const s0 = graphCam.scale, ox0 = graphCam.offsetX, oy0 = graphCam.offsetY, t0 = performance.now(), dur = 450;
   const ease = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;
@@ -1844,9 +1862,12 @@ function fgNodeAt(sx, sy) {
 }
 
 function fgClick(node) {
-  if (node.kind === 'route') { openArchExplorer(); archOpenRoute(node.mod, node.file, node.routeKey); return; }
   if (node.kind === 'manual') { showNodeDetail(node.manualRef); return; }
+  if (node.kind === 'route') { archOpenRoute(node.mod, node.file, node.routeKey); return; }
+  // module / fichier : on déplie dans le graphe ET on ouvre sa fiche en français
   fgToggle(node);
+  if (node.kind === 'module') archGoModule(node.mod);
+  else archOpenFile(node.mod, node.file);
 }
 
 function fgTip(node, clientX, clientY) {
@@ -2067,8 +2088,14 @@ function archFilesOf(mod) {
 
 function openArchExplorer(moduleName) {
   archExplorerOpen = true;
+  archMode = 'explore';
   archQuery = '';
   archNav = { module: moduleName || null, file: null, routeKey: null };
+  renderArchExplorer();
+}
+function archOpenFile(moduleName, file) {
+  archExplorerOpen = true; archMode = 'explore'; archQuery = '';
+  archNav = { module: moduleName, file: file, routeKey: null };
   renderArchExplorer();
 }
 function closeArchExplorer() {
@@ -2076,10 +2103,11 @@ function closeArchExplorer() {
   const mount = document.getElementById('arch-explorer-mount');
   if (mount) mount.innerHTML = '';
 }
-function archGoHome() { archNav = { module: null, file: null, routeKey: null }; renderArchExplorer(); }
-function archGoModule(name) { archNav = { module: name, file: null, routeKey: null }; renderArchExplorer(); }
-function archGoFile(file) { archNav.file = file; archNav.routeKey = null; renderArchExplorer(); }
+function archGoHome() { archExplorerOpen = true; archMode = 'explore'; archNav = { module: null, file: null, routeKey: null }; renderArchExplorer(); }
+function archGoModule(name) { archExplorerOpen = true; archMode = 'explore'; archNav = { module: name, file: null, routeKey: null }; renderArchExplorer(); }
+function archGoFile(file) { archExplorerOpen = true; archMode = 'explore'; archNav.file = file; archNav.routeKey = null; renderArchExplorer(); }
 function archOpenRoute(moduleName, file, key) {
+  archExplorerOpen = true; archMode = 'explore';
   archNav = { module: moduleName, file: file, routeKey: key };
   archQuery = '';
   renderArchExplorer();
@@ -2090,28 +2118,36 @@ function archSetQuery(q) {
   renderArchCrumb();
 }
 
+function archSetMode(m) { archMode = m; renderArchExplorer(); }
+
 function renderArchExplorer() {
   const mount = document.getElementById('arch-explorer-mount');
   if (!mount) return;
   if (!archExplorerOpen) { mount.innerHTML = ''; return; }
-  mount.innerHTML = `
-    <div class="arch-explorer">
-      <div class="arch-exp-head">
-        <div class="arch-exp-title">
-          <h3>🧭 Explorateur du code</h3>
-          <button class="close" onclick="closeArchExplorer()">×</button>
-        </div>
+  const search = archMode === 'explore' ? `
         <div class="arch-search">
           <span class="ico">🔍</span>
           <input id="arch-search-input" placeholder="Rechercher une route, un fichier, un module…"
                  value="${esc(archQuery)}" oninput="archSetQuery(this.value)">
+        </div>` : '';
+  mount.innerHTML = `
+    <div class="arch-explorer">
+      <div class="arch-exp-head">
+        <div class="arch-exp-title">
+          <h3>🧭 Comprendre mon code</h3>
+          <button class="close" onclick="closeArchExplorer()">×</button>
         </div>
+        <div class="arch-modes">
+          <button class="arch-mode ${archMode === 'explore' ? 'on' : ''}" onclick="archSetMode('explore')">📖 Les fiches</button>
+          <button class="arch-mode ${archMode === 'explain' ? 'on' : ''}" onclick="archSetMode('explain')">💬 Explique-moi</button>
+        </div>
+        ${search}
       </div>
-      <div class="arch-crumb" id="arch-crumb"></div>
-      <div class="arch-exp-body" id="arch-exp-body"></div>
+      ${archMode === 'explore' ? '<div class="arch-crumb" id="arch-crumb"></div>' : ''}
+      <div class="arch-exp-body${archMode === 'explain' ? ' explain' : ''}" id="arch-exp-body"></div>
     </div>`;
-  renderArchCrumb();
-  renderArchExplorerBody();
+  if (archMode === 'explore') { renderArchCrumb(); renderArchExplorerBody(); }
+  else renderArchExplain();
 }
 
 function renderArchCrumb() {
@@ -2146,12 +2182,28 @@ function renderArchExplorerBody() {
   el.innerHTML = archHomeHtml();
 }
 
+// Bouton « demander à Magnus » avec une question pré-remplie
+function archAskBtn(question) {
+  return `<button class="arch-ask" onclick="archAsk('${jss(question)}')">💬 Demander à Magnus de m'expliquer</button>`;
+}
+// Résumé de sécurité en une phrase claire
+function archSecuritySentence(mod) {
+  const c = archSecurity(mod);
+  if (c.total === 0) return '';
+  if (c.public === c.total) return `🟢 <b>Tout est public</b> ici (accessible sans connexion).`;
+  if (c.public === 0) {
+    let extra = c.admin ? ` dont <b>${c.admin}</b> réservée(s) aux admins` : '';
+    return `🔒 <b>Tout est protégé</b> (connexion obligatoire)${extra}.`;
+  }
+  return `🔓 <b>${c.public}</b> action(s) publique(s) et <b>${c.total - c.public}</b> protégée(s).`;
+}
+
 function archHomeHtml() {
   const s = archData.stats || {};
-  let h = `<div class="arch-note">Ton application est découpée en <b>${(archData.modules||[]).length} modules</b> (${s.total_routes||0} routes au total). Un <b>module</b> est une grande zone fonctionnelle. Clique pour ouvrir ce qu'il contient.</div>`;
+  let h = `<div class="arch-note">Voici les <b>grandes parties</b> de ton site (${(archData.modules||[]).length} en tout, ${s.total_routes||0} actions possibles). Clique sur une partie pour lire sa fiche : à quoi elle sert, ce qu'on peut y faire, et pourquoi elle est là.</div>`;
   const mods = [...archData.modules].sort((a, b) => (b.route_count||0) - (a.route_count||0));
   mods.forEach(m => {
-    const desc = ARCH_MODULE_FR[m.name] || 'Module de l\'application.';
+    const desc = ARCH_MODULE_FR[m.name] || 'Partie de ton application.';
     h += `<div class="arch-row" onclick="archGoModule('${jss(m.name)}')">
       <span class="arch-dot" style="background:${m.color||'#64748B'}"></span>
       <div class="main"><div class="name">${esc(m.name)}</div><div class="sub">${esc(desc)}</div></div>
@@ -2162,15 +2214,31 @@ function archHomeHtml() {
 
 function archModuleHtml() {
   const mod = getArchModule(archNav.module);
-  if (!mod) return `<div class="arch-empty">Module introuvable.</div>`;
+  if (!mod) return `<div class="arch-empty">Partie introuvable.</div>`;
   const files = archFilesOf(mod);
-  const desc = ARCH_MODULE_FR[mod.name] || 'Module de l\'application.';
-  let h = `<div class="arch-note"><b>${esc(mod.name)}</b> — ${esc(desc)}<br><br>Il contient <b>${files.length} fichier(s)</b> de code et <b>${mod.route_count||0} routes</b>. Un <b>fichier</b> regroupe des routes qui vont ensemble.</div>`;
+  const desc = ARCH_MODULE_FR[mod.name] || 'Partie de ton application.';
+  const why = ARCH_MODULE_WHY[mod.name];
+  const caps = archCapabilities(mod).slice(0, 14);
+  let h = `<div class="arch-note"><b>${esc(mod.name)}</b> — ${esc(desc)}</div>`;
+  // Ce qu'on peut y faire
+  if (caps.length) {
+    h += `<div class="arch-detail-block"><div class="lbl">Ce qu'on peut y faire</div><div class="val"><ul class="arch-caps">`;
+    caps.forEach(c => { h += `<li><b>${esc(c.subject.replace(/-/g, ' '))}</b> <span class="vb">${esc(c.verbs.join(', '))}</span></li>`; });
+    h += `</ul></div></div>`;
+  }
+  // Pourquoi c'est là
+  if (why) h += `<div class="arch-detail-block"><div class="lbl">Pourquoi c'est là</div><div class="val">${esc(why)}</div></div>`;
+  // Taille + sécurité
+  h += `<div class="arch-detail-block"><div class="lbl">Repères</div><div class="val">`
+    + `📦 C'est <b>${archWeight(mod.name)}</b> de ton site — ${mod.route_count||0} actions, ${files.length} sous-partie(s).<br>`
+    + archSecuritySentence(mod) + `</div></div>`;
+  h += archAskBtn(`Explique-moi simplement à quoi sert la partie « ${mod.name} » de mon site, et ce qu'on peut y faire.`);
+  // Sous-parties (fichiers)
+  h += `<div class="arch-detail-block"><div class="lbl">Les sous-parties (${files.length})</div></div>`;
   files.forEach(f => {
-    const short = f.file.split('/').pop();
     h += `<div class="arch-row" onclick="archGoFile('${jss(f.file)}')">
       <span class="arch-dot" style="background:${mod.color||'#64748B'};border-radius:3px"></span>
-      <div class="main"><div class="name">📄 ${esc(short)}</div><div class="sub">${esc(f.file)}</div></div>
+      <div class="main"><div class="name">📄 ${esc(frFile(f.file))}</div><div class="sub">${esc(f.file)}</div></div>
       <span class="count">${f.routes.length}</span><span class="chev">›</span></div>`;
   });
   return h;
@@ -2178,17 +2246,17 @@ function archModuleHtml() {
 
 function archFileHtml() {
   const mod = getArchModule(archNav.module);
-  if (!mod) return `<div class="arch-empty">Module introuvable.</div>`;
+  if (!mod) return `<div class="arch-empty">Partie introuvable.</div>`;
   const routes = (mod.routes || []).filter(r => (r.file || 'fichier non identifié') === archNav.file);
-  const short = archNav.file.split('/').pop();
-  let h = `<div class="arch-note"><b>${esc(short)}</b> contient <b>${routes.length} route(s)</b>. Une <b>route</b> est une adresse de l'application (une page ou une action). Clique pour voir ce qu'elle fait.</div>`;
+  const nice = frFile(archNav.file);
+  let h = `<div class="arch-note"><b>📄 ${esc(nice)}</b> est une sous-partie de <b>${esc(mod.name)}</b>. Elle regroupe <b>${routes.length} action(s)</b> qui vont ensemble. Une « action » = quelque chose qu'un utilisateur (ou le site) peut faire.</div>`;
+  h += archAskBtn(`Dans mon site, à quoi sert la sous-partie « ${nice} » du module « ${mod.name} » ? Explique simplement.`);
   routes.forEach(r => {
     const key = (r.function || '') + '|' + (r.path || '');
-    const methods = (r.methods || ['GET']).join(', ');
-    const lock = (r.protections || []).length ? ' 🔒' : '';
+    const acc = ARCH_ACCESS[routeAccess(r)] || ARCH_ACCESS.login;
     h += `<div class="arch-row" onclick="archOpenRoute('${jss(mod.name)}','${jss(archNav.file)}','${jss(key)}')">
-      <span class="arch-dot" style="background:${mod.color||'#64748B'};border-radius:50%"></span>
-      <div class="main"><div class="name"><code>${esc(r.path||'')}</code>${lock}</div><div class="sub">${esc(r.function||'')}() · ${esc(methods)}</div></div>
+      <span class="arch-dot" style="background:${acc.color};border-radius:50%"></span>
+      <div class="main"><div class="name">${esc(frRoute(r))}</div><div class="sub"><code>${esc(r.path||'')}</code></div></div>
       <span class="chev">›</span></div>`;
   });
   return h;
@@ -2202,7 +2270,8 @@ function archRouteHtml() {
   if (!r) return `<div class="arch-empty">Route introuvable.</div>`;
   const methods = r.methods || ['GET'];
   const protec = r.protections || [];
-  let h = `<div class="arch-note">Voici en clair ce que fait cette route — son adresse, ce qu'elle permet de faire, et qui peut y accéder.</div>`;
+  let h = `<div class="arch-note"><b>${esc(frRoute(r))}</b><br><br>Voici en clair ce que fait cette action — son adresse, ce qu'elle permet, et qui peut y accéder.</div>`;
+  h += archAskBtn(`Explique-moi simplement ce que fait cette partie de mon site : ${frRoute(r)} (adresse ${r.path}).`);
   h += `<div class="arch-detail-block"><div class="lbl">Adresse (l'URL)</div><div class="val"><code>${esc(r.path||'')}</code></div></div>`;
   h += `<div class="arch-detail-block"><div class="lbl">Ce qu'elle permet</div><div class="val">`;
   methods.forEach(m => { h += `<div style="margin-bottom:4px"><span class="arch-chip method">${esc(m)}</span> ${esc(ARCH_METHOD_FR[m] || 'Action sur la route')}</div>`; });
@@ -2251,6 +2320,92 @@ function archSearchHtml(q) {
     });
   }
   return h;
+}
+
+// ===== « Explique-moi » : Magnus répond avec la carte du code =====
+function archContextForLLM() {
+  if (!archData || !archData.modules) return '(aucune donnée d\'architecture)';
+  const s = archData.stats || {};
+  let out = `Le site « CPTS Pilot » compte ${s.total_routes || 0} actions réparties en ${archData.modules.length} grandes parties (modules).\n\n`;
+  [...archData.modules].sort((a, b) => (b.route_count || 0) - (a.route_count || 0)).forEach(m => {
+    const sec = archSecurity(m);
+    const caps = archCapabilities(m).slice(0, 10).map(c => `${c.subject.replace(/-/g, ' ')} (${c.verbs.join('/')})`).join(' ; ');
+    out += `### ${m.name}\n`;
+    out += `Rôle : ${ARCH_MODULE_FR[m.name] || '—'}\n`;
+    if (ARCH_MODULE_WHY[m.name]) out += `Pourquoi c'est là : ${ARCH_MODULE_WHY[m.name]}\n`;
+    out += `Taille : ${m.route_count || 0} actions, ${m.file_count || archFilesOf(m).length} sous-parties.\n`;
+    out += `Accès : ${sec.public} publiques, ${sec.login} connexion requise, ${sec.restrict} restreintes, ${sec.admin} réservées admin.\n`;
+    if (caps) out += `On peut y : ${caps}.\n`;
+    out += '\n';
+  });
+  return out;
+}
+async function archExplainCall() {
+  const cfg = getAiConfig();
+  if (!cfg.key) throw new Error('Clé Claude non configurée');
+  const SYSTEM = `Tu es Magnus, le Chef Produit de CPTS Pilot (plateforme pour les CPTS — Communautés Professionnelles Territoriales de Santé). Tu expliques à Eva — coordinatrice CPTS, fondatrice qui ne sait pas coder — comment SON site est architecturé. Objectif : qu'elle COMPRENNE, à son niveau.
+Règles : français très simple, ZÉRO jargon technique (ou alors tu l'expliques avec une image concrète). Réponses courtes, chaleureuses, bien structurées (markdown : **gras**, listes). Tu peux utiliser des analogies (le site = un bâtiment : les parties = des étages, les actions = des portes, les protections = des badges). Tu t'appuies UNIQUEMENT sur la carte ci-dessous. Si l'info n'y est pas, dis-le franchement et propose une « ronde » (relecture complète du code en session).
+
+CARTE DE L'ARCHITECTURE (extraite du vrai code d'Eva) :
+${archContextForLLM()}`;
+  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json', 'x-api-key': cfg.key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+    body: JSON.stringify({
+      model: cfg.model || 'claude-haiku-4-5',
+      max_tokens: 900,
+      system: [{ type: 'text', text: SYSTEM, cache_control: { type: 'ephemeral' } }],
+      messages: archExplainMsgs.map(m => ({ role: m.role, content: m.content }))
+    })
+  });
+  if (!resp.ok) { const err = await resp.json().catch(() => ({})); throw new Error(err.error?.message || `Erreur API (${resp.status})`); }
+  const data = await resp.json();
+  return (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('').trim() || '(réponse vide)';
+}
+function renderArchExplain() {
+  const el = document.getElementById('arch-exp-body'); if (!el) return;
+  const cfg = getAiConfig();
+  if (!cfg.key) {
+    el.innerHTML = `<div class="arch-note">💬 <b>Explique-moi</b> te laisse poser tes questions en français (« c'est quoi la trésorerie ? », « que se passe-t-il quand un membre s'inscrit ? »). Magnus répond en s'appuyant sur la carte de ton code.<br><br>Il faut d'abord connecter ta clé Claude (la même que l'espace de Magnus).</div>
+      <button class="arch-ask" onclick="openAiConfigModal()">🔑 Connecter ma clé</button>`;
+    return;
+  }
+  let msgs = archExplainMsgs.length ? '' : `<div class="arch-note">Pose ta question en français. Par exemple :<br>• « C'est quoi exactement la trésorerie ? »<br>• « Que se passe-t-il quand un membre s'inscrit ? »<br>• « Quelles parties de mon site sont publiques ? »<br>• « Quelle est la partie la plus grosse, et pourquoi ? »</div>`;
+  archExplainMsgs.forEach(m => {
+    msgs += m.role === 'user'
+      ? `<div class="ac-msg ac-msg-user">${esc(m.content)}</div>`
+      : `<div class="ac-msg-wrap"><div class="ac-msg-name">Magnus</div><div class="ac-msg ac-msg-assistant">${mdToHtml(m.content)}</div></div>`;
+  });
+  if (archExplainBusy) msgs += `<div class="ac-msg ac-msg-assistant ac-msg-pending">Magnus réfléchit…</div>`;
+  el.innerHTML = `<div class="arch-explain-msgs" id="arch-explain-msgs">${msgs}</div>
+    <div class="arch-explain-input">
+      <textarea id="arch-explain-input" rows="2" placeholder="Pose ta question à Magnus…" onkeydown="archExplainKey(event)" ${archExplainBusy ? 'disabled' : ''}></textarea>
+      <button class="btn btn-primary" onclick="archExplainSend()" ${archExplainBusy ? 'disabled' : ''}>Envoyer</button>
+    </div>`;
+  const b = document.getElementById('arch-explain-msgs'); if (b) b.scrollTop = b.scrollHeight;
+  const ta = document.getElementById('arch-explain-input'); if (ta && !archExplainBusy) ta.focus();
+}
+function archExplainKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); archExplainSend(); } }
+async function archExplainSend() {
+  const ta = document.getElementById('arch-explain-input'); if (!ta) return;
+  const q = ta.value.trim(); if (!q || archExplainBusy) return;
+  archExplainMsgs.push({ role: 'user', content: q });
+  archExplainBusy = true; renderArchExplain();
+  try { const a = await archExplainCall(); archExplainMsgs.push({ role: 'assistant', content: a }); }
+  catch (e) { archExplainMsgs.push({ role: 'assistant', content: '⚠ ' + (e.message || 'Erreur') }); }
+  archExplainBusy = false; renderArchExplain();
+}
+// Depuis un bouton de fiche : bascule en mode chat avec une question pré-remplie
+function archAsk(question) {
+  archExplorerOpen = true; archMode = 'explain';
+  const cfg = getAiConfig();
+  if (!cfg.key) { renderArchExplorer(); return; }
+  archExplainMsgs.push({ role: 'user', content: question });
+  archExplainBusy = true; renderArchExplorer();
+  archExplainCall()
+    .then(a => archExplainMsgs.push({ role: 'assistant', content: a }))
+    .catch(e => archExplainMsgs.push({ role: 'assistant', content: '⚠ ' + (e.message || 'Erreur') }))
+    .finally(() => { archExplainBusy = false; renderArchExplain(); });
 }
 
 function openNodeModal(id) {
