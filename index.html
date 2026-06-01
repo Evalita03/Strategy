@@ -352,6 +352,9 @@ body {
 .ac-chat-ctx { font-size: 11px; color: var(--slate-400); }
 .ac-chat-reset { font-family: inherit; font-size: 11.5px; font-weight: 600; color: var(--slate-500); background: none; border: none; cursor: pointer; padding: 0; }
 .ac-chat-reset:hover { color: var(--blue-700); }
+.ac-msg-wrap { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; max-width: 80%; align-self: flex-start; }
+.ac-msg-wrap .ac-msg { max-width: 100%; }
+.ac-msg-name { font-size: 11px; font-weight: 800; color: var(--blue-700); padding-left: 2px; }
 .ac-msg-assistant { white-space: normal; }
 .ac-msg-assistant code { font-family: monospace; font-size: 12px; background: var(--white); border: 1px solid var(--slate-200); border-radius: 4px; padding: 0 4px; }
 .ac-msg-assistant ul { margin: 6px 0; padding-left: 18px; }
@@ -2999,13 +3002,13 @@ function agentReportsFromData(data) {
   if (Array.isArray(data.journal)) return data.journal;
   return [data];
 }
-function currentAgentName() { const f = findAgentBySlug(currentAgentSlug); return f ? f.a.name : "l'agent"; }
+function currentAgentName() { const f = findAgentBySlug(currentAgentSlug); return f ? (f.a.prenom || f.a.name) : "l'agent"; }
 
 function renderAgentConsole(content, actions) {
   const f = currentAgentSlug ? findAgentBySlug(currentAgentSlug) : null;
   if (!f) { content.innerHTML = '<div class="panel"><div class="empty"><p>Agent introuvable.</p></div></div>'; return; }
   const a = f.a, s = orgStatut[a.statut] || orgStatut.todo;
-  document.getElementById('view-title').textContent = 'Espace ' + a.name;
+  document.getElementById('view-title').textContent = 'Espace ' + (a.prenom || a.name);
   actions.innerHTML = `
     <button class="btn btn-ghost" onclick="goTo('strat-organigramme')">← Equipe</button>
     <button class="btn btn-ghost" onclick="openAgentRunInfo()">▶ Faire tourner</button>
@@ -3013,8 +3016,8 @@ function renderAgentConsole(content, actions) {
   content.innerHTML = `
     <div class="panel" style="max-width:1000px">
       <div class="agent-console-head">
-        <div class="ac-name">${esc(a.name)} <span class="org-badge ${s.cls}">${s.label}</span></div>
-        <div class="ac-role">Pôle ${esc(f.pole)} · ${esc(a.role)}</div>
+        <div class="ac-name">${esc(a.prenom || a.name)} <span class="org-badge ${s.cls}">${s.label}</span></div>
+        <div class="ac-role">${a.prenom ? esc(a.name) + ' · ' : ''}Pôle ${esc(f.pole)} · ${esc(a.role)}</div>
         <div class="ac-fresh" id="ac-fresh"></div>
       </div>
       <div class="agent-tabs">
@@ -3114,7 +3117,7 @@ function openAgentConfigModal() {
   const slug = currentAgentSlug; const f = findAgentBySlug(slug); if (!f) return;
   const cfg = getAgentConfig(slug);
   const m = document.getElementById('modal'); m.classList.remove('qc-mode', 'modal-wide');
-  m.innerHTML = `<h2>Réglages de ${esc(f.a.name)}</h2>
+  m.innerHTML = `<h2>Réglages de ${esc(f.a.prenom || f.a.name)}</h2>
     <p style="font-size:12.5px;color:var(--slate-500);line-height:1.6;margin-bottom:14px">Ces réglages pilotent l'<strong>échange</strong> (onglet « Échanger »). Pour ses rondes d'analyse profonde, sa fiche complète vit dans son fichier <code>.claude/agents/${esc(slug)}.md</code>.</p>
     <div class="field"><label>Modèle du chat</label><select id="agc-model">
       <option value="" ${!cfg.model ? 'selected' : ''}>Par défaut (celui de ton assistant)</option>
@@ -3146,7 +3149,10 @@ function renderAgentTabChat() {
     </div>`;
   }
   const chat = getAgentChat();
-  const msgs = chat.map(m => `<div class="ac-msg ac-msg-${m.role}">${m.role === 'assistant' ? mdToHtml(m.content) : esc(m.content)}</div>`).join('');
+  const aname = currentAgentName();
+  const msgs = chat.map(m => m.role === 'assistant'
+    ? `<div class="ac-msg-wrap"><div class="ac-msg-name">${esc(aname)}</div><div class="ac-msg ac-msg-assistant">${mdToHtml(m.content)}</div></div>`
+    : `<div class="ac-msg ac-msg-user">${esc(m.content)}</div>`).join('');
   return `<div class="ac-chat">
     <div class="ac-chat-bar">
       <span class="ac-chat-ctx">Il voit : son dernier rapport · son journal · le suivi · ta roadmap</span>
@@ -3215,10 +3221,11 @@ ${roadmap}${acConsignes}`;
 }
 function openAgentRunInfo() {
   const m = document.getElementById('modal'); m.classList.remove('qc-mode', 'modal-wide');
-  m.innerHTML = `<h2>Faire tourner Magnus</h2>
+  const nom = currentAgentName();
+  m.innerHTML = `<h2>Faire tourner ${esc(nom)}</h2>
     <p style="font-size:13.5px;color:var(--slate-600);line-height:1.65">
-      Une « ronde » complète (Magnus relit <strong>tout</strong> ton code et ta roadmap) tourne dans un environnement qui a accès à ton repo :<br><br>
-      • <strong>Aujourd'hui (manuel)</strong> : dis-moi en session « fais tourner Magnus » → il refait son rapport, qui s'affiche ici.<br>
+      Une « ronde » complète (${esc(nom)} relit <strong>tout</strong> ton code et ta roadmap) tourne dans un environnement qui a accès à ton repo :<br><br>
+      • <strong>Aujourd'hui (manuel)</strong> : dis-moi en session « fais tourner ${esc(nom)} » → il refait son rapport, qui s'affiche ici.<br>
       • <strong>Bientôt (auto)</strong> : avec ta clé API, il tournera seul (à chaque push + le lundi).<br><br>
       L'onglet « Échanger » te laisse <strong>discuter</strong> avec lui tout de suite, sans ronde.</p>
     <div class="modal-actions"><button class="btn btn-primary" onclick="closeModal()">Compris</button></div>`;
