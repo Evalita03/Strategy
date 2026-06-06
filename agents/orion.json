@@ -187,6 +187,96 @@
           { "titre": "Résultats municipales 2026 Pyrénées-Atlantiques — France 3", "url": "https://france3-regions.franceinfo.fr/nouvelle-aquitaine/pyrenees-atlantiques/carte-municipales-2026-retrouvez-les-resultats-a-pau-bayonne-biarritz-et-dans-les-autres-communes-des-pyrenees-atlantiques-3318273.html", "date": "2026-03-15" }
         ]
       },
+      "financements": {
+        "synthese": "Pour CPTS Pilot (jeune éditeur de logiciel santé), deux étages de financement : le national via France 2030 / Bpifrance (stratégie Santé numérique), et le régional via la Région Nouvelle-Aquitaine (aides à l'innovation). Plusieurs guichets sont déjà ouverts.",
+        "appels_projets": [
+          {
+            "titre": "France 2030 — Stratégie d'accélération « Santé numérique »",
+            "organisme": "Bpifrance (pour l'État / France 2030)",
+            "perimetre": "national",
+            "montant": "selon projet",
+            "echeance": "vagues successives — à surveiller",
+            "detail": "Soutien aux solutions e-santé innovantes pour faire de la France un leader de la santé numérique. Dépôt en ligne sur la plateforme Bpifrance (picxel).",
+            "lecture": "pour toi : c'est le dispositif le plus aligné avec CPTS Pilot. À garder en radar permanent et préparer un dossier dès qu'une vague s'ouvre.",
+            "source": "https://www.bpifrance.fr/sante",
+            "date": "2026-01-01"
+          },
+          {
+            "titre": "Projets d'innovation — France 2030 Nouvelle-Aquitaine",
+            "organisme": "Région Nouvelle-Aquitaine / Bpifrance",
+            "perimetre": "regional",
+            "montant": "75 000 € à 500 000 € (50 % max des dépenses)",
+            "echeance": "ouvert jusqu'au 30/09/2026",
+            "detail": "Volet régional de France 2030 pour financer les projets d'innovation des entreprises de Nouvelle-Aquitaine.",
+            "lecture": "pour toi : échéance concrète et montant significatif. C'est probablement ta cible #1 à court terme — vérifie l'éligibilité et vise le dépôt avant le 30/09/2026.",
+            "source": "https://www.france2030-en-nouvelle-aquitaine.fr/projets-davenir-innovation/",
+            "date": "2026-01-01"
+          },
+          {
+            "titre": "Grand Défi « Dispositifs médicaux numériques au service du bien vieillir »",
+            "organisme": "France 2030 (ministères / Bpifrance)",
+            "perimetre": "national",
+            "montant": "selon projet",
+            "echeance": "à vérifier",
+            "detail": "Appel à projets pour les dispositifs médicaux numériques dédiés au bien vieillir.",
+            "lecture": "pour toi : pertinent seulement si CPTS Pilot développe un volet « dispositif médical numérique » / parcours personnes âgées. Sinon, à ignorer.",
+            "source": "https://solidarites.gouv.fr/france-2030-ouverture-de-lappel-projets-du-grand-defi-dispositifs-medicaux-numeriques-au-service-du-bien-vieillir",
+            "date": "2026-01-01"
+          }
+        ],
+        "subventions": [
+          {
+            "titre": "Aide à l'innovation pour les start-up de Nouvelle-Aquitaine",
+            "organisme": "Région Nouvelle-Aquitaine",
+            "perimetre": "regional",
+            "montant": "subvention (taux selon dépenses)",
+            "echeance": "guichet ouvert",
+            "detail": "Soutien R&D aux jeunes entreprises innovantes de la région. Critères : start-up innovante immatriculée depuis moins de 5 ans, avec au minimum 100 000 € de fonds propres.",
+            "lecture": "pour toi : vérifie d'abord ton éligibilité (ancienneté < 5 ans, fonds propres ≥ 100 000 €). Si tu coches, c'est une aide régionale accessible.",
+            "source": "https://les-aides.nouvelle-aquitaine.fr/economie-et-emploi/innovation-start",
+            "date": "2026-01-01"
+          },
+          {
+            "titre": "Aide à l'innovation numérique responsable — Nouvelle-Aquitaine",
+            "organisme": "Région Nouvelle-Aquitaine",
+            "perimetre": "regional",
+            "montant": "jusqu'à 50 % (60 % pour logiciels libres / communs numériques)",
+            "echeance": "guichet ouvert",
+            "detail": "Soutient les innovations numériques au service des transitions (impact environnemental, social, sociétal, territorial) ou réduisant leur propre empreinte.",
+            "lecture": "pour toi : angle « numérique responsable / impact territorial » — CPTS Pilot peut sans doute le défendre (accès aux soins, coordination de territoire). Taux bonifié si open source.",
+            "source": "https://les-aides.nouvelle-aquitaine.fr/economie-et-emploi/innovation-numerique-responsable",
+            "date": "2026-01-01"
+          },
+          {
+            "titre": "Statut Jeune Entreprise Innovante (JEI)",
+            "organisme": "État (national)",
+            "perimetre": "national",
+            "montant": "exonérations sociales / fiscales",
+            "echeance": "permanent (sous conditions de R&D)",
+            "detail": "Statut ouvrant des allègements pour les jeunes entreprises engageant des dépenses de R&D.",
+            "lecture": "pour toi : gros levier de trésorerie si tu fais de la R&D. À vérifier avec un expert-comptable — modalités et seuils à confirmer.",
+            "source": "https://www.bpifrance.fr/sante",
+            "date": "2026-01-01"
+          },
+          {
+            "titre": "Crédit d'Impôt Innovation (CII)",
+            "organisme": "État (national)",
+            "perimetre": "national",
+            "montant": "crédit d'impôt sur dépenses d'innovation",
+            "echeance": "permanent (déclaratif)",
+            "detail": "Pour les PME : crédit d'impôt sur les dépenses de conception de prototypes / installations pilotes de produits nouveaux.",
+            "lecture": "pour toi : complémentaire au statut JEI. À confirmer avec un expert-comptable (éligibilité des dépenses logicielles).",
+            "source": "https://www.bpifrance.fr/sante",
+            "date": "2026-01-01"
+          }
+        ],
+        "sources": [
+          { "titre": "Bpifrance — Santé (France 2030)", "url": "https://www.bpifrance.fr/sante", "date": "2026-01-01" },
+          { "titre": "Projets d'innovation — France 2030 Nouvelle-Aquitaine", "url": "https://www.france2030-en-nouvelle-aquitaine.fr/projets-davenir-innovation/", "date": "2026-01-01" },
+          { "titre": "Guide des aides — Région Nouvelle-Aquitaine (innovation start-up)", "url": "https://les-aides.nouvelle-aquitaine.fr/economie-et-emploi/innovation-start", "date": "2026-01-01" },
+          { "titre": "Aide à l'innovation numérique responsable — Nouvelle-Aquitaine", "url": "https://les-aides.nouvelle-aquitaine.fr/economie-et-emploi/innovation-numerique-responsable", "date": "2026-01-01" }
+        ]
+      },
       "note": "Première veille de mise en route, faite à la main pour remplir ton observatoire dès le départ. Périmètre national pour cette première (ton territoire — département 64, Pyrénées-Atlantiques, ARS Nouvelle-Aquitaine — sera couvert dès la prochaine ronde). À partir de maintenant, Orion refait ce travail tout seul chaque lundi, et tu peux le déclencher à la demande avec ▶ Faire tourner. Plusieurs dates sont approximatives (marquées au mieux) : Orion les affinera et les vérifiera à la source à ses prochaines rondes."
     }
   ]

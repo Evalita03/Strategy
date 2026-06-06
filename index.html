@@ -344,6 +344,19 @@ body {
 .obs-local-hero { background: linear-gradient(135deg, #0F766E, #115E59); color: var(--white); border-radius: 14px; padding: 18px 20px; margin-bottom: 6px; }
 .obs-local-eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #99F6E4; margin-bottom: 10px; }
 .obs-local-hero .obs-synthese { color: #F0FDFA; }
+/* Onglet « 🎯 Financements » */
+.obs-fin-hero { background: linear-gradient(135deg, #B45309, #92400E); color: var(--white); border-radius: 14px; padding: 18px 20px; margin-bottom: 6px; }
+.obs-fin-eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #FDE68A; margin-bottom: 10px; }
+.obs-fin-hero .obs-synthese { color: #FFFBEB; }
+.obs-nav-chip.is-active { background: var(--blue-700); border-color: var(--blue-700); color: var(--white); }
+.obs-fin-desc { font-size: 12px; color: var(--slate-500); margin: -4px 0 10px; }
+.obs-card-fin { border-left-color: #D97706; }
+.obs-fin-org { font-size: 12px; font-weight: 600; color: var(--slate-500); margin-bottom: 8px; }
+.obs-fin-meta { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 8px; }
+.obs-fin-montant { background: #DCFCE7; color: #15803D; }
+.obs-fin-echeance { background: #FEF3C7; color: #B45309; }
+.obs-perim-nat { background: var(--blue-50); color: var(--blue-700); }
+.obs-perim-loc { background: #CCFBF1; color: #0F766E; }
 /* Mot du Chef Produit sur la page d'accueil */
 .today-cap { margin: 0 0 22px; padding: 18px 20px; background: var(--blue-50); border: 1px solid var(--blue-100); border-left: 3px solid var(--blue-500); border-radius: 12px; }
 .today-cap-hidden { display: none; }
@@ -3466,6 +3479,51 @@ function renderObsLocal(r) {
   sub.sources = loc.sources;
   return `<div class="observatoire">${intro}</div>${renderObservatoire(sub, { historique: true, idSuffix: '-loc' })}`;
 }
+// Onglet « 🎯 Financements » : appels à projets vs subventions, pour CPTS Pilot (national + 64)
+let obsFinFilter = 'tout';
+function setObsFinFilter(v) { obsFinFilter = v; render(); }
+function finIsReg(x) { const p = ((x && x.perimetre) || '').toLowerCase(); return p.startsWith('reg') || p.includes('64') || p.includes('aquitaine') || p.includes('local'); }
+function finPasses(x) { if (obsFinFilter === 'tout') return true; return obsFinFilter === 'regional' ? finIsReg(x) : !finIsReg(x); }
+function finPerimBadge(x) { return finIsReg(x) ? `<span class="obs-badge obs-perim-loc">📍 Mon 64</span>` : `<span class="obs-badge obs-perim-nat">France</span>`; }
+function finCard(x) {
+  return `<div class="obs-card obs-card-fin">
+    <div class="obs-card-top"><div class="obs-card-titre">${esc(x.titre || '')}</div>${finPerimBadge(x)}</div>
+    ${x.organisme ? `<div class="obs-fin-org">${esc(x.organisme)}</div>` : ''}
+    ${(x.montant || x.echeance) ? `<div class="obs-fin-meta">${x.montant ? `<span class="obs-badge obs-fin-montant">💶 ${esc(x.montant)}</span>` : ''}${x.echeance ? `<span class="obs-badge obs-fin-echeance">⏳ ${esc(x.echeance)}</span>` : ''}</div>` : ''}
+    ${x.detail ? `<div class="obs-card-detail">${esc(x.detail)}</div>` : ''}
+    ${x.lecture ? `<div class="obs-lecture">${esc(x.lecture)}</div>` : ''}
+    <div class="obs-card-foot">${obsSrc(x.source, 'voir le dispositif')}${x.date ? `<span class="obs-date">${esc(x.date)}</span>` : ''}</div>
+  </div>`;
+}
+function renderObsFinancements(r) {
+  const fin = (r && r.financements && typeof r.financements === 'object') ? r.financements : null;
+  const allAap = fin && Array.isArray(fin.appels_projets) ? fin.appels_projets : [];
+  const allSub = fin && Array.isArray(fin.subventions) ? fin.subventions : [];
+  const intro = `<div class="obs-fin-hero">
+    <div class="obs-fin-eyebrow">🎯 Financements · pour CPTS Pilot · national + 64</div>
+    <div class="obs-synthese">${esc(fin && fin.synthese ? fin.synthese : "Les appels à projets auxquels tu peux répondre et les subventions sur lesquelles candidater, pour ton entreprise. Les appels à projets sont compétitifs et datés ; les subventions sont des dispositifs ouverts en continu.")}</div>
+  </div>`;
+  if (!allAap.length && !allSub.length) {
+    return `<div class="observatoire">${intro}
+      <div class="agent-report-empty" style="margin-top:14px">Pas encore de financements repérés. Orion remplira cette table à sa prochaine ronde du lundi — ou si tu cliques <strong>▶ Faire tourner</strong>.</div>
+    </div>`;
+  }
+  const chips = `<div class="obs-nav">${[['tout', 'Tout'], ['national', 'France'], ['regional', '📍 Mon 64']].map(([v, l]) => `<button class="obs-nav-chip ${obsFinFilter === v ? 'is-active' : ''}" onclick="setObsFinFilter('${v}')">${esc(l)}</button>`).join('')}</div>`;
+  const aap = allAap.filter(finPasses), sub = allSub.filter(finPasses);
+  const grp = (icon, titre, desc, list) => list.length ? `<section class="obs-section">
+      <div class="obs-sec-head"><span class="obs-sec-icon">${icon}</span><h3>${esc(titre)}</h3><span class="obs-sec-count">${list.length}</span></div>
+      <div class="obs-fin-desc">${esc(desc)}</div>
+      <div class="obs-sec-body">${list.map(finCard).join('')}</div>
+    </section>` : '';
+  const body = (aap.length || sub.length)
+    ? grp('📣', 'Appels à projets', "Compétitifs, avec une date limite : il faut candidater et être sélectionné.", aap)
+      + grp('💶', 'Subventions', "Dispositifs d'aide ouverts : tu déposes un dossier dès que tu remplis les critères.", sub)
+    : `<div class="agent-report-empty" style="margin-top:14px">Rien sur ce périmètre pour l'instant — reviens sur « Tout ».</div>`;
+  const srcBlock = (fin.sources && fin.sources.length)
+    ? obsSection('obs-fin-src', '📚', 'Sources', fin.sources.length, `<ul class="obs-sources">${fin.sources.map(x => `<li>${obsSrc(x.url, x.titre || x.url)}${x.date ? ` <span class="obs-date">${esc(x.date)}</span>` : ''}</li>`).join('')}</ul>`)
+    : '';
+  return `<div class="observatoire">${intro}${chips}${body}${srcBlock}</div>`;
+}
 
 // ============ CONSOLE D'AGENT (Espace Magnus) ============
 let currentAgentSlug = null;
@@ -3492,7 +3550,7 @@ function mdToHtml(t) {
   if (inList) out.push('</ul>');
   return out.join('\n').replace(/\n(?!<\/?(?:ul|li))/g, '<br>').replace(/\n/g, '');
 }
-const agentTabLabel = { today: "Aujourd'hui", local: '📍 Mon 64', suivi: 'Suivi', journal: 'Journal', chat: 'Échanger', fiche: 'Fiche' };
+const agentTabLabel = { today: "Aujourd'hui", financements: '🎯 Financements', local: '📍 Mon 64', suivi: 'Suivi', journal: 'Journal', chat: 'Échanger', fiche: 'Fiche' };
 
 function openAgentConsole(slug) {
   currentAgentSlug = slug; agentTab = 'today'; agentConsoleData = null;
@@ -3522,7 +3580,7 @@ function renderAgentConsole(content, actions) {
         <div class="ac-fresh" id="ac-fresh"></div>
       </div>
       <div class="agent-tabs">
-        ${(currentAgentSlug === 'orion' ? ['today', 'local', 'suivi', 'journal', 'chat', 'fiche'] : ['today', 'suivi', 'journal', 'chat', 'fiche']).map(t => `<button class="agent-tab ${agentTab === t ? 'is-active' : ''}" onclick="setAgentTab('${t}')">${agentTabLabel[t]}</button>`).join('')}
+        ${(currentAgentSlug === 'orion' ? ['today', 'financements', 'local', 'suivi', 'journal', 'chat', 'fiche'] : ['today', 'suivi', 'journal', 'chat', 'fiche']).map(t => `<button class="agent-tab ${agentTab === t ? 'is-active' : ''}" onclick="setAgentTab('${t}')">${agentTabLabel[t]}</button>`).join('')}
       </div>
       <div class="agent-tab-body" id="agent-tab-body"><div class="agent-report-loading">Chargement…</div></div>
     </div>`;
@@ -3569,6 +3627,7 @@ function renderAgentTabBody() {
     else box.innerHTML = latest && (latest.etat || latest.prochain_chantier) ? `<div class="agent-report" style="border:none;padding:0">${renderAgentReport(latest)}</div>` : agentEmpty(a);
   }
   else if (agentTab === 'suivi') box.innerHTML = renderAgentTabSuivi();
+  else if (agentTab === 'financements') box.innerHTML = renderObsFinancements(latest);
   else if (agentTab === 'local') box.innerHTML = renderObsLocal(latest);
   else if (agentTab === 'journal') box.innerHTML = (currentAgentSlug === 'orion') ? renderObsJournal(reps) : renderAgentTabJournal(reps);
   else if (agentTab === 'fiche') box.innerHTML = renderAgentTabFiche(f);

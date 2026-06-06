@@ -77,6 +77,12 @@ Tu écris **uniquement** le fichier `agents/orion.json`. Tu **ajoutes** un nouve
       "sources": [
         { "titre": "…", "url": "…", "date": "AAAA-MM-JJ" }
       ],
+      "financements": {
+        "synthese": "2-3 phrases sur les financements ouverts pour CPTS Pilot (l'entreprise).",
+        "appels_projets": [ { "titre": "…", "organisme": "…", "perimetre": "national|regional", "montant": "…", "echeance": "date limite", "detail": "…", "lecture": "pour toi : …", "source": "url", "date": "AAAA-MM-JJ" } ],
+        "subventions": [ { "titre": "…", "organisme": "…", "perimetre": "national|regional", "montant": "…", "echeance": "guichet ouvert / …", "detail": "…", "lecture": "pour toi : …", "source": "url", "date": "AAAA-MM-JJ" } ],
+        "sources": [ { "titre": "…", "url": "…", "date": "AAAA-MM-JJ" } ]
+      },
       "local": {
         "synthese": "2-3 phrases sur ce qui bouge spécifiquement dans le 64 / Nouvelle-Aquitaine.",
         "reglementaire": [],
@@ -92,6 +98,8 @@ Tu écris **uniquement** le fichier `agents/orion.json`. Tu **ajoutes** un nouve
   ]
 }
 ```
+
+**Financements (`financements`)** : surveille spécifiquement les **appels à projets** (compétitifs, datés) et **subventions** (dispositifs ouverts) auxquels **CPTS Pilot, l'entreprise d'Eva** (jeune éditeur de logiciel santé), peut candidater — **national + Nouvelle-Aquitaine/64**. Sources : Bpifrance / France 2030 (stratégie Santé numérique), G_NIUS, ANS, France 2030 Nouvelle-Aquitaine, Guide des aides de la Région Nouvelle-Aquitaine (`les-aides.nouvelle-aquitaine.fr`), dispositifs nationaux (JEI, CII…). **Distingue bien appel à projets vs subvention**, et marque le `perimetre` (`national` ou `regional`). C'est pour financer **l'entreprise**, pas les CPTS clientes.
 
 **Sépare bien le national du local.** Tout ce qui concerne spécifiquement le territoire d'Eva (le 64 / Nouvelle-Aquitaine — appels à projets ARS Nouvelle-Aquitaine, CPTS du 64, concurrents et signaux locaux) va dans le bloc **`local`** (jamais dans les sections nationales). Le bloc `local` reprend la même structure qu'un rapport. Affiché à part dans l'onglet « 📍 Mon 64 » du cockpit.
 
