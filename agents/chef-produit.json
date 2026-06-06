@@ -80,6 +80,28 @@
         "Site vitrine public CPTS Pilot"
       ],
       "note": "Tu n'as plus rien à construire pour signer un premier client — tout est dans le code, vitrine comprise. Le seul geste qui reste est technique, pas produit : poser la plateforme en ligne. Tu as déjà lancé Scalingo aujourd'hui et tu as eu raison de lâcher Railway. Prochaine action unique : stabilise l'auto-deploy, vérifie que la vitrine répond sur son URL, et branche cptspilot.fr. Le jour où ce lien existe, tu passes de 'je te montre' à 'va voir' — et là on rouvre le multi-CPTS."
+    },
+    {
+      "updated_at": "2026-06-06",
+      "trigger": "ronde auto",
+      "etat": "Cinq jours sans un commit : le dernier date du 01/06 à 19h35 (chore auto-deploy Scalingo), rien depuis. Côté produit, rien ne manque — le build reste complet : vitrine assemblée (home.html + _role_switch), 'vues par rôle' mergées (c0952af), 'validation des déclarations : refus, relances, archives' livrée (validations.py + archives.py). Le seul sujet ouvert reste le go-live Scalingo, et le repo ne permet pas de confirmer qu'il est en ligne : aucun fichier de conf Scalingo (juste Procfile gunicorn + runtime 3.11.7), déploiement par webhook GitHub. Donc soit la mise en ligne a abouti et il n'y a plus rien à committer, soit elle a calé — à trancher. Le cockpit n'a pas été ré-exporté (backup figé au 31/05, data.tasks vide, pas de champ precos) et sa roadmap garde 3 items en 'doing' déjà finis dans le code.",
+      "prochain_chantier": {
+        "titre": "Confirmer le go-live Scalingo et clôturer le sujet",
+        "pourquoi": "C'est le dernier verrou avant la première vente, et il est en suspens depuis 5 jours. Tant que tu ne m'as pas confirmé que la vitrine répond sur son URL avec le domaine branché, je ne peux pas dire que la porte commerciale est ouverte. Le build est fini : il ne reste que ce geste technique. Deux issues — soit c'est live (alors on coche les 3 'doing' en done et le sujet est clos), soit l'auto-deploy a calé (alors on débogue ensemble variables d'env + base prod). Dans les deux cas, on ferme la boucle plutôt que de la laisser ouverte."
+      },
+      "a_anticiper": [
+        "5 jours de silence sur un sujet purement technique peut cacher un blocage : si l'auto-deploy a calé, dis-le-moi, on regarde ensemble (variables d'env prod, base de données, webhook) — pas la peine de rester seule dessus.",
+        "Roadmap cockpit désynchronisée : 3 items toujours en 'doing' (vues par rôle, validation refus/relances/archives, vitrine publique) sont déjà livrés sur main — à passer en 'done' pour ne pas piloter sur une carte fausse.",
+        "Une fois le live confirmé : domaine cptspilot.fr + HTTPS, sauvegardes DB prod et variables d'env à boucler avec l'Audit Risk et le DPO. L'hébergement France est un argument RGPD à mettre en avant sur la vitrine.",
+        "SESSION_STATUS.md toujours figé au 16/02 (CLAUDE.md, lui, est à jour au 01/06) — à rafraîchir avant le prochain gros chantier.",
+        "Multi-CPTS (planned juillet) : archi prête mais non activée — à cadrer quand une 2e CPTS se profile, pas avant. Une CPTS = une instance suffit pour le premier client."
+      ],
+      "faits": [
+        "Vues par rôle (coordination / trésorier / secrétaire / membre)",
+        "Validation des déclarations : refus, relances et archives",
+        "Site vitrine public CPTS Pilot"
+      ],
+      "note": "Rien de neuf dans le code depuis 5 jours, et c'est OK : il n'y a plus rien à construire pour signer un premier client. Le seul fil qui pend est la mise en ligne Scalingo, lancée le 01/06 et jamais reconfirmée depuis. Prochaine action unique : ouvre l'URL de ta vitrine et dis-moi si elle répond — si oui, on clôture le go-live et on synchronise la roadmap ; si non, on débogue ensemble. Le jour où ce lien tient, tu passes de 'je te montre' à 'va voir', et on rouvre le multi-CPTS."
     }
   ]
 }
