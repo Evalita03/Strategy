@@ -1379,6 +1379,7 @@ function save() {
   betaReconcile();
   try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
   catch(e) { alert('Erreur de sauvegarde'); }
+  scheduleAutoBackup();
 }
 // Une tâche liée passée à « Terminé » → la préconisation correspondante passe « Faite »
 function reconcilePrecos() {
@@ -5266,9 +5267,19 @@ function importData(e) {
 
 // ============ BACKUP GITHUB ============
 const GH_CONFIG_KEY = 'cpts_github_config';
-const BACKUP_INTERVAL_MS = 6 * 3600 * 1000;  // 6h
+const BACKUP_INTERVAL_MS = 10 * 60 * 1000;  // 10 min (filet de sécurité)
 const BACKUP_PATH = 'backups/cockpit-latest.json';
 let backupInterval = null;
+let backupDebounce = null;
+let backupPending = false;
+// Sauvegarde auto ~45s après la dernière modif (débounce) — fiable même si la page est rechargée souvent
+function scheduleAutoBackup() {
+  const cfg = getGhConfig();
+  if (!cfg || !cfg.token) return;
+  backupPending = true;
+  if (backupDebounce) clearTimeout(backupDebounce);
+  backupDebounce = setTimeout(() => { backupPending = false; backupDebounce = null; backupToGithub(true); }, 45000);
+}
 
 function getGhConfig() {
   try { return JSON.parse(localStorage.getItem(GH_CONFIG_KEY) || '{}'); }
@@ -5852,6 +5863,14 @@ load();
 render();
 updateBackupStatus();
 startAutoBackup();
+// Sauvegarde immédiate quand tu quittes / recharges la page, s'il y a des modifs en attente
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden' && backupPending) {
+    backupPending = false;
+    if (backupDebounce) { clearTimeout(backupDebounce); backupDebounce = null; }
+    backupToGithub(true);
+  }
+});
 
 // Charge architecture.json en arrière-plan pour alimenter le pouls projet
 // même si l'utilisateur n'a pas encore visité la vue Architecture.
