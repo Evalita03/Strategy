@@ -326,6 +326,24 @@ body {
 .obs-signal-txt { font-size: 13.5px; font-weight: 600; color: var(--slate-800); margin-bottom: 6px; }
 .obs-sources { margin: 0; padding-left: 18px; }
 .obs-sources li { font-size: 12.5px; line-height: 1.7; color: var(--slate-600); }
+/* Journal d'Orion (historique dépliable) */
+.obs-journal { display: flex; flex-direction: column; gap: 10px; }
+.obs-journal-intro { font-size: 12.5px; color: var(--slate-500); margin-bottom: 2px; }
+.obs-jcard { border: 1px solid var(--slate-200); border-radius: 12px; background: var(--white); overflow: hidden; }
+.obs-jcard.is-open { border-color: var(--blue-100); box-shadow: 0 2px 10px rgba(15,23,42,0.05); }
+.obs-jhead { width: 100%; display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; background: none; border: none; text-align: left; padding: 14px 16px; cursor: pointer; font-family: inherit; }
+.obs-jhead:hover { background: var(--slate-50); }
+.obs-jhead-main { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.obs-jdate { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--blue-700); }
+.obs-jsynth { font-size: 13px; color: var(--slate-700); line-height: 1.5; }
+.obs-jmeta { font-size: 11px; color: var(--slate-400); }
+.obs-jtoggle { font-size: 12px; font-weight: 700; color: var(--blue-700); white-space: nowrap; flex-shrink: 0; }
+.obs-jbody { padding: 4px 16px 16px; border-top: 1px solid var(--slate-100); }
+.obs-jbody .obs-section:first-child { margin-top: 10px; }
+/* Onglet « Mon 64 » (veille territoriale) */
+.obs-local-hero { background: linear-gradient(135deg, #0F766E, #115E59); color: var(--white); border-radius: 14px; padding: 18px 20px; margin-bottom: 6px; }
+.obs-local-eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #99F6E4; margin-bottom: 10px; }
+.obs-local-hero .obs-synthese { color: #F0FDFA; }
 /* Mot du Chef Produit sur la page d'accueil */
 .today-cap { margin: 0 0 22px; padding: 18px 20px; background: var(--blue-50); border: 1px solid var(--blue-100); border-left: 3px solid var(--blue-500); border-radius: 12px; }
 .today-cap-hidden { display: none; }
@@ -3361,7 +3379,7 @@ function renderObservatoire(r, opts) {
       <div class="obs-card-titre">♟️ ${esc(x.titre || '')}</div>
       ${x.pourquoi ? `<div class="obs-card-detail"><strong>Pourquoi.</strong> ${esc(x.pourquoi)}</div>` : ''}
       ${x.action ? `<div class="obs-lecture"><strong>À faire.</strong> ${esc(x.action)}</div>` : ''}
-      <div class="report-btn-row"><button class="cap-task-btn cap-task-btn-alt" onclick="createJalonFromCoup(event, ${i})">+ Ajouter à la roadmap</button></div>
+      ${hist ? '' : `<div class="report-btn-row"><button class="cap-task-btn cap-task-btn-alt" onclick="createJalonFromCoup(event, ${i})">+ Ajouter à la roadmap</button></div>`}
     </div>`).join('');
     sections.push(obsSection(sid('obs-coups'), '♟️', "Coups d'avance", r.coups_avance.length, cards));
   }
@@ -3374,11 +3392,11 @@ function renderObservatoire(r, opts) {
   const navHtml = nav.length ? `<div class="obs-nav">${nav.map(([id, lbl]) => `<button class="obs-nav-chip" onclick="document.getElementById('${id}').scrollIntoView({behavior:'smooth',block:'start'})">${esc(lbl)}</button>`).join('')}</div>` : '';
 
   return `<div class="observatoire">
-    <div class="obs-hero">
+    ${hist ? '' : `<div class="obs-hero">
       <div class="obs-hero-eyebrow">🛰️ Observatoire · veille du ${esc(r.updated_at || '')} · ${esc(fr.label)}${fr.stale ? ' <span class="ac-stale">⚠ à rafraîchir</span>' : ''}</div>
       ${r.synthese ? `<div class="obs-synthese">${esc(r.synthese)}</div>` : ''}
-    </div>
-    ${navHtml}
+    </div>`}
+    ${hist ? '' : navHtml}
     ${sections.join('')}
     ${r.note ? `<div class="agent-report-note">${esc(r.note)}</div>` : ''}
   </div>`;
@@ -3397,6 +3415,56 @@ function createJalonFromCoup(ev, idx) {
   if (pr && pr.p) { pr.p.enRoadmap = true; pr.p.jalonId = jid; if (pr.p.etat === 'ecartee') pr.p.etat = 'active'; }
   save();
   if (btn) { btn.textContent = '✓ Ajouté à la roadmap'; btn.disabled = true; btn.classList.add('cap-task-btn-done'); }
+}
+// Journal d'Orion : historique consultable, chaque rapport se déplie en entier (sections + sources)
+let obsJournalOpen = {};
+function toggleObsJournal(key) { obsJournalOpen[key] = !obsJournalOpen[key]; render(); }
+function obsCountItems(r) {
+  return ['reglementaire','concurrence','opportunites','signaux','predictions','coups_avance']
+    .reduce((n, k) => n + (Array.isArray(r[k]) ? r[k].length : 0), 0);
+}
+function renderObsJournal(reps) {
+  const real = reps.filter(r => r && (r.synthese || (Array.isArray(r.reglementaire) && r.reglementaire.length)));
+  if (!real.length) return `<div class="agent-report-empty">Aucun rapport de veille pour le moment. Chaque ronde d'Orion viendra s'archiver ici.</div>`;
+  const ordered = real.slice().reverse();
+  return `<div class="obs-journal">
+    <div class="obs-journal-intro">Tout l'historique des veilles d'Orion. Clique un rapport pour le rouvrir en entier — avec ses sources d'époque.</div>
+    ${ordered.map((r, i) => {
+      const key = (r.updated_at || '') + '|' + i;
+      const open = !!obsJournalOpen[key];
+      const nbSrc = Array.isArray(r.sources) ? r.sources.length : 0;
+      return `<div class="obs-jcard ${open ? 'is-open' : ''}">
+        <button class="obs-jhead" onclick="toggleObsJournal('${jss(key)}')">
+          <span class="obs-jhead-main">
+            <span class="obs-jdate">${esc(r.updated_at || '')}${r.trigger ? ' · ' + esc(r.trigger) : ''}</span>
+            ${r.synthese ? `<span class="obs-jsynth">${esc(r.synthese)}</span>` : ''}
+            <span class="obs-jmeta">${obsCountItems(r)} info(s)${nbSrc ? ' · ' + nbSrc + ' source(s)' : ''}</span>
+          </span>
+          <span class="obs-jtoggle">${open ? '▴ Replier' : '▾ Voir tout'}</span>
+        </button>
+        ${open ? `<div class="obs-jbody">${renderObservatoire(r, { historique: true, idSuffix: '-h' + i })}</div>` : ''}
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+// Onglet « Mon 64 » : tout ce qui concerne le territoire d'Eva, à part du national
+function renderObsLocal(r) {
+  const loc = (r && r.local && typeof r.local === 'object') ? r.local : null;
+  const keys = ['reglementaire', 'concurrence', 'opportunites', 'signaux', 'predictions', 'coups_avance'];
+  const has = loc && keys.some(k => Array.isArray(loc[k]) && loc[k].length);
+  const intro = `<div class="obs-local-hero">
+    <div class="obs-local-eyebrow">📍 Mon territoire · Pyrénées-Atlantiques (64) · ARS Nouvelle-Aquitaine</div>
+    <div class="obs-synthese">${esc(loc && loc.synthese ? loc.synthese : "Ici, Orion isole tout ce qui touche directement ton terrain : appels à projets de l'ARS Nouvelle-Aquitaine, CPTS et concurrents du 64, signaux locaux. Le reste (national) vit dans l'onglet « Aujourd'hui ».")}</div>
+  </div>`;
+  if (!has) {
+    return `<div class="observatoire">${intro}
+      <div class="agent-report-empty" style="margin-top:14px">Pas encore de veille locale archivée${loc ? '' : ' (la première veille était nationale)'}. Dès sa prochaine ronde du lundi — ou si tu cliques <strong>▶ Faire tourner</strong> — Orion remplira ton espace 64.</div>
+    </div>`;
+  }
+  const sub = { updated_at: r.updated_at };
+  keys.forEach(k => sub[k] = loc[k]);
+  sub.sources = loc.sources;
+  return `<div class="observatoire">${intro}</div>${renderObservatoire(sub, { historique: true, idSuffix: '-loc' })}`;
 }
 
 // ============ CONSOLE D'AGENT (Espace Magnus) ============
@@ -3424,7 +3492,7 @@ function mdToHtml(t) {
   if (inList) out.push('</ul>');
   return out.join('\n').replace(/\n(?!<\/?(?:ul|li))/g, '<br>').replace(/\n/g, '');
 }
-const agentTabLabel = { today: "Aujourd'hui", suivi: 'Suivi', journal: 'Journal', chat: 'Échanger', fiche: 'Fiche' };
+const agentTabLabel = { today: "Aujourd'hui", local: '📍 Mon 64', suivi: 'Suivi', journal: 'Journal', chat: 'Échanger', fiche: 'Fiche' };
 
 function openAgentConsole(slug) {
   currentAgentSlug = slug; agentTab = 'today'; agentConsoleData = null;
@@ -3454,7 +3522,7 @@ function renderAgentConsole(content, actions) {
         <div class="ac-fresh" id="ac-fresh"></div>
       </div>
       <div class="agent-tabs">
-        ${['today', 'suivi', 'journal', 'chat', 'fiche'].map(t => `<button class="agent-tab ${agentTab === t ? 'is-active' : ''}" onclick="setAgentTab('${t}')">${agentTabLabel[t]}</button>`).join('')}
+        ${(currentAgentSlug === 'orion' ? ['today', 'local', 'suivi', 'journal', 'chat', 'fiche'] : ['today', 'suivi', 'journal', 'chat', 'fiche']).map(t => `<button class="agent-tab ${agentTab === t ? 'is-active' : ''}" onclick="setAgentTab('${t}')">${agentTabLabel[t]}</button>`).join('')}
       </div>
       <div class="agent-tab-body" id="agent-tab-body"><div class="agent-report-loading">Chargement…</div></div>
     </div>`;
@@ -3501,7 +3569,8 @@ function renderAgentTabBody() {
     else box.innerHTML = latest && (latest.etat || latest.prochain_chantier) ? `<div class="agent-report" style="border:none;padding:0">${renderAgentReport(latest)}</div>` : agentEmpty(a);
   }
   else if (agentTab === 'suivi') box.innerHTML = renderAgentTabSuivi();
-  else if (agentTab === 'journal') box.innerHTML = renderAgentTabJournal(reps);
+  else if (agentTab === 'local') box.innerHTML = renderObsLocal(latest);
+  else if (agentTab === 'journal') box.innerHTML = (currentAgentSlug === 'orion') ? renderObsJournal(reps) : renderAgentTabJournal(reps);
   else if (agentTab === 'fiche') box.innerHTML = renderAgentTabFiche(f);
   else if (agentTab === 'chat') { box.innerHTML = renderAgentTabChat(); scrollChatBottom(); }
 }

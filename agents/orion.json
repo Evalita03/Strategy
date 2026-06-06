@@ -139,7 +139,55 @@
         { "titre": "Appel à projets innovations numériques — ARS Île-de-France", "url": "https://www.iledefrance.ars.sante.fr/mise-en-place-de-projets-dinnovations-organisationnelles-sappuyant-sur-une-solution-technologique-0", "date": "2026-06-02" },
         { "titre": "Appels à projets — Agence du Numérique en Santé", "url": "https://esante.gouv.fr/lagence/appels-a-projets", "date": "2026-01-01" }
       ],
-      "note": "Première veille de mise en route, faite à la main pour remplir ton observatoire dès le départ. Périmètre national (ton territoire local reste à préciser). À partir de maintenant, Orion refait ce travail tout seul chaque lundi, et tu peux le déclencher à la demande avec ▶ Faire tourner. Plusieurs dates sont approximatives (marquées au mieux) : Orion les affinera et les vérifiera à la source à ses prochaines rondes."
+      "local": {
+        "synthese": "Sur ton terrain (64 / Nouvelle-Aquitaine), l'ARS finance activement la structuration des CPTS (recrutement et formation de coordinateurs via le programme PACTE SOIN PRIMAIRE). Un accompagnement à la formation des infirmiers en pratique avancée (IPA) en CPTS clôt le 12/06/2026. Et les municipales de mars 2026 ont renouvelé plusieurs interlocuteurs locaux (Pau, Bayonne, Biarritz).",
+        "opportunites": [
+          {
+            "titre": "Accompagnement à la formation des IPA en CPTS — Nouvelle-Aquitaine 2026",
+            "detail": "Dispositif ARS Nouvelle-Aquitaine d'accompagnement à la formation des infirmiers en pratique avancée au sein des CPTS de la région.",
+            "echeance": "dépôt avant le 12/06/2026",
+            "lecture": "pour toi : les CPTS du 64 qui montent un volet IPA sont en mouvement — un bon angle de conversation et un signe de CPTS dynamiques (donc clientes potentielles motivées).",
+            "source": "https://demarche.numerique.gouv.fr/commencer/accompagnement-a-la-formation-des-infirmiers-eres-en-pratique-avancee-en-cpts-en-nouvelle-aquitaine-2026"
+          },
+          {
+            "titre": "PACTE SOIN PRIMAIRE — soutien aux CPTS en formation (ARS NA)",
+            "detail": "L'ARS Nouvelle-Aquitaine soutient les CPTS en cours de constitution pour recruter un coordinateur et financer sa formation.",
+            "echeance": "dispositif courant — à resurveiller",
+            "lecture": "pour toi : les CPTS qui recrutent un coordinateur sont exactement ta cible (le coordinateur est ton utilisateur). Repère-les : ce sont des prospects au bon moment.",
+            "source": "https://www.nouvelle-aquitaine.ars.sante.fr/communautes-professionnelles-territoriales-de-sante-cpts"
+          },
+          {
+            "titre": "Tous les appels à projets en cours — ARS Nouvelle-Aquitaine",
+            "detail": "Page officielle listant les appels à projets / candidatures / manifestations d'intérêt en cours dans la région.",
+            "echeance": "à consulter à chaque ronde",
+            "lecture": "pour toi : c'est LE radar à garder ouvert pour ton territoire. Orion la balaiera à chaque ronde.",
+            "source": "https://www.nouvelle-aquitaine.ars.sante.fr/liste-appels-projet-candidature"
+          }
+        ],
+        "concurrence": [
+          {
+            "acteur": "Les CPTS déjà installées dans le 64 (Pau, Bayonne, Pays Basque, Béarn)",
+            "fait": "Des annuaires publics recensent les CPTS du département des Pyrénées-Atlantiques (Santé.fr, maisons-et-poles-de-sante.com).",
+            "lecture": "pour toi : ce ne sont pas des concurrents mais ta carte de prospects locaux. À cartographier (laquelle est équipée, par qui) pour démarcher au plus près.",
+            "source": "https://www.sante.fr/categories/communaute-professionnelle-territoriale-de-sante-cpts/64-pyrenees-atlantiques",
+            "date": "2026-01-01"
+          }
+        ],
+        "signaux": [
+          {
+            "signal": "Municipales de mars 2026 : François Bayrou battu à Pau, Serge Blanco élu à Biarritz, Jean-René Etchegaray reconduit à Bayonne.",
+            "lecture": "ce que ça annonce : des interlocuteurs locaux en partie renouvelés (élus, politiques santé municipales) → relations à (re)tisser ; opportunité de te positionner tôt auprès des nouvelles équipes."
+          }
+        ],
+        "sources": [
+          { "titre": "Appels à projets en cours — ARS Nouvelle-Aquitaine", "url": "https://www.nouvelle-aquitaine.ars.sante.fr/liste-appels-projet-candidature", "date": "2026-01-01" },
+          { "titre": "Accompagnement formation IPA en CPTS — Nouvelle-Aquitaine 2026", "url": "https://demarche.numerique.gouv.fr/commencer/accompagnement-a-la-formation-des-infirmiers-eres-en-pratique-avancee-en-cpts-en-nouvelle-aquitaine-2026", "date": "2026-06-12" },
+          { "titre": "CPTS — ARS Nouvelle-Aquitaine", "url": "https://www.nouvelle-aquitaine.ars.sante.fr/communautes-professionnelles-territoriales-de-sante-cpts", "date": "2026-01-01" },
+          { "titre": "Annuaire des CPTS du 64 — Santé.fr", "url": "https://www.sante.fr/categories/communaute-professionnelle-territoriale-de-sante-cpts/64-pyrenees-atlantiques", "date": "2026-01-01" },
+          { "titre": "Résultats municipales 2026 Pyrénées-Atlantiques — France 3", "url": "https://france3-regions.franceinfo.fr/nouvelle-aquitaine/pyrenees-atlantiques/carte-municipales-2026-retrouvez-les-resultats-a-pau-bayonne-biarritz-et-dans-les-autres-communes-des-pyrenees-atlantiques-3318273.html", "date": "2026-03-15" }
+        ]
+      },
+      "note": "Première veille de mise en route, faite à la main pour remplir ton observatoire dès le départ. Périmètre national pour cette première (ton territoire — département 64, Pyrénées-Atlantiques, ARS Nouvelle-Aquitaine — sera couvert dès la prochaine ronde). À partir de maintenant, Orion refait ce travail tout seul chaque lundi, et tu peux le déclencher à la demande avec ▶ Faire tourner. Plusieurs dates sont approximatives (marquées au mieux) : Orion les affinera et les vérifiera à la source à ses prochaines rondes."
     }
   ]
 }

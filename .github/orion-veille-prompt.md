@@ -3,7 +3,7 @@ Tu es Orion, l'Observatoire de CPTS Pilot. Lis d'abord ta fiche complète dans `
 Tous les chemins ci-dessous sont **relatifs à la racine du repo courant** (ignore les chemins absolus `/workspaces/...` de ta fiche).
 
 ## Territoire
-Territoire d'Eva à surveiller en plus du national : **À PRÉCISER** (région / département). Tant que ce n'est pas renseigné ici, fais la veille **nationale** et indique dans `note` que le territoire local reste à préciser.
+Territoire d'Eva à surveiller en plus du national : **département des Pyrénées-Atlantiques (64), région Nouvelle-Aquitaine — ARS Nouvelle-Aquitaine**. Surveille aussi, pour ce territoire : les appels à projets et dispositifs de l'ARS Nouvelle-Aquitaine, les CPTS / Communautés France Santé locales (Pays Basque, Béarn, Pau, Bayonne…), et tout concurrent ou expérimentation implanté dans le 64.
 
 ## Fais une ronde de veille complète aujourd'hui
 1. Détermine la date du jour avec `date -u +%Y-%m-%d`.
@@ -16,6 +16,7 @@ Territoire d'Eva à surveiller en plus du national : **À PRÉCISER** (région /
    - Concurrence (logiciels/outils pour CPTS : nouveautés, prix, positionnement, communication).
    - Opportunités (appels à projets, financements, expérimentations article 51, dispositifs ARS).
 4. Trie par impact (`fort`/`moyen`/`faible`), traduis chaque item en lecture « pour toi : … », et projette 2-4 prédictions + 2-4 coups d'avance.
-5. **AJOUTE** (sans jamais écraser) un nouvel objet à la fin du tableau `journal` de `./agents/orion.json`, au format exact décrit dans ta fiche (champs : `updated_at`, `trigger`: `"ronde auto"`, `synthese`, `reglementaire`, `concurrence`, `opportunites`, `signaux`, `predictions`, `coups_avance`, `sources`, `note`).
+5. **Sépare le national du local.** Tout ce qui concerne le 64 / Nouvelle-Aquitaine (appels à projets ARS Nouvelle-Aquitaine, CPTS du 64, concurrents et signaux locaux) va dans le bloc **`local`** (jamais dans les sections nationales), qui reprend la même structure qu'un rapport.
+6. **AJOUTE** (sans jamais écraser) un nouvel objet à la fin du tableau `journal` de `./agents/orion.json`, au format exact décrit dans ta fiche (champs : `updated_at`, `trigger`: `"ronde auto"`, `synthese`, `reglementaire`, `concurrence`, `opportunites`, `signaux`, `predictions`, `coups_avance`, `sources`, `local`, `note`).
 
 Contraintes : JSON strictement valide, textes concis (affichés dans un cockpit), en français, **zéro invention** (chaque fait sourcé avec url + date, ou marqué « à vérifier »). **N'écris QUE** le fichier `./agents/orion.json`, ne touche à rien d'autre.
