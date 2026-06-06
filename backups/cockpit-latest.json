@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "exportedAt": "2026-05-31T17:24:36.832Z",
-  "origin": "auto-backup",
+  "exportedAt": "2026-06-06T15:36:58.497Z",
+  "origin": "manual-backup",
   "data": {
     "nodes": [
       {
@@ -5719,9 +5719,39 @@
         "links": [],
         "x": 233.33331298828125,
         "y": 125.33332824707031
+      },
+      {
+        "id": "mpwtr28y2hgq9",
+        "title": "Rapprochement bancaire",
+        "body": "Delta compte courant / factures plateforme. Les banques prévoient de faire des rapprochements bancaires quand on leur envoie la gestion financière, pour voir si tout est ok ou s'il manque des éléments. prévoir un module dans le module d'extraction, cest parlant, les gestionnaires connaissent, ca rassure",
+        "links": [],
+        "x": 445.1999816894531,
+        "y": 123.39999389648438
       }
     ],
-    "tasks": [],
+    "tasks": [
+      {
+        "id": "mpu21xrq80rip",
+        "title": "Cadrer et clôturer le fléchage (ACI / fonctionnement)",
+        "status": "done",
+        "category": "tech",
+        "body": "Préconisé par Magnus (Chef Produit).\n\nC'est le seul chantier ouvert et il répond aux 3 demandes terrain non couvertes (N1/N2/N3 du tracker : dépenses asso, charges fixes, ventilation analytique). Le finir = trésorerie vraiment complète pour vendre ; le laisser ouvert sans cadrage = il s'étale et bloque la suite à 3-6 mois de la commercialisation."
+      },
+      {
+        "id": "mpv8byiwchvzq",
+        "title": "Capitaliser le fléchage : spec a posteriori + entrée roadmap",
+        "status": "todo",
+        "category": "tech",
+        "body": "Préconisé par Magnus (Chef Produit).\n\nLe code est fini et testé, mais un chantier non documenté est un chantier qu'on ne peut ni revendre, ni expliquer en démo, ni retrouver dans 3 mois. Une spec courte (problème ACI/fonctionnement, ce qui est construit, ce qui ne l'est pas) + une ligne 'done' dans la roadmap suffisent à transformer 24 commits invisibles en argument commercial. C'est 2h de travail qui ferment le sujet proprement et te remettent en position de vendre."
+      },
+      {
+        "id": "mq252aee1afg6",
+        "title": "Confirmer le go-live Scalingo et clôturer le sujet",
+        "status": "todo",
+        "category": "tech",
+        "body": "Préconisé par Magnus (Chef Produit).\n\nC'est le dernier verrou avant la première vente, et il est en suspens depuis 5 jours. Tant que tu ne m'as pas confirmé que la vitrine répond sur son URL avec le domaine branché, je ne peux pas dire que la porte commerciale est ouverte. Le build est fini : il ne reste que ce geste technique. Deux issues — soit c'est live (alors on coche les 3 'doing' en done et le sujet est clos), soit l'auto-deploy a calé (alors on débogue ensemble variables d'env + base prod). Dans les deux cas, on ferme la boucle plutôt que de la laisser ouverte."
+      }
+    ],
     "strategie": [],
     "prospects": [],
     "today": {
@@ -5730,171 +5760,213 @@
     },
     "roadmap": [
       {
-        "id": "mpss5oxqy2nx9",
+        "id": "mq24dpsur416y",
         "title": "Calendrier — modale création contextuelle",
         "month": "2026-02",
         "status": "done",
         "body": "Modale intelligente à 3 modes qui adapte ses champs selon le type d'entrée : Réunion GT (classique), Évènement (premium), Information (deadline / rappel / info diverse)."
       },
       {
-        "id": "mpss5oxqgrws0",
+        "id": "mq24dpsu3vuts",
         "title": "Deadlines auto + Émargement",
         "month": "2026-02",
         "status": "done",
         "body": "Sync automatique des tâches Cockpit → entrées calendrier (couleur rouge, badge « Auto (Cockpit) »). Suivi présence en DB avec checkbox + PDF officiel d'émargement GT."
       },
       {
-        "id": "mpss5oxqe6rsu",
+        "id": "mq24dpsuurl1a",
         "title": "Refonte Paramétrages Elite",
         "month": "2026-02",
         "status": "done",
         "body": "Page unique /admin/parametrages refondée à 4 onglets : Missions/Actions, Identité, Utilisateurs, paramètres avancés."
       },
       {
-        "id": "mpss5oxq0pshq",
+        "id": "mq24dpsuffq2j",
         "title": "Optimisation Calendrier",
         "month": "2026-02",
         "status": "done",
         "body": "Suppression des natures figées, catégories dynamiques en base, pièces jointes multiples sur les entrées, communication post-création (partage WhatsApp + email) extraite du formulaire."
       },
       {
-        "id": "mpss5oxqgdyie",
+        "id": "mq24dpsugzx51",
         "title": "Blueprint Meetings extrait",
         "month": "2026-02",
         "status": "done",
         "body": "Extraction de la gestion des réunions dans un module Flask dédié : routes + api + sidebar + intégration FullCalendar."
       },
       {
-        "id": "mpss5oxqwdvzc",
+        "id": "mq24dpsuyaz9s",
         "title": "Hub Projets — refonte",
         "month": "2026-02",
         "status": "done",
         "body": "Transformation de Projets & Groupes en Hub collaboratif : 5 chantiers, onglets Vitrine / Documents / Agenda, assistant de création en 3 étapes, relations multi-membres."
       },
       {
-        "id": "mpss5oxq0s5rp",
+        "id": "mq24dpsuu1svv",
         "title": "Custom Roles RBAC",
         "month": "2026-04",
         "status": "done",
         "body": "Rôles personnalisés avec permissions configurables par action et par module + matrice admin. 6 rôles hiérarchiques + rôles libres. Source de vérité unique pour toutes les permissions."
       },
       {
-        "id": "mpss5oxqsy1b1",
+        "id": "mq24dpsuzw0kg",
         "title": "Lifecycle des déclarations",
         "month": "2026-04",
         "status": "done",
         "body": "Dé-validation motivée des déclarations, upload de justificatifs autorisé à tout statut, audit trail des transitions (qui a dé-validé, quand, motif)."
       },
       {
-        "id": "mpss5oxq00gpw",
+        "id": "mq24dpsu8r7cx",
         "title": "PDF officielle d'émargement",
         "month": "2026-04",
         "status": "done",
         "body": "PDF émargement officiel stocké sur disque, accessible depuis l'historique, l'onglet activité et les justificatifs. Une seule source de vérité de présence."
       },
       {
-        "id": "mpss5oxqlqtcz",
+        "id": "mq24dpsuxef89",
         "title": "Modal Frais Groupe enrichie",
         "month": "2026-04",
         "status": "done",
         "body": "Modale frais retravaillée avec upload de justificatifs optionnel + badge « sans justificatif » visible pour le trésorier."
       },
       {
-        "id": "mpss5oxqqc0ib",
+        "id": "mq24dpsutzibs",
         "title": "Refonte déclarations d'activité (trésorier)",
         "month": "2026-04",
         "status": "done",
         "body": "Onglet « Nouvelle déclaration » trésorier refondu : déclaration combinée heures + ICPA + frais sur une période en une seule saisie (au lieu de 3 formulaires séparés)."
       },
       {
-        "id": "mpss5oxq3af1h",
+        "id": "mq24dpsusj0us",
         "title": "Page Permissions → Admin Gestion",
         "month": "2026-04",
         "status": "done",
         "body": "Page Permissions sortie de Paramétrages vers /admin/permissions, accessible depuis Admin Gestion."
       },
       {
-        "id": "mpss5oxq9sqw8",
+        "id": "mq24dpsukp4g3",
         "title": "Workflow déclarations + notifications",
         "month": "2026-04",
         "status": "done",
         "body": "Conteneur unifié des déclarations, validation granulaire des éléments, cloche de notifications dans le hub adhérent."
       },
       {
-        "id": "mpss5oxqwjubo",
+        "id": "mq24dpsup7x9q",
         "title": "Gestion des nouvelles inscriptions",
         "month": "2026-04",
         "status": "done",
         "body": "Rôle système « secrétaire », case « auto-inscription », card « Nouvelles inscriptions » dans Vie Associative pour valider les arrivants."
       },
       {
-        "id": "mpss5oxq1pgtm",
+        "id": "mq24dpsueqvy1",
         "title": "Mode Démo public",
         "month": "2026-04",
         "status": "done",
         "body": "Démo publique sur /demo, sandbox seed « CPTS Horizon Santé », 4 profils incarnés, auto-reset toutes les 30 minutes."
       },
       {
-        "id": "mpss5oxqcw2yo",
+        "id": "mq24dpsu0o7j3",
         "title": "Statuts unifiés Trésorerie",
         "month": "2026-05",
         "status": "done",
         "body": "Nomenclature unifiée pour heures / frais / virements (valide → en cours de paiement → payé), bascule automatique entre statuts, garde-fous anti-oubli calés sur le rythme de paiement de chaque CPTS."
       },
       {
-        "id": "mpss5oxqkzfav",
+        "id": "mq24dpsu5thw1",
         "title": "Vie Associative — modules",
         "month": "2026-05",
         "status": "done",
         "body": "Modules Documents fondateurs, Assemblées générales, Rubriques libres — préparation pour la démo du 5 mai."
       },
       {
-        "id": "mpss5oxqbwet8",
+        "id": "mq24dpsu5wwuk",
         "title": "Démo CPTS pilote (5 mai)",
         "month": "2026-05",
         "status": "done",
         "body": "20 min au bureau de la CPTS pilote : démo live + slides + one-pager distribué. Lancement de la phase pilote de 4 semaines en conditions réelles."
       },
       {
-        "id": "mpss5oxqgt82f",
+        "id": "mq24dpsuia4dh",
         "title": "Site vitrine V1",
         "month": "2026-05",
         "status": "done",
         "body": "Homepage publique sur la racine du domaine, arc narratif en 9 sections + 2 moments interactifs (sélecteur de rôle, carrousel des circuits ACI ↔ Trésorerie)."
       },
       {
-        "id": "mpss5oxq9f2gs",
+        "id": "mq24dpsuarktq",
         "title": "Vues par rôle (coordination / trésorier / secrétaire / membre)",
         "month": "2026-06",
         "status": "doing",
         "body": "Parcourir la plateforme telle que la voit chaque rôle, sans changer de compte. La direction vérifie d'un coup d'œil les accès et l'expérience réelle de chaque profil."
       },
       {
-        "id": "mpss5oxq2tjwa",
+        "id": "mq24dpsuzudru",
         "title": "Validation des déclarations : refus, relances et archives",
         "month": "2026-06",
         "status": "doing",
         "body": "Donner au trésorier un suivi complet des déclarations (heures, frais, dépenses de l'association) : traiter, refuser avec motif, relancer, consulter l'historique et archiver après 6 mois. Les droits d'accès restent réglables CPTS par CPTS."
       },
       {
-        "id": "mpss5oxqgzle1",
+        "id": "mq24dpsurk4q7",
         "title": "Site vitrine public CPTS Pilot",
         "month": "2026-06",
         "status": "doing",
         "body": "Page d'accueil publique présentant CPTS Pilot, distincte de l'espace de test. Récit en plusieurs temps, aperçu des vues par rôle et des circuits, avec un accès direct à la démo. Sert de porte d'entrée commerciale."
       },
       {
-        "id": "mpss5oxq57mc3",
+        "id": "mq24dpsuxpi7s",
         "title": "Mise en service d'une nouvelle CPTS cliente",
         "month": "2026-07",
         "status": "planned",
         "body": "Outiller la création d'un espace dédié et isolé pour chaque nouvelle CPTS cliente : sa propre base de données, ses fichiers, son adresse. Préparer un tableau de bord interne pour suivre l'ensemble des CPTS abonnées."
+      },
+      {
+        "id": "mq2529fcsc5h0",
+        "title": "Confirmer le go-live Scalingo et clôturer le sujet",
+        "month": "2026-06",
+        "status": "planned",
+        "body": "Préconisé par Magnus (Chef Produit).\n\nC'est le dernier verrou avant la première vente, et il est en suspens depuis 5 jours. Tant que tu ne m'as pas confirmé que la vitrine répond sur son URL avec le domaine branché, je ne peux pas dire que la porte commerciale est ouverte. Le build est fini : il ne reste que ce geste technique. Deux issues — soit c'est live (alors on coche les 3 'doing' en done et le sujet est clos), soit l'auto-deploy a calé (alors on débogue ensemble variables d'env + base prod). Dans les deux cas, on ferme la boucle plutôt que de la laisser ouverte."
+      },
+      {
+        "id": "mq252ihlfk9mi",
+        "title": "Roadmap cockpit désynchronisée : 3 items toujours en 'doing' (vues par rôle, validation refus/relances/archives, vitrine publique) sont déjà livrés sur main — à passer en 'done' pour ne pas piloter sur une carte fausse.",
+        "month": null,
+        "status": "planned",
+        "body": "Anticipé par Magnus (Chef Produit)."
+      },
+      {
+        "id": "mq252ivdhivw6",
+        "title": "5 jours de silence sur un sujet purement technique peut cacher un blocage : si l'auto-deploy a calé, dis-le-moi, on regarde ensemble (variables d'env prod, base de données, webhook) — pas la peine de rester seule dessus.",
+        "month": null,
+        "status": "planned",
+        "body": "Anticipé par Magnus (Chef Produit)."
+      },
+      {
+        "id": "mq252m1ivqyex",
+        "title": "Une fois le live confirmé : domaine cptspilot.fr + HTTPS, sauvegardes DB prod et variables d'env à boucler avec l'Audit Risk et le DPO. L'hébergement France est un argument RGPD à mettre en avant sur la vitrine.",
+        "month": null,
+        "status": "planned",
+        "body": "Anticipé par Magnus (Chef Produit)."
+      },
+      {
+        "id": "mq252ocvx7ntn",
+        "title": "SESSION_STATUS.md toujours figé au 16/02 (CLAUDE.md, lui, est à jour au 01/06) — à rafraîchir avant le prochain gros chantier.",
+        "month": null,
+        "status": "planned",
+        "body": "Anticipé par Magnus (Chef Produit)."
+      },
+      {
+        "id": "mq252pk8rsvpn",
+        "title": "Multi-CPTS (planned juillet) : archi prête mais non activée — à cadrer quand une 2e CPTS se profile, pas avant. Une CPTS = une instance suffit pour le premier client.",
+        "month": null,
+        "status": "planned",
+        "body": "Anticipé par Magnus (Chef Produit)."
       }
     ],
     "strategiePillars": {
       "vision": [
         {
-          "id": "mpss5oxqtj4at",
+          "id": "mq24dpstqmzv6",
           "name": "Une plateforme faite pour les CPTS",
           "text": "Les outils existants ont été pensés pour d'autres usages, et les CPTS s'y adaptent tant bien que mal. CPTS Pilot inverse la logique : c'est l'outil qui s'adapte à la CPTS, pas l'inverse.",
           "size": "large",
@@ -5902,7 +5974,7 @@
           "contributions": []
         },
         {
-          "id": "mpss5oxq2i5sc",
+          "id": "mq24dpsu0fp2m",
           "name": "Née du terrain, par une coordinatrice",
           "text": "CPTS Pilot est construite par une coordinatrice de CPTS, qui vit la réalité au quotidien. Ce n'est pas un logiciel conçu de loin : il répond à des problèmes réellement vécus.",
           "size": "normal",
@@ -5910,7 +5982,7 @@
           "contributions": []
         },
         {
-          "id": "mpss5oxqlqofc",
+          "id": "mq24dpsukga4z",
           "name": "Donner à chacun le pouvoir d'agir",
           "text": "Chaque personne de la CPTS dispose des outils taillés pour sa fonction, et la coordination garde la vision d'ensemble. La gestion devient collective, pas l'affaire d'une seule personne débordée.",
           "size": "large",
@@ -5918,7 +5990,7 @@
           "contributions": []
         },
         {
-          "id": "mpss5oxq9tcrg",
+          "id": "mq24dpsu5dq5n",
           "name": "Chaque rôle à sa place",
           "text": "Une seule plateforme, quatre expériences sur mesure : coordination, trésorerie, secrétariat, membre. Chacun se connecte et trouve directement ce qui le concerne, sans se perdre.",
           "size": "normal",
@@ -5926,7 +5998,7 @@
           "contributions": []
         },
         {
-          "id": "mpss5oxq5tqih",
+          "id": "mq24dpsud6b05",
           "name": "Piloter sereinement, ensemble",
           "text": "Tout est relié : les heures, les frais, les actions, les indicateurs. La coordination pilote sans tout recompiler à la main, et chacun avance avec une information à jour.",
           "size": "normal",
@@ -5934,7 +6006,7 @@
           "contributions": []
         },
         {
-          "id": "mpss5oxqvc77q",
+          "id": "mq24dpsumk527",
           "name": "Un outil qui grandit avec la CPTS",
           "text": "La plateforme évolue avec les besoins du terrain, au cas par cas. On ne livre pas un logiciel figé qu'on abandonne ensuite.",
           "size": "normal",
@@ -5944,7 +6016,7 @@
       ],
       "marche": [
         {
-          "id": "mpss5oxqz1tdv",
+          "id": "mq24dpsujh37y",
           "name": "Cible première : les coordinateurs",
           "text": "Les coordinatrices et coordinateurs sont à la fois les utilisateurs quotidiens et les décideurs. La vente passe par eux : ce sont eux qui reconnaissent leur réalité dans l'outil et le prescrivent.",
           "size": "large",
@@ -5952,7 +6024,7 @@
           "contributions": []
         },
         {
-          "id": "mpss5oxqgmdb6",
+          "id": "mq24dpsu77s3o",
           "name": "Le tableau de bord de pilotage ACI",
           "text": "Le point fort du produit : une seule vue réunit actions, indicateurs et budget, et prépare le dialogue de gestion avec l'ARS. Les indicateurs se calculent tout seuls à partir des heures et des frais saisis.",
           "size": "large",
@@ -5960,7 +6032,7 @@
           "contributions": []
         },
         {
-          "id": "mpss5oxqq82u4",
+          "id": "mq24dpsu8cqyb",
           "name": "Des concurrents pensés pour autre chose",
           "text": "Les solutions du marché viennent de métiers proches et ont été adaptées aux CPTS après coup. CPTS Pilot part des CPTS dès la conception — un avantage que les autres ne peuvent pas revendiquer.",
           "size": "normal",
@@ -5968,7 +6040,7 @@
           "contributions": []
         },
         {
-          "id": "mpss5oxqigexf",
+          "id": "mq24dpsupyf2l",
           "name": "Le module membre reste optionnel",
           "text": "La plateforme fonctionne sans le module dédié aux membres. La CPTS peut commencer simple puis l'activer plus tard, ce qui réduit la marche à franchir pour adopter l'outil.",
           "size": "normal",
@@ -5976,7 +6048,7 @@
           "contributions": []
         },
         {
-          "id": "mpss5oxqkrrrh",
+          "id": "mq24dpsuxa2ty",
           "name": "La démo comme porte d'entrée",
           "text": "Un visiteur teste la plateforme en quelques clics, avec des données fictives et sans rien installer. C'est le premier pas commercial : voir avant de se décider.",
           "size": "normal",
@@ -5984,7 +6056,7 @@
           "contributions": []
         },
         {
-          "id": "mpss5oxqdjy17",
+          "id": "mq24dpsusfwx6",
           "name": "Un accompagnement cas par cas",
           "text": "Paramétrage fin des rôles et des accès, personnalisation au plus près du terrain, suivi individualisé. On accompagne chaque CPTS plutôt que de livrer un outil et de la laisser seule.",
           "size": "normal",
@@ -5992,7 +6064,7 @@
           "contributions": []
         },
         {
-          "id": "mpss5oxqpy2fr",
+          "id": "mq24dpsur65vm",
           "name": "Se relier aux institutions (ARS, URPS)",
           "text": "À venir : une connexion avec les instances pour suivre les indicateurs et préparer les dialogues de gestion. C'est aussi un gage de sérieux vis-à-vis des financeurs.",
           "size": "normal",
@@ -6002,7 +6074,7 @@
       ],
       "pricing": [
         {
-          "id": "mpss5oxq3k74j",
+          "id": "mq24dpsug5ifi",
           "name": "Un forfait par CPTS, sans compter les utilisateurs",
           "text": "Le prix ne dépend pas du nombre d'utilisateurs : une CPTS de 20 ou de 200 membres paie un forfait clair. Les tailles sont trop variables pour facturer par personne.",
           "size": "large",
@@ -6010,7 +6082,7 @@
           "contributions": []
         },
         {
-          "id": "mpss5oxqwrmgy",
+          "id": "mq24dpsueu0nv",
           "name": "Mensuel, ou annuel à prix réduit",
           "text": "Facturation au mois, avec une option annuelle moins chère pour les CPTS qui s'installent dans la durée.",
           "size": "normal",
@@ -6018,7 +6090,7 @@
           "contributions": []
         },
         {
-          "id": "mpss5oxqagj83",
+          "id": "mq24dpsul92b8",
           "name": "Deux à trois formules selon les besoins",
           "text": "Quelques formules différenciées par les modules inclus et le niveau d'accompagnement. Structure encore à finaliser.",
           "size": "normal",
@@ -6026,7 +6098,7 @@
           "contributions": []
         },
         {
-          "id": "mpss5oxqlmc4c",
+          "id": "mq24dpsuclj9o",
           "name": "Sans engagement",
           "text": "Pas de durée imposée ni de préavis. C'est le signal de confiance le plus fort pour une première adoption : la CPTS reste parce qu'elle y trouve son compte.",
           "size": "normal",
@@ -6034,7 +6106,7 @@
           "contributions": []
         },
         {
-          "id": "mpss5oxq7bpp8",
+          "id": "mq24dpsuij6ma",
           "name": "Une grille tarifaire publique",
           "text": "Les prix sont affichés, pas cachés derrière un devis. La transparence renforce la confiance et lève un frein avant même le premier contact.",
           "size": "normal",
@@ -6042,7 +6114,7 @@
           "contributions": []
         },
         {
-          "id": "mpss5oxq73np6",
+          "id": "mq24dpsu73xu4",
           "name": "La migration est accompagnée",
           "text": "Le frein numéro un, c'est de quitter ses outils actuels. On reprend les données, on paramètre et on forme : la CPTS n'a qu'à commencer à travailler. Inclus en formule haute ou en option.",
           "size": "normal",
@@ -6051,6 +6123,490 @@
         }
       ]
     },
-    "strategieSeeded": true
+    "strategieSeeded": true,
+    "precos": [
+      {
+        "id": "mpu4yst0bcqcs",
+        "key": "cadrer et clôturer le fléchage (aci / fonctionnement)",
+        "titre": "Cadrer et clôturer le fléchage (ACI / fonctionnement)",
+        "type": "chantier",
+        "fromDate": "2026-05-30",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "faite"
+      },
+      {
+        "id": "mpu4yst088n7l",
+        "key": "écrire la spec du fléchage a posteriori : sans elle, impossible de savoir quand c'est fini ni de le revendre.",
+        "titre": "Écrire la spec du fléchage a posteriori : sans elle, impossible de savoir quand c'est fini ni de le revendre.",
+        "type": "anticiper",
+        "fromDate": "2026-05-30",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mpu4yst0rknh3",
+        "key": "réintégrer le fléchage dans la roadmap (strategy-seed.json) — il manque, alors qu'il pèse 24 commits.",
+        "titre": "Réintégrer le fléchage dans la roadmap (strategy-seed.json) — il manque, alors qu'il pèse 24 commits.",
+        "type": "anticiper",
+        "fromDate": "2026-05-30",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mpu4yst03atc5",
+        "key": "mettre à jour claude.md / audit_technique / session_status (figés à fév-mars) avant qu'un futur toi ne se perde.",
+        "titre": "Mettre à jour CLAUDE.md / AUDIT_TECHNIQUE / SESSION_STATUS (figés à fév-mars) avant qu'un futur toi ne se perde.",
+        "type": "anticiper",
+        "fromDate": "2026-05-30",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mpu4yst0mijy5",
+        "key": "multi-cpts : l'archi est prête mais non activée — à planifier dès qu'une 2e cpts se profile, pas après.",
+        "titre": "Multi-CPTS : l'archi est prête mais non activée — à planifier dès qu'une 2e CPTS se profile, pas après.",
+        "type": "anticiper",
+        "fromDate": "2026-05-30",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mpu4yst0r9dbn",
+        "key": "repasser sur la vitrine et le mode démo une fois le fléchage stabilisé : ce sont eux qui convertissent.",
+        "titre": "Repasser sur la vitrine et le mode démo une fois le fléchage stabilisé : ce sont eux qui convertissent.",
+        "type": "anticiper",
+        "fromDate": "2026-05-30",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mpv8963uh8hbx",
+        "key": "capitaliser le fléchage : spec a posteriori + entrée roadmap",
+        "titre": "Capitaliser le fléchage : spec a posteriori + entrée roadmap",
+        "type": "chantier",
+        "fromDate": "2026-05-31",
+        "agent": "chef-produit",
+        "enTache": true,
+        "enRoadmap": true,
+        "etat": "active",
+        "taskId": "mpv8byiwchvzq",
+        "jalonId": "mpv8c02kr3cuk"
+      },
+      {
+        "id": "mpv8963uqcyac",
+        "key": "roadmap cockpit désynchronisée : 3 items en 'doing' (vues par rôle, validation des déclarations refus/relances, vitrine)",
+        "titre": "Roadmap cockpit désynchronisée : 3 items en 'doing' (vues par rôle, validation des déclarations refus/relances, vitrine) sont en réalité déjà livrés sur main — à passer en 'done' pour ne pas piloter sur une carte fausse.",
+        "type": "anticiper",
+        "fromDate": "2026-05-31",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": true,
+        "etat": "active",
+        "jalonId": "mpv8c0poiw9zr"
+      },
+      {
+        "id": "mpv8963u7apu8",
+        "key": "multi-cpts reste le seul vrai chantier neuf devant toi (item 'mise en service d'une nouvelle cpts cliente', planned) : l",
+        "titre": "Multi-CPTS reste le seul vrai chantier neuf devant toi (item 'Mise en service d'une nouvelle CPTS cliente', planned) : l'archi est prête mais non activée — à cadrer dès qu'une 2e CPTS se profile.",
+        "type": "anticiper",
+        "fromDate": "2026-05-31",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": true,
+        "etat": "active",
+        "jalonId": "mpv8c29a5zowk"
+      },
+      {
+        "id": "mpv8963uzpxjd",
+        "key": "claude.md / audit_technique / session_status toujours figés à fév-mars : à rafraîchir avant de repartir sur un gros chan",
+        "titre": "CLAUDE.md / AUDIT_TECHNIQUE / SESSION_STATUS toujours figés à fév-mars : à rafraîchir avant de repartir sur un gros chantier.",
+        "type": "anticiper",
+        "fromDate": "2026-05-31",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": true,
+        "etat": "active",
+        "jalonId": "mpv8c1lkbezku"
+      },
+      {
+        "id": "mpv8963ujsg7u",
+        "key": "repasser sur vitrine + mode démo pour vérifier qu'ils montrent bien le fléchage (cas réaffectation déjà seedé) — c'est e",
+        "titre": "Repasser sur vitrine + mode démo pour vérifier qu'ils montrent bien le fléchage (cas réaffectation déjà seedé) — c'est eux qui convertissent.",
+        "type": "anticiper",
+        "fromDate": "2026-05-31",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": true,
+        "etat": "active",
+        "jalonId": "mpv8c329ut9zn"
+      },
+      {
+        "id": "mpvlckodlhejj",
+        "key": "mettre la vitrine publique en ligne sur scalingo",
+        "titre": "Mettre la vitrine publique en ligne sur Scalingo",
+        "type": "chantier",
+        "fromDate": "2026-06-01",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mpvlckodr8d4o",
+        "key": "go-live scalingo : une fois l'auto-deploy stable, boucler sauvegardes db + variables d'env prod + nom de domaine avec l'",
+        "titre": "Go-live Scalingo : une fois l'auto-deploy stable, boucler sauvegardes DB + variables d'env prod + nom de domaine avec l'Audit Risk et le DPO — l'hébergement France est un argument de vente, mets-le en avant sur la vitrine.",
+        "type": "anticiper",
+        "fromDate": "2026-06-01",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mpvlckod5wa4p",
+        "key": "multi-cpts (planned juillet) : archi prête mais non activée — à cadrer dès qu'une 2e cpts se profile, pas après.",
+        "titre": "Multi-CPTS (planned juillet) : archi prête mais non activée — à cadrer dès qu'une 2e CPTS se profile, pas après.",
+        "type": "anticiper",
+        "fromDate": "2026-06-01",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mpvlckoddd1zk",
+        "key": "décider si un switcher démo 'voir en tant que [rôle]' vaut le coup pour la vitrine : aujourd'hui chacun voit son espace,",
+        "titre": "Décider si un switcher démo 'voir en tant que [rôle]' vaut le coup pour la vitrine : aujourd'hui chacun voit son espace, mais montrer les 5 vues d'un coup vendrait fort en démo.",
+        "type": "anticiper",
+        "fromDate": "2026-06-01",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mpvlckodnog95",
+        "key": "docs : claude.md a été remis à jour aujourd'hui (2026-06-01), mais session_status.md reste figé au 16/02 — à rafraîchir ",
+        "titre": "Docs : CLAUDE.md a été remis à jour aujourd'hui (2026-06-01), mais SESSION_STATUS.md reste figé au 16/02 — à rafraîchir avant le prochain gros chantier.",
+        "type": "anticiper",
+        "fromDate": "2026-06-01",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": true,
+        "etat": "active",
+        "jalonId": "mpvleu9yyvv1i"
+      },
+      {
+        "id": "mpvm5fgd96jwk",
+        "key": "finaliser le go-live scalingo (vitrine + app en ligne, france)",
+        "titre": "Finaliser le go-live Scalingo (vitrine + app en ligne, France)",
+        "type": "chantier",
+        "fromDate": "2026-06-01",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mpvm5fgd1o43e",
+        "key": "une fois l'auto-deploy stable : boucler sauvegardes db prod, variables d'env prod, domaine cptspilot.fr + https — à cadr",
+        "titre": "Une fois l'auto-deploy stable : boucler sauvegardes DB prod, variables d'env prod, domaine cptspilot.fr + HTTPS — à cadrer avec l'Audit Risk et le DPO. Mets l'hébergement France en avant sur la vitrine, c'est un argument de vente.",
+        "type": "anticiper",
+        "fromDate": "2026-06-01",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mpvm5fgdtu2o0",
+        "key": "le webhook se déclenche sur tout push : évite de polluer main avec des commits 'test auto-deploy' (4 aujourd'hui) une fo",
+        "titre": "Le webhook se déclenche sur TOUT push : évite de polluer main avec des commits 'test auto-deploy' (4 aujourd'hui) une fois le pipeline stable — un push de vrai code suffira à déployer.",
+        "type": "anticiper",
+        "fromDate": "2026-06-01",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mpvm5fgdgiilf",
+        "key": "multi-cpts (planned juillet) : archi prête mais non activée — à cadrer quand une 2e cpts se profile, pas avant.",
+        "titre": "Multi-CPTS (planned juillet) : archi prête mais non activée — à cadrer quand une 2e CPTS se profile, pas avant.",
+        "type": "anticiper",
+        "fromDate": "2026-06-01",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mpvm5fgdmg09a",
+        "key": "session_status.md toujours figé au 16/02 (claude.md, lui, est à jour au 01/06) — à rafraîchir avant le prochain gros cha",
+        "titre": "SESSION_STATUS.md toujours figé au 16/02 (CLAUDE.md, lui, est à jour au 01/06) — à rafraîchir avant le prochain gros chantier pour ne pas piloter sur une carte périmée.",
+        "type": "anticiper",
+        "fromDate": "2026-06-01",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": true,
+        "etat": "active",
+        "jalonId": "mq252ocvx7ntn"
+      },
+      {
+        "id": "mpvm5fgdhtnt6",
+        "key": "switcher démo 'voir en tant que [rôle]' : la vitrine a son _role_switch, mais dans l'app c'est un espace adaptatif (chac",
+        "titre": "Switcher démo 'voir en tant que [rôle]' : la vitrine a son _role_switch, mais dans l'app c'est un espace adaptatif (chacun voit le sien), pas un switcher live — à trancher si tu veux montrer les 5 vues d'un coup en démo.",
+        "type": "anticiper",
+        "fromDate": "2026-06-01",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mq24zw4wusg4z",
+        "key": "confirmer le go-live scalingo et clôturer le sujet",
+        "titre": "Confirmer le go-live Scalingo et clôturer le sujet",
+        "type": "chantier",
+        "fromDate": "2026-06-06",
+        "agent": "chef-produit",
+        "enTache": true,
+        "enRoadmap": true,
+        "etat": "active",
+        "jalonId": "mq2529fcsc5h0",
+        "taskId": "mq252aee1afg6"
+      },
+      {
+        "id": "mq24zw4wozqvc",
+        "key": "5 jours de silence sur un sujet purement technique peut cacher un blocage : si l'auto-deploy a calé, dis-le-moi, on rega",
+        "titre": "5 jours de silence sur un sujet purement technique peut cacher un blocage : si l'auto-deploy a calé, dis-le-moi, on regarde ensemble (variables d'env prod, base de données, webhook) — pas la peine de rester seule dessus.",
+        "type": "anticiper",
+        "fromDate": "2026-06-06",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": true,
+        "etat": "active",
+        "jalonId": "mq252ivdhivw6"
+      },
+      {
+        "id": "mq24zw4wtyvvn",
+        "key": "roadmap cockpit désynchronisée : 3 items toujours en 'doing' (vues par rôle, validation refus/relances/archives, vitrine",
+        "titre": "Roadmap cockpit désynchronisée : 3 items toujours en 'doing' (vues par rôle, validation refus/relances/archives, vitrine publique) sont déjà livrés sur main — à passer en 'done' pour ne pas piloter sur une carte fausse.",
+        "type": "anticiper",
+        "fromDate": "2026-06-06",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": true,
+        "etat": "active",
+        "jalonId": "mq252ihlfk9mi"
+      },
+      {
+        "id": "mq24zw4wa4ch3",
+        "key": "une fois le live confirmé : domaine cptspilot.fr + https, sauvegardes db prod et variables d'env à boucler avec l'audit ",
+        "titre": "Une fois le live confirmé : domaine cptspilot.fr + HTTPS, sauvegardes DB prod et variables d'env à boucler avec l'Audit Risk et le DPO. L'hébergement France est un argument RGPD à mettre en avant sur la vitrine.",
+        "type": "anticiper",
+        "fromDate": "2026-06-06",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": true,
+        "etat": "active",
+        "jalonId": "mq252m1ivqyex"
+      },
+      {
+        "id": "mq24zw4x6spfy",
+        "key": "multi-cpts (planned juillet) : archi prête mais non activée — à cadrer quand une 2e cpts se profile, pas avant. une cpts",
+        "titre": "Multi-CPTS (planned juillet) : archi prête mais non activée — à cadrer quand une 2e CPTS se profile, pas avant. Une CPTS = une instance suffit pour le premier client.",
+        "type": "anticiper",
+        "fromDate": "2026-06-06",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": true,
+        "etat": "active",
+        "jalonId": "mq252pk8rsvpn"
+      },
+      {
+        "id": "mq26mc7nl6c9h",
+        "key": "rendre le vocabulaire de la plateforme paramétrable (cpts ↔ communauté france santé)",
+        "titre": "Rendre le vocabulaire de la plateforme paramétrable (CPTS ↔ Communauté France Santé)",
+        "type": "coup",
+        "fromDate": "2026-06-06",
+        "agent": "orion",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mq26mc7npsfrk",
+        "key": "faire de « financé par l'enveloppe aci » un argument commercial central",
+        "titre": "Faire de « financé par l'enveloppe ACI » un argument commercial central",
+        "type": "coup",
+        "fromDate": "2026-06-06",
+        "agent": "orion",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mq26mc7ngt56r",
+        "key": "cartographier finement les 7 concurrents (fonctions + prix)",
+        "titre": "Cartographier finement les 7 concurrents (fonctions + prix)",
+        "type": "coup",
+        "fromDate": "2026-06-06",
+        "agent": "orion",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mq2i6b889tlys",
+        "key": "confirmer que la vitrine répond en ligne (url + domaine cptspilot.fr) et clôturer le go-live",
+        "titre": "Confirmer que la vitrine répond en ligne (URL + domaine cptspilot.fr) et clôturer le go-live",
+        "type": "chantier",
+        "fromDate": "2026-06-06",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mq2i6b889j2mr",
+        "key": "le cockpit n'a pas été ré-exporté depuis le 31/05 (data.tasks et data.precos vides) : je pilote en partie à l'aveugle su",
+        "titre": "Le cockpit n'a pas été ré-exporté depuis le 31/05 (data.tasks et data.precos vides) : je pilote en partie à l'aveugle sur ton To do — un export frais m'aiderait à coller à ce que tu fais vraiment.",
+        "type": "anticiper",
+        "fromDate": "2026-06-06",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mq2i6b88mfli9",
+        "key": "roadmap désynchronisée : 3 items en 'doing' (vues par rôle, validation refus/relances/archives, vitrine publique) sont p",
+        "titre": "Roadmap désynchronisée : 3 items en 'doing' (vues par rôle, validation refus/relances/archives, vitrine publique) sont prouvés livrés dans le code — à passer en 'done' pour ne pas piloter sur une carte fausse.",
+        "type": "anticiper",
+        "fromDate": "2026-06-06",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mq2i6b88iqyj2",
+        "key": "session_status.md toujours figé au 16/02 : périmé de presque 4 mois, à rafraîchir avant le prochain gros chantier pour q",
+        "titre": "SESSION_STATUS.md toujours figé au 16/02 : périmé de presque 4 mois, à rafraîchir avant le prochain gros chantier pour qu'un futur toi ne reparte pas sur une fausse photo.",
+        "type": "anticiper",
+        "fromDate": "2026-06-06",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mq2i6b88oqoah",
+        "key": "multi-cpts (planned, item 'mise en service d'une nouvelle cpts cliente') : archi prête mais non activée — à cadrer quand",
+        "titre": "Multi-CPTS (planned, item 'Mise en service d'une nouvelle CPTS cliente') : archi prête mais non activée — à cadrer quand une 2e CPTS se profile, pas avant. Une CPTS = une instance suffit pour le premier client.",
+        "type": "anticiper",
+        "fromDate": "2026-06-06",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mq2i6b88tlvnk",
+        "key": "once live : sauvegardes db prod + https + variables d'env à boucler ; l'hébergement france (scalingo) est un argument rg",
+        "titre": "Once live : sauvegardes DB prod + HTTPS + variables d'env à boucler ; l'hébergement France (Scalingo) est un argument RGPD à mettre en avant sur la vitrine.",
+        "type": "anticiper",
+        "fromDate": "2026-06-06",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      }
+    ],
+    "agentChats": {
+      "chef-produit": [
+        {
+          "role": "user",
+          "content": "Résume moi où on est le chantier en cours"
+        },
+        {
+          "role": "assistant",
+          "content": "## Où on en est\n\n**Le chantier prioritaire du moment : capitaliser le fléchage des dépenses**\n\n---\n\n### Ce qui est fait ✅\n- Le fléchage est **livré et testé** (mergé le 24/05, 24 tests E2E, XSS corrigée, cas démo seedé)\n- La clôture du chantier fléchage est actée\n\n### Ce qui reste à faire 🔧\n\n1. **Spec a posteriori** — 15 lignes qui résument le problème, ce qui est construit, ce qui ne l'est pas. Sans ça, c'est invisible en démo et impossible à revendre.\n2. **Roadmap** — ajouter une ligne `fléchage des dépenses` en `done` dans `strategy-seed.json` + passer 3 items doing en done (vues par rôle, validation déclarations, vitrine) qui sont en réalité déjà livrés.\n3. **Docs techniques** — CLAUDE.md / AUDIT_TECHNIQUE / SESSION_STATUS figés à fév-mars, à rafraîchir.\n\n---\n\n### Ce qui attend après 👀\n- **Multi-CPTS** : ton seul vrai chantier neuf, l'archi est prête mais dormante\n- **Vitrine + mode démo** : vérifier qu'ils montrent bien le fléchage — c'est eux qui convertissent\n\n---\n\n**Prochaine action concrète** : tu veux que je te rédige la spec du fléchage directement ?"
+        },
+        {
+          "role": "user",
+          "content": "pourquoi dans ton dernier rapport tu parles de mettre en ligne le site vitrine, ile st déjà en ligne non ?"
+        },
+        {
+          "role": "assistant",
+          "content": "Bonne question, et tu as raison de la poser.\n\n---\n\n**Ce que je sais :**\n- `Site vitrine V1` est bien en `done` depuis 2026-05 dans ta roadmap\n- `Site vitrine public CPTS Pilot` est en `doing` — c'est un item distinct, probablement une **V2** avec les nouvelles vues par rôle intégrées\n\n**Ce que je ne sais pas :**\n- Si la V2 est déjà en ligne quelque part ou juste en cours de dev\n- Ce qui distingue concrètement V1 et V2 dans ton esprit\n\n---\n\n**Mon hypothèse** : le rapport parle de mettre en ligne une version enrichie (qui montre les vues par rôle, hébergée sur Scalingo), pas la V1 qui existe déjà.\n\nMais je préfère te demander : **c'est quoi pour toi la différence entre V1 et ce \"Site vitrine public\" en doing ?** Ça m'aidera à recadrer le rapport correctement."
+        },
+        {
+          "role": "user",
+          "content": "la V1 est en ligne mais c'est vrai que je continue de l'alimenter"
+        },
+        {
+          "role": "assistant",
+          "content": "OK, c'est clair.\n\n---\n\n**Ce que ça veut dire concrètement :**\n- La vitrine **existe et est live** ✅\n- Tu es en mode **amélioration continue**, pas en attente de mise en ligne\n- L'item `doing` dans la roadmap = alimentation / enrichissement, pas un go-live bloquant\n\n---\n\n**Ce que ça change dans mes préconisations :**\n- Je retire \"mettre en ligne\" de la liste des urgences — c'est déjà fait\n- Ce qui reste pertinent : **vérifier que la vitrine montre bien le fléchage** (puisque c'est ton argument de vente n°1 en démo)\n- Et la question du **switcher rôle** reste ouverte : aujourd'hui sur la vitrine tu as `_role_switch`, mais est-ce qu'une CPTS qui visite comprend ce que chaque rôle voit ?\n\n---\n\n**Prochaine action que je te suggère :** passe cet item roadmap en `done` et ouvre-en un nouveau genre `Vitrine — intégration fléchage + vues rôle` si c'est vraiment un chantier distinct. Sinon tu piloterais sur une carte floue.\n\nTu veux qu'on le cadre ?"
+        }
+      ],
+      "orion": [
+        {
+          "role": "user",
+          "content": "Transformation des CPTS en « Communautés France Santé »\nimpact fort\nAmendement gouvernemental au PLFSS 2026 (déposé le 04/11/2025) pour renommer les CPTS en « Communautés France Santé » (CFS) et créer un réseau « France Santé » inspiré de France Services. Enveloppe dédiée de 130 M€, soit ~50 000 € par structure labellisée.\npour toi : c'est LE sujet à suivre. Si la loi passe, le vocabulaire (« CPTS » → « Communauté France Santé »), les missions et le financement changent. CPTS Pilot doit pouvoir suivre ce rebranding sans s'enfermer trop tôt (le texte n'est pas définitif).\n\ndéveloppe moi tout ca"
+        },
+        {
+          "role": "assistant",
+          "content": "# Transformation CPTS → Communautés France Santé : le dossier complet\n\n---\n\n## Ce qui se passe exactement\n\nLe gouvernement a déposé le **4 novembre 2025** un amendement au PLFSS 2026 (n°2568) qui propose trois choses :\n\n- **Renommer** les CPTS en « Communautés France Santé » (CFS)\n- **Créer un réseau national** « France Santé », calqué sur le modèle France Services (guichets uniques de l'État dans les territoires)\n- **Allouer 130 M€** à ces nouvelles structures, soit environ **50 000 € par structure labellisée**\n\n---\n\n## Pourquoi le gouvernement fait ça\n\nQuelques signaux de fond :\n\n- **France Services, ça marche** — le modèle est lisible, les élus locaux le connaissent, les citoyens aussi. L'idée est d'appliquer la même logique à la santé de proximité\n- **Les CPTS sont peu visibles** — le terme est opaque pour le grand public et même pour beaucoup d'élus. « Communauté France Santé » est plus communicant, plus politique\n- **L'État veut reprendre la main** sur la coordination des soins primaires, qui reste très hétérogène selon les territoires\n- **Le financement ACI actuel est perçu comme insuffisant** pour ce qu'on demande aux CPTS — les 130 M€ sont un signal fort\n\n---\n\n## Ce qui bloque : l'opposition des médecins\n\nLes syndicats de médecins généralistes sont **vent debout**. Leurs griefs :\n\n- Ils voient ça comme une **étatisation rampante** des CPTS, qui aujourd'hui sont des associations de professionnels de santé — autonomes, portées par le terrain\n- Le modèle France Services = des agents de l'État → pour eux, ça n't pas pareil qu'une communauté de soignants qui s'autogèrent\n- **Ils craignent une perte de gouvernance** : qui décide des projets ? Les médecins ou les préfets ?\n- Certains y voient aussi une **manœuvre pour contourner les syndicats** dans la négociation de l'avenant ACI\n\nCe n'est pas anecdotique : **sans les médecins, les CPTS ne fonctionnent pas**. Leur opposition peut bloquer ou vider la réforme de son sens, même si la loi passe.\n\n---\n\n## Ce qui peut arriver — les 3 scénarios\n\n| Scénario | Probabilité | Ce que ça change pour toi |\n|---|---|---|\n| **La loi passe telle quelle** | Moyenne | Tout bascule : vocabulaire, missions, financement. CPTS Pilot doit être prêt |\n| **La loi passe mais édulcorée** (renommage optionnel, missions partielles) | Élevée | Ambiguïté durable — les deux termes coexistent selon les territoires |\n| **Le texte est retiré ou rejeté** | Faible-moyenne | Statu quo ACI, mais l'intention de réforme reste — elle reviendra sous une autre forme |\n\n---\n\n## Ce que ça change concrètement — pour CPTS Pilot\n\n### 1. Le vocabulaire produit\n\n- Si la loi passe, tes clientes devront se présenter comme « Communauté France Santé » dans leurs documents officiels\n- Tes emails automatiques, tes PDFs d"
+        },
+        {
+          "role": "user",
+          "content": "ok a ce jour qu'est ce que je risque je comprendsd pas, à part renommer potentiellement la plateforme"
+        },
+        {
+          "role": "assistant",
+          "content": "Bonne question — et tu as raison de recadrer, c'est moins dramatique qu'il n'y paraît.\n\n---\n\n## Ce que tu risques concrètement aujourd'hui : pas grand chose\n\n### Ce qui pourrait piquer (mais reste gérable)\n\n- **Le mot « CPTS » dans ton nom de marque et ton domaine** (`cptspilot.fr`)\nSi « Communauté France Santé » s'impose officiellement, le terme CPTS devient potentiellement daté — mais pas du jour au lendemain, et ça ne rend pas ta plateforme caduque\n- **Les libellés en dur dans l'appli**\nSi tu as écrit « CPTS » partout dans les textes d'interface, il faudra passer partout à la main pour renommer → c'est du temps perdu évitable\n- **Les indicateurs ACI dans la plateforme**\nSi l'avenant ACI crée de nouvelles missions/indicateurs, ce que tu as outillé aujourd'hui peut devenir incomplet — mais ce n'est pas une obsolescence, c'est une extension à faire\n\n### Ce qui ne change PAS pour toi\n\n- **Ton marché existe toujours** — que ça s'appelle CPTS ou CFS, les coordinateurs auront toujours besoin d'un outil\n- **L'ACI continue** — même réformé, le financement conventionnel reste le socle. Ton argument « abonnement financé par l'ACI » tient\n- **Tes clientes restent tes clientes** — un renommage administratif ne change pas leurs besoins opérationnels du jour au lendemain\n\n---\n\n## Ce que tu peux faire maintenant sans sur-réagir\n\nUne seule chose vraiment utile à ce stade :\n\n- **Signaler à Magnus** de ne pas bétonner « CPTS » en dur dans le code — prévoir des libellés centralisés pour pouvoir basculer en un endroit si besoin\n\nLe reste (renommer la marque, le domaine, la vitrine) : **pas avant que la loi soit promulguée**. Tu aurais tort de bouger trop tôt sur un texte qui n'est pas définitif.\n\n---\n\n**En résumé : ton seul vrai risque aujourd'hui c'est technique — des libellés en dur. Tout le reste, c'est du bruit à surveiller, pas à gérer.**"
+        }
+      ]
+    },
+    "agentConfig": {
+      "orion": {
+        "model": "claude-sonnet-4-6",
+        "consignes": ""
+      }
+    },
+    "lastSeenReport": {
+      "orion": "2026-06-06",
+      "chef-produit": "2026-06-06"
+    },
+    "handledPropositions": {},
+    "decisions": [],
+    "beta": {
+      "signatureDate": "2026-06-06",
+      "invites": [
+        {
+          "id": "mq2h39lvwf4wb",
+          "nom": "CPTS PAU BEARN",
+          "role": ""
+        }
+      ],
+      "retours": [],
+      "incidents": [],
+      "journal": [],
+      "reports": []
+    }
   }
 }
