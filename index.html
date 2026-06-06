@@ -392,6 +392,22 @@ body {
 .prop-titre { font-size: 13.5px; font-weight: 600; color: var(--slate-900); }
 .prop-pourquoi { font-size: 12.5px; color: var(--slate-600); line-height: 1.5; margin-top: 4px; }
 .prop-actions { display: flex; gap: 6px; flex-shrink: 0; }
+/* Chips atelier + Carnet de décisions */
+.ac-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+.ac-chip { font-family: inherit; font-size: 12px; font-weight: 600; color: var(--blue-700); background: var(--blue-50); border: 1px solid var(--blue-100); border-radius: 20px; padding: 5px 12px; cursor: pointer; }
+.ac-chip:hover { background: var(--blue-100); }
+.carnet-add { display: flex; flex-direction: column; gap: 8px; background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 12px; padding: 14px 16px; margin-bottom: 18px; }
+.carnet-input { font-family: inherit; font-size: 13.5px; border: 1px solid var(--slate-200); border-radius: 8px; padding: 9px 11px; resize: vertical; }
+.carnet-input:focus { outline: none; border-color: var(--blue-500); }
+.carnet-add .btn { align-self: flex-start; }
+.carnet-list { display: flex; flex-direction: column; gap: 10px; }
+.carnet-item { border: 1px solid var(--slate-200); border-radius: 12px; padding: 12px 15px; background: var(--white); }
+.carnet-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.carnet-date { font-size: 11px; font-weight: 700; color: var(--blue-700); }
+.carnet-del { font-family: inherit; font-size: 11px; color: var(--slate-400); background: none; border: none; cursor: pointer; }
+.carnet-del:hover { color: #B91C1C; }
+.carnet-titre { font-size: 14px; font-weight: 700; color: var(--slate-900); line-height: 1.45; }
+.carnet-pourquoi { font-size: 13px; color: var(--slate-600); line-height: 1.55; margin-top: 5px; }
 .agent-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--slate-200); margin-bottom: 20px; flex-wrap: wrap; }
 .agent-tab { font-family: inherit; font-size: 13px; font-weight: 600; color: var(--slate-500); background: none; border: none; border-bottom: 2px solid transparent; padding: 10px 14px; cursor: pointer; margin-bottom: -1px; }
 .agent-tab:hover { color: var(--slate-900); }
@@ -1126,6 +1142,7 @@ function load() {
   if (!state.agentConfig || typeof state.agentConfig !== 'object') state.agentConfig = {};
   if (!state.lastSeenReport || typeof state.lastSeenReport !== 'object') state.lastSeenReport = {};
   if (!state.handledPropositions || typeof state.handledPropositions !== 'object') state.handledPropositions = {};
+  if (!Array.isArray(state.decisions)) state.decisions = [];
   // Stratégie globale en piliers (par section)
   if (!state.strategiePillars) state.strategiePillars = {};
   ['vision','marche','pricing'].forEach(s => { if (!Array.isArray(state.strategiePillars[s])) state.strategiePillars[s] = []; });
@@ -3364,6 +3381,42 @@ function renderAgentTabCap(r) {
   return `<div class="cap-view">${h}</div>`;
 }
 
+// S1 — chips « atelier » : confier une mission à Magnus en un clic
+const MAGNUS_CHIPS = [
+  { label: '📋 Cadre le prochain chantier', prompt: "Cadre le prochain chantier en une spec courte et actionnable : le problème, ce qu'on construit, ce qu'on NE construit pas, et le découpage en étapes. Reste concret." },
+  { label: '🪜 Découpe en étapes', prompt: "Découpe le prochain chantier en étapes concrètes, dans l'ordre, avec pour chacune ce qui est « fini » quand c'est fait." },
+  { label: '🛒 Bloqueurs de vente', prompt: "Qu'est-ce qui bloque encore une première vente à une CPTS aujourd'hui ? Donne-moi les vrais bloqueurs, classés par priorité." }
+];
+function sendQuickPrompt(i) {
+  const c = MAGNUS_CHIPS[i]; if (!c) return;
+  const ta = document.getElementById('ac-chat-text'); if (ta) ta.value = c.prompt;
+  sendToMagnus();
+}
+// S3 — Carnet de décisions produit
+function renderAgentTabCarnet() {
+  const list = (state.decisions || []).slice().reverse();
+  return `<div class="carnet">
+    <div class="carnet-add">
+      <input id="dec-titre" class="carnet-input" placeholder="La décision (ex. « On reporte le multi-CPTS après le lancement »)">
+      <textarea id="dec-pourquoi" class="carnet-input" rows="2" placeholder="Pourquoi ? (le raisonnement, pour t'en souvenir dans 3 mois)"></textarea>
+      <button class="btn btn-primary" onclick="addDecision()">+ Noter la décision</button>
+    </div>
+    ${list.length ? `<div class="carnet-list">${list.map(d => `<div class="carnet-item"><div class="carnet-head"><span class="carnet-date">${esc(d.date || '')}</span><button class="carnet-del" onclick="deleteDecision('${d.id}')">supprimer</button></div><div class="carnet-titre">${esc(d.titre)}</div>${d.pourquoi ? `<div class="carnet-pourquoi">${esc(d.pourquoi)}</div>` : ''}</div>`).join('')}</div>` : `<div class="agent-report-empty" style="margin-top:18px">Ton carnet est vide. Note ici les décisions produit + leur pourquoi — précieux quand tu oublies, et utile à Magnus pour comprendre tes choix.</div>`}
+  </div>`;
+}
+function addDecision() {
+  const t = (document.getElementById('dec-titre') || {}).value;
+  const p = (document.getElementById('dec-pourquoi') || {}).value;
+  const titre = (t || '').trim(); if (!titre) { alert('Écris au moins la décision.'); return; }
+  state.decisions = state.decisions || [];
+  state.decisions.push({ id: uid(), date: new Date().toISOString().slice(0, 10), titre, pourquoi: (p || '').trim() });
+  save(); render();
+}
+function deleteDecision(id) {
+  state.decisions = (state.decisions || []).filter(d => d.id !== id);
+  save(); render();
+}
+
 // ===== L'OBSERVATOIRE (vue de veille d'Orion) =====
 let orionReport = null;
 function obsImpact(v) {
@@ -3511,7 +3564,7 @@ function mdToHtml(t) {
   if (inList) out.push('</ul>');
   return out.join('\n').replace(/\n(?!<\/?(?:ul|li))/g, '<br>').replace(/\n/g, '');
 }
-const agentTabLabel = { today: "Aujourd'hui", cap: 'Cap commercial', suivi: 'Suivi', journal: 'Journal', chat: 'Échanger', fiche: 'Fiche' };
+const agentTabLabel = { today: "Aujourd'hui", cap: 'Cap commercial', suivi: 'Suivi', journal: 'Journal', carnet: 'Carnet', chat: 'Échanger', fiche: 'Fiche' };
 
 function openAgentConsole(slug) {
   currentAgentSlug = slug; agentTab = 'today'; agentConsoleData = null;
@@ -3541,7 +3594,7 @@ function renderAgentConsole(content, actions) {
         <div class="ac-fresh" id="ac-fresh"></div>
       </div>
       <div class="agent-tabs">
-        ${(currentAgentSlug === 'chef-produit' ? ['today', 'cap', 'suivi', 'journal', 'chat', 'fiche'] : ['today', 'suivi', 'journal', 'chat', 'fiche']).map(t => `<button class="agent-tab ${agentTab === t ? 'is-active' : ''}" onclick="setAgentTab('${t}')">${agentTabLabel[t]}</button>`).join('')}
+        ${(currentAgentSlug === 'chef-produit' ? ['today', 'cap', 'suivi', 'journal', 'carnet', 'chat', 'fiche'] : ['today', 'suivi', 'journal', 'chat', 'fiche']).map(t => `<button class="agent-tab ${agentTab === t ? 'is-active' : ''}" onclick="setAgentTab('${t}')">${agentTabLabel[t]}</button>`).join('')}
       </div>
       <div class="agent-tab-body" id="agent-tab-body"><div class="agent-report-loading">Chargement…</div></div>
     </div>`;
@@ -3588,6 +3641,7 @@ function renderAgentTabBody() {
     else box.innerHTML = latest && (latest.etat || latest.prochain_chantier) ? `<div class="agent-report" style="border:none;padding:0">${renderAgentReport(latest)}</div>` : agentEmpty(a);
   }
   else if (agentTab === 'cap') box.innerHTML = renderAgentTabCap(latest);
+  else if (agentTab === 'carnet') box.innerHTML = renderAgentTabCarnet();
   else if (agentTab === 'suivi') box.innerHTML = renderAgentTabSuivi();
   else if (agentTab === 'journal') box.innerHTML = renderAgentTabJournal(reps);
   else if (agentTab === 'fiche') box.innerHTML = renderAgentTabFiche(f);
@@ -3685,6 +3739,7 @@ function renderAgentTabChat() {
       ${chat.length ? `<button class="ac-chat-reset" onclick="clearAgentChat()">↺ Nouvelle conversation</button>` : ''}
     </div>
     <div class="ac-chat-msgs" id="ac-chat-msgs">${msgs || `<div class="ac-chat-hint">Pose une question à ${esc(currentAgentName())} : son rapport, le prochain chantier, une orientation produit…</div>`}</div>
+    ${currentAgentSlug === 'chef-produit' ? `<div class="ac-chips">${MAGNUS_CHIPS.map((c, i) => `<button class="ac-chip" onclick="sendQuickPrompt(${i})">${esc(c.label)}</button>`).join('')}</div>` : ''}
     <div class="ac-chat-input">
       <textarea id="ac-chat-text" rows="2" placeholder="Écris à ${esc(currentAgentName())}… (Entrée pour envoyer)" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendToMagnus();}"></textarea>
       <button class="btn btn-primary" id="ac-send" onclick="sendToMagnus()">Envoyer</button>
