@@ -62,6 +62,10 @@ Tu écris **uniquement** le fichier `agents/orion.json`. Tu **ajoutes** un nouve
       "concurrence": [
         { "acteur": "…", "fait": "…", "lecture": "pour toi : …", "source": "url", "date": "AAAA-MM-JJ" }
       ],
+      "concurrence_synthese": "vue d'ensemble du marché concurrentiel en 2-3 phrases (en-tête du tableau de Mako).",
+      "concurrents": [
+        { "nom": "…", "site": "url", "positionnement": "…", "cible": "…", "prix": "… / « sur devis » / « non communiqué »", "forces": ["…"], "faiblesses": ["…"], "actualite": [ { "date": "…", "fait": "…", "source": "url" } ], "strategie": "…", "vs_toi": "comment Eva s'en démarque", "maj": "AAAA-MM-JJ" }
+      ],
       "opportunites": [
         { "titre": "…", "detail": "…", "echeance": "…", "lecture": "pour toi : …", "source": "url" }
       ],
@@ -98,6 +102,8 @@ Tu écris **uniquement** le fichier `agents/orion.json`. Tu **ajoutes** un nouve
   ]
 }
 ```
+
+**Tableau concurrentiel (`concurrents`) — pour Mako, l'agent de veille concurrentielle.** À chaque ronde, tiens à jour une **fiche par concurrent** (logiciels/outils pour CPTS : Citana/Anamnèse, Coordo, Albert, SimplyMed, Medplan, CPTS+, Plexus Santé, CPTS France, inzee.Care…) : `nom`, `site`, `positionnement`, `cible`, `prix` (chiffré si public, sinon « sur devis »/« non communiqué »), `forces`, `faiblesses`, `actualite` (faits datés + source), `strategie`, et `vs_toi` (**comment Eva s'en démarque**). Mets `maj` à la date du jour pour chaque fiche revue. Vérifie les sites des concurrents (`WebFetch`) et les comparatifs (ex. coordo.fr). Renseigne aussi `concurrence_synthese`. C'est ce bloc qui alimente le tableau de bord de **Mako** dans le cockpit.
 
 **Financements (`financements`)** : surveille spécifiquement les **appels à projets** (compétitifs, datés) et **subventions** (dispositifs ouverts) auxquels **CPTS Pilot, l'entreprise d'Eva** (jeune éditeur de logiciel santé, en Nouvelle-Aquitaine), peut candidater — **national + Nouvelle-Aquitaine/64**. **Balaie systématiquement, à chaque ronde, ces guichets** (pour rater le moins possible) :
 - **National** : Bpifrance — appels à projets & concours (`bpifrance.fr/nos-appels-a-projets-concours`, i-Nov / i-Lab) ; France 2030 et sa stratégie « Santé numérique » ; **G_NIUS — guide des financements e-santé** (`gnius.esante.gouv.fr/fr/financement`) ; les agrégateurs publics **Aides-territoires** (`aides-territoires.beta.gouv.fr`) et **les-aides.fr** ; dispositifs transverses (statut JEI, Crédit d'Impôt Innovation/Recherche).

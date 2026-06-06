@@ -381,6 +381,36 @@ body {
 .obs-method-body li { margin: 3px 0; }
 .obs-method-body a { color: var(--blue-700); font-weight: 600; }
 .obs-method-warn { background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 9px; padding: 10px 12px; color: #92400E !important; margin-top: 12px !important; }
+/* Mako — tableau de bord concurrentiel */
+.mako-hero { background: linear-gradient(135deg, #334155, #0F172A); color: var(--white); border-radius: 14px; padding: 18px 20px; margin-bottom: 6px; }
+.mako-eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #93C5FD; margin-bottom: 10px; }
+.mako-hero .obs-synthese { color: #F1F5F9; }
+.mako-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 14px; margin-top: 14px; }
+.mako-card { background: var(--white); border: 1px solid var(--slate-200); border-top: 3px solid #475569; border-radius: 12px; padding: 15px 16px; display: flex; flex-direction: column; gap: 10px; }
+.mako-card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.mako-name { font-size: 15.5px; font-weight: 800; color: var(--slate-900); letter-spacing: -0.01em; }
+.mako-maj { font-size: 10.5px; color: var(--slate-400); white-space: nowrap; }
+.mako-pos { font-size: 13px; color: var(--slate-600); line-height: 1.5; }
+.mako-meta { display: flex; flex-wrap: wrap; gap: 6px; }
+.mako-chip { font-size: 11.5px; font-weight: 600; border-radius: 8px; padding: 3px 9px; text-decoration: none; }
+.mako-chip-prix { background: #DCFCE7; color: #15803D; }
+.mako-chip-cible { background: var(--blue-50); color: var(--blue-700); }
+.mako-chip-site { background: var(--slate-100); color: var(--slate-600); }
+.mako-chip-site:hover { background: var(--slate-200); }
+.mako-fofa { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.mako-fofa-k { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
+.mako-forces .mako-fofa-k { color: #15803D; }
+.mako-faibl .mako-fofa-k { color: #B91C1C; }
+.mako-fofa ul { margin: 0; padding-left: 16px; }
+.mako-fofa li { font-size: 12px; color: var(--slate-600); line-height: 1.45; margin: 2px 0; }
+.mako-block-k { font-size: 11px; font-weight: 700; color: var(--slate-500); margin-bottom: 3px; }
+.mako-block-t { font-size: 12.5px; color: var(--slate-600); line-height: 1.5; }
+.mako-actu { margin: 0; padding-left: 16px; }
+.mako-actu li { font-size: 12px; color: var(--slate-600); line-height: 1.5; margin: 2px 0; }
+.mako-actu-date { font-weight: 700; color: var(--slate-500); }
+.mako-vs { background: #FEF2F2; border: 1px solid #FECACA; border-radius: 9px; padding: 10px 12px; }
+.mako-vs-k { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: #B91C1C; margin-bottom: 4px; }
+.mako-vs div:last-child { font-size: 12.5px; color: #7F1D1D; line-height: 1.5; }
 /* Mot du Chef Produit sur la page d'accueil */
 .today-cap { margin: 0 0 22px; padding: 18px 20px; background: var(--blue-50); border: 1px solid var(--blue-100); border-left: 3px solid var(--blue-500); border-radius: 12px; }
 .today-cap-hidden { display: none; }
@@ -3218,7 +3248,10 @@ const ORGANIGRAMME = {
       agents: [
         { prenom: "Orion", name: "L'Observatoire", slug: "orion", statut: "active", role: "La veille",
           mission: "Ouvert sur le monde, il lit le web en direct : réglementaire (réformes CPTS, ACI, financements), ministère & gouvernement, Assurance Maladie, santé publique, concurrents et opportunités. Il en tire signaux, prédictions et coups d'avance pour te garder bien placée sur le marché.",
-          quand: "« Qu'est-ce qui bouge sur le marché ? Où va le secteur ? Quelle opportunité saisir ? »" }
+          quand: "« Qu'est-ce qui bouge sur le marché ? Où va le secteur ? Quelle opportunité saisir ? »" },
+        { prenom: "Mako", name: "Le Requin", slug: "mako", statut: "active", role: "La concurrence à la loupe", reliéA: "orion",
+          mission: "Relié à Orion : il traque les concurrents et te dresse un tableau de bord clair — prix, positionnement, actualité, stratégie, forces et faiblesses, et comment t'en démarquer. Alimenté par les rondes d'Orion.",
+          quand: "« Que font les concurrents ? Leurs prix ? Comment je me démarque ? »" }
       ]
     },
     {
@@ -3599,6 +3632,45 @@ function finMethodNote() {
     </div>
   </details>`;
 }
+// ===== Mako : tableau de bord de la veille concurrentielle (alimenté par Orion) =====
+function renderMakoBoard(r) {
+  const list = (r && Array.isArray(r.concurrents)) ? r.concurrents : [];
+  const fr = reportFreshness(r && r.updated_at);
+  const intro = `<div class="mako-hero">
+    <div class="mako-eyebrow">🦈 Veille concurrentielle · ${list.length} concurrent${list.length > 1 ? 's' : ''} suivi${list.length > 1 ? 's' : ''} · alimenté par Orion${r && r.updated_at ? ` · ${esc(fr.label)}` : ''}</div>
+    ${r && r.concurrence_synthese ? `<div class="obs-synthese">${esc(r.concurrence_synthese)}</div>` : ''}
+  </div>`;
+  if (!list.length) {
+    return `<div class="observatoire">${intro}
+      <div class="agent-report-empty" style="margin-top:14px">Pas encore de fiches concurrents. Lance une ronde d'Orion (onglet Orion → <strong>▶ Faire tourner</strong>) : il remplira ce tableau.</div>
+    </div>`;
+  }
+  const cards = list.map(c => {
+    const forces = (Array.isArray(c.forces) ? c.forces : []).map(x => `<li>${esc(x)}</li>`).join('');
+    const faibl = (Array.isArray(c.faiblesses) ? c.faiblesses : []).map(x => `<li>${esc(x)}</li>`).join('');
+    const actu = (Array.isArray(c.actualite) ? c.actualite : []).map(a => `<li>${a.date ? `<span class="mako-actu-date">${esc(a.date)}</span> ` : ''}${esc(a.fait || '')} ${a.source ? obsSrc(a.source, 'source') : ''}</li>`).join('');
+    return `<div class="mako-card">
+      <div class="mako-card-head">
+        <div class="mako-name">${esc(c.nom || '')}</div>
+        ${c.maj ? `<span class="mako-maj">maj ${esc(c.maj)}</span>` : ''}
+      </div>
+      ${c.positionnement ? `<div class="mako-pos">${esc(c.positionnement)}</div>` : ''}
+      <div class="mako-meta">
+        ${c.prix ? `<span class="mako-chip mako-chip-prix">💶 ${esc(c.prix)}</span>` : ''}
+        ${c.cible ? `<span class="mako-chip mako-chip-cible">🎯 ${esc(c.cible)}</span>` : ''}
+        ${c.site ? `<a class="mako-chip mako-chip-site" href="${esc(c.site)}" target="_blank" rel="noopener">🔗 site</a>` : ''}
+      </div>
+      ${(forces || faibl) ? `<div class="mako-fofa">
+        ${forces ? `<div class="mako-forces"><div class="mako-fofa-k">✓ Forces</div><ul>${forces}</ul></div>` : ''}
+        ${faibl ? `<div class="mako-faibl"><div class="mako-fofa-k">✕ Faiblesses</div><ul>${faibl}</ul></div>` : ''}
+      </div>` : ''}
+      ${actu ? `<div class="mako-block"><div class="mako-block-k">📰 Actualité</div><ul class="mako-actu">${actu}</ul></div>` : ''}
+      ${c.strategie ? `<div class="mako-block"><div class="mako-block-k">♟️ Stratégie</div><div class="mako-block-t">${esc(c.strategie)}</div></div>` : ''}
+      ${c.vs_toi ? `<div class="mako-vs"><div class="mako-vs-k">⚔️ Comment te démarquer</div><div>${esc(c.vs_toi)}</div></div>` : ''}
+    </div>`;
+  }).join('');
+  return `<div class="observatoire">${intro}<div class="mako-grid">${cards}</div></div>`;
+}
 
 // ============ CONSOLE D'AGENT (Espace Magnus) ============
 let currentAgentSlug = null;
@@ -3625,12 +3697,14 @@ function mdToHtml(t) {
   if (inList) out.push('</ul>');
   return out.join('\n').replace(/\n(?!<\/?(?:ul|li))/g, '<br>').replace(/\n/g, '');
 }
-const agentTabLabel = { today: "Aujourd'hui", financements: '🎯 Financements', local: '📍 Mon 64', suivi: 'Suivi', journal: 'Journal', chat: 'Échanger', fiche: 'Fiche' };
+const agentTabLabel = { today: "Aujourd'hui", financements: '🎯 Financements', local: '📍 Mon 64', board: '🦈 Concurrence', suivi: 'Suivi', journal: 'Journal', chat: 'Échanger', fiche: 'Fiche' };
 
 function openAgentConsole(slug) {
-  currentAgentSlug = slug; agentTab = 'today'; agentConsoleData = null;
+  currentAgentSlug = slug; agentTab = (slug === 'mako') ? 'board' : 'today'; agentConsoleData = null;
   goTo('agent');
 }
+// Certains agents lisent les données d'un autre (Mako est alimenté par Orion)
+function agentDataSlug(slug) { return slug === 'mako' ? 'orion' : slug; }
 function agentReportsFromData(data) {
   if (!data) return [];
   if (Array.isArray(data.journal)) return data.journal;
@@ -3655,19 +3729,19 @@ function renderAgentConsole(content, actions) {
         <div class="ac-fresh" id="ac-fresh"></div>
       </div>
       <div class="agent-tabs">
-        ${(currentAgentSlug === 'orion' ? ['today', 'financements', 'local', 'suivi', 'journal', 'chat', 'fiche'] : ['today', 'suivi', 'journal', 'chat', 'fiche']).map(t => `<button class="agent-tab ${agentTab === t ? 'is-active' : ''}" onclick="setAgentTab('${t}')">${agentTabLabel[t]}</button>`).join('')}
+        ${(currentAgentSlug === 'orion' ? ['today', 'financements', 'local', 'suivi', 'journal', 'chat', 'fiche'] : currentAgentSlug === 'mako' ? ['board', 'chat', 'fiche'] : ['today', 'suivi', 'journal', 'chat', 'fiche']).map(t => `<button class="agent-tab ${agentTab === t ? 'is-active' : ''}" onclick="setAgentTab('${t}')">${agentTabLabel[t]}</button>`).join('')}
       </div>
       <div class="agent-tab-body" id="agent-tab-body"><div class="agent-report-loading">Chargement…</div></div>
     </div>`;
   if (agentConsoleData !== null) { renderAgentTabBody(); }
   else {
-    fetch('agents/' + currentAgentSlug + '.json?t=' + Date.now())
+    fetch('agents/' + agentDataSlug(currentAgentSlug) + '.json?t=' + Date.now())
       .then(r => r.ok ? r.json() : false)
       .then(data => {
         agentConsoleData = data || {};
         const reps = agentReportsFromData(agentConsoleData); const latest = reps[reps.length - 1] || null;
         if (currentAgentSlug === 'chef-produit') chefProduitReport = latest;
-        registerReportPrecos(latest, currentAgentSlug);
+        if (currentAgentSlug !== 'mako') registerReportPrecos(latest, currentAgentSlug);
         renderAgentTabBody();
       })
       .catch(() => { agentConsoleData = {}; renderAgentTabBody(); });
@@ -3702,6 +3776,7 @@ function renderAgentTabBody() {
     else box.innerHTML = latest && (latest.etat || latest.prochain_chantier) ? `<div class="agent-report" style="border:none;padding:0">${renderAgentReport(latest)}</div>` : agentEmpty(a);
   }
   else if (agentTab === 'suivi') box.innerHTML = renderAgentTabSuivi();
+  else if (agentTab === 'board') box.innerHTML = renderMakoBoard(latest);
   else if (agentTab === 'financements') box.innerHTML = renderObsFinancements(latest);
   else if (agentTab === 'local') box.innerHTML = renderObsLocal(latest);
   else if (agentTab === 'journal') box.innerHTML = (currentAgentSlug === 'orion') ? renderObsJournal(reps) : renderAgentTabJournal(reps);
@@ -3832,6 +3907,10 @@ function agentSystemIntro(slug) {
     return `Tu es Orion, l'Observatoire de CPTS Pilot — l'agent de veille, les yeux d'Eva sur le monde extérieur. Tu discutes avec Eva, coordinatrice CPTS et fondatrice solo de CPTS Pilot (plateforme de gestion pour les CPTS — Communautés Professionnelles Territoriales de Santé). Ton : d'égale à égale, simple, zéro jargon inutile, franc et bienveillant, réponses courtes et structurées (markdown : **gras**, listes à puces). Tu parles veille de marché : réglementaire (réformes CPTS, ACI, financements), ministère & gouvernement, Assurance Maladie, santé publique, concurrents, opportunités, signaux et prédictions. Pour chaque info, donne toujours la lecture « et donc, pour toi, ça veut dire quoi ». Tu ne fais PAS le produit/code (→ Magnus), la sécurité (→ Iris), le RGPD (→ Cléo), la marque (→ Stella), la vente (→ Carla) : renvoie vers le bon agent si besoin.
 IMPORTANT : dans ce chat tu n'as PAS d'accès web en direct (navigateur). Tu t'appuies sur ton dernier rapport de veille ci-dessous + ce qu'Eva te dit. Si une question demande d'aller chercher l'actualité fraîche, dis-le et propose une « ronde » (▶ Faire tourner) qui, elle, lit le web.`;
   }
+  if (slug === 'mako') {
+    return `Tu es Mako, l'agent de veille concurrentielle de CPTS Pilot — vif et incisif comme un requin, mais toujours factuel. Tu es relié à Orion (l'Observatoire) : c'est lui qui collecte, toi tu analyses la concurrence et tu la rends limpide. Tu discutes avec Eva, coordinatrice CPTS et fondatrice solo de CPTS Pilot (plateforme de gestion pour les CPTS). Ton : d'égale à égale, simple, franc, percutant, réponses courtes et structurées (markdown). Ton domaine : les concurrents (Citana, Coordo, Albert, SimplyMed, Medplan, CPTS+…) — leur positionnement, prix, stratégie, forces/faiblesses, actualité, et SURTOUT comment Eva s'en démarque et gagne. Tu ne fais pas le réglementaire/financements/national (→ Orion), ni le produit (→ Magnus).
+IMPORTANT : dans ce chat tu n'as PAS d'accès web en direct. Tu t'appuies sur le tableau concurrentiel ci-dessous (rempli par Orion) + ce qu'Eva te dit. Pour des données fraîches, propose une « ronde » (▶ Faire tourner) qui relance Orion.`;
+  }
   return `Tu es Magnus, le Chef Produit de CPTS Pilot (plateforme de gestion pour les CPTS — Communautés Professionnelles Territoriales de Santé). Tu discutes avec Eva, coordinatrice CPTS et fondatrice solo qui code seule et débute sur Git. Ton : d'égale à égale, simple, zéro jargon inutile, franc et bienveillant, réponses courtes et bien structurées (markdown : **gras**, listes à puces). Tu parles produit et stratégie produit — pas marketing, juridique ni sécurité (tu renvoies vers les autres agents si besoin).
 IMPORTANT : dans ce chat tu n'as PAS accès au code en direct (navigateur). Tu t'appuies sur le contexte ci-dessous + ce qu'Eva te dit. Si une question demande de relire le code à jour, dis-le et propose une « ronde » en session.`;
 }
@@ -3871,7 +3950,8 @@ ${roadmap}${acConsignes}`;
 // Robot de ronde branché par agent : slug → fichier de workflow + ce qu'il fait
 const AGENT_WORKFLOW = {
   'chef-produit': { file: 'magnus-ronde.yml', fait: 'relit ton code et écrit un nouveau rapport' },
-  'orion':        { file: 'orion-veille.yml', fait: 'lit le web en direct et écrit un nouveau rapport de veille' }
+  'orion':        { file: 'orion-veille.yml', fait: 'lit le web en direct et écrit un nouveau rapport de veille' },
+  'mako':         { file: 'orion-veille.yml', fait: 'relance la ronde d\'Orion, qui rafraîchit le tableau concurrentiel' }
 };
 async function runAgentRonde() {
   const wf = AGENT_WORKFLOW[currentAgentSlug];
