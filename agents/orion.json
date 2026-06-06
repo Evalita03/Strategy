@@ -1,0 +1,145 @@
+{
+  "agent": "orion",
+  "journal": [
+    {
+      "updated_at": "2026-06-06",
+      "trigger": "première veille",
+      "synthese": "Gros mouvement de fond : le gouvernement veut transformer les CPTS en « Communautés France Santé » via le PLFSS 2026 (enveloppe de 130 M€, ~50 000 €/structure), avec un avenant à l'ACI à négocier dans les 6 mois suivant la loi. Les médecins généralistes s'y opposent fermement. Côté marché, au moins 7 logiciels CPTS sont déjà en concurrence, tous centrés sur le pilotage des indicateurs ACI. Plusieurs financements (Ségur numérique, appels à projets ARS) restent ouverts.",
+      "reglementaire": [
+        {
+          "titre": "Transformation des CPTS en « Communautés France Santé »",
+          "detail": "Amendement gouvernemental au PLFSS 2026 (déposé le 04/11/2025) pour renommer les CPTS en « Communautés France Santé » (CFS) et créer un réseau « France Santé » inspiré de France Services. Enveloppe dédiée de 130 M€, soit ~50 000 € par structure labellisée.",
+          "impact": "fort",
+          "lecture": "pour toi : c'est LE sujet à suivre. Si la loi passe, le vocabulaire (« CPTS » → « Communauté France Santé »), les missions et le financement changent. CPTS Pilot doit pouvoir suivre ce rebranding sans s'enfermer trop tôt (le texte n'est pas définitif).",
+          "source": "https://www.assemblee-nationale.fr/dyn/17/amendements/1907/AN/2568",
+          "date": "2025-11-04"
+        },
+        {
+          "titre": "Avenant à l'ACI CPTS à négocier sous 6 mois",
+          "detail": "La loi prévoit que l'Assurance Maladie engage, dans les 6 mois suivant sa promulgation, la négociation d'un avenant à l'ACI pour adapter le financement aux nouvelles missions : animation du réseau France Santé, soutien aux projets locaux, et possible emploi direct de professionnels.",
+          "impact": "fort",
+          "lecture": "pour toi : de nouveaux indicateurs et de nouvelles missions financées arrivent → autant d'éléments à outiller dans la plateforme. Anticiper ces briques = un argument de vente fort le jour où l'avenant sort.",
+          "source": "https://www.ameli.fr/exercice-coordonne/textes-reference/accord-conventionnel-interprofessionnel-pour-les-cpts/accord-conventionnel-interprofessionnel-pour-les-cpts",
+          "date": "2026-04-01"
+        },
+        {
+          "titre": "Forte opposition des médecins généralistes",
+          "detail": "Les syndicats de médecins généralistes dénoncent une « manœuvre » et s'opposent au changement de nom et à la réforme des CPTS en Communautés France Santé.",
+          "impact": "moyen",
+          "lecture": "pour toi : la réforme n'est pas jouée. Reste agile sur le vocabulaire produit tant que le texte n'est pas promulgué — ne renomme pas tout « France Santé » prématurément.",
+          "source": "https://www.whatsupdoc-lemag.fr/article/les-medecins-generalistes-vent-debout-contre-la-transformation-des-cpts-en-communautes",
+          "date": "2026-01-01"
+        }
+      ],
+      "concurrence": [
+        {
+          "acteur": "Coordo",
+          "fait": "Logiciel CPTS centré sur l'orientation patient et le pilotage des indicateurs ACI. Démo à partir de 149 € HT/mois, sans engagement. Publie un comparatif des 7 logiciels CPTS du marché.",
+          "lecture": "pour toi : repère de prix utile (~150 €/mois en entrée). Le comparatif qu'ils publient est un bon thermomètre du marché — à relire à chaque ronde.",
+          "source": "https://www.coordo.fr/ressources/logiciels-cpts/comparatif-logiciels-cpts/",
+          "date": "2026-01-01"
+        },
+        {
+          "acteur": "Citana (Anamnese)",
+          "fait": "L'un des plus anciens spécialistes du marché CPTS, vise les CPTS structurées qui veulent une large couverture fonctionnelle : statistiques en temps réel, reporting automatisé, indicateurs ACI pour la CPAM et l'ARS.",
+          "lecture": "pour toi : concurrent installé et complet → ta différenciation doit être la simplicité et la prise en main, pas la course aux fonctionnalités.",
+          "source": "https://www.anamnese.care/citana",
+          "date": "2026-01-01"
+        },
+        {
+          "acteur": "Albert (albertsante.fr)",
+          "fait": "Outil d'aide au pilotage par les indicateurs ACI et d'analyse du territoire par profession (ETP, visites à domicile, langues parlées) pour cibler les projets de santé.",
+          "lecture": "pour toi : le pilotage ACI est devenu le terrain de jeu commun de tous les concurrents. C'est un attendu de base, pas un avantage — il faut faire mieux ou plus simple.",
+          "source": "https://albertsante.fr/aide-pilotage-indicateurs-aci",
+          "date": "2026-01-01"
+        },
+        {
+          "acteur": "Autres acteurs identifiés",
+          "fait": "CPTS+, SimplyMed, inzee.Care Coordination, Plexus Santé, Medplan, CPTS France : annuaire local, soins non programmés, agenda, partage de ressources, site web de la communauté.",
+          "lecture": "pour toi : marché déjà peuplé (7+ acteurs). À cartographier finement (qui fait quoi, à quel prix) pour trouver le créneau où CPTS Pilot est clairement meilleur.",
+          "source": "https://www.coordo.fr/ressources/logiciels-cpts/comparatif-logiciels-cpts/",
+          "date": "2026-01-01"
+        }
+      ],
+      "opportunites": [
+        {
+          "titre": "Abonnement logiciel = dépense éligible à l'ACI",
+          "detail": "Selon l'ACI, les outils numériques de coordination (annuaires, outils de partage patient) sont des dépenses éligibles ; l'abonnement à un logiciel CPTS entre dans la ligne « acquisition et maintenance des outils de coordination ».",
+          "echeance": "permanent",
+          "lecture": "pour toi : argument de vente clé → l'abonnement à CPTS Pilot peut être financé par l'enveloppe ACI de la CPTS. À mettre en avant noir sur blanc dans ton discours commercial.",
+          "source": "https://www.coordo.fr/ressources/logiciels-cpts/comparatif-logiciels-cpts/"
+        },
+        {
+          "titre": "Appel à projets ARS Île-de-France (innovations numériques)",
+          "detail": "AAP « innovations organisationnelles s'appuyant sur une solution technologique ou numérique » : dépôt avant le 02/06/2026 14h, sélection en octobre 2026. Les CPTS peuvent être porteuses de projet.",
+          "echeance": "dépôt clos le 02/06/2026 (édition à resurveiller)",
+          "lecture": "pour toi : ce type d'AAP régional finance les CPTS qui s'équipent en numérique → une porte d'entrée pour accompagner tes futures clientes. Surveiller l'équivalent dans TON territoire (à préciser).",
+          "source": "https://www.iledefrance.ars.sante.fr/mise-en-place-de-projets-dinnovations-organisationnelles-sappuyant-sur-une-solution-technologique-0"
+        },
+        {
+          "titre": "Ségur du numérique en santé & AAP de l'ANS",
+          "detail": "Le Ségur numérique (financé par des fonds européens) et l'Agence du Numérique en Santé portent des appels à projets (« Structures 3.0 », « Tiers-lieux d'expérimentation », Mon espace santé).",
+          "echeance": "vagues successives — à resurveiller",
+          "lecture": "pour toi : sources de financement et de légitimité (interopérabilité, Mon espace santé). À garder à l'œil pour aligner la plateforme sur les standards attendus.",
+          "source": "https://esante.gouv.fr/lagence/appels-a-projets"
+        }
+      ],
+      "signaux": [
+        {
+          "signal": "Tous les concurrents convergent vers « le pilotage des indicateurs ACI ».",
+          "lecture": "ce que ça annonce : l'ACI est la colonne vertébrale du marché. La différenciation se jouera ailleurs — simplicité, accompagnement, vie associative, expérience utilisateur."
+        },
+        {
+          "signal": "L'État pousse une logique de « réseau » et de label unique (France Santé / France Services).",
+          "lecture": "ce que ça annonce : montée du besoin de lisibilité et de mise en réseau entre structures → opportunité produit autour de la collaboration inter-CPTS."
+        }
+      ],
+      "predictions": [
+        {
+          "horizon": "6 mois",
+          "scenario": "Si le PLFSS 2026 est promulgué, la négociation de l'avenant ACI s'ouvre (obligation légale sous 6 mois) et précise les nouvelles missions/indicateurs financés.",
+          "confiance": "élevée",
+          "implication": "pour toi : prépare-toi à outiller de nouvelles missions (animation réseau, projets locaux). Être prêt le jour de l'avenant = un coup d'avance commercial net."
+        },
+        {
+          "horizon": "12 mois",
+          "scenario": "Le vocabulaire « Communauté France Santé » commence à s'imposer dans les documents officiels et les CPAM/ARS, malgré l'opposition.",
+          "confiance": "moyenne",
+          "implication": "pour toi : prévois de pouvoir basculer le vocabulaire de la plateforme (libellés paramétrables) sans tout réécrire."
+        },
+        {
+          "horizon": "18 mois",
+          "scenario": "Consolidation du marché des logiciels CPTS (rachats / abandons parmi les 7+ acteurs) ; les survivants se distinguent par la simplicité et l'accompagnement humain.",
+          "confiance": "moyenne",
+          "implication": "pour toi : ta carte maîtresse de fondatrice-coordinatrice, c'est le terrain et la simplicité. Capitalise dessus plutôt que sur la surenchère de fonctions."
+        }
+      ],
+      "coups_avance": [
+        {
+          "titre": "Rendre le vocabulaire de la plateforme paramétrable (CPTS ↔ Communauté France Santé)",
+          "pourquoi": "La réforme peut renommer les CPTS. Les libellés en dur deviendraient datés du jour au lendemain.",
+          "action": "Prévoir des libellés centralisés/paramétrables pour basculer le nom sans refonte, dès que la loi tranche."
+        },
+        {
+          "titre": "Faire de « financé par l'enveloppe ACI » un argument commercial central",
+          "pourquoi": "L'abonnement logiciel est une dépense ACI éligible : c'est un levier d'achat décisif pour une CPTS.",
+          "action": "Préparer une phrase claire et un mini-justificatif (référence ACI) à donner aux CPTS prospectes."
+        },
+        {
+          "titre": "Cartographier finement les 7 concurrents (fonctions + prix)",
+          "pourquoi": "Le marché est déjà peuplé ; sans carte précise, impossible de positionner CPTS Pilot.",
+          "action": "Construire un tableau comparatif interne (acteur, cible, fonctions, prix, point faible) à partir du comparatif Coordo, et le tenir à jour à chaque ronde."
+        }
+      ],
+      "sources": [
+        { "titre": "Amendement PLFSS 2026 n°2568 (renommage CPTS → Communautés France Santé)", "url": "https://www.assemblee-nationale.fr/dyn/17/amendements/1907/AN/2568", "date": "2025-11-04" },
+        { "titre": "Médecins généralistes contre la transformation des CPTS (What's up Doc)", "url": "https://www.whatsupdoc-lemag.fr/article/les-medecins-generalistes-vent-debout-contre-la-transformation-des-cpts-en-communautes", "date": "2026-01-01" },
+        { "titre": "ACI CPTS — ameli.fr (textes de référence)", "url": "https://www.ameli.fr/exercice-coordonne/textes-reference/accord-conventionnel-interprofessionnel-pour-les-cpts/accord-conventionnel-interprofessionnel-pour-les-cpts", "date": "2026-04-01" },
+        { "titre": "Comparatif logiciels CPTS 2026 (Coordo)", "url": "https://www.coordo.fr/ressources/logiciels-cpts/comparatif-logiciels-cpts/", "date": "2026-01-01" },
+        { "titre": "Appel à projets innovations numériques — ARS Île-de-France", "url": "https://www.iledefrance.ars.sante.fr/mise-en-place-de-projets-dinnovations-organisationnelles-sappuyant-sur-une-solution-technologique-0", "date": "2026-06-02" },
+        { "titre": "Appels à projets — Agence du Numérique en Santé", "url": "https://esante.gouv.fr/lagence/appels-a-projets", "date": "2026-01-01" }
+      ],
+      "note": "Première veille de mise en route, faite à la main pour remplir ton observatoire dès le départ. Périmètre national (ton territoire local reste à préciser). À partir de maintenant, Orion refait ce travail tout seul chaque lundi, et tu peux le déclencher à la demande avec ▶ Faire tourner. Plusieurs dates sont approximatives (marquées au mieux) : Orion les affinera et les vérifiera à la source à ses prochaines rondes."
+    }
+  ]
+}

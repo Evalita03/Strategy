@@ -289,9 +289,48 @@ body {
 .arb-list { margin: 0; padding-left: 18px; }
 .arb-list li { font-size: 13.5px; color: var(--slate-700); line-height: 1.6; margin: 3px 0; }
 .agent-report-note { margin-top: 14px; font-size: 12.5px; color: var(--slate-500); font-style: italic; border-top: 1px dashed var(--slate-200); padding-top: 10px; }
+/* L'Observatoire (veille d'Orion) */
+.observatoire { display: flex; flex-direction: column; gap: 8px; }
+.obs-hero { background: linear-gradient(135deg, var(--slate-900), var(--blue-900)); color: var(--white); border-radius: 14px; padding: 18px 20px; margin-bottom: 6px; }
+.obs-hero-eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--blue-100); margin-bottom: 10px; }
+.obs-hero-eyebrow .ac-stale { color: #FDE68A; }
+.obs-synthese { font-size: 14.5px; line-height: 1.6; color: #F8FAFC; }
+.obs-nav { display: flex; flex-wrap: wrap; gap: 7px; position: sticky; top: 0; background: var(--slate-50); padding: 10px 0; z-index: 2; margin-bottom: 4px; }
+.obs-nav-chip { font-family: inherit; font-size: 12px; font-weight: 600; color: var(--slate-700); background: var(--white); border: 1px solid var(--slate-200); border-radius: 20px; padding: 5px 12px; cursor: pointer; transition: all .15s; }
+.obs-nav-chip:hover { background: var(--blue-50); border-color: var(--blue-100); color: var(--blue-700); }
+.obs-section { scroll-margin-top: 56px; margin-top: 16px; }
+.obs-sec-head { display: flex; align-items: center; gap: 9px; margin-bottom: 12px; }
+.obs-sec-icon { font-size: 17px; }
+.obs-sec-head h3 { font-size: 14.5px; font-weight: 800; color: var(--slate-900); letter-spacing: -0.01em; margin: 0; }
+.obs-sec-count { font-size: 11px; font-weight: 700; color: var(--slate-500); background: var(--slate-100); border-radius: 10px; padding: 1px 8px; }
+.obs-sec-body { display: flex; flex-direction: column; gap: 10px; }
+.obs-card { background: var(--white); border: 1px solid var(--slate-200); border-left: 3px solid var(--blue-500); border-radius: 12px; padding: 14px 16px; }
+.obs-card-pred { border-left-color: #8B5CF6; }
+.obs-card-coup { border-left-color: var(--teal-600, #0D9488); background: #F0FDFA; }
+.obs-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
+.obs-card-titre { font-size: 14px; font-weight: 700; color: var(--slate-900); line-height: 1.35; }
+.obs-card-detail { font-size: 13px; color: var(--slate-600); line-height: 1.55; margin-bottom: 8px; }
+.obs-lecture { font-size: 12.5px; color: var(--slate-700); line-height: 1.5; background: var(--blue-50); border-radius: 8px; padding: 8px 11px; }
+.obs-card-coup .obs-lecture { background: #CCFBF1; }
+.obs-card-foot { display: flex; align-items: center; gap: 12px; margin-top: 9px; }
+.obs-date { font-size: 11px; color: var(--slate-400); }
+.obs-src { font-size: 11.5px; font-weight: 600; color: var(--blue-700); text-decoration: none; }
+.obs-src:hover { text-decoration: underline; }
+.obs-badge { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; border-radius: 20px; padding: 2px 9px; white-space: nowrap; }
+.obs-imp-fort { background: #FEE2E2; color: #B91C1C; }
+.obs-imp-moyen { background: #FEF3C7; color: #B45309; }
+.obs-imp-faible { background: var(--slate-100); color: var(--slate-500); }
+.obs-horizon { background: #EDE9FE; color: #6D28D9; }
+.obs-conf { font-size: 11px; font-weight: 600; color: var(--slate-500); }
+.obs-signal { background: var(--white); border: 1px solid var(--slate-200); border-radius: 12px; padding: 12px 14px; }
+.obs-signal-txt { font-size: 13.5px; font-weight: 600; color: var(--slate-800); margin-bottom: 6px; }
+.obs-sources { margin: 0; padding-left: 18px; }
+.obs-sources li { font-size: 12.5px; line-height: 1.7; color: var(--slate-600); }
 /* Mot du Chef Produit sur la page d'accueil */
 .today-cap { margin: 0 0 22px; padding: 18px 20px; background: var(--blue-50); border: 1px solid var(--blue-100); border-left: 3px solid var(--blue-500); border-radius: 12px; }
 .today-cap-hidden { display: none; }
+.today-orion { background: #F1F5F9; border-color: var(--slate-300); border-left-color: var(--slate-700); }
+.today-orion .cap-eyebrow { color: var(--slate-700); }
 .cap-eyebrow { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; color: var(--blue-700); margin-bottom: 10px; }
 .cap-mark { font-style: normal; }
 .cap-chantier { display: flex; flex-direction: column; gap: 2px; margin-bottom: 8px; }
@@ -318,6 +357,9 @@ body {
 .ac-fresh { font-size: 11.5px; color: var(--slate-400); margin-top: 6px; }
 .ac-stale { color: #B45309; font-weight: 700; }
 .cap-stale { color: #B45309; font-weight: 700; font-size: 11px; }
+.cap-new { color: var(--teal-700); background: var(--teal-100); border: 1px solid var(--teal-100); font-size: 10.5px; font-weight: 800; border-radius: 20px; padding: 1px 8px; }
+.ronde-toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--slate-900); color: var(--white); font-size: 13px; font-weight: 600; padding: 12px 18px; border-radius: 12px; box-shadow: 0 8px 30px rgba(15,23,42,0.28); opacity: 0; pointer-events: none; transition: all .3s ease; z-index: 9999; max-width: 90vw; }
+.ronde-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 .agent-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--slate-200); margin-bottom: 20px; flex-wrap: wrap; }
 .agent-tab { font-family: inherit; font-size: 13px; font-weight: 600; color: var(--slate-500); background: none; border: none; border-bottom: 2px solid transparent; padding: 10px 14px; cursor: pointer; margin-bottom: -1px; }
 .agent-tab:hover { color: var(--slate-900); }
@@ -1050,6 +1092,7 @@ function load() {
   if (!Array.isArray(state.precos)) state.precos = [];
   if (!state.agentChats || typeof state.agentChats !== 'object') state.agentChats = {};
   if (!state.agentConfig || typeof state.agentConfig !== 'object') state.agentConfig = {};
+  if (!state.lastSeenReport || typeof state.lastSeenReport !== 'object') state.lastSeenReport = {};
   // Stratégie globale en piliers (par section)
   if (!state.strategiePillars) state.strategiePillars = {};
   ['vision','marche','pricing'].forEach(s => { if (!Array.isArray(state.strategiePillars[s])) state.strategiePillars[s] = []; });
@@ -1261,6 +1304,7 @@ function renderToday(content, actions) {
     </div>`;
 
   html += '<div id="today-cap" class="today-cap today-cap-hidden"></div>';
+  html += '<div id="today-orion" class="today-cap today-orion today-cap-hidden"></div>';
 
   html += '<div class="today-grid">';
 
@@ -1324,9 +1368,48 @@ function renderToday(content, actions) {
   html += '</div>';
   content.innerHTML = html;
   loadCapToday();
+  loadOrionToday();
 }
 
 let chefProduitReport = null;
+// Notification « nouveau point » : un rapport est neuf tant qu'Eva n'a pas ouvert l'Espace de l'agent
+function isReportNew(slug, updatedAt) { return !!updatedAt && (state.lastSeenReport || {})[slug] !== updatedAt; }
+function markReportSeen(slug, updatedAt) {
+  if (!updatedAt) return;
+  if (!state.lastSeenReport) state.lastSeenReport = {};
+  if (state.lastSeenReport[slug] !== updatedAt) { state.lastSeenReport[slug] = updatedAt; save(); }
+}
+// Auto-refresh après une ronde : on guette l'arrivée du nouveau rapport
+let rondePollTimer = null;
+function pollForNewReport(slug, baseline) {
+  if (rondePollTimer) clearInterval(rondePollTimer);
+  let tries = 0;
+  rondePollTimer = setInterval(async () => {
+    if (++tries > 16) { clearInterval(rondePollTimer); rondePollTimer = null; return; }   // ~8 min max
+    try {
+      const resp = await fetch('agents/' + slug + '.json?t=' + Date.now());
+      if (!resp.ok) return;
+      const data = await resp.json();
+      const reps = (data && Array.isArray(data.journal)) ? data.journal : [data];
+      if (reps.length > baseline) {
+        clearInterval(rondePollTimer); rondePollTimer = null;
+        if (slug === 'chef-produit') chefProduitReport = reps[reps.length - 1];
+        if (currentView === 'agent' && currentAgentSlug === slug) { agentConsoleData = data; render(); }
+        else render();
+        const ag = (findAgentBySlug(slug) || { a: {} }).a;
+        showRondeToast((ag.prenom || ag.name || 'L\'agent') + ' a fini sa ronde — son nouveau point est arrivé ✨');
+      }
+    } catch (e) { /* on réessaie au prochain tour */ }
+  }, 30000);
+}
+function showRondeToast(msg) {
+  let t = document.getElementById('ronde-toast');
+  if (!t) { t = document.createElement('div'); t.id = 'ronde-toast'; t.className = 'ronde-toast'; document.body.appendChild(t); }
+  t.textContent = '✅ ' + msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 9000);
+}
+
 async function loadCapToday() {
   const box = document.getElementById('today-cap'); if (!box) return;
   try {
@@ -1340,7 +1423,7 @@ async function loadCapToday() {
     const pc = r.prochain_chantier || {};
     const fr = reportFreshness(r.updated_at);
     box.innerHTML = `
-      <div class="cap-eyebrow"><span class="cap-mark">🧭</span> Le mot de Magnus, Chef Produit${r.updated_at ? ' · ' + esc(fr.label) : ''}${fr.stale ? ' <span class="cap-stale">⚠ à rafraîchir</span>' : ''}</div>
+      <div class="cap-eyebrow"><span class="cap-mark">🧭</span> Le mot de Magnus, Chef Produit${r.updated_at ? ' · ' + esc(fr.label) : ''}${isReportNew('chef-produit', r.updated_at) ? ' <span class="cap-new">● nouveau</span>' : ''}${fr.stale ? ' <span class="cap-stale">⚠ à rafraîchir</span>' : ''}</div>
       ${pc.titre ? `<div class="cap-chantier"><span class="cap-chantier-label">Prochain chantier</span><span class="cap-chantier-titre">${esc(pc.titre)}</span></div>` : ''}
       ${pc.pourquoi ? `<div class="cap-pourquoi">${esc(pc.pourquoi)}</div>` : ''}
       <div class="cap-actions">
@@ -1350,6 +1433,30 @@ async function loadCapToday() {
       </div>`;
     box.classList.remove('today-cap-hidden');
   } catch (e) { /* silencieux : pas de rapport, pas d'encart */ }
+}
+
+// Aperçu de la veille d'Orion sur l'accueil
+async function loadOrionToday() {
+  const box = document.getElementById('today-orion'); if (!box) return;
+  try {
+    const resp = await fetch('agents/orion.json?t=' + Date.now());
+    if (!resp.ok) return;
+    const data = await resp.json();
+    const reps = (data && Array.isArray(data.journal)) ? data.journal : [data];
+    const r = reps[reps.length - 1] || {};
+    if (!r.synthese && !(Array.isArray(r.reglementaire) && r.reglementaire.length)) return;
+    registerReportPrecos(r, 'orion');
+    const fr = reportFreshness(r.updated_at);
+    const coup = (Array.isArray(r.coups_avance) && r.coups_avance[0]) ? r.coups_avance[0] : null;
+    box.innerHTML = `
+      <div class="cap-eyebrow"><span class="cap-mark">🛰️</span> L'observatoire d'Orion${r.updated_at ? ' · ' + esc(fr.label) : ''}${fr.stale ? ' <span class="cap-stale">⚠ à rafraîchir</span>' : ''}</div>
+      ${r.synthese ? `<div class="cap-pourquoi">${esc(r.synthese)}</div>` : ''}
+      ${coup ? `<div class="cap-chantier"><span class="cap-chantier-label">Coup d'avance</span><span class="cap-chantier-titre" style="font-size:14px">${esc(coup.titre)}</span></div>` : ''}
+      <div class="cap-actions">
+        <a class="cap-link" onclick="openAgentConsole('orion')">Ouvrir l'observatoire d'Orion →</a>
+      </div>`;
+    box.classList.remove('today-cap-hidden');
+  } catch (e) { /* silencieux */ }
 }
 
 // Registre de suivi des préconisations (proposée → en tâche/roadmap → faite/écartée)
@@ -1365,6 +1472,8 @@ function registerReportPrecos(r, agentSlug) {
   const date = r.updated_at || ''; let added = false;
   if (r.prochain_chantier && r.prochain_chantier.titre) { const res = upsertPreco(r.prochain_chantier.titre, 'chantier', date, agentSlug); if (res && res.added) added = true; }
   if (Array.isArray(r.a_anticiper)) r.a_anticiper.forEach(x => { const res = upsertPreco(String(x), 'anticiper', date, agentSlug); if (res && res.added) added = true; });
+  // Orion : ses « coups d'avance » se suivent comme des préconisations
+  if (Array.isArray(r.coups_avance)) r.coups_avance.forEach(c => { if (c && c.titre) { const res = upsertPreco(c.titre, 'coup', date, agentSlug); if (res && res.added) added = true; } });
   // Magnus a observé dans le code que des chantiers/tâches sont réalisés → on les marque « Faite »
   if (Array.isArray(r.faits)) r.faits.forEach(titre => {
     const k = precoKey(String(titre));
@@ -3052,9 +3161,9 @@ const ORGANIGRAMME = {
     {
       name: "Marché", tagline: "Regarder dehors",
       agents: [
-        { prenom: "Orion", name: "L'Observatoire", statut: "todo", role: "La veille",
-          mission: "Surveille le monde extérieur : réglementaire (lois, réformes CPTS) et concurrentiel (concurrents — prix, communication, positionnement).",
-          quand: "« Qu'est-ce qui bouge sur le marché ? »" }
+        { prenom: "Orion", name: "L'Observatoire", slug: "orion", statut: "active", role: "La veille",
+          mission: "Ouvert sur le monde, il lit le web en direct : réglementaire (réformes CPTS, ACI, financements), ministère & gouvernement, Assurance Maladie, santé publique, concurrents et opportunités. Il en tire signaux, prédictions et coups d'avance pour te garder bien placée sur le marché.",
+          quand: "« Qu'est-ce qui bouge sur le marché ? Où va le secteur ? Quelle opportunité saisir ? »" }
       ]
     },
     {
@@ -3095,7 +3204,7 @@ function renderOrganigramme(content, actions) {
       <div class="org-agents">
         ${pole.agents.map(a => {
           const s = orgStatut[a.statut] || orgStatut.todo;
-          return `<div class="org-agent ${a.statut === 'next' ? 'org-agent-next' : ''}" onclick="openAgentConsole('${slugifyAgent(a.name)}')">
+          return `<div class="org-agent ${a.statut === 'next' ? 'org-agent-next' : ''}" onclick="openAgentConsole('${a.slug || slugifyAgent(a.name)}')">
             <div class="org-agent-head">
               <span class="org-agent-name">${esc(a.prenom || a.name)}</span>
               <span class="org-badge ${s.cls}">${s.label}</span>
@@ -3118,7 +3227,7 @@ function slugifyAgent(name) {
 function findAgentBySlug(slug) {
   for (const pole of ORGANIGRAMME.poles)
     for (const a of pole.agents)
-      if (slugifyAgent(a.name) === slug) return { a, pole: pole.name };
+      if ((a.slug || slugifyAgent(a.name)) === slug) return { a, pole: pole.name };
   return null;
 }
 async function openAgentModal(slug) {
@@ -3166,6 +3275,128 @@ function renderAgentReport(r) {
     h += `<div class="agent-report-block"><div class="arb-label">À anticiper</div><ul class="arb-list">${r.a_anticiper.map((x, i) => `<li>${esc(x)} <button class="jalon-mini" onclick="createJalonFromAnticipe(event, ${i})">+ roadmap</button></li>`).join('')}</ul></div>`;
   if (r.note) h += `<div class="agent-report-note">${esc(r.note)}</div>`;
   return h;
+}
+
+// ===== L'OBSERVATOIRE (vue de veille d'Orion) =====
+let orionReport = null;
+function obsImpact(v) {
+  const k = (v || '').toLowerCase();
+  const cls = k === 'fort' ? 'obs-imp-fort' : (k === 'moyen' ? 'obs-imp-moyen' : 'obs-imp-faible');
+  return `<span class="obs-badge ${cls}">impact ${esc(v || 'à situer')}</span>`;
+}
+function obsSrc(url, label) {
+  if (!url) return '';
+  return `<a class="obs-src" href="${esc(url)}" target="_blank" rel="noopener">🔗 ${esc(label || 'source')}</a>`;
+}
+function obsSection(id, icon, titre, count, inner) {
+  if (!inner) return '';
+  return `<section class="obs-section" id="${id}">
+    <div class="obs-sec-head"><span class="obs-sec-icon">${icon}</span><h3>${esc(titre)}</h3>${count != null ? `<span class="obs-sec-count">${count}</span>` : ''}</div>
+    <div class="obs-sec-body">${inner}</div>
+  </section>`;
+}
+function renderObservatoire(r, opts) {
+  opts = opts || {};
+  const hist = !!opts.historique;
+  const idp = opts.idSuffix || '';            // suffixe d'ancre (rapports archivés → ids uniques)
+  if (!hist) orionReport = r;                  // les boutons « + roadmap » pointent toujours sur le rapport vivant
+  const sid = id => id + idp;
+  const fr = reportFreshness(r.updated_at);
+  const nav = [];
+  const sections = [];
+
+  // Réglementaire
+  if (Array.isArray(r.reglementaire) && r.reglementaire.length) {
+    nav.push([sid('obs-reglementaire'), '⚖️ Réglementaire']);
+    const cards = r.reglementaire.map(x => `<div class="obs-card">
+      <div class="obs-card-top"><div class="obs-card-titre">${esc(x.titre || '')}</div>${obsImpact(x.impact)}</div>
+      ${x.detail ? `<div class="obs-card-detail">${esc(x.detail)}</div>` : ''}
+      ${x.lecture ? `<div class="obs-lecture">${esc(x.lecture)}</div>` : ''}
+      <div class="obs-card-foot">${obsSrc(x.source, 'source')}${x.date ? `<span class="obs-date">${esc(x.date)}</span>` : ''}</div>
+    </div>`).join('');
+    sections.push(obsSection(sid('obs-reglementaire'), '⚖️', 'Réglementaire & financement', r.reglementaire.length, cards));
+  }
+  // Concurrence
+  if (Array.isArray(r.concurrence) && r.concurrence.length) {
+    nav.push([sid('obs-concurrence'), '🎯 Concurrents']);
+    const cards = r.concurrence.map(x => `<div class="obs-card">
+      <div class="obs-card-titre">${esc(x.acteur || '')}</div>
+      ${x.fait ? `<div class="obs-card-detail">${esc(x.fait)}</div>` : ''}
+      ${x.lecture ? `<div class="obs-lecture">${esc(x.lecture)}</div>` : ''}
+      <div class="obs-card-foot">${obsSrc(x.source, 'source')}${x.date ? `<span class="obs-date">${esc(x.date)}</span>` : ''}</div>
+    </div>`).join('');
+    sections.push(obsSection(sid('obs-concurrence'), '🎯', 'Concurrents', r.concurrence.length, cards));
+  }
+  // Opportunités
+  if (Array.isArray(r.opportunites) && r.opportunites.length) {
+    nav.push([sid('obs-opportunites'), '🌱 Opportunités']);
+    const cards = r.opportunites.map(x => `<div class="obs-card">
+      <div class="obs-card-top"><div class="obs-card-titre">${esc(x.titre || '')}</div>${x.echeance ? `<span class="obs-badge obs-imp-moyen">⏳ ${esc(x.echeance)}</span>` : ''}</div>
+      ${x.detail ? `<div class="obs-card-detail">${esc(x.detail)}</div>` : ''}
+      ${x.lecture ? `<div class="obs-lecture">${esc(x.lecture)}</div>` : ''}
+      <div class="obs-card-foot">${obsSrc(x.source, 'source')}</div>
+    </div>`).join('');
+    sections.push(obsSection(sid('obs-opportunites'), '🌱', 'Opportunités à saisir', r.opportunites.length, cards));
+  }
+  // Signaux
+  if (Array.isArray(r.signaux) && r.signaux.length) {
+    nav.push([sid('obs-signaux'), '📡 Signaux']);
+    const items = r.signaux.map(x => `<div class="obs-signal"><div class="obs-signal-txt">${esc(x.signal || '')}</div>${x.lecture ? `<div class="obs-lecture">${esc(x.lecture)}</div>` : ''}</div>`).join('');
+    sections.push(obsSection(sid('obs-signaux'), '📡', 'Signaux faibles', r.signaux.length, items));
+  }
+  // Prédictions
+  if (Array.isArray(r.predictions) && r.predictions.length) {
+    nav.push([sid('obs-predictions'), '🔮 Prédictions']);
+    const cards = r.predictions.map(x => `<div class="obs-card obs-card-pred">
+      <div class="obs-card-top"><span class="obs-badge obs-horizon">🔭 ${esc(x.horizon || '')}</span>${x.confiance ? `<span class="obs-conf">confiance ${esc(x.confiance)}</span>` : ''}</div>
+      ${x.scenario ? `<div class="obs-card-detail">${esc(x.scenario)}</div>` : ''}
+      ${x.implication ? `<div class="obs-lecture">${esc(x.implication)}</div>` : ''}
+    </div>`).join('');
+    sections.push(obsSection(sid('obs-predictions'), '🔮', 'Prédictions', r.predictions.length, cards));
+  }
+  // Coups d'avance
+  if (Array.isArray(r.coups_avance) && r.coups_avance.length) {
+    nav.push([sid('obs-coups'), '♟️ Coups d\'avance']);
+    const cards = r.coups_avance.map((x, i) => `<div class="obs-card obs-card-coup">
+      <div class="obs-card-titre">♟️ ${esc(x.titre || '')}</div>
+      ${x.pourquoi ? `<div class="obs-card-detail"><strong>Pourquoi.</strong> ${esc(x.pourquoi)}</div>` : ''}
+      ${x.action ? `<div class="obs-lecture"><strong>À faire.</strong> ${esc(x.action)}</div>` : ''}
+      <div class="report-btn-row"><button class="cap-task-btn cap-task-btn-alt" onclick="createJalonFromCoup(event, ${i})">+ Ajouter à la roadmap</button></div>
+    </div>`).join('');
+    sections.push(obsSection(sid('obs-coups'), '♟️', "Coups d'avance", r.coups_avance.length, cards));
+  }
+  // Sources
+  if (Array.isArray(r.sources) && r.sources.length) {
+    const items = r.sources.map(x => `<li>${obsSrc(x.url, x.titre || x.url)}${x.date ? ` <span class="obs-date">${esc(x.date)}</span>` : ''}</li>`).join('');
+    sections.push(obsSection(sid('obs-sources'), '📚', 'Toutes les sources', r.sources.length, `<ul class="obs-sources">${items}</ul>`));
+  }
+
+  const navHtml = nav.length ? `<div class="obs-nav">${nav.map(([id, lbl]) => `<button class="obs-nav-chip" onclick="document.getElementById('${id}').scrollIntoView({behavior:'smooth',block:'start'})">${esc(lbl)}</button>`).join('')}</div>` : '';
+
+  return `<div class="observatoire">
+    <div class="obs-hero">
+      <div class="obs-hero-eyebrow">🛰️ Observatoire · veille du ${esc(r.updated_at || '')} · ${esc(fr.label)}${fr.stale ? ' <span class="ac-stale">⚠ à rafraîchir</span>' : ''}</div>
+      ${r.synthese ? `<div class="obs-synthese">${esc(r.synthese)}</div>` : ''}
+    </div>
+    ${navHtml}
+    ${sections.join('')}
+    ${r.note ? `<div class="agent-report-note">${esc(r.note)}</div>` : ''}
+  </div>`;
+}
+function createJalonFromCoup(ev, idx) {
+  const btn = ev && ev.currentTarget;
+  const r = orionReport;
+  const c = r && Array.isArray(r.coups_avance) ? r.coups_avance[idx] : null;
+  if (!c || !c.titre) return;
+  const titre = c.titre.trim();
+  if (roadmapHas(titre)) { if (btn) { btn.textContent = '✓ Déjà dans la roadmap'; btn.disabled = true; } return; }
+  state.roadmap = state.roadmap || [];
+  const jid = uid();
+  state.roadmap.push({ id: jid, title: titre, month: null, status: 'planned', body: "Coup d'avance préconisé par Orion (Observatoire).\n\n" + (c.pourquoi || '') + (c.action ? '\n\nÀ faire : ' + c.action : '') });
+  const pr = upsertPreco(titre, 'coup', r.updated_at || '', 'orion');
+  if (pr && pr.p) { pr.p.enRoadmap = true; pr.p.jalonId = jid; if (pr.p.etat === 'ecartee') pr.p.etat = 'active'; }
+  save();
+  if (btn) { btn.textContent = '✓ Ajouté à la roadmap'; btn.disabled = true; btn.classList.add('cap-task-btn-done'); }
 }
 
 // ============ CONSOLE D'AGENT (Espace Magnus) ============
@@ -3264,7 +3495,11 @@ function renderAgentTabBody() {
   const reps = agentReportsFromData(agentConsoleData);
   const latest = reps[reps.length - 1] || null;
   const f = findAgentBySlug(currentAgentSlug); const a = f ? f.a : {};
-  if (agentTab === 'today') box.innerHTML = latest && (latest.etat || latest.prochain_chantier) ? `<div class="agent-report" style="border:none;padding:0">${renderAgentReport(latest)}</div>` : agentEmpty(a);
+  if (agentTab === 'today') {
+    if (latest && latest.updated_at) markReportSeen(currentAgentSlug, latest.updated_at);
+    if (currentAgentSlug === 'orion') box.innerHTML = (latest && (latest.synthese || latest.reglementaire)) ? renderObservatoire(latest) : agentEmpty(a);
+    else box.innerHTML = latest && (latest.etat || latest.prochain_chantier) ? `<div class="agent-report" style="border:none;padding:0">${renderAgentReport(latest)}</div>` : agentEmpty(a);
+  }
   else if (agentTab === 'suivi') box.innerHTML = renderAgentTabSuivi();
   else if (agentTab === 'journal') box.innerHTML = renderAgentTabJournal(reps);
   else if (agentTab === 'fiche') box.innerHTML = renderAgentTabFiche(f);
@@ -3273,13 +3508,14 @@ function renderAgentTabBody() {
 function agentEmpty(a) { return `<div class="agent-report-empty">Aucun rapport pour le moment. ${a && a.statut === 'active' ? 'Lance une ronde pour générer son premier point.' : "Cet agent n'est pas encore créé."}</div>`; }
 
 function renderAgentTabJournal(reps) {
-  const real = reps.filter(r => r && (r.etat || r.prochain_chantier));
-  if (!real.length) return `<div class="agent-report-empty">Aucun rapport pour le moment. Chaque ronde de Magnus viendra s'ajouter ici.</div>`;
+  const real = reps.filter(r => r && (r.etat || r.prochain_chantier || r.synthese));
+  if (!real.length) return `<div class="agent-report-empty">Aucun rapport pour le moment. Chaque ronde de ${esc(currentAgentName())} viendra s'ajouter ici.</div>`;
+  const firstCoup = r => (Array.isArray(r.coups_avance) && r.coups_avance[0] && r.coups_avance[0].titre) ? r.coups_avance[0].titre : '';
   return `<div class="ac-journal">` + real.slice().reverse().map(r => `
     <div class="ac-jentry">
       <div class="ac-jdate">${esc(r.updated_at || '')}${r.trigger ? ' · ' + esc(r.trigger) : ''}</div>
-      ${r.etat ? `<div class="ac-jtext">${esc(r.etat)}</div>` : ''}
-      ${r.prochain_chantier && r.prochain_chantier.titre ? `<div class="ac-jchantier">→ ${esc(r.prochain_chantier.titre)}</div>` : ''}
+      ${r.etat ? `<div class="ac-jtext">${esc(r.etat)}</div>` : (r.synthese ? `<div class="ac-jtext">${esc(r.synthese)}</div>` : '')}
+      ${r.prochain_chantier && r.prochain_chantier.titre ? `<div class="ac-jchantier">→ ${esc(r.prochain_chantier.titre)}</div>` : (firstCoup(r) ? `<div class="ac-jchantier">→ ${esc(firstCoup(r))}</div>` : '')}
     </div>`).join('') + `</div>`;
 }
 function renderAgentTabSuivi() {
@@ -3288,7 +3524,7 @@ function renderAgentTabSuivi() {
   const order = { active: 0, faite: 1, ecartee: 2 };
   const sorted = list.slice().sort((a, b) => (order[a.etat] - order[b.etat]));
   return `<div class="ac-suivi">` + sorted.map(p => {
-    const badges = `<span class="suivi-type">${p.type === 'chantier' ? 'Chantier' : 'À anticiper'}</span>` +
+    const badges = `<span class="suivi-type">${p.type === 'chantier' ? 'Chantier' : (p.type === 'coup' ? "Coup d'avance" : 'À anticiper')}</span>` +
       (p.enTache ? `<span class="suivi-flag">En tâche</span>` : '') +
       (p.enRoadmap ? `<span class="suivi-flag">En roadmap</span>` : '');
     const etatLabel = p.etat === 'faite' ? '✓ Faite' : (p.etat === 'ecartee' ? '✕ Écartée' : '● Active');
@@ -3387,6 +3623,15 @@ async function sendToMagnus() {
   const t2 = document.getElementById('ac-chat-text'); if (t2) t2.focus();
 }
 function scrollChatBottom() { const b = document.getElementById('ac-chat-msgs'); if (b) b.scrollTop = b.scrollHeight; }
+// Personnalité de chaque agent pour l'échange (le système du chat)
+function agentSystemIntro(slug) {
+  if (slug === 'orion') {
+    return `Tu es Orion, l'Observatoire de CPTS Pilot — l'agent de veille, les yeux d'Eva sur le monde extérieur. Tu discutes avec Eva, coordinatrice CPTS et fondatrice solo de CPTS Pilot (plateforme de gestion pour les CPTS — Communautés Professionnelles Territoriales de Santé). Ton : d'égale à égale, simple, zéro jargon inutile, franc et bienveillant, réponses courtes et structurées (markdown : **gras**, listes à puces). Tu parles veille de marché : réglementaire (réformes CPTS, ACI, financements), ministère & gouvernement, Assurance Maladie, santé publique, concurrents, opportunités, signaux et prédictions. Pour chaque info, donne toujours la lecture « et donc, pour toi, ça veut dire quoi ». Tu ne fais PAS le produit/code (→ Magnus), la sécurité (→ Iris), le RGPD (→ Cléo), la marque (→ Stella), la vente (→ Carla) : renvoie vers le bon agent si besoin.
+IMPORTANT : dans ce chat tu n'as PAS d'accès web en direct (navigateur). Tu t'appuies sur ton dernier rapport de veille ci-dessous + ce qu'Eva te dit. Si une question demande d'aller chercher l'actualité fraîche, dis-le et propose une « ronde » (▶ Faire tourner) qui, elle, lit le web.`;
+  }
+  return `Tu es Magnus, le Chef Produit de CPTS Pilot (plateforme de gestion pour les CPTS — Communautés Professionnelles Territoriales de Santé). Tu discutes avec Eva, coordinatrice CPTS et fondatrice solo qui code seule et débute sur Git. Ton : d'égale à égale, simple, zéro jargon inutile, franc et bienveillant, réponses courtes et bien structurées (markdown : **gras**, listes à puces). Tu parles produit et stratégie produit — pas marketing, juridique ni sécurité (tu renvoies vers les autres agents si besoin).
+IMPORTANT : dans ce chat tu n'as PAS accès au code en direct (navigateur). Tu t'appuies sur le contexte ci-dessous + ce qu'Eva te dit. Si une question demande de relire le code à jour, dis-le et propose une « ronde » en session.`;
+}
 async function chatWithMagnus() {
   const cfg = getAiConfig();
   if (!cfg.key) throw new Error('Clé Claude non configurée');
@@ -3397,8 +3642,7 @@ async function chatWithMagnus() {
   const roadmap = (state.roadmap || []).map(x => `- ${x.title} [${x.status}${x.month ? ', ' + x.month : ''}]`).join('\n') || '(vide)';
   const acfg = getAgentConfig(currentAgentSlug);
   const acConsignes = acfg.consignes ? `\n\nCONSIGNES PERMANENTES D'EVA (à respecter) : ${acfg.consignes}` : '';
-  const SYSTEM = `Tu es Magnus, le Chef Produit de CPTS Pilot (plateforme de gestion pour les CPTS — Communautés Professionnelles Territoriales de Santé). Tu discutes avec Eva, coordinatrice CPTS et fondatrice solo qui code seule et débute sur Git. Ton : d'égale à égale, simple, zéro jargon inutile, franc et bienveillant, réponses courtes et bien structurées (markdown : **gras**, listes à puces). Tu parles produit et stratégie produit — pas marketing, juridique ni sécurité (tu renvoies vers les autres agents si besoin).
-IMPORTANT : dans ce chat tu n'as PAS accès au code en direct (navigateur). Tu t'appuies sur le contexte ci-dessous + ce qu'Eva te dit. Si une question demande de relire le code à jour, dis-le et propose une « ronde » en session.
+  const SYSTEM = `${agentSystemIntro(currentAgentSlug)}
 
 TON DERNIER RAPPORT : ${JSON.stringify(latest)}
 
@@ -3421,19 +3665,25 @@ ${roadmap}${acConsignes}`;
   const data = await resp.json();
   return (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('').trim() || '(réponse vide)';
 }
+// Robot de ronde branché par agent : slug → fichier de workflow + ce qu'il fait
+const AGENT_WORKFLOW = {
+  'chef-produit': { file: 'magnus-ronde.yml', fait: 'relit ton code et écrit un nouveau rapport' },
+  'orion':        { file: 'orion-veille.yml', fait: 'lit le web en direct et écrit un nouveau rapport de veille' }
+};
 async function runAgentRonde() {
-  // Seul Magnus (chef-produit) a un workflow de ronde branché pour l'instant
-  if (currentAgentSlug !== 'chef-produit') { openAgentRunInfo(); return; }
+  const wf = AGENT_WORKFLOW[currentAgentSlug];
+  if (!wf) { openAgentRunInfo(); return; }
+  const nom = currentAgentName();
   const cfg = getGhConfig();
   if (!cfg.token) {
     alert('Pour lancer une ronde dans le cloud, il faut d\'abord configurer ta sauvegarde GitHub (⚙ en bas de la barre latérale) — c\'est elle qui fournit le jeton.');
     openGhConfigModal();
     return;
   }
-  if (!confirm('Lancer une ronde de Magnus dans le cloud ?\n\nIl relit ton code et écrit un nouveau rapport (~3 à 5 min, quelques centimes d\'API). Tu rechargeras ton cockpit ensuite pour voir le résultat.')) return;
+  if (!confirm('Lancer une ronde de ' + nom + ' dans le cloud ?\n\nIl ' + wf.fait + ' (~3 à 5 min, quelques centimes d\'API). Tu rechargeras ton cockpit ensuite pour voir le résultat.')) return;
   const owner = cfg.owner || 'Evalita03';
   const repo = cfg.repo || 'Strategy';
-  const url = `https://api.github.com/repos/${owner}/${repo}/actions/workflows/magnus-ronde.yml/dispatches`;
+  const url = `https://api.github.com/repos/${owner}/${repo}/actions/workflows/${wf.file}/dispatches`;
   const m = document.getElementById('modal'); m.classList.remove('qc-mode', 'modal-wide');
   try {
     const resp = await fetch(url, {
@@ -3442,14 +3692,17 @@ async function runAgentRonde() {
       body: JSON.stringify({ ref: 'main' })
     });
     if (resp.status === 204) {
+      let baseline = 1;
+      try { const b = await (await fetch('agents/' + currentAgentSlug + '.json?t=' + Date.now())).json(); baseline = (b && Array.isArray(b.journal)) ? b.journal.length : 1; } catch (e) {}
+      pollForNewReport(currentAgentSlug, baseline);
       m.innerHTML = `<h2>🚀 Ronde lancée</h2>
-        <p style="font-size:13.5px;color:var(--slate-600);line-height:1.65">Magnus tourne maintenant dans le cloud. Ça prend <strong>3 à 5 minutes</strong>.<br><br>Reviens dans quelques minutes et <strong>recharge ton cockpit</strong> (Ctrl+Maj+R) : son nouveau rapport apparaîtra ici et sur ta page d'accueil.</p>
+        <p style="font-size:13.5px;color:var(--slate-600);line-height:1.65">${esc(nom)} tourne maintenant dans le cloud (~3 à 5 minutes).<br><br>Tu peux <strong>laisser ton cockpit ouvert</strong> : dès qu'il a fini, <strong>je rafraîchis tout seul</strong> et je te préviens — pas besoin de recharger.</p>
         <div class="modal-actions"><button class="btn btn-primary" onclick="closeModal()">Super</button></div>`;
     } else {
       const err = await resp.json().catch(() => ({}));
       let hint = err.message || ('Erreur ' + resp.status);
       if (resp.status === 403) hint = 'Ton jeton GitHub n\'a pas le droit de lancer des workflows. Il lui faut la permission « Actions » (jeton fine-grained) ou les scopes « repo » + « workflow » (jeton classique).';
-      else if (resp.status === 404) hint = 'Workflow introuvable. Vérifie que le fichier magnus-ronde.yml est bien sur la branche main, et que le jeton pointe vers le repo Strategy.';
+      else if (resp.status === 404) hint = 'Workflow introuvable. Vérifie que le fichier ' + wf.file + ' est bien sur la branche main, et que le jeton pointe vers le repo Strategy.';
       m.innerHTML = `<h2>⚠️ Lancement impossible</h2>
         <p style="font-size:13.5px;color:var(--slate-600);line-height:1.65">${esc(hint)}<br><br>En attendant, tu peux lancer la ronde depuis l'onglet <strong>Actions</strong> de GitHub, ou me dire « fais tourner Magnus » en session.</p>
         <div class="modal-actions"><button class="btn btn-primary" onclick="closeModal()">Compris</button></div>`;
