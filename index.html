@@ -747,6 +747,68 @@ tr:hover td { background: var(--blue-50); }
 .status-nego { background: #EDE9FE; color: #7C3AED; }
 .status-client { background: var(--teal-100); color: var(--teal-700); }
 
+/* ===== Suivi béta test ===== */
+.beta-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 26px; }
+@media (max-width: 900px) { .beta-kpis { grid-template-columns: repeat(2, 1fr); } }
+.beta-kpi { background: var(--white); border: 1px solid var(--slate-200); border-radius: 14px; padding: 16px 18px; }
+.beta-kpi.alert { border-color: #FCA5A5; background: #FEF2F2; }
+.beta-kpi-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--slate-500); display: flex; align-items: center; gap: 6px; }
+.beta-kpi-num { font-family: var(--font-display); font-size: 30px; font-weight: 600; color: var(--slate-900); line-height: 1.1; margin: 8px 0 2px; }
+.beta-kpi-num small { font-size: 16px; color: var(--slate-400); font-weight: 500; }
+.beta-kpi.alert .beta-kpi-num { color: var(--red-600); }
+.beta-kpi-sub { font-size: 12px; color: var(--slate-500); }
+.beta-block { background: var(--white); border: 1px solid var(--slate-200); border-radius: 14px; padding: 20px 22px; margin-bottom: 18px; }
+.beta-block-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.beta-block-head h3 { font-size: 15px; font-weight: 700; color: var(--slate-900); display: flex; align-items: center; gap: 8px; }
+.beta-block-head .beta-q { font-size: 12px; color: var(--slate-400); font-weight: 500; font-style: italic; }
+.beta-empty { font-size: 13px; color: var(--slate-400); padding: 18px; text-align: center; background: var(--slate-50); border: 1px dashed var(--slate-200); border-radius: 10px; line-height: 1.6; }
+.beta-await { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; color: var(--blue-700); background: var(--blue-50); padding: 3px 9px; border-radius: 20px; }
+.sla-pill { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
+.sla-ok { background: var(--teal-100); color: var(--teal-700); }
+.sla-bientot { background: var(--orange-100); color: var(--orange-600); }
+.sla-depasse { background: #FEE2E2; color: var(--red-600); }
+.sla-resolu { background: var(--slate-100); color: var(--slate-500); }
+.sla-na { background: var(--slate-100); color: var(--slate-500); }
+.prio-haute { background: #FEE2E2; color: var(--red-600); }
+.prio-normale { background: var(--orange-100); color: var(--orange-600); }
+.prio-basse { background: var(--slate-100); color: var(--slate-600); }
+.beta-eng { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+@media (max-width: 760px) { .beta-eng { grid-template-columns: 1fr; } }
+.beta-eng-card { border: 1px solid var(--slate-200); border-radius: 12px; padding: 14px 16px; }
+.beta-eng-card h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--slate-500); margin-bottom: 10px; font-weight: 700; }
+.beta-report-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-top: 1px solid var(--slate-100); font-size: 13px; }
+.beta-report-row:first-of-type { border-top: none; }
+.beta-journal-item { display: flex; gap: 10px; padding: 10px 0; border-top: 1px solid var(--slate-100); font-size: 13px; }
+.beta-journal-item:first-child { border-top: none; }
+.beta-journal-date { color: var(--slate-400); font-size: 11px; white-space: nowrap; min-width: 64px; }
+.beta-journal-ico { flex-shrink: 0; }
+.beta-checklist { list-style: none; }
+.beta-checklist li { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--slate-600); padding: 5px 0; line-height: 1.5; }
+.beta-checklist li::before { content: '○'; color: var(--slate-400); }
+.report-doc { font-size: 13.5px; line-height: 1.65; color: var(--slate-700); }
+.report-doc h3 { font-size: 14px; color: var(--blue-700); margin: 18px 0 8px; text-transform: uppercase; letter-spacing: 0.04em; }
+.report-doc ul { margin: 0 0 4px 18px; }
+.report-doc li { margin-bottom: 4px; }
+@media print { body * { visibility: hidden; } #report-print, #report-print * { visibility: visible; } #report-print { position: absolute; left: 0; top: 0; width: 100%; padding: 20px; } }
+/* Jauge de satisfaction */
+.satbar { height: 12px; border-radius: 7px; margin: 12px 0 6px; background: linear-gradient(90deg, #DC2626, #F59E0B, #16A34A); position: relative; opacity: 0.9; }
+.satbar-needle { position: absolute; top: -3px; width: 4px; height: 18px; background: var(--slate-900); border-radius: 2px; transform: translateX(-50%); }
+/* Zone « À traiter » */
+.beta-action-list { display: flex; flex-direction: column; gap: 8px; }
+.beta-action-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 1px solid var(--slate-200); border-left-width: 4px; border-radius: 10px; background: var(--white); }
+.beta-action-item.urg-depasse { border-left-color: var(--red-600); background: #FEF2F2; }
+.beta-action-item.urg-bientot { border-left-color: var(--orange-600); }
+.beta-action-item.urg-ok { border-left-color: var(--slate-300); }
+.beta-action-ico { font-size: 20px; flex-shrink: 0; }
+.beta-action-main { flex: 1; min-width: 0; }
+.beta-action-titre { font-weight: 600; color: var(--slate-900); font-size: 14px; }
+.beta-action-meta { font-size: 12px; color: var(--slate-500); margin-top: 2px; }
+.beta-action-btns { display: flex; gap: 6px; flex-shrink: 0; }
+.btn.beta-mini { padding: 6px 12px; font-size: 12px; }
+.beta-block details > summary { list-style: none; }
+.beta-block details > summary::-webkit-details-marker { display: none; }
+.beta-block details > summary .beta-q::after { content: ''; }
+
 /* Modal */
 .modal-overlay {
   position: fixed; inset: 0; background: rgba(15,23,42,0.5); display: none;
@@ -1161,6 +1223,11 @@ tr:hover td { background: var(--blue-50); }
         </div>
       </div>
 
+      <div class="nav-item" data-view="beta">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6.5L5.2 18a2 2 0 001.8 3h10a2 2 0 001.8-3L14 9.5V3"/><path d="M7.5 14h9"/></svg>
+        Béta test
+      </div>
+
       <div class="nav-divider"></div>
 
       <div class="nav-item" data-view="communication">
@@ -1206,7 +1273,8 @@ let state = {
   tasks: [],      // {id, title, category, status}
   strategie: [],  // {id, title, body}
   prospects: [],  // {id, nom, contact, statut, notes}
-  today: { intention: '', date: '' }  // intention du jour + date à laquelle elle a été posée
+  today: { intention: '', date: '' },  // intention du jour + date à laquelle elle a été posée
+  beta: null      // suivi béta test (voir ensureBeta) — coquille prête à brancher l'instance
 };
 
 function load() {
@@ -1228,6 +1296,7 @@ function load() {
   if (!state.lastSeenReport || typeof state.lastSeenReport !== 'object') state.lastSeenReport = {};
   if (!state.handledPropositions || typeof state.handledPropositions !== 'object') state.handledPropositions = {};
   if (!Array.isArray(state.decisions)) state.decisions = [];
+  ensureBeta();
   // Stratégie globale en piliers (par section)
   if (!state.strategiePillars) state.strategiePillars = {};
   ['vision','marche','pricing'].forEach(s => { if (!Array.isArray(state.strategiePillars[s])) state.strategiePillars[s] = []; });
@@ -1255,6 +1324,7 @@ function load() {
 }
 function save() {
   reconcilePrecos();
+  betaReconcile();
   try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
   catch(e) { alert('Erreur de sauvegarde'); }
 }
@@ -1286,7 +1356,8 @@ const titles = {
   agent:'Espace agent',
   'clients-valides':'Clients validés',
   'clients-prospects':'Prospects CPTS',
-  communication:'Communication'
+  communication:'Communication',
+  beta:'Suivi béta test'
 };
 
 // Recherche : vues filtrables + placeholders
@@ -1382,6 +1453,7 @@ function render() {
   else if (currentView === 'clients-valides') renderProspects(content, actions, 'clients');
   else if (currentView === 'clients-prospects') renderProspects(content, actions, 'prospects');
   else if (currentView === 'communication') renderPlaceholder(content, actions, 'communication');
+  else if (currentView === 'beta') renderBeta(content, actions);
 }
 
 function goTo(view) {
@@ -4359,6 +4431,495 @@ function saveProspect(id) {
 function deleteProspect(id) {
   if(!confirm('Supprimer ce prospect ?')) return;
   state.prospects = state.prospects.filter(x=>x.id!==id);
+  save(); closeModal(); render();
+}
+
+// ============ VUE SUIVI BÉTA TEST ============
+// Coquille : l'interface et toute la logique sont prêtes. Les chiffres d'usage
+// (connexions, activité, retours des membres) arriveront de l'instance de la CPTS
+// une fois celle-ci créée et branchée. Cahier des charges : mémoire « suivi-beta-test ».
+const BETA = {
+  cpts: 'CPTS PAU BÉARN',
+  dureeMois: 6,            // Art. 3 — durée minimale
+  nbRapports: 3,           // Art. 7.4 — bimestriel sur la durée
+  intervalleMois: 2,
+  // Délais contractuels de correction (Art. 7.2). « jours » = jours ouvrés approchés.
+  sla: {
+    haute:   { label: 'Haute',   jours: 3,    desc: '72 h ouvrables' },
+    normale: { label: 'Normale', jours: 7,    desc: '7 j ouvrés' },
+    basse:   { label: 'Basse',   jours: null, desc: 'planifié' }
+  },
+  typeLabel: { bug: '🐞 Bug', souhait: '💡 Souhait', autre: '💬 Autre' },
+  journalIco: { releve: '🔴', demande: '💡', apporte: '🚀', ajuste: '🔧' }
+};
+
+function ensureBeta() {
+  if (!state.beta || typeof state.beta !== 'object') state.beta = {};
+  const b = state.beta;
+  if (typeof b.signatureDate !== 'string') b.signatureDate = '';
+  if (!Array.isArray(b.invites)) b.invites = [];     // {id, nom, role}
+  if (!Array.isArray(b.retours)) b.retours = [];     // {id, type, titre, description, auteur, priorite, statut, date, dateResolu, taskId, arbitrage}
+  if (!Array.isArray(b.incidents)) b.incidents = []; // {id, date, description, cptsInformeeLe}
+  if (!Array.isArray(b.journal)) b.journal = [];     // {id, date, type, texte, ref}
+  if (!Array.isArray(b.reports)) b.reports = [];     // {id, no, dateEnvoi, statut}
+  return b;
+}
+
+// ---- Helpers dates ----
+function betaDays(ms) { return Math.ceil(ms / 86400000); }
+function betaAddBusinessDays(date, n) {
+  const d = new Date(date); let added = 0;
+  while (added < n) { d.setDate(d.getDate() + 1); const j = d.getDay(); if (j !== 0 && j !== 6) added++; }
+  return d;
+}
+function betaAddMonths(dateStr, n) { const d = new Date(dateStr); d.setMonth(d.getMonth() + n); return d; }
+function fmtFr(d) {
+  if (!d) return '—';
+  const date = (typeof d === 'string') ? new Date(d) : d;
+  if (isNaN(date.getTime())) return '—';
+  return date.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+function betaInPeriod(iso, start, end) { const d = new Date(iso); return d >= start && d <= end; }
+
+// ---- SLA (compte à rebours contractuel) ----
+function betaSlaDeadline(r) {
+  const cfg = BETA.sla[r.priorite];
+  if (!cfg || cfg.jours == null || !r.date) return null;
+  return betaAddBusinessDays(new Date(r.date), cfg.jours);
+}
+function betaSlaInfo(r) {
+  if (r.statut === 'resolu') return { etat: 'resolu', label: 'Résolu' };
+  const dl = betaSlaDeadline(r);
+  if (!dl) return { etat: 'na', label: 'Planifié' };
+  const ms = dl - new Date();
+  if (ms < 0) return { etat: 'depasse', label: 'Dépassé', deadline: dl };
+  const j = betaDays(ms);
+  return { etat: ms < 86400000 ? 'bientot' : 'ok', label: 'Reste ' + (j <= 1 ? '< 1 j' : j + ' j'), deadline: dl };
+}
+const betaSlaRank = { depasse: 0, bientot: 1, ok: 2, na: 3, resolu: 4 };
+
+// ---- Échéancier des rapports bimestriels (Art. 7.4) ----
+function betaReportSchedule(b) {
+  if (!b.signatureDate) return [];
+  const out = [];
+  for (let i = 1; i <= BETA.nbRapports; i++) {
+    const due = betaAddMonths(b.signatureDate, i * BETA.intervalleMois);
+    const periodeStart = betaAddMonths(b.signatureDate, (i - 1) * BETA.intervalleMois);
+    const sent = b.reports.find(r => r.no === i && r.statut === 'envoye');
+    out.push({ no: i, due, periodeStart, periodeEnd: due, sent: !!sent, sentInfo: sent });
+  }
+  return out;
+}
+
+// ---- Tri automatique de la priorité (Art. 7.2) ----
+// Règles par mots-clés en attendant le branchement de l'assistant de classement (IA).
+function betaAutoTriage(text) {
+  const t = (text || '').toLowerCase();
+  if (/(bloqu|impossible de (se )?(connect|acc[eé]d)|connexion|crash|plante|écran blanc|erreur 500|perte de donn|donn[eé]es? perdu|inaccessible|ne fonctionne plus)/.test(t)) return 'haute';
+  if (/(orthograph|coquille|couleur|alignement|libell[eé]|d[eé]tail|esth[eé]tique|confort|pr[eé]f[eé]rence)/.test(t)) return 'basse';
+  return 'normale';
+}
+
+// ---- Journal de bord vivant ----
+function betaJournalAdd(type, texte, ref) {
+  const b = ensureBeta();
+  b.journal.push({ id: uid(), date: new Date().toISOString(), type, texte, ref: ref || '' });
+}
+
+// ---- Point d'entrée UNIQUE des remontées ----
+// Appelé par l'instance (plus tard) ou par « + Retour ». Fait tout, tout seul :
+// 1) tri auto de la priorité  2) création d'une tâche taguée « béta »  3) ligne de journal.
+function betaIngestRetour({ type, titre, description, auteur }) {
+  const b = ensureBeta();
+  const isBug = type === 'bug';
+  const priorite = isBug ? betaAutoTriage((titre || '') + ' ' + (description || '')) : 'basse';
+  const task = {
+    id: uid(),
+    title: (isBug ? '[Béta · bug] ' : '[Béta · ' + type + '] ') + (titre || (description || '').slice(0, 40)),
+    body: description || '',
+    category: isBug ? 'tech' : 'strategie',
+    status: 'todo',
+    source: 'beta'           // ← tag repérable par Magnus pour l'arbitrage roadmap
+  };
+  state.tasks.push(task);
+  const retour = {
+    id: uid(), type, titre: titre || '', description: description || '', auteur: auteur || '',
+    priorite, statut: 'ouvert', date: new Date().toISOString(), dateResolu: '',
+    taskId: task.id, arbitrage: ''
+  };
+  b.retours.push(retour);
+  betaJournalAdd(isBug ? 'releve' : 'demande',
+    (isBug ? 'Bug signalé' : (type === 'souhait' ? 'Souhait remonté' : 'Retour reçu')) + ' : ' + (titre || (description || '').slice(0, 60)),
+    retour.id);
+  save();
+  return retour;
+}
+
+// ---- Réconciliation : tâche « Terminé » → retour « résolu » + journal « traité » ----
+function betaReconcile() {
+  if (!state.beta || !Array.isArray(state.beta.retours)) return;
+  state.beta.retours.forEach(r => {
+    if (r.taskId && r.statut === 'ouvert') {
+      const t = (state.tasks || []).find(x => x.id === r.taskId);
+      if (t && t.status === 'done') {
+        r.statut = 'resolu';
+        r.dateResolu = new Date().toISOString();
+        if (r.type === 'bug') betaJournalAdd('apporte', 'Dysfonctionnement traité : ' + (r.titre || (r.description || '').slice(0, 60)), r.id);
+      }
+    }
+  });
+}
+
+// ============ RENDU DE LA VUE ============
+const BETA_FLASK = '<path d="M9 3h6M10 3v6.5L5.2 18a2 2 0 001.8 3h10a2 2 0 001.8-3L14 9.5V3"/><path d="M7.5 14h9"/>';
+function renderBeta(content, actions) {
+  const b = ensureBeta();
+  actions.innerHTML = `
+    <button class="btn btn-ghost" onclick="openBetaConfig()">⚙︎ Configurer</button>
+    <button class="btn btn-ghost" onclick="openBetaRetour()">+ Retour</button>
+    <button class="btn btn-primary" onclick="openBetaReport()">📄 Rapport CPTS</button>`;
+
+  if (!b.signatureDate) {
+    content.innerHTML = `<div class="panel"><div class="empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${BETA_FLASK}</svg>
+      <p style="font-size:15px;font-weight:700;color:var(--slate-600);margin-bottom:8px">Suivi béta test — ${BETA.cpts}</p>
+      <p style="max-width:420px;margin:0 auto;line-height:1.6">Pour démarrer, renseigne la <strong>date de signature</strong> de la convention et la liste des <strong>membres invités</strong>. Tout se calcule à partir de là.</p>
+      <button class="btn btn-primary" style="margin-top:20px" onclick="openBetaConfig()">Configurer la béta</button>
+    </div></div>`;
+    return;
+  }
+
+  content.innerHTML = `<div class="panel" style="max-width:1000px">
+    ${betaFlashHtml(b)}
+    ${betaActionZoneHtml(b)}
+    ${betaCptsHtml(b)}
+    ${betaUsageHtml(b)}
+    ${betaHistoHtml(b)}
+  </div>`;
+}
+
+// Satisfaction : alimentée plus tard (mini-questionnaire / instance). null tant qu'on n'a rien.
+function betaSatisfaction(b) { return null; }
+
+// La liste de TOUT ce qui demande une action, trié du plus urgent au moins urgent.
+function betaActionItems(b) {
+  const items = [];
+  // Bugs ouverts → chrono SLA
+  b.retours.filter(r => r.statut === 'ouvert' && r.type === 'bug').forEach(r => {
+    const s = betaSlaInfo(r);
+    const urg = s.etat === 'depasse' ? 0 : s.etat === 'bientot' ? 1 : 2;
+    items.push({ urg, etat: s.etat, ico: '🐞', titre: r.titre || r.description.slice(0, 60),
+      meta: 'Bug · ' + BETA.sla[r.priorite].label + ' · ' + s.label,
+      btns: `<button class="btn btn-ghost beta-mini" onclick="event.stopPropagation();goToTaskFromToday('${r.taskId}')">Ouvrir</button>
+             <button class="btn btn-primary beta-mini" onclick="event.stopPropagation();betaMarkResolved('${r.id}')">Régler</button>` });
+  });
+  // Incidents à notifier
+  b.incidents.filter(i => !i.cptsInformeeLe).forEach(() => {
+    items.push({ urg: 0, etat: 'depasse', ico: '⚠️', titre: 'Incident à notifier à la CPTS',
+      meta: 'sans délai (Art. 4.3)',
+      btns: `<button class="btn btn-primary beta-mini" onclick="event.stopPropagation();openBetaIncident()">Notifier</button>` });
+  });
+  // Rapport à préparer (en retard ou < 14 j)
+  const next = betaReportSchedule(b).find(s => !s.sent);
+  if (next) {
+    const ms = next.due - new Date();
+    if (ms < 0 || betaDays(ms) <= 14) {
+      items.push({ urg: ms < 0 ? 0 : 1, etat: ms < 0 ? 'depasse' : 'bientot', ico: '📄',
+        titre: 'Rapport n°' + next.no + ' à envoyer à la CPTS',
+        meta: ms < 0 ? ('en retard depuis le ' + fmtFr(next.due)) : ('avant le ' + fmtFr(next.due)),
+        btns: `<button class="btn btn-primary beta-mini" onclick="event.stopPropagation();openBetaReport()">Préparer</button>` });
+    }
+  }
+  // Souhaits à arbitrer
+  b.retours.filter(r => r.statut === 'ouvert' && r.type === 'souhait' && !r.arbitrage).forEach(r => {
+    items.push({ urg: 3, etat: 'ok', ico: '💡', titre: r.titre || r.description.slice(0, 60),
+      meta: 'Souhait · à arbitrer pour la roadmap',
+      btns: `<button class="btn btn-ghost beta-mini" onclick="event.stopPropagation();goToTaskFromToday('${r.taskId}')">Voir</button>` });
+  });
+  // Avis / autres
+  b.retours.filter(r => r.statut === 'ouvert' && r.type === 'autre').forEach(r => {
+    items.push({ urg: 4, etat: 'ok', ico: '💬', titre: r.titre || r.description.slice(0, 60), meta: 'Avis / question',
+      btns: `<button class="btn btn-ghost beta-mini" onclick="event.stopPropagation();goToTaskFromToday('${r.taskId}')">Voir</button>` });
+  });
+  return items.sort((a, c) => a.urg - c.urg);
+}
+
+// Régler une remontée directement : sa tâche passe « Terminé » → clôture auto via save().
+function betaMarkResolved(retourId) {
+  const b = ensureBeta();
+  const r = b.retours.find(x => x.id === retourId);
+  if (!r) return;
+  const t = (state.tasks || []).find(x => x.id === r.taskId);
+  if (t) t.status = 'done';
+  else { r.statut = 'resolu'; r.dateResolu = new Date().toISOString(); }
+  save(); render();
+}
+
+// ---- Bandeau flash : 4 chiffres lisibles d'un coup d'œil ----
+function betaFlashHtml(b) {
+  const bugsOuverts = b.retours.filter(r => r.type === 'bug' && r.statut === 'ouvert');
+  const horsDelai = bugsOuverts.filter(r => betaSlaInfo(r).etat === 'depasse').length;
+  const next = betaReportSchedule(b).find(s => !s.sent);
+  let echNum = '—', echSub = 'tout est envoyé', echAlert = false;
+  if (next) {
+    const ms = next.due - new Date();
+    if (ms < 0) { echNum = 'En retard'; echAlert = true; } else echNum = 'J‑' + betaDays(ms);
+    echSub = 'rapport n°' + next.no;
+  }
+  const sat = betaSatisfaction(b);
+  const face = sat == null ? '🙂' : (sat < 40 ? '😟' : sat < 70 ? '😐' : '😊');
+  return `<div class="beta-kpis">
+    <div class="beta-kpi">
+      <div class="beta-kpi-label">😊 Satisfaction</div>
+      <div class="satbar">${sat != null ? `<span class="satbar-needle" style="left:${sat}%"></span>` : ''}</div>
+      <div class="beta-kpi-sub">${sat != null ? face + ' ' + sat + '%' : 'à recueillir'}</div>
+    </div>
+    <div class="beta-kpi ${horsDelai ? 'alert' : ''}">
+      <div class="beta-kpi-label">🐞 À corriger</div>
+      <div class="beta-kpi-num">${bugsOuverts.length}</div>
+      <div class="beta-kpi-sub">${horsDelai ? '⚠ ' + horsDelai + ' hors délai' : 'rien d\'urgent'}</div>
+    </div>
+    <div class="beta-kpi ${echAlert ? 'alert' : ''}">
+      <div class="beta-kpi-label">📄 Prochain rapport</div>
+      <div class="beta-kpi-num">${echNum}</div>
+      <div class="beta-kpi-sub">${echSub}</div>
+    </div>
+  </div>`;
+}
+
+// ---- LE CŒUR : ce qu'il y a à traiter, avec actions directes ----
+function betaActionZoneHtml(b) {
+  const items = betaActionItems(b);
+  let inner;
+  if (items.length === 0) {
+    inner = `<div class="beta-empty">✅ Rien à traiter — tu es à jour.<br>Les bugs, souhaits et rapports à venir s'afficheront ici dès qu'il y aura quelque chose à faire.</div>`;
+  } else {
+    inner = `<div class="beta-action-list">` + items.map(it => `
+      <div class="beta-action-item urg-${it.etat}">
+        <span class="beta-action-ico">${it.ico}</span>
+        <div class="beta-action-main">
+          <div class="beta-action-titre">${esc(it.titre)}</div>
+          <div class="beta-action-meta">${it.meta}</div>
+        </div>
+        <div class="beta-action-btns">${it.btns}</div>
+      </div>`).join('') + `</div>`;
+  }
+  return `<div class="beta-block">
+    <div class="beta-block-head"><h3>⚡ À traiter en priorité</h3><span class="beta-q">ce qui mérite ton attention maintenant</span></div>
+    ${inner}</div>`;
+}
+
+// ---- Ce que je dois à la CPTS (ex-engagements) ----
+function betaCptsHtml(b) {
+  const sched = betaReportSchedule(b);
+  const end = betaAddMonths(b.signatureDate, BETA.dureeMois);
+  const elapsed = Math.max(0, betaDays(new Date() - new Date(b.signatureDate)));
+  const total = betaDays(end - new Date(b.signatureDate));
+  let rapports = '';
+  sched.forEach(s => {
+    const statut = s.sent ? '<span class="sla-pill sla-resolu">Envoyé</span>'
+      : (s.due < new Date() ? '<span class="sla-pill sla-depasse">À envoyer</span>' : '<span class="sla-pill sla-ok">À venir</span>');
+    rapports += `<div class="beta-report-row"><span>n°${s.no} — ${fmtFr(s.due)}</span>${statut}</div>`;
+  });
+  let incidents;
+  if (b.incidents.length === 0) {
+    incidents = `<div style="font-size:12px;color:var(--slate-400)">Aucun pour l'instant. <a href="#" onclick="openBetaIncident();return false" style="color:var(--blue-700);font-weight:600">+ en consigner un</a></div>`;
+  } else {
+    incidents = b.incidents.map(i => `<div class="beta-report-row"><span>${fmtFr(i.date)} — ${esc(i.description.slice(0, 32))}</span><span style="color:var(--slate-500);font-size:12px">${i.cptsInformeeLe ? 'notifiée le ' + fmtFr(i.cptsInformeeLe) : '⚠ à notifier'}</span></div>`).join('')
+      + `<div style="margin-top:8px"><a href="#" onclick="openBetaIncident();return false" style="color:var(--blue-700);font-weight:600;font-size:12px">+ en consigner un</a></div>`;
+  }
+  return `<div class="beta-block">
+    <div class="beta-block-head"><h3>📋 Ce que je dois à la CPTS</h3><span class="beta-q">mes engagements de la convention</span></div>
+    <div class="beta-eng">
+      <div class="beta-eng-card">
+        <h4>Rapports à envoyer</h4>
+        ${rapports}
+      </div>
+      <div class="beta-eng-card">
+        <h4>Où on en est</h4>
+        <div class="beta-kpi-num" style="font-size:24px">Jour ${elapsed}<small> / ${total}</small></div>
+        <div class="beta-kpi-sub">Début : ${fmtFr(b.signatureDate)} · fin min. : ${fmtFr(end)}</div>
+      </div>
+      <div class="beta-eng-card">
+        <h4>Incidents</h4>
+        ${incidents}
+      </div>
+      <div class="beta-eng-card">
+        <h4>Quand la béta s'arrête</h4>
+        <ul class="beta-checklist">
+          <li>Proposer l'export des données</li>
+          <li>Supprimer les données sous 30 j</li>
+          <li>Envoyer l'attestation de suppression</li>
+        </ul>
+      </div>
+    </div></div>`;
+}
+
+// ---- Qui l'utilise (ex-adoption) ----
+function betaUsageHtml(b) {
+  let inner;
+  if (b.invites.length === 0) {
+    inner = `<div class="beta-empty">Aucun membre renseigné. Ouvre « ⚙︎ Configurer » pour ajouter les membres de la CPTS qui vont tester.</div>`;
+  } else {
+    inner = `<div class="beta-empty" style="text-align:left">
+      <strong>${b.invites.length} membre(s)</strong> invité(s) par la CPTS.<br>
+      Qui se connecte, à quelle fréquence, ce qu'ils utilisent : <span class="beta-await">⏳ s'affichera quand l'instance sera branchée</span>.</div>`;
+  }
+  return `<div class="beta-block">
+    <div class="beta-block-head"><h3>👥 Qui l'utilise</h3><span class="beta-q">l'outil est-il vraiment adopté ?</span></div>
+    ${inner}</div>`;
+}
+
+// ---- Historique (replié) ----
+function betaHistoHtml(b) {
+  let inner;
+  if (b.journal.length === 0) {
+    inner = `<div class="beta-empty">Tout ce qui se passe (bug relevé, souhait, évolution livrée…) s'inscrit ici automatiquement, daté. C'est ce qui remplit tes rapports tout seul.</div>`;
+  } else {
+    inner = b.journal.slice().reverse().map(j => `<div class="beta-journal-item">
+      <span class="beta-journal-date">${fmtFr(j.date)}</span>
+      <span class="beta-journal-ico">${BETA.journalIco[j.type] || '•'}</span>
+      <span>${esc(j.texte)}</span></div>`).join('');
+  }
+  return `<div class="beta-block"><details>
+    <summary class="beta-block-head" style="cursor:pointer"><h3>🕘 Historique <span style="font-weight:500;color:var(--slate-400);font-size:12px">(${b.journal.length})</span></h3><span class="beta-q">tout est tracé, automatiquement ▾</span></summary>
+    <div style="margin-top:12px">${inner}</div>
+  </details></div>`;
+}
+
+// ---- Modale : configuration (les 2 seules saisies manuelles) ----
+function openBetaConfig() {
+  const b = ensureBeta();
+  const invitesTxt = b.invites.map(i => i.nom + (i.role ? ', ' + i.role : '')).join('\n');
+  const m = document.getElementById('modal');
+  m.classList.remove('qc-mode');
+  m.innerHTML = `
+    <h2>Configurer la béta</h2>
+    <div class="field"><label>Date de signature de la convention</label><input id="beta-sign" type="date" value="${b.signatureDate || ''}"></div>
+    <div class="field"><label>Membres invités par la CPTS — un par ligne (Nom, rôle)</label>
+      <textarea id="beta-invites" style="min-height:120px" placeholder="Dr Dupont, médecin&#10;Marie Martin, coordinatrice">${esc(invitesTxt)}</textarea></div>
+    <p style="font-size:12px;color:var(--slate-500);line-height:1.5">Ce sont les deux seules infos à saisir : tout le reste (échéances, compteurs, adoption) se calcule ou viendra de l'instance.</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="saveBetaConfig()">Enregistrer</button>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function saveBetaConfig() {
+  const b = ensureBeta();
+  b.signatureDate = document.getElementById('beta-sign').value || '';
+  b.invites = document.getElementById('beta-invites').value.split('\n').map(l => l.trim()).filter(Boolean).map(l => {
+    const i = l.indexOf(',');
+    return i === -1 ? { id: uid(), nom: l, role: '' } : { id: uid(), nom: l.slice(0, i).trim(), role: l.slice(i + 1).trim() };
+  });
+  save(); closeModal(); render();
+}
+
+// ---- Modale : noter un retour (instance plus tard, ou saisie d'un retour reçu) ----
+function openBetaRetour() {
+  const m = document.getElementById('modal');
+  m.classList.remove('qc-mode');
+  m.innerHTML = `
+    <h2>Noter un retour</h2>
+    <p style="font-size:12px;color:var(--slate-500);margin-bottom:14px;line-height:1.5">Quand l'instance aura son bouton « Signaler », ces retours arriveront ici tout seuls. En attendant, tu peux noter un retour reçu par téléphone ou email. La priorité et la tâche sont créées automatiquement.</p>
+    <div class="field"><label>Type</label><select id="beta-r-type">
+      <option value="bug">🐞 Bug / dysfonctionnement</option>
+      <option value="souhait">💡 Souhait / amélioration</option>
+      <option value="autre">💬 Autre (avis, question)</option>
+    </select></div>
+    <div class="field"><label>En une ligne</label><input id="beta-r-titre" placeholder="Ex : impossible de se connecter le matin"></div>
+    <div class="field"><label>Détails</label><textarea id="beta-r-desc" placeholder="Ce que le membre a décrit…"></textarea></div>
+    <div class="field"><label>De qui ? (optionnel)</label><input id="beta-r-auteur" placeholder="Nom du membre"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="saveBetaRetour()">Enregistrer</button>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function saveBetaRetour() {
+  const titre = document.getElementById('beta-r-titre').value.trim();
+  const desc = document.getElementById('beta-r-desc').value.trim();
+  if (!titre && !desc) return alert('Décris le retour en une ligne au moins.');
+  betaIngestRetour({
+    type: document.getElementById('beta-r-type').value,
+    titre, description: desc,
+    auteur: document.getElementById('beta-r-auteur').value.trim()
+  });
+  closeModal(); render();
+}
+
+// ---- Modale : consigner un incident sécurité ----
+function openBetaIncident() {
+  const today = new Date().toISOString().slice(0, 10);
+  const m = document.getElementById('modal');
+  m.classList.remove('qc-mode');
+  m.innerHTML = `
+    <h2>Consigner un incident</h2>
+    <div class="field"><label>Date de l'incident</label><input id="beta-i-date" type="date" value="${today}"></div>
+    <div class="field"><label>Description</label><textarea id="beta-i-desc" placeholder="Nature de l'incident de sécurité / confidentialité…"></textarea></div>
+    <div class="field"><label>CPTS informée le (Art. 4.3 — sans délai)</label><input id="beta-i-info" type="date"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="saveBetaIncident()">Enregistrer</button>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function saveBetaIncident() {
+  const b = ensureBeta();
+  const desc = document.getElementById('beta-i-desc').value.trim();
+  if (!desc) return alert('Décris l\'incident.');
+  const inc = { id: uid(), date: document.getElementById('beta-i-date').value, description: desc, cptsInformeeLe: document.getElementById('beta-i-info').value };
+  b.incidents.push(inc);
+  betaJournalAdd('ajuste', 'Incident consigné : ' + desc.slice(0, 60), inc.id);
+  save(); closeModal(); render();
+}
+
+// ---- Générateur de rapport bimestriel (Art. 7.4) ----
+function betaBuildReport(b, no) {
+  const sched = betaReportSchedule(b);
+  const s = sched.find(x => x.no === no) || sched[0];
+  const start = s.periodeStart, end = s.periodeEnd;
+  const evolutions = b.journal.filter(j => (j.type === 'apporte' || j.type === 'ajuste') && betaInPeriod(j.date, start, end));
+  const traites = b.retours.filter(r => r.type === 'bug' && r.statut === 'resolu' && r.dateResolu && betaInPeriod(r.dateResolu, start, end));
+  const prevus = (state.roadmap || []).filter(j => j.status !== 'done' && j.month && new Date(j.month + '-01') >= end);
+  const souhaits = b.retours.filter(r => r.type === 'souhait' && r.statut === 'ouvert');
+  return { s, start, end, evolutions, traites, prevus, souhaits };
+}
+function openBetaReport() {
+  const b = ensureBeta();
+  const sched = betaReportSchedule(b);
+  const next = sched.find(x => !x.sent) || sched[sched.length - 1];
+  const r = betaBuildReport(b, next.no);
+  const li = (arr, fn) => arr.length ? '<ul>' + arr.map(fn).join('') + '</ul>' : '<p style="color:var(--slate-400)">— Rien à signaler sur la période.</p>';
+  const m = document.getElementById('modal');
+  m.classList.remove('qc-mode'); m.classList.add('modal-wide');
+  m.innerHTML = `
+    <h2>Brouillon — Rapport de suivi n°${r.s.no}</h2>
+    <p style="font-size:12px;color:var(--slate-500);margin-bottom:6px">Assemblé automatiquement depuis le journal. Relis, ajuste, puis « Imprimer / PDF » et envoie au président + à la coordinatrice (Art. 7.4).</p>
+    <div id="report-print" class="report-doc">
+      <h2 style="font-family:var(--font-display)">Rapport de suivi béta test n°${r.s.no} — ${BETA.cpts}</h2>
+      <p>Période : ${fmtFr(r.start)} → ${fmtFr(r.end)}</p>
+      <h3>1. Évolutions déployées</h3>
+      ${li(r.evolutions, j => `<li>${esc(j.texte)} <span style="color:var(--slate-400)">(${fmtFr(j.date)})</span></li>`)}
+      <h3>2. Dysfonctionnements traités</h3>
+      ${li(r.traites, x => `<li>${esc(x.titre || x.description.slice(0, 60))} — résolu le ${fmtFr(x.dateResolu)}</li>`)}
+      <h3>3. Développements prévus</h3>
+      ${li(r.prevus, x => `<li>${esc(x.title)} ${x.month ? '<span style="color:var(--slate-400)">(' + esc(x.month) + ')</span>' : ''}</li>`)}
+      ${r.souhaits.length ? '<p style="color:var(--slate-500);font-size:12px">+ ' + r.souhaits.length + ' souhait(s) en cours d\'arbitrage.</p>' : ''}
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" style="margin-right:auto" onclick="closeModal()">Fermer</button>
+      <button class="btn btn-ghost" onclick="window.print()">Imprimer / PDF</button>
+      <button class="btn btn-primary" onclick="markBetaReportSent(${r.s.no})">Marquer comme envoyé</button>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function markBetaReportSent(no) {
+  const b = ensureBeta();
+  const existing = b.reports.find(r => r.no === no);
+  if (existing) { existing.statut = 'envoye'; existing.dateEnvoi = new Date().toISOString(); }
+  else b.reports.push({ id: uid(), no, statut: 'envoye', dateEnvoi: new Date().toISOString() });
+  betaJournalAdd('apporte', 'Rapport bimestriel n°' + no + ' envoyé à la CPTS', '');
   save(); closeModal(); render();
 }
 
