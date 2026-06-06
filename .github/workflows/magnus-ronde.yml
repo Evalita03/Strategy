@@ -51,13 +51,18 @@ jobs:
 
       - name: Publier le rapport s'il a changé
         run: |
-          if ! git diff --quiet -- agents/chef-produit.json; then
-            git config user.name "magnus-bot"
-            git config user.email "bot@cpts-pilot.local"
-            git add agents/chef-produit.json
-            git commit -m "Magnus — ronde auto $(date -u +%Y-%m-%d) [skip ci]"
-            git push
-            echo "Rapport publié."
-          else
-            echo "Rapport inchangé, rien à publier."
+          if git diff --quiet -- agents/chef-produit.json; then
+            echo "Rapport inchangé, rien à publier."; exit 0
           fi
+          git config user.name "magnus-bot"
+          git config user.email "bot@cpts-pilot.local"
+          git add agents/chef-produit.json
+          git commit -m "Magnus — ronde auto $(date -u +%Y-%m-%d) [skip ci]"
+          # Plusieurs sessions poussent en parallèle : on rebase + on réessaie avant d'abandonner
+          for i in 1 2 3 4 5; do
+            if git pull --rebase --autostash origin main && git push origin main; then
+              echo "Rapport publié (tentative $i)."; exit 0
+            fi
+            echo "Push concurrent détecté, nouvelle tentative ($i)…"; sleep 4
+          done
+          echo "::error::Publication échouée après 5 tentatives."; exit 1
