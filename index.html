@@ -3730,6 +3730,17 @@ async function chatWithMagnus() {
   const roadmap = (state.roadmap || []).map(x => `- ${x.title} [${x.status}${x.month ? ', ' + x.month : ''}]`).join('\n') || '(vide)';
   const acfg = getAgentConfig(currentAgentSlug);
   const acConsignes = acfg.consignes ? `\n\nCONSIGNES PERMANENTES D'EVA (à respecter) : ${acfg.consignes}` : '';
+  let archBlock = '';
+  if (currentAgentSlug === 'chef-produit') {
+    try {
+      let a = archData;
+      if (!a) { const ar = await fetch('architecture.json?t=' + Date.now()); if (ar.ok) a = await ar.json(); }
+      if (a && a.stats) {
+        const mods = (a.modules || []).map(m => `${m.name} (${m.routes} routes)`).join(', ');
+        archBlock = `\n\nL'ARCHITECTURE RÉELLE DU CODE (appuie-toi dessus pour des conseils concrets) : ${a.stats.total_modules} modules, ${a.stats.total_routes} routes, ${a.stats.total_blueprints} blueprints. Modules : ${mods}.`;
+      }
+    } catch (e) { /* pas grave, on s'en passe */ }
+  }
   const SYSTEM = `${agentSystemIntro(currentAgentSlug)}
 
 TON DERNIER RAPPORT : ${JSON.stringify(latest)}
@@ -3738,7 +3749,7 @@ LE SUIVI DE TES PRÉCONISATIONS :
 ${precos}
 
 LA ROADMAP D'EVA (source de vérité) :
-${roadmap}${acConsignes}`;
+${roadmap}${archBlock}${acConsignes}`;
   const resp = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: { 'content-type': 'application/json', 'x-api-key': cfg.key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
