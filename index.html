@@ -212,6 +212,47 @@ body {
 .idea-card p { font-size: 12.5px; color: var(--slate-600); line-height: 1.5; }
 .idea-card .meta { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 .idea-card-actions { position: absolute; top: 12px; right: 12px; display: flex; gap: 6px; }
+
+/* ===== Vivier d'idées (idees.json, lecture seule depuis Plateforme-CPTS) ===== */
+.vivier-desc { font-size: 13px; color: var(--slate-600); line-height: 1.55; margin: 2px 0 18px; max-width: 760px; }
+.vivier-updated { font-size: 11px; font-weight: 600; color: var(--slate-400); }
+.vivier-note { font-size: 13px; color: var(--slate-600); background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 10px; padding: 14px 16px; }
+.vivier-filters { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; margin-bottom: 22px; }
+.vivier-filter { display: flex; flex-direction: column; gap: 4px; font-size: 11px; font-weight: 700; color: var(--slate-500); text-transform: uppercase; letter-spacing: 0.03em; }
+.vivier-filter select { font-family: inherit; font-size: 13px; font-weight: 500; color: var(--slate-700); background: var(--white); border: 1px solid var(--slate-300); border-radius: 8px; padding: 7px 10px; cursor: pointer; }
+.vivier-famille { margin-bottom: 30px; padding: 18px 18px 6px; border-radius: 14px; border: 1px solid var(--slate-200); background: var(--slate-50); }
+.vivier-fam-produit-strategie { border-top: 3px solid var(--blue-500); }
+.vivier-fam-technique { border-top: 3px solid var(--slate-400); }
+.vivier-fam-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 16px; }
+.vivier-fam-head h4 { font-size: 17px; font-weight: 800; color: var(--slate-900); }
+.vivier-fam-sub { font-size: 12px; font-weight: 600; color: var(--slate-400); text-transform: uppercase; letter-spacing: 0.04em; }
+.vivier-nature { margin-bottom: 18px; }
+.vivier-nat-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 13px; font-weight: 700; color: var(--slate-700); }
+.vivier-nat-icon { width: 20px; height: 20px; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; }
+.vivier-nat-count { font-size: 11px; font-weight: 700; color: var(--slate-500); background: var(--slate-100); border-radius: 20px; padding: 1px 8px; }
+.vivier-nat-hint { font-size: 11.5px; font-weight: 500; color: var(--slate-400); font-style: italic; }
+.vivier-nat-etincelle .vivier-nat-icon { background: #FEF3C7; color: #B45309; }
+.vivier-nat-decision .vivier-nat-icon { background: #FEE2E2; color: var(--red-600); }
+.vivier-nat-cap-mur .vivier-nat-icon { background: var(--teal-100); color: var(--teal-700); }
+.vivier-card { cursor: default; padding-top: 14px; }
+.vivier-card:hover { box-shadow: 0 1px 2px rgba(15,23,42,0.04); border-color: var(--slate-200); }
+.vivier-card h4 { padding-right: 0; margin-top: 8px; }
+.vivier-nat-decision .vivier-card { border-left: 3px solid var(--red-600); }
+.vivier-nat-cap-mur .vivier-card { border-left: 3px solid var(--teal-600); }
+.vivier-card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.vivier-id { font-size: 10.5px; font-weight: 800; letter-spacing: 0.06em; color: var(--slate-400); }
+.vivier-statut { font-size: 10.5px; font-weight: 700; border-radius: 20px; padding: 2px 9px; white-space: nowrap; }
+.vivier-statut-en-suspens { background: var(--slate-100); color: var(--slate-600); }
+.vivier-statut-reportee { background: var(--orange-100); color: var(--orange-600); }
+.vivier-statut-en-reflexion { background: var(--blue-100); color: var(--blue-700); }
+.vivier-statut-deja-en-strategie { background: var(--teal-100); color: var(--teal-700); }
+.vivier-theme { margin-top: 2px; align-self: flex-start; }
+.vivier-citation { font-style: italic; color: var(--slate-500); border-left: 2px solid var(--slate-200); padding-left: 10px; margin: 10px 0 0; }
+.vivier-note-txt { margin-top: 10px; }
+.vivier-promo-link { margin-top: 12px; font-size: 12px; font-weight: 700; color: var(--teal-700); }
+.vivier-promo-flag { margin-top: 12px; font-size: 11.5px; font-weight: 600; color: var(--teal-600); }
+.vivier-promoted { opacity: 0.62; }
+.vivier-promoted:hover { opacity: 1; }
 .idea-act {
   font-family: inherit; font-size: 11px; font-weight: 600;
   border-radius: 7px; padding: 4px 8px; cursor: pointer; transition: all .15s;
@@ -1349,7 +1390,7 @@ const titles = {
   monitoring:'Monitoring',
   todo:'To do',
   'strat-vision':'Stratégie — Vision',
-  idees:'Stratégie — Idées',
+  idees:'Idées',
   'strat-marche':'Stratégie — Prise de marché',
   'strat-pricing':'Stratégie — Tarification',
   'strat-organigramme':'Equipe',
@@ -2806,6 +2847,10 @@ let ideaLens = 'map';
 let ideaGraphState = { offsetX: 0, offsetY: 0, scale: 1, dragging: null, panning: false, lastX: 0, lastY: 0 };
 let ideaLinkMode = false, ideaLinkSource = null;
 let redrawIdeas = null;
+// Onglet « Idées » : 'vivier' (idees.json, lecture seule) ou 'mindmap' (carte mentale locale)
+let ideaTab = 'vivier';
+let ideesData = null, ideesLoading = false, ideesError = null;
+let ideesFilters = { famille:'', theme:'', nature:'', statut:'' };
 
 function setIdeaLens(lens) { ideaLens = lens; ideaLinkMode = false; ideaLinkSource = null; render(); }
 function toggleIdeaLink() {
@@ -2815,18 +2860,30 @@ function toggleIdeaLink() {
   if (redrawIdeas) redrawIdeas();
 }
 
+function setIdeaTab(t) { ideaTab = t; render(); }
+function ideaTabSwitcher() {
+  return `<span class="lens-toggle">
+      <button class="${ideaTab==='vivier'?'active':''}" onclick="setIdeaTab('vivier')">Idées</button>
+      <button class="${ideaTab==='mindmap'?'active':''}" onclick="setIdeaTab('mindmap')">Carte mentale</button>
+    </span>`;
+}
 function renderIdees(content, actions) {
+  if (ideaTab === 'vivier') return renderVivier(content, actions);
+  return renderMindmap(content, actions);
+}
+function renderMindmap(content, actions) {
   actions.innerHTML = `<button class="btn btn-primary" onclick="openNoteModal()">+ Idée</button>`;
   const notes = state.notes.filter(n => matchSearch(n, [n.title, n.body]));
 
   let html = '<div class="panel" style="max-width:none"><div class="todo-section">';
   html += `<h3 class="todo-section-title">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7c.6.5 1 1.3 1 2.1h6c0-.8.4-1.6 1-2.1A7 7 0 0012 2z"/></svg>
-      Idées${state.notes.length?`<span class="count-pill">${state.notes.length}</span>`:''}
+      Carte mentale${state.notes.length?`<span class="count-pill">${state.notes.length}</span>`:''}
       <span class="todo-section-controls">
+        ${ideaTabSwitcher()}
         <span class="lens-toggle">
-          <button class="${ideaLens==='map'?'active':''}" onclick="setIdeaLens('map')">Carte mentale</button>
-          <button class="${ideaLens==='cards'?'active':''}" onclick="setIdeaLens('cards')">Cartes</button>
+          <button class="${ideaLens==='map'?'active':''}" onclick="setIdeaLens('map')">Réseau</button>
+          <button class="${ideaLens==='cards'?'active':''}" onclick="setIdeaLens('cards')">Liste</button>
         </span>
         ${ideaLens==='map'?`<button class="btn btn-ghost btn-sm" id="idea-link-btn" onclick="toggleIdeaLink()">↔ Relier</button>`:''}
       </span>
@@ -2866,6 +2923,174 @@ function renderIdees(content, actions) {
     const canvas = document.getElementById('idea-canvas');
     if (canvas) setupIdeaGraph(canvas);
   }
+}
+
+// ===== VIVIER (idees.json depuis Plateforme-CPTS, lecture seule) =====
+// Ordre d'affichage : FAMILLE d'abord (le QUOI / le COMMENT), puis NATURE.
+const VIVIER_FAMILLE_ORDER = ['produit-strategie', 'technique'];
+const VIVIER_NATURE_ORDER  = ['decision', 'cap-mur', 'etincelle'];
+// Libellés de repli si la légende du JSON ne les fournit pas (la légende prime toujours).
+const VIVIER_FAMILLE_FB = { 'produit-strategie': 'Produit & stratégie', 'technique': 'Technique' };
+const VIVIER_FAMILLE_SUB = { 'produit-strategie': 'le QUOI', 'technique': 'le COMMENT' };
+const VIVIER_NATURE_FB  = { decision: 'Décision', 'cap-mur': 'Cap mûr', etincelle: 'Étincelle' };
+const VIVIER_NATURE_ICON = { decision: '◆', 'cap-mur': '▲', etincelle: '✦' };
+const VIVIER_NATURE_HINT = {
+  decision: 'carrefour à trancher — conditionne la stratégie',
+  'cap-mur': 'quasi adopté, mûr pour passer en stratégie',
+  etincelle: 'idée non tranchée'
+};
+const VIVIER_STATUT_FB = { 'en-suspens': 'En suspens', reportee: 'Reportée', 'en-reflexion': 'En réflexion', 'deja-en-strategie': 'Déjà en stratégie' };
+
+// Récupère un libellé depuis la légende du JSON ; accepte string ou objet {label/titre}.
+function legLabel(map, key, fallback) {
+  if (map && map[key] != null) {
+    const v = map[key];
+    if (typeof v === 'string') return v;
+    if (typeof v === 'object') return v.label || v.titre || v.nom || fallback || key;
+  }
+  return fallback || key;
+}
+// Description longue d'une clé de légende si disponible (sinon repli).
+function legHint(map, key, fallback) {
+  const v = map && map[key];
+  if (v && typeof v === 'object') return v.description || v.hint || v.note || fallback || '';
+  return fallback || '';
+}
+// Tri d'une liste de clés selon un ordre voulu, inconnues en fin.
+function vivierOrder(keys, order) {
+  return [...keys].sort((a, b) => ((order.indexOf(a) + 1 || 99) - (order.indexOf(b) + 1 || 99)));
+}
+
+function setVivierFilter(key, val) { ideesFilters[key] = val; render(); }
+function resetVivierFilters() {
+  ideesFilters = { famille: '', theme: '', nature: '', statut: '' };
+  searchQuery = '';
+  const si = document.getElementById('search-input'); if (si) si.value = '';
+  render();
+}
+function vivierMatch(i) {
+  if (ideesFilters.famille && i.famille !== ideesFilters.famille) return false;
+  if (ideesFilters.theme && i.theme !== ideesFilters.theme) return false;
+  if (ideesFilters.nature && i.nature !== ideesFilters.nature) return false;
+  if (ideesFilters.statut && i.statut !== ideesFilters.statut) return false;
+  return matchSearch(i, [i.titre, i.citation, i.note, i.id]);
+}
+
+function renderVivier(content, actions) {
+  actions.innerHTML = `<button class="btn btn-ghost" onclick="loadIdeesVivier(true)">↻ Rafraîchir</button>`;
+  const d = ideesData;
+  const count = d && Array.isArray(d.idees) ? d.idees.length : 0;
+
+  let html = '<div class="panel" style="max-width:none"><div class="todo-section">';
+  html += `<h3 class="todo-section-title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7c.6.5 1 1.3 1 2.1h6c0-.8.4-1.6 1-2.1A7 7 0 0012 2z"/></svg>
+      Idées${count?`<span class="count-pill">${count}</span>`:''}
+      <span class="todo-section-controls">
+        ${d && d.updated_at ? `<span class="vivier-updated">maj ${esc(d.updated_at)}</span>` : ''}
+        ${ideaTabSwitcher()}
+      </span>
+    </h3>`;
+
+  if (ideesLoading) {
+    html += `<div class="todo-empty-zone">Chargement du vivier depuis Plateforme-CPTS…</div>`;
+  } else if (ideesError) {
+    html += `<div class="vivier-note">Vivier indisponible : ${esc(ideesError)}<br><br>
+      <button class="btn btn-ghost btn-sm" onclick="loadIdeesVivier(true)">↻ Réessayer</button></div>`;
+  } else if (!d) {
+    html += `<div class="todo-empty-zone">Vivier non chargé.</div>`;
+  } else {
+    if (d.description) html += `<p class="vivier-desc">${esc(d.description)}</p>`;
+    html += renderVivierFilters(d);
+    html += renderVivierBody(d);
+  }
+
+  html += '</div></div>';
+  content.innerHTML = html;
+
+  // Auto-chargement au 1er affichage de l'onglet
+  if (!ideesData && !ideesLoading && !ideesError) loadIdeesVivier(false);
+}
+
+function renderVivierFilters(d) {
+  const ideas = d.idees || [];
+  const leg = d.legende || {};
+  const uniq = (key, order) => vivierOrder([...new Set(ideas.map(i => i[key]).filter(Boolean))], order || []);
+  const mk = (label, key, map, fbMap, allLabel, order) => {
+    const opts = uniq(key, order);
+    if (!opts.length) return '';
+    return `<label class="vivier-filter"><span>${label}</span>
+      <select onchange="setVivierFilter('${key}', this.value)">
+        <option value="">${allLabel}</option>
+        ${opts.map(o => `<option value="${esc(o)}" ${ideesFilters[key]===o?'selected':''}>${esc(legLabel(map, o, (fbMap && fbMap[o]) || o))}</option>`).join('')}
+      </select></label>`;
+  };
+  let html = '<div class="vivier-filters">';
+  html += mk('Famille', 'famille', leg.famille, VIVIER_FAMILLE_FB, 'Toutes', VIVIER_FAMILLE_ORDER);
+  html += mk('Thème', 'theme', null, null, 'Tous', null);
+  html += mk('Nature', 'nature', leg.nature, VIVIER_NATURE_FB, 'Toutes', VIVIER_NATURE_ORDER);
+  html += mk('Statut', 'statut', leg.statut, VIVIER_STATUT_FB, 'Tous', null);
+  if (Object.values(ideesFilters).some(Boolean) || searchQuery) {
+    html += `<button class="btn btn-ghost btn-sm" onclick="resetVivierFilters()">✕ Réinitialiser</button>`;
+  }
+  html += '</div>';
+  return html;
+}
+
+function renderVivierBody(d) {
+  const leg = d.legende || {};
+  const ideas = (d.idees || []).filter(vivierMatch);
+  if (!ideas.length) return `<div class="todo-empty-zone">Aucune idée ne correspond aux filtres.</div>`;
+
+  const famKeys = vivierOrder(new Set(ideas.map(i => i.famille || '—')), VIVIER_FAMILLE_ORDER);
+  let html = '';
+  famKeys.forEach(fk => {
+    const inFam = ideas.filter(i => (i.famille || '—') === fk);
+    const famLabel = legLabel(leg.famille, fk, VIVIER_FAMILLE_FB[fk] || (fk === '—' ? 'Non classé' : fk));
+    const sub = VIVIER_FAMILLE_SUB[fk] ? `<span class="vivier-fam-sub">${VIVIER_FAMILLE_SUB[fk]}</span>` : '';
+    html += `<section class="vivier-famille vivier-fam-${esc(fk)}">
+      <div class="vivier-fam-head"><h4>${esc(famLabel)}</h4>${sub}<span class="count-pill">${inFam.length}</span></div>`;
+
+    const natKeys = vivierOrder(new Set(inFam.map(i => i.nature || '—')), VIVIER_NATURE_ORDER);
+    natKeys.forEach(nk => {
+      const inNat = inFam.filter(i => (i.nature || '—') === nk);
+      const natLabel = legLabel(leg.nature, nk, VIVIER_NATURE_FB[nk] || (nk === '—' ? 'Autres' : nk));
+      const hint = legHint(leg.nature, nk, VIVIER_NATURE_HINT[nk] || '');
+      const icon = VIVIER_NATURE_ICON[nk] || '•';
+      html += `<div class="vivier-nature vivier-nat-${esc(nk)}">
+        <div class="vivier-nat-head">
+          <span class="vivier-nat-icon">${icon}</span>
+          <span>${esc(natLabel)}</span>
+          <span class="vivier-nat-count">${inNat.length}</span>
+          ${hint ? `<span class="vivier-nat-hint">${esc(hint)}</span>` : ''}
+        </div>
+        <div class="idea-grid">${inNat.map(i => vivierCard(i, leg)).join('')}</div>
+      </div>`;
+    });
+    html += `</section>`;
+  });
+  return html;
+}
+
+function vivierCard(i, leg) {
+  const statutLabel = legLabel(leg.statut, i.statut, VIVIER_STATUT_FB[i.statut] || i.statut || '');
+  const themeTip = (typeof leg.theme === 'string' && leg.theme) ? ` title="${esc(leg.theme)}"` : '';
+  const promoted = i.statut === 'deja-en-strategie';
+  let c = `<div class="idea-card vivier-card${promoted ? ' vivier-promoted' : ''}">`;
+  c += `<div class="vivier-card-top">
+      ${i.id ? `<span class="vivier-id">${esc(i.id)}</span>` : '<span></span>'}
+      ${i.statut ? `<span class="vivier-statut vivier-statut-${esc(i.statut)}">${esc(statutLabel)}</span>` : ''}
+    </div>`;
+  c += `<h4>${esc(i.titre || '(sans titre)')}</h4>`;
+  if (i.theme) c += `<span class="tag vivier-theme"${themeTip}>${esc(i.theme)}</span>`;
+  if (i.citation) c += `<p class="vivier-citation">« ${esc(i.citation)} »</p>`;
+  if (i.note) c += `<p class="vivier-note-txt">${esc(i.note)}</p>`;
+  if (promoted) {
+    c += `<div class="vivier-promo-link">→ promu en stratégie${i.axe_strategy ? ` (${esc(i.axe_strategy)})` : ''}</div>`;
+  } else if (i.promotion_strategy) {
+    c += `<div class="vivier-promo-flag">↗ candidat stratégie${i.axe_strategy ? ` · ${esc(i.axe_strategy)}` : ''}</div>`;
+  }
+  c += `</div>`;
+  return c;
 }
 
 function layoutIdeasIfNeeded() {
@@ -5491,6 +5716,46 @@ async function fetchDynamicStrategy() {
   } catch (e) {
     return { encarts: null, note: 'lecture impossible : ' + e.message };
   }
+}
+
+// Lit Plateforme-CPTS/idees.json (vivier d'idées en suspens, même plomberie que roadmap/strategy)
+async function fetchDynamicIdees() {
+  const cfg = getGhConfig();
+  if (!cfg.token) return { idees: null, note: 'token GitHub non configuré' };
+  const owner = cfg.owner || 'Evalita03';
+  const url = `https://api.github.com/repos/${owner}/Plateforme-CPTS/contents/idees.json?ref=main&t=${Date.now()}`;
+  try {
+    const resp = await fetch(url, {
+      headers: { 'Authorization': `token ${cfg.token}`, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    if (resp.status === 404) return { idees: null, note: 'idees.json pas encore créé côté Plateforme-CPTS' };
+    if (!resp.ok) { const e = await resp.json().catch(()=>({})); return { idees: null, note: `API GitHub : ${e.message || resp.status}` }; }
+    const data = await resp.json();
+    const text = b64ToUtf8(data.content);
+    const parsed = JSON.parse(text);
+    return {
+      idees: Array.isArray(parsed.idees) ? parsed.idees : [],
+      legende: parsed.legende || {},
+      description: parsed.description || '',
+      updated_at: parsed.updated_at || ''
+    };
+  } catch (e) {
+    return { idees: null, note: 'lecture impossible : ' + e.message };
+  }
+}
+
+// Charge le vivier en mémoire puis rafraîchit l'affichage (auto au 1er rendu, ou via ↻)
+async function loadIdeesVivier(force) {
+  if (ideesLoading) return;
+  if (ideesData && !force) return;
+  ideesLoading = true; ideesError = null;
+  if (force) ideesData = null;
+  if (currentView === 'idees' && ideaTab === 'vivier') render();
+  const res = await fetchDynamicIdees();
+  ideesLoading = false;
+  if (!res || res.idees === null) { ideesError = (res && res.note) || 'lecture impossible'; ideesData = null; }
+  else { ideesData = res; ideesError = null; }
+  if (currentView === 'idees' && ideaTab === 'vivier') render();
 }
 
 async function loadStrategySeed() {
