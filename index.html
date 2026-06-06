@@ -360,6 +360,38 @@ body {
 .cap-new { color: var(--teal-700); background: var(--teal-100); border: 1px solid var(--teal-100); font-size: 10.5px; font-weight: 800; border-radius: 20px; padding: 1px 8px; }
 .ronde-toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--slate-900); color: var(--white); font-size: 13px; font-weight: 600; padding: 12px 18px; border-radius: 12px; box-shadow: 0 8px 30px rgba(15,23,42,0.28); opacity: 0; pointer-events: none; transition: all .3s ease; z-index: 9999; max-width: 90vw; }
 .ronde-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+/* Cap commercialisation */
+.cap-verdict { background: var(--blue-50); border: 1px solid var(--blue-100); border-left: 3px solid var(--blue-500); border-radius: 12px; padding: 16px 18px; margin-bottom: 18px; }
+.cap-verdict-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--blue-700); margin-bottom: 6px; }
+.cap-verdict-text { font-size: 15px; font-weight: 600; color: var(--slate-900); line-height: 1.5; }
+.cap-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px; }
+@media (max-width: 680px) { .cap-cols { grid-template-columns: 1fr; } }
+.cap-col { border: 1px solid var(--slate-200); border-radius: 12px; padding: 14px 16px; background: var(--white); }
+.cap-col-head { font-size: 12px; font-weight: 800; color: var(--slate-900); margin-bottom: 10px; }
+.cap-col-list { margin: 0; padding-left: 18px; }
+.cap-col-list li { font-size: 13px; color: var(--slate-700); line-height: 1.55; margin: 4px 0; }
+.cap-col-empty { font-size: 12.5px; color: var(--slate-400); font-style: italic; }
+.cap-block { border-color: #FCA5A5; background: #FEF2F2; }
+.cap-block .cap-col-head { color: #B91C1C; }
+.cap-path { border: 1px solid var(--slate-200); border-radius: 12px; padding: 14px 16px; background: var(--slate-50); }
+.cap-path-list { margin: 8px 0 0; padding-left: 20px; }
+.cap-path-list li { font-size: 13px; color: var(--slate-700); line-height: 1.6; margin: 5px 0; }
+/* Tendance + relais + propositions roadmap */
+.report-evolution { font-size: 13px; color: var(--slate-700); line-height: 1.55; background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 10px; padding: 10px 14px; margin-bottom: 14px; }
+.relais-list { display: flex; flex-direction: column; gap: 8px; }
+.relais-item { display: flex; gap: 10px; align-items: baseline; font-size: 13px; }
+.relais-agent { font-weight: 700; color: var(--blue-700); white-space: nowrap; }
+.relais-sujet { color: var(--slate-700); }
+.prop-list { display: flex; flex-direction: column; gap: 10px; }
+.prop-item { display: flex; gap: 12px; align-items: flex-start; justify-content: space-between; border: 1px solid var(--blue-100); border-radius: 12px; padding: 12px 14px; background: var(--blue-50); }
+.prop-main { flex: 1; min-width: 0; }
+.prop-badge { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; border-radius: 20px; padding: 2px 8px; }
+.prop-ajouter { color: var(--teal-700); background: var(--teal-100); }
+.prop-clore { color: var(--slate-600); background: var(--slate-200); }
+.prop-décaler, .prop-decaler { color: #B45309; background: #FEF3C7; }
+.prop-titre { font-size: 13.5px; font-weight: 600; color: var(--slate-900); }
+.prop-pourquoi { font-size: 12.5px; color: var(--slate-600); line-height: 1.5; margin-top: 4px; }
+.prop-actions { display: flex; gap: 6px; flex-shrink: 0; }
 .agent-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--slate-200); margin-bottom: 20px; flex-wrap: wrap; }
 .agent-tab { font-family: inherit; font-size: 13px; font-weight: 600; color: var(--slate-500); background: none; border: none; border-bottom: 2px solid transparent; padding: 10px 14px; cursor: pointer; margin-bottom: -1px; }
 .agent-tab:hover { color: var(--slate-900); }
@@ -1093,6 +1125,7 @@ function load() {
   if (!state.agentChats || typeof state.agentChats !== 'object') state.agentChats = {};
   if (!state.agentConfig || typeof state.agentConfig !== 'object') state.agentConfig = {};
   if (!state.lastSeenReport || typeof state.lastSeenReport !== 'object') state.lastSeenReport = {};
+  if (!state.handledPropositions || typeof state.handledPropositions !== 'object') state.handledPropositions = {};
   // Stratégie globale en piliers (par section)
   if (!state.strategiePillars) state.strategiePillars = {};
   ['vision','marche','pricing'].forEach(s => { if (!Array.isArray(state.strategiePillars[s])) state.strategiePillars[s] = []; });
@@ -3267,14 +3300,68 @@ function renderAgentReport(r) {
   const when = r.updated_at ? `Mis à jour le ${esc(r.updated_at)}${r.trigger ? ' · ' + esc(r.trigger) : ''}` : '';
   let h = `<div class="agent-report-head"><span class="agent-report-title">Dernier rapport</span><span class="agent-report-when">${when}</span></div>`;
   if (r.etat) h += `<div class="agent-report-block"><div class="arb-label">Où on en est</div><div class="arb-text">${esc(r.etat)}</div></div>`;
+  if (r.evolution) h += `<div class="report-evolution">📈 <strong>Depuis la dernière ronde&nbsp;:</strong> ${esc(r.evolution)}</div>`;
   if (r.prochain_chantier) {
     const pc = r.prochain_chantier;
     h += `<div class="agent-report-block"><div class="arb-label">Prochain chantier</div><div class="arb-text"><strong>${esc(pc.titre || '')}</strong>${pc.pourquoi ? ' — ' + esc(pc.pourquoi) : ''}</div>${pc.titre ? `<div class="report-btn-row"><button class="cap-task-btn" onclick="createTaskFromChantier(event)">+ Créer la tâche</button><button class="cap-task-btn cap-task-btn-alt" onclick="createJalonFromChantier(event)">+ Ajouter à la roadmap</button></div>` : ''}</div>`;
   }
   if (Array.isArray(r.a_anticiper) && r.a_anticiper.length)
     h += `<div class="agent-report-block"><div class="arb-label">À anticiper</div><ul class="arb-list">${r.a_anticiper.map((x, i) => `<li>${esc(x)} <button class="jalon-mini" onclick="createJalonFromAnticipe(event, ${i})">+ roadmap</button></li>`).join('')}</ul></div>`;
+  h += renderRelais(r);
+  h += renderPropositions(r);
   if (r.note) h += `<div class="agent-report-note">${esc(r.note)}</div>`;
   return h;
+}
+function renderRelais(r) {
+  const list = Array.isArray(r.relais) ? r.relais.filter(x => x && (x.agent || x.sujet)) : [];
+  if (!list.length) return '';
+  return `<div class="agent-report-block"><div class="arb-label">Passages de relais</div><div class="relais-list">${list.map(x => `<div class="relais-item"><span class="relais-agent">${esc(x.agent || '?')}</span><span class="relais-sujet">${esc(x.sujet || '')}</span></div>`).join('')}</div></div>`;
+}
+function propKey(p) { return (p.action || '') + '|' + (p.titre || ''); }
+function renderPropositions(r) {
+  const all = Array.isArray(r.propositions_roadmap) ? r.propositions_roadmap : [];
+  const handled = state.handledPropositions || {};
+  const list = all.map((p, i) => ({ p, i })).filter(({ p }) => p && p.titre && handled[propKey(p)] === undefined);
+  if (!list.length) return '';
+  return `<div class="agent-report-block"><div class="arb-label">Propositions pour ta roadmap · à valider</div><div class="prop-list">${list.map(({ p, i }) => {
+    const act = (p.action || 'ajouter').toLowerCase();
+    const badge = act === 'clore' ? '✓ clore' : ((act === 'décaler' || act === 'decaler') ? '↦ décaler' : '+ ajouter');
+    return `<div class="prop-item"><div class="prop-main"><span class="prop-badge prop-${act}">${badge}</span> <span class="prop-titre">${esc(p.titre)}</span>${p.pourquoi ? `<div class="prop-pourquoi">${esc(p.pourquoi)}</div>` : ''}</div><div class="prop-actions"><button class="suivi-btn" onclick="applyProposition(event, ${i})">Appliquer</button><button class="suivi-btn suivi-btn-ghost" onclick="ignoreProposition(event, ${i})">Ignorer</button></div></div>`;
+  }).join('')}</div></div>`;
+}
+function applyProposition(ev, i) {
+  const r = chefProduitReport; if (!r || !Array.isArray(r.propositions_roadmap)) return;
+  const p = r.propositions_roadmap[i]; if (!p || !p.titre) return;
+  const act = (p.action || 'ajouter').toLowerCase();
+  state.roadmap = state.roadmap || [];
+  const existing = state.roadmap.find(x => (x.title || '').trim().toLowerCase() === p.titre.trim().toLowerCase());
+  if (act === 'clore') { if (existing) existing.status = 'done'; }
+  else if (act === 'décaler' || act === 'decaler') { if (existing) { existing.month = null; existing.status = 'planned'; } }
+  else { if (!existing) state.roadmap.push({ id: uid(), title: p.titre.trim(), month: currentMonthStr(), status: 'planned', body: 'Proposé par Magnus.\n\n' + (p.pourquoi || '') }); }
+  if (!state.handledPropositions) state.handledPropositions = {};
+  state.handledPropositions[propKey(p)] = 'applied';
+  save(); render();
+}
+function ignoreProposition(ev, i) {
+  const r = chefProduitReport; if (!r || !Array.isArray(r.propositions_roadmap)) return;
+  const p = r.propositions_roadmap[i]; if (!p) return;
+  if (!state.handledPropositions) state.handledPropositions = {};
+  state.handledPropositions[propKey(p)] = 'ignored';
+  save(); render();
+}
+function renderAgentTabCap(r) {
+  const c = r && r.cap_commercial;
+  if (!c) return `<div class="agent-report-empty">Pas encore d'évaluation « prêt à vendre ». Magnus la produira à sa prochaine ronde — clique <strong>▶ Faire tourner</strong>.</div>`;
+  let h = '';
+  if (c.pret_a_vendre) h += `<div class="cap-verdict"><div class="cap-verdict-label">Prêt à vendre ?</div><div class="cap-verdict-text">${esc(c.pret_a_vendre)}</div></div>`;
+  const col = (label, items, cls, emptyTxt) => {
+    const arr = Array.isArray(items) ? items.filter(Boolean) : [];
+    return `<div class="cap-col ${cls}"><div class="cap-col-head">${label}</div>${arr.length ? `<ul class="cap-col-list">${arr.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : `<div class="cap-col-empty">${emptyTxt}</div>`}</div>`;
+  };
+  h += `<div class="cap-cols">${col('✅ Démo-ready', c.demo_ready, 'cap-ok', '—')}${col('🚧 Bloqueurs de vente', c.bloqueurs_vente, 'cap-block', 'Aucun bloqueur identifié 🎉')}</div>`;
+  const chemin = Array.isArray(c.chemin_critique) ? c.chemin_critique.filter(Boolean) : [];
+  if (chemin.length) h += `<div class="cap-path"><div class="cap-col-head">🎯 Chemin critique vers la 1re CPTS signée</div><ol class="cap-path-list">${chemin.map(x => `<li>${esc(x)}</li>`).join('')}</ol></div>`;
+  return `<div class="cap-view">${h}</div>`;
 }
 
 // ===== L'OBSERVATOIRE (vue de veille d'Orion) =====
@@ -3424,7 +3511,7 @@ function mdToHtml(t) {
   if (inList) out.push('</ul>');
   return out.join('\n').replace(/\n(?!<\/?(?:ul|li))/g, '<br>').replace(/\n/g, '');
 }
-const agentTabLabel = { today: "Aujourd'hui", suivi: 'Suivi', journal: 'Journal', chat: 'Échanger', fiche: 'Fiche' };
+const agentTabLabel = { today: "Aujourd'hui", cap: 'Cap commercial', suivi: 'Suivi', journal: 'Journal', chat: 'Échanger', fiche: 'Fiche' };
 
 function openAgentConsole(slug) {
   currentAgentSlug = slug; agentTab = 'today'; agentConsoleData = null;
@@ -3454,7 +3541,7 @@ function renderAgentConsole(content, actions) {
         <div class="ac-fresh" id="ac-fresh"></div>
       </div>
       <div class="agent-tabs">
-        ${['today', 'suivi', 'journal', 'chat', 'fiche'].map(t => `<button class="agent-tab ${agentTab === t ? 'is-active' : ''}" onclick="setAgentTab('${t}')">${agentTabLabel[t]}</button>`).join('')}
+        ${(currentAgentSlug === 'chef-produit' ? ['today', 'cap', 'suivi', 'journal', 'chat', 'fiche'] : ['today', 'suivi', 'journal', 'chat', 'fiche']).map(t => `<button class="agent-tab ${agentTab === t ? 'is-active' : ''}" onclick="setAgentTab('${t}')">${agentTabLabel[t]}</button>`).join('')}
       </div>
       <div class="agent-tab-body" id="agent-tab-body"><div class="agent-report-loading">Chargement…</div></div>
     </div>`;
@@ -3500,6 +3587,7 @@ function renderAgentTabBody() {
     if (currentAgentSlug === 'orion') box.innerHTML = (latest && (latest.synthese || latest.reglementaire)) ? renderObservatoire(latest) : agentEmpty(a);
     else box.innerHTML = latest && (latest.etat || latest.prochain_chantier) ? `<div class="agent-report" style="border:none;padding:0">${renderAgentReport(latest)}</div>` : agentEmpty(a);
   }
+  else if (agentTab === 'cap') box.innerHTML = renderAgentTabCap(latest);
   else if (agentTab === 'suivi') box.innerHTML = renderAgentTabSuivi();
   else if (agentTab === 'journal') box.innerHTML = renderAgentTabJournal(reps);
   else if (agentTab === 'fiche') box.innerHTML = renderAgentTabFiche(f);
