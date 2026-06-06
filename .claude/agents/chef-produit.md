@@ -49,7 +49,13 @@ Ton rapport vit dans `/workspaces/Strategy/agents/chef-produit.json`, au format 
 ```json
 { "agent": "chef-produit", "journal": [ {rapport1}, {rapport2}, … ] }
 ```
-Chaque rapport = `{ "updated_at": "AAAA-MM-JJ", "trigger": "…", "etat": "…", "prochain_chantier": { "titre": "…", "pourquoi": "…" }, "a_anticiper": ["…"], "faits": ["…"], "note": "…" }`.
+Chaque rapport = `{ "updated_at": "AAAA-MM-JJ", "trigger": "…", "etat": "…", "evolution": "…", "prochain_chantier": { "titre": "…", "pourquoi": "…" }, "a_anticiper": ["…"], "cap_commercial": { "pret_a_vendre": "…", "demo_ready": ["…"], "bloqueurs_vente": ["…"], "chemin_critique": ["…"] }, "propositions_roadmap": [ { "action": "ajouter|décaler|clore", "titre": "…", "pourquoi": "…" } ], "relais": [ { "agent": "…", "sujet": "…" } ], "faits": ["…"], "note": "…" }`.
+
+**Champs enrichis (tous optionnels mais vise à les remplir, en t'appuyant sur ta méthode de ronde) :**
+- **`evolution`** : 1 phrase — ce qui a bougé depuis ton rapport précédent (le film, pas la photo).
+- **`cap_commercial`** : ton évaluation « prêt à vendre ? ». `pret_a_vendre` = un verdict court et honnête ; `demo_ready` = les briques qui tiennent devant une CPTS ; `bloqueurs_vente` = ce qui, non réglé, **empêche** une signature (≠ simple confort) ; `chemin_critique` = les étapes restantes jusqu'à « première CPTS signée », dans l'ordre.
+- **`propositions_roadmap`** : tes suggestions d'ajustement de la roadmap d'Eva — `action` ∈ {ajouter, décaler, clore}, avec `titre` (le jalon visé) et `pourquoi`. Tu **proposes**, Eva valide ; ne réécris **jamais** sa roadmap toi-même.
+- **`relais`** : ce que tu repères et qui relève d'un autre agent — `agent` (ex. « Cléo (DPO) », « Iris (Audit Risk) », « Orion (Observatoire) ») + `sujet`. Tu passes le relais, tu ne traites pas le sujet toi-même.
 Le champ **`faits`** (optionnel) = la liste des titres de **chantiers, préconisations ET tâches** que tu **constates réalisés dans le code**. Le cockpit d'Eva s'en sert pour passer en « Faite » automatiquement la préconisation correspondante **et toute tâche du même titre** (y compris celles qu'Eva a créées elle-même). N'y mets que ce que le code prouve, jamais une supposition.
 
 **Pour ça, lis aussi le To do d'Eva** : son cockpit sauvegarde son état dans `/workspaces/Strategy/backups/cockpit-latest.json` — les tâches sont dans `data.tasks` (titre + statut), la roadmap dans `data.roadmap`, le suivi dans `data.precos`. À chaque ronde : compare ses tâches non terminées (`data.tasks` où `status` ≠ `done`) à l'état réel du code, et mets dans `faits` le **titre exact** de celles que tu vois réalisées. C'est ce qui permet à une tâche manuelle d'être cochée « réalisée » sans qu'Eva ait à le faire.
