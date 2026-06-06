@@ -357,6 +357,30 @@ body {
 .obs-fin-echeance { background: #FEF3C7; color: #B45309; }
 .obs-perim-nat { background: var(--blue-50); color: var(--blue-700); }
 .obs-perim-loc { background: #CCFBF1; color: #0F766E; }
+/* Barre « Délai pour répondre » */
+.obs-fin-delai { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; border-radius: 9px; padding: 8px 12px; margin-bottom: 10px; border: 1px solid transparent; }
+.obs-delai-k { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; opacity: 0.85; }
+.obs-delai-v { font-size: 13px; font-weight: 700; }
+.obs-delai-urgent { background: #FEE2E2; border-color: #FECACA; color: #B91C1C; }
+.obs-delai-soon { background: #FEF3C7; border-color: #FDE68A; color: #B45309; }
+.obs-delai-ok { background: #DCFCE7; border-color: #BBF7D0; color: #15803D; }
+.obs-delai-open { background: var(--slate-100); border-color: var(--slate-200); color: var(--slate-600); }
+.obs-delai-watch { background: var(--slate-100); border-color: var(--slate-200); color: var(--slate-500); }
+.obs-delai-closed { background: var(--slate-100); border-color: var(--slate-200); color: var(--slate-400); }
+/* Bloc « Comment Orion cherche » */
+.obs-method { margin-top: 18px; border: 1px solid var(--slate-200); border-radius: 12px; background: var(--slate-50); }
+.obs-method summary { cursor: pointer; padding: 13px 16px; font-size: 13px; font-weight: 700; color: var(--slate-700); list-style: none; }
+.obs-method summary::-webkit-details-marker { display: none; }
+.obs-method summary::before { content: '▸ '; color: var(--slate-400); }
+.obs-method[open] summary::before { content: '▾ '; }
+.obs-method summary:hover { color: var(--blue-700); }
+.obs-method-body { padding: 0 18px 16px; font-size: 12.5px; color: var(--slate-600); line-height: 1.6; }
+.obs-method-body p { margin: 8px 0; }
+.obs-method-h { font-weight: 700; color: var(--slate-700); margin-top: 12px !important; }
+.obs-method-body ul { margin: 4px 0; padding-left: 20px; }
+.obs-method-body li { margin: 3px 0; }
+.obs-method-body a { color: var(--blue-700); font-weight: 600; }
+.obs-method-warn { background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 9px; padding: 10px 12px; color: #92400E !important; margin-top: 12px !important; }
 /* Mot du Chef Produit sur la page d'accueil */
 .today-cap { margin: 0 0 22px; padding: 18px 20px; background: var(--blue-50); border: 1px solid var(--blue-100); border-left: 3px solid var(--blue-500); border-radius: 12px; }
 .today-cap-hidden { display: none; }
@@ -3485,11 +3509,37 @@ function setObsFinFilter(v) { obsFinFilter = v; render(); }
 function finIsReg(x) { const p = ((x && x.perimetre) || '').toLowerCase(); return p.startsWith('reg') || p.includes('64') || p.includes('aquitaine') || p.includes('local'); }
 function finPasses(x) { if (obsFinFilter === 'tout') return true; return obsFinFilter === 'regional' ? finIsReg(x) : !finIsReg(x); }
 function finPerimBadge(x) { return finIsReg(x) ? `<span class="obs-badge obs-perim-loc">📍 Mon 64</span>` : `<span class="obs-badge obs-perim-nat">France</span>`; }
+// Lit une date dans le texte d'échéance (JJ/MM/AAAA ou AAAA-MM-JJ)
+function finParseDate(s) {
+  if (!s) return null;
+  let m = s.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if (m) return new Date(+m[3], +m[2] - 1, +m[1]);
+  m = s.match(/(\d{4})-(\d{2})-(\d{2})/);
+  if (m) return new Date(+m[1], +m[2] - 1, +m[3]);
+  return null;
+}
+// Calcule le délai (compte à rebours + niveau d'urgence + rang de tri)
+function finDelai(echeance) {
+  const s = echeance || '';
+  const d = finParseDate(s);
+  if (d && !isNaN(d.getTime())) {
+    const days = Math.ceil((d.getTime() - Date.now()) / 86400000);
+    if (days < 0) return { label: s, sub: 'clôturé', urg: 'closed', rank: 90000 - days };
+    const sub = days === 0 ? "dernier jour !" : ('encore ' + days + ' jour' + (days > 1 ? 's' : ''));
+    const urg = days <= 21 ? 'urgent' : (days <= 60 ? 'soon' : 'ok');
+    return { label: s, sub, urg, rank: days };
+  }
+  const low = s.toLowerCase();
+  if (/ouvert|permanent|continu|guichet/.test(low)) return { label: s || 'en continu', sub: 'guichet ouvert en continu', urg: 'open', rank: 50000 };
+  return { label: s || 'à préciser', sub: 'date à confirmer', urg: 'watch', rank: 60000 };
+}
 function finCard(x) {
+  const dl = finDelai(x.echeance);
   return `<div class="obs-card obs-card-fin">
     <div class="obs-card-top"><div class="obs-card-titre">${esc(x.titre || '')}</div>${finPerimBadge(x)}</div>
+    <div class="obs-fin-delai obs-delai-${dl.urg}"><span class="obs-delai-k">⏳ Délai pour répondre</span><span class="obs-delai-v">${esc(dl.label)}${dl.sub ? ` · ${esc(dl.sub)}` : ''}</span></div>
     ${x.organisme ? `<div class="obs-fin-org">${esc(x.organisme)}</div>` : ''}
-    ${(x.montant || x.echeance) ? `<div class="obs-fin-meta">${x.montant ? `<span class="obs-badge obs-fin-montant">💶 ${esc(x.montant)}</span>` : ''}${x.echeance ? `<span class="obs-badge obs-fin-echeance">⏳ ${esc(x.echeance)}</span>` : ''}</div>` : ''}
+    ${x.montant ? `<div class="obs-fin-meta"><span class="obs-badge obs-fin-montant">💶 ${esc(x.montant)}</span></div>` : ''}
     ${x.detail ? `<div class="obs-card-detail">${esc(x.detail)}</div>` : ''}
     ${x.lecture ? `<div class="obs-lecture">${esc(x.lecture)}</div>` : ''}
     <div class="obs-card-foot">${obsSrc(x.source, 'voir le dispositif')}${x.date ? `<span class="obs-date">${esc(x.date)}</span>` : ''}</div>
@@ -3509,7 +3559,8 @@ function renderObsFinancements(r) {
     </div>`;
   }
   const chips = `<div class="obs-nav">${[['tout', 'Tout'], ['national', 'France'], ['regional', '📍 Mon 64']].map(([v, l]) => `<button class="obs-nav-chip ${obsFinFilter === v ? 'is-active' : ''}" onclick="setObsFinFilter('${v}')">${esc(l)}</button>`).join('')}</div>`;
-  const aap = allAap.filter(finPasses), sub = allSub.filter(finPasses);
+  const byDelai = (a, b) => finDelai(a.echeance).rank - finDelai(b.echeance).rank; // les échéances les plus proches d'abord
+  const aap = allAap.filter(finPasses).slice().sort(byDelai), sub = allSub.filter(finPasses).slice().sort(byDelai);
   const grp = (icon, titre, desc, list) => list.length ? `<section class="obs-section">
       <div class="obs-sec-head"><span class="obs-sec-icon">${icon}</span><h3>${esc(titre)}</h3><span class="obs-sec-count">${list.length}</span></div>
       <div class="obs-fin-desc">${esc(desc)}</div>
@@ -3522,7 +3573,31 @@ function renderObsFinancements(r) {
   const srcBlock = (fin.sources && fin.sources.length)
     ? obsSection('obs-fin-src', '📚', 'Sources', fin.sources.length, `<ul class="obs-sources">${fin.sources.map(x => `<li>${obsSrc(x.url, x.titre || x.url)}${x.date ? ` <span class="obs-date">${esc(x.date)}</span>` : ''}</li>`).join('')}</ul>`)
     : '';
-  return `<div class="observatoire">${intro}${chips}${body}${srcBlock}</div>`;
+  return `<div class="observatoire">${intro}${chips}${body}${srcBlock}${finMethodNote()}</div>`;
+}
+// Transparence : comment Orion cherche les financements, et ce qu'il peut manquer
+function finMethodNote() {
+  return `<details class="obs-method">
+    <summary>ℹ️ Comment Orion cherche ces financements — et ce qu'il peut manquer</summary>
+    <div class="obs-method-body">
+      <p><strong>Chaque lundi, Orion lit le web en direct</strong> (recherche internet + lecture des pages officielles) et balaie systématiquement ces sources :</p>
+      <p class="obs-method-h">🇫🇷 National</p>
+      <ul>
+        <li><a href="https://www.bpifrance.fr/nos-appels-a-projets-concours" target="_blank" rel="noopener">Bpifrance — appels à projets & concours</a> (i-Nov, i-Lab…)</li>
+        <li><a href="https://www.economie.gouv.fr/france-2030" target="_blank" rel="noopener">France 2030</a>, dont la stratégie « Santé numérique »</li>
+        <li><a href="https://gnius.esante.gouv.fr/fr/financement" target="_blank" rel="noopener">G_NIUS — le guide des financements e-santé</a> (Agence du Numérique en Santé)</li>
+        <li><a href="https://aides-territoires.beta.gouv.fr" target="_blank" rel="noopener">Aides-territoires</a> et <a href="https://les-aides.fr" target="_blank" rel="noopener">les-aides.fr</a> (agrégateurs publics)</li>
+      </ul>
+      <p class="obs-method-h">📍 Nouvelle-Aquitaine / 64</p>
+      <ul>
+        <li><a href="https://les-aides.nouvelle-aquitaine.fr" target="_blank" rel="noopener">Le Guide des aides de la Région Nouvelle-Aquitaine</a></li>
+        <li><a href="https://www.france2030-en-nouvelle-aquitaine.fr" target="_blank" rel="noopener">France 2030 en Nouvelle-Aquitaine</a></li>
+        <li>L'ADI Nouvelle-Aquitaine (agence de développement & d'innovation) et Bpifrance régional</li>
+      </ul>
+      <p><strong>Comment il sélectionne :</strong> il ne retient que ce qui colle à <em>ton profil</em> — un éditeur de logiciel santé innovant, jeune entreprise, en Nouvelle-Aquitaine. Pour chaque dispositif, il vérifie la date à la source, marque le périmètre (France / 64) et te dit « pour toi, ça veut dire quoi ».</p>
+      <p class="obs-method-warn">⚠️ <strong>Sois lucide : aucune veille automatique n'est exhaustive.</strong> Orion repère l'essentiel, mais un dispositif peut lui échapper, et les dates/critères évoluent. Avant de candidater, <strong>vérifie toujours sur la source officielle</strong>. Pour ne rien rater, le plus sûr est de t'abonner toi-même aux <strong>alertes mail de Bpifrance et du Guide des aides Nouvelle-Aquitaine</strong> — Orion est ton radar, pas ton filet de sécurité unique.</p>
+    </div>
+  </details>`;
 }
 
 // ============ CONSOLE D'AGENT (Espace Magnus) ============
