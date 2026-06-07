@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-07T06:52:09.587Z",
+  "exportedAt": "2026-06-07T06:59:10.846Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -5727,6 +5727,14 @@
         "links": [],
         "x": 445.1999816894531,
         "y": 123.39999389648438
+      },
+      {
+        "id": "mq3fkiw3j0gd7",
+        "title": "Module de création CPTS",
+        "body": "Accompagnement à la réalisation du diagnostic territorial, volet juridique, embauche coordinatrice, montage financier, préparation vie associative, etc.",
+        "links": [],
+        "x": 424.4545738326007,
+        "y": 383.1859444561068
       }
     ],
     "tasks": [
