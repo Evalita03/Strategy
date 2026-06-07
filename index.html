@@ -472,32 +472,43 @@ body {
 .mako-hero { background: linear-gradient(135deg, #334155, #0F172A); color: var(--white); border-radius: 14px; padding: 18px 20px; margin-bottom: 6px; }
 .mako-eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #93C5FD; margin-bottom: 10px; }
 .mako-hero .obs-synthese { color: #F1F5F9; }
-.mako-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 14px; margin-top: 14px; }
-.mako-card { background: var(--white); border: 1px solid var(--slate-200); border-top: 3px solid #475569; border-radius: 12px; padding: 15px 16px; display: flex; flex-direction: column; gap: 10px; }
-.mako-card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
-.mako-name { font-size: 15.5px; font-weight: 800; color: var(--slate-900); letter-spacing: -0.01em; }
-.mako-maj { font-size: 10.5px; color: var(--slate-400); white-space: nowrap; }
-.mako-pos { font-size: 13px; color: var(--slate-600); line-height: 1.5; }
-.mako-meta { display: flex; flex-wrap: wrap; gap: 6px; }
-.mako-chip { font-size: 11.5px; font-weight: 600; border-radius: 8px; padding: 3px 9px; text-decoration: none; }
-.mako-chip-prix { background: #DCFCE7; color: #15803D; }
-.mako-chip-cible { background: var(--blue-50); color: var(--blue-700); }
-.mako-chip-site { background: var(--slate-100); color: var(--slate-600); }
-.mako-chip-site:hover { background: var(--slate-200); }
+.mako-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; margin-top: 16px; }
+.mako-card { background: var(--white); border: 1px solid var(--slate-200); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 13px; box-shadow: 0 1px 3px rgba(15,23,42,0.04); transition: transform .15s, box-shadow .15s, border-color .15s; }
+.mako-card:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(15,23,42,0.10); border-color: var(--slate-300); }
+.mako-card-head { display: flex; align-items: flex-start; gap: 12px; }
+.mako-avatar { width: 42px; height: 42px; border-radius: 12px; flex-shrink: 0; color: #fff; font-size: 19px; font-weight: 800; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 8px rgba(15,23,42,0.20); }
+.mako-head-txt { flex: 1; min-width: 0; }
+.mako-name { font-size: 16.5px; font-weight: 800; color: var(--slate-900); letter-spacing: -0.01em; }
+.mako-pos { font-size: 12.5px; color: var(--slate-500); line-height: 1.45; margin-top: 2px; }
+.mako-maj { font-size: 10px; color: var(--slate-400); white-space: nowrap; background: var(--slate-100); border-radius: 6px; padding: 2px 7px; }
+.mako-keyrow { display: flex; gap: 10px; }
+.mako-key { flex: 1; border-radius: 11px; padding: 9px 12px; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.mako-key-prix { background: #ECFDF5; border: 1px solid #A7F3D0; }
+.mako-key-cible { background: var(--blue-50); border: 1px solid var(--blue-100); }
+.mako-key-k { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; }
+.mako-key-prix .mako-key-k { color: #15803D; }
+.mako-key-cible .mako-key-k { color: var(--blue-700); }
+.mako-key-v { font-size: 13px; font-weight: 700; color: var(--slate-800); line-height: 1.35; }
 .mako-fofa { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.mako-fofa-k { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
+.mako-panel { border-radius: 11px; padding: 11px 12px; }
+.mako-forces { background: #F0FDF4; }
+.mako-faibl { background: #FEF2F2; }
+.mako-fofa-k { font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 7px; }
 .mako-forces .mako-fofa-k { color: #15803D; }
 .mako-faibl .mako-fofa-k { color: #B91C1C; }
-.mako-fofa ul { margin: 0; padding-left: 16px; }
-.mako-fofa li { font-size: 12px; color: var(--slate-600); line-height: 1.45; margin: 2px 0; }
-.mako-block-k { font-size: 11px; font-weight: 700; color: var(--slate-500); margin-bottom: 3px; }
+.mako-li { font-size: 12px; color: var(--slate-700); line-height: 1.5; margin: 4px 0; padding-left: 17px; text-indent: -17px; }
+.mako-forces .mako-li::before { content: '✓ '; color: #15803D; font-weight: 800; }
+.mako-faibl .mako-li::before { content: '✕ '; color: #B91C1C; font-weight: 800; }
+.mako-block-k { font-size: 11px; font-weight: 700; color: var(--slate-500); margin-bottom: 4px; }
 .mako-block-t { font-size: 12.5px; color: var(--slate-600); line-height: 1.5; }
 .mako-actu { margin: 0; padding-left: 16px; }
-.mako-actu li { font-size: 12px; color: var(--slate-600); line-height: 1.5; margin: 2px 0; }
+.mako-actu li { font-size: 12px; color: var(--slate-600); line-height: 1.5; margin: 3px 0; }
 .mako-actu-date { font-weight: 700; color: var(--slate-500); }
-.mako-vs { background: #FEF2F2; border: 1px solid #FECACA; border-radius: 9px; padding: 10px 12px; }
-.mako-vs-k { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: #B91C1C; margin-bottom: 4px; }
-.mako-vs div:last-child { font-size: 12.5px; color: #7F1D1D; line-height: 1.5; }
+.mako-vs { background: linear-gradient(135deg, #FEF2F2, #FFF1F2); border: 1px solid #FECACA; border-left: 3px solid #DC2626; border-radius: 11px; padding: 11px 13px; }
+.mako-vs-k { font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: #B91C1C; margin-bottom: 4px; }
+.mako-vs-t { font-size: 12.5px; color: #7F1D1D; line-height: 1.5; }
+.mako-site-btn { display: inline-block; font-size: 12px; font-weight: 700; color: var(--slate-600); text-decoration: none; margin-top: 2px; }
+.mako-site-btn:hover { color: var(--blue-700); }
 /* Mot du Chef Produit sur la page d'accueil */
 .today-cap { margin: 0 0 22px; padding: 18px 20px; background: var(--blue-50); border: 1px solid var(--blue-100); border-left: 3px solid var(--blue-500); border-radius: 12px; }
 .today-cap-hidden { display: none; }
@@ -1414,6 +1425,7 @@ function save() {
   betaReconcile();
   try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
   catch(e) { alert('Erreur de sauvegarde'); }
+  scheduleAutoBackup();
 }
 // Une tâche liée passée à « Terminé » → la préconisation correspondante passe « Faite »
 function reconcilePrecos() {
@@ -4320,6 +4332,11 @@ function finMethodNote() {
   </details>`;
 }
 // ===== Mako : tableau de bord de la veille concurrentielle (alimenté par Orion) =====
+function makoColor(name) {
+  const palette = ['#2563EB', '#0D9488', '#7C3AED', '#DB2777', '#D97706', '#0891B2', '#DC2626', '#0F766E'];
+  let s = 0; for (const ch of (name || 'x')) s += ch.charCodeAt(0);
+  return palette[s % palette.length];
+}
 function renderMakoBoard(r) {
   const list = (r && Array.isArray(r.concurrents)) ? r.concurrents : [];
   const fr = reportFreshness(r && r.updated_at);
@@ -4333,27 +4350,31 @@ function renderMakoBoard(r) {
     </div>`;
   }
   const cards = list.map(c => {
-    const forces = (Array.isArray(c.forces) ? c.forces : []).map(x => `<li>${esc(x)}</li>`).join('');
-    const faibl = (Array.isArray(c.faiblesses) ? c.faiblesses : []).map(x => `<li>${esc(x)}</li>`).join('');
+    const forces = (Array.isArray(c.forces) ? c.forces : []).map(x => `<div class="mako-li">${esc(x)}</div>`).join('');
+    const faibl = (Array.isArray(c.faiblesses) ? c.faiblesses : []).map(x => `<div class="mako-li">${esc(x)}</div>`).join('');
     const actu = (Array.isArray(c.actualite) ? c.actualite : []).map(a => `<li>${a.date ? `<span class="mako-actu-date">${esc(a.date)}</span> ` : ''}${esc(a.fait || '')} ${a.source ? obsSrc(a.source, 'source') : ''}</li>`).join('');
+    const initial = ((c.nom || '?').trim().charAt(0) || '?').toUpperCase();
     return `<div class="mako-card">
       <div class="mako-card-head">
-        <div class="mako-name">${esc(c.nom || '')}</div>
+        <div class="mako-avatar" style="background:${makoColor(c.nom)}">${esc(initial)}</div>
+        <div class="mako-head-txt">
+          <div class="mako-name">${esc(c.nom || '')}</div>
+          ${c.positionnement ? `<div class="mako-pos">${esc(c.positionnement)}</div>` : ''}
+        </div>
         ${c.maj ? `<span class="mako-maj">maj ${esc(c.maj)}</span>` : ''}
       </div>
-      ${c.positionnement ? `<div class="mako-pos">${esc(c.positionnement)}</div>` : ''}
-      <div class="mako-meta">
-        ${c.prix ? `<span class="mako-chip mako-chip-prix">💶 ${esc(c.prix)}</span>` : ''}
-        ${c.cible ? `<span class="mako-chip mako-chip-cible">🎯 ${esc(c.cible)}</span>` : ''}
-        ${c.site ? `<a class="mako-chip mako-chip-site" href="${esc(c.site)}" target="_blank" rel="noopener">🔗 site</a>` : ''}
-      </div>
+      ${(c.prix || c.cible) ? `<div class="mako-keyrow">
+        ${c.prix ? `<div class="mako-key mako-key-prix"><span class="mako-key-k">💶 Prix</span><span class="mako-key-v">${esc(c.prix)}</span></div>` : ''}
+        ${c.cible ? `<div class="mako-key mako-key-cible"><span class="mako-key-k">🎯 Cible</span><span class="mako-key-v">${esc(c.cible)}</span></div>` : ''}
+      </div>` : ''}
       ${(forces || faibl) ? `<div class="mako-fofa">
-        ${forces ? `<div class="mako-forces"><div class="mako-fofa-k">✓ Forces</div><ul>${forces}</ul></div>` : ''}
-        ${faibl ? `<div class="mako-faibl"><div class="mako-fofa-k">✕ Faiblesses</div><ul>${faibl}</ul></div>` : ''}
+        ${forces ? `<div class="mako-panel mako-forces"><div class="mako-fofa-k">✓ Forces</div>${forces}</div>` : ''}
+        ${faibl ? `<div class="mako-panel mako-faibl"><div class="mako-fofa-k">✕ Faiblesses</div>${faibl}</div>` : ''}
       </div>` : ''}
       ${actu ? `<div class="mako-block"><div class="mako-block-k">📰 Actualité</div><ul class="mako-actu">${actu}</ul></div>` : ''}
       ${c.strategie ? `<div class="mako-block"><div class="mako-block-k">♟️ Stratégie</div><div class="mako-block-t">${esc(c.strategie)}</div></div>` : ''}
-      ${c.vs_toi ? `<div class="mako-vs"><div class="mako-vs-k">⚔️ Comment te démarquer</div><div>${esc(c.vs_toi)}</div></div>` : ''}
+      ${c.vs_toi ? `<div class="mako-vs"><div class="mako-vs-k">⚔️ Comment te démarquer</div><div class="mako-vs-t">${esc(c.vs_toi)}</div></div>` : ''}
+      ${c.site ? `<a class="mako-site-btn" href="${esc(c.site)}" target="_blank" rel="noopener">Voir leur site →</a>` : ''}
     </div>`;
   }).join('');
   return `<div class="observatoire">${intro}<div class="mako-grid">${cards}</div></div>`;
@@ -5496,9 +5517,19 @@ function importData(e) {
 
 // ============ BACKUP GITHUB ============
 const GH_CONFIG_KEY = 'cpts_github_config';
-const BACKUP_INTERVAL_MS = 6 * 3600 * 1000;  // 6h
+const BACKUP_INTERVAL_MS = 10 * 60 * 1000;  // 10 min (filet de sécurité)
 const BACKUP_PATH = 'backups/cockpit-latest.json';
 let backupInterval = null;
+let backupDebounce = null;
+let backupPending = false;
+// Sauvegarde auto ~45s après la dernière modif (débounce) — fiable même si la page est rechargée souvent
+function scheduleAutoBackup() {
+  const cfg = getGhConfig();
+  if (!cfg || !cfg.token) return;
+  backupPending = true;
+  if (backupDebounce) clearTimeout(backupDebounce);
+  backupDebounce = setTimeout(() => { backupPending = false; backupDebounce = null; backupToGithub(true); }, 45000);
+}
 
 function getGhConfig() {
   try { return JSON.parse(localStorage.getItem(GH_CONFIG_KEY) || '{}'); }
@@ -6082,6 +6113,14 @@ load();
 render();
 updateBackupStatus();
 startAutoBackup();
+// Sauvegarde immédiate quand tu quittes / recharges la page, s'il y a des modifs en attente
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden' && backupPending) {
+    backupPending = false;
+    if (backupDebounce) { clearTimeout(backupDebounce); backupDebounce = null; }
+    backupToGithub(true);
+  }
+});
 
 // Charge architecture.json en arrière-plan pour alimenter le pouls projet
 // même si l'utilisateur n'a pas encore visité la vue Architecture.
