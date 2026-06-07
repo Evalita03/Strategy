@@ -253,6 +253,52 @@ body {
 .vivier-promo-flag { margin-top: 12px; font-size: 11.5px; font-weight: 600; color: var(--teal-600); }
 .vivier-promoted { opacity: 0.62; }
 .vivier-promoted:hover { opacity: 1; }
+
+/* ===== Vivier — liste qui se déplie (v2) ===== */
+.v-toolbar { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin:4px 0 8px; }
+.v-sel { font-family:inherit; font-size:13px; font-weight:600; color:var(--slate-700); background:#fff; border:1px solid var(--slate-300); border-radius:9px; padding:8px 11px; cursor:pointer; }
+.v-spacer { margin-left:auto; }
+.v-filterrow { display:none; gap:10px; align-items:flex-end; flex-wrap:wrap; margin:2px 0 6px; padding:12px 14px; background:var(--slate-50); border:1px solid var(--slate-200); border-radius:10px; }
+.v-filterrow.open { display:flex; }
+.v-legend { display:flex; gap:16px; flex-wrap:wrap; margin:10px 0 14px; font-size:11.5px; color:var(--slate-500); }
+.v-legend span { display:inline-flex; align-items:center; gap:6px; }
+.v-dot { width:16px; height:16px; border-radius:5px; display:inline-flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; flex-shrink:0; }
+.v-dot.etincelle { background:#FEF3C7; color:#B45309; }
+.v-dot.decision { background:#FEE2E2; color:var(--red-600); }
+.v-dot.cap-mur { background:var(--teal-100); color:var(--teal-700); }
+.v-list { background:#fff; border:1px solid var(--slate-200); border-radius:14px; overflow:hidden; }
+.v-hint { font-size:11.5px; color:var(--slate-400); padding:10px 16px; border-bottom:1px solid var(--slate-100); background:var(--slate-50); }
+.v-row { border-bottom:1px solid var(--slate-100); }
+.v-row:last-child { border-bottom:none; }
+.v-rowhead { display:flex; align-items:center; gap:12px; padding:13px 16px; cursor:pointer; transition:background .12s; }
+.v-rowhead:hover { background:var(--slate-50); }
+.v-row.decision .v-rowhead { box-shadow:inset 3px 0 0 var(--red-600); }
+.v-row.cap-mur .v-rowhead { box-shadow:inset 3px 0 0 var(--teal-600); }
+.v-main { flex:1; min-width:0; }
+.v-title { font-size:14.5px; font-weight:700; color:var(--slate-900); }
+.v-meta { font-size:11.5px; color:var(--slate-400); margin-top:2px; }
+.v-chev { color:var(--slate-300); transition:transform .2s; flex-shrink:0; }
+.v-row.open .v-chev { transform:rotate(90deg); color:var(--slate-500); }
+.v-row.archived { opacity:.55; }
+.v-row.promoted .v-title { color:var(--slate-500); }
+.v-body { display:none; padding:2px 16px 18px 44px; }
+.v-row.open .v-body { display:block; }
+.v-cit { font-style:italic; color:var(--slate-500); border-left:2px solid var(--slate-200); padding-left:12px; margin:4px 0 0; font-size:13px; line-height:1.55; }
+.v-note { font-size:13px; color:var(--slate-600); line-height:1.6; margin-top:12px; white-space:pre-wrap; }
+.v-fields { display:flex; gap:18px; flex-wrap:wrap; margin-top:12px; font-size:12px; color:var(--slate-500); }
+.v-fields b { color:var(--slate-700); font-weight:700; }
+.v-flag { margin-top:12px; font-size:12px; font-weight:700; color:var(--teal-700); }
+.v-flag.road { color:var(--blue-700); }
+.v-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
+.v-act { font-family:inherit; font-size:12px; font-weight:700; border-radius:8px; padding:7px 12px; cursor:pointer; border:1px solid var(--slate-200); background:#fff; color:var(--slate-600); transition:.15s; }
+.v-act:hover { border-color:var(--slate-400); color:var(--slate-900); }
+.v-act.strat:hover { border-color:var(--teal-600); color:var(--teal-700); background:var(--teal-100); }
+.v-act.road:hover { border-color:var(--blue-500); color:var(--blue-700); background:var(--blue-50); }
+.v-act.danger:hover { border-color:var(--red-600); color:var(--red-600); background:#FEE2E2; }
+.v-act[disabled] { opacity:.5; cursor:not-allowed; }
+.v-empty { padding:30px 16px; text-align:center; color:var(--slate-400); font-style:italic; }
+.v-toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--slate-900); color:#fff; padding:12px 20px; border-radius:10px; font-size:13px; font-weight:600; opacity:0; transition:.25s; pointer-events:none; z-index:9999; box-shadow:0 8px 24px rgba(0,0,0,.25); }
+.v-toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
 .idea-act {
   font-family: inherit; font-size: 11px; font-weight: 600;
   border-radius: 7px; padding: 4px 8px; cursor: pointer; transition: all .15s;
@@ -2851,6 +2897,11 @@ let redrawIdeas = null;
 let ideaTab = 'vivier';
 let ideesData = null, ideesLoading = false, ideesError = null;
 let ideesFilters = { famille:'', theme:'', nature:'', statut:'' };
+let ideesSort = 'trancher';        // 'trancher' | 'famille' | 'statut' | 'id'
+let ideesOpenRows = new Set();     // ids des lignes dépliées
+let ideesFiltersOpen = false;      // panneau de filtres visible ?
+let ideesShowArchived = false;     // montrer les idées archivées ?
+let ideesBusy = false;             // écriture GitHub en cours (verrou anti double-clic)
 
 function setIdeaLens(lens) { ideaLens = lens; ideaLinkMode = false; ideaLinkSource = null; render(); }
 function toggleIdeaLink() {
@@ -2940,6 +2991,7 @@ const VIVIER_NATURE_HINT = {
   etincelle: 'idée non tranchée'
 };
 const VIVIER_STATUT_FB = { 'en-suspens': 'En suspens', reportee: 'Reportée', 'en-reflexion': 'En réflexion', 'deja-en-strategie': 'Déjà en stratégie' };
+const VIVIER_NAT_RANK = { decision: 0, 'cap-mur': 1, etincelle: 2 };  // ordre « à trancher d'abord »
 
 // Récupère un libellé depuis la légende du JSON ; accepte string ou objet {label/titre}.
 function legLabel(map, key, fallback) {
@@ -2962,6 +3014,10 @@ function vivierOrder(keys, order) {
 }
 
 function setVivierFilter(key, val) { ideesFilters[key] = val; render(); }
+function setIdeesSort(v) { ideesSort = v; render(); }
+function toggleIdeesFilters() { ideesFiltersOpen = !ideesFiltersOpen; render(); }
+function toggleShowArchived() { ideesShowArchived = !ideesShowArchived; render(); }
+function toggleIdeeRow(id) { ideesOpenRows.has(id) ? ideesOpenRows.delete(id) : ideesOpenRows.add(id); render(); }
 function resetVivierFilters() {
   ideesFilters = { famille: '', theme: '', nature: '', statut: '' };
   searchQuery = '';
@@ -2969,17 +3025,32 @@ function resetVivierFilters() {
   render();
 }
 function vivierMatch(i) {
+  if (i.archived && !ideesShowArchived) return false;
   if (ideesFilters.famille && i.famille !== ideesFilters.famille) return false;
   if (ideesFilters.theme && i.theme !== ideesFilters.theme) return false;
   if (ideesFilters.nature && i.nature !== ideesFilters.nature) return false;
   if (ideesFilters.statut && i.statut !== ideesFilters.statut) return false;
   return matchSearch(i, [i.titre, i.citation, i.note, i.id]);
 }
+// Liste filtrée + triée selon ideesSort
+function vivierVisible() {
+  const d = ideesData; if (!d) return [];
+  const arr = (d.idees || []).filter(vivierMatch);
+  const promoted = i => (i.statut === 'deja-en-strategie') ? 1 : 0;
+  const nr = n => (VIVIER_NAT_RANK[n] ?? 9);
+  if (ideesSort === 'trancher') arr.sort((a, b) => promoted(a) - promoted(b) || nr(a.nature) - nr(b.nature) || (a.id || '').localeCompare(b.id || ''));
+  else if (ideesSort === 'famille') arr.sort((a, b) => (a.famille || '').localeCompare(b.famille || '') || nr(a.nature) - nr(b.nature));
+  else if (ideesSort === 'statut') arr.sort((a, b) => (a.statut || '').localeCompare(b.statut || '') || (a.id || '').localeCompare(b.id || ''));
+  else arr.sort((a, b) => (a.id || '').localeCompare(b.id || ''));
+  return arr;
+}
 
 function renderVivier(content, actions) {
-  actions.innerHTML = `<button class="btn btn-ghost" onclick="loadIdeesVivier(true)">↻ Rafraîchir</button>`;
+  const dis = ideesBusy ? 'disabled' : '';
+  actions.innerHTML = `<button class="btn btn-ghost" onclick="loadIdeesVivier(true)" ${dis}>↻ Rafraîchir</button>
+    <button class="btn btn-primary" onclick="openIdeeModal()" ${ideesData ? '' : 'disabled'} ${dis}>+ Idée</button>`;
   const d = ideesData;
-  const count = d && Array.isArray(d.idees) ? d.idees.length : 0;
+  const count = d && Array.isArray(d.idees) ? d.idees.filter(i => !i.archived).length : 0;
 
   let html = '<div class="panel" style="max-width:none"><div class="todo-section">';
   html += `<h3 class="todo-section-title">
@@ -3000,8 +3071,8 @@ function renderVivier(content, actions) {
     html += `<div class="todo-empty-zone">Vivier non chargé.</div>`;
   } else {
     if (d.description) html += `<p class="vivier-desc">${esc(d.description)}</p>`;
-    html += renderVivierFilters(d);
-    html += renderVivierBody(d);
+    html += renderVivierToolbar(d);
+    html += renderVivierList(d);
   }
 
   html += '</div></div>';
@@ -3011,9 +3082,10 @@ function renderVivier(content, actions) {
   if (!ideesData && !ideesLoading && !ideesError) loadIdeesVivier(false);
 }
 
-function renderVivierFilters(d) {
-  const ideas = d.idees || [];
+function renderVivierToolbar(d) {
   const leg = d.legende || {};
+  const ideas = d.idees || [];
+  const archivedCount = ideas.filter(i => i.archived).length;
   const uniq = (key, order) => vivierOrder([...new Set(ideas.map(i => i[key]).filter(Boolean))], order || []);
   const mk = (label, key, map, fbMap, allLabel, order) => {
     const opts = uniq(key, order);
@@ -3024,73 +3096,251 @@ function renderVivierFilters(d) {
         ${opts.map(o => `<option value="${esc(o)}" ${ideesFilters[key]===o?'selected':''}>${esc(legLabel(map, o, (fbMap && fbMap[o]) || o))}</option>`).join('')}
       </select></label>`;
   };
-  let html = '<div class="vivier-filters">';
-  html += mk('Famille', 'famille', leg.famille, VIVIER_FAMILLE_FB, 'Toutes', VIVIER_FAMILLE_ORDER);
-  html += mk('Thème', 'theme', null, null, 'Tous', null);
-  html += mk('Nature', 'nature', leg.nature, VIVIER_NATURE_FB, 'Toutes', VIVIER_NATURE_ORDER);
-  html += mk('Statut', 'statut', leg.statut, VIVIER_STATUT_FB, 'Tous', null);
-  if (Object.values(ideesFilters).some(Boolean) || searchQuery) {
-    html += `<button class="btn btn-ghost btn-sm" onclick="resetVivierFilters()">✕ Réinitialiser</button>`;
-  }
-  html += '</div>';
-  return html;
-}
+  const anyFilter = Object.values(ideesFilters).some(Boolean) || searchQuery;
 
-function renderVivierBody(d) {
-  const leg = d.legende || {};
-  const ideas = (d.idees || []).filter(vivierMatch);
-  if (!ideas.length) return `<div class="todo-empty-zone">Aucune idée ne correspond aux filtres.</div>`;
+  let h = '<div class="v-toolbar">';
+  h += `<select class="v-sel" onchange="setIdeesSort(this.value)">
+      <option value="trancher" ${ideesSort==='trancher'?'selected':''}>Trier : à trancher d'abord</option>
+      <option value="famille" ${ideesSort==='famille'?'selected':''}>Trier : par famille</option>
+      <option value="statut" ${ideesSort==='statut'?'selected':''}>Trier : par statut</option>
+      <option value="id" ${ideesSort==='id'?'selected':''}>Trier : par numéro</option>
+    </select>`;
+  h += `<button class="btn btn-ghost" onclick="toggleIdeesFilters()">⛯ Filtrer${anyFilter?' •':''}</button>`;
+  if (archivedCount) h += `<span class="v-spacer"></span><button class="btn btn-ghost" onclick="toggleShowArchived()">${ideesShowArchived?'Masquer':'Voir'} archivées (${archivedCount})</button>`;
+  h += '</div>';
 
-  const famKeys = vivierOrder(new Set(ideas.map(i => i.famille || '—')), VIVIER_FAMILLE_ORDER);
-  let html = '';
-  famKeys.forEach(fk => {
-    const inFam = ideas.filter(i => (i.famille || '—') === fk);
-    const famLabel = legLabel(leg.famille, fk, VIVIER_FAMILLE_FB[fk] || (fk === '—' ? 'Non classé' : fk));
-    const sub = VIVIER_FAMILLE_SUB[fk] ? `<span class="vivier-fam-sub">${VIVIER_FAMILLE_SUB[fk]}</span>` : '';
-    html += `<section class="vivier-famille vivier-fam-${esc(fk)}">
-      <div class="vivier-fam-head"><h4>${esc(famLabel)}</h4>${sub}<span class="count-pill">${inFam.length}</span></div>`;
-
-    const natKeys = vivierOrder(new Set(inFam.map(i => i.nature || '—')), VIVIER_NATURE_ORDER);
-    natKeys.forEach(nk => {
-      const inNat = inFam.filter(i => (i.nature || '—') === nk);
-      const natLabel = legLabel(leg.nature, nk, VIVIER_NATURE_FB[nk] || (nk === '—' ? 'Autres' : nk));
-      const hint = legHint(leg.nature, nk, VIVIER_NATURE_HINT[nk] || '');
-      const icon = VIVIER_NATURE_ICON[nk] || '•';
-      html += `<div class="vivier-nature vivier-nat-${esc(nk)}">
-        <div class="vivier-nat-head">
-          <span class="vivier-nat-icon">${icon}</span>
-          <span>${esc(natLabel)}</span>
-          <span class="vivier-nat-count">${inNat.length}</span>
-          ${hint ? `<span class="vivier-nat-hint">${esc(hint)}</span>` : ''}
-        </div>
-        <div class="idea-grid">${inNat.map(i => vivierCard(i, leg)).join('')}</div>
-      </div>`;
-    });
-    html += `</section>`;
-  });
-  return html;
-}
-
-function vivierCard(i, leg) {
-  const statutLabel = legLabel(leg.statut, i.statut, VIVIER_STATUT_FB[i.statut] || i.statut || '');
-  const themeTip = (typeof leg.theme === 'string' && leg.theme) ? ` title="${esc(leg.theme)}"` : '';
-  const promoted = i.statut === 'deja-en-strategie';
-  let c = `<div class="idea-card vivier-card${promoted ? ' vivier-promoted' : ''}">`;
-  c += `<div class="vivier-card-top">
-      ${i.id ? `<span class="vivier-id">${esc(i.id)}</span>` : '<span></span>'}
-      ${i.statut ? `<span class="vivier-statut vivier-statut-${esc(i.statut)}">${esc(statutLabel)}</span>` : ''}
+  h += `<div class="v-filterrow${ideesFiltersOpen?' open':''}">
+      ${mk('Famille', 'famille', leg.famille, VIVIER_FAMILLE_FB, 'Toutes', VIVIER_FAMILLE_ORDER)}
+      ${mk('Thème', 'theme', null, null, 'Tous', null)}
+      ${mk('Nature', 'nature', leg.nature, VIVIER_NATURE_FB, 'Toutes', VIVIER_NATURE_ORDER)}
+      ${mk('Statut', 'statut', leg.statut, VIVIER_STATUT_FB, 'Tous', null)}
+      ${anyFilter ? `<button class="btn btn-ghost btn-sm" onclick="resetVivierFilters()">✕ Réinitialiser</button>` : ''}
     </div>`;
-  c += `<h4>${esc(i.titre || '(sans titre)')}</h4>`;
-  if (i.theme) c += `<span class="tag vivier-theme"${themeTip}>${esc(i.theme)}</span>`;
-  if (i.citation) c += `<p class="vivier-citation">« ${esc(i.citation)} »</p>`;
-  if (i.note) c += `<p class="vivier-note-txt">${esc(i.note)}</p>`;
-  if (promoted) {
-    c += `<div class="vivier-promo-link">→ promu en stratégie${i.axe_strategy ? ` (${esc(i.axe_strategy)})` : ''}</div>`;
-  } else if (i.promotion_strategy) {
-    c += `<div class="vivier-promo-flag">↗ candidat stratégie${i.axe_strategy ? ` · ${esc(i.axe_strategy)}` : ''}</div>`;
+
+  h += `<div class="v-legend">
+      <span><span class="v-dot decision">◆</span> ${esc(legLabel(leg.nature,'decision',VIVIER_NATURE_FB.decision))} — à trancher</span>
+      <span><span class="v-dot cap-mur">▲</span> ${esc(legLabel(leg.nature,'cap-mur',VIVIER_NATURE_FB['cap-mur']))} — prêt pour la stratégie</span>
+      <span><span class="v-dot etincelle">✦</span> ${esc(legLabel(leg.nature,'etincelle',VIVIER_NATURE_FB.etincelle))} — à creuser</span>
+    </div>`;
+  return h;
+}
+
+function renderVivierList(d) {
+  const leg = d.legende || {};
+  const arr = vivierVisible();
+  const sortLabels = { trancher:"à trancher d'abord", famille:'par famille', statut:'par statut', id:'par numéro' };
+  let h = '<div class="v-list">';
+  h += `<div class="v-hint">${arr.length} idée${arr.length>1?'s':''} affichée${arr.length>1?'s':''} · tri : ${sortLabels[ideesSort]}</div>`;
+  h += arr.length ? arr.map(i => vivierRow(i, leg)).join('') : `<div class="v-empty">Aucune idée ne correspond.</div>`;
+  h += '</div>';
+  return h;
+}
+
+function vivierRow(i, leg) {
+  const isOpen = ideesOpenRows.has(i.id);
+  const promoted = i.statut === 'deja-en-strategie';
+  const nat = i.nature || '';
+  const icon = VIVIER_NATURE_ICON[nat] || '•';
+  const natLabel = legLabel(leg.nature, nat, VIVIER_NATURE_FB[nat] || nat);
+  const famLabel = legLabel(leg.famille, i.famille, VIVIER_FAMILLE_FB[i.famille] || i.famille || '');
+  const statLabel = legLabel(leg.statut, i.statut, VIVIER_STATUT_FB[i.statut] || i.statut || '');
+  const meta = [esc(i.id||''), esc(natLabel), esc(i.theme||''), esc(famLabel)].filter(Boolean).join(' · ');
+  const dis = ideesBusy ? 'disabled' : '';
+
+  let h = `<div class="v-row ${esc(nat)}${isOpen?' open':''}${promoted?' promoted':''}${i.archived?' archived':''}">`;
+  h += `<div class="v-rowhead" onclick="toggleIdeeRow('${esc(i.id)}')">
+      <span class="v-dot ${esc(nat)}" title="${esc(natLabel)}">${icon}</span>
+      <span class="v-main"><div class="v-title">${esc(i.titre||'(sans titre)')}</div><div class="v-meta">${meta}</div></span>
+      ${i.statut ? `<span class="vivier-statut vivier-statut-${esc(i.statut)}">${esc(statLabel)}</span>` : ''}
+      <svg class="v-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </div>`;
+  h += `<div class="v-body">`;
+  if (i.citation) h += `<p class="v-cit">« ${esc(i.citation)} »</p>`;
+  if (i.note) h += `<p class="v-note">${esc(i.note)}</p>`;
+  h += `<div class="v-fields"><span><b>Thème</b> ${esc(i.theme||'—')}</span><span><b>Nature</b> ${esc(natLabel)}</span><span><b>Famille</b> ${esc(famLabel||'—')}</span></div>`;
+  if (promoted) h += `<div class="v-flag">→ promue en stratégie${i.axe_strategy ? ` (${esc(i.axe_strategy)})` : ''}</div>`;
+  else if (i.promotion_strategy) h += `<div class="v-flag">↗ candidate stratégie${i.axe_strategy ? ` · ${esc(i.axe_strategy)}` : ''}</div>`;
+  if (i.en_roadmap) h += `<div class="v-flag road">↪ envoyée en roadmap</div>`;
+  h += `<div class="v-actions">
+      <button class="v-act strat" ${dis} onclick="openPromoteModal('${esc(i.id)}')">→ Stratégie</button>
+      <button class="v-act road" ${dis} onclick="sendToRoadmap('${esc(i.id)}')">→ Roadmap</button>
+      <button class="v-act" ${dis} onclick="openIdeeModal('${esc(i.id)}')">✎ Modifier</button>
+      <button class="v-act" ${dis} onclick="addNoteToIdee('${esc(i.id)}')">+ Note</button>
+      <button class="v-act danger" ${dis} onclick="archiveIdee('${esc(i.id)}')">${i.archived?'Désarchiver':'Archiver'}</button>
+    </div>`;
+  h += `</div></div>`;
+  return h;
+}
+
+// ===== Écriture GitHub sécurisée (idees.json / strategy.json / roadmap.json sur Plateforme-CPTS) =====
+function normalizeIdees(p) {
+  return { idees: Array.isArray(p.idees) ? p.idees : [], legende: p.legende || {}, description: p.description || '', updated_at: p.updated_at || '' };
+}
+function vivierToast(msg) {
+  let t = document.getElementById('v-toast');
+  if (!t) { t = document.createElement('div'); t.id = 'v-toast'; t.className = 'v-toast'; document.body.appendChild(t); }
+  t.textContent = msg; t.classList.add('show'); clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 2200);
+}
+// Lit le fichier, applique mutateFn à l'objet parsé, réécrit avec le SHA (verrou optimiste : si
+// le fichier a changé entre-temps, GitHub refuse → on recharge et on réessaie). mutateFn renvoie
+// false pour annuler. Renvoie { ok, data?, error? }.
+async function writeRepoJson(filename, mutateFn, message, opts) {
+  const cfg = getGhConfig();
+  if (!cfg.token) return { ok: false, error: 'token GitHub non configuré (Réglages)' };
+  const owner = cfg.owner || 'Evalita03';
+  const branch = 'main';
+  const apiUrl = `https://api.github.com/repos/${owner}/Plateforme-CPTS/contents/${filename}`;
+  const headers = { 'Authorization': `token ${cfg.token}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' };
+  for (let attempt = 0; attempt < 4; attempt++) {
+    let sha = null, parsed = {};
+    const getResp = await fetch(`${apiUrl}?ref=${branch}&t=${Date.now()}`, { headers });
+    if (getResp.ok) {
+      const data = await getResp.json();
+      sha = data.sha;
+      try { parsed = JSON.parse(b64ToUtf8(data.content)); }
+      catch (e) { return { ok: false, error: `${filename} illisible : ${e.message}` }; }
+    } else if (getResp.status === 404) {
+      if (!opts || !opts.createIfMissing) return { ok: false, error: `${filename} introuvable (404)` };
+      parsed = opts.initial || {};
+    } else {
+      const e = await getResp.json().catch(() => ({}));
+      return { ok: false, error: `Lecture : ${e.message || getResp.status}` };
+    }
+    if (mutateFn(parsed) === false) return { ok: false, error: 'opération annulée' };
+    parsed.updated_at = new Date().toISOString().slice(0, 10);
+    const body = { message, content: utf8ToBase64(JSON.stringify(parsed, null, 2)), branch };
+    if (sha) body.sha = sha;
+    const putResp = await fetch(apiUrl, { method: 'PUT', headers, body: JSON.stringify(body) });
+    if (putResp.ok) return { ok: true, data: parsed };
+    if (putResp.status === 409 || putResp.status === 422) continue; // conflit de SHA → on recharge et on retente
+    const e = await putResp.json().catch(() => ({}));
+    return { ok: false, error: `Écriture : ${e.message || putResp.status}` };
   }
-  c += `</div>`;
-  return c;
+  return { ok: false, error: 'le fichier a changé plusieurs fois pendant l\'écriture — réessaie' };
+}
+// Mutation pratique d'idees.json + rafraîchissement de l'affichage
+async function mutateIdees(mutateFn, message) {
+  if (ideesBusy) return;
+  ideesBusy = true; vivierToast('Enregistrement…'); render();
+  const res = await writeRepoJson('idees.json', mutateFn, message);
+  ideesBusy = false;
+  if (res.ok) { ideesData = normalizeIdees(res.data); vivierToast('✓ ' + message); }
+  else alert('Action impossible : ' + res.error);
+  render();
+}
+
+// ----- Actions sur une idée -----
+function ideeById(id) { return (ideesData && ideesData.idees || []).find(x => x.id === id); }
+
+function addNoteToIdee(id) {
+  if (ideesBusy) return;
+  const txt = prompt('Note à ajouter à cette idée :');
+  if (txt == null) return;
+  const t = txt.trim(); if (!t) return;
+  mutateIdees(p => { const x = (p.idees||[]).find(y => y.id === id); if (!x) return false; x.note = (x.note ? x.note + '\n' : '') + '• ' + t; }, 'Note ajoutée à ' + id);
+}
+function archiveIdee(id) {
+  if (ideesBusy) return;
+  const it = ideeById(id); if (!it) return;
+  const archiving = !it.archived;
+  if (archiving && !confirm('Archiver « ' + it.titre + ' » ? (réversible)')) return;
+  mutateIdees(p => { const x = (p.idees||[]).find(y => y.id === id); if (!x) return false; x.archived = archiving; }, (archiving ? 'Archiver ' : 'Désarchiver ') + id);
+}
+async function sendToRoadmap(id) {
+  if (ideesBusy) return;
+  const it = ideeById(id); if (!it) return;
+  if (!confirm('Ajouter « ' + it.titre + ' » comme jalon (à venir) dans la Roadmap, et la marquer dans le vivier ?')) return;
+  ideesBusy = true; vivierToast('Enregistrement…'); render();
+  const r1 = await writeRepoJson('roadmap.json',
+    p => { p.items = Array.isArray(p.items) ? p.items : []; p.items.push({ title: it.titre, status: 'planned', month: null, body: it.note || it.citation || '' }); },
+    `Jalon roadmap depuis idée ${id}`, { createIfMissing: true, initial: { items: [] } });
+  if (!r1.ok) { ideesBusy = false; render(); alert('Échec côté roadmap : ' + r1.error); return; }
+  const r2 = await writeRepoJson('idees.json',
+    p => { const x = (p.idees||[]).find(y => y.id === id); if (x) x.en_roadmap = true; },
+    `Idée ${id} envoyée en roadmap`);
+  ideesBusy = false;
+  if (r2.ok) { ideesData = normalizeIdees(r2.data); vivierToast('✓ Envoyée en roadmap'); }
+  else alert('Jalon créé dans la roadmap, mais le marquage du vivier a échoué : ' + r2.error);
+  render();
+}
+
+// ----- Modale « basculer en stratégie » (choix du volet) -----
+function openPromoteModal(id) {
+  const it = ideeById(id); if (!it) return;
+  const leg = (ideesData && ideesData.legende) || {};
+  const axes = [['vision','Vision'],['marche','Prise de marché'],['pricing','Tarification']];
+  const cur = ['vision','marche','pricing'].includes(it.axe_strategy) ? it.axe_strategy : 'marche';
+  const m = document.getElementById('modal'); m.classList.remove('qc-mode');
+  m.innerHTML = `
+    <h2>Basculer en stratégie</h2>
+    <p style="font-size:13px;color:var(--slate-600);line-height:1.55;margin-bottom:14px">« <b>${esc(it.titre)}</b> » sera ajoutée comme encart dans la Stratégie, et marquée « promue » dans le vivier.</p>
+    <div class="field"><label>Dans quel volet de la stratégie ?</label>
+      <select id="promo-axe">${axes.map(([v,l]) => `<option value="${v}" ${cur===v?'selected':''}>${l}</option>`).join('')}</select></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="confirmPromote('${esc(id)}')">Confirmer</button>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+async function confirmPromote(id) {
+  const axe = document.getElementById('promo-axe').value;
+  closeModal();
+  const it = ideeById(id); if (!it || ideesBusy) return;
+  ideesBusy = true; vivierToast('Enregistrement…'); render();
+  // 1) Ajoute l'encart dans strategy.json
+  const r1 = await writeRepoJson('strategy.json',
+    p => { p.encarts = p.encarts || {}; p.encarts[axe] = Array.isArray(p.encarts[axe]) ? p.encarts[axe] : [];
+           p.encarts[axe].push({ name: it.titre, text: it.citation || it.note || '', size: 'normal', group: '' }); },
+    `Encart stratégie depuis idée ${id}`, { createIfMissing: true, initial: { encarts: {} } });
+  if (!r1.ok) { ideesBusy = false; render(); alert('Échec côté stratégie : ' + r1.error); return; }
+  // 2) Marque l'idée comme promue dans idees.json
+  const r2 = await writeRepoJson('idees.json',
+    p => { const x = (p.idees||[]).find(y => y.id === id); if (x) { x.statut = 'deja-en-strategie'; x.promotion_strategy = true; x.axe_strategy = axe; } },
+    `Idée ${id} promue en stratégie`);
+  ideesBusy = false;
+  if (r2.ok) { ideesData = normalizeIdees(r2.data); vivierToast('✓ Promue en stratégie'); }
+  else alert('Encart créé dans la stratégie, mais le marquage du vivier a échoué : ' + r2.error);
+  render();
+}
+
+// ----- Modale créer / modifier une idée -----
+function vivierIdGen(famille, ideas) {
+  const prefix = famille === 'technique' ? 'TEC' : 'PRD';
+  let max = 0;
+  (ideas || []).forEach(i => { const m = (i.id || '').match(new RegExp('^' + prefix + '-(\\d+)$')); if (m) max = Math.max(max, parseInt(m[1], 10)); });
+  return prefix + '-' + String(max + 1).padStart(2, '0');
+}
+function openIdeeModal(id) {
+  const d = ideesData; if (!d) return;
+  const it = id ? ideeById(id) : null;
+  const leg = d.legende || {};
+  const famOpts = ['produit-strategie','technique'];
+  const natOpts = ['decision','cap-mur','etincelle'];
+  const statOpts = ['en-suspens','en-reflexion','reportee','deja-en-strategie'];
+  const m = document.getElementById('modal'); m.classList.remove('qc-mode');
+  m.innerHTML = `
+    <h2>${it ? "Modifier l'idée" : 'Nouvelle idée'}</h2>
+    <div class="field"><label>Titre</label><input id="idee-titre" value="${it?esc(it.titre):''}" placeholder="Titre court"></div>
+    <div class="field"><label>Thème</label><input id="idee-theme" value="${it?esc(it.theme||''):''}" placeholder="produit, pricing, technique…"></div>
+    <div class="field"><label>Famille</label><select id="idee-famille">${famOpts.map(f => `<option value="${f}" ${it&&it.famille===f?'selected':''}>${esc(legLabel(leg.famille,f,VIVIER_FAMILLE_FB[f]))}</option>`).join('')}</select></div>
+    <div class="field"><label>Nature</label><select id="idee-nature">${natOpts.map(n => `<option value="${n}" ${it&&it.nature===n?'selected':''}>${esc(legLabel(leg.nature,n,VIVIER_NATURE_FB[n]))}</option>`).join('')}</select></div>
+    <div class="field"><label>Statut</label><select id="idee-statut">${statOpts.map(s => `<option value="${s}" ${it&&it.statut===s?'selected':''}>${esc(legLabel(leg.statut,s,VIVIER_STATUT_FB[s]))}</option>`).join('')}</select></div>
+    <div class="field"><label>Citation (verbatim d'origine)</label><textarea id="idee-citation" style="min-height:70px">${it?esc(it.citation||''):''}</textarea></div>
+    <div class="field"><label>Note (contexte, liens vers d'autres idées)</label><textarea id="idee-note" style="min-height:90px">${it?esc(it.note||''):''}</textarea></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="saveIdee('${id?esc(id):''}')">Enregistrer</button>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function saveIdee(id) {
+  const v = x => (document.getElementById(x).value || '').trim();
+  const titre = v('idee-titre');
+  if (!titre) return alert('Le titre est requis');
+  const data = { titre, theme: v('idee-theme'), famille: v('idee-famille'), nature: v('idee-nature'), statut: v('idee-statut'), citation: v('idee-citation'), note: v('idee-note') };
+  closeModal();
+  if (id) mutateIdees(p => { const x = (p.idees||[]).find(y => y.id === id); if (!x) return false; Object.assign(x, data); }, 'Modifier ' + id);
+  else mutateIdees(p => { p.idees = p.idees || []; const nid = vivierIdGen(data.famille, p.idees); p.idees.push({ id: nid, ...data }); }, 'Nouvelle idée');
 }
 
 function layoutIdeasIfNeeded() {
