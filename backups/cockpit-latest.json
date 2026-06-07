@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-06T15:46:43.404Z",
-  "origin": "manual-backup",
+  "exportedAt": "2026-06-07T06:52:09.587Z",
+  "origin": "auto-backup",
   "data": {
     "nodes": [
       {
@@ -6579,8 +6579,17 @@
         {
           "role": "assistant",
           "content": "Bonne question — et tu as raison de recadrer, c'est moins dramatique qu'il n'y paraît.\n\n---\n\n## Ce que tu risques concrètement aujourd'hui : pas grand chose\n\n### Ce qui pourrait piquer (mais reste gérable)\n\n- **Le mot « CPTS » dans ton nom de marque et ton domaine** (`cptspilot.fr`)\nSi « Communauté France Santé » s'impose officiellement, le terme CPTS devient potentiellement daté — mais pas du jour au lendemain, et ça ne rend pas ta plateforme caduque\n- **Les libellés en dur dans l'appli**\nSi tu as écrit « CPTS » partout dans les textes d'interface, il faudra passer partout à la main pour renommer → c'est du temps perdu évitable\n- **Les indicateurs ACI dans la plateforme**\nSi l'avenant ACI crée de nouvelles missions/indicateurs, ce que tu as outillé aujourd'hui peut devenir incomplet — mais ce n'est pas une obsolescence, c'est une extension à faire\n\n### Ce qui ne change PAS pour toi\n\n- **Ton marché existe toujours** — que ça s'appelle CPTS ou CFS, les coordinateurs auront toujours besoin d'un outil\n- **L'ACI continue** — même réformé, le financement conventionnel reste le socle. Ton argument « abonnement financé par l'ACI » tient\n- **Tes clientes restent tes clientes** — un renommage administratif ne change pas leurs besoins opérationnels du jour au lendemain\n\n---\n\n## Ce que tu peux faire maintenant sans sur-réagir\n\nUne seule chose vraiment utile à ce stade :\n\n- **Signaler à Magnus** de ne pas bétonner « CPTS » en dur dans le code — prévoir des libellés centralisés pour pouvoir basculer en un endroit si besoin\n\nLe reste (renommer la marque, le domaine, la vitrine) : **pas avant que la loi soit promulguée**. Tu aurais tort de bouger trop tôt sur un texte qui n'est pas définitif.\n\n---\n\n**En résumé : ton seul vrai risque aujourd'hui c'est technique — des libellés en dur. Tout le reste, c'est du bruit à surveiller, pas à gérer.**"
+        },
+        {
+          "role": "user",
+          "content": "J'ai pas doctolib dans ma liste de concurrents, comment ca se fait ?"
+        },
+        {
+          "role": "assistant",
+          "content": "Bonne remarque — et la réponse est simple :\n\n**Doctolib n'est pas un concurrent de CPTS Pilot.**\n\n---\n\n## Pourquoi\n\n- Doctolib est un **outil de prise de rendez-vous et de gestion de cabinet** — il s'adresse aux **praticiens individuels** (agenda, téléconsultation, dossier patient)\n- CPTS Pilot est un **outil de gestion de la structure CPTS elle-même** — il s'adresse à la **coordinatrice** (vie associative, déclarations, trésorerie, pilotage ACI)\n\nCe sont deux niveaux différents :\n- Doctolib = l'outil du **soignant dans son cabinet**\n- CPTS Pilot = l'outil de la **communauté qui fédère ces soignants**\n\n---\n\n## La nuance à avoir en tête\n\nDoctolib pousse depuis quelques années des fonctions de **coordination territoriale** (messagerie sécurisée, partage de créneaux SNP…). Si un jour ils décident d'adresser frontalement le marché CPTS avec une suite dédiée, **ça deviendrait un signal fort à surveiller**.\n\nMais aujourd'hui : pas de produit CPTS chez eux, pas de concurrent direct.\n\n---\n\n**→ Si tu veux, je mets une entrée « à surveiller » sur Doctolib dans mon radar, pour te prévenir si ça bouge ?**"
         }
-      ]
+      ],
+      "mako": []
     },
     "agentConfig": {
       "orion": {
