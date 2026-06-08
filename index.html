@@ -481,6 +481,15 @@ body {
 .mako-name { font-size: 16.5px; font-weight: 800; color: var(--slate-900); letter-spacing: -0.01em; }
 .mako-pos { font-size: 12.5px; color: var(--slate-500); line-height: 1.45; margin-top: 2px; }
 .mako-maj { font-size: 10px; color: var(--slate-400); white-space: nowrap; background: var(--slate-100); border-radius: 6px; padding: 2px 7px; }
+.mako-tags { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+.mako-menace { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; border-radius: 20px; padding: 2px 9px 2px 8px; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+.mako-menace::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+.mako-menace-directe { background: #FEE2E2; color: #B91C1C; }
+.mako-menace-serieuse { background: #FFEDD5; color: #C2410C; }
+.mako-menace-indirecte { background: #FEF3C7; color: #B45309; }
+.mako-menace-emergente { background: var(--blue-50); color: var(--blue-700); }
+.mako-menace-peripherique { background: var(--slate-100); color: var(--slate-500); }
+.mako-cat { font-size: 10px; font-weight: 700; color: var(--slate-500); background: var(--slate-100); border-radius: 20px; padding: 2px 9px; white-space: nowrap; }
 .mako-keyrow { display: flex; gap: 10px; }
 .mako-key { flex: 1; border-radius: 11px; padding: 9px 12px; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 .mako-key-prix { background: #ECFDF5; border: 1px solid #A7F3D0; }
@@ -1316,14 +1325,10 @@ tr:hover td { background: var(--blue-50); }
           <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
         <div class="nav-group-items">
-          <div class="nav-subitem" data-view="clients-valides"><span class="sub-bullet"></span>Clients validés</div>
+          <div class="nav-subitem" data-view="beta"><span class="sub-bullet"></span>Béta test</div>
           <div class="nav-subitem" data-view="clients-prospects"><span class="sub-bullet"></span>Prospects</div>
+          <div class="nav-subitem" data-view="clients-valides"><span class="sub-bullet"></span>Clients validés</div>
         </div>
-      </div>
-
-      <div class="nav-item" data-view="beta">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6.5L5.2 18a2 2 0 001.8 3h10a2 2 0 001.8-3L14 9.5V3"/><path d="M7.5 14h9"/></svg>
-        Béta test
       </div>
 
       <div class="nav-divider"></div>
@@ -4354,12 +4359,16 @@ function renderMakoBoard(r) {
     const faibl = (Array.isArray(c.faiblesses) ? c.faiblesses : []).map(x => `<div class="mako-li">${esc(x)}</div>`).join('');
     const actu = (Array.isArray(c.actualite) ? c.actualite : []).map(a => `<li>${a.date ? `<span class="mako-actu-date">${esc(a.date)}</span> ` : ''}${esc(a.fait || '')} ${a.source ? obsSrc(a.source, 'source') : ''}</li>`).join('');
     const initial = ((c.nom || '?').trim().charAt(0) || '?').toUpperCase();
+    const mzKey = String(c.menace || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+    const mzLabel = { directe: 'Menace directe', serieuse: 'Menace sérieuse', indirecte: 'Menace indirecte', emergente: 'Émergente', peripherique: 'Périphérique' }[mzKey];
+    const tags = `${mzLabel ? `<span class="mako-menace mako-menace-${mzKey}">${esc(mzLabel)}</span>` : ''}${c.categorie ? `<span class="mako-cat">${esc(c.categorie)}</span>` : ''}`;
     return `<div class="mako-card">
       <div class="mako-card-head">
         <div class="mako-avatar" style="background:${makoColor(c.nom)}">${esc(initial)}</div>
         <div class="mako-head-txt">
           <div class="mako-name">${esc(c.nom || '')}</div>
           ${c.positionnement ? `<div class="mako-pos">${esc(c.positionnement)}</div>` : ''}
+          ${tags ? `<div class="mako-tags">${tags}</div>` : ''}
         </div>
         ${c.maj ? `<span class="mako-maj">maj ${esc(c.maj)}</span>` : ''}
       </div>
@@ -4619,7 +4628,7 @@ function agentSystemIntro(slug) {
 IMPORTANT : dans ce chat tu n'as PAS d'accès web en direct (navigateur). Tu t'appuies sur ton dernier rapport de veille ci-dessous + ce qu'Eva te dit. Si une question demande d'aller chercher l'actualité fraîche, dis-le et propose une « ronde » (▶ Faire tourner) qui, elle, lit le web.`;
   }
   if (slug === 'mako') {
-    return `Tu es Mako, l'agent de veille concurrentielle de CPTS Pilot — vif et incisif comme un requin, mais toujours factuel. Tu es relié à Orion (l'Observatoire) : c'est lui qui collecte, toi tu analyses la concurrence et tu la rends limpide. Tu discutes avec Eva, coordinatrice CPTS et fondatrice solo de CPTS Pilot (plateforme de gestion pour les CPTS). Ton : d'égale à égale, simple, franc, percutant, réponses courtes et structurées (markdown). Ton domaine : les concurrents (Citana, Coordo, Albert, SimplyMed, Medplan, CPTS+…) — leur positionnement, prix, stratégie, forces/faiblesses, actualité, et SURTOUT comment Eva s'en démarque et gagne. Tu ne fais pas le réglementaire/financements/national (→ Orion), ni le produit (→ Magnus).
+    return `Tu es Mako, l'agent de veille concurrentielle de CPTS Pilot — vif et incisif comme un requin, mais toujours factuel. Tu es relié à Orion (l'Observatoire) : c'est lui qui collecte, toi tu analyses la concurrence et tu la rends limpide. Tu discutes avec Eva, coordinatrice CPTS et fondatrice solo de CPTS Pilot (plateforme de gestion pour les CPTS). Ton : d'égale à égale, simple, franc, percutant, réponses courtes et structurées (markdown). Ton domaine : les concurrents — leur positionnement, prix, stratégie, forces/faiblesses, actualité, et SURTOUT comment Eva s'en démarque et gagne. Un concurrent = tout outil qu'une CPTS pourrait utiliser à la place de CPTS Pilot, pas seulement les éditeurs dédiés CPTS (Citana, Coordo, Albert, SimplyMed, Medplan, CPTS+…) : compte AUSSI les plateformes généralistes avec offre CPTS (Doctolib, Maiia…), les outils de coordination adjacents et la solution « maison » (Excel/Drive). Ne dis jamais « pas un concurrent » de mémoire : si tu n'as pas la donnée, propose une ronde d'Orion pour vérifier. Tu ne fais pas le réglementaire/financements/national (→ Orion), ni le produit (→ Magnus).
 IMPORTANT : dans ce chat tu n'as PAS d'accès web en direct. Tu t'appuies sur le tableau concurrentiel ci-dessous (rempli par Orion) + ce qu'Eva te dit. Pour des données fraîches, propose une « ronde » (▶ Faire tourner) qui relance Orion.`;
   }
   return `Tu es Magnus, le Chef Produit de CPTS Pilot (plateforme de gestion pour les CPTS — Communautés Professionnelles Territoriales de Santé). Tu discutes avec Eva, coordinatrice CPTS et fondatrice solo qui code seule et débute sur Git. Ton : d'égale à égale, simple, zéro jargon inutile, franc et bienveillant, réponses courtes et bien structurées (markdown : **gras**, listes à puces). Tu parles produit et stratégie produit — pas marketing, juridique ni sécurité (tu renvoies vers les autres agents si besoin).
@@ -4671,9 +4680,12 @@ ${roadmap}${archBlock}${acConsignes}`;
 }
 // Robot de ronde branché par agent : slug → fichier de workflow + ce qu'il fait
 const AGENT_WORKFLOW = {
-  'chef-produit': { file: 'magnus-ronde.yml', fait: 'relit ton code et écrit un nouveau rapport' },
-  'orion':        { file: 'orion-veille.yml', fait: 'lit le web en direct et écrit un nouveau rapport de veille' },
-  'mako':         { file: 'orion-veille.yml', fait: 'relance la ronde d\'Orion, qui rafraîchit le tableau concurrentiel' }
+  // Magnus : ronde À LA DEMANDE (bouton ▶), jamais en auto. Le workflow s'authentifie avec
+  // CLAUDE_CODE_OAUTH_TOKEN → ça puise dans ton FORFAIT Claude, pas dans le crédit de ta clé API.
+  'chef-produit': { file: 'magnus-ronde.yml', fait: 'relit ton code et écrit un nouveau rapport', bille: 'ça puise dans ton forfait Claude, pas dans ta clé API' },
+  // Orion : ronde auto (lundi) + bouton ▶, sur clé API.
+  'orion':        { file: 'orion-veille.yml', fait: 'lit le web en direct et écrit un nouveau rapport de veille', bille: 'quelques centimes sur ta clé API' },
+  'mako':         { file: 'orion-veille.yml', fait: 'relance la ronde d\'Orion, qui rafraîchit le tableau concurrentiel', bille: 'quelques centimes sur ta clé API' }
 };
 async function runAgentRonde() {
   const wf = AGENT_WORKFLOW[currentAgentSlug];
@@ -4685,7 +4697,7 @@ async function runAgentRonde() {
     openGhConfigModal();
     return;
   }
-  if (!confirm('Lancer une ronde de ' + nom + ' dans le cloud ?\n\nIl ' + wf.fait + ' (~3 à 5 min, quelques centimes d\'API). Tu rechargeras ton cockpit ensuite pour voir le résultat.')) return;
+  if (!confirm('Lancer une ronde de ' + nom + ' dans le cloud ?\n\nIl ' + wf.fait + ' (~3 à 5 min — ' + (wf.bille || 'quelques centimes d\'API') + '). Tu rechargeras ton cockpit ensuite pour voir le résultat.')) return;
   const owner = cfg.owner || 'Evalita03';
   const repo = cfg.repo || 'Strategy';
   const url = `https://api.github.com/repos/${owner}/${repo}/actions/workflows/${wf.file}/dispatches`;
@@ -4722,9 +4734,9 @@ function openAgentRunInfo() {
   const nom = currentAgentName();
   m.innerHTML = `<h2>Faire tourner ${esc(nom)}</h2>
     <p style="font-size:13.5px;color:var(--slate-600);line-height:1.65">
-      Une « ronde » complète (${esc(nom)} relit <strong>tout</strong> ton code et ta roadmap) tourne dans un environnement qui a accès à ton repo :<br><br>
-      • <strong>Aujourd'hui (manuel)</strong> : dis-moi en session « fais tourner ${esc(nom)} » → il refait son rapport, qui s'affiche ici.<br>
-      • <strong>Bientôt (auto)</strong> : avec ta clé API, il tournera seul (à chaque push + le lundi).<br><br>
+      Une « ronde » complète (${esc(nom)} relit <strong>tout</strong> ton code et ta roadmap) se fait <strong>à la demande, en session Claude</strong> :<br><br>
+      • Dis-moi en session « <strong>fais tourner ${esc(nom)}</strong> » → il refait son rapport, qui s'affiche ici après rechargement.<br>
+      • Ça utilise ta <strong>session Claude</strong> (ton abonnement), <strong>pas le crédit de ta clé API</strong> — exprès, pour économiser.<br><br>
       L'onglet « Échanger » te laisse <strong>discuter</strong> avec lui tout de suite, sans ronde.</p>
     <div class="modal-actions"><button class="btn btn-primary" onclick="closeModal()">Compris</button></div>`;
   document.getElementById('modal-overlay').classList.add('open');

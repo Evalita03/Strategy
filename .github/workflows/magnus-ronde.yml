@@ -1,9 +1,10 @@
 name: Magnus — ronde produit
 
 on:
-  workflow_dispatch: {}          # bouton « Run workflow » (et le bouton ▶ du cockpit, plus tard)
-  schedule:
-    - cron: '0 6 * * 1'          # chaque lundi 06:00 UTC — bilan hebdo
+  workflow_dispatch: {}          # À LA DEMANDE uniquement : bouton ▶ du cockpit (ou onglet Actions).
+  # Pas de « schedule » : Magnus ne tourne JAMAIS tout seul. Et il s'authentifie au token
+  # d'abonnement (voir plus bas) → ça puise dans le FORFAIT Claude, pas dans la clé API.
+  # L'auto hebdo sur clé API reste réservé à Orion (orion-veille.yml).
 
 permissions:
   contents: write                # pour committer le rapport mis à jour
@@ -16,10 +17,10 @@ jobs:
   ronde:
     runs-on: ubuntu-latest
     steps:
-      - name: Garde-fou — clé API présente ?
+      - name: Garde-fou — token d'abonnement présent ?
         run: |
-          if [ -z "${{ secrets.ANTHROPIC_API_KEY }}" ]; then
-            echo "::error::Secret ANTHROPIC_API_KEY manquant. Ajoute-le dans Settings → Secrets and variables → Actions."
+          if [ -z "${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}" ]; then
+            echo "::error::Secret CLAUDE_CODE_OAUTH_TOKEN manquant. Génère-le avec « claude setup-token » puis ajoute-le dans Settings → Secrets and variables → Actions. (Magnus puise dans ton forfait Claude, pas dans ta clé API.)"
             exit 1
           fi
 
@@ -42,7 +43,9 @@ jobs:
 
       - name: Magnus fait sa ronde
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Token d'abonnement (claude setup-token) → facturé sur le FORFAIT Claude, pas sur la clé API.
+          # ANTHROPIC_API_KEY est volontairement absent : s'il était présent, il aurait la priorité.
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
         run: |
           npx --yes @anthropic-ai/claude-code@latest -p "$(cat .github/magnus-ronde-prompt.md)" \
             --model claude-opus-4-8 \
