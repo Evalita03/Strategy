@@ -142,15 +142,40 @@
         ]
       },
       "propositions_roadmap": [
-        { "action": "clore", "titre": "Vues par rôle (coordination / trésorier / secrétaire / membre)", "pourquoi": "Livré et testé sur main (_role_switch.html + tests/test_roles.py) ; à passer de 'doing' à 'done'." },
-        { "action": "clore", "titre": "Validation des déclarations : refus, relances et archives", "pourquoi": "Livré sur main (tests/test_workflow_validation_avance.py) ; encore en 'doing' à tort." },
-        { "action": "clore", "titre": "Site vitrine public CPTS Pilot", "pourquoi": "Vitrine assemblée (home.html) + infra Scalingo sur main depuis le 16/05 ; le reste est de l'exploitation, pas du build — à clore une fois l'URL confirmée live." },
-        { "action": "ajouter", "titre": "Go-live exploitation : domaine cptspilot.fr + sauvegardes DB prod", "pourquoi": "C'est le vrai reste-à-faire, et il n'apparaît nulle part dans la roadmap alors qu'il est le dernier verrou avant la 1re vente." }
+        {
+          "action": "clore",
+          "titre": "Vues par rôle (coordination / trésorier / secrétaire / membre)",
+          "pourquoi": "Livré et testé sur main (_role_switch.html + tests/test_roles.py) ; à passer de 'doing' à 'done'."
+        },
+        {
+          "action": "clore",
+          "titre": "Validation des déclarations : refus, relances et archives",
+          "pourquoi": "Livré sur main (tests/test_workflow_validation_avance.py) ; encore en 'doing' à tort."
+        },
+        {
+          "action": "clore",
+          "titre": "Site vitrine public CPTS Pilot",
+          "pourquoi": "Vitrine assemblée (home.html) + infra Scalingo sur main depuis le 16/05 ; le reste est de l'exploitation, pas du build — à clore une fois l'URL confirmée live."
+        },
+        {
+          "action": "ajouter",
+          "titre": "Go-live exploitation : domaine cptspilot.fr + sauvegardes DB prod",
+          "pourquoi": "C'est le vrai reste-à-faire, et il n'apparaît nulle part dans la roadmap alors qu'il est le dernier verrou avant la 1re vente."
+        }
       ],
       "relais": [
-        { "agent": "Iris (Audit)", "sujet": "Avant d'exposer la plateforme en ligne : variables d'env prod (secrets), HTTPS, sauvegardes/restauration DB PostgreSQL Scalingo — vérifier qu'on ne met pas une instance vulnérable face à une vraie CPTS." },
-        { "agent": "Cléo (DPO)", "sujet": "Hébergement Scalingo (France) à valider comme argument RGPD : confirmer localisation des données, registre de traitements et mention sur la vitrine avant d'accueillir les données d'une CPTS réelle." },
-        { "agent": "Carla (Business)", "sujet": "Le produit est démo-ready ; dès que l'URL est live, il faut une 1re CPTS pilote prête à signer un engagement de test — préparer l'approche commerciale en parallèle du go-live." }
+        {
+          "agent": "Iris (Audit)",
+          "sujet": "Avant d'exposer la plateforme en ligne : variables d'env prod (secrets), HTTPS, sauvegardes/restauration DB PostgreSQL Scalingo — vérifier qu'on ne met pas une instance vulnérable face à une vraie CPTS."
+        },
+        {
+          "agent": "Cléo (DPO)",
+          "sujet": "Hébergement Scalingo (France) à valider comme argument RGPD : confirmer localisation des données, registre de traitements et mention sur la vitrine avant d'accueillir les données d'une CPTS réelle."
+        },
+        {
+          "agent": "Carla (Business)",
+          "sujet": "Le produit est démo-ready ; dès que l'URL est live, il faut une 1re CPTS pilote prête à signer un engagement de test — préparer l'approche commerciale en parallèle du go-live."
+        }
       ],
       "faits": [
         "Vues par rôle (coordination / trésorier / secrétaire / membre)",
@@ -158,6 +183,81 @@
         "Site vitrine public CPTS Pilot"
       ],
       "note": "Je rectifie ce que je t'avais dit : il n'y a pas eu de commit Scalingo le 01/06, mais bonne nouvelle — l'infra Scalingo est sur main depuis le 16/05, donc côté code tout est posé. Le seul fil qui pend n'est plus du produit, c'est de l'exploitation. Prochaine action unique : ouvre l'URL de ta vitrine et dis-moi si elle répond ; si oui on clôt le go-live et on synchronise la roadmap, si non on débogue ensemble. Et profites-en pour me ré-exporter ton cockpit, le mien date du 31/05."
+    },
+    {
+      "updated_at": "2026-06-08",
+      "trigger": "ronde auto",
+      "etat": "Cockpit enfin ré-exporté (08/06 06:51) : fini le pilotage à l'aveugle. Bonne nouvelle de suivi — mes 3 clôtures proposées le 06/06 (vues par rôle, validation des déclarations, vitrine publique) sont passées en 'done' dans la roadmap, qui est désormais synchronisée avec le code. Un vrai nouveau chantier a été livré depuis : l'historique personnel des indemnisations (commits hub des 06–07/06), prouvé dans blueprints/hub/historique.py — filtres par période mois/trimestre/année et exports CSV/Excel/PDF/ZIP, avec tests/test_historique_indemnisations.py. Côté démo, une dérive à signaler : le reset systématique entre visiteurs a été tenté le 06/06 puis DÉSACTIVÉ le jour même (commit 7b959f0) car il butait sur des FK et provoquait des 500 ; il est reporté en juillet (nouvel item roadmap 'Démo : remise à zéro entre chaque visiteur', planned). La stratégie s'est enrichie : 2 idées promues (CAP-01 'Hébergement Made in France' → axe marché ; ORG-01 'Design book logo' → axe vision) dans strategy.json. Verrou inchangé : la tâche 'Confirmer le go-live Scalingo' reste 'todo' — 3e ronde que je la pointe.",
+      "evolution": "La roadmap s'est mise au propre (mes 3 clôtures appliquées), un nouveau chantier 'Historique des indemnisations' est livré et testé, mais le reset démo entre visiteurs a été construit puis désactivé (FK/500) et reporté en juillet, et le go-live Scalingo n'est toujours pas confirmé.",
+      "prochain_chantier": {
+        "titre": "Confirmer le go-live (URL live + cptspilot.fr) OU me dire ce qui le bloque",
+        "pourquoi": "C'est le même verrou que les rondes précédentes, et entre-temps tu as livré deux features de plus (historique, tentatives démo) en le contournant. Ce n'est plus un sujet produit — le code de mise en ligne est sur main depuis le 16/05 : il ne reste qu'à confirmer que l'instance répond et que le domaine pointe dessus. Tant que l'URL n'est pas live, il n'y a pas de lien à envoyer à une CPTS, donc pas de démo publique atteignable, donc pas de première vente possible. Si ça cale (variables d'env prod, base PostgreSQL Scalingo, hébergeur), dis-le-moi : on débogue ensemble plutôt que de rester dessus toute seule."
+      },
+      "a_anticiper": [
+        "Démo non isolée : le reset entre visiteurs est désactivé depuis le 06/06, donc un prospect peut tomber sur les saisies du précédent. Reporté en juillet, mais la démo est ta vitrine de vente — à fiabiliser avant d'envoyer le lien à un prospect (le verrou exclusif limite, sans supprimer, le risque).",
+        "Capitaliser le fléchage (ta tâche 'todo') : la spec a posteriori et l'entrée roadmap manquent toujours — sans elles, impossible de dire que c'est fini ni de le revendre, alors que ça pèse beaucoup de commits.",
+        "CAP-01 'Made in France' promu en stratégie : argument fort, mais à faire valider par le DPO (localisation réelle des données Scalingo) avant d'en faire une promesse publique sur la vitrine.",
+        "SESSION_STATUS.md toujours figé au 16/02 (presque 4 mois) : à rafraîchir avant d'attaquer le multi-CPTS pour ne pas repartir d'une fausse photo.",
+        "Multi-CPTS (roadmap planned juillet, 'Mise en service d'une nouvelle CPTS cliente') : archi prête mais non activée — à cadrer seulement quand une 2e CPTS se profile."
+      ],
+      "cap_commercial": {
+        "pret_a_vendre": "Produit démo-ready et même enrichi (historique perso en plus), mais bloqué exactement au même endroit : pas d'URL live confirmée = pas de lien à envoyer. Nouveau bémol : la démo publique ne se remet plus à zéro entre visiteurs.",
+        "demo_ready": [
+          "Trésorerie complète avec fléchage ACI / fonctionnement (override + rollback, testé)",
+          "Cockpit coordination 'Mon Espace' adaptatif par rôle",
+          "Validation des déclarations : refus motivé, relances, archivage auto",
+          "Vie associative + mode démo public (verrou multi-visiteurs)",
+          "Vitrine de vente assemblée (hero, piliers, modules, aperçu des rôles, CTA démo)",
+          "NOUVEAU : historique personnel des indemnisations (filtres période + exports CSV/Excel/PDF/ZIP, pièces comprises)"
+        ],
+        "bloqueurs_vente": [
+          "URL live non confirmée : tant qu'elle ne répond pas, on reste en partage d'écran",
+          "Domaine cptspilot.fr + HTTPS non confirmés branchés",
+          "Sauvegardes DB prod non bouclées : pas de données d'une vraie CPTS sans filet de restauration",
+          "Démo non isolée entre visiteurs (reset désactivé) : risque qu'un prospect voie les saisies du précédent — tache devant un acheteur"
+        ],
+        "chemin_critique": [
+          "Confirmer que l'instance Scalingo répond (vitrine + app)",
+          "Brancher cptspilot.fr + HTTPS",
+          "Boucler sauvegardes DB prod + variables d'env (avec Audit + DPO)",
+          "Réactiver et fiabiliser le reset démo entre visiteurs avant tout envoi de lien",
+          "Envoyer le lien à une 1re CPTS pilote → recueillir un engagement de test"
+        ]
+      },
+      "propositions_roadmap": [
+        {
+          "action": "ajouter",
+          "titre": "Go-live exploitation : domaine cptspilot.fr + HTTPS + sauvegardes DB prod",
+          "pourquoi": "C'est le vrai reste-à-faire avant la 1re vente et il n'apparaît toujours pas en tant que tel dans la roadmap, alors que c'est le dernier verrou."
+        },
+        {
+          "action": "ajouter",
+          "titre": "Spec a posteriori du fléchage ACI / fonctionnement",
+          "pourquoi": "Ta propre tâche 'Capitaliser le fléchage' est encore todo : sans spec ni entrée roadmap, on ne peut ni dire que c'est fini ni le revendre."
+        }
+      ],
+      "relais": [
+        {
+          "agent": "Iris (Audit)",
+          "sujet": "Avant exposition en ligne : variables d'env prod (secrets), HTTPS, sauvegardes/restauration DB PostgreSQL Scalingo — ne pas exposer une instance vulnérable à une vraie CPTS."
+        },
+        {
+          "agent": "Cléo (DPO)",
+          "sujet": "Valider l'argument CAP-01 'Hébergement Made in France' désormais en stratégie : localisation réelle des données Scalingo, registre des traitements, mention sur la vitrine avant toute donnée d'une CPTS réelle."
+        },
+        {
+          "agent": "Le Studio (marque)",
+          "sujet": "ORG-01 promu en stratégie (vision) : formaliser le design book autour du logo validé (déclinaisons couleurs, mises en situation, logo principal / en touche)."
+        },
+        {
+          "agent": "Carla (Business)",
+          "sujet": "Produit démo-ready ; dès l'URL live, avoir une 1re CPTS pilote prête à signer un engagement de test — préparer l'approche en parallèle du go-live."
+        }
+      ],
+      "faits": [
+        "Historique personnel des indemnisations"
+      ],
+      "note": "Vraie nouvelle de cette ronde : ton cockpit est à jour, la roadmap est propre et tu as livré l'historique des indemnisations — beau travail. Mais je te le dis franchement : tu construis 'autour' du go-live depuis trois rondes. Ce n'est plus du produit, c'est de l'exploitation, et c'est le seul mur entre toi et l'envoi d'un lien à une CPTS. Prochaine action unique : ouvre l'URL de ta vitrine et dis-moi si elle répond — si oui on clôt le sujet, si non on déboge ensemble. Et n'oublie pas : la démo ne se nettoie plus entre visiteurs depuis le 06/06, à remettre d'aplomb avant de la montrer à un prospect."
     }
   ]
 }
