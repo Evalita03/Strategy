@@ -299,6 +299,13 @@ body {
 .v-empty { padding:30px 16px; text-align:center; color:var(--slate-400); font-style:italic; }
 .v-toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--slate-900); color:#fff; padding:12px 20px; border-radius:10px; font-size:13px; font-weight:600; opacity:0; transition:.25s; pointer-events:none; z-index:9999; box-shadow:0 8px 24px rgba(0,0,0,.25); }
 .v-toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* Carte mentale : légende couleurs + cases volets de promotion */
+.mm-legend { margin: 6px 0 14px; }
+.mm-dot { width:12px; height:12px; border-radius:50%; display:inline-block; flex-shrink:0; }
+.promo-axes { display:flex; flex-direction:column; gap:8px; }
+.promo-axe { display:flex; align-items:center; gap:8px; font-size:14px; font-weight:600; color:var(--slate-700); cursor:pointer; }
+.promo-axe input { width:16px; height:16px; cursor:pointer; }
 .idea-act {
   font-family: inherit; font-size: 11px; font-weight: 600;
   border-radius: 7px; padding: 4px 8px; cursor: pointer; transition: all .15s;
@@ -2934,55 +2941,47 @@ function renderIdees(content, actions) {
   if (ideaTab === 'vivier') return renderVivier(content, actions);
   return renderMindmap(content, actions);
 }
+// La carte mentale est désormais la VUE GRAPHE du vivier (idees.json), pas des notes locales.
 function renderMindmap(content, actions) {
-  actions.innerHTML = `<button class="btn btn-primary" onclick="openNoteModal()">+ Idée</button>`;
-  const notes = state.notes.filter(n => matchSearch(n, [n.title, n.body]));
+  const dis = ideesBusy ? 'disabled' : '';
+  actions.innerHTML = `<button class="btn btn-ghost" onclick="loadIdeesVivier(true)" ${dis}>↻ Rafraîchir</button>
+    <button class="btn btn-primary" onclick="flashIdee()" ${ideesData?'':'disabled'} ${dis}>⚡ Idée flash</button>`;
+  const d = ideesData;
+  const ideas = d && Array.isArray(d.idees) ? d.idees : [];
+  const count = ideas.filter(i => !i.archived).length;
 
   let html = '<div class="panel" style="max-width:none"><div class="todo-section">';
   html += `<h3 class="todo-section-title">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7c.6.5 1 1.3 1 2.1h6c0-.8.4-1.6 1-2.1A7 7 0 0012 2z"/></svg>
-      Carte mentale${state.notes.length?`<span class="count-pill">${state.notes.length}</span>`:''}
+      Carte mentale${count?`<span class="count-pill">${count}</span>`:''}
       <span class="todo-section-controls">
+        ${d && d.updated_at ? `<span class="vivier-updated">maj ${esc(d.updated_at)}</span>` : ''}
         ${ideaTabSwitcher()}
-        <span class="lens-toggle">
-          <button class="${ideaLens==='map'?'active':''}" onclick="setIdeaLens('map')">Réseau</button>
-          <button class="${ideaLens==='cards'?'active':''}" onclick="setIdeaLens('cards')">Liste</button>
-        </span>
-        ${ideaLens==='map'?`<button class="btn btn-ghost btn-sm" id="idea-link-btn" onclick="toggleIdeaLink()">↔ Relier</button>`:''}
+        ${d && !ideesLoading && !ideesError ? `<button class="btn btn-ghost btn-sm" id="idea-link-btn" onclick="toggleIdeaLink()">↔ Relier</button>` : ''}
       </span>
     </h3>`;
 
-  if (ideaLens === 'map') {
+  if (ideesLoading) {
+    html += `<div class="todo-empty-zone">Chargement du vivier depuis Plateforme-CPTS…</div>`;
+  } else if (ideesError) {
+    html += `<div class="vivier-note">Vivier indisponible : ${esc(ideesError)}<br><br>
+      <button class="btn btn-ghost btn-sm" onclick="loadIdeesVivier(true)">↻ Réessayer</button></div>`;
+  } else if (!d) {
+    html += `<div class="todo-empty-zone">Vivier non chargé.</div>`;
+  } else {
+    html += mindmapLegend();
     html += `<div class="idea-canvas-wrap">
       <canvas id="idea-canvas"></canvas>
-      ${state.notes.length===0
-        ? `<div class="idea-canvas-empty">Aucune idée. Clique « + Idée » : elle apparaîtra ici, et tu pourras la relier aux autres.</div>`
-        : `<div class="idea-canvas-hint">Glisser une bulle · molette pour zoomer · « Relier » pour connecter · clic pour ouvrir</div>`}
+      ${ideas.length===0
+        ? `<div class="idea-canvas-empty">Aucune idée dans le vivier. Clique « ⚡ Idée flash » pour en déposer une — elle apparaîtra ici.</div>`
+        : `<div class="idea-canvas-hint">Glisser une bulle · molette pour zoomer · « Relier » pour connecter · clic pour ouvrir l'idée</div>`}
     </div>`;
-  } else if (state.notes.length === 0) {
-    html += `<div class="todo-empty-zone">Aucune idée capturée. Note une pensée — tu pourras la relier aux autres ou la transformer en tâche.</div>`;
-  } else if (notes.length === 0) {
-    html += `<div class="todo-empty-zone">Aucune idée ne contient « ${esc(searchQuery)} ».</div>`;
-  } else {
-    html += '<div class="idea-grid">';
-    notes.forEach(note => {
-      const linked = (note.links||[]).map(lid => state.notes.find(n=>n.id===lid)).filter(Boolean);
-      html += `<div class="idea-card" onclick="openNoteModal('${note.id}')">
-        <div class="idea-card-actions">
-          <button class="idea-act idea-classify" onclick="event.stopPropagation();startClassify('${note.id}',this)" title="Classer avec l'IA">✨</button>
-          <button class="idea-act idea-promote" onclick="event.stopPropagation();promoteNote('${note.id}')" title="Transformer en tâche">→ tâche</button>
-        </div>
-        <h4>${esc(note.title)}</h4>
-        ${note.body?`<p>${esc(note.body.slice(0,120))}${note.body.length>120?'…':''}</p>`:''}
-        ${linked.length?`<div class="meta"><span class="tag" style="background:var(--slate-100);color:var(--slate-500)">🔗 ${linked.length}</span></div>`:''}
-      </div>`;
-    });
-    html += '</div>';
   }
   html += '</div></div>';
   content.innerHTML = html;
 
-  if (ideaLens === 'map') {
+  if (!ideesData && !ideesLoading && !ideesError) { loadIdeesVivier(false); return; }
+  if (d && !ideesLoading && !ideesError) {
     const canvas = document.getElementById('idea-canvas');
     if (canvas) setupIdeaGraph(canvas);
   }
@@ -3170,8 +3169,9 @@ function vivierRow(i, leg) {
   if (i.citation) h += `<p class="v-cit">« ${esc(i.citation)} »</p>`;
   if (i.note) h += `<p class="v-note">${esc(i.note)}</p>`;
   h += `<div class="v-fields"><span><b>Thème</b> ${esc(i.theme||'—')}</span><span><b>Nature</b> ${esc(natLabel)}</span><span><b>Famille</b> ${esc(famLabel||'—')}</span></div>`;
-  if (promoted) h += `<div class="v-flag">→ promue en stratégie${i.axe_strategy ? ` (${esc(i.axe_strategy)})` : ''}</div>`;
-  else if (i.promotion_strategy) h += `<div class="v-flag">↗ candidate stratégie${i.axe_strategy ? ` · ${esc(i.axe_strategy)}` : ''}</div>`;
+  const axeStr = Array.isArray(i.axe_strategy) ? i.axe_strategy.join(', ') : i.axe_strategy;
+  if (promoted) h += `<div class="v-flag">→ promue en stratégie${axeStr ? ` (${esc(axeStr)})` : ''}</div>`;
+  else if (i.promotion_strategy) h += `<div class="v-flag">↗ candidate stratégie${axeStr ? ` · ${esc(axeStr)}` : ''}</div>`;
   if (i.en_roadmap) h += `<div class="v-flag road">↪ envoyée en roadmap</div>`;
   h += `<div class="v-actions">
       <button class="v-act strat" ${dis} onclick="openPromoteModal('${esc(i.id)}')">→ Stratégie</button>
@@ -3279,15 +3279,14 @@ async function sendToRoadmap(id) {
 // ----- Modale « basculer en stratégie » (choix du volet) -----
 function openPromoteModal(id) {
   const it = ideeById(id); if (!it) return;
-  const leg = (ideesData && ideesData.legende) || {};
   const axes = [['vision','Vision'],['marche','Prise de marché'],['pricing','Tarification']];
-  const cur = ['vision','marche','pricing'].includes(it.axe_strategy) ? it.axe_strategy : 'marche';
+  const cur = Array.isArray(it.axe_strategy) ? it.axe_strategy : (it.axe_strategy ? [it.axe_strategy] : []);
   const m = document.getElementById('modal'); m.classList.remove('qc-mode');
   m.innerHTML = `
     <h2>Basculer en stratégie</h2>
-    <p style="font-size:13px;color:var(--slate-600);line-height:1.55;margin-bottom:14px">« <b>${esc(it.titre)}</b> » sera ajoutée comme encart dans la Stratégie, et marquée « promue » dans le vivier.</p>
-    <div class="field"><label>Dans quel volet de la stratégie ?</label>
-      <select id="promo-axe">${axes.map(([v,l]) => `<option value="${v}" ${cur===v?'selected':''}>${l}</option>`).join('')}</select></div>
+    <p style="font-size:13px;color:var(--slate-600);line-height:1.55;margin-bottom:14px">« <b>${esc(it.titre)}</b> » sera ajoutée comme encart dans <b>chaque volet coché</b>, et marquée « promue » dans le vivier.</p>
+    <div class="field"><label>Volet(s) de la stratégie</label>
+      <div class="promo-axes">${axes.map(([v,l]) => `<label class="promo-axe"><input type="checkbox" value="${v}" ${cur.includes(v)?'checked':''}> ${l}</label>`).join('')}</div></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
       <button class="btn btn-primary" onclick="confirmPromote('${esc(id)}')">Confirmer</button>
@@ -3295,23 +3294,25 @@ function openPromoteModal(id) {
   document.getElementById('modal-overlay').classList.add('open');
 }
 async function confirmPromote(id) {
-  const axe = document.getElementById('promo-axe').value;
+  const axes = Array.from(document.querySelectorAll('.promo-axe input:checked')).map(c => c.value);
+  if (!axes.length) { alert('Choisis au moins un volet.'); return; }
   closeModal();
   const it = ideeById(id); if (!it || ideesBusy) return;
   ideesBusy = true; vivierToast('Enregistrement…'); render();
-  // 1) Ajoute l'encart dans strategy.json
+  // 1) Ajoute un encart dans chaque volet coché (une seule écriture de strategy.json)
   const r1 = await writeRepoJson('strategy.json',
-    p => { p.encarts = p.encarts || {}; p.encarts[axe] = Array.isArray(p.encarts[axe]) ? p.encarts[axe] : [];
-           p.encarts[axe].push({ name: it.titre, text: it.citation || it.note || '', size: 'normal', group: '' }); },
-    `Encart stratégie depuis idée ${id}`, { createIfMissing: true, initial: { encarts: {} } });
+    p => { p.encarts = p.encarts || {};
+           axes.forEach(axe => { p.encarts[axe] = Array.isArray(p.encarts[axe]) ? p.encarts[axe] : [];
+             p.encarts[axe].push({ name: it.titre, text: it.citation || it.note || '', size: 'normal', group: '' }); }); },
+    `Encart stratégie (${axes.join(', ')}) depuis idée ${id}`, { createIfMissing: true, initial: { encarts: {} } });
   if (!r1.ok) { ideesBusy = false; render(); alert('Échec côté stratégie : ' + r1.error); return; }
-  // 2) Marque l'idée comme promue dans idees.json
+  // 2) Marque l'idée comme promue dans idees.json (axe_strategy = string si 1 volet, sinon tableau)
   const r2 = await writeRepoJson('idees.json',
-    p => { const x = (p.idees||[]).find(y => y.id === id); if (x) { x.statut = 'deja-en-strategie'; x.promotion_strategy = true; x.axe_strategy = axe; } },
-    `Idée ${id} promue en stratégie`);
+    p => { const x = (p.idees||[]).find(y => y.id === id); if (x) { x.statut = 'deja-en-strategie'; x.promotion_strategy = true; x.axe_strategy = axes.length === 1 ? axes[0] : axes; delete x.flash; } },
+    `Idée ${id} promue en stratégie (${axes.join(', ')})`);
   ideesBusy = false;
   if (r2.ok) { ideesData = normalizeIdees(r2.data); vivierToast('✓ Promue en stratégie'); }
-  else alert('Encart créé dans la stratégie, mais le marquage du vivier a échoué : ' + r2.error);
+  else alert('Encarts créés dans la stratégie, mais le marquage du vivier a échoué : ' + r2.error);
   render();
 }
 
@@ -3351,52 +3352,116 @@ function saveIdee(id) {
   if (!titre) return alert('Le titre est requis');
   const data = { titre, theme: v('idee-theme'), famille: v('idee-famille'), nature: v('idee-nature'), statut: v('idee-statut'), citation: v('idee-citation'), note: v('idee-note') };
   closeModal();
-  if (id) mutateIdees(p => { const x = (p.idees||[]).find(y => y.id === id); if (!x) return false; Object.assign(x, data); }, 'Modifier ' + id);
+  if (id) mutateIdees(p => { const x = (p.idees||[]).find(y => y.id === id); if (!x) return false; Object.assign(x, data); delete x.flash; }, 'Modifier ' + id);
   else mutateIdees(p => { p.idees = p.idees || []; const nid = vivierIdGen(data.famille, p.idees); p.idees.push({ id: nid, ...data }); }, 'Nouvelle idée');
 }
 
+// ===== Carte mentale : graphe du vivier (idees.json) =====
+// Couleurs par état d'une idée (priorité : archivée > aboutie > déposée-à-traiter > nature)
+const MINDMAP_COLORS = {
+  flash:     { c: '#6366F1', label: 'Déposée, à traiter' },
+  decision:  { c: '#DC2626', label: 'Décision à trancher' },
+  'cap-mur': { c: '#0D9488', label: 'Cap mûr' },
+  etincelle: { c: '#D97706', label: 'Étincelle' },
+  aboutie:   { c: '#16A34A', label: 'Aboutie (promue / roadmap)' },
+  archivee:  { c: '#94A3B8', label: 'Archivée' }
+};
+function ideaColorKey(i) {
+  if (i.archived) return 'archivee';
+  if (i.statut === 'deja-en-strategie' || i.en_roadmap) return 'aboutie';
+  if (i.flash) return 'flash';
+  if (MINDMAP_COLORS[i.nature]) return i.nature;
+  return 'etincelle';
+}
+function mindmapLegend() {
+  const order = ['flash','decision','cap-mur','etincelle','aboutie','archivee'];
+  return `<div class="v-legend mm-legend">` +
+    order.map(k => `<span><span class="mm-dot" style="background:${MINDMAP_COLORS[k].c}"></span> ${MINDMAP_COLORS[k].label}</span>`).join('') +
+    `</div>`;
+}
+
+// Positions des bulles : stockées en LOCAL (pas dans le repo) → glisser ne déclenche aucune écriture GitHub
+const IDEA_POS_KEY = 'cockpit_idea_positions';
+let ideaPos = null;
+function getIdeaPos() { if (ideaPos) return ideaPos; try { ideaPos = JSON.parse(localStorage.getItem(IDEA_POS_KEY) || '{}'); } catch { ideaPos = {}; } return ideaPos; }
+function saveIdeaPos() { try { localStorage.setItem(IDEA_POS_KEY, JSON.stringify(ideaPos || {})); } catch {} }
+function mindmapIdeas() { return (ideesData && Array.isArray(ideesData.idees)) ? ideesData.idees : []; }
+
 function layoutIdeasIfNeeded() {
+  const pos = getIdeaPos();
+  const ideas = mindmapIdeas();
   const cx = 470, cy = 320;
-  let placed = state.notes.filter(n => typeof n.x === 'number' && typeof n.y === 'number').length;
-  let changed = false;
-  state.notes.forEach(n => {
-    if (typeof n.x === 'number' && typeof n.y === 'number') return;
+  let placed = ideas.filter(i => pos[i.id]).length;
+  ideas.forEach(i => {
+    if (pos[i.id]) return;
     const k = placed++;
     const ring = 1 + Math.floor(k / 8);
     const ang = (k % 8) * (Math.PI / 4) + ring * 0.5;
-    n.x = cx + Math.cos(ang) * 95 * ring;
-    n.y = cy + Math.sin(ang) * 72 * ring;
-    changed = true;
+    pos[i.id] = { x: cx + Math.cos(ang) * 95 * ring, y: cy + Math.sin(ang) * 72 * ring };
   });
-  if (changed) save();
+  saveIdeaPos();
 }
 
+// Liens entre idées : champ links[] + ids cités dans la note/citation (PRD-01, TEC-2, IDEE-3…)
+function ideaRefIds(i) {
+  const ids = new Set();
+  (Array.isArray(i.links) ? i.links : []).forEach(x => ids.add(x));
+  const txt = (i.note || '') + ' ' + (i.citation || '');
+  const re = /\b([A-Z]{2,5}-\d{1,3})\b/g; let m;
+  while ((m = re.exec(txt))) { if (m[1] !== i.id) ids.add(m[1]); }
+  return [...ids];
+}
 function ideaEdges() {
+  const ideas = mindmapIdeas();
+  const exist = new Set(ideas.map(i => i.id));
   const seen = new Set(), edges = [];
-  state.notes.forEach(n => {
-    (n.links||[]).forEach(tid => {
-      if (!state.notes.find(x=>x.id===tid)) return;
-      const key = [n.id, tid].sort().join('|');
+  ideas.forEach(i => {
+    ideaRefIds(i).forEach(tid => {
+      if (!exist.has(tid)) return;
+      const key = [i.id, tid].sort().join('|');
       if (seen.has(key)) return; seen.add(key);
-      edges.push({ source:n.id, target:tid });
+      edges.push({ source: i.id, target: tid });
     });
   });
   return edges;
 }
-
+// Relier deux idées = ajouter une référence dans links[] (écrit dans idees.json)
 function linkIdeas(aId, bId) {
-  const a = state.notes.find(n=>n.id===aId), b = state.notes.find(n=>n.id===bId);
-  if (!a || !b) return;
-  a.links = a.links || []; b.links = b.links || [];
-  if (!a.links.includes(bId) && !b.links.includes(aId)) { a.links.push(bId); save(); }
+  if (aId === bId) return;
+  mutateIdees(p => {
+    const a = (p.idees || []).find(x => x.id === aId); if (!a) return false;
+    a.links = Array.isArray(a.links) ? a.links : [];
+    if (a.links.includes(bId)) return false;
+    a.links.push(bId);
+  }, `Relier ${aId} ↔ ${bId}`);
+}
+
+// Capture flash : dépose une idée minimale dans le vivier, marquée « à traiter »
+function flashIdGen(ideas) {
+  let max = 0;
+  (ideas || []).forEach(i => { const m = (i.id || '').match(/^IDEE-(\d+)$/); if (m) max = Math.max(max, parseInt(m[1], 10)); });
+  return 'IDEE-' + String(max + 1).padStart(2, '0');
+}
+function flashIdee() {
+  if (ideesBusy) return;
+  if (!ideesData) { alert('Vivier non chargé.'); return; }
+  const t = prompt('💡 Idée flash — note-la en une phrase :');
+  if (t == null) return;
+  const titre = t.trim(); if (!titre) return;
+  mutateIdees(p => {
+    p.idees = p.idees || [];
+    const id = flashIdGen(p.idees);
+    p.idees.push({ id, titre, statut: 'en-suspens', famille: '', nature: '', citation: '', note: '', flash: true });
+  }, 'Idée flash déposée');
 }
 
 function setupIdeaGraph(canvas) {
   const ctx = canvas.getContext('2d');
   layoutIdeasIfNeeded();
+  const pos = getIdeaPos();
   const gs = ideaGraphState;
   const R = 30;
-  const byId = id => state.notes.find(n => n.id === id);
+  const ideas = () => mindmapIdeas();
   function resize() { const r = canvas.parentElement.getBoundingClientRect(); canvas.width = r.width; canvas.height = r.height; draw(); }
   function w2s(x,y) { return { x: x*gs.scale+gs.offsetX, y: y*gs.scale+gs.offsetY }; }
   function s2w(x,y) { return { x: (x-gs.offsetX)/gs.scale, y: (y-gs.offsetY)/gs.scale }; }
@@ -3404,27 +3469,33 @@ function setupIdeaGraph(canvas) {
     ctx.clearRect(0,0,canvas.width,canvas.height);
     ctx.lineWidth = 1.5*gs.scale; ctx.strokeStyle = 'rgba(148,163,184,0.55)';
     ideaEdges().forEach(e => {
-      const s = byId(e.source), t = byId(e.target); if (!s||!t) return;
+      const s = pos[e.source], t = pos[e.target]; if (!s||!t) return;
       const a = w2s(s.x,s.y), b = w2s(t.x,t.y);
       ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
     });
-    state.notes.forEach(n => {
-      const p = w2s(n.x,n.y), r = R*gs.scale;
-      ctx.beginPath(); ctx.arc(p.x,p.y,r,0,Math.PI*2);
-      ctx.fillStyle = '#3B82F6'; ctx.fill();
-      if (ideaLinkSource===n.id) { ctx.lineWidth = 3; ctx.strokeStyle = '#0D9488'; ctx.stroke(); }
+    ideas().forEach(n => {
+      const pp = pos[n.id]; if (!pp) return;
+      const p = w2s(pp.x,pp.y), r = R*gs.scale;
+      const col = MINDMAP_COLORS[ideaColorKey(n)].c;
+      ctx.globalAlpha = n.archived ? 0.4 : 1;
+      ctx.beginPath(); ctx.arc(p.x,p.y,r,0,Math.PI*2); ctx.fillStyle = col; ctx.fill();
+      if (ideaLinkSource===n.id) { ctx.lineWidth = 3; ctx.strokeStyle = '#0F172A'; ctx.stroke(); }
       ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.font = `700 ${13*gs.scale}px Manrope, sans-serif`;
-      ctx.fillText(((n.title||'').trim()[0]||'•').toUpperCase(), p.x, p.y);
+      ctx.fillText(VIVIER_NATURE_ICON[n.nature] || (n.flash ? '⚡' : '•'), p.x, p.y);
+      ctx.globalAlpha = n.archived ? 0.55 : 1;
       ctx.fillStyle = '#0F172A'; ctx.textBaseline = 'alphabetic';
       ctx.font = `600 ${12*gs.scale}px Manrope, sans-serif`;
-      const label = (n.title||'').length>22 ? n.title.slice(0,21)+'…' : (n.title||'');
+      const label = (n.titre||'').length>22 ? n.titre.slice(0,21)+'…' : (n.titre||'');
       ctx.fillText(label, p.x, p.y + r + 15*gs.scale);
+      ctx.globalAlpha = 1;
     });
   }
   function nodeAt(sx,sy) {
-    for (let i=state.notes.length-1; i>=0; i--) {
-      const n = state.notes[i]; const p = w2s(n.x,n.y);
+    const arr = ideas();
+    for (let i=arr.length-1; i>=0; i--) {
+      const n = arr[i]; const pp = pos[n.id]; if (!pp) continue;
+      const p = w2s(pp.x,pp.y);
       if (Math.hypot(sx-p.x, sy-p.y) <= R*gs.scale) return n;
     }
     return null;
@@ -3436,22 +3507,22 @@ function setupIdeaGraph(canvas) {
     const node = nodeAt(mx,my);
     if (ideaLinkMode && node) {
       if (!ideaLinkSource) { ideaLinkSource = node.id; draw(); }
-      else if (ideaLinkSource !== node.id) { linkIdeas(ideaLinkSource, node.id); ideaLinkSource = null; draw(); }
+      else if (ideaLinkSource !== node.id) { const src = ideaLinkSource; ideaLinkSource = null; linkIdeas(src, node.id); }
       return;
     }
     if (node) { gs.dragging = node; } else { gs.panning = true; gs.lastX = mx; gs.lastY = my; }
   };
   canvas.onmousemove = e => {
     const rect = canvas.getBoundingClientRect(); const mx = e.clientX-rect.left, my = e.clientY-rect.top;
-    if (gs.dragging) { const wld = s2w(mx,my); gs.dragging.x = wld.x; gs.dragging.y = wld.y; draw(); }
+    if (gs.dragging) { const wld = s2w(mx,my); pos[gs.dragging.id] = { x: wld.x, y: wld.y }; draw(); }
     else if (gs.panning) { gs.offsetX += mx-gs.lastX; gs.offsetY += my-gs.lastY; gs.lastX = mx; gs.lastY = my; draw(); }
   };
-  canvas.onmouseup = () => { if (gs.dragging) save(); gs.dragging = null; gs.panning = false; };
+  canvas.onmouseup = () => { if (gs.dragging) saveIdeaPos(); gs.dragging = null; gs.panning = false; };
   canvas.onclick = e => {
     if (Date.now()-downAt > 200 || ideaLinkMode) return;
     const rect = canvas.getBoundingClientRect();
     const node = nodeAt(e.clientX-rect.left, e.clientY-rect.top);
-    if (node) openNoteModal(node.id);
+    if (node) openIdeeModal(node.id);
   };
   canvas.onwheel = e => {
     e.preventDefault();
