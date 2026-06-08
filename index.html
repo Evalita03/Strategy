@@ -1319,9 +1319,10 @@ tr:hover td { background: var(--blue-50); }
         </div>
         <div class="nav-group-items">
           <div class="nav-subitem" data-view="strat-vision"><span class="sub-bullet"></span>Vision</div>
-          <div class="nav-subitem" data-view="idees"><span class="sub-bullet"></span>Idées</div>
+          <div class="nav-subitem" data-view="strat-dev"><span class="sub-bullet"></span>Dev</div>
           <div class="nav-subitem" data-view="strat-marche"><span class="sub-bullet"></span>Prise de marché</div>
           <div class="nav-subitem" data-view="strat-pricing"><span class="sub-bullet"></span>Tarification</div>
+          <div class="nav-subitem" data-view="idees"><span class="sub-bullet"></span>Idées</div>
         </div>
       </div>
 
@@ -1409,12 +1410,13 @@ function load() {
   ensureBeta();
   // Stratégie globale en piliers (par section)
   if (!state.strategiePillars) state.strategiePillars = {};
-  ['vision','marche','pricing'].forEach(s => { if (!Array.isArray(state.strategiePillars[s])) state.strategiePillars[s] = []; });
+  ['vision','marche','pricing','dev'].forEach(s => { if (!Array.isArray(state.strategiePillars[s])) state.strategiePillars[s] = []; });
   if (!state.strategieSeeded) {
     const defaults = {
       vision: ['Notre cap', 'Pour qui', 'Pourquoi maintenant'],
       marche: ['Cibles prioritaires', 'Canaux', 'Arguments clés'],
-      pricing: ['Modèle', 'Offres', 'Logique tarifaire']
+      pricing: ['Modèle', 'Offres', 'Logique tarifaire'],
+      dev: ['Architecture', 'Hébergement & infra', 'Sécurité']
     };
     Object.keys(defaults).forEach(s => {
       if (state.strategiePillars[s].length === 0)
@@ -1463,6 +1465,7 @@ const titles = {
   idees:'Idées',
   'strat-marche':'Stratégie — Prise de marché',
   'strat-pricing':'Stratégie — Tarification',
+  'strat-dev':'Stratégie — Dev',
   'strat-organigramme':'Equipe',
   agent:'Espace agent',
   'clients-valides':'Clients validés',
@@ -1559,6 +1562,7 @@ function render() {
   else if (currentView === 'strat-vision') renderStrategie(content, actions, 'vision');
   else if (currentView === 'strat-marche') renderStrategie(content, actions, 'marche');
   else if (currentView === 'strat-pricing') renderStrategie(content, actions, 'pricing');
+  else if (currentView === 'strat-dev') renderStrategie(content, actions, 'dev');
   else if (currentView === 'strat-organigramme') renderOrganigramme(content, actions);
   else if (currentView === 'agent') renderAgentConsole(content, actions);
   else if (currentView === 'clients-valides') renderProspects(content, actions, 'clients');
@@ -3284,7 +3288,7 @@ async function sendToRoadmap(id) {
 // ----- Modale « basculer en stratégie » (choix du volet) -----
 function openPromoteModal(id) {
   const it = ideeById(id); if (!it) return;
-  const axes = [['vision','Vision'],['marche','Prise de marché'],['pricing','Tarification']];
+  const axes = [['vision','Vision'],['marche','Prise de marché'],['pricing','Tarification'],['dev','Dev']];
   const cur = Array.isArray(it.axe_strategy) ? it.axe_strategy : (it.axe_strategy ? [it.axe_strategy] : []);
   const m = document.getElementById('modal'); m.classList.remove('qc-mode');
   m.innerHTML = `
@@ -3647,7 +3651,8 @@ function deleteTask(id) {
 const stratMeta = {
   vision:  { label:'Vision',          accent:'cap',     fallback:'Là où on va, et pourquoi.',                prompt:'Ta vision : où tu veux emmener CPTS Pilot, ta raison d’être, ton cap à long terme.' },
   marche:  { label:'Prise de marché', accent:'marché',  fallback:'À qui on s’adresse, et comment on entre.', prompt:'Comment tu attaques le marché : cibles prioritaires, canaux, arguments, go-to-market.' },
-  pricing: { label:'Tarification',    accent:'rapport', fallback:'Notre rapport au prix, posé clair.',        prompt:'Ton modèle de prix : offres, paliers, logique tarifaire.' }
+  pricing: { label:'Tarification',    accent:'rapport', fallback:'Notre rapport au prix, posé clair.',        prompt:'Ton modèle de prix : offres, paliers, logique tarifaire.' },
+  dev:     { label:'Dev',             accent:'Dev',     fallback:'Le COMMENT : comment c’est construit et opéré.', prompt:'Tes partis pris techniques : architecture, hébergement, infra, sécurité, choix d’outils.' }
 };
 // Marque Mixer : 4 curseurs verticaux, handle 3 en cobalt (cf. docs/brand/README de Plateforme-CPTS)
 function mixerMarkSvg() {
@@ -3687,10 +3692,10 @@ function renderStratHero(section) {
     </div>
   </div>`;
 }
-const sectionLabels = { vision:'Vision', marche:'Prise de marché', pricing:'Tarification' };
+const sectionLabels = { vision:'Vision', marche:'Prise de marché', pricing:'Tarification', dev:'Dev' };
 function findPillar(section, pid) { return (state.strategiePillars[section]||[]).find(p=>p.id===pid); }
 
-let expandedGroups = { vision: new Set(), marche: new Set(), pricing: new Set() };
+let expandedGroups = { vision: new Set(), marche: new Set(), pricing: new Set(), dev: new Set() };
 
 function renderStrategie(content, actions, section) {
   actions.innerHTML = `<button class="btn btn-primary" onclick="addEncart('${section}')">+ Encart</button>`;
@@ -5871,7 +5876,7 @@ Réponds uniquement via le schéma fourni.`;
   const SCHEMA = {
     type: 'object',
     properties: {
-      destination: { type: 'string', enum: ['vision', 'marche', 'pricing', 'tache', 'idee'] },
+      destination: { type: 'string', enum: ['vision', 'marche', 'pricing', 'dev', 'tache', 'idee'] },
       reason: { type: 'string' }
     },
     required: ['destination', 'reason'],
@@ -5917,7 +5922,7 @@ async function startClassify(noteId, btn) {
   }
 }
 
-const classifyDestLabels = { vision:'Stratégie › Vision', marche:'Stratégie › Prise de marché', pricing:'Stratégie › Tarification', tache:'Tâche (To do)', idee:'Rester une idée' };
+const classifyDestLabels = { vision:'Stratégie › Vision', marche:'Stratégie › Prise de marché', pricing:'Stratégie › Tarification', dev:'Stratégie › Dev', tache:'Tâche (To do)', idee:'Rester une idée' };
 function openClassifyModal(noteId, s) {
   const note = state.notes.find(n => n.id === noteId);
   if (!note) return;
@@ -5947,7 +5952,7 @@ function updateClassifyPillars() {
   const dest = document.getElementById('cl-dest').value;
   const field = document.getElementById('cl-pillar-field');
   const sel = document.getElementById('cl-pillar');
-  if (['vision','marche','pricing'].includes(dest)) {
+  if (['vision','marche','pricing','dev'].includes(dest)) {
     field.style.display = '';
     const pillars = state.strategiePillars[dest] || [];
     sel.innerHTML = pillars.length
@@ -6138,7 +6143,7 @@ async function loadStrategySeed() {
 
     // Encarts : strategy.json (live) si dispo, sinon fallback seed
     let dynEncartsCount = 0;
-    ['vision', 'marche', 'pricing'].forEach(sec => {
+    ['vision', 'marche', 'pricing', 'dev'].forEach(sec => {
       const live = dynStrat.encarts && Array.isArray(dynStrat.encarts[sec]) ? dynStrat.encarts[sec] : null;
       const fallback = seed.encarts && Array.isArray(seed.encarts[sec]) ? seed.encarts[sec] : null;
       const source = live || fallback;
