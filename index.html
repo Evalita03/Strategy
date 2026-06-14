@@ -3109,6 +3109,7 @@ function renderVivierToolbar(d) {
   const leg = d.legende || {};
   const ideas = d.idees || [];
   const archivedCount = ideas.filter(i => i.archived).length;
+  const toArchiveCount = ideas.filter(i => !i.archived && ideeIsCompleted(i)).length;
   const uniq = (key, order) => vivierOrder([...new Set(ideas.map(i => i[key]).filter(Boolean))], order || []);
   const mk = (label, key, map, fbMap, allLabel, order) => {
     const opts = uniq(key, order);
@@ -3129,7 +3130,10 @@ function renderVivierToolbar(d) {
       <option value="id" ${ideesSort==='id'?'selected':''}>Trier : par numéro</option>
     </select>`;
   h += `<button class="btn btn-ghost" onclick="toggleIdeesFilters()">⛯ Filtrer${anyFilter?' •':''}</button>`;
-  if (archivedCount) h += `<span class="v-spacer"></span><button class="btn btn-ghost" onclick="toggleShowArchived()">${ideesShowArchived?'Masquer':'Voir'} archivées (${archivedCount})</button>`;
+  const rightBtns = [];
+  if (toArchiveCount) rightBtns.push(`<button class="btn btn-ghost" onclick="archiveCompletedIdeas()" title="Idées déjà promues en stratégie ou envoyées en roadmap">⤓ Archiver promues/roadmap (${toArchiveCount})</button>`);
+  if (archivedCount) rightBtns.push(`<button class="btn btn-ghost" onclick="toggleShowArchived()">${ideesShowArchived?'Masquer':'Voir'} archivées (${archivedCount})</button>`);
+  if (rightBtns.length) h += `<span class="v-spacer"></span>` + rightBtns.join('');
   h += '</div>';
 
   h += `<div class="v-filterrow${ideesFiltersOpen?' open':''}">
@@ -3270,6 +3274,24 @@ function archiveIdee(id) {
   if (archiving && !confirm('Archiver « ' + it.titre + ' » ? (réversible)')) return;
   mutateIdees(p => { const x = (p.idees||[]).find(y => y.id === id); if (!x) return false; x.archived = archiving; }, (archiving ? 'Archiver ' : 'Désarchiver ') + id);
 }
+// Une idée est « aboutie » si elle a été promue en stratégie ou envoyée en roadmap
+function ideeIsCompleted(i) { return i.statut === 'deja-en-strategie' || i.promotion_strategy || i.en_roadmap; }
+// Balayage unique : archive toutes les idées abouties encore actives (réversible, elles restent consultables)
+async function archiveCompletedIdeas() {
+  if (ideesBusy) return;
+  const d = ideesData; if (!d) return;
+  const ids = (d.idees || []).filter(i => !i.archived && ideeIsCompleted(i)).map(i => i.id);
+  if (!ids.length) { vivierToast('Aucune idée à archiver'); return; }
+  if (!confirm('Archiver ' + ids.length + ' idée' + (ids.length > 1 ? 's' : '') + ' déjà promue(s) en stratégie ou envoyée(s) en roadmap ?\n\n(réversible — elles restent consultables via « Voir archivées »)')) return;
+  ideesBusy = true; vivierToast('Archivage…'); render();
+  const res = await writeRepoJson('idees.json',
+    p => { (p.idees || []).forEach(x => { if (ids.includes(x.id)) x.archived = true; }); },
+    'Archivage des idées promues / en roadmap (' + ids.length + ')');
+  ideesBusy = false;
+  if (res.ok) { ideesData = normalizeIdees(res.data); vivierToast('✓ ' + ids.length + ' idée' + (ids.length > 1 ? 's' : '') + ' archivée' + (ids.length > 1 ? 's' : '')); }
+  else alert('Échec de l\'archivage : ' + res.error);
+  render();
+}
 // ----- Modale « envoyer en roadmap » (choix du mois) -----
 function roadmapMonthOptions(selected) {
   const now = new Date();
@@ -3307,7 +3329,7 @@ async function confirmSendToRoadmap(id) {
     `Jalon roadmap depuis idée ${id}`, { createIfMissing: true, initial: { items: [] } });
   if (!r1.ok) { ideesBusy = false; render(); alert('Échec côté roadmap : ' + r1.error); return; }
   const r2 = await writeRepoJson('idees.json',
-    p => { const x = (p.idees||[]).find(y => y.id === id); if (x) x.en_roadmap = true; },
+    p => { const x = (p.idees||[]).find(y => y.id === id); if (x) { x.en_roadmap = true; x.archived = true; } },
     `Idée ${id} envoyée en roadmap`);
   ideesBusy = false;
   if (r2.ok) {
@@ -3420,9 +3442,9 @@ async function confirmPromote(id) {
              p.encarts[axe].push({ name, text, size: 'normal', group: groups[axe] || '' }); }); },
     `Encart stratégie (${axes.join(', ')}) depuis idée ${id}`, { createIfMissing: true, initial: { encarts: {} } });
   if (!r1.ok) { ideesBusy = false; render(); alert('Échec côté stratégie : ' + r1.error); return; }
-  // 2) Marque l'idée comme promue dans idees.json (axe_strategy = string si 1 volet, sinon tableau)
+  // 2) Marque l'idée comme promue ET archivée dans idees.json (une idée aboutie quitte le vivier actif, reste consultable)
   const r2 = await writeRepoJson('idees.json',
-    p => { const x = (p.idees||[]).find(y => y.id === id); if (x) { x.statut = 'deja-en-strategie'; x.promotion_strategy = true; x.axe_strategy = axes.length === 1 ? axes[0] : axes; delete x.flash; } },
+    p => { const x = (p.idees||[]).find(y => y.id === id); if (x) { x.statut = 'deja-en-strategie'; x.promotion_strategy = true; x.axe_strategy = axes.length === 1 ? axes[0] : axes; x.axe_strategy_group = groups[axes[0]] || ''; x.archived = true; delete x.flash; } },
     `Idée ${id} promue en stratégie (${axes.join(', ')})`);
   ideesBusy = false;
   if (r2.ok) {
@@ -3808,6 +3830,24 @@ function renderStratHero(section) {
   </div>`;
 }
 const sectionLabels = { vision:'Vision', marche:'Prise de marché', pricing:'Tarification', dev:'Dev' };
+// Catégories de repli (servent UNIQUEMENT si un volet est encore vide) — alignées sur le seed réel
+const STRAT_SUGGESTED_GROUPS = {
+  vision:  ['Cap & origine', 'Différenciation', 'Identité & posture', 'Engagement & destination'],
+  marche:  ['Cibles & problème', 'Arguments par profil', 'Go-to-market', 'Rassurance'],
+  pricing: ["L'offre", 'Phase pilote & pitch', 'Philosophie'],
+  dev:     ['Socle & architecture', 'Hébergement & souveraineté', 'Qualité & sécurité']
+};
+// Catégories proposées pour un volet : d'ABORD celles déjà en place (réelles), puis le repli si vide
+function stratGroupOptions(section) {
+  const used = (state.strategiePillars[section] || []).map(x => (x.group || '').trim()).filter(Boolean);
+  return [...new Set([...used, ...(STRAT_SUGGESTED_GROUPS[section] || [])])];
+}
+// Toutes les catégories réellement en place, tous volets confondus (pour la modale de promotion)
+function allStratGroupsInUse() {
+  const out = [];
+  ['vision', 'marche', 'pricing', 'dev'].forEach(s => stratGroupOptions(s).forEach(g => out.push(g)));
+  return [...new Set(out)];
+}
 function findPillar(section, pid) { return (state.strategiePillars[section]||[]).find(p=>p.id===pid); }
 
 let expandedGroups = { vision: new Set(), marche: new Set(), pricing: new Set(), dev: new Set() };
@@ -3924,7 +3964,7 @@ function addEncart(section, group) {
 function openEncartModal(section, pid) {
   const p = findPillar(section, pid); if (!p) return;
   const contribs = p.contributions || [];
-  const allGroups = [...new Set((state.strategiePillars[section]||[]).map(x => (x.group||'').trim()).filter(Boolean))].sort();
+  const allGroups = stratGroupOptions(section);
   const m = document.getElementById('modal');
   m.classList.remove('qc-mode');
   m.classList.remove('modal-wide');
