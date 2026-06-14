@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-14T13:23:05.056Z",
+  "exportedAt": "2026-06-14T13:24:04.634Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -6020,6 +6020,14 @@
           "text": "fais un book autour de cette proposition, avec les differentes couleurs, les mises en situation du logo, logo principal, en touche, etc",
           "size": "normal",
           "group": "",
+          "contributions": []
+        },
+        {
+          "id": "mqdtejykig5ca",
+          "name": "Cartographie interactive du territoire",
+          "text": "des epingles comme quand on epingle quelque chose sur un mur ; trouver un kine specialise en vestibulaire",
+          "size": "normal",
+          "group": "Faite pour les CPTS",
           "contributions": []
         }
       ],
