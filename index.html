@@ -3354,7 +3354,7 @@ function openPromoteModal(id) {
       <div class="promo-axes">${axes.map(([v,l]) => `<label class="promo-axe"><input type="checkbox" value="${v}" ${cur.includes(v)?'checked':''}> ${l}</label>`).join('')}</div></div>
     <div class="field"><label>Catégorie (où la ranger dans le volet)</label>
       <input id="promo-group" placeholder="Ex: Hébergement, infra & sécurité" list="promo-group-list" value="${esc((it.axe_strategy_group||'').trim())}">
-      <datalist id="promo-group-list">${[...new Set(Object.values(STRAT_SUGGESTED_GROUPS).flat())].map(g => `<option value="${esc(g)}"></option>`).join('')}</datalist></div>
+      <datalist id="promo-group-list">${allStratGroupsInUse().map(g => `<option value="${esc(g)}"></option>`).join('')}</datalist></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
       <button class="btn btn-primary" onclick="confirmPromote('${esc(id)}')">Confirmer</button>
@@ -3763,17 +3763,23 @@ function renderStratHero(section) {
   </div>`;
 }
 const sectionLabels = { vision:'Vision', marche:'Prise de marché', pricing:'Tarification', dev:'Dev' };
-// Catégories suggérées par volet (guident le rangement des encarts ; regroupées au maximum)
+// Catégories de repli (servent UNIQUEMENT si un volet est encore vide) — alignées sur le seed réel
 const STRAT_SUGGESTED_GROUPS = {
   vision:  ['Cap & origine', 'Différenciation', 'Identité & posture', 'Engagement & destination'],
   marche:  ['Cibles & problème', 'Arguments par profil', 'Go-to-market', 'Rassurance'],
   pricing: ["L'offre", 'Phase pilote & pitch', 'Philosophie'],
-  dev:     ['Architecture & socle', 'Hébergement, infra & sécurité', 'Stack & outillage']
+  dev:     ['Socle & architecture', 'Hébergement & souveraineté', 'Qualité & sécurité']
 };
-// Liste pour les datalists : catégories suggérées + celles déjà utilisées dans le volet
+// Catégories proposées pour un volet : d'ABORD celles déjà en place (réelles), puis le repli si vide
 function stratGroupOptions(section) {
   const used = (state.strategiePillars[section] || []).map(x => (x.group || '').trim()).filter(Boolean);
-  return [...new Set([...(STRAT_SUGGESTED_GROUPS[section] || []), ...used])];
+  return [...new Set([...used, ...(STRAT_SUGGESTED_GROUPS[section] || [])])];
+}
+// Toutes les catégories réellement en place, tous volets confondus (pour la modale de promotion)
+function allStratGroupsInUse() {
+  const out = [];
+  ['vision', 'marche', 'pricing', 'dev'].forEach(s => stratGroupOptions(s).forEach(g => out.push(g)));
+  return [...new Set(out)];
 }
 function findPillar(section, pid) { return (state.strategiePillars[section]||[]).find(p=>p.id===pid); }
 
