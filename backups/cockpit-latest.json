@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-14T18:41:21.382Z",
+  "exportedAt": "2026-06-14T18:46:31.217Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -5997,6 +5997,20 @@
         "month": "2026-07",
         "status": "planned",
         "body": "Depuis le vivier (idée PRD-07).\n\nIngestion Excel/Word/PDF/scans -> remplissage auto + validation humaine. Backlog trace (project_migration_module). A shipper avant les premiers clients payants. La PROMESSE commerciale associee est, elle, un cap-mur (voir CAP-03)."
+      },
+      {
+        "id": "mqe4wahghi46b",
+        "title": "Responsive mobile complet",
+        "month": "2026-08",
+        "status": "planned",
+        "body": "Depuis le vivier (idée PRD-10).\n\nAudit responsive global jamais fait (5 media queries dans ~5900 lignes de CSS). ~2-4 jours estimes. Commencer par dashboard/hub, finir par les tableaux denses (project_responsive_mobile)."
+      },
+      {
+        "id": "mqe4x82x8w1ga",
+        "title": "Repenser la vue secrétaire (onglet dédié, comme Trésorerie)",
+        "month": "2026-08",
+        "status": "planned",
+        "body": "Depuis le vivier (idée PRD-19).\n\nLe mode vue-par-rôle n'est aujourd'hui pas pleinement respecté pour le secrétariat. Cible : donner au secrétaire un point d'entrée dédié et facilité, sur le modèle de l'onglet Trésorerie. Prolonge l'axe stratégique 'Un outil par rôle' (strategy.json) et rejoint PRD-09 (switcher de vue par rôle)."
       }
     ],
     "strategiePillars": {
@@ -6299,6 +6313,14 @@
           "id": "mqe4qo1got6c1",
           "name": "Export des justificatifs cote membre",
           "text": "il faudrait permettre aux membres de recuperer/sauvegarder leurs justificatifs",
+          "size": "normal",
+          "group": "Socle & architecture",
+          "contributions": []
+        },
+        {
+          "id": "mqe4wqefcuhxo",
+          "name": "Depense association : workflow validation a 2 etapes",
+          "text": "workflow validation a 2 etapes",
           "size": "normal",
           "group": "Socle & architecture",
           "contributions": []
