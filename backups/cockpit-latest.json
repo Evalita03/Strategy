@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-14T21:31:59.510Z",
+  "exportedAt": "2026-06-14T21:37:03.751Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -5741,23 +5741,10 @@
       {
         "id": "mpu21xrq80rip",
         "title": "Cadrer et clôturer le fléchage (ACI / fonctionnement)",
-        "status": "done",
+        "status": "doing",
         "category": "tech",
-        "body": "Préconisé par Magnus (Chef Produit).\n\nC'est le seul chantier ouvert et il répond aux 3 demandes terrain non couvertes (N1/N2/N3 du tracker : dépenses asso, charges fixes, ventilation analytique). Le finir = trésorerie vraiment complète pour vendre ; le laisser ouvert sans cadrage = il s'étale et bloque la suite à 3-6 mois de la commercialisation."
-      },
-      {
-        "id": "mpv8byiwchvzq",
-        "title": "Capitaliser le fléchage : spec a posteriori + entrée roadmap",
-        "status": "todo",
-        "category": "tech",
-        "body": "Préconisé par Magnus (Chef Produit).\n\nLe code est fini et testé, mais un chantier non documenté est un chantier qu'on ne peut ni revendre, ni expliquer en démo, ni retrouver dans 3 mois. Une spec courte (problème ACI/fonctionnement, ce qui est construit, ce qui ne l'est pas) + une ligne 'done' dans la roadmap suffisent à transformer 24 commits invisibles en argument commercial. C'est 2h de travail qui ferment le sujet proprement et te remettent en position de vendre."
-      },
-      {
-        "id": "mq252aee1afg6",
-        "title": "Confirmer le go-live Scalingo et clôturer le sujet",
-        "status": "todo",
-        "category": "tech",
-        "body": "Préconisé par Magnus (Chef Produit).\n\nC'est le dernier verrou avant la première vente, et il est en suspens depuis 5 jours. Tant que tu ne m'as pas confirmé que la vitrine répond sur son URL avec le domaine branché, je ne peux pas dire que la porte commerciale est ouverte. Le build est fini : il ne reste que ce geste technique. Deux issues — soit c'est live (alors on coche les 3 'doing' en done et le sujet est clos), soit l'auto-deploy a calé (alors on débogue ensemble variables d'env + base prod). Dans les deux cas, on ferme la boucle plutôt que de la laisser ouverte."
+        "body": "Préconisé par Magnus (Chef Produit).\n\nC'est le seul chantier ouvert et il répond aux 3 demandes terrain non couvertes (N1/N2/N3 du tracker : dépenses asso, charges fixes, ventilation analytique). Le finir = trésorerie vraiment complète pour vendre ; le laisser ouvert sans cadrage = il s'étale et bloque la suite à 3-6 mois de la commercialisation.",
+        "roadmap": true
       }
     ],
     "strategie": [],
@@ -5962,6 +5949,62 @@
         "month": "2026-07",
         "status": "planned",
         "body": "Trancher l'architecture d'hébergement : une seule base partagée par toutes les CPTS, ou un espace dédié (base de données + fichiers) par CPTS. Décision structurante qui pèse sur les coûts, la sécurité des données, la montée en charge et la façon de mettre en service chaque nouvelle CPTS. À arbitrer avant d'engager les premières CPTS clientes."
+      },
+      {
+        "id": "mqe4dwco4s982",
+        "title": "Integration aux sites web existants des CPTS",
+        "month": "2026-08",
+        "status": "planned",
+        "body": "Depuis le vivier (idée CAP-02).\n\nDecision Eva 2026-06-06 : idee a CONCRETISER, reste dans le vivier (pas promue en strategie tant que pas faisable). conditionne par DEC-01 (multi-tenant) et un theming profond par tenant. Beaucoup de CPTS ont deja un WordPress avec espace adherent. Arbitrage : ship SaaS pur d'abord, construire le deport seulement si plusieurs prospects bloquent dessus (project_integration_sites_cpts)."
+      },
+      {
+        "id": "mqe4ekm5bhzhe",
+        "title": "Module RH dedie a la coordinatrice",
+        "month": "2026-07",
+        "status": "planned",
+        "body": "Depuis le vivier (idée PRD-01).\n\nLa coordinatrice est salariee, pas soignante : 'Mes Indemnisations' n'a pas de sens pour elle. Explore lors du rework Mon Espace, jamais specifie."
+      },
+      {
+        "id": "mqe4fiwigllx7",
+        "title": "Module IA tresorerie (viabilite d'un projet)",
+        "month": "2026-08",
+        "status": "planned",
+        "body": "Depuis le vivier (idée PRD-03).\n\nAssistant decisionnel cote tresorerie. Evoque sur la vitrine puis jamais construit."
+      },
+      {
+        "id": "mqe4fti7qfn5k",
+        "title": "GED (gestion electronique de documents)",
+        "month": "2026-07",
+        "status": "planned",
+        "body": "Depuis le vivier (idée PRD-05).\n\nMention incidente, jamais specifiee."
+      },
+      {
+        "id": "mqe4g06ry99u8",
+        "title": "Module migration de donnees IA-powered",
+        "month": "2026-07",
+        "status": "planned",
+        "body": "Depuis le vivier (idée PRD-07).\n\nIngestion Excel/Word/PDF/scans -> remplissage auto + validation humaine. Backlog trace (project_migration_module). A shipper avant les premiers clients payants. La PROMESSE commerciale associee est, elle, un cap-mur (voir CAP-03)."
+      },
+      {
+        "id": "mqe4wahghi46b",
+        "title": "Responsive mobile complet",
+        "month": "2026-08",
+        "status": "planned",
+        "body": "Depuis le vivier (idée PRD-10).\n\nAudit responsive global jamais fait (5 media queries dans ~5900 lignes de CSS). ~2-4 jours estimes. Commencer par dashboard/hub, finir par les tableaux denses (project_responsive_mobile)."
+      },
+      {
+        "id": "mqe4x82x8w1ga",
+        "title": "Repenser la vue secrétaire (onglet dédié, comme Trésorerie)",
+        "month": "2026-08",
+        "status": "planned",
+        "body": "Depuis le vivier (idée PRD-19).\n\nLe mode vue-par-rôle n'est aujourd'hui pas pleinement respecté pour le secrétariat. Cible : donner au secrétaire un point d'entrée dédié et facilité, sur le modèle de l'onglet Trésorerie. Prolonge l'axe stratégique 'Un outil par rôle' (strategy.json) et rejoint PRD-09 (switcher de vue par rôle)."
+      },
+      {
+        "id": "mqe64s03izrqs",
+        "title": "Cadrer et clôturer le fléchage (ACI / fonctionnement)",
+        "month": "2026-06",
+        "status": "done",
+        "body": "Depuis le To do.\n\nPréconisé par Magnus (Chef Produit).\n\nC'est le seul chantier ouvert et il répond aux 3 demandes terrain non couvertes (N1/N2/N3 du tracker : dépenses asso, charges fixes, ventilation analytique). Le finir = trésorerie vraiment complète pour vendre ; le laisser ouvert sans cadrage = il s'étale et bloque la suite à 3-6 mois de la commercialisation."
       }
     ],
     "strategiePillars": {
@@ -6026,6 +6069,14 @@
           "id": "mqdtejykig5ca",
           "name": "Cartographie interactive du territoire",
           "text": "des epingles comme quand on epingle quelque chose sur un mur ; trouver un kine specialise en vestibulaire",
+          "size": "normal",
+          "group": "Faite pour les CPTS",
+          "contributions": []
+        },
+        {
+          "id": "mqe4dlkn96uae",
+          "name": "Nom de la plateforme + audit de perception",
+          "text": "une gouvernance de CPTS qui voit un logiciel qui s'appelle CPTS Pilot, ca leur donne quoi comme premiere impression ?",
           "size": "normal",
           "group": "Faite pour les CPTS",
           "contributions": []
@@ -6105,11 +6156,19 @@
           "contributions": []
         },
         {
-          "id": "mqdqx8nk4b2dp",
-          "name": "Hebergement souverain 'Made in France'",
-          "text": "faudra aussi mentionner quelque part que le serveur et l'hebergement sont made in France",
+          "id": "mqe4rdrkhpi5y",
+          "name": "Export + demographie des feedbacks demo",
+          "text": "il faut que je puisse exporter les feedbacks en pdf, word, excel ; savoir les noms et prenoms des utilisateurs qui ont rempli le formulaire, et la date/heure d'entree en demo",
           "size": "normal",
-          "group": "",
+          "group": "Analyse de la qualité de la plateforme",
+          "contributions": []
+        },
+        {
+          "id": "mqe4y9hg0uvq4",
+          "name": "Capter les CPTS sans outils de gestion",
+          "text": "les CPTS qui n'ont jamais eu de plateforme mais ont des donnees eparpillees, un peu d'Excel, de Word, de PDF EN COURS DE CONSTRUCTION",
+          "size": "normal",
+          "group": "Cible et atouts",
           "contributions": []
         }
       ],
@@ -6250,6 +6309,22 @@
           "text": "Un mode démo public avec données fictives seedées, pour montrer la plateforme sans jamais exposer de vraies données. (Remise à zéro entre visiteurs en chantier.)",
           "size": "normal",
           "group": "Qualité & sécurité",
+          "contributions": []
+        },
+        {
+          "id": "mqe4qo1got6c1",
+          "name": "Export des justificatifs cote membre",
+          "text": "il faudrait permettre aux membres de recuperer/sauvegarder leurs justificatifs",
+          "size": "normal",
+          "group": "Socle & architecture",
+          "contributions": []
+        },
+        {
+          "id": "mqe4wqefcuhxo",
+          "name": "Depense association : workflow validation a 2 etapes",
+          "text": "workflow validation a 2 etapes",
+          "size": "normal",
+          "group": "Socle & architecture",
           "contributions": []
         }
       ]
