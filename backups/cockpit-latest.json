@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-14T12:23:57.369Z",
+  "exportedAt": "2026-06-14T12:33:11.518Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -6165,6 +6165,86 @@
       ],
       "dev": [
         {
+          "id": "mqdrl459mu3dh",
+          "name": "Notre socle technique",
+          "text": "« Un monolithe Flask, modulaire et lisible — pas une usine à gaz. »\n\nPython 3.11, ~440 routes organisées en 11 modules métier isolés (trésorerie, coordination, projets, réunions, membres, admin, hub, auth…). Chaque module vit dans son blueprint : on ajoute une brique sans casser les autres.",
+          "size": "large",
+          "group": "Socle & architecture",
+          "contributions": []
+        },
+        {
+          "id": "mqdrl45920qtg",
+          "name": "Pages et API séparées",
+          "text": "Chaque module sépare ses pages (routes.py) de son API REST (api.py), avec des conventions homogènes (/api/<module>/…, GET/POST/PUT/DELETE). Migration en cours du modèle « routes à plat » vers ce découpage modulaire.",
+          "size": "normal",
+          "group": "Socle & architecture",
+          "contributions": []
+        },
+        {
+          "id": "mqdrl459qn4bo",
+          "name": "Une seule base, relationnelle",
+          "text": "PostgreSQL, modèle relationnel à clés étrangères : l'intégrité des données est garantie par la base. Une seule base partagée par tous les rôles — la donnée saisie une fois circule partout.",
+          "size": "normal",
+          "group": "Socle & architecture",
+          "contributions": []
+        },
+        {
+          "id": "mqdrl45938efd",
+          "name": "Rendu serveur, interactivité ciblée",
+          "text": "HTML rendu côté serveur (Jinja), assemblé par des partials réutilisables (espaces par rôle, tiroirs, bandeaux). Pas de SPA lourde à maintenir : simple, rapide, accessible.",
+          "size": "normal",
+          "group": "Socle & architecture",
+          "contributions": []
+        },
+        {
+          "id": "mqdrl459e7tic",
+          "name": "Hébergé en France",
+          "text": "« Tout tourne en France, chez Scalingo. »\n\nMigration assumée de Railway vers Scalingo (PostgreSQL managé, France). L'hébergement souverain n'est pas qu'un choix technique : c'est un argument RGPD de poids face aux CPTS et à l'ARS. (lié au cap « Hébergement Made in France »)",
+          "size": "large",
+          "group": "Hébergement & souveraineté",
+          "contributions": []
+        },
+        {
+          "id": "mqdrl459dv5qo",
+          "name": "Déploiement continu",
+          "text": "Push sur GitHub → webhook → déploiement automatique. gunicorn en production, runtime épinglé (Python 3.11.7), configuration par variables d'environnement. Mettre en ligne = pousser du code.",
+          "size": "normal",
+          "group": "Hébergement & souveraineté",
+          "contributions": []
+        },
+        {
+          "id": "mqdrl4592zdu7",
+          "name": "PaaS plutôt que VPS",
+          "text": "L'auto-hébergement sur VPS est gardé « sous le coude » mais écarté au profit d'un PaaS managé : moins de maintenance serveur, hébergement France, déploiement simple. On investit le temps dans le produit, pas dans l'infra. (carrefour DEC-02)",
+          "size": "normal",
+          "group": "Hébergement & souveraineté",
+          "contributions": []
+        },
+        {
+          "id": "mqdrl459sjy0k",
+          "name": "Testé bout en bout",
+          "text": "Une suite de tests E2E (pytest) couvre les cycles métier critiques : fléchage des déclarations (+ rollback), validation refus/relances/archives, espaces par rôle, historique des indemnisations. Le filet qui permet d'avancer vite sans rien casser.",
+          "size": "normal",
+          "group": "Qualité & sécurité",
+          "contributions": []
+        },
+        {
+          "id": "mqdrl459l3x3x",
+          "name": "Sécurité et cloisonnement par rôle",
+          "text": "Authentification dédiée et espaces adaptés à chaque rôle (direction, coordination, trésorier, membre) : chacun ne voit que ce qui le concerne. Vigilance continue (failles XSS corrigées au fil de l'eau).",
+          "size": "normal",
+          "group": "Qualité & sécurité",
+          "contributions": []
+        },
+        {
+          "id": "mqdrl459o3b0l",
+          "name": "Démo sans risque",
+          "text": "Un mode démo public avec données fictives seedées, pour montrer la plateforme sans jamais exposer de vraies données. (Remise à zéro entre visiteurs en chantier.)",
+          "size": "normal",
+          "group": "Qualité & sécurité",
+          "contributions": []
+        },
+        {
           "id": "mqdqx8nkowqrh",
           "name": "VPS auto-heberge vs Scalingo",
           "text": "garde ca sous le coude mais je veux qu'on revienne sur la possibilite de mettre tout sur un VPS ; est-ce que je peux le config et la maintenance moi-meme ?",
@@ -6734,6 +6814,7 @@
       "journal": [],
       "reports": []
     },
-    "devSeeded": true
+    "devSeeded": true,
+    "devBaseSeeded": true
   }
 }
