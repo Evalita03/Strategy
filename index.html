@@ -3959,7 +3959,7 @@ function addEncart(section, group) {
     if (!expandedGroups[section]) expandedGroups[section] = new Set();
     expandedGroups[section].add(group);
   }
-  save(); render(); openEncartModal(section, p.id);
+  save(); persistStrategySection(section, 'Nouvel encart'); render(); openEncartModal(section, p.id);
 }
 function openEncartModal(section, pid) {
   const p = findPillar(section, pid); if (!p) return;
@@ -3996,30 +3996,47 @@ function openEncartModal(section, pid) {
     </div>`;
   document.getElementById('modal-overlay').classList.add('open');
 }
+// Publie l'état complet d'un volet dans strategy.json (sinon l'édition resterait locale et sauterait à la synchro)
+async function persistStrategySection(section, label) {
+  const cfg = getGhConfig();
+  if (!cfg || !cfg.token) { vivierToast('Enregistré en local (token GitHub non configuré dans Réglages)'); return; }
+  vivierToast('Publication…');
+  const res = await writeRepoJson('strategy.json',
+    p => { p.encarts = p.encarts || {};
+           p.encarts[section] = (state.strategiePillars[section] || []).map(e => ({
+             name: e.name || 'Encart', text: e.text || '',
+             size: e.size === 'large' ? 'large' : 'normal', group: (e.group || '').trim() })); },
+    (label || 'Stratégie mise à jour') + ' · ' + section,
+    { createIfMissing: true, initial: { encarts: {} } });
+  vivierToast(res.ok ? '✓ publié' : '⚠ enregistré en local, publication échouée : ' + res.error);
+}
 function renamePillar(section, pid, name) {
   const p = findPillar(section, pid); if (!p) return;
   p.name = name.trim() || 'Encart'; save();
+  persistStrategySection(section, 'Renommage encart');
 }
 function savePillarText(section, pid, text) {
   const p = findPillar(section, pid); if (!p) return;
   p.text = text; save();
+  persistStrategySection(section, 'Texte encart');
 }
 function setEncartGroup(section, pid, group) {
   const p = findPillar(section, pid); if (!p) return;
   p.group = (group || '').trim(); save();
+  persistStrategySection(section, 'Catégorie encart');
 }
 function toggleEncartSize(section, pid) {
   syncEncartText(section, pid);
   const p = findPillar(section, pid); if (!p) return;
   p.size = p.size === 'large' ? 'normal' : 'large';
-  save(); openEncartModal(section, pid);
+  save(); persistStrategySection(section, 'Taille encart'); openEncartModal(section, pid);
 }
 function deleteEncart(section, pid) {
   const p = findPillar(section, pid); if (!p) return;
   const n = (p.contributions||[]).length;
   if (!confirm(`Supprimer l'encart « ${p.name} »${n?` et ses ${n} apport(s)`:''} ?`)) return;
   state.strategiePillars[section] = state.strategiePillars[section].filter(x=>x.id!==pid);
-  save(); closeModal(); render();
+  save(); persistStrategySection(section, 'Suppression encart'); closeModal(); render();
 }
 function syncEncartText(section, pid) {
   const ta = document.getElementById('encart-text');
