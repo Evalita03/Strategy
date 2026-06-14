@@ -3267,20 +3267,54 @@ function archiveIdee(id) {
   if (archiving && !confirm('Archiver « ' + it.titre + ' » ? (réversible)')) return;
   mutateIdees(p => { const x = (p.idees||[]).find(y => y.id === id); if (!x) return false; x.archived = archiving; }, (archiving ? 'Archiver ' : 'Désarchiver ') + id);
 }
-async function sendToRoadmap(id) {
+// ----- Modale « envoyer en roadmap » (choix du mois) -----
+function roadmapMonthOptions(selected) {
+  const now = new Date();
+  let opts = '';
+  for (let k = 0; k < 12; k++) {
+    const d = new Date(now.getFullYear(), now.getMonth() + k, 1);
+    const m = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+    opts += `<option value="${m}" ${selected === m ? 'selected' : ''}>${monthLabel(m)}${k === 0 ? ' (ce mois-ci)' : ''}</option>`;
+  }
+  opts += `<option value="" ${!selected ? 'selected' : ''}>À planifier (sans date)</option>`;
+  return opts;
+}
+function sendToRoadmap(id) {
   if (ideesBusy) return;
   const it = ideeById(id); if (!it) return;
-  if (!confirm('Ajouter « ' + it.titre + ' » comme jalon (à venir) dans la Roadmap, et la marquer dans le vivier ?')) return;
+  const m = document.getElementById('modal'); m.classList.remove('qc-mode');
+  m.innerHTML = `
+    <h2>Envoyer en roadmap</h2>
+    <p style="font-size:13px;color:var(--slate-600);line-height:1.55;margin-bottom:14px">« <b>${esc(it.titre)}</b> » sera ajoutée comme jalon dans la Roadmap, et marquée dans le vivier.</p>
+    <div class="field"><label>Sur quel mois la positionner ?</label>
+      <select id="roadmap-month">${roadmapMonthOptions(currentMonthStr())}</select></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="confirmSendToRoadmap('${esc(id)}')">Confirmer</button>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+async function confirmSendToRoadmap(id) {
+  const month = document.getElementById('roadmap-month').value || null;
+  closeModal();
+  const it = ideeById(id); if (!it || ideesBusy) return;
   ideesBusy = true; vivierToast('Enregistrement…'); render();
   const r1 = await writeRepoJson('roadmap.json',
-    p => { p.items = Array.isArray(p.items) ? p.items : []; p.items.push({ title: it.titre, status: 'planned', month: null, body: it.note || it.citation || '' }); },
+    p => { p.items = Array.isArray(p.items) ? p.items : []; p.items.push({ title: it.titre, status: 'planned', month: month, body: it.note || it.citation || '' }); },
     `Jalon roadmap depuis idée ${id}`, { createIfMissing: true, initial: { items: [] } });
   if (!r1.ok) { ideesBusy = false; render(); alert('Échec côté roadmap : ' + r1.error); return; }
   const r2 = await writeRepoJson('idees.json',
     p => { const x = (p.idees||[]).find(y => y.id === id); if (x) x.en_roadmap = true; },
     `Idée ${id} envoyée en roadmap`);
   ideesBusy = false;
-  if (r2.ok) { ideesData = normalizeIdees(r2.data); vivierToast('✓ Envoyée en roadmap'); }
+  if (r2.ok) {
+    ideesData = normalizeIdees(r2.data);
+    // Recopie locale immédiate → le jalon apparaît tout de suite dans l'onglet Roadmap
+    state.roadmap = state.roadmap || [];
+    if (!roadmapHas(it.titre)) state.roadmap.push({ id: uid(), title: it.titre, month: month, status: 'planned', body: 'Depuis le vivier (idée ' + id + ').\n\n' + (it.note || it.citation || '') });
+    save();
+    vivierToast('✓ Envoyée en roadmap');
+  }
   else alert('Jalon créé dans la roadmap, mais le marquage du vivier a échoué : ' + r2.error);
   render();
 }
@@ -3320,7 +3354,17 @@ async function confirmPromote(id) {
     p => { const x = (p.idees||[]).find(y => y.id === id); if (x) { x.statut = 'deja-en-strategie'; x.promotion_strategy = true; x.axe_strategy = axes.length === 1 ? axes[0] : axes; delete x.flash; } },
     `Idée ${id} promue en stratégie (${axes.join(', ')})`);
   ideesBusy = false;
-  if (r2.ok) { ideesData = normalizeIdees(r2.data); vivierToast('✓ Promue en stratégie'); }
+  if (r2.ok) {
+    ideesData = normalizeIdees(r2.data);
+    // Recopie locale immédiate → l'encart apparaît tout de suite dans chaque volet de Stratégie
+    state.strategiePillars = state.strategiePillars || {};
+    axes.forEach(axe => {
+      state.strategiePillars[axe] = state.strategiePillars[axe] || [];
+      state.strategiePillars[axe].push({ id: uid(), name: it.titre, text: it.citation || it.note || '', size: 'normal', group: '', contributions: [] });
+    });
+    save();
+    vivierToast('✓ Promue en stratégie');
+  }
   else alert('Encarts créés dans la stratégie, mais le marquage du vivier a échoué : ' + r2.error);
   render();
 }
@@ -4886,6 +4930,20 @@ function renderRoadmap(content, actions) {
     });
     html += '</div></div>';
   });
+  // Colonne « À planifier » : jalons sans mois (sinon ils seraient invisibles)
+  const planless = items.filter(i => !i.month);
+  if (planless.length) {
+    html += `<div class="roadmap-col is-future">
+      <div class="roadmap-col-head">À planifier</div>
+      <div class="roadmap-items">`;
+    planless.forEach(i => {
+      const st = i.status || 'planned';
+      html += `<div class="roadmap-item is-${st}" onclick="openRoadmapDetail('${i.id}')" title="${roadmapStatusLabel[st] || ''}">
+        <span class="roadmap-item-dot" style="background:${roadmapStatusDot[st]}"></span>${esc(i.title)}
+      </div>`;
+    });
+    html += '</div></div>';
+  }
   html += '</div></div>';
   content.innerHTML = html;
 }
