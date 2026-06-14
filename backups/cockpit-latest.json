@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-14T08:54:28.386Z",
+  "exportedAt": "2026-06-14T09:08:49.296Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -6118,7 +6118,8 @@
           "group": "Confiance et clarté",
           "contributions": []
         }
-      ]
+      ],
+      "dev": []
     },
     "strategieSeeded": true,
     "precos": [
