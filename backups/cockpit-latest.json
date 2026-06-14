@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-14T18:33:08.226Z",
+  "exportedAt": "2026-06-14T18:34:57.124Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -6145,14 +6145,6 @@
           "text": "Le premier frein pour changer d'outil, c'est de quitter celui qu'on connaît. Nous reprenons l'activité existante — membres, actions, trésorerie, décomptes — pour que la CPTS démarre avec son historique complet, sans repartir de zéro.",
           "size": "normal",
           "group": "Entrer en douceur",
-          "contributions": []
-        },
-        {
-          "id": "mqdqx8nk4b2dp",
-          "name": "Hebergement souverain 'Made in France'",
-          "text": "faudra aussi mentionner quelque part que le serveur et l'hebergement sont made in France",
-          "size": "normal",
-          "group": "",
           "contributions": []
         }
       ],
