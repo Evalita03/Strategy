@@ -3233,7 +3233,8 @@ function vivierRow(i, leg) {
       <button class="v-act road" ${dis} onclick="sendToRoadmap('${esc(i.id)}')">→ Roadmap</button>
       <button class="v-act" ${dis} onclick="openIdeeModal('${esc(i.id)}')">✎ Modifier</button>
       <button class="v-act" ${dis} onclick="addNoteToIdee('${esc(i.id)}')">+ Note</button>
-      <button class="v-act danger" ${dis} onclick="archiveIdee('${esc(i.id)}')">${i.archived?'Désarchiver':'Archiver'}</button>
+      <button class="v-act" ${dis} onclick="archiveIdee('${esc(i.id)}')">${i.archived?'Désarchiver':'Archiver'}</button>
+      <button class="v-act danger" ${dis} onclick="deleteIdee('${esc(i.id)}')">🗑 Supprimer</button>
     </div>`;
   h += `</div></div>`;
   return h;
@@ -3305,6 +3306,13 @@ function addNoteToIdee(id) {
   if (txt == null) return;
   const t = txt.trim(); if (!t) return;
   mutateIdees(p => { const x = (p.idees||[]).find(y => y.id === id); if (!x) return false; x.note = (x.note ? x.note + '\n' : '') + '• ' + t; }, 'Note ajoutée à ' + id);
+}
+function deleteIdee(id, fromModal) {
+  if (ideesBusy) return;
+  const it = ideeById(id); if (!it) return;
+  if (!confirm('Supprimer définitivement « ' + it.titre + ' » ?\n\n⚠ Irréversible (contrairement à l\'archivage). L\'idée disparaît du vivier pour de bon.')) return;
+  if (fromModal) closeModal();
+  mutateIdees(p => { const before = (p.idees || []).length; p.idees = (p.idees || []).filter(y => y.id !== id); if ((p.idees || []).length === before) return false; }, 'Suppression idée ' + id);
 }
 function archiveIdee(id) {
   if (ideesBusy) return;
@@ -3545,6 +3553,7 @@ function openIdeeModal(id) {
     <div class="field"><label>Citation (verbatim d'origine)</label><textarea id="idee-citation" style="min-height:70px">${it?esc(it.citation||''):''}</textarea></div>
     <div class="field"><label>Note (contexte, liens vers d'autres idées)</label><textarea id="idee-note" style="min-height:90px">${it?esc(it.note||''):''}</textarea></div>
     <div class="modal-actions">
+      ${it ? `<button class="btn btn-ghost" style="color:var(--red-600);margin-right:auto" onclick="deleteIdee('${esc(id)}', true)">Supprimer</button>` : ''}
       <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
       <button class="btn btn-primary" onclick="saveIdee('${id?esc(id):''}')">Enregistrer</button>
     </div>`;
