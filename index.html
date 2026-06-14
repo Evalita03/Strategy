@@ -3229,9 +3229,11 @@ function vivierRow(i, leg) {
   if (promoted) h += `<div class="v-flag">→ promue en stratégie${axeStr ? ` (${esc(axeStr)})` : ''}</div>`;
   else if (i.promotion_strategy) h += `<div class="v-flag">↗ candidate stratégie${axeStr ? ` · ${esc(axeStr)}` : ''}</div>`;
   if (i.en_roadmap) h += `<div class="v-flag road">↪ envoyée en roadmap</div>`;
+  if (i.en_todo) h += `<div class="v-flag">↪ passée en tâche (To do)</div>`;
   h += `<div class="v-actions">
       <button class="v-act strat" ${dis} onclick="openPromoteModal('${esc(i.id)}')">→ Stratégie</button>
       <button class="v-act road" ${dis} onclick="sendToRoadmap('${esc(i.id)}')">→ Roadmap</button>
+      <button class="v-act" ${dis} onclick="sendIdeeToTodo('${esc(i.id)}')">→ Tâche</button>
       <button class="v-act" ${dis} onclick="openIdeeModal('${esc(i.id)}')">✎ Modifier</button>
       <button class="v-act" ${dis} onclick="addNoteToIdee('${esc(i.id)}')">+ Note</button>
       <button class="v-act" ${dis} onclick="archiveIdee('${esc(i.id)}')">${i.archived?'Désarchiver':'Archiver'}</button>
@@ -3322,8 +3324,47 @@ function archiveIdee(id) {
   if (archiving && !confirm('Archiver « ' + it.titre + ' » ? (réversible)')) return;
   mutateIdees(p => { const x = (p.idees||[]).find(y => y.id === id); if (!x) return false; x.archived = archiving; }, (archiving ? 'Archiver ' : 'Désarchiver ') + id);
 }
-// Une idée est « aboutie » si elle a été promue en stratégie ou envoyée en roadmap
-function ideeIsCompleted(i) { return i.statut === 'deja-en-strategie' || i.promotion_strategy || i.en_roadmap; }
+// ----- Basculer une idée dans le To do (À faire / En cours) -----
+function sendIdeeToTodo(id) {
+  if (ideesBusy) return;
+  const it = ideeById(id); if (!it) return;
+  const m = document.getElementById('modal'); m.classList.remove('qc-mode');
+  m.innerHTML = `
+    <h2>Envoyer dans le To do</h2>
+    <p style="font-size:13px;color:var(--slate-600);line-height:1.55;margin-bottom:14px">« <b>${esc(it.titre)}</b> » deviendra une tâche dans le To do. L'idée sera archivée dans le vivier (réversible, reste consultable).</p>
+    <div class="field"><label>Dans quelle colonne ?</label>
+      <select id="todo-status">
+        <option value="todo">À faire</option>
+        <option value="doing">En cours</option>
+      </select></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="confirmIdeeToTodo('${esc(id)}')">Confirmer</button>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+async function confirmIdeeToTodo(id) {
+  const status = document.getElementById('todo-status').value === 'doing' ? 'doing' : 'todo';
+  closeModal();
+  const it = ideeById(id); if (!it || ideesBusy) return;
+  // 1) Crée la tâche localement → visible tout de suite dans le To do
+  const title = it.titre || '(sans titre)';
+  if (!state.tasks.some(t => (t.title || '').trim().toLowerCase() === title.trim().toLowerCase() && t.status !== 'done')) {
+    state.tasks.push({ id: uid(), title: title, status: status, body: it.note || it.citation || '' });
+  }
+  save();
+  // 2) Marque l'idée comme passée en tâche + archive (cohérent avec → Stratégie / → Roadmap)
+  ideesBusy = true; vivierToast('Enregistrement…'); render();
+  const res = await writeRepoJson('idees.json',
+    p => { const x = (p.idees || []).find(y => y.id === id); if (x) { x.en_todo = true; x.archived = true; } },
+    'Idée ' + id + ' passée en tâche');
+  ideesBusy = false;
+  if (res.ok) { ideesData = normalizeIdees(res.data); vivierToast('✓ Envoyée dans le To do'); }
+  else alert('Tâche créée, mais le marquage du vivier a échoué : ' + res.error);
+  render();
+}
+// Une idée est « aboutie » si elle a été promue en stratégie, envoyée en roadmap ou passée en tâche
+function ideeIsCompleted(i) { return i.statut === 'deja-en-strategie' || i.promotion_strategy || i.en_roadmap || i.en_todo; }
 // Balayage unique : archive toutes les idées abouties encore actives (réversible, elles restent consultables)
 async function archiveCompletedIdeas() {
   if (ideesBusy) return;
