@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-14T18:31:59.331Z",
+  "exportedAt": "2026-06-14T18:33:08.226Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -5962,6 +5962,41 @@
         "month": "2026-07",
         "status": "planned",
         "body": "Trancher l'architecture d'hébergement : une seule base partagée par toutes les CPTS, ou un espace dédié (base de données + fichiers) par CPTS. Décision structurante qui pèse sur les coûts, la sécurité des données, la montée en charge et la façon de mettre en service chaque nouvelle CPTS. À arbitrer avant d'engager les premières CPTS clientes."
+      },
+      {
+        "id": "mqe4dwco4s982",
+        "title": "Integration aux sites web existants des CPTS",
+        "month": "2026-08",
+        "status": "planned",
+        "body": "Depuis le vivier (idée CAP-02).\n\nDecision Eva 2026-06-06 : idee a CONCRETISER, reste dans le vivier (pas promue en strategie tant que pas faisable). conditionne par DEC-01 (multi-tenant) et un theming profond par tenant. Beaucoup de CPTS ont deja un WordPress avec espace adherent. Arbitrage : ship SaaS pur d'abord, construire le deport seulement si plusieurs prospects bloquent dessus (project_integration_sites_cpts)."
+      },
+      {
+        "id": "mqe4ekm5bhzhe",
+        "title": "Module RH dedie a la coordinatrice",
+        "month": "2026-07",
+        "status": "planned",
+        "body": "Depuis le vivier (idée PRD-01).\n\nLa coordinatrice est salariee, pas soignante : 'Mes Indemnisations' n'a pas de sens pour elle. Explore lors du rework Mon Espace, jamais specifie."
+      },
+      {
+        "id": "mqe4fiwigllx7",
+        "title": "Module IA tresorerie (viabilite d'un projet)",
+        "month": "2026-08",
+        "status": "planned",
+        "body": "Depuis le vivier (idée PRD-03).\n\nAssistant decisionnel cote tresorerie. Evoque sur la vitrine puis jamais construit."
+      },
+      {
+        "id": "mqe4fti7qfn5k",
+        "title": "GED (gestion electronique de documents)",
+        "month": "2026-07",
+        "status": "planned",
+        "body": "Depuis le vivier (idée PRD-05).\n\nMention incidente, jamais specifiee."
+      },
+      {
+        "id": "mqe4g06ry99u8",
+        "title": "Module migration de donnees IA-powered",
+        "month": "2026-07",
+        "status": "planned",
+        "body": "Depuis le vivier (idée PRD-07).\n\nIngestion Excel/Word/PDF/scans -> remplissage auto + validation humaine. Backlog trace (project_migration_module). A shipper avant les premiers clients payants. La PROMESSE commerciale associee est, elle, un cap-mur (voir CAP-03)."
       }
     ],
     "strategiePillars": {
@@ -6026,6 +6061,14 @@
           "id": "mqdtejykig5ca",
           "name": "Cartographie interactive du territoire",
           "text": "des epingles comme quand on epingle quelque chose sur un mur ; trouver un kine specialise en vestibulaire",
+          "size": "normal",
+          "group": "Faite pour les CPTS",
+          "contributions": []
+        },
+        {
+          "id": "mqe4dlkn96uae",
+          "name": "Nom de la plateforme + audit de perception",
+          "text": "une gouvernance de CPTS qui voit un logiciel qui s'appelle CPTS Pilot, ca leur donne quoi comme premiere impression ?",
           "size": "normal",
           "group": "Faite pour les CPTS",
           "contributions": []
