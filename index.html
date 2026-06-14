@@ -81,13 +81,12 @@ body {
 .nav-divider { height: 1px; background: rgba(255,255,255,0.07); margin: 10px 20px; }
 .nav-group-header {
   display: flex; align-items: center; gap: 12px;
-  padding: 10px 20px; cursor: pointer; user-select: none;
-  font-size: 11px; font-weight: 700; color: var(--slate-400);
-  text-transform: uppercase; letter-spacing: 0.05em;
+  padding: 11px 20px; cursor: pointer; user-select: none;
+  font-size: 14px; font-weight: 500; color: var(--slate-300);
   transition: color .15s;
 }
 .nav-group-header:hover { color: var(--white); }
-.nav-group-header svg.grp-icon { width: 17px; height: 17px; flex-shrink: 0; opacity: 0.85; }
+.nav-group-header svg.grp-icon { width: 18px; height: 18px; flex-shrink: 0; opacity: 0.85; }
 .nav-group-header .chevron {
   margin-left: auto; width: 13px; height: 13px; opacity: 0.5;
   transition: transform .2s ease;
@@ -98,7 +97,7 @@ body {
 .nav-subitem {
   display: flex; align-items: center; gap: 11px;
   padding: 9px 20px 9px 35px; cursor: pointer;
-  font-size: 13.5px; font-weight: 500; color: var(--slate-300);
+  font-size: 14px; font-weight: 500; color: var(--slate-300);
   border-left: 3px solid transparent; transition: all .15s;
 }
 .nav-subitem:hover { background: rgba(255,255,255,0.04); color: var(--white); }
@@ -1348,8 +1347,6 @@ tr:hover td { background: var(--blue-50); }
           <div class="nav-subitem" data-view="clients-valides"><span class="sub-bullet"></span>Clients validés</div>
         </div>
       </div>
-
-      <div class="nav-divider"></div>
 
       <div class="nav-item" data-view="communication">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
