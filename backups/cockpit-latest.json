@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-14T18:36:32.551Z",
+  "exportedAt": "2026-06-14T18:41:21.382Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -6146,6 +6146,14 @@
           "size": "normal",
           "group": "Entrer en douceur",
           "contributions": []
+        },
+        {
+          "id": "mqe4rdrkhpi5y",
+          "name": "Export + demographie des feedbacks demo",
+          "text": "il faut que je puisse exporter les feedbacks en pdf, word, excel ; savoir les noms et prenoms des utilisateurs qui ont rempli le formulaire, et la date/heure d'entree en demo",
+          "size": "normal",
+          "group": "Analyse de la qualité de la plateforme",
+          "contributions": []
         }
       ],
       "pricing": [
@@ -6285,6 +6293,14 @@
           "text": "Un mode démo public avec données fictives seedées, pour montrer la plateforme sans jamais exposer de vraies données. (Remise à zéro entre visiteurs en chantier.)",
           "size": "normal",
           "group": "Qualité & sécurité",
+          "contributions": []
+        },
+        {
+          "id": "mqe4qo1got6c1",
+          "name": "Export des justificatifs cote membre",
+          "text": "il faudrait permettre aux membres de recuperer/sauvegarder leurs justificatifs",
+          "size": "normal",
+          "group": "Socle & architecture",
           "contributions": []
         }
       ]
