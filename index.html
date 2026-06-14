@@ -303,9 +303,12 @@ body {
 /* Carte mentale : légende couleurs + cases volets de promotion */
 .mm-legend { margin: 6px 0 14px; }
 .mm-dot { width:12px; height:12px; border-radius:50%; display:inline-block; flex-shrink:0; }
-.promo-axes { display:flex; flex-direction:column; gap:8px; }
-.promo-axe { display:flex; align-items:center; gap:8px; font-size:14px; font-weight:600; color:var(--slate-700); cursor:pointer; }
-.promo-axe input { width:16px; height:16px; cursor:pointer; }
+.promo-axes { display:flex; flex-direction:column; gap:10px; }
+.promo-axe-row { display:flex; align-items:center; gap:10px; }
+.promo-axe-check { display:flex; align-items:center; gap:8px; min-width:160px; font-size:14px; font-weight:600; color:var(--slate-700); cursor:pointer; }
+.promo-axe-check input { width:16px; height:16px; cursor:pointer; }
+.promo-group { flex:1; font-family:inherit; font-size:13px; padding:7px 10px; border:1px solid var(--slate-300); border-radius:8px; background:#fff; }
+.promo-group:disabled { background:var(--slate-100); color:var(--slate-400); cursor:not-allowed; }
 .idea-act {
   font-family: inherit; font-size: 11px; font-weight: 600;
   border-radius: 7px; padding: 4px 8px; cursor: pointer; transition: all .15s;
@@ -3320,33 +3323,101 @@ async function confirmSendToRoadmap(id) {
 }
 
 // ----- Modale « basculer en stratégie » (choix du volet) -----
+// Groupes existants d'un volet de stratégie (pour ranger une idée promue au bon endroit)
+function stratGroups(section) {
+  return [...new Set((state.strategiePillars[section] || []).map(e => (e.group || '').trim()).filter(Boolean))];
+}
+function promoToggleRow(cb) {
+  const inp = cb.closest('.promo-axe-row').querySelector('.promo-group');
+  inp.disabled = !cb.checked;
+  if (cb.checked && !inp.value && inp.list && inp.list.options.length) inp.value = inp.list.options[0].value;
+}
 function openPromoteModal(id) {
   const it = ideeById(id); if (!it) return;
   const axes = [['vision','Vision'],['marche','Prise de marché'],['pricing','Tarification'],['dev','Dev']];
   const cur = Array.isArray(it.axe_strategy) ? it.axe_strategy : (it.axe_strategy ? [it.axe_strategy] : []);
   const m = document.getElementById('modal'); m.classList.remove('qc-mode');
+  const rows = axes.map(([v,l]) => {
+    const groups = stratGroups(v);
+    const checked = cur.includes(v);
+    const defGroup = checked ? (groups[0] || '') : '';
+    return `<div class="promo-axe-row">
+        <label class="promo-axe-check"><input type="checkbox" class="promo-axe" value="${v}" ${checked?'checked':''} onchange="promoToggleRow(this)"> ${l}</label>
+        <input class="promo-group" data-axe="${v}" list="grp-${v}" placeholder="${groups.length?('groupe, ex. '+esc(groups[0])):'nouveau groupe…'}" value="${esc(defGroup)}" ${checked?'':'disabled'}>
+        <datalist id="grp-${v}">${groups.map(g => `<option value="${esc(g)}"></option>`).join('')}</datalist>
+      </div>`;
+  }).join('');
+  // Description : si l'idée a été créée par l'utilisatrice (une note, sans verbatim),
+  // on garde SA description. Sinon (idée « nourrie » : verbatim, ou flash) → l'interface
+  // proposera une reformulation via l'IA.
+  const hasOwnDesc = !((it.citation || '').trim()) && (it.note || '').trim().length > 0;
+  const prefill = hasOwnDesc ? it.note : (it.citation || it.note || '');
   m.innerHTML = `
     <h2>Basculer en stratégie</h2>
-    <p style="font-size:13px;color:var(--slate-600);line-height:1.55;margin-bottom:14px">« <b>${esc(it.titre)}</b> » sera ajoutée comme encart dans <b>chaque volet coché</b>, et marquée « promue » dans le vivier.</p>
-    <div class="field"><label>Volet(s) de la stratégie</label>
-      <div class="promo-axes">${axes.map(([v,l]) => `<label class="promo-axe"><input type="checkbox" value="${v}" ${cur.includes(v)?'checked':''}> ${l}</label>`).join('')}</div></div>
+    <p style="font-size:13px;color:var(--slate-600);line-height:1.55;margin-bottom:14px">L'idée est mise en forme pour s'intégrer proprement : titre, texte présentable, et un <b>groupe</b> dans chaque volet coché (fini le « Sans catégorie »).</p>
+    <div class="field"><label>Titre de l'encart</label><input id="promo-name" value="${esc(it.titre || '')}"></div>
+    <div class="field">
+      <label>Texte de l'encart <button type="button" class="btn btn-ghost btn-sm" id="promo-suggest-btn" onclick="promoSuggest('${esc(id)}')" style="float:right;margin-top:-2px">✨ Reformuler</button></label>
+      <textarea id="promo-text" style="min-height:120px" placeholder="${hasOwnDesc?'':'✨ Proposition en cours…'}">${esc(prefill)}</textarea>
+    </div>
+    <div class="field"><label>Volet(s) &amp; groupe</label><div class="promo-axes">${rows}</div></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
       <button class="btn btn-primary" onclick="confirmPromote('${esc(id)}')">Confirmer</button>
     </div>`;
   document.getElementById('modal-overlay').classList.add('open');
+  // Auto-proposition d'une reformulation pour les idées nourries (pas pour les tiennes déjà décrites)
+  if (!hasOwnDesc && getAiConfig().key) promoSuggest(id);
+}
+
+// Génère une description d'encart présentable à partir de la matière de l'idée (IA)
+async function proposeEncartText(idea) {
+  const cfg = getAiConfig();
+  if (!cfg.key) throw new Error('Assistant IA non configuré (Réglages)');
+  const SYSTEM = `Tu es l'éditeur stratégique du cockpit de CPTS Pilot (logiciel pour les CPTS — Communautés Professionnelles Territoriales de Santé). On te donne une idée brute (titre, verbatim d'origine, notes de contexte, thème). Rédige la description d'un ENCART de stratégie : un paragraphe net, posé, présentable, 2 à 4 phrases, en français. Pose le parti pris clairement, sans jargon, sans listes, sans titre, et SANS reprendre des tournures de note perso (« garde ça sous le coude », « à reprendre »…). N'invente aucun fait absent de l'idée. Réponds uniquement par le paragraphe, rien d'autre.`;
+  const msg = `Titre : ${idea.titre || ''}\nThème : ${idea.theme || ''}\nNature : ${idea.nature || ''}\nVerbatim d'origine : ${idea.citation || '(aucun)'}\nNotes de contexte : ${idea.note || '(aucune)'}`;
+  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json', 'x-api-key': cfg.key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+    body: JSON.stringify({
+      model: cfg.model || 'claude-haiku-4-5',
+      max_tokens: 400,
+      system: [{ type: 'text', text: SYSTEM, cache_control: { type: 'ephemeral' } }],
+      messages: [{ role: 'user', content: msg }]
+    })
+  });
+  if (!resp.ok) { const e = await resp.json().catch(() => ({})); throw new Error(e.error?.message || `Erreur API (${resp.status})`); }
+  const data = await resp.json();
+  return (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('').trim();
+}
+async function promoSuggest(id) {
+  const it = ideeById(id); if (!it) return;
+  const ta = document.getElementById('promo-text');
+  const btn = document.getElementById('promo-suggest-btn');
+  if (!getAiConfig().key) { alert('Configure l\'assistant IA dans les Réglages pour générer une proposition.'); return; }
+  const prev = btn ? btn.textContent : '';
+  if (btn) { btn.textContent = '✨ …'; btn.disabled = true; }
+  try {
+    const txt = await proposeEncartText(it);
+    if (txt && ta) ta.value = txt;
+  } catch (e) { if (ta && !ta.value) ta.placeholder = ''; alert('Proposition IA impossible : ' + e.message); }
+  finally { if (btn) { btn.textContent = prev || '✨ Reformuler'; btn.disabled = false; } if (ta) ta.placeholder = ''; }
 }
 async function confirmPromote(id) {
-  const axes = Array.from(document.querySelectorAll('.promo-axe input:checked')).map(c => c.value);
+  const axes = Array.from(document.querySelectorAll('.promo-axe:checked')).map(c => c.value);
   if (!axes.length) { alert('Choisis au moins un volet.'); return; }
-  closeModal();
   const it = ideeById(id); if (!it || ideesBusy) return;
+  const name = (document.getElementById('promo-name').value || '').trim() || it.titre || '(sans titre)';
+  const text = (document.getElementById('promo-text').value || '').trim();
+  const groups = {};
+  axes.forEach(ax => { const el = document.querySelector(`.promo-group[data-axe="${ax}"]`); groups[ax] = (el ? el.value : '').trim(); });
+  closeModal();
   ideesBusy = true; vivierToast('Enregistrement…'); render();
-  // 1) Ajoute un encart dans chaque volet coché (une seule écriture de strategy.json)
+  // 1) Ajoute un encart (mis en forme + rangé dans un groupe) dans chaque volet coché
   const r1 = await writeRepoJson('strategy.json',
     p => { p.encarts = p.encarts || {};
            axes.forEach(axe => { p.encarts[axe] = Array.isArray(p.encarts[axe]) ? p.encarts[axe] : [];
-             p.encarts[axe].push({ name: it.titre, text: it.citation || it.note || '', size: 'normal', group: '' }); }); },
+             p.encarts[axe].push({ name, text, size: 'normal', group: groups[axe] || '' }); }); },
     `Encart stratégie (${axes.join(', ')}) depuis idée ${id}`, { createIfMissing: true, initial: { encarts: {} } });
   if (!r1.ok) { ideesBusy = false; render(); alert('Échec côté stratégie : ' + r1.error); return; }
   // 2) Marque l'idée comme promue dans idees.json (axe_strategy = string si 1 volet, sinon tableau)
@@ -3356,11 +3427,11 @@ async function confirmPromote(id) {
   ideesBusy = false;
   if (r2.ok) {
     ideesData = normalizeIdees(r2.data);
-    // Recopie locale immédiate → l'encart apparaît tout de suite dans chaque volet de Stratégie
+    // Recopie locale immédiate → l'encart apparaît tout de suite, au bon endroit, sans resynchro
     state.strategiePillars = state.strategiePillars || {};
     axes.forEach(axe => {
       state.strategiePillars[axe] = state.strategiePillars[axe] || [];
-      state.strategiePillars[axe].push({ id: uid(), name: it.titre, text: it.citation || it.note || '', size: 'normal', group: '', contributions: [] });
+      state.strategiePillars[axe].push({ id: uid(), name, text, size: 'normal', group: groups[axe] || '', contributions: [] });
     });
     save();
     vivierToast('✓ Promue en stratégie');
