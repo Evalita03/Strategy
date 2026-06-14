@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-14T19:14:23.441Z",
+  "exportedAt": "2026-06-14T19:20:07.789Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -5741,9 +5741,10 @@
       {
         "id": "mpu21xrq80rip",
         "title": "Cadrer et clôturer le fléchage (ACI / fonctionnement)",
-        "status": "done",
+        "status": "doing",
         "category": "tech",
-        "body": "Préconisé par Magnus (Chef Produit).\n\nC'est le seul chantier ouvert et il répond aux 3 demandes terrain non couvertes (N1/N2/N3 du tracker : dépenses asso, charges fixes, ventilation analytique). Le finir = trésorerie vraiment complète pour vendre ; le laisser ouvert sans cadrage = il s'étale et bloque la suite à 3-6 mois de la commercialisation."
+        "body": "Préconisé par Magnus (Chef Produit).\n\nC'est le seul chantier ouvert et il répond aux 3 demandes terrain non couvertes (N1/N2/N3 du tracker : dépenses asso, charges fixes, ventilation analytique). Le finir = trésorerie vraiment complète pour vendre ; le laisser ouvert sans cadrage = il s'étale et bloque la suite à 3-6 mois de la commercialisation.",
+        "roadmap": true
       }
     ],
     "strategie": [],
@@ -5997,6 +5998,13 @@
         "month": "2026-08",
         "status": "planned",
         "body": "Depuis le vivier (idée PRD-19).\n\nLe mode vue-par-rôle n'est aujourd'hui pas pleinement respecté pour le secrétariat. Cible : donner au secrétaire un point d'entrée dédié et facilité, sur le modèle de l'onglet Trésorerie. Prolonge l'axe stratégique 'Un outil par rôle' (strategy.json) et rejoint PRD-09 (switcher de vue par rôle)."
+      },
+      {
+        "id": "mqe64s03izrqs",
+        "title": "Cadrer et clôturer le fléchage (ACI / fonctionnement)",
+        "month": "2026-06",
+        "status": "done",
+        "body": "Depuis le To do.\n\nPréconisé par Magnus (Chef Produit).\n\nC'est le seul chantier ouvert et il répond aux 3 demandes terrain non couvertes (N1/N2/N3 du tracker : dépenses asso, charges fixes, ventilation analytique). Le finir = trésorerie vraiment complète pour vendre ; le laisser ouvert sans cadrage = il s'étale et bloque la suite à 3-6 mois de la commercialisation."
       }
     ],
     "strategiePillars": {
