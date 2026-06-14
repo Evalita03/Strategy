@@ -280,6 +280,7 @@ body {
 .v-chev { color:var(--slate-300); transition:transform .2s; flex-shrink:0; }
 .v-row.open .v-chev { transform:rotate(90deg); color:var(--slate-500); }
 .v-row.archived { opacity:.55; }
+.v-row.selected { background:var(--blue-50); border-color:var(--blue-100); }
 .v-row.promoted .v-title { color:var(--slate-500); }
 .v-body { display:none; padding:2px 16px 18px 44px; }
 .v-row.open .v-body { display:block; }
@@ -2932,6 +2933,8 @@ let ideesSort = 'trancher';        // 'trancher' | 'famille' | 'statut' | 'id'
 let ideesOpenRows = new Set();     // ids des lignes dépliées
 let ideesFiltersOpen = false;      // panneau de filtres visible ?
 let ideesShowArchived = false;     // montrer les idées archivées ?
+let ideesSelectMode = false;       // mode nettoyage : sélection multiple ?
+let ideesSelected = new Set();     // ids des idées sélectionnées pour archivage groupé
 let ideesBusy = false;             // écriture GitHub en cours (verrou anti double-clic)
 
 function setIdeaLens(lens) { ideaLens = lens; ideaLinkMode = false; ideaLinkSource = null; render(); }
@@ -3040,6 +3043,29 @@ function setVivierFilter(key, val) { ideesFilters[key] = val; render(); }
 function setIdeesSort(v) { ideesSort = v; render(); }
 function toggleIdeesFilters() { ideesFiltersOpen = !ideesFiltersOpen; render(); }
 function toggleShowArchived() { ideesShowArchived = !ideesShowArchived; render(); }
+function toggleSelectMode() { ideesSelectMode = !ideesSelectMode; if (!ideesSelectMode) ideesSelected.clear(); render(); }
+function toggleIdeeSelected(id, ev) { if (ev) ev.stopPropagation(); if (ideesSelected.has(id)) ideesSelected.delete(id); else ideesSelected.add(id); render(); }
+function selectAllVisibleIdees() {
+  const vis = vivierVisible();
+  const allSel = vis.length && vis.every(i => ideesSelected.has(i.id));
+  if (allSel) vis.forEach(i => ideesSelected.delete(i.id));
+  else vis.forEach(i => ideesSelected.add(i.id));
+  render();
+}
+async function archiveSelectedIdeas() {
+  if (ideesBusy) return;
+  const ids = [...ideesSelected].filter(id => { const it = ideeById(id); return it && !it.archived; });
+  if (!ids.length) { vivierToast('Aucune idée active sélectionnée'); return; }
+  if (!confirm('Archiver les ' + ids.length + ' idée' + (ids.length > 1 ? 's' : '') + ' sélectionnée' + (ids.length > 1 ? 's' : '') + ' ?\n\n(réversible — elles restent consultables via « Voir archivées »)')) return;
+  ideesBusy = true; vivierToast('Archivage…'); render();
+  const res = await writeRepoJson('idees.json',
+    p => { (p.idees || []).forEach(x => { if (ids.includes(x.id)) x.archived = true; }); },
+    'Nettoyage vivier : archivage de ' + ids.length + ' idée(s)');
+  ideesBusy = false;
+  if (res.ok) { ideesData = normalizeIdees(res.data); ideesSelected.clear(); ideesSelectMode = false; vivierToast('✓ ' + ids.length + ' archivée' + (ids.length > 1 ? 's' : '')); }
+  else alert('Échec de l\'archivage : ' + res.error);
+  render();
+}
 function toggleIdeeRow(id) { ideesOpenRows.has(id) ? ideesOpenRows.delete(id) : ideesOpenRows.add(id); render(); }
 function resetVivierFilters() {
   ideesFilters = { famille: '', theme: '', nature: '', statut: '' };
@@ -3131,8 +3157,16 @@ function renderVivierToolbar(d) {
     </select>`;
   h += `<button class="btn btn-ghost" onclick="toggleIdeesFilters()">⛯ Filtrer${anyFilter?' •':''}</button>`;
   const rightBtns = [];
-  if (toArchiveCount) rightBtns.push(`<button class="btn btn-ghost" onclick="archiveCompletedIdeas()" title="Idées déjà promues en stratégie ou envoyées en roadmap">⤓ Archiver promues/roadmap (${toArchiveCount})</button>`);
-  if (archivedCount) rightBtns.push(`<button class="btn btn-ghost" onclick="toggleShowArchived()">${ideesShowArchived?'Masquer':'Voir'} archivées (${archivedCount})</button>`);
+  if (ideesSelectMode) {
+    const n = ideesSelected.size;
+    rightBtns.push(`<button class="btn btn-ghost" onclick="selectAllVisibleIdees()">Tout sélectionner</button>`);
+    rightBtns.push(`<button class="btn btn-primary" ${n?'':'disabled'} onclick="archiveSelectedIdeas()">⤓ Archiver la sélection (${n})</button>`);
+    rightBtns.push(`<button class="btn btn-ghost" onclick="toggleSelectMode()">Annuler</button>`);
+  } else {
+    rightBtns.push(`<button class="btn btn-ghost" onclick="toggleSelectMode()" title="Nettoyer : cocher plusieurs idées et les archiver d'un coup">☑ Nettoyer</button>`);
+    if (toArchiveCount) rightBtns.push(`<button class="btn btn-ghost" onclick="archiveCompletedIdeas()" title="Idées déjà promues en stratégie ou envoyées en roadmap">⤓ Archiver promues/roadmap (${toArchiveCount})</button>`);
+    if (archivedCount) rightBtns.push(`<button class="btn btn-ghost" onclick="toggleShowArchived()">${ideesShowArchived?'Masquer':'Voir'} archivées (${archivedCount})</button>`);
+  }
   if (rightBtns.length) h += `<span class="v-spacer"></span>` + rightBtns.join('');
   h += '</div>';
 
@@ -3174,8 +3208,11 @@ function vivierRow(i, leg) {
   const meta = [esc(i.id||''), esc(natLabel), esc(i.theme||''), esc(famLabel)].filter(Boolean).join(' · ');
   const dis = ideesBusy ? 'disabled' : '';
 
-  let h = `<div class="v-row ${esc(nat)}${isOpen?' open':''}${promoted?' promoted':''}${i.archived?' archived':''}">`;
-  h += `<div class="v-rowhead" onclick="toggleIdeeRow('${esc(i.id)}')">
+  const selected = ideesSelected.has(i.id);
+  const headClick = ideesSelectMode ? `toggleIdeeSelected('${esc(i.id)}',event)` : `toggleIdeeRow('${esc(i.id)}')`;
+  let h = `<div class="v-row ${esc(nat)}${isOpen?' open':''}${promoted?' promoted':''}${i.archived?' archived':''}${ideesSelectMode&&selected?' selected':''}">`;
+  h += `<div class="v-rowhead" onclick="${headClick}">
+      ${ideesSelectMode ? `<input type="checkbox" class="v-check" style="margin-right:8px;width:16px;height:16px;flex-shrink:0" ${selected?'checked':''} onclick="toggleIdeeSelected('${esc(i.id)}',event)">` : ''}
       <span class="v-dot ${esc(nat)}" title="${esc(natLabel)}">${icon}</span>
       <span class="v-main"><div class="v-title">${esc(i.titre||'(sans titre)')}</div><div class="v-meta">${meta}</div></span>
       ${i.statut ? `<span class="vivier-statut vivier-statut-${esc(i.statut)}">${esc(statLabel)}</span>` : ''}
