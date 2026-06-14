@@ -310,6 +310,8 @@ body {
 .promo-axe-check input { width:16px; height:16px; cursor:pointer; }
 .promo-group { flex:1; font-family:inherit; font-size:13px; padding:7px 10px; border:1px solid var(--slate-300); border-radius:8px; background:#fff; }
 .promo-group:disabled { background:var(--slate-100); color:var(--slate-400); cursor:not-allowed; }
+.promo-group-new { flex:1; font-family:inherit; font-size:13px; padding:7px 10px; border:1px solid var(--blue-500); border-radius:8px; background:#fff; }
+.promo-group-new:disabled { background:var(--slate-100); color:var(--slate-400); cursor:not-allowed; }
 .idea-act {
   font-family: inherit; font-size: 11px; font-weight: 600;
   border-radius: 7px; padding: 4px 8px; cursor: pointer; transition: all .15s;
@@ -3387,9 +3389,20 @@ function stratGroups(section) {
   return [...new Set((state.strategiePillars[section] || []).map(e => (e.group || '').trim()).filter(Boolean))];
 }
 function promoToggleRow(cb) {
-  const inp = cb.closest('.promo-axe-row').querySelector('.promo-group');
-  inp.disabled = !cb.checked;
-  if (cb.checked && !inp.value && inp.list && inp.list.options.length) inp.value = inp.list.options[0].value;
+  const row = cb.closest('.promo-axe-row');
+  const sel = row.querySelector('select.promo-group');
+  const ni = row.querySelector('.promo-group-new');
+  if (sel) sel.disabled = !cb.checked;
+  if (ni) ni.disabled = !cb.checked;
+  if (cb.checked && sel) promoGroupSelChange(sel);
+}
+// Affiche le champ « nouvelle catégorie » quand l'option dédiée est choisie dans le menu
+function promoGroupSelChange(sel) {
+  const ni = sel.closest('.promo-axe-row').querySelector('.promo-group-new');
+  if (!ni) return;
+  const isNew = sel.value === '__new__';
+  ni.style.display = isNew ? '' : 'none';
+  if (isNew && !sel.disabled) ni.focus();
 }
 function openPromoteModal(id) {
   const it = ideeById(id); if (!it) return;
@@ -3399,11 +3412,14 @@ function openPromoteModal(id) {
   const rows = axes.map(([v,l]) => {
     const groups = stratGroups(v);
     const checked = cur.includes(v);
-    const defGroup = checked ? (groups[0] || '') : '';
+    const noGroup = groups.length === 0;
     return `<div class="promo-axe-row">
         <label class="promo-axe-check"><input type="checkbox" class="promo-axe" value="${v}" ${checked?'checked':''} onchange="promoToggleRow(this)"> ${l}</label>
-        <input class="promo-group" data-axe="${v}" list="grp-${v}" placeholder="${groups.length?('groupe, ex. '+esc(groups[0])):'nouveau groupe…'}" value="${esc(defGroup)}" ${checked?'':'disabled'}>
-        <datalist id="grp-${v}">${groups.map(g => `<option value="${esc(g)}"></option>`).join('')}</datalist>
+        <select class="promo-group" data-axe="${v}" ${checked?'':'disabled'} onchange="promoGroupSelChange(this)">
+          ${groups.map(g => `<option value="${esc(g)}">${esc(g)}</option>`).join('')}
+          <option value="__new__" ${noGroup?'selected':''}>＋ Nouvelle catégorie…</option>
+        </select>
+        <input class="promo-group-new" data-axe="${v}" placeholder="Nom de la nouvelle catégorie" style="display:${noGroup?'':'none'}" ${checked?'':'disabled'}>
       </div>`;
   }).join('');
   // Description : si l'idée a été créée par l'utilisatrice (une note, sans verbatim),
@@ -3469,7 +3485,12 @@ async function confirmPromote(id) {
   const name = (document.getElementById('promo-name').value || '').trim() || it.titre || '(sans titre)';
   const text = (document.getElementById('promo-text').value || '').trim();
   const groups = {};
-  axes.forEach(ax => { const el = document.querySelector(`.promo-group[data-axe="${ax}"]`); groups[ax] = (el ? el.value : '').trim(); });
+  axes.forEach(ax => {
+    const sel = document.querySelector(`select.promo-group[data-axe="${ax}"]`);
+    let g = sel ? sel.value : '';
+    if (g === '__new__') { const ni = document.querySelector(`.promo-group-new[data-axe="${ax}"]`); g = ni ? ni.value : ''; }
+    groups[ax] = (g || '').trim();
+  });
   closeModal();
   ideesBusy = true; vivierToast('Enregistrement…'); render();
   // 1) Ajoute un encart (mis en forme + rangé dans un groupe) dans chaque volet coché
