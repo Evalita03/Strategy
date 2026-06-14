@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-14T12:33:11.518Z",
+  "exportedAt": "2026-06-14T12:42:50.038Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -6249,7 +6249,7 @@
           "name": "VPS auto-heberge vs Scalingo",
           "text": "garde ca sous le coude mais je veux qu'on revienne sur la possibilite de mettre tout sur un VPS ; est-ce que je peux le config et la maintenance moi-meme ?",
           "size": "normal",
-          "group": "",
+          "group": "Hébergement, infra & sécurité",
           "contributions": []
         }
       ]
