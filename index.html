@@ -2906,8 +2906,7 @@ function renderTodo(content, actions) {
     colTasks.forEach(t => {
       html += `<div class="task-card" draggable="true" ondragstart="taskDragStart(event,'${t.id}')" ondragend="taskDragEnd(event)" onclick="openTaskModal('${t.id}')">
         ${esc(t.title)}
-        ${t.body?`<div class="task-note-snippet">${esc(t.body.slice(0,60))}${t.body.length>60?'…':''}</div>`:''}
-        ${t.roadmap?`<div style="font-size:10px;color:var(--blue-700);font-weight:600;margin-top:5px">↪ en roadmap</div>`:''}</div>`;
+        ${t.body?`<div class="task-note-snippet">${esc(t.body.slice(0,60))}${t.body.length>60?'…':''}</div>`:''}</div>`;
     });
     html += '</div></div>';
   });
@@ -3900,7 +3899,7 @@ function sendTaskToRoadmap(id) {
   const m = document.getElementById('modal'); m.classList.remove('qc-mode');
   m.innerHTML = `
     <h2>Envoyer en roadmap</h2>
-    <p style="font-size:13px;color:var(--slate-600);line-height:1.55;margin-bottom:14px">« <b>${esc(task.title)}</b> » sera ajoutée comme jalon dans la Roadmap. La tâche reste dans le To do.</p>
+    <p style="font-size:13px;color:var(--slate-600);line-height:1.55;margin-bottom:14px">« <b>${esc(task.title)}</b> » devient un jalon de la Roadmap et <b>quitte le To do</b> (plus de double suivi).</p>
     <div class="field"><label>Sur quel mois la positionner ?</label>
       <select id="task-roadmap-month">${roadmapMonthOptions(currentMonthStr())}</select></div>
     <div class="modal-actions">
@@ -3918,7 +3917,8 @@ async function confirmTaskToRoadmap(id) {
   // 1) Recopie locale immédiate → le jalon apparaît tout de suite dans l'onglet Roadmap
   state.roadmap = state.roadmap || [];
   if (!roadmapHas(task.title)) state.roadmap.push({ id: uid(), title: task.title, month: month, status: rstatus, body: 'Depuis le To do.\n\n' + (task.body || '') });
-  task.roadmap = true;
+  // La tâche quitte le To do : elle vit désormais comme jalon (pas de double suivi)
+  state.tasks = state.tasks.filter(t => t.id !== id);
   save(); render();
   // 2) Publie dans roadmap.json (même tiroir que les idées) si le token est configuré
   const cfg = getGhConfig();
