@@ -2966,7 +2966,8 @@ function renderMindmap(content, actions) {
     <button class="btn btn-primary" onclick="flashIdee()" ${ideesData?'':'disabled'} ${dis}>⚡ Idée flash</button>`;
   const d = ideesData;
   const ideas = d && Array.isArray(d.idees) ? d.idees : [];
-  const count = ideas.filter(i => !i.archived).length;
+  const count = mmVisibleIdeas().length;
+  const archivedTotal = ideas.filter(i => i.archived).length;
 
   let html = '<div class="panel" style="max-width:none"><div class="todo-section">';
   html += `<h3 class="todo-section-title">
@@ -2975,7 +2976,14 @@ function renderMindmap(content, actions) {
       <span class="todo-section-controls">
         ${d && d.updated_at ? `<span class="vivier-updated">maj ${esc(d.updated_at)}</span>` : ''}
         ${ideaTabSwitcher()}
-        ${d && !ideesLoading && !ideesError ? `<button class="btn btn-ghost btn-sm" id="idea-link-btn" onclick="toggleIdeaLink()">↔ Relier</button>` : ''}
+        ${d && !ideesLoading && !ideesError ? `
+          <select class="v-sel" onchange="setIdeaGroupBy(this.value)" title="Regrouper les idées par…">
+            ${MM_GROUPS.map(([v,l]) => `<option value="${v}" ${ideaGroupBy===v?'selected':''}>Grouper : ${l}</option>`).join('')}
+          </select>
+          <button class="btn btn-ghost btn-sm" onclick="toggleMmArchived()" title="Afficher / masquer les idées archivées">${mmShowArchived?'◉':'○'} Archivées${archivedTotal?` (${archivedTotal})`:''}</button>
+          <button class="btn btn-ghost btn-sm" onclick="mmReorganize()" title="Recadrer et réorganiser">⤢ Réorganiser</button>
+          <button class="btn btn-ghost btn-sm" id="idea-link-btn" onclick="toggleIdeaLink()">↔ Relier</button>
+        ` : ''}
       </span>
     </h3>`;
 
@@ -2990,9 +2998,9 @@ function renderMindmap(content, actions) {
     html += mindmapLegend();
     html += `<div class="idea-canvas-wrap">
       <canvas id="idea-canvas"></canvas>
-      ${ideas.length===0
-        ? `<div class="idea-canvas-empty">Aucune idée dans le vivier. Clique « ⚡ Idée flash » pour en déposer une — elle apparaîtra ici.</div>`
-        : `<div class="idea-canvas-hint">Glisser une bulle · molette pour zoomer · « Relier » pour connecter · clic pour ouvrir l'idée</div>`}
+      ${mmVisibleIdeas().length===0
+        ? `<div class="idea-canvas-empty">Aucune idée à afficher${!mmShowArchived&&archivedTotal?` (les ${archivedTotal} archivées sont masquées — active « Archivées »)`:'. Clique « ⚡ Idée flash » pour en déposer une'}.</div>`
+        : `<div class="idea-canvas-hint">Chaque pôle = une catégorie · couleur = état · glisser une bulle · molette pour zoomer · clic pour ouvrir · « Relier » pour connecter deux idées</div>`}
     </div>`;
   }
   html += '</div></div>';
@@ -3635,27 +3643,60 @@ function mindmapLegend() {
     `</div>`;
 }
 
-// Positions des bulles : stockées en LOCAL (pas dans le repo) → glisser ne déclenche aucune écriture GitHub
-const IDEA_POS_KEY = 'cockpit_idea_positions';
-let ideaPos = null;
-function getIdeaPos() { if (ideaPos) return ideaPos; try { ideaPos = JSON.parse(localStorage.getItem(IDEA_POS_KEY) || '{}'); } catch { ideaPos = {}; } return ideaPos; }
-function saveIdeaPos() { try { localStorage.setItem(IDEA_POS_KEY, JSON.stringify(ideaPos || {})); } catch {} }
-function mindmapIdeas() { return (ideesData && Array.isArray(ideesData.idees)) ? ideesData.idees : []; }
+// ===== Carte mentale en pôles (clusters par catégorie) =====
+let ideaGroupBy = 'theme';      // dimension de regroupement : theme | famille | nature | statut
+let mmShowArchived = false;     // afficher les idées archivées sur la carte ?
+let mmDrag = {};                // déplacements manuels (en mémoire, réinitialisés à chaque regroupement)
+let mmLayout = null;            // layout calculé (cache)
+let mmNeedsFit = true;          // recadrer à la prochaine peinture
+const MM_GROUPS = [['theme','Thème'], ['famille','Famille'], ['nature','Nature'], ['statut','Statut']];
 
-function layoutIdeasIfNeeded() {
-  const pos = getIdeaPos();
-  const ideas = mindmapIdeas();
-  const cx = 470, cy = 320;
-  let placed = ideas.filter(i => pos[i.id]).length;
-  ideas.forEach(i => {
-    if (pos[i.id]) return;
-    const k = placed++;
-    const ring = 1 + Math.floor(k / 8);
-    const ang = (k % 8) * (Math.PI / 4) + ring * 0.5;
-    pos[i.id] = { x: cx + Math.cos(ang) * 95 * ring, y: cy + Math.sin(ang) * 72 * ring };
-  });
-  saveIdeaPos();
+function setIdeaGroupBy(v) { ideaGroupBy = v; mmDrag = {}; mmLayout = null; mmNeedsFit = true; render(); }
+function toggleMmArchived() { mmShowArchived = !mmShowArchived; mmLayout = null; mmNeedsFit = true; render(); }
+function mmReorganize() { mmDrag = {}; mmLayout = null; mmNeedsFit = true; render(); }
+
+function mmVisibleIdeas() {
+  const all = (ideesData && Array.isArray(ideesData.idees)) ? ideesData.idees : [];
+  return mmShowArchived ? all : all.filter(i => !i.archived);
 }
+function mindmapIdeas() { return mmVisibleIdeas(); }   // compat (liens entre idées)
+function ideaGroupValue(i, by) {
+  const leg = (ideesData && ideesData.legende) || {};
+  if (by === 'famille') { const f = (i.famille||'').trim(); return { key: f || '∅', label: f ? legLabel(leg.famille, f, VIVIER_FAMILLE_FB[f]||f) : 'Sans famille' }; }
+  if (by === 'nature')  { const n = (i.nature||'').trim();  return { key: n || '∅', label: n ? legLabel(leg.nature, n, VIVIER_NATURE_FB[n]||n) : 'Sans nature' }; }
+  if (by === 'statut')  { const s = (i.statut||'').trim();  return { key: s || '∅', label: s ? legLabel(leg.statut, s, VIVIER_STATUT_FB[s]||s) : 'Sans statut' }; }
+  const t = (i.theme||'').trim(); return { key: t || '∅', label: t || 'Sans thème' };   // theme par défaut
+}
+function computeMindmapLayout(ideas, by) {
+  const groups = new Map();
+  ideas.forEach(i => {
+    const { key, label } = ideaGroupValue(i, by);
+    if (!groups.has(key)) groups.set(key, { key, label, items: [] });
+    groups.get(key).items.push(i);
+  });
+  const hubs = [...groups.values()].sort((a, b) => b.items.length - a.items.length);
+  const G = hubs.length;
+  const hubR = Math.max(250, 130 + G * 30);
+  const pos = {};
+  hubs.forEach((h, gi) => {
+    const ang = (gi / Math.max(1, G)) * Math.PI * 2 - Math.PI / 2;
+    h.x = Math.cos(ang) * hubR; h.y = Math.sin(ang) * hubR;
+    const n = h.items.length;
+    const coneHalf = Math.min(Math.PI * 0.95, 0.5 + n * 0.05);
+    h.items.forEach((it, k) => {
+      const t = n === 1 ? 0 : (k / (n - 1) - 0.5);
+      const a2 = ang + t * coneHalf;
+      const rr = 82 + (k % 3) * 42;
+      pos[it.id] = { x: h.x + Math.cos(a2) * rr, y: h.y + Math.sin(a2) * rr };
+    });
+  });
+  return { hubs, pos, root: { x: 0, y: 0 } };
+}
+function getMmLayout() {
+  if (!mmLayout) mmLayout = computeMindmapLayout(mmVisibleIdeas(), ideaGroupBy);
+  return mmLayout;
+}
+function mmPos(id) { return mmDrag[id] || getMmLayout().pos[id]; }
 
 // Liens entre idées : champ links[] + ids cités dans la note/citation (PRD-01, TEC-2, IDEE-3…)
 function ideaRefIds(i) {
@@ -3712,44 +3753,85 @@ function flashIdee() {
 
 function setupIdeaGraph(canvas) {
   const ctx = canvas.getContext('2d');
-  layoutIdeasIfNeeded();
-  const pos = getIdeaPos();
   const gs = ideaGraphState;
-  const R = 30;
-  const ideas = () => mindmapIdeas();
-  function resize() { const r = canvas.parentElement.getBoundingClientRect(); canvas.width = r.width; canvas.height = r.height; draw(); }
+  const R = 22;
+  const ideas = () => mmVisibleIdeas();
   function w2s(x,y) { return { x: x*gs.scale+gs.offsetX, y: y*gs.scale+gs.offsetY }; }
   function s2w(x,y) { return { x: (x-gs.offsetX)/gs.scale, y: (y-gs.offsetY)/gs.scale }; }
+  function fit() {
+    const L = getMmLayout();
+    const pts = [L.root, ...L.hubs.map(h => ({ x:h.x, y:h.y }))];
+    ideas().forEach(i => { const p = mmPos(i.id); if (p) pts.push(p); });
+    if (pts.length < 2) { gs.scale = 1; gs.offsetX = canvas.width/2; gs.offsetY = canvas.height/2; return; }
+    let minx=Infinity,miny=Infinity,maxx=-Infinity,maxy=-Infinity;
+    pts.forEach(p => { minx=Math.min(minx,p.x); miny=Math.min(miny,p.y); maxx=Math.max(maxx,p.x); maxy=Math.max(maxy,p.y); });
+    const pad = 110, w = (maxx-minx)+pad*2, h = (maxy-miny)+pad*2;
+    gs.scale = Math.max(0.25, Math.min(1.3, Math.min(canvas.width/w, canvas.height/h)));
+    const cxw=(minx+maxx)/2, cyw=(miny+maxy)/2;
+    gs.offsetX = canvas.width/2 - cxw*gs.scale;
+    gs.offsetY = canvas.height/2 - cyw*gs.scale;
+  }
+  function pill(x,y,text,bg,fg,maxChars) {
+    let t = text; if (maxChars && t.length>maxChars) t = t.slice(0,maxChars-1)+'…';
+    ctx.font = `700 ${12*gs.scale}px Manrope, sans-serif`;
+    const w = ctx.measureText(t).width + 20*gs.scale, h = 23*gs.scale, rad = 7*gs.scale;
+    const rx=x-w/2, ry=y-h/2;
+    ctx.beginPath();
+    ctx.moveTo(rx+rad,ry); ctx.arcTo(rx+w,ry,rx+w,ry+h,rad); ctx.arcTo(rx+w,ry+h,rx,ry+h,rad); ctx.arcTo(rx,ry+h,rx,ry,rad); ctx.arcTo(rx,ry,rx+w,ry,rad); ctx.closePath();
+    ctx.fillStyle = bg; ctx.fill();
+    ctx.fillStyle = fg; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText(t, x, y);
+  }
   function draw() {
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.lineWidth = 1.5*gs.scale; ctx.strokeStyle = 'rgba(148,163,184,0.55)';
-    ideaEdges().forEach(e => {
-      const s = pos[e.source], t = pos[e.target]; if (!s||!t) return;
-      const a = w2s(s.x,s.y), b = w2s(t.x,t.y);
-      ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+    const L = getMmLayout();
+    const root = w2s(L.root.x, L.root.y);
+    // 1) liens structurels : cœur → pôle → idée
+    ctx.lineWidth = 1.4*gs.scale; ctx.strokeStyle = 'rgba(148,163,184,0.40)';
+    L.hubs.forEach(h => {
+      const hs = w2s(h.x,h.y);
+      ctx.beginPath(); ctx.moveTo(root.x,root.y); ctx.lineTo(hs.x,hs.y); ctx.stroke();
+      h.items.forEach(it => { const pp = mmPos(it.id); if (!pp) return; const ps = w2s(pp.x,pp.y);
+        ctx.beginPath(); ctx.moveTo(hs.x,hs.y); ctx.lineTo(ps.x,ps.y); ctx.stroke(); });
     });
+    // 2) liens manuels entre idées (références) — pointillé bleu
+    ctx.save(); ctx.setLineDash([5*gs.scale,5*gs.scale]); ctx.lineWidth = 1.5*gs.scale; ctx.strokeStyle = 'rgba(37,99,235,0.55)';
+    ideaEdges().forEach(e => { const s = mmPos(e.source), t = mmPos(e.target); if (!s||!t) return;
+      const a = w2s(s.x,s.y), b = w2s(t.x,t.y);
+      ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); });
+    ctx.restore();
+    // 3) idées (bulles colorées par état)
     ideas().forEach(n => {
-      const pp = pos[n.id]; if (!pp) return;
+      const pp = mmPos(n.id); if (!pp) return;
       const p = w2s(pp.x,pp.y), r = R*gs.scale;
       const col = MINDMAP_COLORS[ideaColorKey(n)].c;
-      ctx.globalAlpha = n.archived ? 0.4 : 1;
+      ctx.globalAlpha = n.archived ? 0.45 : 1;
       ctx.beginPath(); ctx.arc(p.x,p.y,r,0,Math.PI*2); ctx.fillStyle = col; ctx.fill();
       if (ideaLinkSource===n.id) { ctx.lineWidth = 3; ctx.strokeStyle = '#0F172A'; ctx.stroke(); }
       ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.font = `700 ${13*gs.scale}px Manrope, sans-serif`;
+      ctx.font = `700 ${12*gs.scale}px Manrope, sans-serif`;
       ctx.fillText(VIVIER_NATURE_ICON[n.nature] || (n.flash ? '⚡' : '•'), p.x, p.y);
-      ctx.globalAlpha = n.archived ? 0.55 : 1;
       ctx.fillStyle = '#0F172A'; ctx.textBaseline = 'alphabetic';
-      ctx.font = `600 ${12*gs.scale}px Manrope, sans-serif`;
-      const label = (n.titre||'').length>22 ? n.titre.slice(0,21)+'…' : (n.titre||'');
-      ctx.fillText(label, p.x, p.y + r + 15*gs.scale);
+      ctx.font = `600 ${11*gs.scale}px Manrope, sans-serif`;
+      const label = (n.titre||'').length>20 ? n.titre.slice(0,19)+'…' : (n.titre||'');
+      ctx.fillText(label, p.x, p.y + r + 13*gs.scale);
       ctx.globalAlpha = 1;
     });
+    // 4) pôles (catégories) par-dessus
+    L.hubs.forEach(h => { const hs = w2s(h.x,h.y); pill(hs.x, hs.y, `${h.label} · ${h.items.length}`, '#1E293B', '#fff', 26); });
+    // 5) cœur
+    pill(root.x, root.y, `Idées · ${ideas().length}`, '#2563EB', '#fff', 30);
+  }
+  function resize() {
+    const r = canvas.parentElement.getBoundingClientRect();
+    canvas.width = r.width; canvas.height = r.height;
+    if (mmNeedsFit) { fit(); mmNeedsFit = false; }
+    draw();
   }
   function nodeAt(sx,sy) {
     const arr = ideas();
     for (let i=arr.length-1; i>=0; i--) {
-      const n = arr[i]; const pp = pos[n.id]; if (!pp) continue;
+      const n = arr[i]; const pp = mmPos(n.id); if (!pp) continue;
       const p = w2s(pp.x,pp.y);
       if (Math.hypot(sx-p.x, sy-p.y) <= R*gs.scale) return n;
     }
@@ -3769,10 +3851,11 @@ function setupIdeaGraph(canvas) {
   };
   canvas.onmousemove = e => {
     const rect = canvas.getBoundingClientRect(); const mx = e.clientX-rect.left, my = e.clientY-rect.top;
-    if (gs.dragging) { const wld = s2w(mx,my); pos[gs.dragging.id] = { x: wld.x, y: wld.y }; draw(); }
+    if (gs.dragging) { const wld = s2w(mx,my); mmDrag[gs.dragging.id] = { x: wld.x, y: wld.y }; draw(); }
     else if (gs.panning) { gs.offsetX += mx-gs.lastX; gs.offsetY += my-gs.lastY; gs.lastX = mx; gs.lastY = my; draw(); }
   };
-  canvas.onmouseup = () => { if (gs.dragging) saveIdeaPos(); gs.dragging = null; gs.panning = false; };
+  canvas.onmouseup = () => { gs.dragging = null; gs.panning = false; };
+  canvas.onmouseleave = () => { gs.dragging = null; gs.panning = false; };
   canvas.onclick = e => {
     if (Date.now()-downAt > 200 || ideaLinkMode) return;
     const rect = canvas.getBoundingClientRect();
@@ -3783,7 +3866,7 @@ function setupIdeaGraph(canvas) {
     e.preventDefault();
     const rect = canvas.getBoundingClientRect(); const mx = e.clientX-rect.left, my = e.clientY-rect.top;
     const before = s2w(mx,my);
-    gs.scale *= e.deltaY>0 ? 0.92 : 1.08; gs.scale = Math.max(0.4, Math.min(2.5, gs.scale));
+    gs.scale *= e.deltaY>0 ? 0.92 : 1.08; gs.scale = Math.max(0.25, Math.min(2.5, gs.scale));
     const after = s2w(mx,my);
     gs.offsetX += (after.x-before.x)*gs.scale; gs.offsetY += (after.y-before.y)*gs.scale;
     draw();
