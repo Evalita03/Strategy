@@ -4,63 +4,380 @@
   "source": "Plateforme-CPTS (CLAUDE.md, AUDIT_TECHNIQUE.md, brand/README.md, demo-5mai/, docs/plans/, docs/superpowers/plans/+specs/) — exploration profonde en 5 agents parallèles",
   "encarts": {
     "vision": [
-      { "name": "Notre cap", "group": "Cap & origine", "size": "large", "text": "« Chaque rôle a ses outils. Tout est connecté. Vous pilotez sereinement. »\n\nUn SaaS natif des CPTS — pas un outil de plus, l'outil qui s'adapte à la CPTS et pas l'inverse. Quatre rôles couverts nativement (coordinateur, trésorier, secrétaire, membre), une seule base de données." },
-      { "name": "D'où vient le produit", "group": "Cap & origine", "size": "normal", "text": "Construit par une coordinatrice, pour les coordinatrices. Pas une réponse marketing à un appel d'offres : une plateforme née de l'exaspération de jongler avec dix outils qui ne se parlent pas. Posture revendiquée : je suis l'experte ici, et je parle à mes pairs d'égale à égales." },
-      { "name": "Le pari fondamental", "group": "Cap & origine", "size": "large", "text": "« La gestion CPTS qui donne sa place à chacun — et la vision à tous. »\n\nQuatre profils, un seul outil. La coordination cesse d'être un point unique de fragilité — elle devient un système. Chaque rôle voit ce qu'il doit voir ; tout reste cohérent en arrière-plan." },
-      { "name": "Ce qui nous distingue", "group": "Différenciation", "size": "normal", "text": "Role-first natif CPTS · Lien dynamique ACI ↔ Trésorerie (les budgets sont calculés, pas saisis) · Indicateurs ARS auto-agrégés depuis les heures, frais et actions · Permissions configurables par CPTS, jusqu'au niveau de l'action." },
-      { "name": "Notre posture technique", "group": "Différenciation", "size": "normal", "text": "Tout est lié, rien ne se perd. Suppression réversible sur tous les objets financiers — un décompte effacé reste traçable. Trace automatique du qui-a-fait-quoi via la base. Une base PostgreSQL, pas un patchwork : les écritures comptables tiennent.\n\n39 modèles, 39 méthodes d'export — couverture 100 %." },
-      { "name": "Sobriété assumée", "group": "Identité & posture", "size": "normal", "text": "Règle 95/5 : sobre par défaut, riche uniquement sur les KPI hero. Pas de gradients criards, pas de pastels, pas d'arc-en-ciel. Un cobalt unique en accent, de l'encre, de la crème.\n\nLe mark est une table de mixage : piloter, lire, ajuster. Le produit dit sans mot ce qu'il fait." },
-      { "name": "Le wordmark", "group": "Identité & posture", "size": "normal", "text": "« CPTS Pilot » — le mot revendiqué, c'est **Pilot**. Mis en poids fort, encre noire. « CPTS » est posé en gris léger, comme un cadre. La marque, c'est l'acte de piloter." },
-      { "name": "Nos valeurs", "group": "Identité & posture", "size": "normal", "text": "Sérénité du pilotage · Transparence comme moteur d'engagement des membres, plus comme source de tension · Respect du temps des coordinateurs · Sobriété visuelle assumée · Le code dit la posture : tout est lié, rien ne se perd." },
-      { "name": "Notre mantra interne", "group": "Identité & posture", "size": "normal", "text": "« Je suis l'experte ici. Je parle à mes pairs d'égale à égales. C'est moi qui leur apporte une solution — pas l'inverse. »\n\nLa fondatrice se présente avant le produit. La crédibilité vient du terrain, pas d'un pitch." },
-      { "name": "Une plateforme vivante", "group": "Engagement & destination", "size": "normal", "text": "« Votre retour façonne le produit. Littéralement. »\n\nCe que les CPTS pilotes nous disent cette semaine est dans la version finale. Le produit grandit avec le terrain, pas contre lui. Pas une formule — une réalité : tout ce qui remonte cette semaine est analysé, priorisé, et pour la majorité intégré avant le lancement officiel." },
-      { "name": "Notre relation aux CPTS", "group": "Engagement & destination", "size": "normal", "text": "On ne vous laisse pas seuls. Reprise de données, paramétrage à vos côtés, formation 1h par rôle, 90 jours de support direct = inclus. Réponse sous 24h, 7j/7 pendant la phase pilote.\n\n« Vous lire à chaque retour. Corriger ce qui coince. Faire évoluer ce que vous proposez. »" },
-      { "name": "Notre destination", "group": "Engagement & destination", "size": "normal", "text": "Une plateforme nativement multi-CPTS — pas un outil mono-organisation déguisé. L'architecture est prête : un fichier dédié à la préparation multi-CPTS, un cloisonnement par organisation déjà câblé dans toutes les requêtes. La deuxième CPTS arrivera sans réécriture." }
+      {
+        "name": "Notre cap",
+        "group": "Cap & origine",
+        "size": "large",
+        "text": "« Chaque rôle a ses outils. Tout est connecté. Vous pilotez sereinement. »\n\nUn SaaS natif des CPTS — pas un outil de plus, l'outil qui s'adapte à la CPTS et pas l'inverse. Quatre rôles couverts nativement (coordinateur, trésorier, secrétaire, membre), une seule base de données."
+      },
+      {
+        "name": "D'où vient le produit",
+        "group": "Cap & origine",
+        "size": "normal",
+        "text": "Construit par une coordinatrice, pour les coordinatrices. Pas une réponse marketing à un appel d'offres : une plateforme née de l'exaspération de jongler avec dix outils qui ne se parlent pas. Posture revendiquée : je suis l'experte ici, et je parle à mes pairs d'égale à égales."
+      },
+      {
+        "name": "Le pari fondamental",
+        "group": "Cap & origine",
+        "size": "large",
+        "text": "« La gestion CPTS qui donne sa place à chacun — et la vision à tous. »\n\nQuatre profils, un seul outil. La coordination cesse d'être un point unique de fragilité — elle devient un système. Chaque rôle voit ce qu'il doit voir ; tout reste cohérent en arrière-plan."
+      },
+      {
+        "name": "Ce qui nous distingue",
+        "group": "Différenciation",
+        "size": "normal",
+        "text": "Role-first natif CPTS · Lien dynamique ACI ↔ Trésorerie (les budgets sont calculés, pas saisis) · Indicateurs ARS auto-agrégés depuis les heures, frais et actions · Permissions configurables par CPTS, jusqu'au niveau de l'action."
+      },
+      {
+        "name": "Notre posture technique",
+        "group": "Différenciation",
+        "size": "normal",
+        "text": "Tout est lié, rien ne se perd. Suppression réversible sur tous les objets financiers — un décompte effacé reste traçable. Trace automatique du qui-a-fait-quoi via la base. Une base PostgreSQL, pas un patchwork : les écritures comptables tiennent.\n\n39 modèles, 39 méthodes d'export — couverture 100 %."
+      },
+      {
+        "name": "Sobriété assumée",
+        "group": "Identité & posture",
+        "size": "normal",
+        "text": "Règle 95/5 : sobre par défaut, riche uniquement sur les KPI hero. Pas de gradients criards, pas de pastels, pas d'arc-en-ciel. Un cobalt unique en accent, de l'encre, de la crème.\n\nLe mark est une table de mixage : piloter, lire, ajuster. Le produit dit sans mot ce qu'il fait."
+      },
+      {
+        "name": "Le wordmark",
+        "group": "Identité & posture",
+        "size": "normal",
+        "text": "« CPTS Pilot » — le mot revendiqué, c'est **Pilot**. Mis en poids fort, encre noire. « CPTS » est posé en gris léger, comme un cadre. La marque, c'est l'acte de piloter."
+      },
+      {
+        "name": "Nos valeurs",
+        "group": "Identité & posture",
+        "size": "normal",
+        "text": "Sérénité du pilotage · Transparence comme moteur d'engagement des membres, plus comme source de tension · Respect du temps des coordinateurs · Sobriété visuelle assumée · Le code dit la posture : tout est lié, rien ne se perd."
+      },
+      {
+        "name": "Notre mantra interne",
+        "group": "Identité & posture",
+        "size": "normal",
+        "text": "« Je suis l'experte ici. Je parle à mes pairs d'égale à égales. C'est moi qui leur apporte une solution — pas l'inverse. »\n\nLa fondatrice se présente avant le produit. La crédibilité vient du terrain, pas d'un pitch."
+      },
+      {
+        "name": "Une plateforme vivante",
+        "group": "Engagement & destination",
+        "size": "normal",
+        "text": "« Votre retour façonne le produit. Littéralement. »\n\nCe que les CPTS pilotes nous disent cette semaine est dans la version finale. Le produit grandit avec le terrain, pas contre lui. Pas une formule — une réalité : tout ce qui remonte cette semaine est analysé, priorisé, et pour la majorité intégré avant le lancement officiel."
+      },
+      {
+        "name": "Notre relation aux CPTS",
+        "group": "Engagement & destination",
+        "size": "normal",
+        "text": "On ne vous laisse pas seuls. Reprise de données, paramétrage à vos côtés, formation 1h par rôle, 90 jours de support direct = inclus. Réponse sous 24h, 7j/7 pendant la phase pilote.\n\n« Vous lire à chaque retour. Corriger ce qui coince. Faire évoluer ce que vous proposez. »"
+      },
+      {
+        "name": "Notre destination",
+        "group": "Engagement & destination",
+        "size": "normal",
+        "text": "Une plateforme nativement multi-CPTS — pas un outil mono-organisation déguisé. L'architecture est prête : un fichier dédié à la préparation multi-CPTS, un cloisonnement par organisation déjà câblé dans toutes les requêtes. La deuxième CPTS arrivera sans réécriture."
+      }
     ],
     "marche": [
-      { "name": "À qui on parle", "group": "Cibles & problème", "size": "large", "text": "Aux bureaux des CPTS pilotes — présidents, trésoriers, secrétaires, coordinateurs. On vend à des pairs, pas à des DSI ni à des acheteurs. Quatre profils incarnés dans la démo (Claire la coordinatrice, Marc le trésorier, Sophie la secrétaire, Dr Lemaire le membre)." },
-      { "name": "Le problème qu'on règle", "group": "Cibles & problème", "size": "large", "text": "Trois douleurs concrètes que toute coordinatrice reconnaît :\n\n• L'Excel de trésorerie qui plante, dont les formules cassent, qu'on n'ose plus toucher.\n• Les heures qu'on récolte par mail, par SMS, par mémo — et qu'on recopie à la main le dimanche soir.\n• Le Drive partagé où *tout* est stocké, mais où *rien* n'est trouvable au moment du dialogue de gestion ARS.\n\n« Si l'un de ces trois points vous parle, vous êtes au bon endroit. »" },
-      { "name": "Le moment de vérité", "group": "Cibles & problème", "size": "normal", "text": "Le dialogue de gestion ARS. C'est le rendez-vous où nos cockpits prouvent leur valeur d'un coup d'œil : actions en cours, indicateurs Mission 1/2/3, budget consommé.\n\nLes indicateurs ARS se calculent **tout seuls** — à partir des actions, des heures, des frais. Plus besoin de les agréger à la main avant la séance." },
-      { "name": "L'argument cockpit ACI", "group": "Arguments par profil", "size": "large", "text": "« Ce cockpit, aucun autre outil ne le propose nativement. C'est le cœur de CPTS Pilot. »\n\nUne seule vue pour tout ce qui compte. Le pilotage ACI cesse d'être un travail de préparation manuel — il devient un état permanent et lisible." },
-      { "name": "L'argument trésorerie", "group": "Arguments par profil", "size": "normal", "text": "« Plus d'Excel. Plus de peur. Plus d'oublis. »\n\nSuivi mensuel, virements SEPA générés en 1 clic, alertes automatiques sous seuil configurable, exports pour le cabinet comptable sans recopie. Le trésorier voit ce que le trésorier doit voir — interface bascule à son rôle." },
-      { "name": "L'argument vie associative", "group": "Arguments par profil", "size": "normal", "text": "« L'organisation associative qui ne se perd plus. »\n\nÉmargement officiel généré en PDF, organigramme du bureau toujours à jour (imprimable pour l'AG), AG entières, documents fondateurs. Plus de feuille papier qui se perd entre deux réunions." },
-      { "name": "L'argument membre", "group": "Arguments par profil", "size": "normal", "text": "« Vos membres ne vous demandent plus 'où en est mon virement ?'. Ils le voient. »\n\nHub adhérent simple par construction : saisir une heure de mission prend 30 secondes. Le membre voit en temps réel où en est son indemnisation — validée, en attente, virée.\n\nLa transparence devient un argument d'engagement, plus une source de tension." },
-      { "name": "Notre go-to-market", "group": "Go-to-market", "size": "normal", "text": "Démo face-à-face de 20 minutes au bureau d'une CPTS · Mode démo public web (sandbox auto-resettable, 4 profils incarnés, auto-reset 30 min) · Site vitrine V1 sur la racine du domaine, arc narratif en 9 sections + 2 moments interactifs." },
-      { "name": "La promesse pilote", "group": "Go-to-market", "size": "normal", "text": "4 semaines de test en conditions réelles, avec données fictives (donc aucun risque), support direct, retours intégrés au produit avant le lancement officiel.\n\n« Vous êtes la première CPTS à tester en conditions réelles. » Mobilité native — c'est conçu pour le téléphone, la tablette, et le bureau." },
-      { "name": "Notre preuve sociale", "group": "Go-to-market", "size": "normal", "text": "Beta exclusive : nous sélectionnons une CPTS pilote avant le lancement public. Le format de démo est cadré : 20 min au bureau, slides + démo live + one-pager imprimé.\n\n« Bienvenue. À vous de jouer. »" },
-      { "name": "Sécurité comme argument", "group": "Rassurance", "size": "normal", "text": "Trois questions auxquelles on répond avant qu'on les pose : hébergement en Europe (RGPD-natif), sauvegardes chiffrées quotidiennes, paramétrage rôle par rôle de qui voit quoi, journalisation totale.\n\n« Vous prouvez ce que vous avez fait, quand, par qui. »" },
-      { "name": "La preuve technique", "group": "Rassurance", "size": "normal", "text": "Trois marqueurs d'exigence reconnaissables même sans être technicien :\n\n• Suppression réversible — un décompte effacé reste retrouvable.\n• Trace automatique de toute écriture financière, signée et datée.\n• Auto-remplissage de « créé par / modifié par » — la traçabilité n'est pas optionnelle, elle est cousue au code." }
+      {
+        "name": "À qui on parle",
+        "group": "Cibles & problème",
+        "size": "large",
+        "text": "Aux bureaux des CPTS pilotes — présidents, trésoriers, secrétaires, coordinateurs. On vend à des pairs, pas à des DSI ni à des acheteurs. Quatre profils incarnés dans la démo (Claire la coordinatrice, Marc le trésorier, Sophie la secrétaire, Dr Lemaire le membre)."
+      },
+      {
+        "name": "Le problème qu'on règle",
+        "group": "Cibles & problème",
+        "size": "large",
+        "text": "Trois douleurs concrètes que toute coordinatrice reconnaît :\n\n• L'Excel de trésorerie qui plante, dont les formules cassent, qu'on n'ose plus toucher.\n• Les heures qu'on récolte par mail, par SMS, par mémo — et qu'on recopie à la main le dimanche soir.\n• Le Drive partagé où *tout* est stocké, mais où *rien* n'est trouvable au moment du dialogue de gestion ARS.\n\n« Si l'un de ces trois points vous parle, vous êtes au bon endroit. »"
+      },
+      {
+        "name": "Le moment de vérité",
+        "group": "Cibles & problème",
+        "size": "normal",
+        "text": "Le dialogue de gestion ARS. C'est le rendez-vous où nos cockpits prouvent leur valeur d'un coup d'œil : actions en cours, indicateurs Mission 1/2/3, budget consommé.\n\nLes indicateurs ARS se calculent **tout seuls** — à partir des actions, des heures, des frais. Plus besoin de les agréger à la main avant la séance."
+      },
+      {
+        "name": "L'argument cockpit ACI",
+        "group": "Arguments par profil",
+        "size": "large",
+        "text": "« Ce cockpit, aucun autre outil ne le propose nativement. C'est le cœur de CPTS Pilot. »\n\nUne seule vue pour tout ce qui compte. Le pilotage ACI cesse d'être un travail de préparation manuel — il devient un état permanent et lisible."
+      },
+      {
+        "name": "L'argument trésorerie",
+        "group": "Arguments par profil",
+        "size": "normal",
+        "text": "« Plus d'Excel. Plus de peur. Plus d'oublis. »\n\nSuivi mensuel, virements SEPA générés en 1 clic, alertes automatiques sous seuil configurable, exports pour le cabinet comptable sans recopie. Le trésorier voit ce que le trésorier doit voir — interface bascule à son rôle."
+      },
+      {
+        "name": "L'argument vie associative",
+        "group": "Arguments par profil",
+        "size": "normal",
+        "text": "« L'organisation associative qui ne se perd plus. »\n\nÉmargement officiel généré en PDF, organigramme du bureau toujours à jour (imprimable pour l'AG), AG entières, documents fondateurs. Plus de feuille papier qui se perd entre deux réunions."
+      },
+      {
+        "name": "L'argument membre",
+        "group": "Arguments par profil",
+        "size": "normal",
+        "text": "« Vos membres ne vous demandent plus 'où en est mon virement ?'. Ils le voient. »\n\nHub adhérent simple par construction : saisir une heure de mission prend 30 secondes. Le membre voit en temps réel où en est son indemnisation — validée, en attente, virée.\n\nLa transparence devient un argument d'engagement, plus une source de tension."
+      },
+      {
+        "name": "Notre go-to-market",
+        "group": "Go-to-market",
+        "size": "normal",
+        "text": "Démo face-à-face de 20 minutes au bureau d'une CPTS · Mode démo public web (sandbox auto-resettable, 4 profils incarnés, auto-reset 30 min) · Site vitrine V1 sur la racine du domaine, arc narratif en 9 sections + 2 moments interactifs."
+      },
+      {
+        "name": "La promesse pilote",
+        "group": "Go-to-market",
+        "size": "normal",
+        "text": "4 semaines de test en conditions réelles, avec données fictives (donc aucun risque), support direct, retours intégrés au produit avant le lancement officiel.\n\n« Vous êtes la première CPTS à tester en conditions réelles. » Mobilité native — c'est conçu pour le téléphone, la tablette, et le bureau."
+      },
+      {
+        "name": "Notre preuve sociale",
+        "group": "Go-to-market",
+        "size": "normal",
+        "text": "Beta exclusive : nous sélectionnons une CPTS pilote avant le lancement public. Le format de démo est cadré : 20 min au bureau, slides + démo live + one-pager imprimé.\n\n« Bienvenue. À vous de jouer. »"
+      },
+      {
+        "name": "Sécurité comme argument",
+        "group": "Rassurance",
+        "size": "normal",
+        "text": "Trois questions auxquelles on répond avant qu'on les pose : hébergement en Europe (RGPD-natif), sauvegardes chiffrées quotidiennes, paramétrage rôle par rôle de qui voit quoi, journalisation totale.\n\n« Vous prouvez ce que vous avez fait, quand, par qui. »"
+      },
+      {
+        "name": "La preuve technique",
+        "group": "Rassurance",
+        "size": "normal",
+        "text": "Trois marqueurs d'exigence reconnaissables même sans être technicien :\n\n• Suppression réversible — un décompte effacé reste retrouvable.\n• Trace automatique de toute écriture financière, signée et datée.\n• Auto-remplissage de « créé par / modifié par » — la traçabilité n'est pas optionnelle, elle est cousue au code."
+      }
     ],
     "pricing": [
-      { "name": "Le modèle", "group": "L'offre", "size": "large", "text": "Un forfait par CPTS — pas par utilisateur. Quelle que soit la taille — 20 ou 200 membres — vous payez un forfait fixe. Lisible, prévisible, sans surfacturation à l'usage." },
-      { "name": "Nos trois marqueurs", "group": "L'offre", "size": "normal", "text": "Trois mots, annoncés verbatim en démo :\n\n**Public** · **Sans engagement** · **Adapté à la taille de la CPTS**.\n\nC'est tout. Pas de pricing à étages, pas de tarification opaque." },
-      { "name": "Nos engagements", "group": "L'offre", "size": "large", "text": "Sans engagement. Migration incluse. Pas de préavis, pas de surprise.\n\nReprise des données + paramétrage à vos côtés + 1 h de formation par rôle + 90 jours de support direct = **inclus**.\n\n« On ne vous laisse pas seuls. »" },
-      { "name": "Modulable à la carte", "group": "L'offre", "size": "normal", "text": "Une table interne (`ModuleActif`) permet d'activer ou non un module par CPTS, sans toucher au code — base d'un modèle commercial à la carte propre. Vous payez ce que vous activez.\n\nLa modularité tarifaire suit la modularité fonctionnelle." },
-      { "name": "Le frein anticipé", "group": "Phase pilote & pitch", "size": "normal", "text": "Le frein numéro 1 que toute CPTS lève en démo : « On a déjà nos outils, on n'a pas le temps de migrer. »\n\nNotre réponse : nous portons la migration. Reprise des données, paramétrage avec vous, formation 1h par rôle, support direct pendant 90 jours. C'est inclus. Le verrou saute." },
-      { "name": "La phase pilote", "group": "Phase pilote & pitch", "size": "normal", "text": "Pendant 4 semaines, accès complet **offert** à la CPTS pilote. Données fictives, aucun risque, aucune installation à faire.\n\nLa grille tarifaire se discute en face-à-face dans la semaine, calibrée à la taille de la CPTS." },
-      { "name": "Le pitch tarif (verbatim)", "group": "Phase pilote & pitch", "size": "normal", "text": "Question : « ça coûte combien ? »\n\nRéponse en démo, mot pour mot :\n\n« On en parle juste après — la première priorité c'est que vous testiez. Le tarif est public, sans engagement, et adapté à la taille de la CPTS. On regarde ça en face à face dans la semaine ? »" },
-      { "name": "Notre philosophie tarifaire", "group": "Philosophie", "size": "normal", "text": "Pas d'utilisateur surfacturé. Pas d'engagement. Pas de migration facturée à part. Pas de tarification opaque.\n\nLa sobriété s'applique aussi au prix : un forfait, lisible, calé sur votre taille." }
+      {
+        "name": "Le modèle",
+        "group": "L'offre",
+        "size": "large",
+        "text": "Un forfait par CPTS — pas par utilisateur. Quelle que soit la taille — 20 ou 200 membres — vous payez un forfait fixe. Lisible, prévisible, sans surfacturation à l'usage."
+      },
+      {
+        "name": "Nos trois marqueurs",
+        "group": "L'offre",
+        "size": "normal",
+        "text": "Trois mots, annoncés verbatim en démo :\n\n**Public** · **Sans engagement** · **Adapté à la taille de la CPTS**.\n\nC'est tout. Pas de pricing à étages, pas de tarification opaque."
+      },
+      {
+        "name": "Nos engagements",
+        "group": "L'offre",
+        "size": "large",
+        "text": "Sans engagement. Migration incluse. Pas de préavis, pas de surprise.\n\nReprise des données + paramétrage à vos côtés + 1 h de formation par rôle + 90 jours de support direct = **inclus**.\n\n« On ne vous laisse pas seuls. »"
+      },
+      {
+        "name": "Modulable à la carte",
+        "group": "L'offre",
+        "size": "normal",
+        "text": "Une table interne (`ModuleActif`) permet d'activer ou non un module par CPTS, sans toucher au code — base d'un modèle commercial à la carte propre. Vous payez ce que vous activez.\n\nLa modularité tarifaire suit la modularité fonctionnelle."
+      },
+      {
+        "name": "Le frein anticipé",
+        "group": "Phase pilote & pitch",
+        "size": "normal",
+        "text": "Le frein numéro 1 que toute CPTS lève en démo : « On a déjà nos outils, on n'a pas le temps de migrer. »\n\nNotre réponse : nous portons la migration. Reprise des données, paramétrage avec vous, formation 1h par rôle, support direct pendant 90 jours. C'est inclus. Le verrou saute."
+      },
+      {
+        "name": "La phase pilote",
+        "group": "Phase pilote & pitch",
+        "size": "normal",
+        "text": "Pendant 4 semaines, accès complet **offert** à la CPTS pilote. Données fictives, aucun risque, aucune installation à faire.\n\nLa grille tarifaire se discute en face-à-face dans la semaine, calibrée à la taille de la CPTS."
+      },
+      {
+        "name": "Le pitch tarif (verbatim)",
+        "group": "Phase pilote & pitch",
+        "size": "normal",
+        "text": "Question : « ça coûte combien ? »\n\nRéponse en démo, mot pour mot :\n\n« On en parle juste après — la première priorité c'est que vous testiez. Le tarif est public, sans engagement, et adapté à la taille de la CPTS. On regarde ça en face à face dans la semaine ? »"
+      },
+      {
+        "name": "Notre philosophie tarifaire",
+        "group": "Philosophie",
+        "size": "normal",
+        "text": "Pas d'utilisateur surfacturé. Pas d'engagement. Pas de migration facturée à part. Pas de tarification opaque.\n\nLa sobriété s'applique aussi au prix : un forfait, lisible, calé sur votre taille."
+      }
+    ],
+    "dev": [
+      {
+        "name": "Notre socle technique",
+        "group": "Socle & architecture",
+        "size": "large",
+        "text": "« Un monolithe Flask, modulaire et lisible — pas une usine à gaz. »\n\nPython 3.11, ~440 routes organisées en 11 modules métier isolés (trésorerie, coordination, projets, réunions, membres, admin, hub, auth…). Chaque module vit dans son blueprint : on ajoute une brique sans casser les autres."
+      },
+      {
+        "name": "Pages et API séparées",
+        "group": "Socle & architecture",
+        "size": "normal",
+        "text": "Chaque module sépare ses pages (routes.py) de son API REST (api.py), avec des conventions homogènes (/api/<module>/…, GET/POST/PUT/DELETE). Migration en cours du modèle « routes à plat » vers ce découpage modulaire."
+      },
+      {
+        "name": "Une seule base, relationnelle",
+        "group": "Socle & architecture",
+        "size": "normal",
+        "text": "PostgreSQL, modèle relationnel à clés étrangères : l'intégrité des données est garantie par la base. Une seule base partagée par tous les rôles — la donnée saisie une fois circule partout."
+      },
+      {
+        "name": "Rendu serveur, interactivité ciblée",
+        "group": "Socle & architecture",
+        "size": "normal",
+        "text": "HTML rendu côté serveur (Jinja), assemblé par des partials réutilisables (espaces par rôle, tiroirs, bandeaux). Pas de SPA lourde à maintenir : simple, rapide, accessible."
+      },
+      {
+        "name": "Hébergé en France",
+        "group": "Hébergement & souveraineté",
+        "size": "large",
+        "text": "« Tout tourne en France, chez Scalingo. »\n\nMigration assumée de Railway vers Scalingo (PostgreSQL managé, France). L'hébergement souverain n'est pas qu'un choix technique : c'est un argument RGPD de poids face aux CPTS et à l'ARS. (lié au cap « Hébergement Made in France »)"
+      },
+      {
+        "name": "Déploiement continu",
+        "group": "Hébergement & souveraineté",
+        "size": "normal",
+        "text": "Push sur GitHub → webhook → déploiement automatique. gunicorn en production, runtime épinglé (Python 3.11.7), configuration par variables d'environnement. Mettre en ligne = pousser du code."
+      },
+      {
+        "name": "PaaS plutôt que VPS",
+        "group": "Hébergement & souveraineté",
+        "size": "normal",
+        "text": "L'auto-hébergement sur VPS est gardé « sous le coude » mais écarté au profit d'un PaaS managé : moins de maintenance serveur, hébergement France, déploiement simple. On investit le temps dans le produit, pas dans l'infra. (carrefour DEC-02)"
+      },
+      {
+        "name": "Testé bout en bout",
+        "group": "Qualité & sécurité",
+        "size": "normal",
+        "text": "Une suite de tests E2E (pytest) couvre les cycles métier critiques : fléchage des déclarations (+ rollback), validation refus/relances/archives, espaces par rôle, historique des indemnisations. Le filet qui permet d'avancer vite sans rien casser."
+      },
+      {
+        "name": "Sécurité et cloisonnement par rôle",
+        "group": "Qualité & sécurité",
+        "size": "normal",
+        "text": "Authentification dédiée et espaces adaptés à chaque rôle (direction, coordination, trésorier, membre) : chacun ne voit que ce qui le concerne. Vigilance continue (failles XSS corrigées au fil de l'eau)."
+      },
+      {
+        "name": "Démo sans risque",
+        "group": "Qualité & sécurité",
+        "size": "normal",
+        "text": "Un mode démo public avec données fictives seedées, pour montrer la plateforme sans jamais exposer de vraies données. (Remise à zéro entre visiteurs en chantier.)"
+      }
     ]
   },
   "roadmap": [
-    { "title": "Calendrier — modale création contextuelle", "month": "2026-02", "status": "done", "body": "Modale intelligente à 3 modes qui adapte ses champs selon le type d'entrée : Réunion GT (classique), Évènement (premium), Information (deadline / rappel / info diverse)." },
-    { "title": "Deadlines auto + Émargement", "month": "2026-02", "status": "done", "body": "Sync automatique des tâches Cockpit → entrées calendrier (couleur rouge, badge « Auto (Cockpit) »). Suivi présence en DB avec checkbox + PDF officiel d'émargement GT." },
-    { "title": "Refonte Paramétrages Elite", "month": "2026-02", "status": "done", "body": "Page unique /admin/parametrages refondée à 4 onglets : Missions/Actions, Identité, Utilisateurs, paramètres avancés." },
-    { "title": "Optimisation Calendrier", "month": "2026-02", "status": "done", "body": "Suppression des natures figées, catégories dynamiques en base, pièces jointes multiples sur les entrées, communication post-création (partage WhatsApp + email) extraite du formulaire." },
-    { "title": "Blueprint Meetings extrait", "month": "2026-02", "status": "done", "body": "Extraction de la gestion des réunions dans un module Flask dédié : routes + api + sidebar + intégration FullCalendar." },
-    { "title": "Hub Projets — refonte", "month": "2026-02", "status": "done", "body": "Transformation de Projets & Groupes en Hub collaboratif : 5 chantiers, onglets Vitrine / Documents / Agenda, assistant de création en 3 étapes, relations multi-membres." },
-    { "title": "Custom Roles RBAC", "month": "2026-04", "status": "done", "body": "Rôles personnalisés avec permissions configurables par action et par module + matrice admin. 6 rôles hiérarchiques + rôles libres. Source de vérité unique pour toutes les permissions." },
-    { "title": "Lifecycle des déclarations", "month": "2026-04", "status": "done", "body": "Dé-validation motivée des déclarations, upload de justificatifs autorisé à tout statut, audit trail des transitions (qui a dé-validé, quand, motif)." },
-    { "title": "PDF officielle d'émargement", "month": "2026-04", "status": "done", "body": "PDF émargement officiel stocké sur disque, accessible depuis l'historique, l'onglet activité et les justificatifs. Une seule source de vérité de présence." },
-    { "title": "Modal Frais Groupe enrichie", "month": "2026-04", "status": "done", "body": "Modale frais retravaillée avec upload de justificatifs optionnel + badge « sans justificatif » visible pour le trésorier." },
-    { "title": "Refonte déclarations d'activité (trésorier)", "month": "2026-04", "status": "done", "body": "Onglet « Nouvelle déclaration » trésorier refondu : déclaration combinée heures + ICPA + frais sur une période en une seule saisie (au lieu de 3 formulaires séparés)." },
-    { "title": "Page Permissions → Admin Gestion", "month": "2026-04", "status": "done", "body": "Page Permissions sortie de Paramétrages vers /admin/permissions, accessible depuis Admin Gestion." },
-    { "title": "Workflow déclarations + notifications", "month": "2026-04", "status": "done", "body": "Conteneur unifié des déclarations, validation granulaire des éléments, cloche de notifications dans le hub adhérent." },
-    { "title": "Gestion des nouvelles inscriptions", "month": "2026-04", "status": "done", "body": "Rôle système « secrétaire », case « auto-inscription », card « Nouvelles inscriptions » dans Vie Associative pour valider les arrivants." },
-    { "title": "Mode Démo public", "month": "2026-04", "status": "done", "body": "Démo publique sur /demo, sandbox seed « CPTS Horizon Santé », 4 profils incarnés, auto-reset toutes les 30 minutes." },
-    { "title": "Statuts unifiés Trésorerie", "month": "2026-05", "status": "done", "body": "Nomenclature unifiée pour heures / frais / virements (valide → en cours de paiement → payé), bascule automatique entre statuts, garde-fous anti-oubli calés sur le rythme de paiement de chaque CPTS." },
-    { "title": "Vie Associative — modules", "month": "2026-05", "status": "done", "body": "Modules Documents fondateurs, Assemblées générales, Rubriques libres — préparation pour la démo du 5 mai." },
-    { "title": "Démo CPTS pilote (5 mai)", "month": "2026-05", "status": "done", "body": "20 min au bureau de la CPTS pilote : démo live + slides + one-pager distribué. Lancement de la phase pilote de 4 semaines en conditions réelles." },
-    { "title": "Site vitrine V1", "month": "2026-05", "status": "done", "body": "Homepage publique sur la racine du domaine, arc narratif en 9 sections + 2 moments interactifs (sélecteur de rôle, carrousel des circuits ACI ↔ Trésorerie)." }
+    {
+      "title": "Calendrier — modale création contextuelle",
+      "month": "2026-02",
+      "status": "done",
+      "body": "Modale intelligente à 3 modes qui adapte ses champs selon le type d'entrée : Réunion GT (classique), Évènement (premium), Information (deadline / rappel / info diverse)."
+    },
+    {
+      "title": "Deadlines auto + Émargement",
+      "month": "2026-02",
+      "status": "done",
+      "body": "Sync automatique des tâches Cockpit → entrées calendrier (couleur rouge, badge « Auto (Cockpit) »). Suivi présence en DB avec checkbox + PDF officiel d'émargement GT."
+    },
+    {
+      "title": "Refonte Paramétrages Elite",
+      "month": "2026-02",
+      "status": "done",
+      "body": "Page unique /admin/parametrages refondée à 4 onglets : Missions/Actions, Identité, Utilisateurs, paramètres avancés."
+    },
+    {
+      "title": "Optimisation Calendrier",
+      "month": "2026-02",
+      "status": "done",
+      "body": "Suppression des natures figées, catégories dynamiques en base, pièces jointes multiples sur les entrées, communication post-création (partage WhatsApp + email) extraite du formulaire."
+    },
+    {
+      "title": "Blueprint Meetings extrait",
+      "month": "2026-02",
+      "status": "done",
+      "body": "Extraction de la gestion des réunions dans un module Flask dédié : routes + api + sidebar + intégration FullCalendar."
+    },
+    {
+      "title": "Hub Projets — refonte",
+      "month": "2026-02",
+      "status": "done",
+      "body": "Transformation de Projets & Groupes en Hub collaboratif : 5 chantiers, onglets Vitrine / Documents / Agenda, assistant de création en 3 étapes, relations multi-membres."
+    },
+    {
+      "title": "Custom Roles RBAC",
+      "month": "2026-04",
+      "status": "done",
+      "body": "Rôles personnalisés avec permissions configurables par action et par module + matrice admin. 6 rôles hiérarchiques + rôles libres. Source de vérité unique pour toutes les permissions."
+    },
+    {
+      "title": "Lifecycle des déclarations",
+      "month": "2026-04",
+      "status": "done",
+      "body": "Dé-validation motivée des déclarations, upload de justificatifs autorisé à tout statut, audit trail des transitions (qui a dé-validé, quand, motif)."
+    },
+    {
+      "title": "PDF officielle d'émargement",
+      "month": "2026-04",
+      "status": "done",
+      "body": "PDF émargement officiel stocké sur disque, accessible depuis l'historique, l'onglet activité et les justificatifs. Une seule source de vérité de présence."
+    },
+    {
+      "title": "Modal Frais Groupe enrichie",
+      "month": "2026-04",
+      "status": "done",
+      "body": "Modale frais retravaillée avec upload de justificatifs optionnel + badge « sans justificatif » visible pour le trésorier."
+    },
+    {
+      "title": "Refonte déclarations d'activité (trésorier)",
+      "month": "2026-04",
+      "status": "done",
+      "body": "Onglet « Nouvelle déclaration » trésorier refondu : déclaration combinée heures + ICPA + frais sur une période en une seule saisie (au lieu de 3 formulaires séparés)."
+    },
+    {
+      "title": "Page Permissions → Admin Gestion",
+      "month": "2026-04",
+      "status": "done",
+      "body": "Page Permissions sortie de Paramétrages vers /admin/permissions, accessible depuis Admin Gestion."
+    },
+    {
+      "title": "Workflow déclarations + notifications",
+      "month": "2026-04",
+      "status": "done",
+      "body": "Conteneur unifié des déclarations, validation granulaire des éléments, cloche de notifications dans le hub adhérent."
+    },
+    {
+      "title": "Gestion des nouvelles inscriptions",
+      "month": "2026-04",
+      "status": "done",
+      "body": "Rôle système « secrétaire », case « auto-inscription », card « Nouvelles inscriptions » dans Vie Associative pour valider les arrivants."
+    },
+    {
+      "title": "Mode Démo public",
+      "month": "2026-04",
+      "status": "done",
+      "body": "Démo publique sur /demo, sandbox seed « CPTS Horizon Santé », 4 profils incarnés, auto-reset toutes les 30 minutes."
+    },
+    {
+      "title": "Statuts unifiés Trésorerie",
+      "month": "2026-05",
+      "status": "done",
+      "body": "Nomenclature unifiée pour heures / frais / virements (valide → en cours de paiement → payé), bascule automatique entre statuts, garde-fous anti-oubli calés sur le rythme de paiement de chaque CPTS."
+    },
+    {
+      "title": "Vie Associative — modules",
+      "month": "2026-05",
+      "status": "done",
+      "body": "Modules Documents fondateurs, Assemblées générales, Rubriques libres — préparation pour la démo du 5 mai."
+    },
+    {
+      "title": "Démo CPTS pilote (5 mai)",
+      "month": "2026-05",
+      "status": "done",
+      "body": "20 min au bureau de la CPTS pilote : démo live + slides + one-pager distribué. Lancement de la phase pilote de 4 semaines en conditions réelles."
+    },
+    {
+      "title": "Site vitrine V1",
+      "month": "2026-05",
+      "status": "done",
+      "body": "Homepage publique sur la racine du domaine, arc narratif en 9 sections + 2 moments interactifs (sélecteur de rôle, carrousel des circuits ACI ↔ Trésorerie)."
+    }
   ]
 }

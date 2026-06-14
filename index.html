@@ -6223,6 +6223,31 @@ document.addEventListener('visibilitychange', () => {
     }
   } catch(e) {}
 })();
+
+// Amorçage « rattrapage » du volet Dev : ajouté après le seed initial, donc vide
+// pour les cockpits déjà seedés. On le remplit UNE fois depuis strategy-seed.json,
+// sans toucher aux autres volets (non destructif), puis on pose un drapeau.
+(async () => {
+  if (state.devSeeded) return;
+  if (!state.strategiePillars) state.strategiePillars = {};
+  if (Array.isArray(state.strategiePillars.dev) && state.strategiePillars.dev.length) { state.devSeeded = true; save(); return; }
+  try {
+    const resp = await fetch('strategy-seed.json?t=' + Date.now());
+    if (!resp.ok) return;
+    const seed = await resp.json();
+    const dev = seed.encarts && Array.isArray(seed.encarts.dev) ? seed.encarts.dev : null;
+    if (dev && dev.length) {
+      state.strategiePillars.dev = dev.map(e => ({
+        id: uid(), name: e.name, text: e.text || '',
+        size: e.size === 'large' ? 'large' : 'normal',
+        group: (e.group || '').trim(), contributions: []
+      }));
+      state.devSeeded = true;
+      save();
+      if (currentView === 'strat-dev') render();
+    }
+  } catch(e) {}
+})();
 </script>
 </body>
 </html>
