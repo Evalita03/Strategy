@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-08T06:37:07.142Z",
+  "exportedAt": "2026-06-14T08:44:28.654Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -6531,6 +6531,72 @@
         "enTache": false,
         "enRoadmap": false,
         "etat": "active"
+      },
+      {
+        "id": "mq4vtfi6i5yl5",
+        "key": "confirmer le go-live (url live + cptspilot.fr) ou me dire ce qui le bloque",
+        "titre": "Confirmer le go-live (URL live + cptspilot.fr) OU me dire ce qui le bloque",
+        "type": "chantier",
+        "fromDate": "2026-06-08",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mq4vtfi6jl61q",
+        "key": "démo non isolée : le reset entre visiteurs est désactivé depuis le 06/06, donc un prospect peut tomber sur les saisies d",
+        "titre": "Démo non isolée : le reset entre visiteurs est désactivé depuis le 06/06, donc un prospect peut tomber sur les saisies du précédent. Reporté en juillet, mais la démo est ta vitrine de vente — à fiabiliser avant d'envoyer le lien à un prospect (le verrou exclusif limite, sans supprimer, le risque).",
+        "type": "anticiper",
+        "fromDate": "2026-06-08",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mq4vtfi67lp68",
+        "key": "capitaliser le fléchage (ta tâche 'todo') : la spec a posteriori et l'entrée roadmap manquent toujours — sans elles, imp",
+        "titre": "Capitaliser le fléchage (ta tâche 'todo') : la spec a posteriori et l'entrée roadmap manquent toujours — sans elles, impossible de dire que c'est fini ni de le revendre, alors que ça pèse beaucoup de commits.",
+        "type": "anticiper",
+        "fromDate": "2026-06-08",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mq4vtfi6yirw5",
+        "key": "cap-01 'made in france' promu en stratégie : argument fort, mais à faire valider par le dpo (localisation réelle des don",
+        "titre": "CAP-01 'Made in France' promu en stratégie : argument fort, mais à faire valider par le DPO (localisation réelle des données Scalingo) avant d'en faire une promesse publique sur la vitrine.",
+        "type": "anticiper",
+        "fromDate": "2026-06-08",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mq4vtfi6lkb7b",
+        "key": "session_status.md toujours figé au 16/02 (presque 4 mois) : à rafraîchir avant d'attaquer le multi-cpts pour ne pas repa",
+        "titre": "SESSION_STATUS.md toujours figé au 16/02 (presque 4 mois) : à rafraîchir avant d'attaquer le multi-CPTS pour ne pas repartir d'une fausse photo.",
+        "type": "anticiper",
+        "fromDate": "2026-06-08",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mq4vtfi6irbyz",
+        "key": "multi-cpts (roadmap planned juillet, 'mise en service d'une nouvelle cpts cliente') : archi prête mais non activée — à c",
+        "titre": "Multi-CPTS (roadmap planned juillet, 'Mise en service d'une nouvelle CPTS cliente') : archi prête mais non activée — à cadrer seulement quand une 2e CPTS se profile.",
+        "type": "anticiper",
+        "fromDate": "2026-06-08",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
       }
     ],
     "agentChats": {
@@ -6596,7 +6662,7 @@
     },
     "lastSeenReport": {
       "orion": "2026-06-06",
-      "chef-produit": "2026-06-06"
+      "chef-produit": "2026-06-08"
     },
     "handledPropositions": {},
     "decisions": [],
