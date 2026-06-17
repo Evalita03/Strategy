@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-17T15:25:32.638Z",
+  "exportedAt": "2026-06-17T15:31:52.690Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -6808,83 +6808,6 @@
         "titre": "Multi-CPTS (roadmap planned juillet, 'Mise en service d'une nouvelle CPTS cliente') : archi prête mais non activée — à cadrer seulement quand une 2e CPTS se profile.",
         "type": "anticiper",
         "fromDate": "2026-06-08",
-        "agent": "chef-produit",
-        "enTache": false,
-        "enRoadmap": false,
-        "etat": "active"
-      },
-      {
-        "id": "mqi839zxjbpfv",
-        "key": "rendre la démo publique envoyable sans accompagnement (reset entre visiteurs + domaine cohérent)",
-        "titre": "Rendre la démo publique envoyable sans accompagnement (reset entre visiteurs + domaine cohérent)",
-        "type": "chantier",
-        "fromDate": "2026-06-17",
-        "agent": "chef-produit",
-        "enTache": false,
-        "enRoadmap": false,
-        "etat": "active"
-      },
-      {
-        "id": "mqi839zxa4ym1",
-        "key": "reset démo (roadmap planned 'démo : remise à zéro entre chaque visiteur') : il avait calé sur des fk/500 le 06/06 — à re",
-        "titre": "Reset démo (roadmap planned 'Démo : remise à zéro entre chaque visiteur') : il avait calé sur des FK/500 le 06/06 — à reprendre proprement (vider dans le bon ordre de dépendances, ou recharger un dump de seed démo) avant d'envoyer le lien à un prospect.",
-        "type": "anticiper",
-        "fromDate": "2026-06-17",
-        "agent": "chef-produit",
-        "enTache": false,
-        "enRoadmap": false,
-        "etat": "active"
-      },
-      {
-        "id": "mqi839zx4bkf7",
-        "key": "incohérence de domaine cptspilot.fr vs cpts-pilot.fr : corriger l'url json-ld de home.html et les mailto contact@ — sino",
-        "titre": "Incohérence de domaine cptspilot.fr vs cpts-pilot.fr : corriger l'URL JSON-LD de home.html et les mailto contact@ — sinon Google indexe le mauvais domaine et l'email de contact peut ne pas exister.",
-        "type": "anticiper",
-        "fromDate": "2026-06-17",
-        "agent": "chef-produit",
-        "enTache": false,
-        "enRoadmap": false,
-        "etat": "active"
-      },
-      {
-        "id": "mqi839zx6hvo5",
-        "key": "sauvegardes db prod + secrets prod (variables d'env scalingo, clés s3 ovh) + https sur cpts-pilot.fr : à confirmer avec ",
-        "titre": "Sauvegardes DB prod + secrets prod (variables d'env Scalingo, clés S3 OVH) + HTTPS sur cpts-pilot.fr : à confirmer avec l'Audit avant d'accueillir les données d'une vraie CPTS.",
-        "type": "anticiper",
-        "fromDate": "2026-06-17",
-        "agent": "chef-produit",
-        "enTache": false,
-        "enRoadmap": false,
-        "etat": "active"
-      },
-      {
-        "id": "mqi839zxhjv99",
-        "key": "switcher de vue par rôle 'transversal' (roadmap planned) : le switcher livré est démo-only (session is_demo) ; décider s",
-        "titre": "Switcher de vue par rôle 'transversal' (roadmap planned) : le switcher livré est démo-only (session is_demo) ; décider si tu veux l'étendre aux vrais utilisateurs ou garder l'item démo-only et reformuler la ligne roadmap.",
-        "type": "anticiper",
-        "fromDate": "2026-06-17",
-        "agent": "chef-produit",
-        "enTache": false,
-        "enRoadmap": false,
-        "etat": "active"
-      },
-      {
-        "id": "mqi839zxfr455",
-        "key": "session_status.md toujours figé au 16/02 (4 mois) : à rafraîchir avant le multi-cpts pour ne pas repartir d'une fausse p",
-        "titre": "SESSION_STATUS.md toujours figé au 16/02 (4 mois) : à rafraîchir avant le multi-CPTS pour ne pas repartir d'une fausse photo.",
-        "type": "anticiper",
-        "fromDate": "2026-06-17",
-        "agent": "chef-produit",
-        "enTache": false,
-        "enRoadmap": false,
-        "etat": "active"
-      },
-      {
-        "id": "mqi839zxi07zn",
-        "key": "multi-cpts (roadmap planned) : archi prête mais non activée — à cadrer quand une 2e cpts se profile ; une instance = une",
-        "titre": "Multi-CPTS (roadmap planned) : archi prête mais non activée — à cadrer quand une 2e CPTS se profile ; une instance = une CPTS suffit pour le premier client.",
-        "type": "anticiper",
-        "fromDate": "2026-06-17",
         "agent": "chef-produit",
         "enTache": false,
         "enRoadmap": false,
