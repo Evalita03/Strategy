@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-17T17:10:22.832Z",
+  "exportedAt": "2026-06-17T17:12:14.908Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -5900,13 +5900,6 @@
         "body": "Page d'accueil publique qui présente CPTS Pilot et sert de porte d'entrée commerciale, distincte de l'espace de test. Récit en plusieurs temps, aperçu des vues par rôle et des circuits, avec un accès direct à la démo."
       },
       {
-        "id": "mqi3o25l1fhz0",
-        "title": "Historique personnel des indemnisations",
-        "month": "2026-06",
-        "status": "done",
-        "body": "Chaque membre retrouve dans son espace tout l'historique de ses heures, frais et virements, avec recherche, filtres par période (mois, trimestre, année) et téléchargement en tableur ou PDF, pièces justificatives comprises."
-      },
-      {
         "id": "mqi3o25lxx9lu",
         "title": "Mise en service d'une nouvelle CPTS cliente",
         "month": "2026-07",
@@ -5989,6 +5982,13 @@
         "month": "2026-08",
         "status": "planned",
         "body": "Le mode vue-par-rôle n'est aujourd'hui pas pleinement respecté pour le secrétariat. Cible : donner au secrétaire un point d'entrée dédié et facilité, sur le modèle de l'onglet Trésorerie. Prolonge l'axe stratégique 'Un outil par rôle' (strategy.json) et rejoint PRD-09 (switcher de vue par rôle)."
+      },
+      {
+        "id": "mqi3o25l1fhz0",
+        "title": "Historique personnel des indemnisations",
+        "month": "2026-06",
+        "status": "done",
+        "body": "Chaque membre retrouve dans son espace tout l'historique de ses heures, frais et virements, avec recherche, filtres par période (mois, trimestre, année) et téléchargement en tableur ou PDF, pièces justificatives comprises."
       },
       {
         "id": "mqi3o25l4smwo",
