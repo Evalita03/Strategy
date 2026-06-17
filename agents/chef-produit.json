@@ -258,6 +258,86 @@
         "Historique personnel des indemnisations"
       ],
       "note": "Vraie nouvelle de cette ronde : ton cockpit est à jour, la roadmap est propre et tu as livré l'historique des indemnisations — beau travail. Mais je te le dis franchement : tu construis 'autour' du go-live depuis trois rondes. Ce n'est plus du produit, c'est de l'exploitation, et c'est le seul mur entre toi et l'envoi d'un lien à une CPTS. Prochaine action unique : ouvre l'URL de ta vitrine et dis-moi si elle répond — si oui on clôt le sujet, si non on déboge ensemble. Et n'oublie pas : la démo ne se nettoie plus entre visiteurs depuis le 06/06, à remettre d'aplomb avant de la montrer à un prospect."
+    },
+    {
+      "updated_at": "2026-06-17",
+      "trigger": "ronde auto",
+      "etat": "Grosse bascule depuis le 08/06, et une excellente nouvelle : le go-live que je pointais depuis 4 rondes est passé. Le code prouve la migration exécutée — app.py renvoie une page de déménagement vers https://www.cpts-pilot.fr pour tout visiteur de l'ancienne URL Railway (before_request, host railway.app), storage.py embarque un backend S3 OVH Paris (s3.eu-west-par.io.cloud.ovh.net, boto3 en requirements) et config.py lit SCALINGO_POSTGRESQL_URL. Je ne peux pas pinger l'URL d'ici, mais on n'écrit pas une page de migration Railway→Scalingo sans avoir déménagé : la plateforme vit désormais sur Scalingo (France), domaine cpts-pilot.fr, pièces jointes sur S3 OVH. Deux autres livraisons réelles le 14/06 : le switcher démo « Vu comme » (demo/routes.py voir_comme + templates/hub/_switcher_demo.html, masque la sidebar selon le rôle vu) — exactement ce que je réclamais depuis 4 rondes ; et le bandeau d'accueil personnalisé par rôle (routes/tresorerie/helpers_accueil.py get_hero_pills + _hero_pills_president, testé tests/test_hero_pills.py). Plus une refonte des annonces (déplacées dans la Vie associative en bandeau+modale, onglet sidebar et ancienne UI admin supprimés, XSS </script> échappée). Cockpit frais (export 17/06 13:21) et roadmap synchronisée. Bémol vérifié : incohérence de domaine — app.py pointe cpts-pilot.fr (avec tiret) mais le JSON-LD de la vitrine (home.html) et les emails contact (_tarifs, _migration_drawer) disent cptspilot.fr (sans tiret).",
+      "evolution": "Le verrou go-live (4 rondes) est levé côté code — migration Railway→Scalingo + domaine cpts-pilot.fr + stockage S3 OVH tous sur main — et deux demandes que je portais (switcher démo « Vu comme » + bandeau d'accueil par rôle) sont livrées et testées ; reste un reset démo toujours désactivé et une incohérence de domaine à corriger.",
+      "prochain_chantier": {
+        "titre": "Rendre la démo publique envoyable sans accompagnement (reset entre visiteurs + domaine cohérent)",
+        "pourquoi": "Maintenant que la plateforme est en ligne et que le switcher « Vu comme » fait tout le sel de la démo (5 rôles en un écran), la démo devient ton premier argument de vente atteignable par lien. Deux trous l'empêchent d'être envoyée à un prospect sans toi : la remise à zéro entre visiteurs est désactivée depuis le 06/06 (un prospect peut voir les saisies du précédent), et le domaine est incohérent (le JSON-LD et le contact pointent cptspilot.fr sans tiret alors que le site officiel est cpts-pilot.fr — SEO faussé, email contact peut-être mort). Les deux se règlent vite et transforment 'je te fais visiter' en 'va voir sur cpts-pilot.fr/demo'. C'est le dernier pas produit avant de pouvoir prospecter une 1re CPTS."
+      },
+      "a_anticiper": [
+        "Reset démo (roadmap planned 'Démo : remise à zéro entre chaque visiteur') : il avait calé sur des FK/500 le 06/06 — à reprendre proprement (vider dans le bon ordre de dépendances, ou recharger un dump de seed démo) avant d'envoyer le lien à un prospect.",
+        "Incohérence de domaine cptspilot.fr vs cpts-pilot.fr : corriger l'URL JSON-LD de home.html et les mailto contact@ — sinon Google indexe le mauvais domaine et l'email de contact peut ne pas exister.",
+        "Sauvegardes DB prod + secrets prod (variables d'env Scalingo, clés S3 OVH) + HTTPS sur cpts-pilot.fr : à confirmer avec l'Audit avant d'accueillir les données d'une vraie CPTS.",
+        "Switcher de vue par rôle 'transversal' (roadmap planned) : le switcher livré est démo-only (session is_demo) ; décider si tu veux l'étendre aux vrais utilisateurs ou garder l'item démo-only et reformuler la ligne roadmap.",
+        "SESSION_STATUS.md toujours figé au 16/02 (4 mois) : à rafraîchir avant le multi-CPTS pour ne pas repartir d'une fausse photo.",
+        "Multi-CPTS (roadmap planned) : archi prête mais non activée — à cadrer quand une 2e CPTS se profile ; une instance = une CPTS suffit pour le premier client."
+      ],
+      "cap_commercial": {
+        "pret_a_vendre": "Net bond en avant : produit en ligne (Scalingo France, S3 OVH), démo enrichie d'un switcher 5 rôles. Verdict : prêt à montrer via URL live ; à un cheveu de 'prêt à envoyer le lien seul' — il manque le reset démo et la cohérence de domaine.",
+        "demo_ready": [
+          "Trésorerie complète avec fléchage ACI / fonctionnement (override + rollback, testé E2E)",
+          "Cockpit 'Mon Espace' adaptatif + bandeau d'accueil à pastilles par rôle (président, trésorier, coordination, secrétaire, membre)",
+          "Switcher démo « Vu comme » : montre les 5 vues d'un coup, sidebar masquée par rôle",
+          "Validation des déclarations : refus motivé, relances, archivage auto",
+          "Vie associative (annonces intégrées) + mode démo public",
+          "Historique personnel des indemnisations (filtres période + exports CSV/Excel/PDF/ZIP)",
+          "Vitrine de vente assemblée + plateforme en ligne (cpts-pilot.fr, Scalingo France)"
+        ],
+        "bloqueurs_vente": [
+          "Démo non isolée entre visiteurs (reset désactivé depuis le 06/06) : un prospect peut voir les données du précédent — tache devant un acheteur",
+          "Incohérence de domaine : JSON-LD + emails pointent cptspilot.fr alors que le site officiel est cpts-pilot.fr (SEO faussé, contact possiblement injoignable)",
+          "Sauvegardes DB prod + secrets/HTTPS non confirmés : pas de données d'une vraie CPTS sans filet de restauration vérifié"
+        ],
+        "chemin_critique": [
+          "Vérifier que www.cpts-pilot.fr répond (vitrine + app + /demo)",
+          "Corriger l'incohérence de domaine (cptspilot.fr -> cpts-pilot.fr dans home.html et les mailto)",
+          "Réactiver et fiabiliser le reset démo entre visiteurs",
+          "Boucler sauvegardes DB prod + secrets + HTTPS (avec Audit + DPO)",
+          "Envoyer le lien à une 1re CPTS pilote -> recueillir un engagement de test"
+        ]
+      },
+      "propositions_roadmap": [
+        {
+          "action": "décaler",
+          "titre": "Démo : remise à zéro entre chaque visiteur",
+          "pourquoi": "À remonter en priorité maintenant que la démo est en ligne et centrale (switcher « Vu comme ») : c'est le dernier trou avant de pouvoir envoyer le lien sans accompagnement."
+        },
+        {
+          "action": "ajouter",
+          "titre": "Corriger l'incohérence de domaine (cptspilot.fr -> cpts-pilot.fr)",
+          "pourquoi": "Le site officiel est cpts-pilot.fr mais le JSON-LD de la vitrine et les emails contact disent cptspilot.fr : SEO faussé et email de contact peut-être inexistant — petit fix, gros risque d'image."
+        },
+        {
+          "action": "clore",
+          "titre": "Switcher de vue par role (transversal)",
+          "pourquoi": "Le switcher « Vu comme » est livré en démo (demo/routes.py + _switcher_demo.html) ; si tu ne veux pas l'étendre aux vrais utilisateurs, cet item peut être clos/reformulé en 'démo-only fait'."
+        }
+      ],
+      "relais": [
+        {
+          "agent": "Iris (Audit)",
+          "sujet": "Plateforme désormais en ligne (Scalingo France + S3 OVH Paris + domaine cpts-pilot.fr) : confirmer secrets/variables d'env prod, clés S3, HTTPS, et surtout sauvegardes/restauration de la base PostgreSQL avant d'accueillir une vraie CPTS."
+        },
+        {
+          "agent": "Cléo (DPO)",
+          "sujet": "L'hébergement France est maintenant réel (Scalingo Paris/Outscale + S3 OVH Paris) : valider la localisation des données, le registre des traitements et la mention 'Made in France' (CAP-01) avant toute donnée d'une CPTS réelle et toute promesse publique."
+        },
+        {
+          "agent": "Carla (Business)",
+          "sujet": "Le produit est en ligne et démo-ready avec switcher 5 rôles : dès le reset démo et la cohérence domaine réglés, viser une 1re CPTS pilote prête à signer un engagement de test — préparer l'approche dès maintenant."
+        }
+      ],
+      "faits": [
+        "Bandeau d'accueil personnalisé par rôle",
+        "Annonces déplacées dans la Vie associative (bandeau + modale)",
+        "Switcher démo « Vu comme » (voir en tant que rôle)",
+        "Migration Railway -> Scalingo + domaine cpts-pilot.fr + stockage S3 OVH"
+      ],
+      "note": "Grosse ronde, et surtout une vraie libération : le go-live est fait. Je te l'avais répété 4 fois — cette fois le code le prouve (migration vers cpts-pilot.fr, S3 OVH, Scalingo). Et tu as livré au passage le switcher « Vu comme » et le bandeau par rôle que je te poussais à faire. Bravo, tu es passée de 'je te montre' à 'va voir'. Il ne reste que deux finitions produit avant d'envoyer le lien à une CPTS sans rougir : la démo qui se remet à zéro entre visiteurs (cassée depuis le 06/06) et le domaine à harmoniser (cpts-pilot.fr partout, pas cptspilot.fr). Prochaine action unique : règle ces deux points sur la démo, puis on passe le relais à Carla pour aller chercher la 1re CPTS."
     }
   ]
 }
