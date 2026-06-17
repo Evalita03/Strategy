@@ -804,10 +804,6 @@ body {
 .rm-stat { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; color: var(--slate-600); }
 .rm-stat-dot { width: 9px; height: 9px; border-radius: 50%; flex: 0 0 auto; }
 .rm-stat b { color: var(--slate-900); font-weight: 700; }
-.rm-progress-wrap { flex: 1 1 200px; min-width: 150px; display: flex; align-items: center; gap: 10px; }
-.rm-progress { flex: 1; height: 9px; background: var(--slate-100); border-radius: 99px; overflow: hidden; }
-.rm-progress-bar { height: 100%; background: linear-gradient(90deg, var(--teal-600), var(--blue-500)); border-radius: 99px; transition: width .5s ease; }
-.rm-progress-pct { font-size: 12px; font-weight: 700; color: var(--slate-500); min-width: 34px; text-align: right; }
 /* Fil vertical + mois */
 .rm-timeline { position: relative; }
 /* Bouton « voir les mois précédents » — assis sur le fil, au-dessus du mois courant */
@@ -826,7 +822,7 @@ body {
 .rm-month.is-future::before { background: repeating-linear-gradient(var(--slate-200) 0 4px, transparent 4px 8px); }
 .rm-month:last-child::before { display: none; }
 .rm-month-node { position: absolute; left: 56px; top: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--white); border: 3px solid var(--slate-300); z-index: 2; box-sizing: border-box; }
-.rm-month.is-past .rm-month-node { border-color: var(--teal-600); background: var(--teal-600); }
+.rm-month.is-past .rm-month-node { border-color: var(--slate-300); background: var(--slate-300); }
 .rm-month.is-current .rm-month-node { border-color: var(--blue-500); background: var(--blue-500); box-shadow: 0 0 0 4px var(--blue-50); }
 .rm-month-label { position: absolute; left: 0; top: 0; width: 48px; text-align: right; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--slate-500); line-height: 1.25; }
 .rm-month.is-current .rm-month-label { color: var(--blue-700); }
@@ -839,15 +835,16 @@ body {
   display: flex; align-items: center; gap: 11px;
 }
 .rm-card:hover { box-shadow: 0 6px 16px rgba(15,23,42,0.09); transform: translateY(-1px); border-left-width: 4px; }
-.rm-card.is-done { border-left-color: var(--teal-600); background: var(--teal-100); }
+/* Réalisé/validé (par Magnus) → mis en sourdine ; à venir → couleur franche pour ne pas l'oublier */
+.rm-card.is-done { border-left-color: var(--slate-300); background: var(--slate-50); opacity: 0.72; }
 .rm-card.is-doing { border-left-color: var(--blue-500); background: var(--blue-50); }
-.rm-card.is-planned { border-left-color: var(--slate-300); border-style: dashed; }
+.rm-card.is-planned { border-left-color: var(--orange-600); background: var(--orange-100); }
 .rm-card-icon { flex: 0 0 auto; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
-.rm-card.is-done .rm-card-icon { background: var(--teal-600); color: var(--white); }
+.rm-card.is-done .rm-card-icon { background: var(--slate-300); color: var(--white); }
 .rm-card.is-doing .rm-card-icon { background: var(--blue-500); color: var(--white); }
-.rm-card.is-planned .rm-card-icon { background: var(--slate-100); color: var(--slate-400); border: 1.5px dashed var(--slate-300); }
+.rm-card.is-planned .rm-card-icon { background: var(--orange-600); color: var(--white); }
 .rm-card-title { flex: 1; font-size: 13.5px; line-height: 1.35; color: var(--slate-700); font-weight: 600; }
-.rm-card.is-planned .rm-card-title { color: var(--slate-500); font-weight: 500; }
+.rm-card.is-done .rm-card-title { color: var(--slate-500); font-weight: 500; }
 .rm-card-chevron { flex: 0 0 auto; color: var(--slate-300); font-size: 16px; }
 .rm-card:hover .rm-card-chevron { color: var(--blue-500); }
 .rm-section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--slate-400); font-weight: 700; margin: 10px 0 12px; }
@@ -855,9 +852,9 @@ body {
 .roadmap-empty { padding: 60px 24px; text-align: center; color: var(--slate-400); font-size: 13px; line-height: 1.6; }
 .rm-detail-head { display: flex; align-items: center; gap: 12px; }
 .rm-detail-status { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 4px 10px; border-radius: 20px; }
-.rm-detail-status.is-done { background: var(--teal-100); color: var(--teal-700); }
+.rm-detail-status.is-done { background: var(--slate-100); color: var(--slate-600); }
 .rm-detail-status.is-doing { background: var(--blue-50); color: var(--blue-700); }
-.rm-detail-status.is-planned { background: var(--slate-100); color: var(--slate-600); }
+.rm-detail-status.is-planned { background: var(--orange-100); color: var(--orange-600); }
 .rm-detail-month { font-size: 12px; color: var(--slate-500); font-weight: 600; letter-spacing: 0.02em; }
 .rm-detail-body { font-size: 14px; color: var(--slate-700); line-height: 1.65; white-space: pre-wrap; margin: 12px 0 22px; padding: 14px 16px; background: var(--slate-50); border-left: 3px solid var(--blue-500); border-radius: 4px; }
 .rm-detail-empty { font-size: 13px; color: var(--slate-400); font-style: italic; margin: 12px 0 22px; padding: 14px 16px; background: var(--slate-50); border: 1px dashed var(--slate-200); border-radius: 8px; text-align: center; }
@@ -937,6 +934,11 @@ body {
 .mm-panel-acts { display: flex; flex-direction: column; gap: 8px; padding: 14px 20px 18px; border-top: 1px solid var(--slate-100); }
 .mm-panel-acts .row { display: flex; gap: 8px; }
 .mm-panel-acts .btn { flex: 1; justify-content: center; }
+.mm-panel-mat { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 2px 0 14px; }
+.mm-panel-mat .lbl { width: 100%; font-size: 11px; color: var(--slate-400); margin-bottom: 3px; }
+.mm-mat-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--slate-600); background: var(--slate-100); border: 1px solid transparent; border-radius: 20px; padding: 5px 11px; cursor: pointer; transition: all .15s; }
+.mm-mat-btn:hover { border-color: var(--slate-300); }
+.mm-mat-btn.active { background: #fff; color: var(--c); border-color: var(--c); box-shadow: 0 0 0 1px var(--c); }
 
 /* Prospects table */
 table { width: 100%; border-collapse: collapse; background: var(--white); border-radius: 12px; overflow: hidden; border: 1px solid var(--slate-200); }
@@ -3181,6 +3183,9 @@ function mmPanelHtml() {
       <button class="mm-panel-close" onclick="mmClosePanel()" title="Fermer">×</button></div>
     <div class="mm-panel-body">
       <div class="mm-panel-meta">${meta.join('')}</div>
+      <div class="mm-panel-mat"><span class="lbl">Maturité — où en est cette idée ?</span>
+        ${MM_MATURITY.map(mt => `<button class="mm-mat-btn ${(i.nature||'')===mt.key?'active':''}" style="--c:${mt.color}" onclick="setIdeeMaturity('${esc(i.id)}','${mt.key}')"><span class="mm-mat-dot" style="background:${mt.color}"></span>${mt.short}</button>`).join('')}
+      </div>
       ${flags.length ? `<div class="mm-panel-meta">${flags.map(f => `<span class="mm-chip link">${esc(f)}</span>`).join('')}</div>` : ''}
       ${i.citation ? `<p class="mm-panel-cit">« ${esc(i.citation)} »</p>` : ''}
       ${i.note ? `<p class="mm-panel-note">${esc(i.note)}</p>` : ''}
@@ -3910,10 +3915,15 @@ function ideaDomaine(i) {
 }
 // Maturité : ce qui doit être tranché / acté / exploré (pour le coup d'œil + filtre)
 const MM_MATURITY = [
-  { key: 'decision', label: 'à trancher',     color: '#DC2626' },
-  { key: 'cap-mur',  label: 'mûres (à acter)', color: '#0D9488' },
-  { key: 'etincelle',label: 'en exploration',  color: '#D97706' }
+  { key: 'decision', label: 'à trancher',     short: 'À trancher',  color: '#DC2626' },
+  { key: 'cap-mur',  label: 'mûres (à acter)', short: 'Mûre',        color: '#0D9488' },
+  { key: 'etincelle',label: 'en exploration',  short: 'Exploration', color: '#D97706' }
 ];
+// Change la maturité (nature) d'une idée directement depuis le panneau
+function setIdeeMaturity(id, nature) {
+  if (ideesBusy) return;
+  mutateIdees(p => { const x = (p.idees||[]).find(y => y.id === id); if (!x) return false; if (x.nature === nature) return false; x.nature = nature; delete x.flash; }, 'Maturité ' + id + ' → ' + nature);
+}
 
 function setIdeaGroupBy(v) { ideaGroupBy = v; mmSim = null; mmNeedsFit = true; render(); }
 function toggleMmArchived() { mmShowArchived = !mmShowArchived; mmSim = null; mmNeedsFit = true; render(); }
@@ -5555,8 +5565,8 @@ function renderPlaceholder(content, actions, key) {
 }
 
 // ============ VUE ROADMAP (frise chronologique) ============
-const roadmapStatusLabel = { done: 'Livré', doing: 'En cours', planned: 'À venir' };
-const roadmapStatusDot = { done: 'var(--teal-600)', doing: 'var(--blue-500)', planned: 'var(--slate-400)' };
+const roadmapStatusLabel = { done: 'Validé', doing: 'En cours', planned: 'À faire' };
+const roadmapStatusDot = { done: 'var(--slate-400)', doing: 'var(--blue-500)', planned: 'var(--orange-600)' };
 // Roadmap : par défaut on masque les mois passés (focus mois courant + à venir), dépliables à la demande
 let rmShowPast = false;
 function toggleRoadmapPast() { rmShowPast = !rmShowPast; render(); }
@@ -5601,7 +5611,6 @@ function renderRoadmap(content, actions) {
   const nDone = items.filter(i => (i.status || 'planned') === 'done').length;
   const nDoing = items.filter(i => i.status === 'doing').length;
   const nPlanned = total - nDone - nDoing;
-  const pct = total ? Math.round((nDone / total) * 100) : 0;
   const icon = { done: '✓', doing: '▸', planned: '◯' };
 
   // Carte d'un jalon (réutilisée dans les mois et dans « À planifier »)
@@ -5617,13 +5626,9 @@ function renderRoadmap(content, actions) {
   let html = `<div class="panel"><div class="rm-wrap">
     <div class="rm-summary">
       <div class="rm-stats">
-        <span class="rm-stat"><span class="rm-stat-dot" style="background:var(--teal-600)"></span><b>${nDone}</b>&nbsp;livré${nDone > 1 ? 's' : ''}</span>
+        <span class="rm-stat"><span class="rm-stat-dot" style="background:var(--orange-600)"></span><b>${nPlanned}</b>&nbsp;à faire</span>
         <span class="rm-stat"><span class="rm-stat-dot" style="background:var(--blue-500)"></span><b>${nDoing}</b>&nbsp;en cours</span>
-        <span class="rm-stat"><span class="rm-stat-dot" style="background:var(--slate-400)"></span><b>${nPlanned}</b>&nbsp;à venir</span>
-      </div>
-      <div class="rm-progress-wrap">
-        <div class="rm-progress"><div class="rm-progress-bar" style="width:${pct}%"></div></div>
-        <span class="rm-progress-pct">${pct}%</span>
+        <span class="rm-stat"><span class="rm-stat-dot" style="background:var(--slate-400)"></span><b>${nDone}</b>&nbsp;validé${nDone > 1 ? 's' : ''}</span>
       </div>
     </div>
     <div class="rm-timeline">`;
@@ -5698,9 +5703,9 @@ function openRoadmapItemModal(id) {
     <div class="field"><label>Titre</label><input id="rm-title" value="${item?esc(item.title):''}" placeholder="Ex: Signature 1re CPTS"></div>
     <div class="field"><label>Mois</label><input id="rm-month" type="month" value="${item?item.month:today}"></div>
     <div class="field"><label>Statut</label><select id="rm-status">
-      <option value="planned" ${(item?.status||'planned')==='planned'?'selected':''}>◯ À venir</option>
+      <option value="planned" ${(item?.status||'planned')==='planned'?'selected':''}>◯ À faire</option>
       <option value="doing" ${item?.status==='doing'?'selected':''}>▸ En cours</option>
-      <option value="done" ${item?.status==='done'?'selected':''}>✓ Livré</option>
+      <option value="done" ${item?.status==='done'?'selected':''}>✓ Validé</option>
     </select></div>
     <div class="field"><label>Détails (optionnel)</label><textarea id="rm-body" style="min-height:80px" placeholder="Précisions sur ce jalon…">${item?esc(item.body||''):''}</textarea></div>
     <div class="modal-actions">
