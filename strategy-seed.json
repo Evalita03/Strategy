@@ -262,6 +262,74 @@
         "size": "normal",
         "text": "Un mode démo public avec données fictives seedées, pour montrer la plateforme sans jamais exposer de vraies données. (Remise à zéro entre visiteurs en chantier.)"
       }
+    ],
+    "marque": [
+      {
+        "name": "Notre charte en une règle",
+        "size": "large",
+        "group": "Identité visuelle",
+        "text": "« Sobre par défaut, riche seulement là où ça compte. »\n\nRègle 95/5 : un cobalt unique en accent, de l'encre, de la crème — pas de gradients criards, pas d'arc-en-ciel. La communication parle exactement la même langue visuelle que le produit : site, supports et appli sont indissociables. La sobriété n'est pas un manque, c'est la signature."
+      },
+      {
+        "name": "Le mark : une table de mixage",
+        "size": "normal",
+        "group": "Identité visuelle",
+        "text": "Le logo est un mixer — quatre curseurs, un handle cobalt : piloter, lire, ajuster. Il dit sans mot ce que fait le produit. Décliné partout à l'identique : favicon, en-tête du site, signature mail, réseaux."
+      },
+      {
+        "name": "Le wordmark",
+        "size": "normal",
+        "group": "Identité visuelle",
+        "text": "« CPTS Pilot » : **Pilot** en poids fort, encre noire ; **CPTS** posé en gris léger, comme un cadre. La marque, c'est l'acte de piloter. Une seule écriture, aucune variante fantaisie."
+      },
+      {
+        "name": "Palette & typo",
+        "size": "normal",
+        "group": "Identité visuelle",
+        "text": "Cobalt en accent unique, encre (gris très foncé) pour le texte, crème/blanc cassé pour les fonds, une touche de teal pour le positif. Typo Manrope, comme dans l'appli. Tout support reprend ces mêmes tokens — zéro improvisation."
+      },
+      {
+        "name": "Ce que le site vitrine doit faire",
+        "size": "large",
+        "group": "Site vitrine",
+        "text": "En 30 secondes, une coordinatrice CPTS doit comprendre trois choses : c'est fait pour elle, c'est sobre et sérieux, et elle peut essayer sans risque. Objectif unique de la page : déclencher une demande de pilote / démo. Ce n'est pas une plaquette exhaustive, c'est une porte d'entrée."
+      },
+      {
+        "name": "Présentation rotative des modules",
+        "size": "normal",
+        "group": "Site vitrine",
+        "text": "Un carrousel circulaire fait défiler les modules (trésorerie, coordination ACI, projets, réunions, membres…) pour montrer l'étendue sans noyer le visiteur. Chaque module = une tuile claire + un bénéfice en une phrase. (idée issue du vivier — à concrétiser)"
+      },
+      {
+        "name": "La démo sans risque",
+        "size": "normal",
+        "group": "Site vitrine",
+        "text": "Mettre en avant un accès démo sur données fictives : « essayez sans engagement ». C'est le prolongement direct de l'argument rassurance de la Prise de marché — on lève le frein avant qu'il ne se pose."
+      },
+      {
+        "name": "Structure de la page",
+        "size": "normal",
+        "group": "Site vitrine",
+        "text": "Hero (pour qui + la promesse) → preuve (la différenciation : ACI ↔ trésorerie calculée, pas saisie) → les modules (rotatif) → rassurance (sécurité, hébergement souverain) → tarif / pilote → appel à l'action clair. Un seul fil, une seule action attendue."
+      },
+      {
+        "name": "Où on se montre",
+        "size": "large",
+        "group": "Contenus & présence en ligne",
+        "text": "Présence ciblée, pas partout. Là où sont vraiment les coordinateurs CPTS et les institutionnels (LinkedIn, réseaux CPTS/ARS, bouche-à-oreille des pilotes). Qualité avant quantité — la même exigence que la charte : peu, mais juste."
+      },
+      {
+        "name": "La voix",
+        "size": "normal",
+        "group": "Contenus & présence en ligne",
+        "text": "La fondatrice parle d'égale à égales, depuis le terrain — pas un pitch corporate. Ton sobre, concret, preuves chiffrées plutôt que superlatifs. Le mantra interne guide chaque contenu : « je suis l'experte ici, j'apporte une solution à mes pairs »."
+      },
+      {
+        "name": "Webmarketing & SEO",
+        "size": "normal",
+        "group": "Contenus & présence en ligne",
+        "text": "Se rendre trouvable sur les mots du métier (CPTS, ACI, coordination, trésorerie CPTS) avec du contenu utile (repères ACI, modèles) plutôt que de la pub. On mesure ce qui amène des demandes de pilote, pas les vues."
+      }
     ]
   },
   "roadmap": [
