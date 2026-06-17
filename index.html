@@ -835,16 +835,19 @@ body {
   display: flex; align-items: center; gap: 11px;
 }
 .rm-card:hover { box-shadow: 0 6px 16px rgba(15,23,42,0.09); transform: translateY(-1px); border-left-width: 4px; }
-/* Réalisé/validé (par Magnus) → mis en sourdine ; à venir → couleur franche pour ne pas l'oublier */
-.rm-card.is-done { border-left-color: var(--slate-300); background: var(--slate-50); opacity: 0.72; }
+/* Fait → VERT (marqueur ✓ positif) ; à faire → orange franc ; en cours → bleu. Le gris = archive (mois passés, plus bas). */
+.rm-card.is-done { border-left-color: var(--teal-600); background: var(--teal-100); }
 .rm-card.is-doing { border-left-color: var(--blue-500); background: var(--blue-50); }
 .rm-card.is-planned { border-left-color: var(--orange-600); background: var(--orange-100); }
 .rm-card-icon { flex: 0 0 auto; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
-.rm-card.is-done .rm-card-icon { background: var(--slate-300); color: var(--white); }
+.rm-card.is-done .rm-card-icon { background: var(--teal-600); color: var(--white); }
 .rm-card.is-doing .rm-card-icon { background: var(--blue-500); color: var(--white); }
 .rm-card.is-planned .rm-card-icon { background: var(--orange-600); color: var(--white); }
 .rm-card-title { flex: 1; font-size: 13.5px; line-height: 1.35; color: var(--slate-700); font-weight: 600; }
-.rm-card.is-done .rm-card-title { color: var(--slate-500); font-weight: 500; }
+.rm-card.is-done .rm-card-title { color: var(--teal-700); }
+/* Mois passés = archive : on atténue les cartes (le temps qui passe), sans masquer la couleur de statut */
+.rm-month.is-past .rm-card { opacity: 0.55; }
+.rm-month.is-past .rm-card:hover { opacity: 1; }
 .rm-card-chevron { flex: 0 0 auto; color: var(--slate-300); font-size: 16px; }
 .rm-card:hover .rm-card-chevron { color: var(--blue-500); }
 /* Glisser-déposer : poignée, carte en cours de déplacement, zones de dépôt */
@@ -866,7 +869,7 @@ body {
 .roadmap-empty { padding: 60px 24px; text-align: center; color: var(--slate-400); font-size: 13px; line-height: 1.6; }
 .rm-detail-head { display: flex; align-items: center; gap: 12px; }
 .rm-detail-status { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 4px 10px; border-radius: 20px; }
-.rm-detail-status.is-done { background: var(--slate-100); color: var(--slate-600); }
+.rm-detail-status.is-done { background: var(--teal-100); color: var(--teal-700); }
 .rm-detail-status.is-doing { background: var(--blue-50); color: var(--blue-700); }
 .rm-detail-status.is-planned { background: var(--orange-100); color: var(--orange-600); }
 .rm-detail-month { font-size: 12px; color: var(--slate-500); font-weight: 600; letter-spacing: 0.02em; }
@@ -1421,6 +1424,7 @@ tr:hover td { background: var(--blue-50); }
           <div class="nav-subitem" data-view="strat-dev"><span class="sub-bullet"></span>Dev</div>
           <div class="nav-subitem" data-view="strat-marche"><span class="sub-bullet"></span>Prise de marché</div>
           <div class="nav-subitem" data-view="strat-pricing"><span class="sub-bullet"></span>Tarification</div>
+          <div class="nav-subitem" data-view="strat-marque"><span class="sub-bullet"></span>Marque &amp; com'</div>
         </div>
       </div>
 
@@ -1516,7 +1520,7 @@ function load() {
   ensureBeta();
   // Stratégie globale en piliers (par section)
   if (!state.strategiePillars) state.strategiePillars = {};
-  ['vision','marche','pricing','dev'].forEach(s => { if (!Array.isArray(state.strategiePillars[s])) state.strategiePillars[s] = []; });
+  ['vision','marche','pricing','dev','marque'].forEach(s => { if (!Array.isArray(state.strategiePillars[s])) state.strategiePillars[s] = []; });
   if (!state.strategieSeeded) {
     const defaults = {
       vision: ['Notre cap', 'Pour qui', 'Pourquoi maintenant'],
@@ -1571,6 +1575,7 @@ const titles = {
   idees:'Idées',
   'strat-marche':'Stratégie — Prise de marché',
   'strat-pricing':'Stratégie — Tarification',
+  'strat-marque':"Stratégie — Marque & com'",
   'strat-dev':'Stratégie — Dev',
   'strat-organigramme':'Equipe',
   agent:'Espace agent',
@@ -1668,6 +1673,7 @@ function render() {
   else if (currentView === 'strat-vision') renderStrategie(content, actions, 'vision');
   else if (currentView === 'strat-marche') renderStrategie(content, actions, 'marche');
   else if (currentView === 'strat-pricing') renderStrategie(content, actions, 'pricing');
+  else if (currentView === 'strat-marque') renderStrategie(content, actions, 'marque');
   else if (currentView === 'strat-dev') renderStrategie(content, actions, 'dev');
   else if (currentView === 'strat-organigramme') renderOrganigramme(content, actions);
   else if (currentView === 'agent') renderAgentConsole(content, actions);
@@ -3727,7 +3733,7 @@ function promoGroupSelChange(sel) {
 }
 function openPromoteModal(id) {
   const it = ideeById(id); if (!it) return;
-  const axes = [['vision','Vision'],['marche','Prise de marché'],['pricing','Tarification'],['dev','Dev']];
+  const axes = [['vision','Vision'],['marche','Prise de marché'],['pricing','Tarification'],['dev','Dev'],['marque',"Marque & com'"]];
   const cur = Array.isArray(it.axe_strategy) ? it.axe_strategy : (it.axe_strategy ? [it.axe_strategy] : []);
   const m = document.getElementById('modal'); m.classList.remove('qc-mode');
   const rows = axes.map(([v,l]) => {
@@ -3926,8 +3932,8 @@ let mmView = 'all';             // onglet actif : all | decision | cap-mur | eti
 const MM_GROUPS = [['domaine','Domaine'], ['theme','Thème'], ['famille','Famille'], ['nature','Nature'], ['statut','Statut']];
 const MM_SORTS = [['order',"Ordre d'apparition"], ['recent','Récentes d\'abord'], ['id','Par numéro']];
 // Domaines stratégiques (mêmes catégories que l'onglet Stratégie globale)
-const MM_DOMAINES = [['vision','Vision'], ['dev','Dev'], ['marche','Prise de marché'], ['pricing','Tarification']];
-const MM_DOMAINE_ORDER = ['__flash', 'vision', 'dev', 'marche', 'pricing', '__aclasser'];
+const MM_DOMAINES = [['vision','Vision'], ['dev','Dev'], ['marche','Prise de marché'], ['pricing','Tarification'], ['marque',"Marque & com'"]];
+const MM_DOMAINE_ORDER = ['__flash', 'vision', 'dev', 'marche', 'pricing', 'marque', '__aclasser'];
 function ideaDomaine(i) {
   if (i.domaine && MM_DOMAINES.some(d => d[0] === i.domaine)) return i.domaine;
   const ax = Array.isArray(i.axe_strategy) ? i.axe_strategy[0] : i.axe_strategy;
@@ -4378,7 +4384,8 @@ const stratMeta = {
   vision:  { label:'Vision',          accent:'cap',     fallback:'Là où on va, et pourquoi.',                prompt:'Ta vision : où tu veux emmener CPTS Pilot, ta raison d’être, ton cap à long terme.' },
   marche:  { label:'Prise de marché', accent:'marché',  fallback:'À qui on s’adresse, et comment on entre.', prompt:'Comment tu attaques le marché : cibles prioritaires, canaux, arguments, go-to-market.' },
   pricing: { label:'Tarification',    accent:'rapport', fallback:'Notre rapport au prix, posé clair.',        prompt:'Ton modèle de prix : offres, paliers, logique tarifaire.' },
-  dev:     { label:'Dev',             accent:'Dev',     fallback:'Le COMMENT : comment c’est construit et opéré.', prompt:'Tes partis pris techniques : architecture, hébergement, infra, sécurité, choix d’outils.' }
+  dev:     { label:'Dev',             accent:'Dev',     fallback:'Le COMMENT : comment c’est construit et opéré.', prompt:'Tes partis pris techniques : architecture, hébergement, infra, sécurité, choix d’outils.' },
+  marque:  { label:"Marque & com'",   accent:'com',     fallback:'Notre image et comment on la diffuse.',  prompt:'Ton identité visuelle (logo, couleurs, charte), ton site vitrine, tes contenus et ta présence en ligne (SEO, réseaux, webmarketing).' }
 };
 // Marque Mixer : 4 curseurs verticaux, handle 3 en cobalt (cf. docs/brand/README de Plateforme-CPTS)
 function mixerMarkSvg() {
@@ -4418,13 +4425,14 @@ function renderStratHero(section) {
     </div>
   </div>`;
 }
-const sectionLabels = { vision:'Vision', marche:'Prise de marché', pricing:'Tarification', dev:'Dev' };
+const sectionLabels = { vision:'Vision', marche:'Prise de marché', pricing:'Tarification', dev:'Dev', marque:"Marque & com'" };
 // Catégories de repli (servent UNIQUEMENT si un volet est encore vide) — alignées sur le seed réel
 const STRAT_SUGGESTED_GROUPS = {
   vision:  ['Cap & origine', 'Différenciation', 'Identité & posture', 'Engagement & destination'],
   marche:  ['Cibles & problème', 'Arguments par profil', 'Go-to-market', 'Rassurance'],
   pricing: ["L'offre", 'Phase pilote & pitch', 'Philosophie'],
-  dev:     ['Socle & architecture', 'Hébergement & souveraineté', 'Qualité & sécurité']
+  dev:     ['Socle & architecture', 'Hébergement & souveraineté', 'Qualité & sécurité'],
+  marque:  ['Identité visuelle', 'Site vitrine', 'Contenus & présence en ligne']
 };
 // Catégories proposées pour un volet : d'ABORD celles déjà en place (réelles), puis le repli si vide
 function stratGroupOptions(section) {
@@ -4434,12 +4442,12 @@ function stratGroupOptions(section) {
 // Toutes les catégories réellement en place, tous volets confondus (pour la modale de promotion)
 function allStratGroupsInUse() {
   const out = [];
-  ['vision', 'marche', 'pricing', 'dev'].forEach(s => stratGroupOptions(s).forEach(g => out.push(g)));
+  ['vision', 'marche', 'pricing', 'dev', 'marque'].forEach(s => stratGroupOptions(s).forEach(g => out.push(g)));
   return [...new Set(out)];
 }
 function findPillar(section, pid) { return (state.strategiePillars[section]||[]).find(p=>p.id===pid); }
 
-let expandedGroups = { vision: new Set(), marche: new Set(), pricing: new Set(), dev: new Set() };
+let expandedGroups = { vision: new Set(), marche: new Set(), pricing: new Set(), dev: new Set(), marque: new Set() };
 
 function renderStrategie(content, actions, section) {
   actions.innerHTML = `<button class="btn btn-primary" onclick="addEncart('${section}')">+ Encart</button>`;
@@ -5592,7 +5600,7 @@ function renderPlaceholder(content, actions, key) {
 
 // ============ VUE ROADMAP (frise chronologique) ============
 const roadmapStatusLabel = { done: 'Validé', doing: 'En cours', planned: 'À faire' };
-const roadmapStatusDot = { done: 'var(--slate-400)', doing: 'var(--blue-500)', planned: 'var(--orange-600)' };
+const roadmapStatusDot = { done: 'var(--teal-600)', doing: 'var(--blue-500)', planned: 'var(--orange-600)' };
 // Roadmap : par défaut on masque les mois passés (focus mois courant + à venir), dépliables à la demande
 let rmShowPast = false;
 function toggleRoadmapPast() { rmShowPast = !rmShowPast; render(); }
@@ -5710,7 +5718,7 @@ function renderRoadmap(content, actions) {
       <div class="rm-stats">
         <span class="rm-stat"><span class="rm-stat-dot" style="background:var(--orange-600)"></span><b>${nPlanned}</b>&nbsp;à faire</span>
         <span class="rm-stat"><span class="rm-stat-dot" style="background:var(--blue-500)"></span><b>${nDoing}</b>&nbsp;en cours</span>
-        <span class="rm-stat"><span class="rm-stat-dot" style="background:var(--slate-400)"></span><b>${nDone}</b>&nbsp;validé${nDone > 1 ? 's' : ''}</span>
+        <span class="rm-stat"><span class="rm-stat-dot" style="background:var(--teal-600)"></span><b>${nDone}</b>&nbsp;fait${nDone > 1 ? 's' : ''}</span>
       </div>
     </div>
     <div class="rm-inbox">
@@ -6742,7 +6750,7 @@ Réponds uniquement via le schéma fourni.`;
   const SCHEMA = {
     type: 'object',
     properties: {
-      destination: { type: 'string', enum: ['vision', 'marche', 'pricing', 'dev', 'tache', 'idee'] },
+      destination: { type: 'string', enum: ['vision', 'marche', 'pricing', 'dev', 'marque', 'tache', 'idee'] },
       reason: { type: 'string' }
     },
     required: ['destination', 'reason'],
@@ -6788,7 +6796,7 @@ async function startClassify(noteId, btn) {
   }
 }
 
-const classifyDestLabels = { vision:'Stratégie › Vision', marche:'Stratégie › Prise de marché', pricing:'Stratégie › Tarification', dev:'Stratégie › Dev', tache:'Tâche (To do)', idee:'Rester une idée' };
+const classifyDestLabels = { vision:'Stratégie › Vision', marche:'Stratégie › Prise de marché', pricing:'Stratégie › Tarification', dev:'Stratégie › Dev', marque:"Stratégie › Marque & com'", tache:'Tâche (To do)', idee:'Rester une idée' };
 function openClassifyModal(noteId, s) {
   const note = state.notes.find(n => n.id === noteId);
   if (!note) return;
@@ -6818,7 +6826,7 @@ function updateClassifyPillars() {
   const dest = document.getElementById('cl-dest').value;
   const field = document.getElementById('cl-pillar-field');
   const sel = document.getElementById('cl-pillar');
-  if (['vision','marche','pricing','dev'].includes(dest)) {
+  if (['vision','marche','pricing','dev','marque'].includes(dest)) {
     field.style.display = '';
     const pillars = state.strategiePillars[dest] || [];
     sel.innerHTML = pillars.length
@@ -7009,7 +7017,7 @@ async function loadStrategySeed() {
 
     // Encarts : strategy.json (live) si dispo, sinon fallback seed
     let dynEncartsCount = 0;
-    ['vision', 'marche', 'pricing', 'dev'].forEach(sec => {
+    ['vision', 'marche', 'pricing', 'dev', 'marque'].forEach(sec => {
       const live = dynStrat.encarts && Array.isArray(dynStrat.encarts[sec]) ? dynStrat.encarts[sec] : null;
       const fallback = seed.encarts && Array.isArray(seed.encarts[sec]) ? seed.encarts[sec] : null;
       const source = live || fallback;
