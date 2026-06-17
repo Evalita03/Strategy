@@ -1965,7 +1965,7 @@ function createJalonFromChantier(ev) {
   if (roadmapHas(titre)) { if (btn) { btn.textContent = 'Déjà dans la roadmap'; btn.disabled = true; btn.classList.add('cap-task-btn-done'); } return; }
   state.roadmap = state.roadmap || [];
   const jid = uid();
-  state.roadmap.push({ id: jid, title: titre, month: currentMonthStr(), status: 'planned', body: 'Préconisé par Magnus (Chef Produit).\n\n' + (r.prochain_chantier.pourquoi || '') });
+  rmInsertOrdered({ id: jid, title: titre, month: currentMonthStr(), status: 'planned', body: 'Préconisé par Magnus (Chef Produit).\n\n' + (r.prochain_chantier.pourquoi || '') });
   const pr = upsertPreco(titre, 'chantier', r.updated_at || '', 'chef-produit');
   if (pr && pr.p) { pr.p.enRoadmap = true; pr.p.jalonId = jid; if (pr.p.etat === 'ecartee') pr.p.etat = 'active'; }
   save();
@@ -1980,7 +1980,7 @@ function createJalonFromAnticipe(ev, idx) {
   if (roadmapHas(titre)) { if (btn) { btn.textContent = '✓ déjà'; btn.disabled = true; } return; }
   state.roadmap = state.roadmap || [];
   const jid = uid();
-  state.roadmap.push({ id: jid, title: titre, month: null, status: 'planned', body: 'Anticipé par Magnus (Chef Produit).' });
+  rmInsertOrdered({ id: jid, title: titre, month: null, status: 'planned', body: 'Anticipé par Magnus (Chef Produit).' });
   const pr = upsertPreco(titre, 'anticiper', r.updated_at || '', 'chef-produit');
   if (pr && pr.p) { pr.p.enRoadmap = true; pr.p.jalonId = jid; }
   save();
@@ -3702,7 +3702,7 @@ async function confirmSendToRoadmap(id) {
     ideesData = normalizeIdees(r2.data);
     // Recopie locale immédiate → le jalon apparaît tout de suite dans l'onglet Roadmap
     state.roadmap = state.roadmap || [];
-    if (!roadmapHas(it.titre)) state.roadmap.push({ id: uid(), title: it.titre, month: month, status: 'planned', body: 'Depuis le vivier (idée ' + id + ').\n\n' + (it.note || it.citation || '') });
+    if (!roadmapHas(it.titre)) rmInsertOrdered({ id: uid(), title: it.titre, month: month, status: 'planned', body: 'Depuis le vivier (idée ' + id + ').\n\n' + (it.note || it.citation || '') });
     save();
     vivierToast('✓ Envoyée en roadmap');
   }
@@ -4361,7 +4361,7 @@ async function confirmTaskToRoadmap(id) {
   const rstatus = task.status === 'done' ? 'done' : (task.status === 'doing' ? 'doing' : 'planned');
   // 1) Recopie locale immédiate → le jalon apparaît tout de suite dans l'onglet Roadmap
   state.roadmap = state.roadmap || [];
-  if (!roadmapHas(task.title)) state.roadmap.push({ id: uid(), title: task.title, month: month, status: rstatus, body: 'Depuis le To do.\n\n' + (task.body || '') });
+  if (!roadmapHas(task.title)) rmInsertOrdered({ id: uid(), title: task.title, month: month, status: rstatus, body: 'Depuis le To do.\n\n' + (task.body || '') });
   // La tâche quitte le To do : elle vit désormais comme jalon (pas de double suivi)
   state.tasks = state.tasks.filter(t => t.id !== id);
   save(); render();
@@ -4851,7 +4851,7 @@ function applyProposition(ev, i) {
   const existing = state.roadmap.find(x => (x.title || '').trim().toLowerCase() === p.titre.trim().toLowerCase());
   if (act === 'clore') { if (existing) existing.status = 'done'; }
   else if (act === 'décaler' || act === 'decaler') { if (existing) { existing.month = null; existing.status = 'planned'; } }
-  else { if (!existing) state.roadmap.push({ id: uid(), title: p.titre.trim(), month: currentMonthStr(), status: 'planned', body: 'Proposé par Magnus.\n\n' + (p.pourquoi || '') }); }
+  else { if (!existing) rmInsertOrdered({ id: uid(), title: p.titre.trim(), month: currentMonthStr(), status: 'planned', body: 'Proposé par Magnus.\n\n' + (p.pourquoi || '') }); }
   if (!state.handledPropositions) state.handledPropositions = {};
   state.handledPropositions[propKey(p)] = 'applied';
   save(); render();
@@ -5029,7 +5029,7 @@ function createJalonFromCoup(ev, idx) {
   if (roadmapHas(titre)) { if (btn) { btn.textContent = '✓ Déjà dans la roadmap'; btn.disabled = true; } return; }
   state.roadmap = state.roadmap || [];
   const jid = uid();
-  state.roadmap.push({ id: jid, title: titre, month: null, status: 'planned', body: "Coup d'avance préconisé par Orion (Observatoire).\n\n" + (c.pourquoi || '') + (c.action ? '\n\nÀ faire : ' + c.action : '') });
+  rmInsertOrdered({ id: jid, title: titre, month: null, status: 'planned', body: "Coup d'avance préconisé par Orion (Observatoire).\n\n" + (c.pourquoi || '') + (c.action ? '\n\nÀ faire : ' + c.action : '') });
   const pr = upsertPreco(titre, 'coup', r.updated_at || '', 'orion');
   if (pr && pr.p) { pr.p.enRoadmap = true; pr.p.jalonId = jid; if (pr.p.etat === 'ecartee') pr.p.etat = 'active'; }
   save();
@@ -5601,6 +5601,26 @@ function renderPlaceholder(content, actions, key) {
 // ============ VUE ROADMAP (frise chronologique) ============
 const roadmapStatusLabel = { done: 'Validé', doing: 'En cours', planned: 'À faire' };
 const roadmapStatusDot = { done: 'var(--teal-600)', doing: 'var(--blue-500)', planned: 'var(--orange-600)' };
+// Insertion ordonnée d'un jalon : dans son mois, l'ordre logique est « en cours → à faire → fait ».
+// Un nouveau jalon (Magnus, idée, tâche, Orion…) se range à la fin de son groupe de statut, au lieu d'être
+// collé tout en bas du mois. Le glisser-déposer manuel reste prioritaire : on n'auto-trie jamais l'existant.
+const RM_STATUS_RANK = { doing: 0, planned: 1, done: 2 };
+function rmInsertOrdered(item) {
+  state.roadmap = state.roadmap || [];
+  const arr = state.roadmap;
+  const m = item.month || null;
+  const rank = RM_STATUS_RANK[item.status || 'planned'] ?? 1;
+  let insertAt = -1, lastIdx = -1;
+  for (let k = 0; k < arr.length; k++) {
+    if ((arr[k].month || null) !== m) continue;
+    lastIdx = k;
+    if (insertAt === -1 && (RM_STATUS_RANK[arr[k].status || 'planned'] ?? 1) > rank) insertAt = k;
+  }
+  if (insertAt >= 0) arr.splice(insertAt, 0, item);
+  else if (lastIdx >= 0) arr.splice(lastIdx + 1, 0, item);
+  else arr.push(item);
+  return item;
+}
 // Roadmap : par défaut on masque les mois passés (focus mois courant + à venir), dépliables à la demande
 let rmShowPast = false;
 function toggleRoadmapPast() { rmShowPast = !rmShowPast; render(); }
@@ -5816,7 +5836,7 @@ function saveRoadmapItem(id) {
   };
   state.roadmap = state.roadmap || [];
   if (id) Object.assign(state.roadmap.find(x => x.id === id), data);
-  else state.roadmap.push({ id: uid(), ...data });
+  else rmInsertOrdered({ id: uid(), ...data });
   save(); closeModal(); render();
 }
 function deleteRoadmapItem(id) {
