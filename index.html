@@ -810,6 +810,17 @@ body {
 .rm-progress-pct { font-size: 12px; font-weight: 700; color: var(--slate-500); min-width: 34px; text-align: right; }
 /* Fil vertical + mois */
 .rm-timeline { position: relative; }
+/* Bouton « voir les mois précédents » — assis sur le fil, au-dessus du mois courant */
+.rm-past-toggle {
+  position: relative; display: inline-flex; align-items: center; gap: 8px;
+  margin: 0 0 18px 86px; padding: 7px 14px; font-family: inherit; font-size: 12.5px; font-weight: 600;
+  color: var(--slate-500); background: var(--slate-50); border: 1px dashed var(--slate-300);
+  border-radius: 99px; cursor: pointer; transition: all .15s;
+}
+.rm-past-toggle:hover { color: var(--blue-700); border-color: var(--blue-500); background: var(--blue-50); }
+.rm-past-chevron { font-size: 11px; }
+.rm-past-count { display: inline-flex; align-items: center; justify-content: center; min-width: 18px; height: 18px; padding: 0 5px; font-size: 11px; font-weight: 700; color: var(--slate-500); background: var(--slate-200); border-radius: 99px; }
+.rm-past-toggle:hover .rm-past-count { background: var(--blue-100); color: var(--blue-700); }
 .rm-month { position: relative; padding: 0 0 22px 86px; }
 .rm-month::before { content: ''; position: absolute; left: 63px; top: 8px; bottom: -8px; width: 2px; background: var(--slate-200); }
 .rm-month.is-future::before { background: repeating-linear-gradient(var(--slate-200) 0 4px, transparent 4px 8px); }
@@ -883,14 +894,15 @@ body {
 .mm-cat { position: relative; z-index: 2; margin: 0 0 26px; }
 .mm-cat-head { display: flex; align-items: baseline; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--slate-500); margin: 0 0 12px; }
 .mm-cat-head .mm-cat-count { color: var(--slate-400); font-weight: 600; }
-.mm-mosaic { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 13px; align-items: start; }
+.mm-mosaic { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 11px; align-items: start; }
 .mm-card {
   position: relative; background: var(--white); border: 1px solid var(--slate-200); border-left: 4px solid var(--slate-300);
-  border-radius: 12px; padding: 12px 13px; cursor: pointer; overflow: hidden; max-height: 158px;
-  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, opacity .16s ease;
+  border-radius: 11px; padding: 11px 13px; cursor: pointer;
+  transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease, opacity .14s ease;
 }
-.mm-card:hover { transform: scale(1.045); box-shadow: 0 16px 38px rgba(15,23,42,.17); max-height: 620px; z-index: 30; border-left-color: var(--blue-500); }
-.mm-card-title { display: flex; gap: 7px; align-items: flex-start; font-weight: 700; font-size: 13.5px; color: var(--slate-800); line-height: 1.35; }
+.mm-card:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(15,23,42,.13); z-index: 30; border-left-color: var(--blue-500); }
+.mm-card-link-n { margin-left: auto; flex-shrink: 0; font-size: 10.5px; font-weight: 700; color: var(--blue-700); background: var(--blue-50); border-radius: 20px; padding: 1px 7px; }
+.mm-card-title { display: flex; gap: 7px; align-items: center; font-weight: 600; font-size: 13px; color: var(--slate-800); line-height: 1.35; }
 .mm-card-ic { flex-shrink: 0; font-size: 13px; line-height: 1.4; }
 .mm-card-text { margin-top: 7px; font-size: 12.5px; color: var(--slate-600); line-height: 1.5; white-space: pre-wrap; }
 .mm-card-cit { font-style: italic; color: var(--slate-500); }
@@ -3034,7 +3046,8 @@ function renderIdees(content, actions) {
 function renderMindmap(content, actions) {
   const dis = ideesBusy ? 'disabled' : '';
   actions.innerHTML = `<button class="btn btn-ghost" onclick="loadIdeesVivier(true)" ${dis}>↻ Rafraîchir</button>
-    <button class="btn btn-primary" onclick="flashIdee()" ${ideesData?'':'disabled'} ${dis}>⚡ Idée flash</button>`;
+    <button class="btn btn-ghost" onclick="flashIdee()" ${ideesData?'':'disabled'} ${dis}>⚡ Flash</button>
+    <button class="btn btn-primary" onclick="openIdeeModal()" ${ideesData?'':'disabled'} ${dis}>+ Idée</button>`;
   const d = ideesData;
   const leg = (d && d.legende) || {};
   const ideas = d && Array.isArray(d.idees) ? d.idees : [];
@@ -3052,6 +3065,9 @@ function renderMindmap(content, actions) {
         ${d && !ideesLoading && !ideesError ? `
           <select class="v-sel" onchange="setIdeaGroupBy(this.value)" title="Regrouper les idées par…">
             ${MM_GROUPS.map(([v,l]) => `<option value="${v}" ${ideaGroupBy===v?'selected':''}>Grouper : ${l}</option>`).join('')}
+          </select>
+          <select class="v-sel" onchange="setMmSort(this.value)" title="Trier les idées">
+            ${MM_SORTS.map(([v,l]) => `<option value="${v}" ${mmSortBy===v?'selected':''}>Trier : ${l}</option>`).join('')}
           </select>
           <button class="btn btn-ghost btn-sm ${mmShowLinks?'active':''}" onclick="toggleMmLinks()" title="Afficher tous les fils entre idées">🔗 Liens</button>
           <button class="btn btn-ghost btn-sm ${ideaLinkMode?'active':''}" id="idea-link-btn" onclick="toggleIdeaLink()">↔ Relier</button>
@@ -3083,30 +3099,28 @@ function renderMindmap(content, actions) {
     requestAnimationFrame(mmBoardInit);
   }
 }
-// ---- Mosaïque : construction du HTML ----
+// ---- Mosaïque : construction du HTML (cartes = TITRE seul ; détail dans le panneau) ----
 function mmCardHtml(i, leg) {
   const col = MINDMAP_COLORS[ideaColorKey(i)].c;
   const icon = VIVIER_NATURE_ICON[i.nature] || (i.flash ? '⚡' : '•');
-  const natLabel = legLabel(leg.nature, i.nature, VIVIER_NATURE_FB[i.nature] || '');
-  const onlyCit = i.citation && !i.note;
-  const text = (i.citation ? `« ${i.citation} »` : '') + (i.citation && i.note ? '\n\n' : '') + (i.note || '');
-  const tags = [];
-  if (natLabel) tags.push(`<span class="mm-chip">${esc(natLabel)}</span>`);
-  if (i.theme) tags.push(`<span class="mm-chip">${esc(i.theme)}</span>`);
-  ideaRefIds(i).forEach(tid => { const t = ideeById(tid); if (t) tags.push(`<span class="mm-chip link" onclick="event.stopPropagation();mmJump('${esc(tid)}')">↔ ${esc((t.titre||tid).slice(0,18))}</span>`); });
+  const nLinks = ideaRefIds(i).filter(tid => ideeById(tid)).length;
   return `<div class="mm-card ${i.archived?'archived':''}${i.id===mmPanelId?' selected':''}" data-id="${esc(i.id)}" style="border-left-color:${col}"
        onmouseenter="mmFocus('${esc(i.id)}')" onmouseleave="mmBlur()" onclick="mmCardClick('${esc(i.id)}')">
-    <div class="mm-card-title"><span class="mm-card-ic" style="color:${col}">${icon}</span><span>${esc(i.titre||'(sans titre)')}</span></div>
-    ${text.trim() ? `<div class="mm-card-text${onlyCit?' mm-card-cit':''}">${esc(text.trim())}</div>` : ''}
-    ${tags.length ? `<div class="mm-card-meta">${tags.join('')}</div>` : ''}
+    <div class="mm-card-title"><span class="mm-card-ic" style="color:${col}">${icon}</span><span>${esc(i.titre||'(sans titre)')}</span>${nLinks?`<span class="mm-card-link-n" title="${nLinks} idée(s) liée(s)">↔${nLinks}</span>`:''}</div>
   </div>`;
 }
-// Idées affichées dans la mosaïque : visibles (archivé) + filtre maturité + recherche
+// Idées affichées : visibles (archivé) + filtre maturité + recherche, puis tri
 function mmBoardIdeas() {
   let arr = mmVisibleIdeas();
   if (mmMatFilter) arr = arr.filter(i => (i.nature || '') === mmMatFilter);
   if (searchQuery) { const q = searchQuery.toLowerCase();
     arr = arr.filter(i => [(i.titre||''),(i.note||''),(i.citation||''),(i.theme||''),(i.id||'')].join(' ').toLowerCase().includes(q)); }
+  const all = (ideesData && ideesData.idees) || [];
+  const idx = new Map(all.map((x, k) => [x.id, k]));   // ordre d'apparition dans idees.json
+  arr = arr.slice();
+  if (mmSortBy === 'id') arr.sort((a, b) => (a.id||'').localeCompare(b.id||''));
+  else if (mmSortBy === 'recent') arr.sort((a, b) => (idx.get(b.id)||0) - (idx.get(a.id)||0));
+  else arr.sort((a, b) => (idx.get(a.id)||0) - (idx.get(b.id)||0));   // order (apparition)
   return arr;
 }
 function mmBoardHtml(leg) {
@@ -3115,8 +3129,11 @@ function mmBoardHtml(leg) {
   if (!board.length) { return h + `<div class="mm-empty-cat">Aucune idée pour ce filtre.</div></div>`; }
   const groups = new Map();
   board.forEach(i => { const { key, label } = ideaGroupValue(i, ideaGroupBy);
-    if (!groups.has(key)) groups.set(key, { label, items: [] }); groups.get(key).items.push(i); });
-  [...groups.values()].sort((a, b) => b.items.length - a.items.length).forEach(g => {
+    if (!groups.has(key)) groups.set(key, { key, label, items: [] }); groups.get(key).items.push(i); });
+  let ordered = [...groups.values()];
+  if (ideaGroupBy === 'domaine') ordered.sort((a, b) => MM_DOMAINE_ORDER.indexOf(a.key) - MM_DOMAINE_ORDER.indexOf(b.key));
+  else ordered.sort((a, b) => b.items.length - a.items.length);
+  ordered.forEach(g => {
     h += `<div class="mm-cat"><div class="mm-cat-head">${esc(g.label)}<span class="mm-cat-count">· ${g.items.length}</span></div>
       <div class="mm-mosaic">${g.items.map(i => mmCardHtml(i, leg)).join('')}</div></div>`;
   });
@@ -3134,6 +3151,7 @@ function mmMaturityBar() {
   return `<div class="mm-matbar">${chips}${arch}</div>`;
 }
 function setMmMatFilter(k) { mmMatFilter = (mmMatFilter === k) ? null : k; render(); }
+function setMmSort(v) { mmSortBy = v; render(); }
 // Panneau latéral : lecture complète + actions
 function mmPanelHtml() {
   const i = mmPanelId ? ideeById(mmPanelId) : null;
@@ -3816,7 +3834,11 @@ function openIdeeModal(id) {
   m.innerHTML = `
     <h2>${it ? "Modifier l'idée" : 'Nouvelle idée'}</h2>
     <div class="field"><label>Titre</label><input id="idee-titre" value="${it?esc(it.titre):''}" placeholder="Titre court"></div>
-    <div class="field"><label>Thème</label><input id="idee-theme" value="${it?esc(it.theme||''):''}" placeholder="produit, pricing, technique…"></div>
+    <div class="field"><label>Domaine (catégorie de la stratégie)</label><select id="idee-domaine">
+      <option value="" ${it&&!ideaDomaine(it)?'selected':''}>À classer</option>
+      ${MM_DOMAINES.map(([v,l]) => `<option value="${v}" ${it&&ideaDomaine(it)===v?'selected':''}>${esc(l)}</option>`).join('')}
+    </select></div>
+    <div class="field"><label>Thème (mot-clé libre, optionnel)</label><input id="idee-theme" value="${it?esc(it.theme||''):''}" placeholder="ex. infra, RGPD, onboarding…"></div>
     <div class="field"><label>Famille</label><select id="idee-famille">${famOpts.map(f => `<option value="${f}" ${it&&it.famille===f?'selected':''}>${esc(legLabel(leg.famille,f,VIVIER_FAMILLE_FB[f]))}</option>`).join('')}</select></div>
     <div class="field"><label>Nature</label><select id="idee-nature">${natOpts.map(n => `<option value="${n}" ${it&&it.nature===n?'selected':''}>${esc(legLabel(leg.nature,n,VIVIER_NATURE_FB[n]))}</option>`).join('')}</select></div>
     <div class="field"><label>Statut</label><select id="idee-statut">${statOpts.map(s => `<option value="${s}" ${it&&it.statut===s?'selected':''}>${esc(legLabel(leg.statut,s,VIVIER_STATUT_FB[s]))}</option>`).join('')}</select></div>
@@ -3833,7 +3855,7 @@ function saveIdee(id) {
   const v = x => (document.getElementById(x).value || '').trim();
   const titre = v('idee-titre');
   if (!titre) return alert('Le titre est requis');
-  const data = { titre, theme: v('idee-theme'), famille: v('idee-famille'), nature: v('idee-nature'), statut: v('idee-statut'), citation: v('idee-citation'), note: v('idee-note') };
+  const data = { titre, domaine: v('idee-domaine'), theme: v('idee-theme'), famille: v('idee-famille'), nature: v('idee-nature'), statut: v('idee-statut'), citation: v('idee-citation'), note: v('idee-note') };
   closeModal();
   if (id) mutateIdees(p => { const x = (p.idees||[]).find(y => y.id === id); if (!x) return false; Object.assign(x, data); delete x.flash; }, 'Modifier ' + id);
   else mutateIdees(p => { p.idees = p.idees || []; const nid = vivierIdGen(data.famille, p.idees); p.idees.push({ id: nid, ...data }); }, 'Nouvelle idée');
@@ -3864,7 +3886,8 @@ function mindmapLegend() {
 }
 
 // ===== Carte mentale : clusters organiques (simulation physique) =====
-let ideaGroupBy = 'theme';      // dimension de regroupement : theme | famille | nature | statut
+let ideaGroupBy = 'domaine';    // dimension de regroupement : domaine | theme | famille | nature | statut
+let mmSortBy = 'order';         // tri dans chaque groupe : order (apparition) | recent | id
 let mmShowArchived = false;     // afficher les idées archivées sur la carte ?
 let mmNeedsFit = true;          // recadrer à la prochaine peinture
 let mmSim = null;               // simulation { nodes, links, byId, sig }
@@ -3874,7 +3897,17 @@ let mmHover = null;             // nœud survolé (surbrillance de cluster)
 let mmShowLinks = false;        // afficher tous les fils entre idées en permanence ?
 let mmPanelId = null;           // idée ouverte dans le panneau latéral
 let mmMatFilter = null;         // filtre maturité actif (nature) ou null
-const MM_GROUPS = [['theme','Thème'], ['famille','Famille'], ['nature','Nature'], ['statut','Statut']];
+const MM_GROUPS = [['domaine','Domaine'], ['theme','Thème'], ['famille','Famille'], ['nature','Nature'], ['statut','Statut']];
+const MM_SORTS = [['order',"Ordre d'apparition"], ['recent','Récentes d\'abord'], ['id','Par numéro']];
+// Domaines stratégiques (mêmes catégories que l'onglet Stratégie globale)
+const MM_DOMAINES = [['vision','Vision'], ['dev','Dev'], ['marche','Prise de marché'], ['pricing','Tarification']];
+const MM_DOMAINE_ORDER = ['__flash', 'vision', 'dev', 'marche', 'pricing', '__aclasser'];
+function ideaDomaine(i) {
+  if (i.domaine && MM_DOMAINES.some(d => d[0] === i.domaine)) return i.domaine;
+  const ax = Array.isArray(i.axe_strategy) ? i.axe_strategy[0] : i.axe_strategy;
+  if (ax && MM_DOMAINES.some(d => d[0] === ax)) return ax;
+  return '';
+}
 // Maturité : ce qui doit être tranché / acté / exploré (pour le coup d'œil + filtre)
 const MM_MATURITY = [
   { key: 'decision', label: 'à trancher',     color: '#DC2626' },
@@ -3896,7 +3929,12 @@ function ideaGroupValue(i, by) {
   if (by === 'famille') { const f = (i.famille||'').trim(); return { key: f || '∅', label: f ? legLabel(leg.famille, f, VIVIER_FAMILLE_FB[f]||f) : 'Sans famille' }; }
   if (by === 'nature')  { const n = (i.nature||'').trim();  return { key: n || '∅', label: n ? legLabel(leg.nature, n, VIVIER_NATURE_FB[n]||n) : 'Sans nature' }; }
   if (by === 'statut')  { const s = (i.statut||'').trim();  return { key: s || '∅', label: s ? legLabel(leg.statut, s, VIVIER_STATUT_FB[s]||s) : 'Sans statut' }; }
-  const t = (i.theme||'').trim(); return { key: t || '∅', label: t || 'Sans thème' };   // theme par défaut
+  if (by === 'theme')   { const t = (i.theme||'').trim().toLowerCase(); return { key: t || '∅', label: (i.theme||'').trim() || 'Sans thème' }; }
+  // domaine (défaut) : Vision / Dev / Prise de marché / Tarification + entrée flash + à classer
+  if (i.flash && !ideaDomaine(i)) return { key: '__flash', label: '⚡ À traiter' };
+  const dk = ideaDomaine(i);
+  if (dk) { const d = MM_DOMAINES.find(x => x[0] === dk); return { key: dk, label: d ? d[1] : dk }; }
+  return { key: '__aclasser', label: 'À classer' };
 }
 // Amorce : positions de départ en pôles (la physique relâche ensuite)
 function computeMindmapLayout(ideas, by) {
@@ -5519,6 +5557,9 @@ function renderPlaceholder(content, actions, key) {
 // ============ VUE ROADMAP (frise chronologique) ============
 const roadmapStatusLabel = { done: 'Livré', doing: 'En cours', planned: 'À venir' };
 const roadmapStatusDot = { done: 'var(--teal-600)', doing: 'var(--blue-500)', planned: 'var(--slate-400)' };
+// Roadmap : par défaut on masque les mois passés (focus mois courant + à venir), dépliables à la demande
+let rmShowPast = false;
+function toggleRoadmapPast() { rmShowPast = !rmShowPast; render(); }
 const MONTH_FR = ['Janv.', 'Févr.', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'];
 function monthLabel(m) {
   if (!m) return '';
@@ -5589,9 +5630,22 @@ function renderRoadmap(content, actions) {
 
   // Mois ayant au moins un jalon, du plus ancien (ou aujourd'hui) au plus récent
   const monthSet = [...new Set(dated.map(i => i.month))];
-  if (!monthSet.includes(today) && dated.some(i => i.month > today)) monthSet.push(today);
+  if (!monthSet.includes(today)) monthSet.push(today); // ancre toujours « aujourd'hui » pour ne jamais avoir une vue vide
   const months = monthSet.sort();
-  months.forEach(m => {
+  const pastMonths = months.filter(m => m < today);
+  const nPastJalons = dated.filter(i => i.month < today).length;
+
+  // Bouton « voir les mois précédents » — par défaut on garde le focus sur aujourd'hui + à venir
+  if (pastMonths.length) {
+    html += `<button class="rm-past-toggle" onclick="toggleRoadmapPast()">
+      <span class="rm-past-chevron">${rmShowPast ? '▾' : '▸'}</span>
+      ${rmShowPast ? 'Masquer les mois passés' : `Voir les ${pastMonths.length} mois précédents`}
+      ${rmShowPast ? '' : `<span class="rm-past-count">${nPastJalons}</span>`}
+    </button>`;
+  }
+
+  const visibleMonths = rmShowPast ? months : months.filter(m => m >= today);
+  visibleMonths.forEach(m => {
     const colItems = dated.filter(i => i.month === m);
     let klass = 'is-past';
     if (m === today) klass = 'is-current';
