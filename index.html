@@ -712,7 +712,7 @@ body {
 .mb-hero-tag { margin-top: 11px; font-size: 15px; color: #CBD5E1; max-width: 480px; line-height: 1.55; }
 .mb-sec { margin: 0 0 38px; }
 .mb-sec-head { font-family: var(--font-display); font-size: 25px; font-weight: 700; color: var(--slate-900); margin: 0 0 5px; }
-.mb-sec-rule { height: 3px; width: 48px; background: var(--blue-600); border-radius: 99px; margin-bottom: 20px; }
+.mb-sec-rule { height: 3px; width: 48px; background: var(--blue-700); border-radius: 99px; margin-bottom: 20px; }
 .mb-block { background: #fff; border: 1px solid var(--slate-200); border-radius: 18px; padding: 22px; margin-bottom: 16px; }
 .mb-block-lbl { font-size: 11px; text-transform: uppercase; letter-spacing: .07em; color: var(--slate-400); font-weight: 700; margin-bottom: 14px; }
 .mb-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
@@ -759,9 +759,15 @@ body {
 .mb-wire-row { padding: 13px 16px; border-bottom: 1px dashed var(--slate-200); font-size: 12.5px; color: var(--slate-600); }
 .mb-wire-row:last-child { border-bottom: none; }
 .mb-wire-row b { color: var(--slate-800); }
-.mb-wire-hero { background: linear-gradient(135deg, var(--blue-600), var(--blue-700)); color: #fff; }
+.mb-wire-hero { background: linear-gradient(135deg, var(--blue-700), #1731a8); color: #fff; }
 .mb-wire-hero b { color: #fff; }
 .mb-wire-cta { background: var(--teal-600); color: #fff; text-align: center; font-weight: 700; }
+.mb-wire-dark { background: #0B1120; color: #CBD5E1; }
+.mb-wire-dark b { color: #fff; }
+.mb-circuits { display: flex; flex-wrap: wrap; gap: 10px; }
+.mb-circuit { display: inline-flex; align-items: center; gap: 9px; background: #0B1120; color: #fff; border-radius: 12px; padding: 11px 16px; font-weight: 600; font-size: 13.5px; }
+.mb-circuit-n { width: 22px; height: 22px; border-radius: 50%; background: var(--blue-700); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; flex-shrink: 0; }
+.mb code { font-family: ui-monospace, 'SF Mono', monospace; font-size: 12px; background: var(--slate-100); padding: 1px 5px; border-radius: 5px; color: var(--slate-700); }
 
 /* Group cards (aperçu de regroupement) */
 .group-card {
@@ -4513,58 +4519,69 @@ let expandedGroups = { vision: new Set(), marche: new Set(), pricing: new Set(),
 // ===== Marque & com' : vitrine vivante (visuels réels + modules rotatifs) =====
 let mbRAF = null;
 function mbPalette() {
+  // Tokens RÉELS du site vitrine (cf. docs/superpowers/specs/site-vitrine-v1-design + vitrine.css)
   const sw = [
-    ['Cobalt', '#2563EB', 'Accent unique'],
+    ['Cobalt', '#1D4ED8', 'Accent principal'],
+    ['Teal', '#0D9488', 'Signaux positifs / migration'],
     ['Encre', '#0F172A', 'Le texte'],
-    ['Ardoise', '#64748B', 'Gris de soutien'],
-    ['Crème', '#F8FAFC', 'Les fonds'],
-    ['Teal', '#0D9488', 'Le positif']
+    ['Crème', '#F8FAFC', 'Fond « light premium »'],
+    ['Nuit', '#0B1120', 'La seule section sombre (CTA + footer)'],
+    ['Taupe', '#A8A39B', 'Le « CPTS » du wordmark']
   ];
-  return `<div class="mb-block"><div class="mb-block-lbl">Palette</div><div class="mb-palette">${sw.map(([n,h,r]) =>
+  return `<div class="mb-block"><div class="mb-block-lbl">Palette (réelle, depuis le vitrine)</div><div class="mb-palette">${sw.map(([n,h,r]) =>
     `<div class="mb-swatch"><div class="mb-swatch-chip" style="background:${h}"></div><div class="mb-swatch-name">${n}</div><div class="mb-swatch-hex">${h}</div><div class="mb-swatch-role">${r}</div></div>`).join('')}</div></div>`;
 }
 function mbTypo() {
   return `<div class="mb-block"><div class="mb-block-lbl">Typographie</div>
-    <div class="mb-typo-row"><div class="mb-typo-lbl">Titres — Fraunces (serif d'affichage)</div><div class="mb-typo-display">Piloter, lire, ajuster.</div></div>
-    <div class="mb-typo-row"><div class="mb-typo-lbl">Texte — Manrope</div><div class="mb-typo-sans">Le produit dit sans mot ce qu'il fait. Sobre par défaut, riche seulement là où ça compte.</div></div>
-    <div class="mb-typo-row"><div class="mb-typo-lbl">Graisses Manrope</div><div class="mb-weights"><span style="font-weight:400">Regular</span><span style="font-weight:500">Medium</span><span style="font-weight:600">Semi-bold</span><span style="font-weight:700">Bold</span><span style="font-weight:800">Extra-bold</span></div></div></div>`;
+    <div class="mb-typo-row"><div class="mb-typo-lbl">Une seule police : Manrope</div><div class="mb-typo-sans" style="font-weight:800;font-size:26px;color:var(--slate-900)">Piloter, lire, ajuster.</div></div>
+    <div class="mb-typo-row"><div class="mb-typo-lbl">Texte courant</div><div class="mb-typo-sans">Le produit dit sans mot ce qu'il fait. Sobre par défaut, riche seulement là où ça compte.</div></div>
+    <div class="mb-typo-row"><div class="mb-typo-lbl">Graisses (400 → 800)</div><div class="mb-weights"><span style="font-weight:400">Regular</span><span style="font-weight:500">Medium</span><span style="font-weight:600">Semi-bold</span><span style="font-weight:700">Bold</span><span style="font-weight:800">Extra-bold</span></div></div>
+    <div class="mb-typo-row"><div class="mb-card-text" style="color:var(--slate-500)">Fraunces (serif) faisait partie du brand v0.7 mais n'a <b>jamais</b> été appliquée — le vitrine est 100 % Manrope.</div></div></div>`;
 }
 function mbWordmarkMark() {
-  return `<div class="mb-block"><div class="mb-block-lbl">Logo &amp; wordmark</div>
+  return `<div class="mb-block"><div class="mb-block-lbl">Logo &amp; wordmark (réels)</div>
     <div class="mb-showcase-row" style="margin-bottom:22px">
-      <div class="mb-wordmark-lg"><span class="cpts">CPTS</span>Pilot</div>
-      <div class="mb-showcase-note">« <b>Pilot</b> » revendiqué en poids fort, encre. « CPTS » posé en gris léger, comme un cadre. La marque, c'est l'acte de piloter.</div>
+      <div class="mb-wordmark-lg"><span style="color:#A8A39B;font-weight:500;margin-right:.14em">CPTS</span><span style="color:#0F172A;font-weight:800">Pilot</span></div>
+      <div class="mb-showcase-note">« <b>Pilot</b> » en encre (#0F172A), poids 800. « CPTS » en taupe (#A8A39B), poids 500. La marque, c'est l'acte de piloter.</div>
     </div>
     <div class="mb-showcase-row">
       ${mixerMarkSvg()}
-      <div class="mb-showcase-note">Le mark est une <b>table de mixage</b> — quatre curseurs, un handle cobalt. Il dit sans mot : piloter, lire, ajuster.</div>
+      <div class="mb-showcase-note">Le mark officiel est un <b>mixer</b> (4 curseurs, un handle cobalt) — fichier <code>static/logos/cpts-pilot-mark.svg</code>. Il dit sans mot : piloter, lire, ajuster.</div>
     </div></div>`;
 }
 function mbIdentityVisuals() { return mbPalette() + mbTypo() + mbWordmarkMark(); }
-const MB_MODULES = [
-  ['Trésorerie', 'budgets calculés'], ['Coordination ACI', 'indicateurs auto'], ['Projets', 'suivi & financements'],
-  ['Réunions', 'présence & PV'], ['Membres', 'annuaire & rôles'], ['Vie associative', 'adhésions'], ['Hub', 'tableau de bord']
+const MB_PILIERS = [
+  ["L'outil de votre vision d'ensemble", "Le seul endroit où la vie collective de la CPTS se pilote — CPTS Pilot orchestre, il ne remplace pas vos logiciels métier."],
+  ["Tout au même endroit", "Fini le jonglage Excel / mails / Drive : plus de fichiers à versionner, de mails qui se croisent, de pièces perdues."],
+  ["Chacun peut assumer son rôle", "Trésorier, secrétaire, coordinatrice, bureau, adhérent : à chacun son espace, selon son rôle."]
 ];
-function mbModulesRing() {
-  return `<div class="mb-block"><div class="mb-block-lbl">Présentation rotative des modules</div>
-    <div class="mb-ring" id="mb-ring">
-      <div class="mb-ring-core">${mixerMarkSvg()}<span>CPTS Pilot</span></div>
-      ${MB_MODULES.map(m => `<div class="mb-orbit"><div class="mb-tile"><b>${esc(m[0])}</b><small>${esc(m[1])}</small></div></div>`).join('')}
-      <div class="mb-ring-hint">Survole pour mettre en pause</div>
-    </div></div>`;
+const MB_CIRCUITS = ['Indemnisation', 'Adhésion', 'Réunion / AG', 'Bilan ACI'];
+function mbVitrineReal() {
+  const rows = [
+    ['Nav', 'logo + ancres + bouton démo', ''],
+    ['Hero', 'la promesse + un chip migration discret (popover / drawer)', 'hero'],
+    ['Piliers', '« Notre approche » — 3 partis pris', ''],
+    ['Espaces par rôle', 'switcher de 5 espaces RÉELS de la plateforme (pas de persona inventé)', ''],
+    ['Circuits', '4 parcours menés de A à Z — navigation flèches + points', 'dark'],
+    ['Modules', 'le détail des modules', ''],
+    ['Tarifs', 'placeholder honnête : forfait par CPTS, sans engagement, migration incluse', ''],
+    ['Appel final', '« essayer la démo » → /demo/login', 'dark'],
+    ['Footer', '', 'dark']
+  ];
+  const wire = `<div class="mb-wire">${rows.map(([t,d,k]) =>
+    `<div class="mb-wire-row ${k==='hero'?'mb-wire-hero':''}${k==='dark'?'mb-wire-dark':''}"><b>${esc(t)}</b>${d?' — '+esc(d):''}</div>`).join('')}</div>`;
+  const piliers = `<div class="mb-grid">${MB_PILIERS.map(p =>
+    `<div class="mb-card"><div class="mb-card-name">${esc(p[0])}</div><div class="mb-card-text">${esc(p[1])}</div></div>`).join('')}</div>`;
+  const circuits = `<div class="mb-circuits">${MB_CIRCUITS.map((c,i) =>
+    `<div class="mb-circuit"><span class="mb-circuit-n">${i+1}</span>${esc(c)}</div>`).join('')}</div>`;
+  return `<div class="mb-block"><div class="mb-block-lbl">Direction visuelle</div>
+      <div class="mb-card-text">« <b>Light premium</b> » — fond crème, accents cobalt + teal, neutres slate, Manrope. Une seule section sombre (appel final + footer). Le but de la page : convertir vers la démo, sans mentir sur ce que le produit fait déjà.</div></div>
+    <div class="mb-block"><div class="mb-block-lbl">Structure réelle de la home (V1)</div>${wire}</div>
+    <div class="mb-block"><div class="mb-block-lbl">Les 3 piliers — « Notre approche »</div>${piliers}</div>
+    <div class="mb-block"><div class="mb-block-lbl">Les 4 circuits (carrousel, section sombre)</div>${circuits}
+      <div class="mb-card-text" style="margin-top:14px;color:var(--slate-500)">💡 Ton idée de <b>présentation rotative circulaire des modules</b> n'est pas dans le V1 (qui utilise ce carrousel de circuits) — elle reste une piste à explorer.</div></div>`;
 }
-function mbWireframe() {
-  return `<div class="mb-block"><div class="mb-block-lbl">Structure du site vitrine</div>
-    <div class="mb-wire">
-      <div class="mb-wire-row mb-wire-hero"><b>Hero</b> — Pour qui + la promesse (« le cockpit des CPTS »)</div>
-      <div class="mb-wire-row"><b>Preuve</b> — la différenciation : ACI ↔ trésorerie calculée, pas saisie</div>
-      <div class="mb-wire-row"><b>Modules</b> — la présentation rotative ci-dessus</div>
-      <div class="mb-wire-row"><b>Rassurance</b> — sécurité, hébergement souverain, démo sans risque</div>
-      <div class="mb-wire-row"><b>Tarif / pilote</b> — l'offre et l'appel au pilote</div>
-      <div class="mb-wire-cta">Demander une démo</div>
-    </div></div>`;
-}
-function mbVitrineVisuals() { return mbModulesRing() + mbWireframe(); }
+function mbVitrineVisuals() { return mbVitrineReal(); }
 function mbStartRing() {
   if (mbRAF) { cancelAnimationFrame(mbRAF); mbRAF = null; }
   const ring = document.getElementById('mb-ring'); if (!ring) return;

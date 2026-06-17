@@ -280,13 +280,13 @@
         "name": "Le wordmark",
         "size": "normal",
         "group": "Identité visuelle",
-        "text": "« CPTS Pilot » : **Pilot** en poids fort, encre noire ; **CPTS** posé en gris léger, comme un cadre. La marque, c'est l'acte de piloter. Une seule écriture, aucune variante fantaisie."
+        "text": "« CPTS » en taupe #A8A39B, poids 500 ; « Pilot » en encre #0F172A, poids 800. La marque, c'est l'acte de piloter. Une seule écriture, aucune variante."
       },
       {
         "name": "Palette & typo",
         "size": "normal",
         "group": "Identité visuelle",
-        "text": "Cobalt en accent unique, encre (gris très foncé) pour le texte, crème/blanc cassé pour les fonds, une touche de teal pour le positif. Typo Manrope, comme dans l'appli. Tout support reprend ces mêmes tokens — zéro improvisation."
+        "text": "Cobalt #1D4ED8 en accent, teal #0D9488 pour les signaux positifs/migration, encre #0F172A pour le texte, crème #F8FAFC en fond (« light premium »), une seule section sombre #0B1120. Une seule police : Manrope (Fraunces écartée, jamais appliquée)."
       },
       {
         "name": "Ce que le site vitrine doit faire",
@@ -295,10 +295,10 @@
         "text": "En 30 secondes, une coordinatrice CPTS doit comprendre trois choses : c'est fait pour elle, c'est sobre et sérieux, et elle peut essayer sans risque. Objectif unique de la page : déclencher une demande de pilote / démo. Ce n'est pas une plaquette exhaustive, c'est une porte d'entrée."
       },
       {
-        "name": "Présentation rotative des modules",
+        "name": "Présentation rotative des modules (idée)",
         "size": "normal",
         "group": "Site vitrine",
-        "text": "Un carrousel circulaire fait défiler les modules (trésorerie, coordination ACI, projets, réunions, membres…) pour montrer l'étendue sans noyer le visiteur. Chaque module = une tuile claire + un bénéfice en une phrase. (idée issue du vivier — à concrétiser)"
+        "text": "Idée du vivier : un carrousel circulaire des modules qui tourne pour montrer l'étendue sans noyer. ⚠️ Pas dans le V1 du vitrine — le V1 utilise un carrousel de 4 circuits (indemnisation, adhésion, réunion/AG, bilan ACI). À garder comme piste."
       },
       {
         "name": "La démo sans risque",
@@ -310,7 +310,7 @@
         "name": "Structure de la page",
         "size": "normal",
         "group": "Site vitrine",
-        "text": "Hero (pour qui + la promesse) → preuve (la différenciation : ACI ↔ trésorerie calculée, pas saisie) → les modules (rotatif) → rassurance (sécurité, hébergement souverain) → tarif / pilote → appel à l'action clair. Un seul fil, une seule action attendue."
+        "text": "Home V1 (réelle) : Nav → Hero (+ chip migration) → Piliers (« Notre approche ») → Espaces par rôle (switcher de 5 espaces réels) → Circuits (4 parcours, section sombre) → Modules → Tarifs (placeholder honnête) → Appel final → Footer. Une seule action attendue : essayer la démo (/demo/login)."
       },
       {
         "name": "Où on se montre",
