@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-17T16:34:34.662Z",
+  "exportedAt": "2026-06-17T16:51:32.308Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -5942,18 +5942,18 @@
         "body": "Trancher l'architecture d'hébergement : une seule base partagée par toutes les CPTS, ou un espace dédié (base de données + fichiers) par CPTS. Décision structurante qui pèse sur les coûts, la sécurité des données, la montée en charge et la façon de mettre en service chaque nouvelle CPTS. À arbitrer avant d'engager les premières CPTS clientes."
       },
       {
-        "id": "mqi3o25lhqyxu",
-        "title": "Integration aux sites web existants des CPTS",
-        "month": "2026-08",
-        "status": "planned",
-        "body": "Decision Eva 2026-06-06 : idee a CONCRETISER, reste dans le vivier (pas promue en strategie tant que pas faisable). conditionne par DEC-01 (multi-tenant) et un theming profond par tenant. Beaucoup de CPTS ont deja un WordPress avec espace adherent. Arbitrage : ship SaaS pur d'abord, construire le deport seulement si plusieurs prospects bloquent dessus (project_integration_sites_cpts)."
-      },
-      {
         "id": "mqi3o25l92eda",
         "title": "Module RH dedie a la coordinatrice",
         "month": "2026-07",
         "status": "planned",
         "body": "La coordinatrice est salariee, pas soignante : 'Mes Indemnisations' n'a pas de sens pour elle. Explore lors du rework Mon Espace, jamais specifie."
+      },
+      {
+        "id": "mqi3o25lhqyxu",
+        "title": "Integration aux sites web existants des CPTS",
+        "month": "2026-08",
+        "status": "planned",
+        "body": "Decision Eva 2026-06-06 : idee a CONCRETISER, reste dans le vivier (pas promue en strategie tant que pas faisable). conditionne par DEC-01 (multi-tenant) et un theming profond par tenant. Beaucoup de CPTS ont deja un WordPress avec espace adherent. Arbitrage : ship SaaS pur d'abord, construire le deport seulement si plusieurs prospects bloquent dessus (project_integration_sites_cpts)."
       },
       {
         "id": "mqi3o25lznfjv",
