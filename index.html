@@ -701,6 +701,67 @@ body {
 .mixer-mark .track { stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; opacity: 0.28; }
 .mixer-mark .handle { fill: currentColor; }
 .mixer-mark .handle-cobalt { fill: var(--blue-700); }
+/* ===== Marque & com' — vitrine vivante ===== */
+.mb { max-width: 1020px; }
+.mb-hero { display: flex; align-items: center; gap: 24px; padding: 32px 30px; border-radius: 22px; background: linear-gradient(135deg, var(--slate-900), #1b2a4a); color: #fff; margin-bottom: 30px; flex-wrap: wrap; }
+.mb-hero .mixer-mark { width: 88px; height: 88px; color: #fff; flex-shrink: 0; }
+.mb-hero .mixer-mark .track { opacity: .42; }
+.mb-hero .mixer-mark .handle-cobalt { fill: #60A5FA; }
+.mb-hero-wordmark { font-size: 40px; font-weight: 800; letter-spacing: -.02em; line-height: 1; }
+.mb-hero-wordmark .cpts { color: #94A3B8; font-weight: 600; margin-right: .16em; }
+.mb-hero-tag { margin-top: 11px; font-size: 15px; color: #CBD5E1; max-width: 480px; line-height: 1.55; }
+.mb-sec { margin: 0 0 38px; }
+.mb-sec-head { font-family: var(--font-display); font-size: 25px; font-weight: 700; color: var(--slate-900); margin: 0 0 5px; }
+.mb-sec-rule { height: 3px; width: 48px; background: var(--blue-600); border-radius: 99px; margin-bottom: 20px; }
+.mb-block { background: #fff; border: 1px solid var(--slate-200); border-radius: 18px; padding: 22px; margin-bottom: 16px; }
+.mb-block-lbl { font-size: 11px; text-transform: uppercase; letter-spacing: .07em; color: var(--slate-400); font-weight: 700; margin-bottom: 14px; }
+.mb-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.mb-card { background: #fff; border: 1px solid var(--slate-200); border-radius: 14px; padding: 16px; }
+.mb-card.editable { cursor: pointer; transition: .15s; }
+.mb-card.editable:hover { border-color: var(--blue-500); box-shadow: 0 8px 22px rgba(15,23,42,.09); transform: translateY(-2px); }
+.mb-card-name { font-weight: 700; font-size: 14px; color: var(--slate-900); margin-bottom: 6px; }
+.mb-card-text { font-size: 12.5px; color: var(--slate-600); line-height: 1.55; white-space: pre-wrap; }
+/* palette */
+.mb-palette { display: flex; flex-wrap: wrap; gap: 16px; }
+.mb-swatch { width: 132px; }
+.mb-swatch-chip { height: 86px; border-radius: 14px; box-shadow: inset 0 0 0 1px rgba(15,23,42,.08); }
+.mb-swatch-name { font-weight: 700; font-size: 13px; margin-top: 9px; color: var(--slate-800); }
+.mb-swatch-hex { font-size: 11.5px; color: var(--slate-500); font-family: ui-monospace, 'SF Mono', monospace; }
+.mb-swatch-role { font-size: 11.5px; color: var(--slate-500); margin-top: 1px; }
+/* typo */
+.mb-typo-row { padding: 14px 0; border-bottom: 1px solid var(--slate-100); }
+.mb-typo-row:last-child { border-bottom: none; padding-bottom: 0; }
+.mb-typo-row:first-child { padding-top: 0; }
+.mb-typo-lbl { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--slate-400); margin-bottom: 6px; }
+.mb-typo-display { font-family: var(--font-display); font-size: 34px; font-weight: 700; color: var(--slate-900); line-height: 1.1; }
+.mb-typo-sans { font-size: 20px; color: var(--slate-800); line-height: 1.4; }
+.mb-weights { display: flex; flex-wrap: wrap; gap: 20px; align-items: baseline; }
+.mb-weights span { font-size: 19px; color: var(--slate-800); }
+/* wordmark + mark */
+.mb-showcase-row { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+.mb-wordmark-lg { font-size: 48px; font-weight: 800; letter-spacing: -.02em; color: var(--slate-900); }
+.mb-wordmark-lg .cpts { color: var(--slate-400); font-weight: 600; margin-right: .14em; }
+.mb-showcase-note { font-size: 13px; color: var(--slate-600); max-width: 320px; line-height: 1.55; }
+.mb-showcase-row .mixer-mark { width: 124px; height: 124px; color: var(--slate-900); flex-shrink: 0; }
+/* modules ring */
+.mb-ring { position: relative; height: 440px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.mb-ring-core { position: absolute; z-index: 3; width: 124px; height: 124px; border-radius: 50%; background: var(--slate-900); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; box-shadow: 0 14px 34px rgba(15,23,42,.28); }
+.mb-ring-core .mixer-mark { width: 42px; height: 42px; color: #fff; }
+.mb-ring-core .mixer-mark .handle-cobalt { fill: #60A5FA; }
+.mb-ring-core span { font-size: 11px; font-weight: 700; margin-top: 5px; letter-spacing: .01em; }
+.mb-orbit { position: absolute; left: 50%; top: 50%; width: 134px; margin: -34px 0 0 -67px; will-change: transform; }
+.mb-tile { background: #fff; border: 1px solid var(--slate-200); border-left: 4px solid var(--blue-600); border-radius: 12px; padding: 9px 12px; text-align: center; box-shadow: 0 6px 18px rgba(15,23,42,.10); }
+.mb-tile b { display: block; font-size: 13px; color: var(--slate-900); }
+.mb-tile small { font-size: 11px; color: var(--slate-500); }
+.mb-ring-hint { position: absolute; bottom: 4px; font-size: 11.5px; color: var(--slate-400); z-index: 4; }
+/* wireframe */
+.mb-wire { border: 1px solid var(--slate-200); border-radius: 14px; overflow: hidden; }
+.mb-wire-row { padding: 13px 16px; border-bottom: 1px dashed var(--slate-200); font-size: 12.5px; color: var(--slate-600); }
+.mb-wire-row:last-child { border-bottom: none; }
+.mb-wire-row b { color: var(--slate-800); }
+.mb-wire-hero { background: linear-gradient(135deg, var(--blue-600), var(--blue-700)); color: #fff; }
+.mb-wire-hero b { color: #fff; }
+.mb-wire-cta { background: var(--teal-600); color: #fff; text-align: center; font-weight: 700; }
 
 /* Group cards (aperçu de regroupement) */
 .group-card {
@@ -4449,7 +4510,111 @@ function findPillar(section, pid) { return (state.strategiePillars[section]||[])
 
 let expandedGroups = { vision: new Set(), marche: new Set(), pricing: new Set(), dev: new Set(), marque: new Set() };
 
+// ===== Marque & com' : vitrine vivante (visuels réels + modules rotatifs) =====
+let mbRAF = null;
+function mbPalette() {
+  const sw = [
+    ['Cobalt', '#2563EB', 'Accent unique'],
+    ['Encre', '#0F172A', 'Le texte'],
+    ['Ardoise', '#64748B', 'Gris de soutien'],
+    ['Crème', '#F8FAFC', 'Les fonds'],
+    ['Teal', '#0D9488', 'Le positif']
+  ];
+  return `<div class="mb-block"><div class="mb-block-lbl">Palette</div><div class="mb-palette">${sw.map(([n,h,r]) =>
+    `<div class="mb-swatch"><div class="mb-swatch-chip" style="background:${h}"></div><div class="mb-swatch-name">${n}</div><div class="mb-swatch-hex">${h}</div><div class="mb-swatch-role">${r}</div></div>`).join('')}</div></div>`;
+}
+function mbTypo() {
+  return `<div class="mb-block"><div class="mb-block-lbl">Typographie</div>
+    <div class="mb-typo-row"><div class="mb-typo-lbl">Titres — Fraunces (serif d'affichage)</div><div class="mb-typo-display">Piloter, lire, ajuster.</div></div>
+    <div class="mb-typo-row"><div class="mb-typo-lbl">Texte — Manrope</div><div class="mb-typo-sans">Le produit dit sans mot ce qu'il fait. Sobre par défaut, riche seulement là où ça compte.</div></div>
+    <div class="mb-typo-row"><div class="mb-typo-lbl">Graisses Manrope</div><div class="mb-weights"><span style="font-weight:400">Regular</span><span style="font-weight:500">Medium</span><span style="font-weight:600">Semi-bold</span><span style="font-weight:700">Bold</span><span style="font-weight:800">Extra-bold</span></div></div></div>`;
+}
+function mbWordmarkMark() {
+  return `<div class="mb-block"><div class="mb-block-lbl">Logo &amp; wordmark</div>
+    <div class="mb-showcase-row" style="margin-bottom:22px">
+      <div class="mb-wordmark-lg"><span class="cpts">CPTS</span>Pilot</div>
+      <div class="mb-showcase-note">« <b>Pilot</b> » revendiqué en poids fort, encre. « CPTS » posé en gris léger, comme un cadre. La marque, c'est l'acte de piloter.</div>
+    </div>
+    <div class="mb-showcase-row">
+      ${mixerMarkSvg()}
+      <div class="mb-showcase-note">Le mark est une <b>table de mixage</b> — quatre curseurs, un handle cobalt. Il dit sans mot : piloter, lire, ajuster.</div>
+    </div></div>`;
+}
+function mbIdentityVisuals() { return mbPalette() + mbTypo() + mbWordmarkMark(); }
+const MB_MODULES = [
+  ['Trésorerie', 'budgets calculés'], ['Coordination ACI', 'indicateurs auto'], ['Projets', 'suivi & financements'],
+  ['Réunions', 'présence & PV'], ['Membres', 'annuaire & rôles'], ['Vie associative', 'adhésions'], ['Hub', 'tableau de bord']
+];
+function mbModulesRing() {
+  return `<div class="mb-block"><div class="mb-block-lbl">Présentation rotative des modules</div>
+    <div class="mb-ring" id="mb-ring">
+      <div class="mb-ring-core">${mixerMarkSvg()}<span>CPTS Pilot</span></div>
+      ${MB_MODULES.map(m => `<div class="mb-orbit"><div class="mb-tile"><b>${esc(m[0])}</b><small>${esc(m[1])}</small></div></div>`).join('')}
+      <div class="mb-ring-hint">Survole pour mettre en pause</div>
+    </div></div>`;
+}
+function mbWireframe() {
+  return `<div class="mb-block"><div class="mb-block-lbl">Structure du site vitrine</div>
+    <div class="mb-wire">
+      <div class="mb-wire-row mb-wire-hero"><b>Hero</b> — Pour qui + la promesse (« le cockpit des CPTS »)</div>
+      <div class="mb-wire-row"><b>Preuve</b> — la différenciation : ACI ↔ trésorerie calculée, pas saisie</div>
+      <div class="mb-wire-row"><b>Modules</b> — la présentation rotative ci-dessus</div>
+      <div class="mb-wire-row"><b>Rassurance</b> — sécurité, hébergement souverain, démo sans risque</div>
+      <div class="mb-wire-row"><b>Tarif / pilote</b> — l'offre et l'appel au pilote</div>
+      <div class="mb-wire-cta">Demander une démo</div>
+    </div></div>`;
+}
+function mbVitrineVisuals() { return mbModulesRing() + mbWireframe(); }
+function mbStartRing() {
+  if (mbRAF) { cancelAnimationFrame(mbRAF); mbRAF = null; }
+  const ring = document.getElementById('mb-ring'); if (!ring) return;
+  const orbits = [...ring.querySelectorAll('.mb-orbit')]; if (!orbits.length) return;
+  const R = 168; let ang = -Math.PI / 2; let paused = false;
+  ring.onmouseenter = () => { paused = true; }; ring.onmouseleave = () => { paused = false; };
+  function frame() {
+    if (!document.body.contains(ring)) { mbRAF = null; return; }
+    if (!paused) ang += 0.0016;
+    orbits.forEach((o, i) => { const a = ang + i * (2 * Math.PI / orbits.length);
+      o.style.transform = `translate(${(Math.cos(a) * R).toFixed(1)}px, ${(Math.sin(a) * R).toFixed(1)}px)`; });
+    mbRAF = requestAnimationFrame(frame);
+  }
+  frame();
+}
+function mbEncartCard(p) {
+  return `<div class="mb-card editable" onclick="openEncartModal('marque','${p.id}')">
+    <div class="mb-card-name">${esc(p.name)}</div>
+    ${p.text ? `<div class="mb-card-text">${esc(p.text)}</div>` : `<div class="mb-card-text" style="color:var(--slate-400)">Vide — clique pour rédiger</div>`}
+  </div>`;
+}
+function renderMarqueShowcase(content, actions) {
+  actions.innerHTML = `<button class="btn btn-primary" onclick="addEncart('marque')">+ Encart</button>`;
+  const encarts = state.strategiePillars['marque'] || [];
+  const used = new Set();
+  const SECTIONS = [
+    { title: 'Identité visuelle', match: /identit/i, visual: mbIdentityVisuals },
+    { title: 'Site vitrine', match: /vitrine/i, visual: mbVitrineVisuals },
+    { title: 'Contenus & présence en ligne', match: /contenu|présence|ligne|com/i, visual: null }
+  ];
+  const tagline = (encarts.find(e => e.size === 'large') || encarts[0] || {}).text || "Notre image, et comment on la diffuse.";
+  let html = `<div class="panel mb" style="max-width:1020px">`;
+  html += `<div class="mb-hero">${mixerMarkSvg()}<div><div class="mb-hero-wordmark"><span class="cpts">CPTS</span>Pilot</div><div class="mb-hero-tag">${esc((tagline.replace(/«|»/g,'').split(/[.!?]\s/)[0] || '').trim().slice(0,150))}</div></div></div>`;
+  SECTIONS.forEach(s => {
+    const items = encarts.filter(e => s.match.test((e.group || '').trim()) && !used.has(e.id));
+    items.forEach(e => used.add(e.id));
+    html += `<div class="mb-sec"><div class="mb-sec-head">${esc(s.title)}</div><div class="mb-sec-rule"></div>`;
+    if (s.visual) html += s.visual();
+    if (items.length) html += `<div class="mb-grid">${items.map(mbEncartCard).join('')}</div>`;
+    html += `</div>`;
+  });
+  const rest = encarts.filter(e => !used.has(e.id));
+  if (rest.length) html += `<div class="mb-sec"><div class="mb-sec-head">Autres</div><div class="mb-sec-rule"></div><div class="mb-grid">${rest.map(mbEncartCard).join('')}</div></div>`;
+  if (!encarts.length) html += `<div class="empty" style="margin-top:8px"><p>Les textes ne sont pas encore chargés — fais Réglages → « Charger / synchroniser » pour les remplir. Les visuels ci-dessus, eux, sont toujours là.</p></div>`;
+  html += `</div>`;
+  content.innerHTML = html;
+  requestAnimationFrame(mbStartRing);
+}
 function renderStrategie(content, actions, section) {
+  if (section === 'marque') return renderMarqueShowcase(content, actions);
   actions.innerHTML = `<button class="btn btn-primary" onclick="addEncart('${section}')">+ Encart</button>`;
   const encarts = state.strategiePillars[section] || [];
   let html = '<div class="panel" style="max-width:1100px">';
