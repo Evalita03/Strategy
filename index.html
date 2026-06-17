@@ -854,6 +854,31 @@ body {
   position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
   text-align: center; color: var(--slate-400); font-size: 13px; padding: 24px; pointer-events: none;
 }
+/* Mosaïque d'idées (cartes lisibles regroupées + fil conducteur SVG) */
+.mm-board { position: relative; padding: 4px 2px 8px; }
+.mm-links-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; z-index: 1; }
+.mm-cat { position: relative; z-index: 2; margin: 0 0 26px; }
+.mm-cat-head { display: flex; align-items: baseline; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--slate-500); margin: 0 0 12px; }
+.mm-cat-head .mm-cat-count { color: var(--slate-400); font-weight: 600; }
+.mm-mosaic { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 13px; align-items: start; }
+.mm-card {
+  position: relative; background: var(--white); border: 1px solid var(--slate-200); border-left: 4px solid var(--slate-300);
+  border-radius: 12px; padding: 12px 13px; cursor: pointer; overflow: hidden; max-height: 158px;
+  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, opacity .16s ease;
+}
+.mm-card:hover { transform: scale(1.045); box-shadow: 0 16px 38px rgba(15,23,42,.17); max-height: 620px; z-index: 30; border-left-color: var(--blue-500); }
+.mm-card-title { display: flex; gap: 7px; align-items: flex-start; font-weight: 700; font-size: 13.5px; color: var(--slate-800); line-height: 1.35; }
+.mm-card-ic { flex-shrink: 0; font-size: 13px; line-height: 1.4; }
+.mm-card-text { margin-top: 7px; font-size: 12.5px; color: var(--slate-600); line-height: 1.5; white-space: pre-wrap; }
+.mm-card-cit { font-style: italic; color: var(--slate-500); }
+.mm-card-meta { margin-top: 9px; display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
+.mm-chip { font-size: 10.5px; font-weight: 600; border-radius: 20px; padding: 2px 8px; background: var(--slate-100); color: var(--slate-500); }
+.mm-chip.link { background: var(--blue-50); color: var(--blue-700); border: 1px solid var(--blue-100); }
+.mm-card.archived { opacity: .58; }
+.mm-card.dim { opacity: .16; }
+.mm-card.linked { border-color: var(--blue-500); box-shadow: 0 0 0 2px var(--blue-100); }
+.mm-card.linksrc { border-color: var(--blue-700); box-shadow: 0 0 0 2px var(--blue-200); }
+.mm-empty-cat { color: var(--slate-400); font-size: 12.5px; }
 
 /* Prospects table */
 table { width: 100%; border-collapse: collapse; background: var(--white); border-radius: 12px; overflow: hidden; border: 1px solid var(--slate-200); }
@@ -2965,6 +2990,7 @@ function renderMindmap(content, actions) {
   actions.innerHTML = `<button class="btn btn-ghost" onclick="loadIdeesVivier(true)" ${dis}>↻ Rafraîchir</button>
     <button class="btn btn-primary" onclick="flashIdee()" ${ideesData?'':'disabled'} ${dis}>⚡ Idée flash</button>`;
   const d = ideesData;
+  const leg = (d && d.legende) || {};
   const ideas = d && Array.isArray(d.idees) ? d.idees : [];
   const count = mmVisibleIdeas().length;
   const archivedTotal = ideas.filter(i => i.archived).length;
@@ -2980,9 +3006,9 @@ function renderMindmap(content, actions) {
           <select class="v-sel" onchange="setIdeaGroupBy(this.value)" title="Regrouper les idées par…">
             ${MM_GROUPS.map(([v,l]) => `<option value="${v}" ${ideaGroupBy===v?'selected':''}>Grouper : ${l}</option>`).join('')}
           </select>
+          <button class="btn btn-ghost btn-sm ${mmShowLinks?'active':''}" onclick="toggleMmLinks()" title="Afficher tous les fils entre idées">🔗 Liens</button>
           <button class="btn btn-ghost btn-sm" onclick="toggleMmArchived()" title="Afficher / masquer les idées archivées">${mmShowArchived?'◉':'○'} Archivées${archivedTotal?` (${archivedTotal})`:''}</button>
-          <button class="btn btn-ghost btn-sm" onclick="mmReorganize()" title="Recadrer et réorganiser">⤢ Réorganiser</button>
-          <button class="btn btn-ghost btn-sm" id="idea-link-btn" onclick="toggleIdeaLink()">↔ Relier</button>
+          <button class="btn btn-ghost btn-sm ${ideaLinkMode?'active':''}" id="idea-link-btn" onclick="toggleIdeaLink()">↔ Relier</button>
         ` : ''}
       </span>
     </h3>`;
@@ -2994,23 +3020,98 @@ function renderMindmap(content, actions) {
       <button class="btn btn-ghost btn-sm" onclick="loadIdeesVivier(true)">↻ Réessayer</button></div>`;
   } else if (!d) {
     html += `<div class="todo-empty-zone">Vivier non chargé.</div>`;
+  } else if (mmVisibleIdeas().length === 0) {
+    html += mindmapLegend();
+    html += `<div class="todo-empty-zone">Aucune idée à afficher${!mmShowArchived&&archivedTotal?` — les ${archivedTotal} archivées sont masquées (active « Archivées »)`:'. Clique « ⚡ Idée flash » pour en déposer une'}.</div>`;
   } else {
     html += mindmapLegend();
-    html += `<div class="idea-canvas-wrap">
-      <canvas id="idea-canvas"></canvas>
-      ${mmVisibleIdeas().length===0
-        ? `<div class="idea-canvas-empty">Aucune idée à afficher${!mmShowArchived&&archivedTotal?` (les ${archivedTotal} archivées sont masquées — active « Archivées »)`:'. Clique « ⚡ Idée flash » pour en déposer une'}.</div>`
-        : `<div class="idea-canvas-hint">Carte vivante · survole une catégorie pour l'isoler · glisse une bulle (tout suit) · molette pour zoomer · clic pour ouvrir · « Relier » pour connecter deux idées</div>`}
-    </div>`;
+    html += `<div class="idea-canvas-hint" style="position:static;display:inline-block;margin:0 0 10px">Survole une carte → ses idées liées s'illuminent · « 🔗 Liens » montre toute la toile · « ↔ Relier » connecte deux idées · clic = ouvrir</div>`;
+    html += mmBoardHtml(leg);
   }
   html += '</div></div>';
   content.innerHTML = html;
 
   if (!ideesData && !ideesLoading && !ideesError) { loadIdeesVivier(false); return; }
-  if (d && !ideesLoading && !ideesError) {
-    const canvas = document.getElementById('idea-canvas');
-    if (canvas) setupIdeaGraph(canvas);
+  if (d && !ideesLoading && !ideesError && mmVisibleIdeas().length) {
+    requestAnimationFrame(mmBoardInit);
   }
+}
+// ---- Mosaïque : construction du HTML ----
+function mmCardHtml(i, leg) {
+  const col = MINDMAP_COLORS[ideaColorKey(i)].c;
+  const icon = VIVIER_NATURE_ICON[i.nature] || (i.flash ? '⚡' : '•');
+  const natLabel = legLabel(leg.nature, i.nature, VIVIER_NATURE_FB[i.nature] || '');
+  const onlyCit = i.citation && !i.note;
+  const text = (i.citation ? `« ${i.citation} »` : '') + (i.citation && i.note ? '\n\n' : '') + (i.note || '');
+  const tags = [];
+  if (natLabel) tags.push(`<span class="mm-chip">${esc(natLabel)}</span>`);
+  if (i.theme) tags.push(`<span class="mm-chip">${esc(i.theme)}</span>`);
+  ideaRefIds(i).forEach(tid => { const t = ideeById(tid); if (t) tags.push(`<span class="mm-chip link" onclick="event.stopPropagation();mmJump('${esc(tid)}')">↔ ${esc((t.titre||tid).slice(0,18))}</span>`); });
+  return `<div class="mm-card ${i.archived?'archived':''}" data-id="${esc(i.id)}" style="border-left-color:${col}"
+       onmouseenter="mmFocus('${esc(i.id)}')" onmouseleave="mmBlur()" onclick="mmCardClick('${esc(i.id)}')">
+    <div class="mm-card-title"><span class="mm-card-ic" style="color:${col}">${icon}</span><span>${esc(i.titre||'(sans titre)')}</span></div>
+    ${text.trim() ? `<div class="mm-card-text${onlyCit?' mm-card-cit':''}">${esc(text.trim())}</div>` : ''}
+    ${tags.length ? `<div class="mm-card-meta">${tags.join('')}</div>` : ''}
+  </div>`;
+}
+function mmBoardHtml(leg) {
+  const groups = new Map();
+  mmVisibleIdeas().forEach(i => { const { key, label } = ideaGroupValue(i, ideaGroupBy);
+    if (!groups.has(key)) groups.set(key, { label, items: [] }); groups.get(key).items.push(i); });
+  const arr = [...groups.values()].sort((a, b) => b.items.length - a.items.length);
+  let h = `<div class="mm-board" id="mm-board"><svg class="mm-links-svg" id="mm-links"></svg>`;
+  arr.forEach(g => {
+    h += `<div class="mm-cat"><div class="mm-cat-head">${esc(g.label)}<span class="mm-cat-count">· ${g.items.length}</span></div>
+      <div class="mm-mosaic">${g.items.map(i => mmCardHtml(i, leg)).join('')}</div></div>`;
+  });
+  return h + `</div>`;
+}
+// ---- Mosaïque : fil conducteur (liens SVG) ----
+function mmCardEl(id) { const b = document.getElementById('mm-board'); if (!b) return null; return b.querySelector(`.mm-card[data-id="${(window.CSS&&CSS.escape)?CSS.escape(id):id}"]`); }
+function mmDrawLinks(focusId) {
+  const svg = document.getElementById('mm-links'), board = document.getElementById('mm-board'); if (!svg || !board) return;
+  const W = board.scrollWidth, H = board.scrollHeight;
+  svg.setAttribute('width', W); svg.setAttribute('height', H); svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  const br = board.getBoundingClientRect();
+  const center = id => { const el = mmCardEl(id); if (!el) return null; const r = el.getBoundingClientRect(); return { x: r.left-br.left + r.width/2, y: r.top-br.top + r.height/2 }; };
+  let edges = ideaEdges();
+  if (focusId) edges = edges.filter(e => e.source === focusId || e.target === focusId);
+  let p = '';
+  edges.forEach(e => { const a = center(e.source), b = center(e.target); if (!a || !b) return;
+    const mx = (a.x+b.x)/2, my = (a.y+b.y)/2 - Math.min(70, Math.abs(b.x-a.x)*0.2 + 22);
+    p += `<path d="M${a.x.toFixed(1)},${a.y.toFixed(1)} Q${mx.toFixed(1)},${my.toFixed(1)} ${b.x.toFixed(1)},${b.y.toFixed(1)}" fill="none" stroke="${focusId?'#2563EB':'rgba(37,99,235,0.20)'}" stroke-width="${focusId?2.2:1.5}" stroke-linecap="round"/>`;
+  });
+  svg.innerHTML = p;
+}
+function mmClearLinks() { const svg = document.getElementById('mm-links'); if (svg) svg.innerHTML = ''; }
+function mmBoardInit() { if (mmShowLinks) mmDrawLinks(null); else mmClearLinks(); }
+function toggleMmLinks() { mmShowLinks = !mmShowLinks; render(); }
+function mmFocus(id) {
+  const board = document.getElementById('mm-board'); if (!board) return;
+  const linked = new Set();
+  ideaEdges().forEach(e => { if (e.source === id) linked.add(e.target); if (e.target === id) linked.add(e.source); });
+  board.querySelectorAll('.mm-card').forEach(el => { const cid = el.dataset.id;
+    el.classList.toggle('linksrc', cid === id);
+    el.classList.toggle('linked', linked.has(cid));
+    el.classList.toggle('dim', linked.size > 0 && cid !== id && !linked.has(cid));
+  });
+  const svg = document.getElementById('mm-links'); if (svg) svg.style.zIndex = '25';
+  mmDrawLinks(id);
+}
+function mmBlur() {
+  const board = document.getElementById('mm-board'); if (!board) return;
+  board.querySelectorAll('.mm-card').forEach(el => el.classList.remove('linksrc','linked','dim'));
+  const svg = document.getElementById('mm-links'); if (svg) svg.style.zIndex = '';
+  if (mmShowLinks) mmDrawLinks(null); else mmClearLinks();
+}
+function mmJump(id) { const el = mmCardEl(id); if (el) { el.scrollIntoView({ behavior:'smooth', block:'center' }); mmFocus(id); } }
+function mmCardClick(id) {
+  if (ideaLinkMode) {
+    if (!ideaLinkSource) { ideaLinkSource = id; const el = mmCardEl(id); if (el) el.classList.add('linksrc'); }
+    else if (ideaLinkSource !== id) { const src = ideaLinkSource; ideaLinkSource = null; linkIdeas(src, id); }
+    return;
+  }
+  openIdeeModal(id);
 }
 
 // ===== VIVIER (idees.json depuis Plateforme-CPTS, lecture seule) =====
@@ -3651,6 +3752,7 @@ let mmSim = null;               // simulation { nodes, links, byId, sig }
 let mmAlpha = 0;                // énergie de la simulation (refroidit vers 0)
 let mmRAF = null;               // id d'animation
 let mmHover = null;             // nœud survolé (surbrillance de cluster)
+let mmShowLinks = false;        // afficher tous les fils entre idées en permanence ?
 const MM_GROUPS = [['theme','Thème'], ['famille','Famille'], ['nature','Nature'], ['statut','Statut']];
 
 function setIdeaGroupBy(v) { ideaGroupBy = v; mmSim = null; mmNeedsFit = true; render(); }
