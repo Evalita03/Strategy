@@ -777,6 +777,20 @@ body {
 .mb-rules li { font-size: 12.5px; line-height: 1.45; color: var(--slate-700); }
 .mb-rules.never li { color: #7f1d1d; }
 .mb-rules.always li { color: #0f5f57; }
+.mb-live { font-size: 11.5px; color: var(--teal-700); font-weight: 700; }
+.mb-brief { max-height: 460px; overflow-y: auto; padding-right: 8px; font-size: 13px; color: var(--slate-700); line-height: 1.6; }
+.mb-brief h1 { font-family: var(--font-display); font-size: 21px; color: var(--slate-900); margin: 4px 0 8px; }
+.mb-brief h2 { font-size: 16px; color: var(--slate-900); margin: 18px 0 6px; font-weight: 800; }
+.mb-brief h3 { font-size: 13.5px; color: var(--slate-800); margin: 12px 0 4px; font-weight: 700; }
+.mb-brief h4 { font-size: 12.5px; color: var(--slate-700); margin: 10px 0 3px; font-weight: 700; }
+.mb-brief p { margin: 4px 0; }
+.mb-brief ul { margin: 4px 0 4px 4px; padding-left: 18px; }
+.mb-brief li { margin: 2px 0; }
+.mb-brief blockquote { border-left: 3px solid var(--blue-700); background: var(--blue-50); margin: 8px 0; padding: 8px 12px; border-radius: 0 8px 8px 0; color: var(--slate-700); font-style: italic; }
+.mb-brief .bt-sp { height: 6px; }
+.mb-brief .bt-row { display: flex; gap: 10px; padding: 5px 0; border-bottom: 1px solid var(--slate-100); }
+.mb-brief .bt-cell { flex: 1; font-size: 12px; }
+.mb-brief .bt-cell:first-child { font-weight: 600; color: var(--slate-800); max-width: 160px; }
 
 /* Group cards (aperçu de regroupement) */
 .group-card {
@@ -4638,8 +4652,51 @@ function mbEncartCard(p) {
     ${p.text ? `<div class="mb-card-text">${esc(p.text)}</div>` : `<div class="mb-card-text" style="color:var(--slate-400)">Vide — clique pour rédiger</div>`}
   </div>`;
 }
+// Brief marque CANONIQUE, lu en direct dans Plateforme-CPTS/docs/cpts-pilot-brand-brief.md (le brief gagne)
+let brandBrief = { text: null, error: null, loading: false, loaded: false, at: null };
+async function loadBrandBrief(force) {
+  if (brandBrief.loading) return;
+  if (brandBrief.loaded && !force) return;
+  const cfg = getGhConfig();
+  if (!cfg || !cfg.token) { brandBrief = { ...brandBrief, error: 'token GitHub non configuré (Réglages)', loaded: true }; render(); return; }
+  brandBrief = { ...brandBrief, loading: true, error: null }; render();
+  try {
+    const owner = cfg.owner || 'Evalita03';
+    const url = `https://api.github.com/repos/${owner}/Plateforme-CPTS/contents/docs/cpts-pilot-brand-brief.md?ref=main&t=${Date.now()}`;
+    const resp = await fetch(url, { headers: { 'Authorization': `token ${cfg.token}`, 'Accept': 'application/vnd.github.v3+json' } });
+    if (resp.status === 404) throw new Error("Brief introuvable (docs/cpts-pilot-brand-brief.md) — à publier dans Plateforme-CPTS.");
+    if (!resp.ok) { const e = await resp.json().catch(() => ({})); throw new Error(e.message || ('HTTP ' + resp.status)); }
+    const data = await resp.json();
+    brandBrief = { text: b64ToUtf8(data.content), error: null, loading: false, loaded: true, at: new Date().toISOString().slice(0,16).replace('T',' ') };
+  } catch (e) {
+    brandBrief = { ...brandBrief, error: e.message, loading: false, loaded: true };
+  }
+  render();
+}
+function refreshBrandBrief() { loadBrandBrief(true); }
+// Mini-rendu markdown adapté au brief (titres, gras, listes, tableaux)
+function briefMd(t) {
+  const lines = (t || '').split('\n'); const out = []; let inList = false;
+  const flush = () => { if (inList) { out.push('</ul>'); inList = false; } };
+  const inl = s => esc(s).replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  for (const raw of lines) {
+    const h = raw.match(/^(#{1,4})\s+(.*)$/);
+    if (h) { flush(); out.push(`<h${h[1].length}>${inl(h[2])}</h${h[1].length}>`); continue; }
+    const q = raw.match(/^\s*>\s?(.*)$/);
+    if (q) { flush(); out.push(`<blockquote>${inl(q[1])}</blockquote>`); continue; }
+    const li = raw.match(/^\s*[-•*]\s+(.*)$/);
+    if (li) { if (!inList) { out.push('<ul>'); inList = true; } out.push('<li>' + inl(li[1]) + '</li>'); continue; }
+    flush();
+    if (/^\s*\|/.test(raw)) { if (/^\s*\|[\s:|-]+\|\s*$/.test(raw)) continue;
+      const cells = raw.split('|').slice(1, -1).map(c => `<span class="bt-cell">${inl(c.trim())}</span>`);
+      out.push(`<div class="bt-row">${cells.join('')}</div>`); continue; }
+    if (raw.trim() === '') out.push('<div class="bt-sp"></div>'); else out.push('<p>' + inl(raw) + '</p>');
+  }
+  flush(); return out.join('');
+}
 function renderMarqueShowcase(content, actions) {
-  actions.innerHTML = `<button class="btn btn-primary" onclick="addEncart('marque')">+ Encart</button>`;
+  actions.innerHTML = `<button class="btn btn-ghost" onclick="refreshBrandBrief()">↻ Brief</button>
+    <button class="btn btn-primary" onclick="addEncart('marque')">+ Encart</button>`;
   const encarts = state.strategiePillars['marque'] || [];
   const used = new Set();
   const SECTIONS = [
@@ -4650,6 +4707,13 @@ function renderMarqueShowcase(content, actions) {
   ];
   let html = `<div class="panel mb" style="max-width:1020px">`;
   html += `<div class="mb-hero">${mixerMarkSvg()}<div><div class="mb-hero-wordmark"><span class="cpts">CPTS</span>Pilot</div><div class="mb-hero-tag">La gestion CPTS qui donne sa place à chacun — et la vision à tous.</div></div></div>`;
+  // Brief canonique (live) — le brief gagne
+  html += `<div class="mb-sec"><div class="mb-sec-head">Brief de référence ${brandBrief.text ? `<span class="mb-live">● live · ${esc(brandBrief.at||'')}</span>` : ''}</div><div class="mb-sec-rule"></div><div class="mb-block">`;
+  if (brandBrief.loading && !brandBrief.text) html += `<div class="mb-card-text">Chargement du brief depuis Plateforme-CPTS…</div>`;
+  else if (brandBrief.text) html += `<div class="mb-brief">${briefMd(brandBrief.text)}</div>`;
+  else if (!brandBrief.error) html += `<div class="mb-card-text">Le brief canonique se charge en direct depuis <code>Plateforme-CPTS/docs/cpts-pilot-brand-brief.md</code>.</div>`;
+  if (brandBrief.error) html += `<div class="mb-card-text" style="color:var(--orange-600);margin-top:6px">⚠ ${esc(brandBrief.error)} — les sections ci-dessous reflètent la dernière version connue.</div>`;
+  html += `<div style="margin-top:12px"><button class="btn btn-ghost btn-sm" onclick="refreshBrandBrief()">↻ Rafraîchir le brief</button></div></div></div>`;
   SECTIONS.forEach(s => {
     const items = encarts.filter(e => s.match.test((e.group || '').trim()) && !used.has(e.id));
     items.forEach(e => used.add(e.id));
@@ -4663,7 +4727,7 @@ function renderMarqueShowcase(content, actions) {
   if (!encarts.length) html += `<div class="empty" style="margin-top:8px"><p>Les textes ne sont pas encore chargés — fais Réglages → « Charger / synchroniser » pour les remplir. Les visuels ci-dessus, eux, sont toujours là.</p></div>`;
   html += `</div>`;
   content.innerHTML = html;
-  requestAnimationFrame(mbStartRing);
+  if (!brandBrief.loaded) loadBrandBrief(false);
 }
 function renderStrategie(content, actions, section) {
   if (section === 'marque') return renderMarqueShowcase(content, actions);
