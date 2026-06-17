@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-17T12:48:08.869Z",
+  "exportedAt": "2026-06-17T13:01:28.157Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -6005,6 +6005,13 @@
         "month": "2026-06",
         "status": "done",
         "body": "Depuis le To do.\n\nPréconisé par Magnus (Chef Produit).\n\nC'est le seul chantier ouvert et il répond aux 3 demandes terrain non couvertes (N1/N2/N3 du tracker : dépenses asso, charges fixes, ventilation analytique). Le finir = trésorerie vraiment complète pour vendre ; le laisser ouvert sans cadrage = il s'étale et bloque la suite à 3-6 mois de la commercialisation."
+      },
+      {
+        "id": "mqi2wdewhc885",
+        "title": "Switcher de vue par role (transversal)",
+        "month": "2026-06",
+        "status": "planned",
+        "body": "Depuis le vivier (idée PRD-09).\n\nVoir la plateforme 'comme si' on etait dans chaque role : demo prospects, formation, test permissions. Partiellement absorbe par Mon Espace adaptatif mais le switcher transversal reste un backlog a brainstormer (project_switch_vue_roles)."
       }
     ],
     "strategiePillars": {
@@ -6079,6 +6086,14 @@
           "text": "une gouvernance de CPTS qui voit un logiciel qui s'appelle CPTS Pilot, ca leur donne quoi comme premiere impression ?",
           "size": "normal",
           "group": "Faite pour les CPTS",
+          "contributions": []
+        },
+        {
+          "id": "mqi2x17pp5lu7",
+          "name": "Switcher de vue par role (transversal)",
+          "text": "un switch de vue globale tresorier, secretaire, president, coordinatrice, conseil d'administration",
+          "size": "normal",
+          "group": "Un outil par rôle",
           "contributions": []
         }
       ],
