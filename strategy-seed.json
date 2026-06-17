@@ -265,70 +265,64 @@
     ],
     "marque": [
       {
-        "name": "Notre charte en une règle",
+        "name": "Pourquoi cette sobriété",
         "size": "large",
         "group": "Identité visuelle",
-        "text": "« Sobre par défaut, riche seulement là où ça compte. »\n\nRègle 95/5 : un cobalt unique en accent, de l'encre, de la crème — pas de gradients criards, pas d'arc-en-ciel. La communication parle exactement la même langue visuelle que le produit : site, supports et appli sont indissociables. La sobriété n'est pas un manque, c'est la signature."
+        "text": "Premium minimal (esprit Stripe / Vercel) + une chaleur santé (esprit Doctolib). Sérieux mais humain, jamais corporate, jamais intimidant. La sobriété n'est pas un manque : c'est ce qui rend la marque crédible auprès de soignants qui n'ont pas de temps à perdre."
       },
       {
-        "name": "Le mark : une table de mixage",
+        "name": "Règles intangibles",
         "size": "normal",
         "group": "Identité visuelle",
-        "text": "Le logo est un mixer — quatre curseurs, un handle cobalt : piloter, lire, ajuster. Il dit sans mot ce que fait le produit. Décliné partout à l'identique : favicon, en-tête du site, signature mail, réseaux."
+        "text": "Fond crème (#FAF7F2), jamais blanc pur. Pas de gradient bleu→teal sur les boutons (le cobalt suffit). Le cobalt reste en 3e position du logo. Ratio logo 1:1, pas de rotation, marge de sécurité 6u."
       },
       {
-        "name": "Le wordmark",
-        "size": "normal",
-        "group": "Identité visuelle",
-        "text": "« CPTS » en taupe #A8A39B, poids 500 ; « Pilot » en encre #0F172A, poids 800. La marque, c'est l'acte de piloter. Une seule écriture, aucune variante."
-      },
-      {
-        "name": "Palette & typo",
-        "size": "normal",
-        "group": "Identité visuelle",
-        "text": "Cobalt #1D4ED8 en accent, teal #0D9488 pour les signaux positifs/migration, encre #0F172A pour le texte, crème #F8FAFC en fond (« light premium »), une seule section sombre #0B1120. Une seule police : Manrope (Fraunces écartée, jamais appliquée)."
-      },
-      {
-        "name": "Ce que le site vitrine doit faire",
+        "name": "Histoire fondatrice",
         "size": "large",
+        "group": "Positionnement & message",
+        "text": "Construite par une coordinatrice, pour les coordinatrices — née du terrain. C'est l'actif de crédibilité n°1, à utiliser. ⚠️ Ne PAS mentionner que c'est un projet solo ; ne pas nommer les CPTS qui ont nourri la réflexion. Le moment venu : « développé en collaboration avec des CPTS » suffit."
+      },
+      {
+        "name": "Cibles",
+        "size": "normal",
+        "group": "Positionnement & message",
+        "text": "Primaire : coordinateurs/trices (décideurs ET utilisateurs, prescripteurs de la vente — réception positive). Secondaire : professionnels membres (médecins, IDE). Tertiaire : financeurs (ARS, URPS, Assurance Maladie) — crédibilité, pas conversion. Hors cible : grand public, patients."
+      },
+      {
+        "name": "Points forts à mettre en avant",
+        "size": "normal",
+        "group": "Positionnement & message",
+        "text": "1) Cockpit ACI (vue d'ensemble + indicateurs temps réel + dialogue de gestion ARS — unique). 2) Role-first : chaque rôle son expérience. 3) Module membre optionnel (moins de friction). 4) Migration accompagnée (lève le frein n°1). 5) Accompagnement renforcé (paramétrage fin). 6) Interfaçage institutionnel (roadmap)."
+      },
+      {
+        "name": "Le guidage des rôles",
+        "size": "normal",
+        "group": "Positionnement & message",
+        "text": "Trésorier, secrétaire, bureau ont besoin d'un outil mais souvent l'ignorent et craignent une interface complexe. Message : « Vous prenez votre rôle, CPTS Pilot vous guide pour l'accomplir. » Ils ne seront pas seuls — pensé pour des soignants, pas des informaticiens."
+      },
+      {
+        "name": "Migration accompagnée = l'argument",
+        "size": "normal",
         "group": "Site vitrine",
-        "text": "En 30 secondes, une coordinatrice CPTS doit comprendre trois choses : c'est fait pour elle, c'est sobre et sérieux, et elle peut essayer sans risque. Objectif unique de la page : déclencher une demande de pilote / démo. Ce n'est pas une plaquette exhaustive, c'est une porte d'entrée."
+        "text": "Le frein n°1 à l'adoption, c'est le passage depuis l'existant. La promesse : « on s'occupe du passage, vous n'avez qu'à commencer à travailler. » À mettre en avant sur la home ET la page Tarifs."
       },
       {
         "name": "Présentation rotative des modules (idée)",
         "size": "normal",
         "group": "Site vitrine",
-        "text": "Idée du vivier : un carrousel circulaire des modules qui tourne pour montrer l'étendue sans noyer. ⚠️ Pas dans le V1 du vitrine — le V1 utilise un carrousel de 4 circuits (indemnisation, adhésion, réunion/AG, bilan ACI). À garder comme piste."
+        "text": "Idée du vivier : un carrousel circulaire des modules. ⚠️ Pas dans la structure validée du V1 (Hero → 3 piliers → cockpit showcase → rôles → modules → migration → CTA). À garder comme piste d'animation pour la section modules."
       },
       {
-        "name": "La démo sans risque",
+        "name": "Concurrence : ne jamais nommer",
         "size": "normal",
-        "group": "Site vitrine",
-        "text": "Mettre en avant un accès démo sur données fictives : « essayez sans engagement ». C'est le prolongement direct de l'argument rassurance de la Prise de marché — on lève le frein avant qu'il ne se pose."
+        "group": "Contenus & règles de com'",
+        "text": "Plexus, Medplan, CPTS+ : pas conçus nativement pour les CPTS. Concurrent invisible : l'organisation maison Excel/Notion/mails. ⚠️ Ne jamais les nommer sur le site, ne jamais dénigrer les pratiques existantes. On parle de ce qu'on apporte, pas de ce que les autres font mal."
       },
       {
-        "name": "Structure de la page",
+        "name": "À finaliser (démarches)",
         "size": "normal",
-        "group": "Site vitrine",
-        "text": "Home V1 (réelle) : Nav → Hero (+ chip migration) → Piliers (« Notre approche ») → Espaces par rôle (switcher de 5 espaces réels) → Circuits (4 parcours, section sombre) → Modules → Tarifs (placeholder honnête) → Appel final → Footer. Une seule action attendue : essayer la démo (/demo/login)."
-      },
-      {
-        "name": "Où on se montre",
-        "size": "large",
-        "group": "Contenus & présence en ligne",
-        "text": "Présence ciblée, pas partout. Là où sont vraiment les coordinateurs CPTS et les institutionnels (LinkedIn, réseaux CPTS/ARS, bouche-à-oreille des pilotes). Qualité avant quantité — la même exigence que la charte : peu, mais juste."
-      },
-      {
-        "name": "La voix",
-        "size": "normal",
-        "group": "Contenus & présence en ligne",
-        "text": "La fondatrice parle d'égale à égales, depuis le terrain — pas un pitch corporate. Ton sobre, concret, preuves chiffrées plutôt que superlatifs. Le mantra interne guide chaque contenu : « je suis l'experte ici, j'apporte une solution à mes pairs »."
-      },
-      {
-        "name": "Webmarketing & SEO",
-        "size": "normal",
-        "group": "Contenus & présence en ligne",
-        "text": "Se rendre trouvable sur les mots du métier (CPTS, ACI, coordination, trésorerie CPTS) avec du contenu utile (repères ACI, modèles) plutôt que de la pub. On mesure ce qui amène des demandes de pilote, pas les vues."
+        "group": "Contenus & règles de com'",
+        "text": "Domaines : cptspilot.fr (+ défensifs). Dépôt INPI classes 9 + 42. Pseudos sociaux @cptspilot. Témoignages : identifier des bêta-testeurs / CPTS pilotes citables. Preuves sociales (chiffres, CPTS en production). Formules et prix exacts à arrêter."
       }
     ]
   },
