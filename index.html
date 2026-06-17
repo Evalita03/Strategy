@@ -3085,7 +3085,7 @@ function renderMindmap(content, actions) {
   } else if (!d) {
     html += `<div class="todo-empty-zone">Vivier non chargé.</div>`;
   } else if (mmVisibleIdeas().length === 0) {
-    html += `<div class="todo-empty-zone">Aucune idée à afficher${!mmShowArchived&&archivedTotal?` — les ${archivedTotal} archivées sont masquées (clique « archivées » ci-dessous)`:'. Clique « ⚡ Idée flash » pour en déposer une'}.</div>`;
+    html += `<div class="todo-empty-zone">${mmView==='archived'?'Aucune idée archivée.':'Aucune idée active. Clique « + Idée » ou « ⚡ Flash » pour en déposer une.'}</div>`;
     html += mmMaturityBar();
   } else {
     html += mmMaturityBar();
@@ -3114,7 +3114,7 @@ function mmCardHtml(i, leg) {
 // Idées affichées : visibles (archivé) + filtre maturité + recherche, puis tri
 function mmBoardIdeas() {
   let arr = mmVisibleIdeas();
-  if (mmMatFilter) arr = arr.filter(i => (i.nature || '') === mmMatFilter);
+  if (['decision','cap-mur','etincelle'].includes(mmView)) arr = arr.filter(i => (i.nature || '') === mmView);
   if (searchQuery) { const q = searchQuery.toLowerCase();
     arr = arr.filter(i => [(i.titre||''),(i.note||''),(i.citation||''),(i.theme||''),(i.id||'')].join(' ').toLowerCase().includes(q)); }
   const all = (ideesData && ideesData.idees) || [];
@@ -3141,18 +3141,20 @@ function mmBoardHtml(leg) {
   });
   return h + `</div>`;
 }
-// Barre de maturité : coup d'œil (à trancher / mûres / exploration / archivées) + filtre
+// Barre d'onglets : Tout (défaut) · à trancher · mûres · exploration · archivées
 function mmMaturityBar() {
-  const base = mmVisibleIdeas();
-  const chips = MM_MATURITY.map(m => {
-    const n = base.filter(i => (i.nature || '') === m.key).length;
-    return `<span class="mm-mat ${mmMatFilter===m.key?'active':''}" onclick="setMmMatFilter('${m.key}')"><span class="mm-mat-dot" style="background:${m.color}"></span><span class="mm-mat-n">${n}</span> ${m.label}</span>`;
-  }).join('');
-  const archivedTotal = ((ideesData && ideesData.idees) || []).filter(i => i.archived).length;
-  const arch = `<span class="mm-mat ${mmShowArchived?'active':''}" onclick="toggleMmArchived()" title="Afficher / masquer les archivées"><span class="mm-mat-dot" style="background:#94A3B8"></span><span class="mm-mat-n">${archivedTotal}</span> archivées</span>`;
-  return `<div class="mm-matbar">${chips}${arch}</div>`;
+  const all = (ideesData && ideesData.idees) || [];
+  const active = all.filter(i => !i.archived);
+  const archivedTotal = all.length - active.length;
+  const tab = (key, label, color, n) => `<span class="mm-mat ${mmView===key?'active':''}" onclick="setMmView('${key}')">${color?`<span class="mm-mat-dot" style="background:${color}"></span>`:''}<span class="mm-mat-n">${n}</span> ${label}</span>`;
+  let h = tab('all', 'Tout', '', active.length);
+  MM_MATURITY.forEach(m => { h += tab(m.key, m.label, m.color, active.filter(i => (i.nature || '') === m.key).length); });
+  h += tab('archived', 'archivées', '#94A3B8', archivedTotal);
+  return `<div class="mm-matbar">${h}</div>`;
 }
-function setMmMatFilter(k) { mmMatFilter = (mmMatFilter === k) ? null : k; render(); }
+function setMmView(v) { mmView = v; mmPanelId = null; render(); }
+function setMmMatFilter(k) { mmView = (mmView === k) ? 'all' : k; render(); }
+function toggleMmArchived() { mmView = (mmView === 'archived') ? 'all' : 'archived'; render(); }
 function setMmSort(v) { mmSortBy = v; render(); }
 // Panneau latéral : lecture complète + actions
 function mmPanelHtml() {
@@ -3901,7 +3903,8 @@ let mmRAF = null;               // id d'animation
 let mmHover = null;             // nœud survolé (surbrillance de cluster)
 let mmShowLinks = false;        // afficher tous les fils entre idées en permanence ?
 let mmPanelId = null;           // idée ouverte dans le panneau latéral
-let mmMatFilter = null;         // filtre maturité actif (nature) ou null
+let mmMatFilter = null;         // (déprécié — remplacé par mmView)
+let mmView = 'all';             // onglet actif : all | decision | cap-mur | etincelle | archived
 const MM_GROUPS = [['domaine','Domaine'], ['theme','Thème'], ['famille','Famille'], ['nature','Nature'], ['statut','Statut']];
 const MM_SORTS = [['order',"Ordre d'apparition"], ['recent','Récentes d\'abord'], ['id','Par numéro']];
 // Domaines stratégiques (mêmes catégories que l'onglet Stratégie globale)
@@ -3926,12 +3929,12 @@ function setIdeeMaturity(id, nature) {
 }
 
 function setIdeaGroupBy(v) { ideaGroupBy = v; mmSim = null; mmNeedsFit = true; render(); }
-function toggleMmArchived() { mmShowArchived = !mmShowArchived; mmSim = null; mmNeedsFit = true; render(); }
 function mmReorganize() { mmSim = null; mmNeedsFit = true; render(); }
 
 function mmVisibleIdeas() {
   const all = (ideesData && Array.isArray(ideesData.idees)) ? ideesData.idees : [];
-  return mmShowArchived ? all : all.filter(i => !i.archived);
+  if (mmView === 'archived') return all.filter(i => i.archived);
+  return all.filter(i => !i.archived);
 }
 function mindmapIdeas() { return mmVisibleIdeas(); }   // compat (liens entre idées)
 function ideaGroupValue(i, by) {
