@@ -717,7 +717,7 @@ body {
 .mb-hero-wordmark .cpts { color: #94A3B8; font-weight: 600; margin-right: .16em; }
 .mb-hero-tag { margin-top: 11px; font-size: 15px; color: #CBD5E1; max-width: 480px; line-height: 1.55; }
 .mb-sec { margin: 0 0 38px; }
-.mb-sec-head { font-family: var(--font-brand); font-size: 25px; font-weight: 700; color: var(--slate-900); margin: 0 0 5px; }
+.mb-sec-head { font-family: inherit; font-size: 20px; font-weight: 800; color: var(--slate-900); margin: 0 0 5px; }
 .mb-sec-rule { height: 3px; width: 48px; background: var(--blue-700); border-radius: 99px; margin-bottom: 20px; }
 .mb-block { background: #fff; border: 1px solid var(--slate-200); border-radius: 18px; padding: 22px; margin-bottom: 16px; }
 .mb-block-lbl { font-size: 11px; text-transform: uppercase; letter-spacing: .07em; color: var(--slate-400); font-weight: 700; margin-bottom: 14px; }
@@ -785,7 +785,21 @@ body {
 .mb-rules.always li { color: #0f5f57; }
 .mb-live { font-size: 11.5px; color: var(--teal-700); font-weight: 700; }
 .mb-brief { max-height: 460px; overflow-y: auto; padding-right: 8px; font-size: 13px; color: var(--slate-700); line-height: 1.6; }
-.mb-brief h1 { font-family: var(--font-brand); font-size: 21px; color: var(--slate-900); margin: 4px 0 8px; }
+.mb-brief h1 { font-family: inherit; font-size: 21px; font-weight: 800; color: var(--slate-900); margin: 4px 0 8px; }
+/* Page dédiée brief (overlay plein écran) */
+.brief-page { position: fixed; inset: 0; z-index: 80; background: rgba(15,23,42,.45); display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; overflow-y: auto; }
+.brief-sheet { background: #fff; width: 100%; max-width: 760px; border-radius: 18px; box-shadow: 0 30px 70px rgba(15,23,42,.3); overflow: hidden; margin: auto; }
+.brief-sheet-head { display: flex; align-items: center; gap: 12px; padding: 18px 24px; border-bottom: 1px solid var(--slate-100); position: sticky; top: 0; background: #fff; z-index: 1; }
+.brief-sheet-head h2 { margin: 0; font-size: 18px; flex: 1; color: var(--slate-900); }
+.brief-sheet-body { padding: 22px 28px 32px; }
+.brief-toc { background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 12px; padding: 14px 16px; margin-bottom: 22px; }
+.brief-toc-lbl { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--slate-400); font-weight: 700; margin-bottom: 8px; }
+.brief-toc a { display: block; font-size: 13px; color: var(--blue-700); text-decoration: none; padding: 3px 0; cursor: pointer; }
+.brief-toc a:hover { text-decoration: underline; }
+.mb-brief-cta { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; background: #fff; border: 1px solid var(--slate-200); border-radius: 16px; padding: 16px 18px; margin-bottom: 28px; }
+.mb-brief-cta > div:first-child { flex: 1; min-width: 220px; }
+.mb-brief-cta-t { font-weight: 800; font-size: 14px; color: var(--slate-900); }
+.mb-brief-cta-d { font-size: 12.5px; color: var(--slate-600); margin-top: 3px; }
 .mb-brief h2 { font-size: 16px; color: var(--slate-900); margin: 18px 0 6px; font-weight: 800; }
 .mb-brief h3 { font-size: 13.5px; color: var(--slate-800); margin: 12px 0 4px; font-weight: 700; }
 .mb-brief h4 { font-size: 12.5px; color: var(--slate-700); margin: 10px 0 3px; font-weight: 700; }
@@ -4664,8 +4678,8 @@ async function loadBrandBrief(force) {
   if (brandBrief.loading) return;
   if (brandBrief.loaded && !force) return;
   const cfg = getGhConfig();
-  if (!cfg || !cfg.token) { brandBrief = { ...brandBrief, error: 'token GitHub non configuré (Réglages)', loaded: true }; render(); return; }
-  brandBrief = { ...brandBrief, loading: true, error: null }; render();
+  if (!cfg || !cfg.token) { brandBrief = { ...brandBrief, error: 'token GitHub non configuré (Réglages)', loaded: true }; render(); renderBriefPage(); return; }
+  brandBrief = { ...brandBrief, loading: true, error: null }; render(); renderBriefPage();
   try {
     const owner = cfg.owner || 'Evalita03';
     const url = `https://api.github.com/repos/${owner}/Plateforme-CPTS/contents/docs/cpts-pilot-brand-brief.md?ref=main&t=${Date.now()}`;
@@ -4677,17 +4691,37 @@ async function loadBrandBrief(force) {
   } catch (e) {
     brandBrief = { ...brandBrief, error: e.message, loading: false, loaded: true };
   }
-  render();
+  render(); renderBriefPage();
 }
 function refreshBrandBrief() { loadBrandBrief(true); }
+// Page dédiée (overlay) : accès au brief sans étaler l'onglet
+let briefPageOpen = false;
+function openBrandBriefPage() { briefPageOpen = true; if (!brandBrief.loaded) loadBrandBrief(false); renderBriefPage(); }
+function closeBrandBriefPage() { briefPageOpen = false; renderBriefPage(); }
+function briefToc(t) {
+  const lines = (t || '').split('\n'); let i = 0; const items = [];
+  for (const raw of lines) { const h = raw.match(/^##\s+(.*)$/); if (h) { i++; items.push([i, h[1].replace(/\*\*/g, '').replace(/`/g, '')]); } }
+  if (!items.length) return '';
+  return `<div class="brief-toc"><div class="brief-toc-lbl">Sommaire</div>${items.map(([n, t]) => `<a onclick="document.getElementById('bsec-${n}').scrollIntoView({behavior:'smooth',block:'start'})">${esc(t)}</a>`).join('')}</div>`;
+}
+function renderBriefPage() {
+  let el = document.getElementById('brief-page');
+  if (!briefPageOpen) { if (el) el.remove(); return; }
+  if (!el) { el = document.createElement('div'); el.id = 'brief-page'; el.className = 'brief-page'; el.onclick = e => { if (e.target === el) closeBrandBriefPage(); }; document.body.appendChild(el); }
+  let body;
+  if (brandBrief.loading && !brandBrief.text) body = `<div class="mb-card-text">Chargement du brief depuis Plateforme-CPTS…</div>`;
+  else if (brandBrief.text) body = briefToc(brandBrief.text) + `<div class="mb-brief" style="max-height:none;overflow:visible">${briefMd(brandBrief.text)}</div>`;
+  else body = `<div class="mb-card-text" style="color:var(--orange-600)">⚠ ${esc(brandBrief.error || 'Brief non chargé')}.<br><br>Le brief canonique doit être publié dans <code>Plateforme-CPTS/docs/cpts-pilot-brand-brief.md</code> (branche main). Dès qu'il y est, « ↻ » l'affiche ici.</div>`;
+  el.innerHTML = `<div class="brief-sheet"><div class="brief-sheet-head"><h2>Brief de référence ${brandBrief.at ? `<span class="mb-live">● ${esc(brandBrief.at)}</span>` : ''}</h2><button class="btn btn-ghost btn-sm" onclick="refreshBrandBrief()">↻</button><button class="mm-panel-close" onclick="closeBrandBriefPage()">×</button></div><div class="brief-sheet-body">${body}</div></div>`;
+}
 // Mini-rendu markdown adapté au brief (titres, gras, listes, tableaux)
 function briefMd(t) {
-  const lines = (t || '').split('\n'); const out = []; let inList = false;
+  const lines = (t || '').split('\n'); const out = []; let inList = false; let h2 = 0;
   const flush = () => { if (inList) { out.push('</ul>'); inList = false; } };
   const inl = s => esc(s).replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
   for (const raw of lines) {
     const h = raw.match(/^(#{1,4})\s+(.*)$/);
-    if (h) { flush(); out.push(`<h${h[1].length}>${inl(h[2])}</h${h[1].length}>`); continue; }
+    if (h) { flush(); const lvl = h[1].length; const id = lvl === 2 ? ` id="bsec-${++h2}"` : ''; out.push(`<h${lvl}${id}>${inl(h[2])}</h${lvl}>`); continue; }
     const q = raw.match(/^\s*>\s?(.*)$/);
     if (q) { flush(); out.push(`<blockquote>${inl(q[1])}</blockquote>`); continue; }
     const li = raw.match(/^\s*[-•*]\s+(.*)$/);
@@ -4713,13 +4747,9 @@ function renderMarqueShowcase(content, actions) {
   ];
   let html = `<div class="panel mb" style="max-width:1020px">`;
   html += `<div class="mb-hero">${mixerMarkSvg()}<div><div class="mb-hero-wordmark"><span class="cpts">CPTS</span>Pilot</div><div class="mb-hero-tag">La gestion CPTS qui donne sa place à chacun — et la vision à tous.</div></div></div>`;
-  // Brief canonique (live) — le brief gagne
-  html += `<div class="mb-sec"><div class="mb-sec-head">Brief de référence ${brandBrief.text ? `<span class="mb-live">● live · ${esc(brandBrief.at||'')}</span>` : ''}</div><div class="mb-sec-rule"></div><div class="mb-block">`;
-  if (brandBrief.loading && !brandBrief.text) html += `<div class="mb-card-text">Chargement du brief depuis Plateforme-CPTS…</div>`;
-  else if (brandBrief.text) html += `<div class="mb-brief">${briefMd(brandBrief.text)}</div>`;
-  else if (!brandBrief.error) html += `<div class="mb-card-text">Le brief canonique se charge en direct depuis <code>Plateforme-CPTS/docs/cpts-pilot-brand-brief.md</code>.</div>`;
-  if (brandBrief.error) html += `<div class="mb-card-text" style="color:var(--orange-600);margin-top:6px">⚠ ${esc(brandBrief.error)} — les sections ci-dessous reflètent la dernière version connue.</div>`;
-  html += `<div style="margin-top:12px"><button class="btn btn-ghost btn-sm" onclick="refreshBrandBrief()">↻ Rafraîchir le brief</button></div></div></div>`;
+  // Brief canonique : accès via un bouton → page dédiée (pas d'étalement inline)
+  html += `<div class="mb-brief-cta"><div><div class="mb-brief-cta-t">Brief de référence</div><div class="mb-brief-cta-d">La source de vérité — tagline, positionnement, identité, règles de com', pricing. ${brandBrief.text ? `<span class="mb-live">● dispo</span>` : (brandBrief.error ? '<span style="color:var(--orange-600)">à publier dans Plateforme-CPTS</span>' : '')}</div></div>
+    <button class="btn btn-primary" onclick="openBrandBriefPage()">📄 Ouvrir le brief</button></div>`;
   SECTIONS.forEach(s => {
     const items = encarts.filter(e => s.match.test((e.group || '').trim()) && !used.has(e.id));
     items.forEach(e => used.add(e.id));
