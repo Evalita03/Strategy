@@ -847,6 +847,20 @@ body {
 .rm-card.is-done .rm-card-title { color: var(--slate-500); font-weight: 500; }
 .rm-card-chevron { flex: 0 0 auto; color: var(--slate-300); font-size: 16px; }
 .rm-card:hover .rm-card-chevron { color: var(--blue-500); }
+/* Glisser-déposer : poignée, carte en cours de déplacement, zones de dépôt */
+.rm-card { cursor: grab; }
+.rm-card:active { cursor: grabbing; }
+.rm-card-grip { flex: 0 0 auto; color: var(--slate-300); font-size: 13px; line-height: 1; letter-spacing: -2px; cursor: grab; }
+.rm-card:hover .rm-card-grip { color: var(--slate-400); }
+.rm-card.rm-dragging { opacity: 0.4; }
+.rm-dropzone { min-height: 12px; border-radius: 10px; transition: box-shadow .12s, background .12s; }
+.rm-dropzone.rm-drop-ok { background: var(--blue-50); box-shadow: inset 0 0 0 2px var(--blue-500); }
+/* Bannette « À planifier » en haut (sert aussi de zone de dépôt) */
+.rm-inbox { margin: 0 0 24px; padding: 12px 14px; background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 12px; }
+.rm-inbox-head { display: flex; align-items: center; gap: 6px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; color: var(--slate-500); margin-bottom: 10px; }
+.rm-inbox-icon { font-size: 13px; }
+.rm-inbox-hint { text-transform: none; letter-spacing: 0; font-weight: 500; color: var(--slate-400); }
+.rm-inbox-empty { font-size: 12.5px; color: var(--slate-400); font-style: italic; padding: 6px 4px; }
 .rm-section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--slate-400); font-weight: 700; margin: 10px 0 12px; }
 .roadmap-item-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
 .roadmap-empty { padding: 60px 24px; text-align: center; color: var(--slate-400); font-size: 13px; line-height: 1.6; }
@@ -3188,6 +3202,10 @@ function mmPanelHtml() {
       <div class="mm-panel-mat"><span class="lbl">Maturité — où en est cette idée ?</span>
         ${MM_MATURITY.map(mt => `<button class="mm-mat-btn ${(i.nature||'')===mt.key?'active':''}" style="--c:${mt.color}" onclick="setIdeeMaturity('${esc(i.id)}','${mt.key}')"><span class="mm-mat-dot" style="background:${mt.color}"></span>${mt.short}</button>`).join('')}
       </div>
+      <div class="mm-panel-mat"><span class="lbl">Domaine — à quelle partie de la stratégie ça touche ?</span>
+        ${MM_DOMAINES.map(([v,l]) => `<button class="mm-mat-btn ${ideaDomaine(i)===v?'active':''}" style="--c:#2563EB" onclick="setIdeeDomaine('${esc(i.id)}','${v}')">${esc(l)}</button>`).join('')}
+        <button class="mm-mat-btn ${!ideaDomaine(i)?'active':''}" style="--c:#94A3B8" onclick="setIdeeDomaine('${esc(i.id)}','')">À classer</button>
+      </div>
       ${flags.length ? `<div class="mm-panel-meta">${flags.map(f => `<span class="mm-chip link">${esc(f)}</span>`).join('')}</div>` : ''}
       ${i.citation ? `<p class="mm-panel-cit">« ${esc(i.citation)} »</p>` : ''}
       ${i.note ? `<p class="mm-panel-note">${esc(i.note)}</p>` : ''}
@@ -3926,6 +3944,11 @@ const MM_MATURITY = [
 function setIdeeMaturity(id, nature) {
   if (ideesBusy) return;
   mutateIdees(p => { const x = (p.idees||[]).find(y => y.id === id); if (!x) return false; if (x.nature === nature) return false; x.nature = nature; delete x.flash; }, 'Maturité ' + id + ' → ' + nature);
+}
+// Range une idée dans un domaine stratégique (Vision/Dev/Marché/Tarification) en un clic
+function setIdeeDomaine(id, dom) {
+  if (ideesBusy) return;
+  mutateIdees(p => { const x = (p.idees||[]).find(y => y.id === id); if (!x) return false; if ((x.domaine||'') === dom) return false; x.domaine = dom; }, 'Domaine ' + id + ' → ' + (dom || 'à classer'));
 }
 
 function setIdeaGroupBy(v) { ideaGroupBy = v; mmSim = null; mmNeedsFit = true; render(); }
@@ -5573,6 +5596,59 @@ const roadmapStatusDot = { done: 'var(--slate-400)', doing: 'var(--blue-500)', p
 // Roadmap : par défaut on masque les mois passés (focus mois courant + à venir), dépliables à la demande
 let rmShowPast = false;
 function toggleRoadmapPast() { rmShowPast = !rmShowPast; render(); }
+
+// Glisser-déposer des jalons : changer de mois, réordonner, ou renvoyer dans « À planifier »
+let rmDragId = null;
+function rmDragStart(e, id) {
+  rmDragId = id;
+  e.dataTransfer.effectAllowed = 'move';
+  try { e.dataTransfer.setData('text/plain', id); } catch (_) {}
+  const el = e.currentTarget; setTimeout(() => el.classList.add('rm-dragging'), 0);
+}
+function rmDragEnd() {
+  rmDragId = null;
+  document.querySelectorAll('.rm-dragging').forEach(el => el.classList.remove('rm-dragging'));
+  document.querySelectorAll('.rm-drop-ok').forEach(el => el.classList.remove('rm-drop-ok'));
+}
+function rmDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  e.currentTarget.classList.add('rm-drop-ok');
+}
+function rmDragLeave(e) {
+  if (!e.currentTarget.contains(e.relatedTarget)) e.currentTarget.classList.remove('rm-drop-ok');
+}
+function rmDragAfterId(container, y) {
+  const cards = [...container.querySelectorAll('.rm-card')].filter(c => c.dataset.id !== rmDragId);
+  for (const c of cards) {
+    const box = c.getBoundingClientRect();
+    if (y < box.top + box.height / 2) return c.dataset.id;
+  }
+  return null;
+}
+function rmDrop(e, month) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('rm-drop-ok');
+  const id = rmDragId || (e.dataTransfer && e.dataTransfer.getData('text/plain'));
+  if (!id) return;
+  const arr = state.roadmap || [];
+  const idx = arr.findIndex(x => x.id === id);
+  if (idx < 0) return;
+  const afterId = rmDragAfterId(e.currentTarget, e.clientY); // carte avant laquelle insérer (null = fin)
+  const [item] = arr.splice(idx, 1);
+  item.month = month || null;
+  if (afterId) {
+    const refIdx = arr.findIndex(x => x.id === afterId);
+    arr.splice(refIdx < 0 ? arr.length : refIdx, 0, item);
+  } else {
+    // fin du groupe du mois cible (ou tout à la fin si le groupe est vide)
+    let lastIdx = -1;
+    arr.forEach((x, i) => { if ((x.month || null) === (item.month || null)) lastIdx = i; });
+    if (lastIdx >= 0) arr.splice(lastIdx + 1, 0, item); else arr.push(item);
+  }
+  rmDragId = null;
+  save(); render();
+}
 const MONTH_FR = ['Janv.', 'Févr.', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'];
 function monthLabel(m) {
   if (!m) return '';
@@ -5616,10 +5692,13 @@ function renderRoadmap(content, actions) {
   const nPlanned = total - nDone - nDoing;
   const icon = { done: '✓', doing: '▸', planned: '◯' };
 
-  // Carte d'un jalon (réutilisée dans les mois et dans « À planifier »)
+  // Carte d'un jalon (réutilisée dans les mois et dans « À planifier ») — déplaçable au glisser-déposer
   const card = i => {
     const st = i.status || 'planned';
-    return `<div class="rm-card is-${st}" onclick="openRoadmapDetail('${i.id}')" title="${roadmapStatusLabel[st] || ''}">
+    return `<div class="rm-card is-${st}" draggable="true" data-id="${i.id}"
+      ondragstart="rmDragStart(event,'${i.id}')" ondragend="rmDragEnd(event)"
+      onclick="openRoadmapDetail('${i.id}')" title="${roadmapStatusLabel[st] || ''}">
+      <span class="rm-card-grip" title="Glisser pour déplacer">⠿</span>
       <span class="rm-card-icon">${icon[st]}</span>
       <span class="rm-card-title">${esc(i.title)}</span>
       <span class="rm-card-chevron">›</span>
@@ -5632,6 +5711,12 @@ function renderRoadmap(content, actions) {
         <span class="rm-stat"><span class="rm-stat-dot" style="background:var(--orange-600)"></span><b>${nPlanned}</b>&nbsp;à faire</span>
         <span class="rm-stat"><span class="rm-stat-dot" style="background:var(--blue-500)"></span><b>${nDoing}</b>&nbsp;en cours</span>
         <span class="rm-stat"><span class="rm-stat-dot" style="background:var(--slate-400)"></span><b>${nDone}</b>&nbsp;validé${nDone > 1 ? 's' : ''}</span>
+      </div>
+    </div>
+    <div class="rm-inbox">
+      <div class="rm-inbox-head"><span class="rm-inbox-icon">🗂</span> À planifier<span class="rm-inbox-hint">— glisse un jalon vers un mois pour le dater</span></div>
+      <div class="rm-month-cards rm-dropzone" data-month="" ondragover="rmDragOver(event)" ondragleave="rmDragLeave(event)" ondrop="rmDrop(event,'')">
+        ${planless.length ? planless.map(card).join('') : '<div class="rm-inbox-empty">Aucun jalon en attente — dépose ici un jalon pour le retirer du calendrier.</div>'}
       </div>
     </div>
     <div class="rm-timeline">`;
@@ -5661,18 +5746,12 @@ function renderRoadmap(content, actions) {
     html += `<div class="rm-month ${klass}">
       <div class="rm-month-label">${monthLabel(m)}</div>
       <div class="rm-month-node"></div>
-      <div class="rm-month-cards">
+      <div class="rm-month-cards rm-dropzone" data-month="${m}" ondragover="rmDragOver(event)" ondragleave="rmDragLeave(event)" ondrop="rmDrop(event,'${m}')">
         ${colItems.length ? colItems.map(card).join('') : '<div class="rm-month-empty">— aujourd\'hui —</div>'}
       </div>
     </div>`;
   });
   html += '</div>'; // .rm-timeline
-
-  // Jalons sans date : section « À planifier »
-  if (planless.length) {
-    html += `<div class="rm-section-label">À planifier</div>
-      <div class="rm-month-cards">${planless.map(card).join('')}</div>`;
-  }
   html += '</div></div>'; // .rm-wrap .panel
   content.innerHTML = html;
 }
