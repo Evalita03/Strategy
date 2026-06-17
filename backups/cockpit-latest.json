@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-17T16:05:32.509Z",
+  "exportedAt": "2026-06-17T16:08:49.048Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -6003,6 +6003,13 @@
         "month": "2026-06",
         "status": "planned",
         "body": "Voir la plateforme 'comme si' on etait dans chaque role : demo prospects, formation, test permissions. Partiellement absorbe par Mon Espace adaptatif mais le switcher transversal reste un backlog a brainstormer (project_switch_vue_roles)."
+      },
+      {
+        "id": "mqi9lyugmn5is",
+        "title": "Depense association : modification d'une depense",
+        "month": "2026-06",
+        "status": "planned",
+        "body": "Depuis le vivier (idée PRD-16).\n\nEditer une depense au lieu de supprimer/recreer."
       }
     ],
     "strategiePillars": {
