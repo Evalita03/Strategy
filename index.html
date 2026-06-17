@@ -3000,7 +3000,7 @@ function renderMindmap(content, actions) {
       <canvas id="idea-canvas"></canvas>
       ${mmVisibleIdeas().length===0
         ? `<div class="idea-canvas-empty">Aucune idée à afficher${!mmShowArchived&&archivedTotal?` (les ${archivedTotal} archivées sont masquées — active « Archivées »)`:'. Clique « ⚡ Idée flash » pour en déposer une'}.</div>`
-        : `<div class="idea-canvas-hint">Chaque pôle = une catégorie · couleur = état · glisser une bulle · molette pour zoomer · clic pour ouvrir · « Relier » pour connecter deux idées</div>`}
+        : `<div class="idea-canvas-hint">Carte vivante · survole une catégorie pour l'isoler · glisse une bulle (tout suit) · molette pour zoomer · clic pour ouvrir · « Relier » pour connecter deux idées</div>`}
     </div>`;
   }
   html += '</div></div>';
@@ -3643,17 +3643,19 @@ function mindmapLegend() {
     `</div>`;
 }
 
-// ===== Carte mentale en pôles (clusters par catégorie) =====
+// ===== Carte mentale : clusters organiques (simulation physique) =====
 let ideaGroupBy = 'theme';      // dimension de regroupement : theme | famille | nature | statut
 let mmShowArchived = false;     // afficher les idées archivées sur la carte ?
-let mmDrag = {};                // déplacements manuels (en mémoire, réinitialisés à chaque regroupement)
-let mmLayout = null;            // layout calculé (cache)
 let mmNeedsFit = true;          // recadrer à la prochaine peinture
+let mmSim = null;               // simulation { nodes, links, byId, sig }
+let mmAlpha = 0;                // énergie de la simulation (refroidit vers 0)
+let mmRAF = null;               // id d'animation
+let mmHover = null;             // nœud survolé (surbrillance de cluster)
 const MM_GROUPS = [['theme','Thème'], ['famille','Famille'], ['nature','Nature'], ['statut','Statut']];
 
-function setIdeaGroupBy(v) { ideaGroupBy = v; mmDrag = {}; mmLayout = null; mmNeedsFit = true; render(); }
-function toggleMmArchived() { mmShowArchived = !mmShowArchived; mmLayout = null; mmNeedsFit = true; render(); }
-function mmReorganize() { mmDrag = {}; mmLayout = null; mmNeedsFit = true; render(); }
+function setIdeaGroupBy(v) { ideaGroupBy = v; mmSim = null; mmNeedsFit = true; render(); }
+function toggleMmArchived() { mmShowArchived = !mmShowArchived; mmSim = null; mmNeedsFit = true; render(); }
+function mmReorganize() { mmSim = null; mmNeedsFit = true; render(); }
 
 function mmVisibleIdeas() {
   const all = (ideesData && Array.isArray(ideesData.idees)) ? ideesData.idees : [];
@@ -3667,6 +3669,7 @@ function ideaGroupValue(i, by) {
   if (by === 'statut')  { const s = (i.statut||'').trim();  return { key: s || '∅', label: s ? legLabel(leg.statut, s, VIVIER_STATUT_FB[s]||s) : 'Sans statut' }; }
   const t = (i.theme||'').trim(); return { key: t || '∅', label: t || 'Sans thème' };   // theme par défaut
 }
+// Amorce : positions de départ en pôles (la physique relâche ensuite)
 function computeMindmapLayout(ideas, by) {
   const groups = new Map();
   ideas.forEach(i => {
@@ -3676,27 +3679,49 @@ function computeMindmapLayout(ideas, by) {
   });
   const hubs = [...groups.values()].sort((a, b) => b.items.length - a.items.length);
   const G = hubs.length;
-  const hubR = Math.max(250, 130 + G * 30);
+  const hubR = Math.max(260, 140 + G * 30);
   const pos = {};
   hubs.forEach((h, gi) => {
     const ang = (gi / Math.max(1, G)) * Math.PI * 2 - Math.PI / 2;
     h.x = Math.cos(ang) * hubR; h.y = Math.sin(ang) * hubR;
-    const n = h.items.length;
-    const coneHalf = Math.min(Math.PI * 0.95, 0.5 + n * 0.05);
     h.items.forEach((it, k) => {
-      const t = n === 1 ? 0 : (k / (n - 1) - 0.5);
-      const a2 = ang + t * coneHalf;
-      const rr = 82 + (k % 3) * 42;
+      const a2 = ang + (k - (h.items.length - 1) / 2) * 0.4;
+      const rr = 90 + (k % 3) * 26;
       pos[it.id] = { x: h.x + Math.cos(a2) * rr, y: h.y + Math.sin(a2) * rr };
     });
   });
   return { hubs, pos, root: { x: 0, y: 0 } };
 }
-function getMmLayout() {
-  if (!mmLayout) mmLayout = computeMindmapLayout(mmVisibleIdeas(), ideaGroupBy);
-  return mmLayout;
+function mmSignature() {
+  const ids = mmVisibleIdeas().map(i => i.id + ':' + ideaGroupValue(i, ideaGroupBy).key).join(',');
+  return ideaGroupBy + '|' + mmShowArchived + '|' + ids;
 }
-function mmPos(id) { return mmDrag[id] || getMmLayout().pos[id]; }
+// Construit les nœuds (cœur + pôles + idées) et les liens (cœur→pôle→idée + références)
+function mmBuildSim() {
+  const ideas = mmVisibleIdeas();
+  const L = computeMindmapLayout(ideas, ideaGroupBy);
+  const nodes = [], byId = new Map();
+  const root = { id: '__root__', type: 'root', x: 0, y: 0, vx: 0, vy: 0, r: 30 };
+  nodes.push(root); byId.set(root.id, root);
+  L.hubs.forEach(h => {
+    const hn = { id: 'hub:' + h.key, type: 'hub', label: h.label, count: h.items.length, hubKey: h.key, x: h.x, y: h.y, vx: 0, vy: 0, r: 40 };
+    nodes.push(hn); byId.set(hn.id, hn);
+  });
+  ideas.forEach(i => {
+    const p = L.pos[i.id] || { x: (Math.random() - 0.5) * 300, y: (Math.random() - 0.5) * 300 };
+    const { key } = ideaGroupValue(i, ideaGroupBy);
+    const n = { id: i.id, type: 'idea', idea: i, hubKey: key, x: p.x, y: p.y, vx: 0, vy: 0, r: 22 };
+    nodes.push(n); byId.set(n.id, n);
+  });
+  const links = [];
+  L.hubs.forEach(h => {
+    links.push({ a: '__root__', b: 'hub:' + h.key, len: 240, k: 0.03 });
+    h.items.forEach(it => links.push({ a: 'hub:' + h.key, b: it.id, len: 92, k: 0.05 }));
+  });
+  ideaEdges().forEach(e => { if (byId.has(e.source) && byId.has(e.target)) links.push({ a: e.source, b: e.target, len: 150, k: 0.015, dashed: true }); });
+  mmSim = { nodes, links, byId, sig: mmSignature() };
+}
+function mmEnsureSim() { if (!mmSim || mmSim.sig !== mmSignature()) { mmBuildSim(); mmAlpha = 1; } }
 
 // Liens entre idées : champ links[] + ids cités dans la note/citation (PRD-01, TEC-2, IDEE-3…)
 function ideaRefIds(i) {
@@ -3752,76 +3777,104 @@ function flashIdee() {
 }
 
 function setupIdeaGraph(canvas) {
+  if (mmRAF) { cancelAnimationFrame(mmRAF); mmRAF = null; }
+  mmEnsureSim();
   const ctx = canvas.getContext('2d');
   const gs = ideaGraphState;
-  const R = 22;
-  const ideas = () => mmVisibleIdeas();
   function w2s(x,y) { return { x: x*gs.scale+gs.offsetX, y: y*gs.scale+gs.offsetY }; }
   function s2w(x,y) { return { x: (x-gs.offsetX)/gs.scale, y: (y-gs.offsetY)/gs.scale }; }
+  function reheat(a) { mmAlpha = Math.max(mmAlpha, a == null ? 1 : a); kick(); }
   function fit() {
-    const L = getMmLayout();
-    const pts = [L.root, ...L.hubs.map(h => ({ x:h.x, y:h.y }))];
-    ideas().forEach(i => { const p = mmPos(i.id); if (p) pts.push(p); });
-    if (pts.length < 2) { gs.scale = 1; gs.offsetX = canvas.width/2; gs.offsetY = canvas.height/2; return; }
+    const ns = mmSim.nodes;
+    if (ns.length < 2) { gs.scale = 1; gs.offsetX = canvas.width/2; gs.offsetY = canvas.height/2; return; }
     let minx=Infinity,miny=Infinity,maxx=-Infinity,maxy=-Infinity;
-    pts.forEach(p => { minx=Math.min(minx,p.x); miny=Math.min(miny,p.y); maxx=Math.max(maxx,p.x); maxy=Math.max(maxy,p.y); });
+    ns.forEach(n => { minx=Math.min(minx,n.x); miny=Math.min(miny,n.y); maxx=Math.max(maxx,n.x); maxy=Math.max(maxy,n.y); });
     const pad = 110, w = (maxx-minx)+pad*2, h = (maxy-miny)+pad*2;
-    gs.scale = Math.max(0.25, Math.min(1.3, Math.min(canvas.width/w, canvas.height/h)));
-    const cxw=(minx+maxx)/2, cyw=(miny+maxy)/2;
-    gs.offsetX = canvas.width/2 - cxw*gs.scale;
-    gs.offsetY = canvas.height/2 - cyw*gs.scale;
+    gs.scale = Math.max(0.22, Math.min(1.3, Math.min(canvas.width/w, canvas.height/h)));
+    gs.offsetX = canvas.width/2 - ((minx+maxx)/2)*gs.scale;
+    gs.offsetY = canvas.height/2 - ((miny+maxy)/2)*gs.scale;
   }
-  function pill(x,y,text,bg,fg,maxChars) {
+  // ---- Simulation physique : répulsion + ressorts + gravité + anti-chevauchement ----
+  function tick() {
+    const ns = mmSim.nodes, byId = mmSim.byId;
+    const f = 0.35 + 0.65 * mmAlpha;
+    for (let i = 0; i < ns.length; i++) {
+      const a = ns[i];
+      for (let j = i + 1; j < ns.length; j++) {
+        const b = ns[j];
+        let dx = a.x - b.x, dy = a.y - b.y, d2 = dx*dx + dy*dy; if (d2 < 1) d2 = 1;
+        const d = Math.sqrt(d2), rep = 5800 / d2 * f, ux = dx/d, uy = dy/d;
+        a.vx += ux*rep; a.vy += uy*rep; b.vx -= ux*rep; b.vy -= uy*rep;
+      }
+    }
+    mmSim.links.forEach(l => {
+      const a = byId.get(l.a), b = byId.get(l.b); if (!a || !b) return;
+      let dx = b.x-a.x, dy = b.y-a.y, d = Math.sqrt(dx*dx+dy*dy) || 1;
+      const force = (d - l.len) * l.k * f, ux = dx/d, uy = dy/d;
+      a.vx += ux*force; a.vy += uy*force; b.vx -= ux*force; b.vy -= uy*force;
+    });
+    ns.forEach(n => { const g = (n.type === 'root' ? 0.09 : 0.013) * f; n.vx += -n.x*g; n.vy += -n.y*g; });
+    ns.forEach(n => { if (n === gs.dragging) { n.vx = 0; n.vy = 0; return; } n.vx *= 0.82; n.vy *= 0.82; n.x += n.vx; n.y += n.vy; });
+    for (let i = 0; i < ns.length; i++) {
+      const a = ns[i];
+      for (let j = i + 1; j < ns.length; j++) {
+        const b = ns[j], min = a.r + b.r + 8;
+        let dx = b.x-a.x, dy = b.y-a.y, d = Math.sqrt(dx*dx+dy*dy) || 1;
+        if (d < min) { const push = (min-d)/2, ux = dx/d, uy = dy/d;
+          if (a !== gs.dragging) { a.x -= ux*push; a.y -= uy*push; }
+          if (b !== gs.dragging) { b.x += ux*push; b.y += uy*push; } }
+      }
+    }
+    mmAlpha *= 0.975;
+  }
+  function pill(x,y,text,bg,fg,maxChars,alpha) {
     let t = text; if (maxChars && t.length>maxChars) t = t.slice(0,maxChars-1)+'…';
     ctx.font = `700 ${12*gs.scale}px Manrope, sans-serif`;
-    const w = ctx.measureText(t).width + 20*gs.scale, h = 23*gs.scale, rad = 7*gs.scale;
-    const rx=x-w/2, ry=y-h/2;
+    const w = ctx.measureText(t).width + 20*gs.scale, h = 23*gs.scale, rad = 7*gs.scale, rx = x-w/2, ry = y-h/2;
+    ctx.globalAlpha = alpha == null ? 1 : alpha;
     ctx.beginPath();
     ctx.moveTo(rx+rad,ry); ctx.arcTo(rx+w,ry,rx+w,ry+h,rad); ctx.arcTo(rx+w,ry+h,rx,ry+h,rad); ctx.arcTo(rx,ry+h,rx,ry,rad); ctx.arcTo(rx,ry,rx+w,ry,rad); ctx.closePath();
     ctx.fillStyle = bg; ctx.fill();
-    ctx.fillStyle = fg; ctx.textAlign='center'; ctx.textBaseline='middle';
-    ctx.fillText(t, x, y);
+    ctx.fillStyle = fg; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(t, x, y);
+    ctx.globalAlpha = 1;
   }
+  function focusKey() { return mmHover ? (mmHover.type === 'root' ? null : mmHover.hubKey) : undefined; }
+  function inFocus(n) { const fk = focusKey(); if (fk === undefined || fk === null) return true; return n.type === 'root' || n.hubKey === fk; }
   function draw() {
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    const L = getMmLayout();
-    const root = w2s(L.root.x, L.root.y);
-    // 1) liens structurels : cœur → pôle → idée
-    ctx.lineWidth = 1.4*gs.scale; ctx.strokeStyle = 'rgba(148,163,184,0.40)';
-    L.hubs.forEach(h => {
-      const hs = w2s(h.x,h.y);
-      ctx.beginPath(); ctx.moveTo(root.x,root.y); ctx.lineTo(hs.x,hs.y); ctx.stroke();
-      h.items.forEach(it => { const pp = mmPos(it.id); if (!pp) return; const ps = w2s(pp.x,pp.y);
-        ctx.beginPath(); ctx.moveTo(hs.x,hs.y); ctx.lineTo(ps.x,ps.y); ctx.stroke(); });
+    const byId = mmSim.byId;
+    mmSim.links.forEach(l => {
+      const a = byId.get(l.a), b = byId.get(l.b); if (!a || !b) return;
+      const foc = inFocus(a) && inFocus(b), A = w2s(a.x,a.y), B = w2s(b.x,b.y);
+      ctx.save();
+      if (l.dashed) { ctx.setLineDash([5*gs.scale,5*gs.scale]); ctx.strokeStyle = `rgba(37,99,235,${foc?0.55:0.08})`; ctx.lineWidth = 1.5*gs.scale; }
+      else { ctx.strokeStyle = `rgba(148,163,184,${foc?0.4:0.07})`; ctx.lineWidth = 1.4*gs.scale; }
+      ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(B.x,B.y); ctx.stroke(); ctx.restore();
     });
-    // 2) liens manuels entre idées (références) — pointillé bleu
-    ctx.save(); ctx.setLineDash([5*gs.scale,5*gs.scale]); ctx.lineWidth = 1.5*gs.scale; ctx.strokeStyle = 'rgba(37,99,235,0.55)';
-    ideaEdges().forEach(e => { const s = mmPos(e.source), t = mmPos(e.target); if (!s||!t) return;
-      const a = w2s(s.x,s.y), b = w2s(t.x,t.y);
-      ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); });
-    ctx.restore();
-    // 3) idées (bulles colorées par état)
-    ideas().forEach(n => {
-      const pp = mmPos(n.id); if (!pp) return;
-      const p = w2s(pp.x,pp.y), r = R*gs.scale;
-      const col = MINDMAP_COLORS[ideaColorKey(n)].c;
-      ctx.globalAlpha = n.archived ? 0.45 : 1;
+    mmSim.nodes.forEach(n => {
+      if (n.type !== 'idea') return;
+      const foc = inFocus(n), p = w2s(n.x,n.y), r = n.r*gs.scale, col = MINDMAP_COLORS[ideaColorKey(n.idea)].c;
+      ctx.globalAlpha = foc ? (n.idea.archived ? 0.5 : 1) : 0.13;
       ctx.beginPath(); ctx.arc(p.x,p.y,r,0,Math.PI*2); ctx.fillStyle = col; ctx.fill();
-      if (ideaLinkSource===n.id) { ctx.lineWidth = 3; ctx.strokeStyle = '#0F172A'; ctx.stroke(); }
-      ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.font = `700 ${12*gs.scale}px Manrope, sans-serif`;
-      ctx.fillText(VIVIER_NATURE_ICON[n.nature] || (n.flash ? '⚡' : '•'), p.x, p.y);
-      ctx.fillStyle = '#0F172A'; ctx.textBaseline = 'alphabetic';
-      ctx.font = `600 ${11*gs.scale}px Manrope, sans-serif`;
-      const label = (n.titre||'').length>20 ? n.titre.slice(0,19)+'…' : (n.titre||'');
-      ctx.fillText(label, p.x, p.y + r + 13*gs.scale);
+      if (ideaLinkSource === n.id) { ctx.lineWidth = 3; ctx.strokeStyle = '#0F172A'; ctx.stroke(); }
+      ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = `700 ${12*gs.scale}px Manrope, sans-serif`;
+      ctx.fillText(VIVIER_NATURE_ICON[n.idea.nature] || (n.idea.flash ? '⚡' : '•'), p.x, p.y);
+      if (foc) { ctx.fillStyle = '#0F172A'; ctx.textBaseline = 'alphabetic'; ctx.font = `600 ${11*gs.scale}px Manrope, sans-serif`;
+        const lab = (n.idea.titre||'').length>20 ? n.idea.titre.slice(0,19)+'…' : (n.idea.titre||'');
+        ctx.fillText(lab, p.x, p.y + r + 13*gs.scale); }
       ctx.globalAlpha = 1;
     });
-    // 4) pôles (catégories) par-dessus
-    L.hubs.forEach(h => { const hs = w2s(h.x,h.y); pill(hs.x, hs.y, `${h.label} · ${h.items.length}`, '#1E293B', '#fff', 26); });
-    // 5) cœur
-    pill(root.x, root.y, `Idées · ${ideas().length}`, '#2563EB', '#fff', 30);
+    mmSim.nodes.forEach(n => { if (n.type !== 'hub') return; const p = w2s(n.x,n.y);
+      pill(p.x, p.y, `${n.label} · ${n.count}`, '#1E293B', '#fff', 26, inFocus(n) ? 1 : 0.3); });
+    const root = byId.get('__root__'), rp = w2s(root.x, root.y);
+    pill(rp.x, rp.y, `Idées · ${mmSim.nodes.filter(n=>n.type==='idea').length}`, '#2563EB', '#fff', 30, 1);
   }
+  function loop() {
+    if (!document.body.contains(canvas)) { mmRAF = null; return; }
+    tick(); draw();
+    if (mmAlpha > 0.02 || gs.dragging) mmRAF = requestAnimationFrame(loop); else mmRAF = null;
+  }
+  function kick() { if (!mmRAF) mmRAF = requestAnimationFrame(loop); }
   function resize() {
     const r = canvas.parentElement.getBoundingClientRect();
     canvas.width = r.width; canvas.height = r.height;
@@ -3829,50 +3882,50 @@ function setupIdeaGraph(canvas) {
     draw();
   }
   function nodeAt(sx,sy) {
-    const arr = ideas();
-    for (let i=arr.length-1; i>=0; i--) {
-      const n = arr[i]; const pp = mmPos(n.id); if (!pp) continue;
-      const p = w2s(pp.x,pp.y);
-      if (Math.hypot(sx-p.x, sy-p.y) <= R*gs.scale) return n;
-    }
+    const ns = mmSim.nodes;
+    for (let i = ns.length-1; i >= 0; i--) { const n = ns[i]; const p = w2s(n.x,n.y);
+      if (Math.hypot(sx-p.x, sy-p.y) <= (n.r+2)*gs.scale) return n; }
     return null;
   }
   let downAt = 0;
   canvas.onmousedown = e => {
     downAt = Date.now();
-    const rect = canvas.getBoundingClientRect(); const mx = e.clientX-rect.left, my = e.clientY-rect.top;
+    const rect = canvas.getBoundingClientRect(), mx = e.clientX-rect.left, my = e.clientY-rect.top;
     const node = nodeAt(mx,my);
-    if (ideaLinkMode && node) {
+    if (ideaLinkMode && node && node.type === 'idea') {
       if (!ideaLinkSource) { ideaLinkSource = node.id; draw(); }
       else if (ideaLinkSource !== node.id) { const src = ideaLinkSource; ideaLinkSource = null; linkIdeas(src, node.id); }
       return;
     }
-    if (node) { gs.dragging = node; } else { gs.panning = true; gs.lastX = mx; gs.lastY = my; }
+    if (node) { gs.dragging = node; reheat(0.5); } else { gs.panning = true; gs.lastX = mx; gs.lastY = my; }
   };
   canvas.onmousemove = e => {
-    const rect = canvas.getBoundingClientRect(); const mx = e.clientX-rect.left, my = e.clientY-rect.top;
-    if (gs.dragging) { const wld = s2w(mx,my); mmDrag[gs.dragging.id] = { x: wld.x, y: wld.y }; draw(); }
+    const rect = canvas.getBoundingClientRect(), mx = e.clientX-rect.left, my = e.clientY-rect.top;
+    if (gs.dragging) { const wld = s2w(mx,my); gs.dragging.x = wld.x; gs.dragging.y = wld.y; reheat(0.5); }
     else if (gs.panning) { gs.offsetX += mx-gs.lastX; gs.offsetY += my-gs.lastY; gs.lastX = mx; gs.lastY = my; draw(); }
+    else { const n = nodeAt(mx,my); const h = (n && n.type !== 'root') ? n : null;
+      if (h !== mmHover) { mmHover = h; canvas.style.cursor = n ? 'pointer' : 'grab'; if (!mmRAF) draw(); } }
   };
-  canvas.onmouseup = () => { gs.dragging = null; gs.panning = false; };
-  canvas.onmouseleave = () => { gs.dragging = null; gs.panning = false; };
+  canvas.onmouseup = () => { if (gs.dragging) reheat(0.3); gs.dragging = null; gs.panning = false; };
+  canvas.onmouseleave = () => { gs.dragging = null; gs.panning = false; if (mmHover) { mmHover = null; if (!mmRAF) draw(); } };
   canvas.onclick = e => {
     if (Date.now()-downAt > 200 || ideaLinkMode) return;
     const rect = canvas.getBoundingClientRect();
     const node = nodeAt(e.clientX-rect.left, e.clientY-rect.top);
-    if (node) openIdeeModal(node.id);
+    if (node && node.type === 'idea') openIdeeModal(node.id);
   };
   canvas.onwheel = e => {
     e.preventDefault();
-    const rect = canvas.getBoundingClientRect(); const mx = e.clientX-rect.left, my = e.clientY-rect.top;
+    const rect = canvas.getBoundingClientRect(), mx = e.clientX-rect.left, my = e.clientY-rect.top;
     const before = s2w(mx,my);
-    gs.scale *= e.deltaY>0 ? 0.92 : 1.08; gs.scale = Math.max(0.25, Math.min(2.5, gs.scale));
+    gs.scale *= e.deltaY>0 ? 0.92 : 1.08; gs.scale = Math.max(0.22, Math.min(2.5, gs.scale));
     const after = s2w(mx,my);
     gs.offsetX += (after.x-before.x)*gs.scale; gs.offsetY += (after.y-before.y)*gs.scale;
     draw();
   };
   redrawIdeas = draw;
   resize();
+  if (mmAlpha > 0.02) kick();
 }
 function openNoteModal(id) {
   const note = id ? state.notes.find(n=>n.id===id) : null;
