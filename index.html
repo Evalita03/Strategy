@@ -7,15 +7,20 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,800;1,9..144,500;1,9..144,700&display=swap');
 :root {
-  --font-display: 'Fraunces', Georgia, serif;
+  /* Police de l'interface de travail : Manrope uniquement (design system plateforme) */
+  --font-display: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* Police de marque / vitrine — réservée aux supports marketing (espace Marque) */
+  --font-brand: 'Fraunces', Georgia, serif;
   --blue-900: #1E3A8A;
   --blue-700: #1D4ED8;
   --blue-600: #2563EB;
   --blue-500: #3B82F6;
+  --blue-400: #60A5FA;
   --blue-100: #DBEAFE;
   --blue-50: #EFF6FF;
   --teal-700: #0F766E;
   --teal-600: #0D9488;
+  --teal-500: #14B8A6;
   --teal-100: #CCFBF1;
   --slate-900: #0F172A;
   --slate-700: #334155;
@@ -29,6 +34,7 @@
   --orange-600: #EA580C;
   --orange-100: #FFEDD5;
   --red-600: #DC2626;
+  --red-100: #FEE2E2;
   --white: #FFFFFF;
   --tech: #2563EB;
   --commercial: #0D9488;
@@ -711,7 +717,7 @@ body {
 .mb-hero-wordmark .cpts { color: #94A3B8; font-weight: 600; margin-right: .16em; }
 .mb-hero-tag { margin-top: 11px; font-size: 15px; color: #CBD5E1; max-width: 480px; line-height: 1.55; }
 .mb-sec { margin: 0 0 38px; }
-.mb-sec-head { font-family: var(--font-display); font-size: 25px; font-weight: 700; color: var(--slate-900); margin: 0 0 5px; }
+.mb-sec-head { font-family: var(--font-brand); font-size: 25px; font-weight: 700; color: var(--slate-900); margin: 0 0 5px; }
 .mb-sec-rule { height: 3px; width: 48px; background: var(--blue-700); border-radius: 99px; margin-bottom: 20px; }
 .mb-block { background: #fff; border: 1px solid var(--slate-200); border-radius: 18px; padding: 22px; margin-bottom: 16px; }
 .mb-block-lbl { font-size: 11px; text-transform: uppercase; letter-spacing: .07em; color: var(--slate-400); font-weight: 700; margin-bottom: 14px; }
@@ -733,7 +739,7 @@ body {
 .mb-typo-row:last-child { border-bottom: none; padding-bottom: 0; }
 .mb-typo-row:first-child { padding-top: 0; }
 .mb-typo-lbl { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--slate-400); margin-bottom: 6px; }
-.mb-typo-display { font-family: var(--font-display); font-size: 34px; font-weight: 700; color: var(--slate-900); line-height: 1.1; }
+.mb-typo-display { font-family: var(--font-brand); font-size: 34px; font-weight: 700; color: var(--slate-900); line-height: 1.1; }
 .mb-typo-sans { font-size: 20px; color: var(--slate-800); line-height: 1.4; }
 .mb-weights { display: flex; flex-wrap: wrap; gap: 20px; align-items: baseline; }
 .mb-weights span { font-size: 19px; color: var(--slate-800); }
@@ -779,7 +785,7 @@ body {
 .mb-rules.always li { color: #0f5f57; }
 .mb-live { font-size: 11.5px; color: var(--teal-700); font-weight: 700; }
 .mb-brief { max-height: 460px; overflow-y: auto; padding-right: 8px; font-size: 13px; color: var(--slate-700); line-height: 1.6; }
-.mb-brief h1 { font-family: var(--font-display); font-size: 21px; color: var(--slate-900); margin: 4px 0 8px; }
+.mb-brief h1 { font-family: var(--font-brand); font-size: 21px; color: var(--slate-900); margin: 4px 0 8px; }
 .mb-brief h2 { font-size: 16px; color: var(--slate-900); margin: 18px 0 6px; font-weight: 800; }
 .mb-brief h3 { font-size: 13.5px; color: var(--slate-800); margin: 12px 0 4px; font-weight: 700; }
 .mb-brief h4 { font-size: 12.5px; color: var(--slate-700); margin: 10px 0 3px; font-weight: 700; }
@@ -4614,7 +4620,7 @@ function mbMessage() {
   return `<div class="mb-block"><div class="mb-block-lbl">Le renversement central</div>
       <div class="mb-card-text" style="font-size:13.5px"><b>Les autres outils ont été faits pour autre chose — les CPTS s'adaptent à eux. CPTS Pilot est fait pour les CPTS : l'outil s'adapte à elles.</b> Une philosophie de conception, pas une feature — ce que les concurrents ne peuvent pas revendiquer.</div></div>
     <div class="mb-block" style="background:#161616;border-color:#161616"><div class="mb-block-lbl" style="color:#94A3B8">Tagline canonique</div>
-      <div style="font-family:var(--font-display);font-size:23px;line-height:1.35;font-weight:700;color:#fff">La gestion CPTS qui donne sa place à <span style="font-style:italic;color:#60A5FA">chacun</span> — et la vision à <span style="font-style:italic;color:#60A5FA">tous</span>.</div>
+      <div style="font-family:var(--font-brand);font-size:23px;line-height:1.35;font-weight:700;color:#fff">La gestion CPTS qui donne sa place à <span style="font-style:italic;color:#60A5FA">chacun</span> — et la vision à <span style="font-style:italic;color:#60A5FA">tous</span>.</div>
       <div class="mb-card-text" style="color:#CBD5E1;margin-top:10px">Sérénité + vision permanente + role-first. Fuir le « copywriting lisse » qui ne résonne pas.</div></div>
     <div class="mb-block"><div class="mb-block-lbl">Naming — « CPTS Pilot » (verrouillé)</div>
       <div class="mb-card-text">Préfixe « CPTS » = différenciation immédiate + SEO + effet natif. Graphie « <b>Pilot</b> » (pas « Pilote », pour ne pas heurter le « CPTS pilote » expérimental de l'ARS). Baseline anti-ambiguïté : « la plateforme de pilotage 100 % native pour votre CPTS ».</div></div>`;
