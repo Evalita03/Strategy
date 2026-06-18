@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-18T07:29:17.803Z",
+  "exportedAt": "2026-06-18T07:33:39.953Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -5743,6 +5743,24 @@
         "title": "Verifier la capacite d'export des plateformes concurrentes",
         "status": "todo",
         "body": "Prerequis a la promesse de migration : si le concurrent n'exporte pas, la reprise se complique."
+      },
+      {
+        "id": "mqj6ldhtx36dp",
+        "title": "Integration aux sites web existants des CPTS",
+        "status": "todo",
+        "body": "Decision Eva 2026-06-06 : idee a CONCRETISER, reste dans le vivier (pas promue en strategie tant que pas faisable). conditionne par DEC-01 (multi-tenant) et un theming profond par tenant. Beaucoup de CPTS ont deja un WordPress avec espace adherent. Arbitrage : ship SaaS pur d'abord, construire le deport seulement si plusieurs prospects bloquent dessus (project_integration_sites_cpts)."
+      },
+      {
+        "id": "mqj6ly10ubex3",
+        "title": "Capter les CPTS sans outils de gestion",
+        "status": "todo",
+        "body": "Segment de marche distinct (pas de migration depuis un concurrent, mais des donnees dispersees a structurer). Process non defini."
+      },
+      {
+        "id": "mqj6md3wrwnch",
+        "title": "Depot e-Soleau a l'INPI",
+        "status": "todo",
+        "body": "Protection PI. Prepa lancee ; un dossier docs/inpi/ existe non commite dans le repo au 2026-06-06."
       }
     ],
     "strategie": [],
@@ -6033,11 +6051,25 @@
         "body": "Voir la plateforme 'comme si' on etait dans chaque role : demo prospects, formation, test permissions. Partiellement absorbe par Mon Espace adaptatif mais le switcher transversal reste un backlog a brainstormer (project_switch_vue_roles)."
       },
       {
+        "id": "mqj6kqwbu7ud8",
+        "title": "Enrichir Module Coordination",
+        "month": "2026-06",
+        "status": "planned",
+        "body": "Depuis le vivier (idée TEC-03).\n\nVisualisation des membres participants aux groupes de travail. Possibilité de visualiser les actions appartenant à chaque mission, et les participations, grâce à quelque chose de visuel. Possibilité de voir quels établissements, associations, liens extérieurs sont tissés, ou A TISSER, pour chaque action. Un feuillet doit pouvoir exposer la vision à 3 ans de chaque action."
+      },
+      {
         "id": "mqih5erfvnv9o",
         "title": "Depense association : modification d'une depense",
         "month": "2026-06",
         "status": "planned",
         "body": "Editer une depense au lieu de supprimer/recreer."
+      },
+      {
+        "id": "mqj6mrv74wng5",
+        "title": "Cartographie interactive du territoire",
+        "month": "2026-09",
+        "status": "planned",
+        "body": "Depuis le vivier (idée PRD-04).\n\nCarte des membres epingles + recherche d'un praticien specialise. Vision recurrente, dans l'annuaire, jamais construite."
       }
     ],
     "strategiePillars": {
