@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-17T20:59:45.225Z",
+  "exportedAt": "2026-06-18T07:29:17.803Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -5737,7 +5737,14 @@
         "y": 383.1859444561068
       }
     ],
-    "tasks": [],
+    "tasks": [
+      {
+        "id": "mqj6hoqtb0zpm",
+        "title": "Verifier la capacite d'export des plateformes concurrentes",
+        "status": "todo",
+        "body": "Prerequis a la promesse de migration : si le concurrent n'exporte pas, la reprise se complique."
+      }
+    ],
     "strategie": [],
     "prospects": [],
     "today": {
@@ -5977,6 +5984,13 @@
         "body": "Ingestion Excel/Word/PDF/scans -> remplissage auto + validation humaine. Backlog trace (project_migration_module). A shipper avant les premiers clients payants. La PROMESSE commerciale associee est, elle, un cap-mur (voir CAP-03)."
       },
       {
+        "id": "mqj6gp335eedq",
+        "title": "Module RH",
+        "month": "2026-07",
+        "status": "planned",
+        "body": "Depuis le vivier (idée PRD-17).\n\nReporte la veille de la demo du 5 mai pour livrer simple (saisie manuelle du salaire chaque mois). Backlog (project_contrat_salaire). Alternative simple : 'copier du mois precedent'."
+      },
+      {
         "id": "mqih5erfjfp6j",
         "title": "Responsive mobile complet",
         "month": "2026-08",
@@ -5989,6 +6003,20 @@
         "month": "2026-08",
         "status": "planned",
         "body": "Le mode vue-par-rôle n'est aujourd'hui pas pleinement respecté pour le secrétariat. Cible : donner au secrétaire un point d'entrée dédié et facilité, sur le modèle de l'onglet Trésorerie. Prolonge l'axe stratégique 'Un outil par rôle' (strategy.json) et rejoint PRD-09 (switcher de vue par rôle)."
+      },
+      {
+        "id": "mqj6h5iuqkldf",
+        "title": "Module Création CPTS",
+        "month": "2026-08",
+        "status": "planned",
+        "body": "Depuis le vivier (idée PRD-20).\n\nAccompagnement montage juridique, rédaction lettre d'intention, rédaction diagnostic territorial, éléments de communication territoire, etc. à développer."
+      },
+      {
+        "id": "mqj6heomo15zq",
+        "title": "3 guides de fond pour la vitrine",
+        "month": "2026-08",
+        "status": "planned",
+        "body": "Depuis le vivier (idée ORG-03).\n\nContenu editorial pour le site vitrine (SEO + credibilite). Liste, jamais commence."
       },
       {
         "id": "mqih5erf1r25d",
