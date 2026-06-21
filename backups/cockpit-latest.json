@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-21T07:31:40.181Z",
+  "exportedAt": "2026-06-21T07:55:58.096Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7133,6 +7133,86 @@
       "reports": []
     },
     "devSeeded": true,
-    "devBaseSeeded": true
+    "devBaseSeeded": true,
+    "marchePlan": [
+      {
+        "id": "mqnhfnx4dv2eb",
+        "theme": "Veille concurrentielle",
+        "title": "Cartographier les outils concurrents pour CPTS",
+        "status": "planned",
+        "body": "Lister qui fait quoi : nom, périmètre fonctionnel, cible. Une vue d'ensemble du paysage."
+      },
+      {
+        "id": "mqnhfnx4yrbxa",
+        "theme": "Veille concurrentielle",
+        "title": "Suivre les nouveautés des concurrents (rythme mensuel)",
+        "status": "planned",
+        "body": "Un point régulier pour ne rien rater : sorties, annonces, changements de cap."
+      },
+      {
+        "id": "mqnhfnx4zure2",
+        "theme": "Veille concurrentielle",
+        "title": "Recenser leurs prix publics et positionnements",
+        "status": "planned",
+        "body": "Ce qu'ils affichent et comment ils se présentent — pour situer notre offre."
+      },
+      {
+        "id": "mqnhfnx4yi3em",
+        "theme": "Ciblage",
+        "title": "Définir les 3 CPTS prioritaires à approcher",
+        "status": "planned",
+        "body": "Choisir où concentrer l'effort en premier, avec un critère clair."
+      },
+      {
+        "id": "mqnhfnx4lv85q",
+        "theme": "Ciblage",
+        "title": "Qualifier les besoins par profil (coordination, médecins, élus)",
+        "status": "planned",
+        "body": "Ce que chaque interlocuteur attend vraiment — pour parler juste."
+      },
+      {
+        "id": "mqnhfnx47cb1t",
+        "theme": "Canaux & go-to-market",
+        "title": "Choisir 2 canaux d'entrée prioritaires",
+        "status": "planned",
+        "body": "Par où on arrive concrètement jusqu'aux CPTS."
+      },
+      {
+        "id": "mqnhfnx4c6jsd",
+        "theme": "Canaux & go-to-market",
+        "title": "Préparer le pitch et le support d'approche",
+        "status": "planned",
+        "body": "Le message d'ouverture et le support qui l'accompagne."
+      },
+      {
+        "id": "mqnhfnx45zmae",
+        "theme": "Argumentaire",
+        "title": "Formuler 3 arguments clés différenciants",
+        "status": "planned",
+        "body": "Ce qui nous rend évidents, sans jamais nommer la concurrence."
+      },
+      {
+        "id": "mqnhfnx4yz861",
+        "theme": "Argumentaire",
+        "title": "Préparer les réponses aux objections fréquentes",
+        "status": "planned",
+        "body": "Anticiper les « oui mais » pour ne pas être pris au dépourvu."
+      },
+      {
+        "id": "mqnhfnx4sw5b7",
+        "theme": "Rassurance",
+        "title": "Préparer les preuves (sécurité, hébergement, conformité)",
+        "status": "planned",
+        "body": "Les éléments qui lèvent les doutes au moment de s'engager."
+      },
+      {
+        "id": "mqnhfnx4x0yez",
+        "theme": "Rassurance",
+        "title": "Documenter une première référence / cas pilote",
+        "status": "planned",
+        "body": "Un exemple concret vaut mille arguments."
+      }
+    ],
+    "marchePlanSeeded": true
   }
 }
