@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-21T07:24:18.331Z",
+  "exportedAt": "2026-06-21T07:31:40.181Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -5767,6 +5767,12 @@
         "title": "Créer un Agent Administratif",
         "status": "todo",
         "body": "Pour réaliser les démarches administratives de l'entreprise"
+      },
+      {
+        "id": "mqngx6vkssgj5",
+        "title": "Gérer  le courrier de la DGFIP facturation électronique",
+        "status": "todo",
+        "body": "Indy le fait, à voir"
       }
     ],
     "strategie": [],
