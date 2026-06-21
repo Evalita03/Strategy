@@ -1,0 +1,33 @@
+{
+  "agent": "victor",
+  "journal": [
+    {
+      "agent": "victor",
+      "updated_at": "2026-06-21",
+      "trigger": "Amorçage manuel",
+      "synthese": "On part d'une page quasi blanche : l'entreprise n'est pas encore structurée. La priorité, c'est de poser la forme juridique — tout le reste en découle.",
+      "etat_global": "Entreprise non encore immatriculée — structuration à lancer.",
+      "domaines": [
+        { "nom": "Forme juridique", "statut": "a_faire", "resume": "Choisir le statut (micro-entreprise pour démarrer léger, ou EURL/SASU si tu vises la vente et des charges) — à arbitrer ensemble." },
+        { "nom": "Immatriculation & enregistrement", "statut": "a_faire", "resume": "Dépôt au guichet unique INPI pour obtenir SIRET + code APE. Vient juste après le choix du statut." },
+        { "nom": "Assurances", "statut": "a_faire", "resume": "Souscrire une RC Pro d'éditeur de logiciel (et étudier une cyber-assurance). À faire avant le premier client." },
+        { "nom": "Comptabilité, fiscalité & social", "statut": "a_faire", "resume": "Décider du régime de TVA, des obligations comptables et de l'opportunité d'un expert-comptable. Dépend du statut choisi." },
+        { "nom": "Contrats & conditions", "statut": "a_faire", "resume": "Préparer CGV/CGU et mentions légales de la plateforme. Le volet données du contrat client (DPA) revient à Cléo." },
+        { "nom": "Banque & administratif courant", "statut": "a_faire", "resume": "Ouvrir un compte bancaire dédié et poser une facturation conforme. Après l'immatriculation." },
+        { "nom": "Propriété intellectuelle & marque", "statut": "a_faire", "resume": "Vérifier la disponibilité puis déposer la marque « CPTS Pilot » à l'INPI. À caler avec Stella pour le nom/logo." }
+      ],
+      "prochaine_demarche": {
+        "titre": "Choisir la forme juridique de CPTS Pilot",
+        "pourquoi": "C'est le verrou de départ : sans statut décidé, pas de SIRET, donc pas de compte pro, pas de facturation, pas de contrat. Le choix (micro / EURL / SASU) dépend de ton ambition de vente et de ta tolérance aux charges — on l'arbitre ensemble, puis tout s'enchaîne.",
+        "domaine": "Forme juridique"
+      },
+      "echeances": [],
+      "relais": [
+        { "agent": "Cléo", "sujet": "RGPD, hébergement HDS et clause de protection des données (DPA) du contrat client" },
+        { "agent": "Orion", "sujet": "Réglementaire santé : statut éventuel de « dispositif médical » du logiciel et certification Ségur" },
+        { "agent": "Carla", "sujet": "Devis, facturation et onboarding des CPTS clientes (le commercial, pas l'administratif)" }
+      ],
+      "note": "Premier point d'amorçage, écrit sans vérification web. À ma prochaine ronde, je vérifie à la source (service-public.fr, INPI, URSSAF) et je chiffre les options de statut pour qu'on décide sur du concret. Une chose à la fois : on commence par le statut."
+    }
+  ]
+}

@@ -175,6 +175,7 @@ body {
 .tag-tech { background: var(--blue-100); color: var(--blue-700); }
 .tag-commercial { background: var(--teal-100); color: var(--teal-700); }
 .tag-strategie { background: #EDE9FE; color: #7C3AED; }
+.tag-admin { background: #F5ECD9; color: #A16207; }
 
 /* Tasks */
 .task-col { display: flex; flex-direction: column; gap: 10px; }
@@ -592,6 +593,13 @@ body {
 .relais-item { display: flex; gap: 10px; align-items: baseline; font-size: 13px; }
 .relais-agent { font-weight: 700; color: var(--blue-700); white-space: nowrap; }
 .relais-sujet { color: var(--slate-700); }
+/* Victor — cartes des chantiers administratifs */
+.vic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+.vic-card { border: 1px solid var(--slate-200); border-radius: 10px; padding: 11px 13px; background: var(--slate-50); }
+.vic-card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 5px; }
+.vic-card-nom { font-weight: 700; font-size: 13px; color: var(--slate-700); }
+.vic-card-txt { font-size: 12.5px; color: var(--slate-600); line-height: 1.5; }
+.vic-tag { display: inline-block; font-size: 11px; font-weight: 700; background: #F5ECD9; color: #A16207; border-radius: 6px; padding: 1px 7px; vertical-align: middle; }
 .prop-list { display: flex; flex-direction: column; gap: 10px; }
 .prop-item { display: flex; gap: 12px; align-items: flex-start; justify-content: space-between; border: 1px solid var(--blue-100); border-radius: 12px; padding: 12px 14px; background: var(--blue-50); }
 .prop-main { flex: 1; min-width: 0; }
@@ -978,6 +986,54 @@ body {
 .rm-section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--slate-400); font-weight: 700; margin: 10px 0 12px; }
 .roadmap-item-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
 .roadmap-empty { padding: 60px 24px; text-align: center; color: var(--slate-400); font-size: 13px; line-height: 1.6; }
+
+/* Prise de marché — feuillets de classeur (languettes papier sur une fiche blanche) */
+.marche-feuillets { max-width: 1100px; margin: 0 auto; }
+.marche-tabs { display: flex; gap: 6px; padding-left: 14px; position: relative; z-index: 2; margin-bottom: -1px; }
+.marche-tab {
+  font-family: inherit; font-size: 13px; font-weight: 700; color: var(--slate-500);
+  background: var(--slate-100); border: 1px solid var(--slate-200); border-bottom: none;
+  border-radius: 10px 10px 0 0; padding: 9px 20px; cursor: pointer;
+  transition: color .15s, background .15s; line-height: 1.2;
+}
+.marche-tab:hover { color: var(--slate-700); background: var(--slate-50); }
+.marche-tab.is-active { color: var(--blue-700); background: var(--white); }
+/* La fiche blanche sur laquelle reposent les feuillets */
+.marche-sheet {
+  background: var(--white); border: 1px solid var(--slate-200); border-radius: 0 12px 12px 12px;
+  box-shadow: 0 1px 2px rgba(15,23,42,0.04); max-width: none; margin: 0;
+}
+/* Plan d'action — trame thématique */
+.mp-wrap { max-width: 780px; }
+.mp-summary { display: flex; gap: 16px; flex-wrap: wrap; margin: 2px 0 24px; }
+.mp-stat { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; color: var(--slate-600); }
+.mp-stat-dot { width: 9px; height: 9px; border-radius: 50%; flex: 0 0 auto; }
+.mp-stat b { color: var(--slate-900); font-weight: 700; }
+.mp-theme { margin-bottom: 26px; }
+.mp-theme-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px; }
+.mp-theme-name { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--blue-700); }
+.mp-theme-count { font-size: 11px; font-weight: 700; color: var(--slate-400); }
+.mp-items { display: flex; flex-direction: column; gap: 9px; }
+.mp-row {
+  background: var(--white); border: 1px solid var(--slate-200); border-left: 3px solid var(--slate-300);
+  border-radius: 10px; padding: 11px 14px; cursor: pointer; transition: all .15s;
+  display: flex; align-items: center; gap: 11px;
+}
+.mp-row:hover { box-shadow: 0 6px 16px rgba(15,23,42,0.09); transform: translateY(-1px); border-left-width: 4px; }
+.mp-row.is-done { border-left-color: var(--teal-600); background: var(--teal-100); }
+.mp-row.is-doing { border-left-color: var(--blue-500); background: var(--blue-50); }
+.mp-row.is-planned { border-left-color: var(--orange-600); background: var(--orange-100); }
+.mp-check { flex: 0 0 auto; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; cursor: pointer; transition: transform .12s; }
+.mp-check:hover { transform: scale(1.12); }
+.mp-row.is-done .mp-check { background: var(--teal-600); color: var(--white); }
+.mp-row.is-doing .mp-check { background: var(--blue-500); color: var(--white); }
+.mp-row.is-planned .mp-check { background: var(--orange-600); color: var(--white); }
+.mp-row-title { flex: 1; font-size: 13.5px; line-height: 1.35; color: var(--slate-700); font-weight: 600; }
+.mp-row.is-done .mp-row-title { color: var(--teal-700); }
+.mp-row-note { flex: 0 0 auto; color: var(--slate-300); font-size: 14px; }
+.mp-row-chevron { flex: 0 0 auto; color: var(--slate-300); font-size: 16px; }
+.mp-row:hover .mp-row-chevron { color: var(--blue-500); }
+.mp-intro { font-size: 13px; color: var(--slate-500); line-height: 1.55; margin: 0 0 22px; max-width: 620px; }
 .rm-detail-head { display: flex; align-items: center; gap: 12px; }
 .rm-detail-status { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 4px 10px; border-radius: 20px; }
 .rm-detail-status.is-done { background: var(--teal-100); color: var(--teal-700); }
@@ -1771,8 +1827,8 @@ document.addEventListener('keydown', e => {
   }
 });
 
-const catLabel = { tech:'Technique', commercial:'Commercial', strategie:'Stratégie' };
-const catClass = { tech:'tag-tech', commercial:'tag-commercial', strategie:'tag-strategie' };
+const catLabel = { tech:'Technique', commercial:'Commercial', strategie:'Stratégie', admin:'Administratif' };
+const catClass = { tech:'tag-tech', commercial:'tag-commercial', strategie:'tag-strategie', admin:'tag-admin' };
 
 function render() {
   const content = document.getElementById('content');
@@ -2035,6 +2091,8 @@ function registerReportPrecos(r, agentSlug) {
   const date = r.updated_at || ''; let added = false;
   if (r.prochain_chantier && r.prochain_chantier.titre) { const res = upsertPreco(r.prochain_chantier.titre, 'chantier', date, agentSlug); if (res && res.added) added = true; }
   if (Array.isArray(r.a_anticiper)) r.a_anticiper.forEach(x => { const res = upsertPreco(String(x), 'anticiper', date, agentSlug); if (res && res.added) added = true; });
+  // Victor : sa « prochaine démarche » se suit comme une préconisation
+  if (r.prochaine_demarche && r.prochaine_demarche.titre) { const res = upsertPreco(r.prochaine_demarche.titre, 'chantier', date, agentSlug); if (res && res.added) added = true; }
   // Orion : ses « coups d'avance » se suivent comme des préconisations
   if (Array.isArray(r.coups_avance)) r.coups_avance.forEach(c => { if (c && c.titre) { const res = upsertPreco(c.titre, 'coup', date, agentSlug); if (res && res.added) added = true; } });
   // Magnus a observé dans le code que des chantiers/tâches sont réalisés → on les marque « Faite »
@@ -2223,7 +2281,7 @@ function toggleLinkMode() {
   btn.textContent = linkMode ? '✓ Mode liaison' : '↔ Relier';
 }
 
-const catColors = { tech:'#2563EB', commercial:'#0D9488', strategie:'#7C3AED' };
+const catColors = { tech:'#2563EB', commercial:'#0D9488', strategie:'#7C3AED', admin:'#A16207' };
 
 function truncLabel(s, max) { s = String(s||''); return s.length > max ? s.slice(0, max-1) + '…' : s; }
 
@@ -4450,6 +4508,7 @@ function openTaskModal(id) {
     <div class="modal-actions">
       ${task?`<button class="btn btn-ghost" style="color:var(--red-600);margin-right:auto" onclick="deleteTask('${id}')">Supprimer</button>`:''}
       ${task?`<button class="btn btn-ghost" onclick="sendTaskToRoadmap('${id}')">→ Roadmap</button>`:''}
+      ${task?`<button class="btn btn-ghost" onclick="sendTaskToMarchePlan('${id}')">→ Plan marché</button>`:''}
       <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
       <button class="btn btn-primary" onclick="saveTask('${id||''}')">Enregistrer</button>
     </div>`;
@@ -4506,6 +4565,37 @@ async function confirmTaskToRoadmap(id) {
     vivierToast('✓ Envoyée en roadmap (local)');
   }
   render();
+}
+// ----- Basculer une tâche en action du Plan de prise de marché (choix du thème) -----
+function sendTaskToMarchePlan(id) {
+  const task = state.tasks.find(t => t.id === id); if (!task) return;
+  const m = document.getElementById('modal'); m.classList.remove('qc-mode', 'modal-wide');
+  m.innerHTML = `
+    <h2>Envoyer dans le Plan de marché</h2>
+    <p style="font-size:13px;color:var(--slate-600);line-height:1.55;margin-bottom:14px">« <b>${esc(task.title)}</b> » devient une action de la trame Prise de marché et <b>quitte le To do</b> (plus de double suivi).</p>
+    <div class="field"><label>Dans quel thème la ranger ?</label>
+      <select id="task-marche-theme">${MARCHE_THEMES.map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join('')}</select></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="confirmTaskToMarchePlan('${esc(id)}')">Confirmer</button>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function confirmTaskToMarchePlan(id) {
+  const theme = document.getElementById('task-marche-theme').value || MARCHE_THEMES[0];
+  const task = state.tasks.find(t => t.id === id); if (!task) { closeModal(); return; }
+  // Statut de l'action aligné sur l'avancement de la tâche
+  const mstatus = task.status === 'done' ? 'done' : (task.status === 'doing' ? 'doing' : 'planned');
+  state.marchePlan = state.marchePlan || [];
+  const dup = state.marchePlan.some(x => (x.title || '').trim().toLowerCase() === task.title.trim().toLowerCase());
+  if (!dup) state.marchePlan.push({ id: uid(), theme, title: task.title, status: mstatus, body: (task.body || '') });
+  // La tâche quitte le To do : elle vit désormais comme action du Plan de marché
+  state.tasks = state.tasks.filter(t => t.id !== id);
+  // Bascule sur l'onglet Plan d'action pour que l'action soit visible tout de suite
+  marcheTab = 'plan';
+  save(); closeModal();
+  goTo('strat-marche');
+  vivierToast(dup ? '✓ Tâche retirée (déjà présente dans le plan)' : '✓ Ajoutée au Plan de marché');
 }
 
 // ============ VUE STRATÉGIE (Hub d'encarts) ============
@@ -4577,6 +4667,8 @@ function allStratGroupsInUse() {
 function findPillar(section, pid) { return (state.strategiePillars[section]||[]).find(p=>p.id===pid); }
 
 let expandedGroups = { vision: new Set(), marche: new Set(), pricing: new Set(), dev: new Set(), marque: new Set() };
+// Prise de marché : onglet actif (« strat » = encarts | « plan » = trame d'actions)
+let marcheTab = 'strat';
 
 // ===== Marque & com' : vitrine vivante (visuels réels + modules rotatifs) =====
 let mbRAF = null;
@@ -4784,17 +4876,28 @@ function renderMarqueShowcase(content, actions) {
   content.innerHTML = html;
   if (!brandBrief.loaded) loadBrandBrief(false);
 }
+function marcheTabsHtml() {
+  return `<div class="marche-tabs">
+    <button class="marche-tab ${marcheTab === 'strat' ? 'is-active' : ''}" onclick="setMarcheTab('strat')">Stratégie</button>
+    <button class="marche-tab ${marcheTab === 'plan' ? 'is-active' : ''}" onclick="setMarcheTab('plan')">Plan d'action</button>
+  </div>`;
+}
+function setMarcheTab(t) { marcheTab = t; render(); }
 function renderStrategie(content, actions, section) {
   if (section === 'marque') return renderMarqueShowcase(content, actions);
+  if (section === 'marche' && marcheTab === 'plan') return renderMarchePlan(content, actions);
   actions.innerHTML = `<button class="btn btn-primary" onclick="addEncart('${section}')">+ Encart</button>`;
   const encarts = state.strategiePillars[section] || [];
-  let html = '<div class="panel" style="max-width:1100px">';
+  const isMarche = section === 'marche';
+  let html = isMarche
+    ? `<div class="marche-feuillets">${marcheTabsHtml()}<div class="panel marche-sheet">`
+    : '<div class="panel" style="max-width:1100px">';
   html += renderStratHero(section);
   if (encarts.length === 0) {
     html += `<div class="empty">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="10" width="8" height="11" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/></svg>
       <p>Aucun encart. Clique « + Encart » pour composer cette section.</p></div>`;
-    html += '</div>';
+    html += isMarche ? '</div></div>' : '</div>';
     content.innerHTML = html;
     return;
   }
@@ -4830,7 +4933,8 @@ function renderStrategie(content, actions, section) {
       </div>`;
     }
   });
-  html += '</div></div>';
+  html += '</div>'; // .hub-grid
+  html += isMarche ? '</div></div>' : '</div>'; // .marche-sheet + .marche-feuillets | .panel
   content.innerHTML = html;
 }
 function renderEncartCard(section, p) {
@@ -5058,6 +5162,14 @@ const ORGANIGRAMME = {
       ]
     },
     {
+      name: "Administration & Gestion", tagline: "Préparer le terrain de l'entreprise",
+      agents: [
+        { prenom: "Victor", name: "Le Secrétariat général", slug: "victor", statut: "active", role: "L'entreprise en règle",
+          mission: "Prépare le terrain administratif, juridique et de gestion pour que CPTS Pilot soit opérationnelle et conforme : forme juridique, immatriculation, assurances, comptabilité/fiscalité/social, contrats & CGV, banque, marque. Il tient le registre des obligations et te dit la prochaine démarche. Le RGPD/hébergement revient à Cléo, le réglementaire santé à Orion.",
+          quand: "« Par quel statut je commence ? Qu'est-ce qu'il me reste pour être en règle ? Quelle échéance arrive ? »" }
+      ]
+    },
+    {
       name: "Business", tagline: "Trouver et tenir les clients",
       agents: [
         { prenom: "Carla", name: "Le Business", statut: "todo", role: "Commercial → gestion clients",
@@ -5166,6 +5278,60 @@ function renderRelais(r) {
   const list = Array.isArray(r.relais) ? r.relais.filter(x => x && (x.agent || x.sujet)) : [];
   if (!list.length) return '';
   return `<div class="agent-report-block"><div class="arb-label">Passages de relais</div><div class="relais-list">${list.map(x => `<div class="relais-item"><span class="relais-agent">${esc(x.agent || '?')}</span><span class="relais-sujet">${esc(x.sujet || '')}</span></div>`).join('')}</div></div>`;
+}
+// ---- Victor (Secrétariat général) : son rapport « Aujourd'hui » ----
+function victorStatutChip(st) {
+  const map = { fait: { cls: 'org-badge-active', label: '✓ fait' }, en_cours: { cls: 'org-badge-next', label: '⏳ en cours' }, a_faire: { cls: 'org-badge-todo', label: 'à faire' } };
+  const s = map[st] || map.a_faire;
+  return `<span class="org-badge ${s.cls}">${s.label}</span>`;
+}
+function renderVictorToday(r) {
+  const when = r.updated_at ? `Mis à jour le ${esc(r.updated_at)}${r.trigger ? ' · ' + esc(r.trigger) : ''}` : '';
+  let h = `<div class="agent-report-head"><span class="agent-report-title">État administratif</span><span class="agent-report-when">${when}</span></div>`;
+  if (r.synthese) h += `<div class="agent-report-block"><div class="arb-label">En un mot</div><div class="arb-text">${esc(r.synthese)}</div></div>`;
+  if (r.etat_global) h += `<div class="report-evolution">🏛️ <strong>Où en est l'entreprise&nbsp;:</strong> ${esc(r.etat_global)}</div>`;
+  if (Array.isArray(r.domaines) && r.domaines.length) {
+    h += `<div class="agent-report-block"><div class="arb-label">Les chantiers administratifs</div><div class="vic-grid">${r.domaines.map(d => `<div class="vic-card"><div class="vic-card-head"><span class="vic-card-nom">${esc(d.nom || '')}</span>${victorStatutChip(d.statut)}</div>${d.resume ? `<div class="vic-card-txt">${esc(d.resume)}</div>` : ''}</div>`).join('')}</div></div>`;
+  }
+  if (r.prochaine_demarche && r.prochaine_demarche.titre) {
+    const pd = r.prochaine_demarche;
+    h += `<div class="agent-report-block"><div class="arb-label">La prochaine démarche</div><div class="arb-text"><strong>${esc(pd.titre)}</strong>${pd.domaine ? ` <span class="vic-tag">${esc(pd.domaine)}</span>` : ''}${pd.pourquoi ? ' — ' + esc(pd.pourquoi) : ''}</div><div class="report-btn-row"><button class="cap-task-btn" onclick="createTaskFromDemarche(event)">+ Créer la tâche</button><button class="cap-task-btn cap-task-btn-alt" onclick="createJalonFromDemarche(event)">+ Ajouter à la roadmap</button></div></div>`;
+  }
+  if (Array.isArray(r.echeances) && r.echeances.length) {
+    h += `<div class="agent-report-block"><div class="arb-label">Échéances à ne pas rater</div><ul class="arb-list">${r.echeances.map(e => `<li>${e.date ? `<strong>${esc(e.date)}</strong> — ` : ''}${esc(e.titre || '')}${e.domaine ? ` <span class="vic-tag">${esc(e.domaine)}</span>` : ''}</li>`).join('')}</ul></div>`;
+  }
+  h += renderRelais(r);
+  if (r.note) h += `<div class="agent-report-note">${esc(r.note)}</div>`;
+  return h;
+}
+function victorLatestDemarche() {
+  const reps = agentReportsFromData(agentConsoleData);
+  const latest = reps[reps.length - 1] || null;
+  return latest && latest.prochaine_demarche && latest.prochaine_demarche.titre ? { pd: latest.prochaine_demarche, date: latest.updated_at || '' } : null;
+}
+function createTaskFromDemarche(ev) {
+  const btn = ev && ev.currentTarget; const ld = victorLatestDemarche(); if (!ld) return;
+  const titre = ld.pd.titre.trim();
+  const dup = state.tasks.find(t => (t.title || '').trim().toLowerCase() === titre.toLowerCase() && t.status !== 'done');
+  if (dup) { if (btn) { btn.textContent = 'Déjà dans ton To do'; btn.disabled = true; btn.classList.add('cap-task-btn-done'); } return; }
+  const id = uid();
+  state.tasks.push({ id, title: titre, status: 'todo', category: 'admin', body: 'Préconisé par Victor (Secrétariat général).\n\n' + (ld.pd.pourquoi || '') });
+  const pr = upsertPreco(titre, 'chantier', ld.date, 'victor');
+  if (pr && pr.p) { pr.p.enTache = true; pr.p.taskId = id; if (pr.p.etat === 'ecartee') pr.p.etat = 'active'; }
+  save();
+  if (btn) { btn.textContent = '✓ Ajouté à ton To do'; btn.disabled = true; btn.classList.add('cap-task-btn-done'); }
+}
+function createJalonFromDemarche(ev) {
+  const btn = ev && ev.currentTarget; const ld = victorLatestDemarche(); if (!ld) return;
+  const titre = ld.pd.titre.trim();
+  if (roadmapHas(titre)) { if (btn) { btn.textContent = 'Déjà dans la roadmap'; btn.disabled = true; btn.classList.add('cap-task-btn-done'); } return; }
+  state.roadmap = state.roadmap || [];
+  const jid = uid();
+  rmInsertOrdered({ id: jid, title: titre, month: currentMonthStr(), status: 'planned', body: 'Préconisé par Victor (Secrétariat général).\n\n' + (ld.pd.pourquoi || '') });
+  const pr = upsertPreco(titre, 'chantier', ld.date, 'victor');
+  if (pr && pr.p) { pr.p.enRoadmap = true; pr.p.jalonId = jid; if (pr.p.etat === 'ecartee') pr.p.etat = 'active'; }
+  save();
+  if (btn) { btn.textContent = '✓ Ajouté à la roadmap'; btn.disabled = true; btn.classList.add('cap-task-btn-done'); }
 }
 function propKey(p) { return (p.action || '') + '|' + (p.titre || ''); }
 function renderPropositions(r) {
@@ -5677,6 +5843,7 @@ function renderAgentTabBody() {
   if (agentTab === 'today') {
     if (latest && latest.updated_at) markReportSeen(currentAgentSlug, latest.updated_at);
     if (currentAgentSlug === 'orion') box.innerHTML = (latest && (latest.synthese || latest.reglementaire)) ? renderObservatoire(latest) : agentEmpty(a);
+    else if (currentAgentSlug === 'victor') box.innerHTML = (latest && (latest.synthese || latest.domaines)) ? `<div class="agent-report" style="border:none;padding:0">${renderVictorToday(latest)}</div>` : agentEmpty(a);
     else box.innerHTML = latest && (latest.etat || latest.prochain_chantier) ? `<div class="agent-report" style="border:none;padding:0">${renderAgentReport(latest)}</div>` : agentEmpty(a);
   }
   else if (agentTab === 'cap') box.innerHTML = renderAgentTabCap(latest);
@@ -5817,6 +5984,10 @@ IMPORTANT : dans ce chat tu n'as PAS d'accès web en direct (navigateur). Tu t'a
   if (slug === 'mako') {
     return `Tu es Mako, l'agent de veille concurrentielle de CPTS Pilot — vif et incisif comme un requin, mais toujours factuel. Tu es relié à Orion (l'Observatoire) : c'est lui qui collecte, toi tu analyses la concurrence et tu la rends limpide. Tu discutes avec Eva, coordinatrice CPTS et fondatrice solo de CPTS Pilot (plateforme de gestion pour les CPTS). Ton : d'égale à égale, simple, franc, percutant, réponses courtes et structurées (markdown). Ton domaine : les concurrents — leur positionnement, prix, stratégie, forces/faiblesses, actualité, et SURTOUT comment Eva s'en démarque et gagne. Un concurrent = tout outil qu'une CPTS pourrait utiliser à la place de CPTS Pilot, pas seulement les éditeurs dédiés CPTS (Citana, Coordo, Albert, SimplyMed, Medplan, CPTS+…) : compte AUSSI les plateformes généralistes avec offre CPTS (Doctolib, Maiia…), les outils de coordination adjacents et la solution « maison » (Excel/Drive). Ne dis jamais « pas un concurrent » de mémoire : si tu n'as pas la donnée, propose une ronde d'Orion pour vérifier. Tu ne fais pas le réglementaire/financements/national (→ Orion), ni le produit (→ Magnus).
 IMPORTANT : dans ce chat tu n'as PAS d'accès web en direct. Tu t'appuies sur le tableau concurrentiel ci-dessous (rempli par Orion) + ce qu'Eva te dit. Pour des données fraîches, propose une « ronde » (▶ Faire tourner) qui relance Orion.`;
+  }
+  if (slug === 'victor') {
+    return `Tu es Victor, le Secrétariat général de CPTS Pilot — l'agent qui prépare le terrain administratif, juridique et de gestion de l'entreprise. Tu discutes avec Eva, coordinatrice CPTS et fondatrice solo de CPTS Pilot (plateforme de gestion pour les CPTS — Communautés Professionnelles Territoriales de Santé). Elle code seule, débute, et n'est ni juriste ni gestionnaire. Ton : d'égale à égale, rassurant et méthodique, zéro jargon, réponses courtes et structurées (markdown : **gras**, listes à puces). Tu transformes chaque obligation en UNE action concrète : quoi, où le faire, quoi préparer, avant quand. Tes domaines : forme juridique, immatriculation (guichet unique INPI), assurances (RC Pro), comptabilité/fiscalité/social (URSSAF, TVA, expert-comptable), contrats & CGV, mentions légales, banque pro, dépôt de marque. Tu hiérarchises : tu dis toujours par quoi commencer. Tu ne fais PAS : le RGPD / l'hébergement HDS / le DPA (→ Cléo, le DPO), le réglementaire santé et le statut « dispositif médical » du logiciel (→ Orion), la prospection/facturation des CPTS clientes (→ Carla), le code (→ Iris/Magnus) : renvoie vers le bon agent.
+IMPORTANT : dans ce chat tu n'as PAS d'accès web en direct. Tu t'appuies sur ton dernier rapport ci-dessous + ce qu'Eva te dit. Pour tout chiffre, taux, seuil ou échéance qui engage, ne réponds jamais « de mémoire » : dis que tu le vérifieras à la source (service-public.fr, INPI, URSSAF, impots.gouv.fr) lors d'une « ronde » (▶ Faire tourner).`;
   }
   return `Tu es Magnus, le Chef Produit de CPTS Pilot (plateforme de gestion pour les CPTS — Communautés Professionnelles Territoriales de Santé). Tu discutes avec Eva, coordinatrice CPTS et fondatrice solo qui code seule et débute sur Git. Ton : d'égale à égale, simple, zéro jargon inutile, franc et bienveillant, réponses courtes et bien structurées (markdown : **gras**, listes à puces). Tu parles produit et stratégie produit — pas marketing, juridique ni sécurité (tu renvoies vers les autres agents si besoin).
 IMPORTANT : dans ce chat tu n'as PAS accès au code en direct (navigateur). Tu t'appuies sur le contexte ci-dessous + ce qu'Eva te dit. Si une question demande de relire le code à jour, dis-le et propose une « ronde » en session.`;
@@ -6184,6 +6355,108 @@ function saveRoadmapItem(id) {
 function deleteRoadmapItem(id) {
   if (!confirm('Supprimer ce jalon ?')) return;
   state.roadmap = (state.roadmap || []).filter(x => x.id !== id);
+  save(); closeModal(); render();
+}
+
+// ============ PLAN D'ACTION — PRISE DE MARCHÉ (trame thématique) ============
+const MARCHE_THEMES = ['Veille concurrentielle', 'Ciblage', 'Canaux & go-to-market', 'Argumentaire', 'Rassurance'];
+const mpIcon = { done: '✓', doing: '▸', planned: '◯' };
+function renderMarchePlan(content, actions) {
+  actions.innerHTML = `<button class="btn btn-primary" onclick="openMarcheActionModal()">+ Action</button>`;
+  const items = (state.marchePlan || []).slice();
+  let html = `<div class="marche-feuillets">${marcheTabsHtml()}<div class="panel marche-sheet">`;
+  html += renderStratHero('marche');
+  if (items.length === 0) {
+    html += `<div class="roadmap-empty">
+      Aucune action. Clique « + Action » pour construire ta trame de prise de marché.<br>
+      Regroupe-les par thème (veille, ciblage, canaux…) pour garder une logique claire.
+    </div></div></div>`;
+    content.innerHTML = html;
+    return;
+  }
+  // Bandeau résumé : compteurs par statut
+  const nDone = items.filter(i => (i.status || 'planned') === 'done').length;
+  const nDoing = items.filter(i => i.status === 'doing').length;
+  const nPlanned = items.length - nDone - nDoing;
+  html += `<div class="mp-wrap">
+    <p class="mp-intro">La trame des actions à mener pour entrer sur le marché, rangées par thème. Clique la pastille pour faire avancer le statut, ou la ligne pour éditer.</p>
+    <div class="mp-summary">
+      <span class="mp-stat"><span class="mp-stat-dot" style="background:var(--orange-600)"></span><b>${nPlanned}</b>&nbsp;à faire</span>
+      <span class="mp-stat"><span class="mp-stat-dot" style="background:var(--blue-500)"></span><b>${nDoing}</b>&nbsp;en cours</span>
+      <span class="mp-stat"><span class="mp-stat-dot" style="background:var(--teal-600)"></span><b>${nDone}</b>&nbsp;fait${nDone > 1 ? 's' : ''}</span>
+    </div>`;
+  // Regroupement par thème : ordre canonique d'abord, puis thèmes libres dans l'ordre d'apparition
+  const map = new Map();
+  items.forEach(i => { const t = (i.theme || '').trim() || 'Autres'; if (!map.has(t)) map.set(t, []); map.get(t).push(i); });
+  const themes = [...MARCHE_THEMES.filter(t => map.has(t)), ...[...map.keys()].filter(t => !MARCHE_THEMES.includes(t))];
+  themes.forEach(t => {
+    const list = map.get(t);
+    const done = list.filter(i => (i.status || 'planned') === 'done').length;
+    html += `<div class="mp-theme">
+      <div class="mp-theme-head"><span class="mp-theme-name">${esc(t)}</span><span class="mp-theme-count">${done}/${list.length}</span></div>
+      <div class="mp-items">${list.map(mpRow).join('')}</div>
+    </div>`;
+  });
+  html += '</div></div></div>'; // .mp-wrap + .marche-sheet + .marche-feuillets
+  content.innerHTML = html;
+}
+function mpRow(i) {
+  const st = i.status || 'planned';
+  return `<div class="mp-row is-${st}" onclick="openMarcheActionModal('${i.id}')" title="${roadmapStatusLabel[st] || ''}">
+    <span class="mp-check" onclick="event.stopPropagation();cycleMarcheStatus('${i.id}')" title="Changer le statut">${mpIcon[st]}</span>
+    <span class="mp-row-title">${esc(i.title)}</span>
+    ${i.body ? '<span class="mp-row-note" title="Contient une note">✎</span>' : ''}
+    <span class="mp-row-chevron">›</span>
+  </div>`;
+}
+function cycleMarcheStatus(id) {
+  const it = (state.marchePlan || []).find(x => x.id === id); if (!it) return;
+  const next = { planned: 'doing', doing: 'done', done: 'planned' };
+  it.status = next[it.status || 'planned'];
+  save(); render();
+}
+function openMarcheActionModal(id) {
+  const it = id ? (state.marchePlan || []).find(x => x.id === id) : null;
+  const themeOpts = [...MARCHE_THEMES];
+  if (it && it.theme && !themeOpts.includes(it.theme)) themeOpts.unshift(it.theme);
+  const m = document.getElementById('modal');
+  m.classList.remove('qc-mode', 'modal-wide');
+  m.innerHTML = `
+    <h2>${it ? 'Modifier l\'action' : 'Nouvelle action'}</h2>
+    <div class="field"><label>Thème</label><select id="mp-theme">
+      ${themeOpts.map(t => `<option value="${esc(t)}" ${it && it.theme === t ? 'selected' : ''}>${esc(t)}</option>`).join('')}
+    </select></div>
+    <div class="field"><label>Action</label><input id="mp-title" value="${it ? esc(it.title) : ''}" placeholder="Ex: Cartographier les concurrents"></div>
+    <div class="field"><label>Statut</label><select id="mp-status">
+      <option value="planned" ${(it?.status || 'planned') === 'planned' ? 'selected' : ''}>◯ À faire</option>
+      <option value="doing" ${it?.status === 'doing' ? 'selected' : ''}>▸ En cours</option>
+      <option value="done" ${it?.status === 'done' ? 'selected' : ''}>✓ Fait</option>
+    </select></div>
+    <div class="field"><label>Note (optionnel)</label><textarea id="mp-body" style="min-height:80px" placeholder="Précisions, lien, rappel…">${it ? esc(it.body || '') : ''}</textarea></div>
+    <div class="modal-actions">
+      ${it ? `<button class="btn btn-ghost" style="color:var(--red-600);margin-right:auto" onclick="deleteMarcheAction('${id}')">Supprimer</button>` : ''}
+      <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="saveMarcheAction('${id || ''}')">Enregistrer</button>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function saveMarcheAction(id) {
+  const title = document.getElementById('mp-title').value.trim();
+  if (!title) return alert('L\'action est requise');
+  const data = {
+    theme: document.getElementById('mp-theme').value,
+    title,
+    status: document.getElementById('mp-status').value,
+    body: document.getElementById('mp-body').value.trim()
+  };
+  state.marchePlan = state.marchePlan || [];
+  if (id) Object.assign(state.marchePlan.find(x => x.id === id), data);
+  else state.marchePlan.push({ id: uid(), ...data });
+  save(); closeModal(); render();
+}
+function deleteMarcheAction(id) {
+  if (!confirm('Supprimer cette action ?')) return;
+  state.marchePlan = (state.marchePlan || []).filter(x => x.id !== id);
   save(); closeModal(); render();
 }
 
