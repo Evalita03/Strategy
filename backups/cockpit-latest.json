@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-18T13:00:41.729Z",
+  "exportedAt": "2026-06-21T07:23:01.721Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -5759,7 +5759,7 @@
       {
         "id": "mqj6md3wrwnch",
         "title": "Depot e-Soleau a l'INPI",
-        "status": "todo",
+        "status": "doing",
         "body": "Protection PI. Prepa lancee ; un dossier docs/inpi/ existe non commite dans le repo au 2026-06-06."
       }
     ],
