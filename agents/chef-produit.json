@@ -338,6 +338,83 @@
         "Migration Railway -> Scalingo + domaine cpts-pilot.fr + stockage S3 OVH"
       ],
       "note": "Grosse ronde, et surtout une vraie libération : le go-live est fait. Je te l'avais répété 4 fois — cette fois le code le prouve (migration vers cpts-pilot.fr, S3 OVH, Scalingo). Et tu as livré au passage le switcher « Vu comme » et le bandeau par rôle que je te poussais à faire. Bravo, tu es passée de 'je te montre' à 'va voir'. Il ne reste que deux finitions produit avant d'envoyer le lien à une CPTS sans rougir : la démo qui se remet à zéro entre visiteurs (cassée depuis le 06/06) et le domaine à harmoniser (cpts-pilot.fr partout, pas cptspilot.fr). Prochaine action unique : règle ces deux points sur la démo, puis on passe le relais à Carla pour aller chercher la 1re CPTS."
+    },
+    {
+      "updated_at": "2026-06-21",
+      "trigger": "ronde auto",
+      "etat": "Semaine calme côté code, active côté pilotage. Depuis mon rapport du 17/06, aucune nouvelle fonctionnalité produit n'est partie sur main : les commits du 18/06 sont du tri d'idées dans le cockpit (idées → roadmap/tâches : PRD-04, PRD-17, PRD-20, CAP-02, TEC-03, ORG-03) et le 17/06 un brief marque (docs/cpts-pilot-brand-brief.md). Bonne nouvelle : tu as validé mes deux dernières propositions — « Switcher de vue par rôle (transversal) » et « Cadrer et clôturer le fléchage (ACI/fonctionnement) » sont maintenant en vert dans la roadmap. Les deux finitions que je pointe depuis le 17/06 restent ouvertes, vérifié dans le code : le reset démo est toujours désactivé (demo/routes.py:479, commentaire « Reset à l'entrée DÉSACTIVÉ 2026-06-06 »), et l'incohérence de domaine persiste — la vitrine pointe cptspilot.fr (home.html:29 JSON-LD, _tarifs.html:24 et _migration_drawer.html:44 mailto contact@) alors que le domaine officiel est cpts-pilot.fr avec tiret (app.py:84-118). À noter : tu as construit un vrai garde-fou démo qui n'a aucun jalon — un verrou d'accès exclusif (1 visiteur à la fois + page « démo occupée »), models/demo.py DemoState.try_acquire_lock + templates/demo/occupied.html.",
+      "evolution": "Pas de code produit livré cette semaine (tri d'idées + brief marque) ; tu as clos 2 jalons que je proposais, mais les 2 finitions démo (reset + domaine) restent ouvertes — et je découvre un verrou d'accès exclusif à la démo, livré sans jalon.",
+      "prochain_chantier": {
+        "titre": "Rendre la démo publique envoyable sans accompagnement (reset entre visiteurs + domaine cohérent)",
+        "pourquoi": "Inchangé depuis le 17/06 car non traité, et c'est bien le dernier pas avant de prospecter : ta démo en ligne avec le switcher 5 rôles est ton meilleur argument, mais deux trous l'empêchent d'être envoyée seule à un prospect. 1) Le reset à l'entrée est désactivé depuis le 06/06 (demo/routes.py:479) : ton verrou exclusif évite que deux visiteurs se marchent dessus en même temps, mais un visiteur qui revient retombe sur un bac à sable pollué par le précédent. 2) Le domaine est incohérent : JSON-LD et emails de contact disent cptspilot.fr (sans tiret) alors que le site est cpts-pilot.fr — SEO faussé et contact@ peut-être mort. Les deux sont des petits fix à fort effet : ils transforment « je te fais visiter » en « va voir sur cpts-pilot.fr/demo »."
+      },
+      "a_anticiper": [
+        "Reset démo (planned juillet) : à fiabiliser avant d'envoyer le lien — vider dans le bon ordre de dépendances (FK/500 qui avaient calé le 06/06) ou recharger un dump de seed. Le verrou exclusif ne remplace pas le reset.",
+        "Incohérence de domaine cptspilot.fr vs cpts-pilot.fr (home.html:29, _tarifs.html:24, _migration_drawer.html:44) : corriger l'URL JSON-LD et les mailto — fix de 10 minutes, risque image/SEO/email réel.",
+        "Sauvegardes DB prod + secrets prod (Scalingo, clés S3 OVH) + HTTPS sur cpts-pilot.fr : toujours à confirmer avec l'Audit avant d'accueillir une vraie CPTS.",
+        "Accumulation de jalons « planned » : 5 idées passées en roadmap le 18/06 s'ajoutent à ~19 items futurs (Module RH, IA trésorerie, GED, migration IA, cartographie...). Beaucoup de promesses ouvertes — priorise-en une à la fois pour ne pas t'éparpiller.",
+        "SESSION_STATUS.md toujours figé au 16/02 (4 mois) alors que CLAUDE.md est à jour au 01/06 : à rafraîchir avant le prochain gros chantier pour ne pas repartir d'une fausse photo."
+      ],
+      "cap_commercial": {
+        "pret_a_vendre": "Prêt à montrer en live (cpts-pilot.fr, France), à un cheveu de « prêt à envoyer le lien seul ». Rien n'a bougé sur ce front cette semaine : il manque toujours le reset démo fiabilisé et la cohérence de domaine.",
+        "demo_ready": [
+          "Trésorerie complète avec fléchage ACI / fonctionnement (override + rollback, testé)",
+          "Switcher démo « Vu comme » : les 5 vues d'un rôle en un écran (jalon transversal clos)",
+          "Verrou d'accès exclusif à la démo (1 visiteur à la fois, page « démo occupée »)",
+          "Cockpit « Mon Espace » + bandeau d'accueil à pastilles par rôle",
+          "Validation des déclarations (refus motivé, relances, archivage)",
+          "Vie associative (annonces intégrées) + historique personnel des indemnisations (exports CSV/Excel/PDF/ZIP)",
+          "Vitrine de vente + plateforme en ligne (Scalingo France, S3 OVH)"
+        ],
+        "bloqueurs_vente": [
+          "Reset démo désactivé (demo/routes.py:479) : un prospect qui revient peut voir un sandbox pollué — à fiabiliser avant d'envoyer le lien",
+          "Incohérence de domaine : JSON-LD + emails pointent cptspilot.fr alors que le site est cpts-pilot.fr (SEO faussé, contact@ possiblement injoignable)",
+          "Sauvegardes DB prod + secrets/HTTPS non confirmés : pas de données d'une vraie CPTS sans filet de restauration vérifié"
+        ],
+        "chemin_critique": [
+          "Corriger l'incohérence de domaine (cptspilot.fr -> cpts-pilot.fr) dans home.html et les mailto",
+          "Fiabiliser le reset démo entre visiteurs",
+          "Boucler sauvegardes DB prod + secrets + HTTPS (avec Audit + DPO)",
+          "Envoyer le lien démo à une 1re CPTS pilote -> obtenir un engagement de test"
+        ]
+      },
+      "propositions_roadmap": [
+        {
+          "action": "acter",
+          "titre": "Verrou d'accès exclusif à la démo (1 visiteur à la fois)",
+          "pourquoi": "Garde-fou démo réel livré sans jalon : models/demo.py DemoState.try_acquire_lock + lock_status (verrou avec timeout d'inactivité), demo/routes.py, page templates/demo/occupied.html. À poser sur le fil pour que ce travail soit visible dans ton pilotage.",
+          "mois": "2026-06"
+        },
+        {
+          "action": "décaler",
+          "titre": "Démo : remise à zéro entre chaque visiteur",
+          "pourquoi": "À remonter en tête : c'est le dernier vrai trou produit avant d'envoyer le lien sans accompagnement. Toujours désactivé (demo/routes.py:479) ; le verrou exclusif livré ne le remplace pas (un visiteur qui revient retombe sur un sandbox pollué)."
+        },
+        {
+          "action": "ajouter",
+          "titre": "Corriger l'incohérence de domaine (cptspilot.fr -> cpts-pilot.fr)",
+          "pourquoi": "Le site officiel est cpts-pilot.fr (app.py) mais le JSON-LD (home.html:29) et les emails de contact (_tarifs.html:24, _migration_drawer.html:44) disent cptspilot.fr : SEO faussé et contact@ peut-être inexistant. Petit fix, gros risque d'image — pas encore traité."
+        }
+      ],
+      "relais": [
+        {
+          "agent": "Iris (Audit)",
+          "sujet": "Plateforme en ligne (Scalingo France + S3 OVH Paris, cpts-pilot.fr) : confirmer secrets/variables d'env prod, clés S3, HTTPS et surtout sauvegardes/restauration PostgreSQL avant d'accueillir une vraie CPTS."
+        },
+        {
+          "agent": "Cléo (DPO)",
+          "sujet": "Hébergement France réel (Scalingo Paris + S3 OVH) : valider localisation des données, registre des traitements et la mention « Made in France » avant toute donnée d'une CPTS réelle et toute promesse publique."
+        },
+        {
+          "agent": "Le Studio (marque)",
+          "sujet": "Brief marque livré le 17/06 (docs/cpts-pilot-brand-brief.md) à exploiter ; et trancher l'adresse de contact — contact@cptspilot.fr (sans tiret) figure sur la vitrine alors que le domaine est cpts-pilot.fr : l'email est peut-être mort."
+        },
+        {
+          "agent": "Carla (Business)",
+          "sujet": "Produit démo-ready en live avec switcher 5 rôles : dès le reset démo et la cohérence domaine réglés, viser une 1re CPTS pilote prête à un engagement de test — préparer l'approche."
+        }
+      ],
+      "note": "Semaine de rangement plus que de construction — et c'est OK : tu as clos deux jalons que je portais et trié tes idées. Mais les deux finitions démo que je te signale depuis le 17/06 sont toujours là, vérifiées dans le code. Bonne surprise : ton verrou « 1 visiteur à la fois » est un vrai bout de travail qui n'apparaissait nulle part — je te propose de l'acter pour qu'il compte. Prochaine action unique : corrige le domaine (cpts-pilot.fr partout, 3 fichiers, 10 minutes), puis fiabilise le reset démo — et on passe la main à Carla pour la 1re CPTS."
     }
   ]
 }
