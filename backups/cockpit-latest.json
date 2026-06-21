@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-21T07:23:01.721Z",
+  "exportedAt": "2026-06-21T07:24:18.331Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -5761,6 +5761,12 @@
         "title": "Depot e-Soleau a l'INPI",
         "status": "doing",
         "body": "Protection PI. Prepa lancee ; un dossier docs/inpi/ existe non commite dans le repo au 2026-06-06."
+      },
+      {
+        "id": "mqngnnklzt7y2",
+        "title": "Créer un Agent Administratif",
+        "status": "todo",
+        "body": "Pour réaliser les démarches administratives de l'entreprise"
       }
     ],
     "strategie": [],
