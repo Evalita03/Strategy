@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-21T10:49:50.518Z",
+  "exportedAt": "2026-06-21T10:51:41.907Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7104,17 +7104,6 @@
         "enTache": false,
         "enRoadmap": false,
         "etat": "active"
-      },
-      {
-        "id": "mqnnzj87xn916",
-        "key": "choisir la forme juridique de cpts pilot",
-        "titre": "Choisir la forme juridique de CPTS Pilot",
-        "type": "chantier",
-        "fromDate": "2026-06-21",
-        "agent": "victor",
-        "enTache": false,
-        "enRoadmap": false,
-        "etat": "faite"
       }
     ],
     "agentChats": {
@@ -7170,8 +7159,7 @@
           "content": "Bonne remarque — et la réponse est simple :\n\n**Doctolib n'est pas un concurrent de CPTS Pilot.**\n\n---\n\n## Pourquoi\n\n- Doctolib est un **outil de prise de rendez-vous et de gestion de cabinet** — il s'adresse aux **praticiens individuels** (agenda, téléconsultation, dossier patient)\n- CPTS Pilot est un **outil de gestion de la structure CPTS elle-même** — il s'adresse à la **coordinatrice** (vie associative, déclarations, trésorerie, pilotage ACI)\n\nCe sont deux niveaux différents :\n- Doctolib = l'outil du **soignant dans son cabinet**\n- CPTS Pilot = l'outil de la **communauté qui fédère ces soignants**\n\n---\n\n## La nuance à avoir en tête\n\nDoctolib pousse depuis quelques années des fonctions de **coordination territoriale** (messagerie sécurisée, partage de créneaux SNP…). Si un jour ils décident d'adresser frontalement le marché CPTS avec une suite dédiée, **ça deviendrait un signal fort à surveiller**.\n\nMais aujourd'hui : pas de produit CPTS chez eux, pas de concurrent direct.\n\n---\n\n**→ Si tu veux, je mets une entrée « à surveiller » sur Doctolib dans mon radar, pour te prévenir si ça bouge ?**"
         }
       ],
-      "mako": [],
-      "victor": []
+      "mako": []
     },
     "agentConfig": {
       "orion": {
@@ -7181,8 +7169,7 @@
     },
     "lastSeenReport": {
       "orion": "2026-06-06",
-      "chef-produit": "2026-06-17",
-      "victor": "2026-06-21"
+      "chef-produit": "2026-06-17"
     },
     "handledPropositions": {},
     "decisions": [],
