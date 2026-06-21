@@ -599,6 +599,7 @@ body {
 .prop-ajouter { color: var(--teal-700); background: var(--teal-100); }
 .prop-clore { color: var(--slate-600); background: var(--slate-200); }
 .prop-décaler, .prop-decaler { color: #B45309; background: #FEF3C7; }
+.prop-acter { color: var(--blue-700); background: #DBEAFE; }
 .prop-titre { font-size: 13.5px; font-weight: 600; color: var(--slate-900); }
 .prop-pourquoi { font-size: 12.5px; color: var(--slate-600); line-height: 1.5; margin-top: 4px; }
 .prop-actions { display: flex; gap: 6px; flex-shrink: 0; }
@@ -1621,6 +1622,24 @@ function load() {
   if (!state.prospects) state.prospects = [];
   if (!state.today) state.today = { intention: '', date: '' };
   if (!Array.isArray(state.roadmap)) state.roadmap = [];
+  if (!Array.isArray(state.marchePlan)) state.marchePlan = [];
+  if (!state.marchePlanSeeded) {
+    const seed = [
+      ['Veille concurrentielle', 'Cartographier les outils concurrents pour CPTS', 'Lister qui fait quoi : nom, périmètre fonctionnel, cible. Une vue d\'ensemble du paysage.'],
+      ['Veille concurrentielle', 'Suivre les nouveautés des concurrents (rythme mensuel)', 'Un point régulier pour ne rien rater : sorties, annonces, changements de cap.'],
+      ['Veille concurrentielle', 'Recenser leurs prix publics et positionnements', 'Ce qu\'ils affichent et comment ils se présentent — pour situer notre offre.'],
+      ['Ciblage', 'Définir les 3 CPTS prioritaires à approcher', 'Choisir où concentrer l\'effort en premier, avec un critère clair.'],
+      ['Ciblage', 'Qualifier les besoins par profil (coordination, médecins, élus)', 'Ce que chaque interlocuteur attend vraiment — pour parler juste.'],
+      ['Canaux & go-to-market', 'Choisir 2 canaux d\'entrée prioritaires', 'Par où on arrive concrètement jusqu\'aux CPTS.'],
+      ['Canaux & go-to-market', 'Préparer le pitch et le support d\'approche', 'Le message d\'ouverture et le support qui l\'accompagne.'],
+      ['Argumentaire', 'Formuler 3 arguments clés différenciants', 'Ce qui nous rend évidents, sans jamais nommer la concurrence.'],
+      ['Argumentaire', 'Préparer les réponses aux objections fréquentes', 'Anticiper les « oui mais » pour ne pas être pris au dépourvu.'],
+      ['Rassurance', 'Préparer les preuves (sécurité, hébergement, conformité)', 'Les éléments qui lèvent les doutes au moment de s\'engager.'],
+      ['Rassurance', 'Documenter une première référence / cas pilote', 'Un exemple concret vaut mille arguments.'],
+    ];
+    state.marchePlan = seed.map(([theme, title, body]) => ({ id: uid(), theme, title, status: 'planned', body }));
+    state.marchePlanSeeded = true;
+  }
   if (!Array.isArray(state.precos)) state.precos = [];
   if (!state.agentChats || typeof state.agentChats !== 'object') state.agentChats = {};
   if (!state.agentConfig || typeof state.agentConfig !== 'object') state.agentConfig = {};
@@ -5156,7 +5175,7 @@ function renderPropositions(r) {
   if (!list.length) return '';
   return `<div class="agent-report-block"><div class="arb-label">Propositions pour ta roadmap · à valider</div><div class="prop-list">${list.map(({ p, i }) => {
     const act = (p.action || 'ajouter').toLowerCase();
-    const badge = act === 'clore' ? '✓ clore' : ((act === 'décaler' || act === 'decaler') ? '↦ décaler' : '+ ajouter');
+    const badge = act === 'clore' ? '✓ clore' : ((act === 'décaler' || act === 'decaler') ? '↦ décaler' : (act === 'acter' ? '📌 acter (fait)' : '+ ajouter'));
     return `<div class="prop-item"><div class="prop-main"><span class="prop-badge prop-${act}">${badge}</span> <span class="prop-titre">${esc(p.titre)}</span>${p.pourquoi ? `<div class="prop-pourquoi">${esc(p.pourquoi)}</div>` : ''}</div><div class="prop-actions"><button class="suivi-btn" onclick="applyProposition(event, ${i})">Appliquer</button><button class="suivi-btn suivi-btn-ghost" onclick="ignoreProposition(event, ${i})">Ignorer</button></div></div>`;
   }).join('')}</div></div>`;
 }
@@ -5168,6 +5187,12 @@ function applyProposition(ev, i) {
   const existing = state.roadmap.find(x => (x.title || '').trim().toLowerCase() === p.titre.trim().toLowerCase());
   if (act === 'clore') { if (existing) existing.status = 'done'; }
   else if (act === 'décaler' || act === 'decaler') { if (existing) { existing.month = null; existing.status = 'planned'; } }
+  else if (act === 'acter') {
+    // Travail livré hors roadmap : on le pose sur le fil, en « fait », au mois où il a été réalisé.
+    const mois = String(p.mois || p.month || '').trim() || currentMonthStr();
+    if (existing) { existing.status = 'done'; if (!existing.month) existing.month = mois; }
+    else rmInsertOrdered({ id: uid(), title: p.titre.trim(), month: mois, status: 'done', body: 'Réalisé hors roadmap — acté d\'après la ronde de Magnus.\n\n' + (p.pourquoi || '') });
+  }
   else { if (!existing) rmInsertOrdered({ id: uid(), title: p.titre.trim(), month: currentMonthStr(), status: 'planned', body: 'Proposé par Magnus.\n\n' + (p.pourquoi || '') }); }
   if (!state.handledPropositions) state.handledPropositions = {};
   state.handledPropositions[propKey(p)] = 'applied';
