@@ -1755,20 +1755,39 @@ function load() {
   if (!Array.isArray(state.marchePlan)) state.marchePlan = [];
   if (!state.marchePlanSeeded) {
     const seed = [
-      ['Veille concurrentielle', 'Cartographier les outils concurrents pour CPTS', 'Lister qui fait quoi : nom, périmètre fonctionnel, cible. Une vue d\'ensemble du paysage.'],
-      ['Veille concurrentielle', 'Suivre les nouveautés des concurrents (rythme mensuel)', 'Un point régulier pour ne rien rater : sorties, annonces, changements de cap.'],
-      ['Veille concurrentielle', 'Recenser leurs prix publics et positionnements', 'Ce qu\'ils affichent et comment ils se présentent — pour situer notre offre.'],
-      ['Ciblage', 'Définir les 3 CPTS prioritaires à approcher', 'Choisir où concentrer l\'effort en premier, avec un critère clair.'],
-      ['Ciblage', 'Qualifier les besoins par profil (coordination, médecins, élus)', 'Ce que chaque interlocuteur attend vraiment — pour parler juste.'],
-      ['Canaux & go-to-market', 'Choisir 2 canaux d\'entrée prioritaires', 'Par où on arrive concrètement jusqu\'aux CPTS.'],
-      ['Canaux & go-to-market', 'Préparer le pitch et le support d\'approche', 'Le message d\'ouverture et le support qui l\'accompagne.'],
-      ['Argumentaire', 'Formuler 3 arguments clés différenciants', 'Ce qui nous rend évidents, sans jamais nommer la concurrence.'],
-      ['Argumentaire', 'Préparer les réponses aux objections fréquentes', 'Anticiper les « oui mais » pour ne pas être pris au dépourvu.'],
-      ['Rassurance', 'Préparer les preuves (sécurité, hébergement, conformité)', 'Les éléments qui lèvent les doutes au moment de s\'engager.'],
-      ['Rassurance', 'Documenter une première référence / cas pilote', 'Un exemple concret vaut mille arguments.'],
+      ['Veille concurrentielle', 'Cartographier les outils concurrents pour CPTS', 'Lister qui fait quoi : nom, périmètre fonctionnel, cible. Une vue d\'ensemble du paysage.', '2026-06'],
+      ['Veille concurrentielle', 'Suivre les nouveautés des concurrents (rythme mensuel)', 'Un point régulier pour ne rien rater : sorties, annonces, changements de cap.', '2026-06'],
+      ['Veille concurrentielle', 'Recenser leurs prix publics et positionnements', 'Ce qu\'ils affichent et comment ils se présentent — pour situer notre offre.', '2026-07'],
+      ['Ciblage', 'Définir les 3 CPTS prioritaires à approcher', 'Choisir où concentrer l\'effort en premier, avec un critère clair.', '2026-06'],
+      ['Ciblage', 'Qualifier les besoins par profil (coordination, médecins, élus)', 'Ce que chaque interlocuteur attend vraiment — pour parler juste.', '2026-07'],
+      ['Canaux & go-to-market', 'Choisir 2 canaux d\'entrée prioritaires', 'Par où on arrive concrètement jusqu\'aux CPTS.', '2026-08'],
+      ['Canaux & go-to-market', 'Préparer le pitch et le support d\'approche', 'Le message d\'ouverture et le support qui l\'accompagne.', '2026-09'],
+      ['Argumentaire', 'Formuler 3 arguments clés différenciants', 'Ce qui nous rend évidents, sans jamais nommer la concurrence.', '2026-08'],
+      ['Argumentaire', 'Préparer les réponses aux objections fréquentes', 'Anticiper les « oui mais » pour ne pas être pris au dépourvu.', '2026-09'],
+      ['Rassurance', 'Préparer les preuves (sécurité, hébergement, conformité)', 'Les éléments qui lèvent les doutes au moment de s\'engager.', '2026-10'],
+      ['Rassurance', 'Documenter une première référence / cas pilote', 'Un exemple concret vaut mille arguments.', '2026-10'],
     ];
-    state.marchePlan = seed.map(([theme, title, body]) => ({ id: uid(), theme, title, status: 'planned', body }));
+    state.marchePlan = seed.map(([theme, title, body, month]) => ({ id: uid(), theme, title, status: 'planned', body, month }));
     state.marchePlanSeeded = true;
+    state.marchePlanScheduled = true;
+  }
+  // Migration unique : date les actions de prise de marché encore « À planifier » selon la séquence go-to-market
+  if (!state.marchePlanScheduled) {
+    const sched = {
+      'Cartographier les outils concurrents pour CPTS': '2026-06',
+      'Suivre les nouveautés des concurrents (rythme mensuel)': '2026-06',
+      'Définir les 3 CPTS prioritaires à approcher': '2026-06',
+      'Recenser leurs prix publics et positionnements': '2026-07',
+      'Qualifier les besoins par profil (coordination, médecins, élus)': '2026-07',
+      'Formuler 3 arguments clés différenciants': '2026-08',
+      "Choisir 2 canaux d'entrée prioritaires": '2026-08',
+      'Préparer le pitch et le support d\'approche': '2026-09',
+      'Préparer les réponses aux objections fréquentes': '2026-09',
+      'Préparer les preuves (sécurité, hébergement, conformité)': '2026-10',
+      'Documenter une première référence / cas pilote': '2026-10',
+    };
+    (state.marchePlan || []).forEach(it => { if (!it.month && sched[it.title]) it.month = sched[it.title]; });
+    state.marchePlanScheduled = true;
   }
   if (!Array.isArray(state.marcheSuggDismissed)) state.marcheSuggDismissed = [];
   if (!Array.isArray(state.pricingPlan)) state.pricingPlan = [];
