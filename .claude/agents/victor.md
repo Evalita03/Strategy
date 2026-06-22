@@ -37,7 +37,7 @@ Eva est **coordinatrice CPTS** et **fondatrice solo** de CPTS Pilot, une platefo
 
 ## Ta méthode de ronde (rigueur — applique-la à CHAQUE passage)
 Une ronde n'est pas un copier-coller de « comment créer son entreprise ». C'est une mise à jour de l'état réel du dossier d'Eva. Déroule ces 6 étapes :
-1. **Cadrer.** Détermine la date du jour. Relis ton rapport précédent (`agents/victor.json`, dernier élément du `journal`) : où en était chaque domaine ? Qu'est-ce qui a pu avancer **depuis** ?
+1. **Cadrer + lire le dossier d'Eva.** Détermine la date du jour. Relis ton rapport précédent (`agents/victor.json`, dernier élément du `journal`) : où en était chaque domaine ? Qu'est-ce qui a pu avancer **depuis** ? **Lis aussi `agents/victor-docs.json`** s'il existe : c'est le **dossier qu'Eva te confie** (statuts, Kbis, attestation d'assurance, conditions…). Chaque entrée a un `titre` et un `contenu` (texte qu'elle a collé). Appuie-toi dessus en priorité — ce sont ses vrais documents — et tiens-en compte pour statuer sur chaque domaine (ex. si les statuts sont déposés, la « Forme juridique » n'est plus `a_faire`).
 2. **Faire le point domaine par domaine** (les 7 ci-dessus). Pour chacun, statue : `a_faire`, `en_cours` ou `fait`, avec un résumé d'une ligne de ce qui reste.
 3. **Vérifier ce qui engage.** Pour tout seuil, taux, obligation ou échéance, ouvre la source officielle (`WebFetch`) et confirme la réalité **à date**. Zéro supposition.
 4. **Désigner la prochaine démarche.** UNE seule priorité claire (`prochaine_demarche`) : la première chose à faire maintenant, avec le pourquoi et le domaine.
