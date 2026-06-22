@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-22T16:15:13.630Z",
+  "exportedAt": "2026-06-22T16:17:33.133Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7307,10 +7307,27 @@
         "title": "Documenter une première référence / cas pilote",
         "status": "planned",
         "body": "Un exemple concret vaut mille arguments."
+      },
+      {
+        "id": "mqpf3wand2hny",
+        "theme": "Argumentaire",
+        "title": "Faire de « financé par l'enveloppe ACI » un argument commercial central",
+        "status": "planned",
+        "body": "L'abonnement logiciel est une dépense ACI éligible : c'est un levier d'achat décisif pour une CPTS.\n\nÀ faire : Préparer une phrase claire et un mini-justificatif (référence ACI) à donner aux CPTS prospectes.",
+        "source": "Orion"
       }
     ],
     "marchePlanSeeded": true,
-    "marcheSuggDismissed": [],
+    "marcheSuggDismissed": [
+      "coup:rendre le vocabulaire de la plateforme paramétrable (cpts ↔ communauté france santé)",
+      "conc:coordo",
+      "conc:citana (groupe anamnèse)",
+      "conc:albert (albertsante.fr)",
+      "conc:simplymed",
+      "conc:medplan",
+      "conc:cpts+",
+      "coup:cartographier finement les 7 concurrents (fonctions + prix)"
+    ],
     "victorDocs": [
       {
         "id": "mqpcv6houiiis",
