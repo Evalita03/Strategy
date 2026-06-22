@@ -1001,19 +1001,19 @@ body {
 .roadmap-item-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
 .roadmap-empty { padding: 60px 24px; text-align: center; color: var(--slate-400); font-size: 13px; line-height: 1.6; }
 
-/* Prise de marché — feuillets de classeur (languettes papier sur une fiche blanche) */
-.marche-feuillets { max-width: 1100px; margin: 0 auto; }
-.marche-tabs { display: flex; gap: 6px; padding-left: 14px; position: relative; z-index: 2; margin-bottom: -1px; }
-.marche-tab {
+/* Sections à feuillets — languettes de classeur (papier) sur une fiche blanche */
+.feuillets { max-width: 1100px; margin: 0 auto; }
+.feuillet-tabs { display: flex; gap: 6px; padding-left: 14px; position: relative; z-index: 2; margin-bottom: -1px; }
+.feuillet-tab {
   font-family: inherit; font-size: 13px; font-weight: 700; color: var(--slate-500);
   background: var(--slate-100); border: 1px solid var(--slate-200); border-bottom: none;
   border-radius: 10px 10px 0 0; padding: 9px 20px; cursor: pointer;
   transition: color .15s, background .15s; line-height: 1.2;
 }
-.marche-tab:hover { color: var(--slate-700); background: var(--slate-50); }
-.marche-tab.is-active { color: var(--blue-700); background: var(--white); }
+.feuillet-tab:hover { color: var(--slate-700); background: var(--slate-50); }
+.feuillet-tab.is-active { color: var(--blue-700); background: var(--white); }
 /* La fiche blanche sur laquelle reposent les feuillets */
-.marche-sheet {
+.feuillet-sheet {
   background: var(--white); border: 1px solid var(--slate-200); border-radius: 0 12px 12px 12px;
   box-shadow: 0 1px 2px rgba(15,23,42,0.04); max-width: none; margin: 0;
 }
@@ -1605,7 +1605,6 @@ tr:hover td { background: var(--blue-50); }
         </div>
         <div class="nav-group-items">
           <div class="nav-subitem" data-view="graph"><span class="sub-bullet"></span>Architecture</div>
-          <div class="nav-subitem" data-view="roadmap"><span class="sub-bullet"></span>Roadmap</div>
           <div class="nav-subitem" data-view="monitoring"><span class="sub-bullet"></span>Monitoring</div>
         </div>
       </div>
@@ -1727,6 +1726,7 @@ function load() {
     state.marchePlanSeeded = true;
   }
   if (!Array.isArray(state.marcheSuggDismissed)) state.marcheSuggDismissed = [];
+  if (!Array.isArray(state.pricingPlan)) state.pricingPlan = [];
   if (!Array.isArray(state.precos)) state.precos = [];
   if (!state.agentChats || typeof state.agentChats !== 'object') state.agentChats = {};
   if (!state.agentConfig || typeof state.agentConfig !== 'object') state.agentConfig = {};
@@ -4622,8 +4622,8 @@ function confirmTaskToMarchePlan(id) {
   if (!dup) state.marchePlan.push({ id: uid(), theme, title: task.title, status: mstatus, body: (task.body || '') });
   // La tâche quitte le To do : elle vit désormais comme action du Plan de marché
   state.tasks = state.tasks.filter(t => t.id !== id);
-  // Bascule sur l'onglet Plan d'action pour que l'action soit visible tout de suite
-  marcheTab = 'plan';
+  // Bascule sur le feuillet Plan d'action pour que l'action soit visible tout de suite
+  sectionTab.marche = 'plan';
   save(); closeModal();
   goTo('strat-marche');
   vivierToast(dup ? '✓ Tâche retirée (déjà présente dans le plan)' : '✓ Ajoutée au Plan de marché');
@@ -4698,9 +4698,15 @@ function allStratGroupsInUse() {
 function findPillar(section, pid) { return (state.strategiePillars[section]||[]).find(p=>p.id===pid); }
 
 let expandedGroups = { vision: new Set(), marche: new Set(), pricing: new Set(), dev: new Set(), marque: new Set() };
-// Prise de marché : onglet actif (« strat » = encarts | « plan » = trame d'actions)
-let marcheTab = 'strat';
-// Feuillet Plan d'action : données d'Orion (concurrents + coups d'avance) lues pour proposer des suggestions
+// Sections à feuillets : onglet actif par section (« strat » = encarts | autre = feuillet dédié)
+let sectionTab = { marche: 'strat', dev: 'strat', pricing: 'strat' };
+// Quels feuillets pour quelles sections (le 1er est toujours « Stratégie » = les encarts)
+const SECTION_FEUILLETS = {
+  marche:  [{ key: 'strat', label: 'Stratégie' }, { key: 'plan', label: "Plan d'action" }],
+  dev:     [{ key: 'strat', label: 'Stratégie' }, { key: 'roadmap', label: 'Roadmap' }],
+  pricing: [{ key: 'strat', label: 'Stratégie' }, { key: 'plan', label: "Plan d'action" }],
+};
+// Plan d'action « Prise de marché » : données d'Orion/Mako lues pour proposer des suggestions
 let marcheAgentData = null;      // null = pas encore chargé ; {} = chargé/vide
 let marcheAgentLoading = false;
 let marcheSuggestions = [];      // suggestions calculées au dernier rendu (référencées par index)
@@ -4911,28 +4917,32 @@ function renderMarqueShowcase(content, actions) {
   content.innerHTML = html;
   if (!brandBrief.loaded) loadBrandBrief(false);
 }
-function marcheTabsHtml() {
-  return `<div class="marche-tabs">
-    <button class="marche-tab ${marcheTab === 'strat' ? 'is-active' : ''}" onclick="setMarcheTab('strat')">Stratégie</button>
-    <button class="marche-tab ${marcheTab === 'plan' ? 'is-active' : ''}" onclick="setMarcheTab('plan')">Plan d'action</button>
-  </div>`;
+function feuilletsTabsHtml(section) {
+  const tabs = SECTION_FEUILLETS[section] || [];
+  const active = sectionTab[section] || 'strat';
+  return `<div class="feuillet-tabs">${tabs.map(t =>
+    `<button class="feuillet-tab ${active === t.key ? 'is-active' : ''}" onclick="setSectionTab('${section}','${t.key}')">${esc(t.label)}</button>`
+  ).join('')}</div>`;
 }
-function setMarcheTab(t) { marcheTab = t; render(); }
+function setSectionTab(section, key) { sectionTab[section] = key; render(); }
 function renderStrategie(content, actions, section) {
   if (section === 'marque') return renderMarqueShowcase(content, actions);
-  if (section === 'marche' && marcheTab === 'plan') return renderMarchePlan(content, actions);
+  const tab = sectionTab[section] || 'strat';
+  if (section === 'marche'  && tab === 'plan')    return renderPlan(content, actions, 'marche');
+  if (section === 'pricing' && tab === 'plan')    return renderPlan(content, actions, 'pricing');
+  if (section === 'dev'     && tab === 'roadmap') return renderDevRoadmap(content, actions);
   actions.innerHTML = `<button class="btn btn-primary" onclick="addEncart('${section}')">+ Encart</button>`;
   const encarts = state.strategiePillars[section] || [];
-  const isMarche = section === 'marche';
-  let html = isMarche
-    ? `<div class="marche-feuillets">${marcheTabsHtml()}<div class="panel marche-sheet">`
+  const hasFeuillets = !!SECTION_FEUILLETS[section];
+  let html = hasFeuillets
+    ? `<div class="feuillets">${feuilletsTabsHtml(section)}<div class="panel feuillet-sheet">`
     : '<div class="panel" style="max-width:1100px">';
   html += renderStratHero(section);
   if (encarts.length === 0) {
     html += `<div class="empty">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="10" width="8" height="11" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/></svg>
       <p>Aucun encart. Clique « + Encart » pour composer cette section.</p></div>`;
-    html += isMarche ? '</div></div>' : '</div>';
+    html += hasFeuillets ? '</div></div>' : '</div>';
     content.innerHTML = html;
     return;
   }
@@ -4969,7 +4979,7 @@ function renderStrategie(content, actions, section) {
     }
   });
   html += '</div>'; // .hub-grid
-  html += isMarche ? '</div></div>' : '</div>'; // .marche-sheet + .marche-feuillets | .panel
+  html += hasFeuillets ? '</div></div>' : '</div>'; // .feuillet-sheet + .feuillets | .panel
   content.innerHTML = html;
 }
 function renderEncartCard(section, p) {
@@ -6390,14 +6400,24 @@ function expandMonths(start, end, extraFuture) {
   }
   return arr;
 }
+function roadmapActionsHtml() { return `<button class="btn btn-primary" onclick="openRoadmapItemModal()">+ Jalon</button>`; }
+// Vue Roadmap autonome (fallback / accès direct)
 function renderRoadmap(content, actions) {
-  actions.innerHTML = `<button class="btn btn-primary" onclick="openRoadmapItemModal()">+ Jalon</button>`;
+  actions.innerHTML = roadmapActionsHtml();
+  content.innerHTML = `<div class="panel">${roadmapInnerHtml()}</div>`;
+}
+// Roadmap en feuillet de la section Dev
+function renderDevRoadmap(content, actions) {
+  actions.innerHTML = roadmapActionsHtml();
+  content.innerHTML = `<div class="feuillets">${feuilletsTabsHtml('dev')}<div class="panel feuillet-sheet">${renderStratHero('dev')}${roadmapInnerHtml()}</div></div>`;
+}
+// Corps de la roadmap (sans le conteneur .panel) — réutilisé en vue autonome et en feuillet Dev
+function roadmapInnerHtml() {
   const items = (state.roadmap || []).slice();
   if (items.length === 0) {
-    content.innerHTML = `<div class="panel"><div class="roadmap-empty">
+    return `<div class="roadmap-empty">
       Aucun jalon. Clique « + Jalon » pour ajouter une étape — ou ouvre Réglages → « Charger la synthèse plateforme » pour pré-remplir depuis Plateforme-CPTS.
-    </div></div>`;
-    return;
+    </div>`;
   }
   const today = new Date().toISOString().slice(0, 7);
   const dated = items.filter(i => i.month);
@@ -6423,7 +6443,7 @@ function renderRoadmap(content, actions) {
     </div>`;
   };
 
-  let html = `<div class="panel"><div class="rm-wrap">
+  let html = `<div class="rm-wrap">
     <div class="rm-summary">
       <div class="rm-stats">
         <span class="rm-stat"><span class="rm-stat-dot" style="background:var(--orange-600)"></span><b>${nPlanned}</b>&nbsp;à faire</span>
@@ -6470,8 +6490,8 @@ function renderRoadmap(content, actions) {
     </div>`;
   });
   html += '</div>'; // .rm-timeline
-  html += '</div></div>'; // .rm-wrap .panel
-  content.innerHTML = html;
+  html += '</div>'; // .rm-wrap
+  return html;
 }
 function openRoadmapDetail(id) {
   const item = (state.roadmap || []).find(x => x.id === id);
@@ -6537,19 +6557,33 @@ function deleteRoadmapItem(id) {
 
 // ============ PLAN D'ACTION — PRISE DE MARCHÉ (trame thématique) ============
 const MARCHE_THEMES = ['Veille concurrentielle', 'Ciblage', 'Canaux & go-to-market', 'Argumentaire', 'Rassurance'];
+const PRICING_THEMES = ['Modèle & paliers', 'Contractualisation', 'Facturation & encaissement', 'Suivi & relances'];
 const mpIcon = { done: '✓', doing: '▸', planned: '◯' };
-function renderMarchePlan(content, actions) {
-  actions.innerHTML = `<button class="btn btn-primary" onclick="openMarcheActionModal()">+ Action</button>`;
-  ensureMarcheAgentData();
-  const items = (state.marchePlan || []).slice();
-  let html = `<div class="marche-feuillets">${marcheTabsHtml()}<div class="panel marche-sheet">`;
-  html += renderStratHero('marche');
+// Définition d'un « plan d'action » par section (store = clé dans state, themes = catégories, withAgents = suggestions Orion/Mako)
+const PLAN_DEFS = {
+  marche: {
+    section: 'marche', store: 'marchePlan', themes: MARCHE_THEMES, withAgents: true,
+    intro: "La trame des actions à mener pour entrer sur le marché, rangées par thème. Clique la pastille pour faire avancer le statut, ou la ligne pour éditer.",
+    empty: "Aucune action. Clique « + Action » pour construire ta trame de prise de marché.<br>Regroupe-les par thème (veille, ciblage, canaux…) pour garder une logique claire."
+  },
+  pricing: {
+    section: 'pricing', store: 'pricingPlan', themes: PRICING_THEMES, withAgents: false,
+    intro: "Les process opérationnels de tarification, rangés par thème. À construire ensemble — clique « + Action » pour démarrer.",
+    empty: "Aucune action pour l'instant. C'est ici qu'on passera du théorique à l'opérationnel : facturation, contractualisation, paliers, relances…<br>Clique « + Action » pour démarrer — on explorera le contenu ensemble."
+  },
+};
+function planStore(planKey) { const k = PLAN_DEFS[planKey].store; if (!Array.isArray(state[k])) state[k] = []; return state[k]; }
+function renderPlan(content, actions, planKey) {
+  const def = PLAN_DEFS[planKey];
+  actions.innerHTML = `<button class="btn btn-primary" onclick="openActionModal('${planKey}')">+ Action</button>`;
+  if (def.withAgents) ensureMarcheAgentData();
+  const items = planStore(planKey).slice();
+  const suggHtml = def.withAgents ? marcheSuggestionsHtml() : '';
+  let html = `<div class="feuillets">${feuilletsTabsHtml(def.section)}<div class="panel feuillet-sheet">`;
+  html += renderStratHero(def.section);
   if (items.length === 0) {
-    html += marcheSuggestionsHtml();
-    html += `<div class="roadmap-empty">
-      Aucune action. Clique « + Action » pour construire ta trame de prise de marché.<br>
-      Regroupe-les par thème (veille, ciblage, canaux…) pour garder une logique claire.
-    </div></div></div>`;
+    html += suggHtml;
+    html += `<div class="roadmap-empty">${def.empty}</div></div></div>`;
     content.innerHTML = html;
     return;
   }
@@ -6558,46 +6592,47 @@ function renderMarchePlan(content, actions) {
   const nDoing = items.filter(i => i.status === 'doing').length;
   const nPlanned = items.length - nDone - nDoing;
   html += `<div class="mp-wrap">
-    <p class="mp-intro">La trame des actions à mener pour entrer sur le marché, rangées par thème. Clique la pastille pour faire avancer le statut, ou la ligne pour éditer.</p>
+    <p class="mp-intro">${def.intro}</p>
     <div class="mp-summary">
       <span class="mp-stat"><span class="mp-stat-dot" style="background:var(--orange-600)"></span><b>${nPlanned}</b>&nbsp;à faire</span>
       <span class="mp-stat"><span class="mp-stat-dot" style="background:var(--blue-500)"></span><b>${nDoing}</b>&nbsp;en cours</span>
       <span class="mp-stat"><span class="mp-stat-dot" style="background:var(--teal-600)"></span><b>${nDone}</b>&nbsp;fait${nDone > 1 ? 's' : ''}</span>
     </div>`;
-  html += marcheSuggestionsHtml();
+  html += suggHtml;
   // Regroupement par thème : ordre canonique d'abord, puis thèmes libres dans l'ordre d'apparition
   const map = new Map();
   items.forEach(i => { const t = (i.theme || '').trim() || 'Autres'; if (!map.has(t)) map.set(t, []); map.get(t).push(i); });
-  const themes = [...MARCHE_THEMES.filter(t => map.has(t)), ...[...map.keys()].filter(t => !MARCHE_THEMES.includes(t))];
+  const themes = [...def.themes.filter(t => map.has(t)), ...[...map.keys()].filter(t => !def.themes.includes(t))];
   themes.forEach(t => {
     const list = map.get(t);
     const done = list.filter(i => (i.status || 'planned') === 'done').length;
     html += `<div class="mp-theme">
       <div class="mp-theme-head"><span class="mp-theme-name">${esc(t)}</span><span class="mp-theme-count">${done}/${list.length}</span></div>
-      <div class="mp-items">${list.map(mpRow).join('')}</div>
+      <div class="mp-items">${list.map(i => mpRow(planKey, i)).join('')}</div>
     </div>`;
   });
-  html += '</div></div></div>'; // .mp-wrap + .marche-sheet + .marche-feuillets
+  html += '</div></div></div>'; // .mp-wrap + .feuillet-sheet + .feuillets
   content.innerHTML = html;
 }
-function mpRow(i) {
+function mpRow(planKey, i) {
   const st = i.status || 'planned';
-  return `<div class="mp-row is-${st}" onclick="openMarcheActionModal('${i.id}')" title="${roadmapStatusLabel[st] || ''}">
-    <span class="mp-check" onclick="event.stopPropagation();cycleMarcheStatus('${i.id}')" title="Changer le statut">${mpIcon[st]}</span>
+  return `<div class="mp-row is-${st}" onclick="openActionModal('${planKey}','${i.id}')" title="${roadmapStatusLabel[st] || ''}">
+    <span class="mp-check" onclick="event.stopPropagation();cyclePlanStatus('${planKey}','${i.id}')" title="Changer le statut">${mpIcon[st]}</span>
     <span class="mp-row-title">${esc(i.title)}</span>
     ${i.body ? '<span class="mp-row-note" title="Contient une note">✎</span>' : ''}
     <span class="mp-row-chevron">›</span>
   </div>`;
 }
-function cycleMarcheStatus(id) {
-  const it = (state.marchePlan || []).find(x => x.id === id); if (!it) return;
+function cyclePlanStatus(planKey, id) {
+  const it = planStore(planKey).find(x => x.id === id); if (!it) return;
   const next = { planned: 'doing', doing: 'done', done: 'planned' };
   it.status = next[it.status || 'planned'];
   save(); render();
 }
-function openMarcheActionModal(id) {
-  const it = id ? (state.marchePlan || []).find(x => x.id === id) : null;
-  const themeOpts = [...MARCHE_THEMES];
+function openActionModal(planKey, id) {
+  const def = PLAN_DEFS[planKey];
+  const it = id ? planStore(planKey).find(x => x.id === id) : null;
+  const themeOpts = [...def.themes];
   if (it && it.theme && !themeOpts.includes(it.theme)) themeOpts.unshift(it.theme);
   const m = document.getElementById('modal');
   m.classList.remove('qc-mode', 'modal-wide');
@@ -6606,7 +6641,7 @@ function openMarcheActionModal(id) {
     <div class="field"><label>Thème</label><select id="mp-theme">
       ${themeOpts.map(t => `<option value="${esc(t)}" ${it && it.theme === t ? 'selected' : ''}>${esc(t)}</option>`).join('')}
     </select></div>
-    <div class="field"><label>Action</label><input id="mp-title" value="${it ? esc(it.title) : ''}" placeholder="Ex: Cartographier les concurrents"></div>
+    <div class="field"><label>Action</label><input id="mp-title" value="${it ? esc(it.title) : ''}" placeholder="Intitulé de l'action"></div>
     <div class="field"><label>Statut</label><select id="mp-status">
       <option value="planned" ${(it?.status || 'planned') === 'planned' ? 'selected' : ''}>◯ À faire</option>
       <option value="doing" ${it?.status === 'doing' ? 'selected' : ''}>▸ En cours</option>
@@ -6614,13 +6649,13 @@ function openMarcheActionModal(id) {
     </select></div>
     <div class="field"><label>Note (optionnel)</label><textarea id="mp-body" style="min-height:80px" placeholder="Précisions, lien, rappel…">${it ? esc(it.body || '') : ''}</textarea></div>
     <div class="modal-actions">
-      ${it ? `<button class="btn btn-ghost" style="color:var(--red-600);margin-right:auto" onclick="deleteMarcheAction('${id}')">Supprimer</button>` : ''}
+      ${it ? `<button class="btn btn-ghost" style="color:var(--red-600);margin-right:auto" onclick="deleteAction('${planKey}','${id}')">Supprimer</button>` : ''}
       <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
-      <button class="btn btn-primary" onclick="saveMarcheAction('${id || ''}')">Enregistrer</button>
+      <button class="btn btn-primary" onclick="saveAction('${planKey}','${id || ''}')">Enregistrer</button>
     </div>`;
   document.getElementById('modal-overlay').classList.add('open');
 }
-function saveMarcheAction(id) {
+function saveAction(planKey, id) {
   const title = document.getElementById('mp-title').value.trim();
   if (!title) return alert('L\'action est requise');
   const data = {
@@ -6629,14 +6664,15 @@ function saveMarcheAction(id) {
     status: document.getElementById('mp-status').value,
     body: document.getElementById('mp-body').value.trim()
   };
-  state.marchePlan = state.marchePlan || [];
-  if (id) Object.assign(state.marchePlan.find(x => x.id === id), data);
-  else state.marchePlan.push({ id: uid(), ...data });
+  const store = planStore(planKey);
+  if (id) Object.assign(store.find(x => x.id === id), data);
+  else store.push({ id: uid(), ...data });
   save(); closeModal(); render();
 }
-function deleteMarcheAction(id) {
+function deleteAction(planKey, id) {
   if (!confirm('Supprimer cette action ?')) return;
-  state.marchePlan = (state.marchePlan || []).filter(x => x.id !== id);
+  const k = PLAN_DEFS[planKey].store;
+  state[k] = (state[k] || []).filter(x => x.id !== id);
   save(); closeModal(); render();
 }
 // --- Alimentation par les agents : Orion (coups d'avance) + Mako (concurrents) ---
@@ -6650,7 +6686,7 @@ function ensureMarcheAgentData() {
     .catch(() => { marcheAgentData = {}; })
     .finally(() => {
       marcheAgentLoading = false;
-      if (currentView === 'strat-marche' && marcheTab === 'plan') render();
+      if (currentView === 'strat-marche' && sectionTab.marche === 'plan') render();
     });
 }
 function computeMarcheSuggestions() {
