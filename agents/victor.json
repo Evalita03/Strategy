@@ -53,6 +53,23 @@
         { "titre": "Clôture du 1er exercice social (bilan + liasse fiscale à déposer dans les mois qui suivent)", "date": "31/12/2026", "domaine": "Comptabilité / Fiscal" },
         { "titre": "Souscrire la RC Pro avant la première vente", "date": "avant le 1er client", "domaine": "Assurances" }
       ],
+      "checklist": [
+        { "id": "vc-forme", "label": "Créer la société (forme juridique SASU)", "domaine": "Forme juridique", "fait": true },
+        { "id": "vc-immat", "label": "Immatriculer l'entreprise (RCS Pau, Kbis obtenu)", "domaine": "Immatriculation", "fait": true },
+        { "id": "vc-rbe", "label": "Déclarer les bénéficiaires effectifs (RBE)", "domaine": "Immatriculation", "fait": true },
+        { "id": "vc-domiciliation", "label": "Domicilier le siège social", "domaine": "Immatriculation", "fait": true },
+        { "id": "vc-domaine", "label": "Réserver le nom de domaine (cpts-pilot.fr)", "domaine": "Marque", "fait": true },
+        { "id": "vc-compta", "label": "Choisir un expert-comptable (ou une solution de comptabilité en ligne)", "domaine": "Comptabilité, fiscalité & social", "echeance": "priorité", "fait": false },
+        { "id": "vc-tva", "label": "Clarifier ton régime de TVA", "domaine": "Comptabilité, fiscalité & social", "fait": false },
+        { "id": "vc-social", "label": "Clarifier ton statut social de présidente (rémunérée ou non) et les cotisations", "domaine": "Comptabilité, fiscalité & social", "fait": false },
+        { "id": "vc-rcpro", "label": "Souscrire une assurance RC Pro d'éditeur de logiciel", "domaine": "Assurances", "echeance": "avant le 1er client", "fait": false },
+        { "id": "vc-cyber", "label": "Étudier une cyber-assurance (option)", "domaine": "Assurances", "fait": false },
+        { "id": "vc-cgv", "label": "Rédiger les CGV/CGU de la plateforme", "domaine": "Contrats & conditions", "fait": false },
+        { "id": "vc-mentions", "label": "Rédiger mentions légales + politique de confidentialité (RGPD avec Cléo)", "domaine": "Contrats & conditions", "fait": false },
+        { "id": "vc-compte", "label": "Confirmer/ouvrir un compte bancaire pro dédié", "domaine": "Banque", "fait": false },
+        { "id": "vc-facturation", "label": "Mettre en place une facturation conforme (mentions obligatoires)", "domaine": "Banque", "fait": false },
+        { "id": "vc-marque", "label": "Déposer la marque « CPTS Pilot » à l'INPI (avec Stella)", "domaine": "Marque", "fait": false }
+      ],
       "relais": [
         { "agent": "Cléo", "sujet": "RGPD, hébergement HDS et politique de confidentialité / clause DPA du contrat client (tu vas traiter des données de santé)" },
         { "agent": "Orion", "sujet": "Réglementaire santé : statut éventuel de « dispositif médical » du logiciel et certification Ségur" },
