@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-22T15:13:41.279Z",
+  "exportedAt": "2026-06-22T15:15:05.343Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7171,7 +7171,16 @@
         }
       ],
       "mako": [],
-      "victor": []
+      "victor": [
+        {
+          "role": "user",
+          "content": "Tu as besoin que je t'upload quels documents pour connaitre l'état actuel de la création d'entreprise ?"
+        },
+        {
+          "role": "assistant",
+          "content": "⚠ Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits."
+        }
+      ]
     },
     "agentConfig": {
       "orion": {
