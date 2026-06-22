@@ -929,20 +929,18 @@ body {
 }
 .contrib-acts button:hover { border-color: var(--blue-500); color: var(--blue-700); }
 
-/* Roadmap — timeline verticale */
-.rm-wrap { max-width: 780px; }
+/* Roadmap — frise horizontale (balayage gauche → droite) */
+.rm-wrap { max-width: none; }
 /* Bandeau résumé + progression */
-.rm-summary { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin: 2px 0 26px; }
+.rm-summary { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin: 2px 0 22px; }
 .rm-stats { display: flex; gap: 16px; flex-wrap: wrap; }
 .rm-stat { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; color: var(--slate-600); }
 .rm-stat-dot { width: 9px; height: 9px; border-radius: 50%; flex: 0 0 auto; }
 .rm-stat b { color: var(--slate-900); font-weight: 700; }
-/* Fil vertical + mois */
-.rm-timeline { position: relative; }
-/* Bouton « voir les mois précédents » — assis sur le fil, au-dessus du mois courant */
+/* Bouton « voir les mois précédents » — au-dessus de la frise */
 .rm-past-toggle {
-  position: relative; display: inline-flex; align-items: center; gap: 8px;
-  margin: 0 0 18px 86px; padding: 7px 14px; font-family: inherit; font-size: 12.5px; font-weight: 600;
+  display: inline-flex; align-items: center; gap: 8px;
+  margin: 0 0 14px; padding: 7px 14px; font-family: inherit; font-size: 12.5px; font-weight: 600;
   color: var(--slate-500); background: var(--slate-50); border: 1px dashed var(--slate-300);
   border-radius: 99px; cursor: pointer; transition: all .15s;
 }
@@ -950,16 +948,17 @@ body {
 .rm-past-chevron { font-size: 11px; }
 .rm-past-count { display: inline-flex; align-items: center; justify-content: center; min-width: 18px; height: 18px; padding: 0 5px; font-size: 11px; font-weight: 700; color: var(--slate-500); background: var(--slate-200); border-radius: 99px; }
 .rm-past-toggle:hover .rm-past-count { background: var(--blue-100); color: var(--blue-700); }
-.rm-month { position: relative; padding: 0 0 22px 86px; }
-.rm-month::before { content: ''; position: absolute; left: 63px; top: 8px; bottom: -8px; width: 2px; background: var(--slate-200); }
-.rm-month.is-future::before { background: repeating-linear-gradient(var(--slate-200) 0 4px, transparent 4px 8px); }
-.rm-month:last-child::before { display: none; }
-.rm-month-node { position: absolute; left: 56px; top: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--white); border: 3px solid var(--slate-300); z-index: 2; box-sizing: border-box; }
-.rm-month.is-past .rm-month-node { border-color: var(--slate-300); background: var(--slate-300); }
-.rm-month.is-current .rm-month-node { border-color: var(--blue-500); background: var(--blue-500); box-shadow: 0 0 0 4px var(--blue-50); }
-.rm-month-label { position: absolute; left: 0; top: 0; width: 48px; text-align: right; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--slate-500); line-height: 1.25; }
-.rm-month.is-current .rm-month-label { color: var(--blue-700); }
+/* La frise : colonnes de mois côte à côte, défilement horizontal */
+.rm-timeline { display: flex; align-items: flex-start; gap: 16px; overflow-x: auto; padding: 4px 2px 14px; scroll-behavior: smooth; }
+.rm-month { flex: 0 0 214px; max-width: 214px; display: flex; flex-direction: column; background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 14px; padding: 12px 12px 14px; transition: border-color .15s, box-shadow .15s; }
+.rm-month.is-current { background: var(--blue-50); border-color: var(--blue-100); box-shadow: 0 0 0 3px var(--blue-50); }
+.rm-month.is-past { background: transparent; border-style: dashed; }
+.rm-month-node { display: none; }
+.rm-month-label { display: flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: var(--slate-500); line-height: 1.25; padding-bottom: 10px; margin-bottom: 11px; border-bottom: 1px solid var(--slate-200); }
+.rm-month.is-current .rm-month-label { color: var(--blue-700); border-bottom-color: var(--blue-100); }
+.rm-month.is-current .rm-month-label::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--blue-500); flex: 0 0 auto; }
 .rm-month.is-future .rm-month-label { color: var(--slate-400); }
+.rm-month.is-past .rm-month-label { color: var(--slate-400); }
 .rm-month-cards { display: flex; flex-direction: column; gap: 9px; }
 .rm-month-empty { font-size: 12px; color: var(--slate-300); font-style: italic; padding: 1px 0; }
 .rm-card {
@@ -1022,16 +1021,24 @@ body {
 .feuillets-cream .feuillet-tab:hover { background: #F5F0E7; }
 .feuillets-cream .feuillet-tab.is-active { background: #FAF7F2; color: var(--blue-700); }
 .feuillet-sheet-cream { background: #FAF7F2; border-color: #E3DACB; }
-/* Plan d'action — trame thématique */
-.mp-wrap { max-width: 780px; }
-.mp-summary { display: flex; gap: 16px; flex-wrap: wrap; margin: 2px 0 24px; }
+.feuillet-sheet-cream .mp-theme { background: #F3EEE4; border-color: #E3DACB; }
+.feuillet-sheet-cream .mp-theme-head { border-bottom-color: #E3DACB; }
+.feuillet-sheet-cream .mp-theme-count { background: #FAF7F2; border-color: #E3DACB; }
+/* Plan d'action — board thématique horizontal (balayage gauche → droite) */
+.mp-wrap { max-width: none; }
+.mp-summary { display: flex; gap: 16px; flex-wrap: wrap; margin: 2px 0 22px; }
 .mp-stat { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; color: var(--slate-600); }
 .mp-stat-dot { width: 9px; height: 9px; border-radius: 50%; flex: 0 0 auto; }
 .mp-stat b { color: var(--slate-900); font-weight: 700; }
-.mp-theme { margin-bottom: 26px; }
-.mp-theme-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px; }
-.mp-theme-name { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--blue-700); }
-.mp-theme-count { font-size: 11px; font-weight: 700; color: var(--slate-400); }
+/* Les colonnes de thèmes, côte à côte */
+.mp-board { display: flex; align-items: flex-start; gap: 16px; overflow-x: auto; padding: 2px 2px 14px; scroll-behavior: smooth; }
+.mp-theme { flex: 0 0 270px; max-width: 270px; margin-bottom: 0; background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 14px; padding: 13px 13px 15px; transition: border-color .15s; }
+.mp-theme.is-complete { background: var(--teal-100); border-color: #99F6E4; }
+.mp-theme-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--slate-200); }
+.mp-theme.is-complete .mp-theme-head { border-bottom-color: #99F6E4; }
+.mp-theme-name { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--blue-700); line-height: 1.25; }
+.mp-theme-count { flex: 0 0 auto; font-size: 11px; font-weight: 700; color: var(--slate-500); background: var(--white); border: 1px solid var(--slate-200); border-radius: 20px; padding: 1px 9px; }
+.mp-theme.is-complete .mp-theme-count { color: var(--teal-700); border-color: #99F6E4; }
 .mp-items { display: flex; flex-direction: column; gap: 9px; }
 .mp-row {
   background: var(--white); border: 1px solid var(--slate-200); border-left: 3px solid var(--slate-300);
@@ -1595,17 +1602,27 @@ tr:hover td { background: var(--blue-50); }
         Aujourd'hui
       </div>
 
+      <div class="nav-item" data-view="todo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z"/></svg>
+        À faire
+      </div>
+
+      <div class="nav-item" data-view="idees">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0012 2z"/></svg>
+        Idées
+      </div>
+
       <div class="nav-divider"></div>
 
       <div class="nav-item" data-view="strat-organigramme">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 7a4 4 0 100 8 4 4 0 000-8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-        Equipe
+        Équipe
       </div>
 
       <div class="nav-group collapsed">
         <div class="nav-group-header">
           <svg class="grp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-          Plateforme
+          Produit
           <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
         <div class="nav-group-items">
@@ -1617,38 +1634,28 @@ tr:hover td { background: var(--blue-50); }
       <div class="nav-group collapsed">
         <div class="nav-group-header">
           <svg class="grp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-          Stratégie globale
+          Stratégie
           <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
         <div class="nav-group-items">
           <div class="nav-subitem" data-view="strat-vision"><span class="sub-bullet"></span>Vision</div>
-          <div class="nav-subitem" data-view="strat-dev"><span class="sub-bullet"></span>Dev</div>
+          <div class="nav-subitem" data-view="strat-dev"><span class="sub-bullet"></span>Développement</div>
           <div class="nav-subitem" data-view="strat-marche"><span class="sub-bullet"></span>Prise de marché</div>
           <div class="nav-subitem" data-view="strat-pricing"><span class="sub-bullet"></span>Tarification</div>
           <div class="nav-subitem" data-view="strat-marque"><span class="sub-bullet"></span>Marque &amp; com'</div>
         </div>
       </div>
 
-      <div class="nav-item" data-view="todo">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z"/></svg>
-        To do
-      </div>
-
-      <div class="nav-item" data-view="idees">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0012 2z"/></svg>
-        Idées
-      </div>
-
       <div class="nav-group collapsed">
         <div class="nav-group-header">
-          <svg class="grp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 7a4 4 0 100 8 4 4 0 000-8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-          Client
+          <svg class="grp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+          Marché
           <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
         <div class="nav-group-items">
           <div class="nav-subitem" data-view="beta"><span class="sub-bullet"></span>Béta test</div>
           <div class="nav-subitem" data-view="clients-prospects"><span class="sub-bullet"></span>Prospects</div>
-          <div class="nav-subitem" data-view="clients-valides"><span class="sub-bullet"></span>Clients validés</div>
+          <div class="nav-subitem" data-view="clients-valides"><span class="sub-bullet"></span>Clients</div>
         </div>
       </div>
 
@@ -1792,14 +1799,14 @@ const titles = {
   graph:'Architecture du code',
   roadmap:'Roadmap produit',
   monitoring:'Monitoring',
-  todo:'To do',
+  todo:'À faire',
   'strat-vision':'Stratégie — Vision',
   idees:'Idées',
   'strat-marche':'Stratégie — Prise de marché',
   'strat-pricing':'Stratégie — Tarification',
   'strat-marque':"Stratégie — Marque & com'",
-  'strat-dev':'Stratégie — Dev',
-  'strat-organigramme':'Equipe',
+  'strat-dev':'Stratégie — Développement',
+  'strat-organigramme':'Équipe',
   agent:'Espace agent',
   'clients-valides':'Clients validés',
   'clients-prospects':'Prospects CPTS',
@@ -6450,6 +6457,21 @@ function roadmapInnerHtml() {
     </div>`;
   };
 
+  // Mois ayant au moins un jalon, du plus ancien (ou aujourd'hui) au plus récent
+  const monthSet = [...new Set(dated.map(i => i.month))];
+  if (!monthSet.includes(today)) monthSet.push(today); // ancre toujours « aujourd'hui » pour ne jamais avoir une vue vide
+  const months = monthSet.sort();
+  const pastMonths = months.filter(m => m < today);
+  const nPastJalons = dated.filter(i => i.month < today).length;
+  const visibleMonths = rmShowPast ? months : months.filter(m => m >= today);
+
+  // Bouton « voir les mois précédents » — au-dessus de la frise (les mois passés s'ouvrent à gauche)
+  const pastToggle = pastMonths.length ? `<button class="rm-past-toggle" onclick="toggleRoadmapPast()">
+      <span class="rm-past-chevron">${rmShowPast ? '▸' : '◂'}</span>
+      ${rmShowPast ? 'Masquer les mois passés' : `Voir les ${pastMonths.length} mois précédents`}
+      ${rmShowPast ? '' : `<span class="rm-past-count">${nPastJalons}</span>`}
+    </button>` : '';
+
   let html = `<div class="rm-wrap">
     <div class="rm-summary">
       <div class="rm-stats">
@@ -6464,25 +6486,8 @@ function roadmapInnerHtml() {
         ${planless.length ? planless.map(card).join('') : '<div class="rm-inbox-empty">Aucun jalon en attente — dépose ici un jalon pour le retirer du calendrier.</div>'}
       </div>
     </div>
+    ${pastToggle}
     <div class="rm-timeline">`;
-
-  // Mois ayant au moins un jalon, du plus ancien (ou aujourd'hui) au plus récent
-  const monthSet = [...new Set(dated.map(i => i.month))];
-  if (!monthSet.includes(today)) monthSet.push(today); // ancre toujours « aujourd'hui » pour ne jamais avoir une vue vide
-  const months = monthSet.sort();
-  const pastMonths = months.filter(m => m < today);
-  const nPastJalons = dated.filter(i => i.month < today).length;
-
-  // Bouton « voir les mois précédents » — par défaut on garde le focus sur aujourd'hui + à venir
-  if (pastMonths.length) {
-    html += `<button class="rm-past-toggle" onclick="toggleRoadmapPast()">
-      <span class="rm-past-chevron">${rmShowPast ? '▾' : '▸'}</span>
-      ${rmShowPast ? 'Masquer les mois passés' : `Voir les ${pastMonths.length} mois précédents`}
-      ${rmShowPast ? '' : `<span class="rm-past-count">${nPastJalons}</span>`}
-    </button>`;
-  }
-
-  const visibleMonths = rmShowPast ? months : months.filter(m => m >= today);
   visibleMonths.forEach(m => {
     const colItems = dated.filter(i => i.month === m);
     let klass = 'is-past';
@@ -6617,14 +6622,18 @@ function renderPlan(content, actions, planKey) {
   const map = new Map();
   items.forEach(i => { const t = (i.theme || '').trim() || 'Autres'; if (!map.has(t)) map.set(t, []); map.get(t).push(i); });
   const themes = [...def.themes.filter(t => map.has(t)), ...[...map.keys()].filter(t => !def.themes.includes(t))];
+  // Colonnes de thèmes côte à côte, défilement gauche → droite
+  html += '<div class="mp-board">';
   themes.forEach(t => {
     const list = map.get(t);
     const done = list.filter(i => (i.status || 'planned') === 'done').length;
-    html += `<div class="mp-theme">
+    const allDone = done === list.length && list.length > 0;
+    html += `<div class="mp-theme${allDone ? ' is-complete' : ''}">
       <div class="mp-theme-head"><span class="mp-theme-name">${esc(t)}</span><span class="mp-theme-count">${done}/${list.length}</span></div>
       <div class="mp-items">${list.map(i => mpRow(planKey, i)).join('')}</div>
     </div>`;
   });
+  html += '</div>'; // .mp-board
   html += '</div></div></div>'; // .mp-wrap + .feuillet-sheet + .feuillets
   content.innerHTML = html;
 }
