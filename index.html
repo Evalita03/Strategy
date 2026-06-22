@@ -360,25 +360,41 @@ body {
 .encart-apports { margin-top: 16px; }
 
 /* Organigramme — équipe d'agents */
-.org-intro { max-width: 760px; font-size: 13.5px; color: var(--slate-600); line-height: 1.6; margin-bottom: 26px; padding: 14px 16px; background: var(--blue-50); border: 1px solid var(--blue-100); border-radius: 12px; }
-.org-pole { margin-bottom: 30px; }
-.org-pole-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--slate-200); }
-.org-pole-name { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--blue-700); }
-.org-pole-tag { font-size: 12.5px; color: var(--slate-500); font-style: italic; flex: 1; }
-.org-pole-count { font-size: 11px; font-weight: 700; color: var(--slate-400); white-space: nowrap; }
-.org-agents { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
-.org-agent { background: var(--white); border: 1px solid var(--slate-200); border-radius: 14px; padding: 18px 20px; box-shadow: 0 1px 2px rgba(15,23,42,0.04); transition: all .15s; display: flex; flex-direction: column; cursor: pointer; }
-.org-agent:hover { box-shadow: 0 8px 22px rgba(15,23,42,0.09); border-color: var(--slate-300); transform: translateY(-2px); }
-.org-agent-next { border-color: var(--blue-500); box-shadow: 0 0 0 1px var(--blue-500); }
-.org-agent-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 4px; }
-.org-agent-name { font-size: 16px; font-weight: 700; color: var(--slate-900); letter-spacing: -0.01em; }
-.org-badge { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 20px; padding: 3px 10px; white-space: nowrap; flex-shrink: 0; }
+.org-hero { background: linear-gradient(135deg, var(--slate-900), var(--blue-900)); color: #fff; border-radius: 18px; padding: 24px 26px; margin-bottom: 28px; box-shadow: 0 10px 30px rgba(15,23,42,0.16); }
+.org-hero-eyebrow { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.09em; color: var(--blue-100); margin-bottom: 11px; }
+.org-hero-text { font-size: 14px; line-height: 1.62; color: #F1F5F9; max-width: 780px; }
+.org-stats { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+.org-stat { background: rgba(255,255,255,0.09); border: 1px solid rgba(255,255,255,0.16); border-radius: 12px; padding: 9px 15px; display: flex; align-items: baseline; gap: 7px; }
+.org-stat-num { font-size: 20px; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
+.org-stat-lbl { font-size: 11.5px; color: #CBD5E1; font-weight: 600; }
+.org-pole { margin-bottom: 32px; }
+.org-pole-head { display: flex; align-items: center; gap: 13px; margin-bottom: 16px; }
+.org-pole-icon { width: 40px; height: 40px; border-radius: 12px; background: var(--blue-50); border: 1px solid var(--blue-100); color: var(--blue-700); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+.org-pole-meta { flex: 1; min-width: 0; }
+.org-pole-name { font-size: 13.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--slate-900); }
+.org-pole-tag { font-size: 12.5px; color: var(--slate-500); font-style: italic; margin-top: 1px; }
+.org-pole-count { font-size: 11px; font-weight: 700; color: var(--slate-500); white-space: nowrap; background: var(--slate-100); border-radius: 20px; padding: 4px 11px; }
+.org-agents { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 14px; }
+.org-agent { position: relative; background: var(--white); border: 1px solid var(--slate-200); border-radius: 16px; padding: 18px 20px 16px; box-shadow: 0 1px 2px rgba(15,23,42,0.04); transition: transform .15s, box-shadow .15s, border-color .15s; display: flex; flex-direction: column; cursor: pointer; overflow: hidden; }
+.org-agent::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--slate-200); }
+.org-agent.is-active::before { background: linear-gradient(var(--teal-500), var(--teal-700)); }
+.org-agent.is-next::before { background: linear-gradient(var(--blue-400), var(--blue-700)); }
+.org-agent:hover { box-shadow: 0 12px 28px rgba(15,23,42,0.10); border-color: var(--slate-300); transform: translateY(-3px); }
+.org-agent-top { display: flex; align-items: center; gap: 12px; margin-bottom: 11px; }
+.org-avatar { width: 46px; height: 46px; border-radius: 14px; flex-shrink: 0; color: #fff; font-size: 19px; font-weight: 800; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(15,23,42,0.18); letter-spacing: -0.02em; }
+.org-agent-id { flex: 1; min-width: 0; }
+.org-agent-name { font-size: 16.5px; font-weight: 800; color: var(--slate-900); letter-spacing: -0.01em; }
+.org-agent-fn { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--blue-700); margin-top: 2px; }
+.org-badge { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 20px; padding: 3px 9px 3px 7px; white-space: nowrap; flex-shrink: 0; display: inline-flex; align-items: center; gap: 5px; align-self: flex-start; }
+.org-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
 .org-badge-next { color: var(--blue-700); background: var(--blue-50); border: 1px solid var(--blue-100); }
 .org-badge-todo { color: var(--slate-500); background: var(--slate-50); border: 1px solid var(--slate-200); }
 .org-badge-active { color: var(--teal-700); background: var(--teal-100); border: 1px solid var(--teal-100); }
-.org-agent-role { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--blue-700); margin: 2px 0 10px; }
+.org-agent-sub { font-size: 12.5px; color: var(--slate-500); font-style: italic; margin: 0 0 10px; }
 .org-agent-mission { font-size: 13px; color: var(--slate-600); line-height: 1.55; flex: 1; }
 .org-agent-quand { margin-top: 12px; font-size: 12.5px; color: var(--slate-500); font-style: italic; border-top: 1px dashed var(--slate-200); padding-top: 10px; }
+.org-agent-cta { margin-top: 11px; font-size: 11.5px; font-weight: 700; color: var(--blue-700); opacity: 0; transform: translateX(-4px); transition: opacity .15s, transform .15s; }
+.org-agent:hover .org-agent-cta { opacity: 1; transform: translateX(0); }
 /* Modale agent — fiche mission + dernier rapport */
 .agent-fiche { background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 12px; padding: 16px 18px; margin-bottom: 18px; }
 .agent-fiche-role { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--blue-700); margin-bottom: 10px; }
@@ -1039,6 +1055,13 @@ body {
 .feuillet-sheet-cream .mp-theme { background: #F3EEE4; border-color: #E3DACB; }
 .feuillet-sheet-cream .mp-theme-head { border-bottom-color: #E3DACB; }
 .feuillet-sheet-cream .mp-theme-count { background: #FAF7F2; border-color: #E3DACB; }
+/* Sélecteur de vue du plan d'action (Par mois / Par thème) */
+.plan-viewswitch { display: inline-flex; gap: 2px; background: var(--slate-100); border: 1px solid var(--slate-200); border-radius: 10px; padding: 3px; margin: 0 0 18px; }
+.plan-viewswitch button { font-family: inherit; font-size: 12.5px; font-weight: 700; color: var(--slate-500); background: none; border: none; border-radius: 7px; padding: 6px 14px; cursor: pointer; transition: color .15s, background .15s; }
+.plan-viewswitch button:hover { color: var(--slate-700); }
+.plan-viewswitch button.is-active { background: var(--white); color: var(--blue-700); box-shadow: 0 1px 2px rgba(15,23,42,0.08); }
+.feuillet-sheet-cream .plan-viewswitch { background: #F0EADF; border-color: #E3DACB; }
+.feuillet-sheet-cream .plan-viewswitch button.is-active { background: #FAF7F2; }
 /* Plan d'action — board thématique horizontal (balayage gauche → droite) */
 .mp-wrap { max-width: none; }
 .mp-summary { display: flex; gap: 16px; flex-wrap: wrap; margin: 2px 0 22px; }
@@ -5253,29 +5276,67 @@ const orgStatut = {
   todo:   { label: "À venir",         cls: "org-badge-todo" },
   active: { label: "Actif",           cls: "org-badge-active" }
 };
+const ORG_POLE_ICONS = {
+  "Produit": "🧭", "Sécurité & Conformité": "🛡️", "Marché": "🔭",
+  "Marque": "🎨", "Administration & Gestion": "🏛️", "Business": "🤝"
+};
+const ORG_AVATAR_GRADS = [
+  ['#2563EB', '#1E3A8A'], ['#0D9488', '#0F766E'], ['#7C3AED', '#5B21B6'],
+  ['#EA580C', '#9A3412'], ['#0891B2', '#155E75'], ['#DB2777', '#9D174D'],
+  ['#65A30D', '#3F6212'], ['#D97706', '#92400E']
+];
+function orgAvatarGrad(name) {
+  let h = 0; const s = name || '';
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+  const g = ORG_AVATAR_GRADS[h % ORG_AVATAR_GRADS.length];
+  return `linear-gradient(135deg, ${g[0]}, ${g[1]})`;
+}
 function renderOrganigramme(content, actions) {
   actions.innerHTML = '';
   const o = ORGANIGRAMME;
+  const all = o.poles.flatMap(p => p.agents);
+  const nActive = all.filter(a => a.statut === 'active').length;
   let html = '<div class="panel" style="max-width:1100px">';
-  html += `<div class="org-intro">${esc(o.intro)}</div>`;
+  html += `<div class="org-hero">
+    <div class="org-hero-eyebrow">Mon équipage</div>
+    <div class="org-hero-text">${esc(o.intro)}</div>
+    <div class="org-stats">
+      <div class="org-stat"><span class="org-stat-num">${all.length}</span><span class="org-stat-lbl">agents</span></div>
+      <div class="org-stat"><span class="org-stat-num">${nActive}</span><span class="org-stat-lbl">actifs</span></div>
+      <div class="org-stat"><span class="org-stat-num">${all.length - nActive}</span><span class="org-stat-lbl">à venir</span></div>
+      <div class="org-stat"><span class="org-stat-num">${o.poles.length}</span><span class="org-stat-lbl">pôles</span></div>
+    </div>
+  </div>`;
   o.poles.forEach(pole => {
+    const icon = ORG_POLE_ICONS[pole.name] || '◆';
     html += `<div class="org-pole">
       <div class="org-pole-head">
-        <span class="org-pole-name">${esc(pole.name)}</span>
-        <span class="org-pole-tag">${esc(pole.tagline)}</span>
+        <span class="org-pole-icon">${icon}</span>
+        <div class="org-pole-meta">
+          <div class="org-pole-name">${esc(pole.name)}</div>
+          <div class="org-pole-tag">${esc(pole.tagline)}</div>
+        </div>
         <span class="org-pole-count">${pole.agents.length} agent${pole.agents.length > 1 ? 's' : ''}</span>
       </div>
       <div class="org-agents">
         ${pole.agents.map(a => {
           const s = orgStatut[a.statut] || orgStatut.todo;
-          return `<div class="org-agent ${a.statut === 'next' ? 'org-agent-next' : ''}" onclick="openAgentConsole('${a.slug || slugifyAgent(a.name)}')">
-            <div class="org-agent-head">
-              <span class="org-agent-name">${esc(a.prenom || a.name)}</span>
+          const nom = a.prenom || a.name;
+          const initial = (nom || '?').trim().charAt(0).toUpperCase();
+          const stateCls = a.statut === 'active' ? 'is-active' : (a.statut === 'next' ? 'is-next' : '');
+          return `<div class="org-agent ${stateCls}" onclick="openAgentConsole('${a.slug || slugifyAgent(a.name)}')">
+            <div class="org-agent-top">
+              <span class="org-avatar" style="background:${orgAvatarGrad(nom)}">${esc(initial)}</span>
+              <div class="org-agent-id">
+                <div class="org-agent-name">${esc(nom)}</div>
+                ${a.prenom ? `<div class="org-agent-fn">${esc(a.name)}</div>` : ''}
+              </div>
               <span class="org-badge ${s.cls}">${s.label}</span>
             </div>
-            <div class="org-agent-role">${a.prenom ? esc(a.name) + ' · ' : ''}${esc(a.role)}</div>
+            <div class="org-agent-sub">${esc(a.role)}</div>
             <div class="org-agent-mission">${esc(a.mission)}</div>
             <div class="org-agent-quand">${esc(a.quand)}</div>
+            <div class="org-agent-cta">Ouvrir la fiche →</div>
           </div>`;
         }).join('')}
       </div>
@@ -6389,6 +6450,12 @@ function toggleRoadmapPast() { rmShowPast = !rmShowPast; render(); }
 
 // Glisser-déposer des jalons : changer de mois, réordonner, ou renvoyer dans « À planifier »
 let rmDragId = null;
+// Plan d'action : vue active par section, repli des mois passés, et état du glisser-déposer
+let planView = {};       // planKey -> 'months' | 'themes'
+let planShowPast = {};   // planKey -> bool
+let planDragId = null, planDragKey = null;
+function setPlanView(planKey, v) { planView[planKey] = v; render(); }
+function togglePlanPast(planKey) { planShowPast[planKey] = !planShowPast[planKey]; render(); }
 function rmDragStart(e, id) {
   rmDragId = id;
   e.dataTransfer.effectAllowed = 'move';
@@ -6396,7 +6463,7 @@ function rmDragStart(e, id) {
   const el = e.currentTarget; setTimeout(() => el.classList.add('rm-dragging'), 0);
 }
 function rmDragEnd() {
-  rmDragId = null;
+  rmDragId = null; planDragId = null; planDragKey = null;
   document.querySelectorAll('.rm-dragging').forEach(el => el.classList.remove('rm-dragging'));
   document.querySelectorAll('.rm-drop-ok').forEach(el => el.classList.remove('rm-drop-ok'));
 }
@@ -6409,7 +6476,8 @@ function rmDragLeave(e) {
   if (!e.currentTarget.contains(e.relatedTarget)) e.currentTarget.classList.remove('rm-drop-ok');
 }
 function rmDragAfterId(container, y) {
-  const cards = [...container.querySelectorAll('.rm-card')].filter(c => c.dataset.id !== rmDragId);
+  const dragging = rmDragId || planDragId;
+  const cards = [...container.querySelectorAll('.rm-card')].filter(c => c.dataset.id !== dragging);
   for (const c of cards) {
     const box = c.getBoundingClientRect();
     if (y < box.top + box.height / 2) return c.dataset.id;
@@ -6437,6 +6505,35 @@ function rmDrop(e, month) {
     if (lastIdx >= 0) arr.splice(lastIdx + 1, 0, item); else arr.push(item);
   }
   rmDragId = null;
+  save(); render();
+}
+// Glisser-déposer d'une action de plan dans un mois (même logique que les jalons)
+function planDragStart(e, planKey, id) {
+  planDragKey = planKey; planDragId = id;
+  e.dataTransfer.effectAllowed = 'move';
+  try { e.dataTransfer.setData('text/plain', id); } catch (_) {}
+  const el = e.currentTarget; setTimeout(() => el.classList.add('rm-dragging'), 0);
+}
+function planDrop(e, planKey, month) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('rm-drop-ok');
+  const id = planDragId || (e.dataTransfer && e.dataTransfer.getData('text/plain'));
+  if (!id || (planDragKey && planDragKey !== planKey)) return;
+  const arr = planStore(planKey);
+  const idx = arr.findIndex(x => x.id === id);
+  if (idx < 0) return;
+  const afterId = rmDragAfterId(e.currentTarget, e.clientY);
+  const [item] = arr.splice(idx, 1);
+  item.month = month || null;
+  if (afterId) {
+    const refIdx = arr.findIndex(x => x.id === afterId);
+    arr.splice(refIdx < 0 ? arr.length : refIdx, 0, item);
+  } else {
+    let lastIdx = -1;
+    arr.forEach((x, i) => { if ((x.month || null) === (item.month || null)) lastIdx = i; });
+    if (lastIdx >= 0) arr.splice(lastIdx + 1, 0, item); else arr.push(item);
+  }
+  planDragId = null; planDragKey = null;
   save(); render();
 }
 const MONTH_FR = ['Janv.', 'Févr.', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'];
@@ -6666,24 +6763,85 @@ function renderPlan(content, actions, planKey) {
       <span class="mp-stat"><span class="mp-stat-dot" style="background:var(--teal-600)"></span><b>${nDone}</b>&nbsp;fait${nDone > 1 ? 's' : ''}</span>
     </div>`;
   html += suggHtml;
-  // Regroupement par thème : ordre canonique d'abord, puis thèmes libres dans l'ordre d'apparition
+  // Sélecteur de vue : par mois (calendrier) ou par thème
+  const view = planView[planKey] || 'months';
+  html += `<div class="plan-viewswitch">
+    <button class="${view === 'months' ? 'is-active' : ''}" onclick="setPlanView('${planKey}','months')">📅 Par mois</button>
+    <button class="${view === 'themes' ? 'is-active' : ''}" onclick="setPlanView('${planKey}','themes')">▦ Par thème</button>
+  </div>`;
+  html += (view === 'months') ? planMonthsHtml(planKey) : planThemesHtml(planKey, items, def);
+  html += '</div></div></div>'; // .mp-wrap + .feuillet-sheet + .feuillets
+  content.innerHTML = html;
+}
+// Vue « par thème » : colonnes de thèmes côte à côte (board)
+function planThemesHtml(planKey, items, def) {
   const map = new Map();
   items.forEach(i => { const t = (i.theme || '').trim() || 'Autres'; if (!map.has(t)) map.set(t, []); map.get(t).push(i); });
   const themes = [...def.themes.filter(t => map.has(t)), ...[...map.keys()].filter(t => !def.themes.includes(t))];
-  // Colonnes de thèmes côte à côte, défilement gauche → droite
-  html += '<div class="mp-board">';
+  let h = '<div class="mp-board">';
   themes.forEach(t => {
     const list = map.get(t);
     const done = list.filter(i => (i.status || 'planned') === 'done').length;
     const allDone = done === list.length && list.length > 0;
-    html += `<div class="mp-theme${allDone ? ' is-complete' : ''}">
+    h += `<div class="mp-theme${allDone ? ' is-complete' : ''}">
       <div class="mp-theme-head"><span class="mp-theme-name">${esc(t)}</span><span class="mp-theme-count">${done}/${list.length}</span></div>
       <div class="mp-items">${list.map(i => mpRow(planKey, i)).join('')}</div>
     </div>`;
   });
-  html += '</div>'; // .mp-board
-  html += '</div></div></div>'; // .mp-wrap + .feuillet-sheet + .feuillets
-  content.innerHTML = html;
+  h += '</div>';
+  return h;
+}
+// Vue « par mois » : frise horizontale type roadmap, glisser-déposer pour dater les actions
+function planMonthsHtml(planKey) {
+  const items = planStore(planKey).slice();
+  const today = new Date().toISOString().slice(0, 7);
+  const dated = items.filter(i => i.month);
+  const planless = items.filter(i => !i.month);
+  const card = i => {
+    const st = i.status || 'planned';
+    return `<div class="rm-card is-${st}" draggable="true" data-id="${i.id}"
+      ondragstart="planDragStart(event,'${planKey}','${i.id}')" ondragend="rmDragEnd(event)"
+      onclick="openActionModal('${planKey}','${i.id}')" title="${roadmapStatusLabel[st] || ''}">
+      <span class="rm-card-grip" title="Glisser pour déplacer">⠿</span>
+      <span class="rm-card-icon">${mpIcon[st]}</span>
+      <span class="rm-card-title">${esc(i.title)}</span>
+      <span class="rm-card-chevron">›</span>
+    </div>`;
+  };
+  const monthSet = [...new Set(dated.map(i => i.month))];
+  if (!monthSet.includes(today)) monthSet.push(today);
+  const months = monthSet.sort();
+  const pastMonths = months.filter(m => m < today);
+  const nPast = dated.filter(i => i.month < today).length;
+  const showPast = !!planShowPast[planKey];
+  const visibleMonths = showPast ? months : months.filter(m => m >= today);
+  const pastToggle = pastMonths.length ? `<button class="rm-past-toggle" onclick="togglePlanPast('${planKey}')">
+      <span class="rm-past-chevron">${showPast ? '▸' : '◂'}</span>
+      ${showPast ? 'Masquer les mois passés' : `Voir les ${pastMonths.length} mois précédents`}
+      ${showPast ? '' : `<span class="rm-past-count">${nPast}</span>`}
+    </button>` : '';
+  let h = `<div class="rm-inbox">
+      <div class="rm-inbox-head"><span class="rm-inbox-icon">🗂</span> À planifier<span class="rm-inbox-hint">— glisse une action vers un mois pour la dater</span></div>
+      <div class="rm-month-cards rm-dropzone" data-month="" ondragover="rmDragOver(event)" ondragleave="rmDragLeave(event)" ondrop="planDrop(event,'${planKey}','')">
+        ${planless.length ? planless.map(card).join('') : '<div class="rm-inbox-empty">Aucune action en attente — tout est daté.</div>'}
+      </div>
+    </div>
+    ${pastToggle}
+    <div class="rm-timeline">`;
+  visibleMonths.forEach(m => {
+    const colItems = dated.filter(i => i.month === m);
+    let klass = 'is-past';
+    if (m === today) klass = 'is-current';
+    else if (m > today) klass = 'is-future';
+    h += `<div class="rm-month ${klass}">
+      <div class="rm-month-label">${monthLabel(m)}</div>
+      <div class="rm-month-cards rm-dropzone" data-month="${m}" ondragover="rmDragOver(event)" ondragleave="rmDragLeave(event)" ondrop="planDrop(event,'${planKey}','${m}')">
+        ${colItems.length ? colItems.map(card).join('') : '<div class="rm-month-empty">—</div>'}
+      </div>
+    </div>`;
+  });
+  h += '</div>'; // .rm-timeline
+  return h;
 }
 function mpRow(planKey, i) {
   const st = i.status || 'planned';
@@ -6713,6 +6871,7 @@ function openActionModal(planKey, id) {
       ${themeOpts.map(t => `<option value="${esc(t)}" ${it && it.theme === t ? 'selected' : ''}>${esc(t)}</option>`).join('')}
     </select></div>
     <div class="field"><label>Action</label><input id="mp-title" value="${it ? esc(it.title) : ''}" placeholder="Intitulé de l'action"></div>
+    <div class="field"><label>Mois (optionnel — vide = « À planifier »)</label><input id="mp-month" type="month" value="${it && it.month ? it.month : ''}"></div>
     <div class="field"><label>Statut</label><select id="mp-status">
       <option value="planned" ${(it?.status || 'planned') === 'planned' ? 'selected' : ''}>◯ À faire</option>
       <option value="doing" ${it?.status === 'doing' ? 'selected' : ''}>▸ En cours</option>
@@ -6732,6 +6891,7 @@ function saveAction(planKey, id) {
   const data = {
     theme: document.getElementById('mp-theme').value,
     title,
+    month: document.getElementById('mp-month').value || null,
     status: document.getElementById('mp-status').value,
     body: document.getElementById('mp-body').value.trim()
   };
