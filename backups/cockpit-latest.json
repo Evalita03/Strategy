@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-22T16:13:32.177Z",
+  "exportedAt": "2026-06-22T16:15:13.630Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -5765,7 +5765,7 @@
       {
         "id": "mqngnnklzt7y2",
         "title": "Créer un Agent Administratif",
-        "status": "todo",
+        "status": "done",
         "body": "Pour réaliser les démarches administratives de l'entreprise"
       },
       {
@@ -5773,6 +5773,13 @@
         "title": "Gérer  le courrier de la DGFIP facturation électronique",
         "status": "todo",
         "body": "Indy le fait, à voir"
+      },
+      {
+        "id": "mqpf0d9wkqfbr",
+        "title": "Mettre en place ta comptabilité (choisir un expert-comptable ou une solution compta)",
+        "status": "doing",
+        "category": "admin",
+        "body": "Préconisé par Victor (Secrétariat général).\n\nTa SASU doit tenir une comptabilité complète dès maintenant, et ton 1er exercice se clôt le 31/12/2026. Un expert-comptable (ou une bonne solution) te cadre d'un coup la TVA, la facturation conforme, ton statut social de présidente et le dépôt des comptes — c'est le socle qui sécurise tout le reste et t'enlève une grosse charge mentale. À poser tôt plutôt que dans l'urgence de fin d'exercice."
       }
     ],
     "strategie": [],
@@ -7123,9 +7130,10 @@
         "type": "chantier",
         "fromDate": "2026-06-22",
         "agent": "victor",
-        "enTache": false,
+        "enTache": true,
         "enRoadmap": false,
-        "etat": "active"
+        "etat": "active",
+        "taskId": "mqpf0d9wkqfbr"
       }
     ],
     "agentChats": {
