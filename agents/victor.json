@@ -28,6 +28,37 @@
         { "agent": "Carla", "sujet": "Devis, facturation et onboarding des CPTS clientes (le commercial, pas l'administratif)" }
       ],
       "note": "Premier point d'amorçage, écrit sans vérification web. À ma prochaine ronde, je vérifie à la source (service-public.fr, INPI, URSSAF) et je chiffre les options de statut pour qu'on décide sur du concret. Une chose à la fois : on commence par le statut."
+    },
+    {
+      "agent": "victor",
+      "updated_at": "2026-06-22",
+      "trigger": "Mise à jour d'après tes documents (Kbis, statuts, dépôt d'actes)",
+      "synthese": "Surprise heureuse : ta SASU CPTS Pilot est déjà créée et immatriculée (RCS Pau, mai 2026). Le plus dur est fait. Le chantier bascule de « créer l'entreprise » vers « la rendre vendable et conforme » : assurance, comptabilité, CGV, marque.",
+      "etat_global": "SASU créée et immatriculée (RCS Pau, 28/05/2026) — phase post-création : sécuriser et préparer la vente.",
+      "domaines": [
+        { "nom": "Forme juridique", "statut": "fait", "resume": "SASU « CPTS Pilot » créée, statuts signés le 14/05/2026 — forme adaptée à la vente et à une associée unique. Objet : édition de logiciels SaaS pour la santé + conseil/formation. ✔" },
+        { "nom": "Immatriculation & enregistrement", "statut": "fait", "resume": "Immatriculée au RCS de Pau le 28/05/2026, Kbis obtenu, dépôt des actes fait, bénéficiaires effectifs (RBE) déclarés. ✔" },
+        { "nom": "Assurances", "statut": "a_faire", "resume": "Aucune attestation RC Pro dans tes documents. À souscrire AVANT le premier client : RC Pro d'éditeur de logiciel (et cyber-assurance en option)." },
+        { "nom": "Comptabilité, fiscalité & social", "statut": "en_cours", "resume": "Une SASU doit tenir une comptabilité complète dès le 1er euro (1er exercice clôturé le 31/12/2026). À mettre en place : expert-comptable ou solution compta, régime de TVA, et ton statut social de présidente (rémunérée ou non)." },
+        { "nom": "Contrats & conditions", "statut": "a_faire", "resume": "CGV/CGU, mentions légales et politique de confidentialité du site à rédiger avant de commercialiser. Le volet protection des données (DPA) → Cléo." },
+        { "nom": "Banque & administratif courant", "statut": "en_cours", "resume": "Le capital (100 €) a été déposé pour créer la société. À confirmer : un compte bancaire pro dédié + une facturation conforme (mentions obligatoires) pour tes futures ventes." },
+        { "nom": "Propriété intellectuelle & marque", "statut": "a_faire", "resume": "Nom de domaine cpts-pilot.fr réservé ✔. Reste à déposer la MARQUE « CPTS Pilot » à l'INPI pour protéger le nom et le logo (à caler avec Stella)." }
+      ],
+      "prochaine_demarche": {
+        "titre": "Mettre en place ta comptabilité (choisir un expert-comptable ou une solution compta)",
+        "pourquoi": "Ta SASU doit tenir une comptabilité complète dès maintenant, et ton 1er exercice se clôt le 31/12/2026. Un expert-comptable (ou une bonne solution) te cadre d'un coup la TVA, la facturation conforme, ton statut social de présidente et le dépôt des comptes — c'est le socle qui sécurise tout le reste et t'enlève une grosse charge mentale. À poser tôt plutôt que dans l'urgence de fin d'exercice.",
+        "domaine": "Comptabilité, fiscalité & social"
+      },
+      "echeances": [
+        { "titre": "Clôture du 1er exercice social (bilan + liasse fiscale à déposer dans les mois qui suivent)", "date": "31/12/2026", "domaine": "Comptabilité / Fiscal" },
+        { "titre": "Souscrire la RC Pro avant la première vente", "date": "avant le 1er client", "domaine": "Assurances" }
+      ],
+      "relais": [
+        { "agent": "Cléo", "sujet": "RGPD, hébergement HDS et politique de confidentialité / clause DPA du contrat client (tu vas traiter des données de santé)" },
+        { "agent": "Orion", "sujet": "Réglementaire santé : statut éventuel de « dispositif médical » du logiciel et certification Ségur" },
+        { "agent": "Carla", "sujet": "Devis, facturation et onboarding des CPTS clientes (le commercial)" }
+      ],
+      "note": "Mise à jour majeure d'après tes vrais documents (Kbis, statuts, certificat de dépôt d'actes, RBE, attestations de domiciliation et de parution). Je n'ai mis ICI aucune donnée personnelle (adresse, date de naissance, n° d'identification) : elles restent dans tes fichiers privés du dossier prive/. Prochaine ronde : je vérifie à la source les points chiffrés (régime de TVA d'une SASU, statut social du président, échéances exactes de dépôt des comptes) et je te propose 2-3 pistes concrètes d'expert-comptable / d'assurance RC Pro."
     }
   ]
 }
