@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-22T15:53:50.403Z",
+  "exportedAt": "2026-06-22T16:13:32.177Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7115,6 +7115,17 @@
         "enTache": false,
         "enRoadmap": false,
         "etat": "faite"
+      },
+      {
+        "id": "mqpez9u7331lt",
+        "key": "mettre en place ta comptabilité (choisir un expert-comptable ou une solution compta)",
+        "titre": "Mettre en place ta comptabilité (choisir un expert-comptable ou une solution compta)",
+        "type": "chantier",
+        "fromDate": "2026-06-22",
+        "agent": "victor",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
       }
     ],
     "agentChats": {
@@ -7191,7 +7202,7 @@
     "lastSeenReport": {
       "orion": "2026-06-06",
       "chef-produit": "2026-06-17",
-      "victor": "2026-06-21"
+      "victor": "2026-06-22"
     },
     "handledPropositions": {},
     "decisions": [],
