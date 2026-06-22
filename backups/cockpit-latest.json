@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-22T15:53:50.403Z",
+  "exportedAt": "2026-06-22T16:17:33.133Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -5765,7 +5765,7 @@
       {
         "id": "mqngnnklzt7y2",
         "title": "Créer un Agent Administratif",
-        "status": "todo",
+        "status": "done",
         "body": "Pour réaliser les démarches administratives de l'entreprise"
       },
       {
@@ -5773,6 +5773,13 @@
         "title": "Gérer  le courrier de la DGFIP facturation électronique",
         "status": "todo",
         "body": "Indy le fait, à voir"
+      },
+      {
+        "id": "mqpf0d9wkqfbr",
+        "title": "Mettre en place ta comptabilité (choisir un expert-comptable ou une solution compta)",
+        "status": "doing",
+        "category": "admin",
+        "body": "Préconisé par Victor (Secrétariat général).\n\nTa SASU doit tenir une comptabilité complète dès maintenant, et ton 1er exercice se clôt le 31/12/2026. Un expert-comptable (ou une bonne solution) te cadre d'un coup la TVA, la facturation conforme, ton statut social de présidente et le dépôt des comptes — c'est le socle qui sécurise tout le reste et t'enlève une grosse charge mentale. À poser tôt plutôt que dans l'urgence de fin d'exercice."
       }
     ],
     "strategie": [],
@@ -7115,6 +7122,18 @@
         "enTache": false,
         "enRoadmap": false,
         "etat": "faite"
+      },
+      {
+        "id": "mqpez9u7331lt",
+        "key": "mettre en place ta comptabilité (choisir un expert-comptable ou une solution compta)",
+        "titre": "Mettre en place ta comptabilité (choisir un expert-comptable ou une solution compta)",
+        "type": "chantier",
+        "fromDate": "2026-06-22",
+        "agent": "victor",
+        "enTache": true,
+        "enRoadmap": false,
+        "etat": "active",
+        "taskId": "mqpf0d9wkqfbr"
       }
     ],
     "agentChats": {
@@ -7191,7 +7210,7 @@
     "lastSeenReport": {
       "orion": "2026-06-06",
       "chef-produit": "2026-06-17",
-      "victor": "2026-06-21"
+      "victor": "2026-06-22"
     },
     "handledPropositions": {},
     "decisions": [],
@@ -7288,10 +7307,27 @@
         "title": "Documenter une première référence / cas pilote",
         "status": "planned",
         "body": "Un exemple concret vaut mille arguments."
+      },
+      {
+        "id": "mqpf3wand2hny",
+        "theme": "Argumentaire",
+        "title": "Faire de « financé par l'enveloppe ACI » un argument commercial central",
+        "status": "planned",
+        "body": "L'abonnement logiciel est une dépense ACI éligible : c'est un levier d'achat décisif pour une CPTS.\n\nÀ faire : Préparer une phrase claire et un mini-justificatif (référence ACI) à donner aux CPTS prospectes.",
+        "source": "Orion"
       }
     ],
     "marchePlanSeeded": true,
-    "marcheSuggDismissed": [],
+    "marcheSuggDismissed": [
+      "coup:rendre le vocabulaire de la plateforme paramétrable (cpts ↔ communauté france santé)",
+      "conc:coordo",
+      "conc:citana (groupe anamnèse)",
+      "conc:albert (albertsante.fr)",
+      "conc:simplymed",
+      "conc:medplan",
+      "conc:cpts+",
+      "coup:cartographier finement les 7 concurrents (fonctions + prix)"
+    ],
     "victorDocs": [
       {
         "id": "mqpcv6houiiis",
