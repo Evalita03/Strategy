@@ -611,6 +611,9 @@ body {
 .vic-doc-maj { font-size: 11px; color: var(--slate-400); white-space: nowrap; }
 .vic-doc-extrait { font-size: 12.5px; color: var(--slate-600); line-height: 1.5; white-space: pre-wrap; margin-bottom: 8px; }
 .vic-doc-actions { display: flex; gap: 8px; }
+.vic-import-status { font-size: 12px; line-height: 1.5; margin-top: 6px; color: var(--slate-500); min-height: 16px; }
+.vic-import-status.vic-import-ok { color: #15803D; }
+.vic-import-status.vic-import-warn { color: #B45309; }
 .prop-list { display: flex; flex-direction: column; gap: 10px; }
 .prop-item { display: flex; gap: 12px; align-items: flex-start; justify-content: space-between; border: 1px solid var(--blue-100); border-radius: 12px; padding: 12px 14px; background: var(--blue-50); }
 .prop-main { flex: 1; min-width: 0; }
@@ -5375,7 +5378,7 @@ function renderVictorDossier() {
     ? `Tes documents sont gardés dans ton cockpit <strong>et</strong> recopiés dans le repo (<code>agents/victor-docs.json</code>) pour que Victor les lise aussi pendant ses rondes.`
     : `⚠ Pour l'instant tes documents ne sont gardés que dans <strong>ce navigateur</strong> (et ses sauvegardes). Pour que Victor les lise aussi pendant ses <em>rondes</em>, configure ta sauvegarde GitHub (⚙ en bas de la barre latérale).`;
   let h = `<div class="vic-dossier">
-    <div class="vic-dossier-intro">Dépose ici le <strong>contenu</strong> de tes documents importants (statuts, extrait Kbis, attestation d'assurance, conditions…). Victor les garde en tête : il les voit quand tu <strong>échanges</strong> avec lui, et il les relit à chaque <strong>ronde</strong>. Colle le texte ; pour un PDF, ouvre-le, copie le texte et colle-le ici.</div>
+    <div class="vic-dossier-intro">Dépose ici le <strong>contenu</strong> de tes documents importants (statuts, extrait Kbis, attestation d'assurance, conditions…). Victor les garde en tête : il les voit quand tu <strong>échanges</strong> avec lui, et il les relit à chaque <strong>ronde</strong>. Tu peux <strong>importer un fichier</strong> (PDF, .txt, .md…) — le texte en est extrait automatiquement — ou coller le texte à la main.</div>
     <div class="vic-dossier-note">${syncNote}</div>`;
   if (!docs.length) {
     h += `<div class="vic-dossier-empty">Aucun document pour l'instant.</div>`;
@@ -5397,12 +5400,70 @@ function openVictorDocModal(id) {
   const m = document.getElementById('modal'); m.classList.remove('qc-mode', 'modal-wide');
   m.innerHTML = `<h2>${d ? 'Modifier' : 'Ajouter'} un document</h2>
     <div class="field"><label>Titre</label><input id="vic-doc-titre" value="${d ? esc(d.titre || '') : ''}" placeholder="Ex : Statuts de la société, Attestation RC Pro…"></div>
-    <div class="field"><label>Contenu (colle le texte du document)</label><textarea id="vic-doc-contenu" style="min-height:200px" placeholder="Colle ici le texte de ton document…">${d ? esc(d.contenu || '') : ''}</textarea></div>
+    <div class="field">
+      <label>Importer un fichier <span style="font-weight:400;color:var(--slate-400)">(PDF, .txt, .md, .csv)</span></label>
+      <input type="file" id="vic-doc-file" accept=".pdf,.txt,.md,.markdown,.csv,.json,.rtf,text/plain" onchange="importVictorDocFile(this)">
+      <div id="vic-doc-import-status" class="vic-import-status"></div>
+    </div>
+    <div class="field"><label>Contenu (importé du fichier, ou collé à la main)</label><textarea id="vic-doc-contenu" style="min-height:200px" placeholder="Importe un fichier ci-dessus, ou colle le texte ici…">${d ? esc(d.contenu || '') : ''}</textarea></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
       <button class="btn btn-primary" onclick="saveVictorDoc('${id || ''}')">Enregistrer</button>
     </div>`;
   document.getElementById('modal-overlay').classList.add('open');
+}
+// Lazy-load de pdf.js (uniquement quand on importe un PDF)
+let _pdfJsPromise = null;
+function ensurePdfJs() {
+  if (window.pdfjsLib) return Promise.resolve(window.pdfjsLib);
+  if (_pdfJsPromise) return _pdfJsPromise;
+  _pdfJsPromise = new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+    s.onload = () => {
+      try { window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; } catch (e) {}
+      resolve(window.pdfjsLib);
+    };
+    s.onerror = () => reject(new Error('Chargement de pdf.js impossible (pas de connexion ?)'));
+    document.head.appendChild(s);
+  });
+  return _pdfJsPromise;
+}
+async function extractPdfText(file) {
+  const lib = await ensurePdfJs();
+  const buf = await file.arrayBuffer();
+  const pdf = await lib.getDocument({ data: buf }).promise;
+  let out = '';
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    out += content.items.map(it => it.str).join(' ') + '\n\n';
+  }
+  return out.trim();
+}
+async function importVictorDocFile(input) {
+  const file = input.files && input.files[0]; if (!file) return;
+  const status = document.getElementById('vic-doc-import-status');
+  const titreEl = document.getElementById('vic-doc-titre');
+  const txtEl = document.getElementById('vic-doc-contenu');
+  if (titreEl && !titreEl.value.trim()) titreEl.value = file.name.replace(/\.[^.]+$/, '');
+  const setStatus = (msg, cls) => { if (status) { status.textContent = msg; status.className = 'vic-import-status' + (cls ? ' ' + cls : ''); } };
+  const isPdf = file.type === 'application/pdf' || /\.pdf$/i.test(file.name);
+  try {
+    setStatus('Lecture du fichier…', '');
+    let text = '';
+    if (isPdf) { text = await extractPdfText(file); }
+    else { text = await file.text(); }
+    text = (text || '').trim();
+    if (!text) {
+      setStatus(isPdf ? '⚠ Ce PDF ne contient pas de texte (sans doute un scan/image). Recopie le texte à la main dans le champ ci-dessous.' : '⚠ Fichier vide ou illisible.', 'vic-import-warn');
+      return;
+    }
+    if (txtEl) txtEl.value = text;
+    setStatus(`✓ Texte importé (${text.length.toLocaleString('fr-FR')} caractères). Relis-le avant d'enregistrer.`, 'vic-import-ok');
+  } catch (e) {
+    setStatus('⚠ ' + (e.message || 'Import impossible') + ' — tu peux coller le texte à la main.', 'vic-import-warn');
+  }
 }
 function saveVictorDoc(id) {
   const titre = (document.getElementById('vic-doc-titre').value || '').trim();
