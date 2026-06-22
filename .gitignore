@@ -1,2 +1,5 @@
 Plateforme-CPTS/
 .claude/worktrees/
+# Dossier privé : documents confidentiels d'Eva (statuts, Kbis, assurances…).
+# JAMAIS commité ni poussé — reste sur la machine. Ne rien y mettre de versionnable.
+prive/
