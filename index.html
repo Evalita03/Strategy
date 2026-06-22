@@ -1017,6 +1017,11 @@ body {
   background: var(--white); border: 1px solid var(--slate-200); border-radius: 0 12px 12px 12px;
   box-shadow: 0 1px 2px rgba(15,23,42,0.04); max-width: none; margin: 0;
 }
+/* Variante crème — section Marque & com' (reste sur la palette de marque) */
+.feuillets-cream .feuillet-tab { background: #F0EADF; border-color: #E3DACB; }
+.feuillets-cream .feuillet-tab:hover { background: #F5F0E7; }
+.feuillets-cream .feuillet-tab.is-active { background: #FAF7F2; color: var(--blue-700); }
+.feuillet-sheet-cream { background: #FAF7F2; border-color: #E3DACB; }
 /* Plan d'action — trame thématique */
 .mp-wrap { max-width: 780px; }
 .mp-summary { display: flex; gap: 16px; flex-wrap: wrap; margin: 2px 0 24px; }
@@ -1727,6 +1732,7 @@ function load() {
   }
   if (!Array.isArray(state.marcheSuggDismissed)) state.marcheSuggDismissed = [];
   if (!Array.isArray(state.pricingPlan)) state.pricingPlan = [];
+  if (!Array.isArray(state.marquePlan)) state.marquePlan = [];
   if (!Array.isArray(state.precos)) state.precos = [];
   if (!state.agentChats || typeof state.agentChats !== 'object') state.agentChats = {};
   if (!state.agentConfig || typeof state.agentConfig !== 'object') state.agentConfig = {};
@@ -4699,12 +4705,13 @@ function findPillar(section, pid) { return (state.strategiePillars[section]||[])
 
 let expandedGroups = { vision: new Set(), marche: new Set(), pricing: new Set(), dev: new Set(), marque: new Set() };
 // Sections à feuillets : onglet actif par section (« strat » = encarts | autre = feuillet dédié)
-let sectionTab = { marche: 'strat', dev: 'strat', pricing: 'strat' };
-// Quels feuillets pour quelles sections (le 1er est toujours « Stratégie » = les encarts)
+let sectionTab = { marche: 'strat', dev: 'strat', pricing: 'strat', marque: 'strat' };
+// Quels feuillets pour quelles sections (le 1er = le contenu d'origine de la section)
 const SECTION_FEUILLETS = {
   marche:  [{ key: 'strat', label: 'Stratégie' }, { key: 'plan', label: "Plan d'action" }],
   dev:     [{ key: 'strat', label: 'Stratégie' }, { key: 'roadmap', label: 'Roadmap' }],
   pricing: [{ key: 'strat', label: 'Stratégie' }, { key: 'plan', label: "Plan d'action" }],
+  marque:  [{ key: 'strat', label: 'Vitrine' },   { key: 'plan', label: "Plan d'action" }],
 };
 // Plan d'action « Prise de marché » : données d'Orion/Mako lues pour proposer des suggestions
 let marcheAgentData = null;      // null = pas encore chargé ; {} = chargé/vide
@@ -4897,7 +4904,7 @@ function renderMarqueShowcase(content, actions) {
     { title: 'Site vitrine', match: /vitrine/i, visual: mbVitrineVisuals },
     { title: "Contenus & règles de com'", match: /contenu|présence|ligne|com|règle/i, visual: mbComRules }
   ];
-  let html = `<div class="panel mb" style="max-width:1020px">`;
+  let html = `<div class="feuillets feuillets-cream" style="max-width:1020px">${feuilletsTabsHtml('marque')}<div class="panel mb feuillet-sheet feuillet-sheet-cream">`;
   html += `<div class="mb-hero">${mixerMarkSvg()}<div><div class="mb-hero-wordmark"><span class="cpts">CPTS</span>Pilot</div><div class="mb-hero-tag">La gestion CPTS qui donne sa place à chacun — et la vision à tous.</div></div></div>`;
   // Brief canonique : accès via un bouton → page dédiée (pas d'étalement inline)
   html += `<div class="mb-brief-cta"><div><div class="mb-brief-cta-t">Brief de référence</div><div class="mb-brief-cta-d">La source de vérité — tagline, positionnement, identité, règles de com', pricing. ${brandBrief.text ? `<span class="mb-live">● dispo</span>` : (brandBrief.error ? '<span style="color:var(--orange-600)">à publier dans Plateforme-CPTS</span>' : '')}</div></div>
@@ -4913,7 +4920,7 @@ function renderMarqueShowcase(content, actions) {
   const rest = encarts.filter(e => !used.has(e.id));
   if (rest.length) html += `<div class="mb-sec"><div class="mb-sec-head">Autres</div><div class="mb-sec-rule"></div><div class="mb-grid">${rest.map(mbEncartCard).join('')}</div></div>`;
   if (!encarts.length) html += `<div class="empty" style="margin-top:8px"><p>Les textes ne sont pas encore chargés — fais Réglages → « Charger / synchroniser » pour les remplir. Les visuels ci-dessus, eux, sont toujours là.</p></div>`;
-  html += `</div>`;
+  html += `</div></div>`; // .panel.mb + .feuillets
   content.innerHTML = html;
   if (!brandBrief.loaded) loadBrandBrief(false);
 }
@@ -4926,8 +4933,8 @@ function feuilletsTabsHtml(section) {
 }
 function setSectionTab(section, key) { sectionTab[section] = key; render(); }
 function renderStrategie(content, actions, section) {
-  if (section === 'marque') return renderMarqueShowcase(content, actions);
   const tab = sectionTab[section] || 'strat';
+  if (section === 'marque') return tab === 'plan' ? renderPlan(content, actions, 'marque') : renderMarqueShowcase(content, actions);
   if (section === 'marche'  && tab === 'plan')    return renderPlan(content, actions, 'marche');
   if (section === 'pricing' && tab === 'plan')    return renderPlan(content, actions, 'pricing');
   if (section === 'dev'     && tab === 'roadmap') return renderDevRoadmap(content, actions);
@@ -6558,6 +6565,7 @@ function deleteRoadmapItem(id) {
 // ============ PLAN D'ACTION — PRISE DE MARCHÉ (trame thématique) ============
 const MARCHE_THEMES = ['Veille concurrentielle', 'Ciblage', 'Canaux & go-to-market', 'Argumentaire', 'Rassurance'];
 const PRICING_THEMES = ['Modèle & paliers', 'Contractualisation', 'Facturation & encaissement', 'Suivi & relances'];
+const MARQUE_THEMES = ['Identité & charte', 'Site vitrine', 'Contenus & éditorial', 'Réseaux & visibilité'];
 const mpIcon = { done: '✓', doing: '▸', planned: '◯' };
 // Définition d'un « plan d'action » par section (store = clé dans state, themes = catégories, withAgents = suggestions Orion/Mako)
 const PLAN_DEFS = {
@@ -6571,6 +6579,12 @@ const PLAN_DEFS = {
     intro: "Les process opérationnels de tarification, rangés par thème. À construire ensemble — clique « + Action » pour démarrer.",
     empty: "Aucune action pour l'instant. C'est ici qu'on passera du théorique à l'opérationnel : facturation, contractualisation, paliers, relances…<br>Clique « + Action » pour démarrer — on explorera le contenu ensemble."
   },
+  marque: {
+    section: 'marque', store: 'marquePlan', themes: MARQUE_THEMES, withAgents: false,
+    wrapClass: 'feuillets-cream', sheetClass: 'feuillet-sheet-cream',
+    intro: "Le passage à l'action côté marque & com' : ce qu'il y a à produire et diffuser, rangé par thème. Clique la pastille pour faire avancer, ou la ligne pour éditer.",
+    empty: "Aucune action pour l'instant. C'est ici qu'on planifiera le concret : déclinaisons de charte, pages du site, contenus, présence en ligne…<br>Clique « + Action » pour démarrer."
+  },
 };
 function planStore(planKey) { const k = PLAN_DEFS[planKey].store; if (!Array.isArray(state[k])) state[k] = []; return state[k]; }
 function renderPlan(content, actions, planKey) {
@@ -6579,7 +6593,7 @@ function renderPlan(content, actions, planKey) {
   if (def.withAgents) ensureMarcheAgentData();
   const items = planStore(planKey).slice();
   const suggHtml = def.withAgents ? marcheSuggestionsHtml() : '';
-  let html = `<div class="feuillets">${feuilletsTabsHtml(def.section)}<div class="panel feuillet-sheet">`;
+  let html = `<div class="feuillets ${def.wrapClass || ''}">${feuilletsTabsHtml(def.section)}<div class="panel feuillet-sheet ${def.sheetClass || ''}">`;
   html += renderStratHero(def.section);
   if (items.length === 0) {
     html += suggHtml;
