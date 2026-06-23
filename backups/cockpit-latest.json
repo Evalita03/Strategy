@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-22T16:39:59.239Z",
+  "exportedAt": "2026-06-23T08:59:15.002Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7236,77 +7236,88 @@
         "theme": "Veille concurrentielle",
         "title": "Cartographier les outils concurrents pour CPTS",
         "status": "planned",
-        "body": "Lister qui fait quoi : nom, périmètre fonctionnel, cible. Une vue d'ensemble du paysage."
+        "body": "Lister qui fait quoi : nom, périmètre fonctionnel, cible. Une vue d'ensemble du paysage.",
+        "month": "2026-06"
       },
       {
         "id": "mqnludaqhoa3f",
         "theme": "Veille concurrentielle",
         "title": "Suivre les nouveautés des concurrents (rythme mensuel)",
         "status": "planned",
-        "body": "Un point régulier pour ne rien rater : sorties, annonces, changements de cap."
+        "body": "Un point régulier pour ne rien rater : sorties, annonces, changements de cap.",
+        "month": "2026-06"
       },
       {
         "id": "mqnludaqhga0x",
         "theme": "Veille concurrentielle",
         "title": "Recenser leurs prix publics et positionnements",
         "status": "planned",
-        "body": "Ce qu'ils affichent et comment ils se présentent — pour situer notre offre."
+        "body": "Ce qu'ils affichent et comment ils se présentent — pour situer notre offre.",
+        "month": "2026-07"
       },
       {
         "id": "mqnludaq3voxk",
         "theme": "Ciblage",
         "title": "Définir les 3 CPTS prioritaires à approcher",
         "status": "planned",
-        "body": "Choisir où concentrer l'effort en premier, avec un critère clair."
+        "body": "Choisir où concentrer l'effort en premier, avec un critère clair.",
+        "month": "2026-06"
       },
       {
         "id": "mqnludaqgtyzy",
         "theme": "Ciblage",
         "title": "Qualifier les besoins par profil (coordination, médecins, élus)",
         "status": "planned",
-        "body": "Ce que chaque interlocuteur attend vraiment — pour parler juste."
+        "body": "Ce que chaque interlocuteur attend vraiment — pour parler juste.",
+        "month": "2026-07"
       },
       {
         "id": "mqnludaqb6mwd",
         "theme": "Canaux & go-to-market",
         "title": "Choisir 2 canaux d'entrée prioritaires",
         "status": "planned",
-        "body": "Par où on arrive concrètement jusqu'aux CPTS."
+        "body": "Par où on arrive concrètement jusqu'aux CPTS.",
+        "month": "2026-08"
       },
       {
         "id": "mqnludaquzuhx",
         "theme": "Canaux & go-to-market",
         "title": "Préparer le pitch et le support d'approche",
         "status": "planned",
-        "body": "Le message d'ouverture et le support qui l'accompagne."
+        "body": "Le message d'ouverture et le support qui l'accompagne.",
+        "month": "2026-09"
       },
       {
         "id": "mqnludaq8w367",
         "theme": "Argumentaire",
         "title": "Formuler 3 arguments clés différenciants",
         "status": "planned",
-        "body": "Ce qui nous rend évidents, sans jamais nommer la concurrence."
+        "body": "Ce qui nous rend évidents, sans jamais nommer la concurrence.",
+        "month": "2026-08"
       },
       {
         "id": "mqnludaqlbx95",
         "theme": "Argumentaire",
         "title": "Préparer les réponses aux objections fréquentes",
         "status": "planned",
-        "body": "Anticiper les « oui mais » pour ne pas être pris au dépourvu."
+        "body": "Anticiper les « oui mais » pour ne pas être pris au dépourvu.",
+        "month": "2026-09"
       },
       {
         "id": "mqnludaqshp3l",
         "theme": "Rassurance",
         "title": "Préparer les preuves (sécurité, hébergement, conformité)",
         "status": "planned",
-        "body": "Les éléments qui lèvent les doutes au moment de s'engager."
+        "body": "Les éléments qui lèvent les doutes au moment de s'engager.",
+        "month": "2026-10"
       },
       {
         "id": "mqnludaqgb6jr",
         "theme": "Rassurance",
         "title": "Documenter une première référence / cas pilote",
         "status": "planned",
-        "body": "Un exemple concret vaut mille arguments."
+        "body": "Un exemple concret vaut mille arguments.",
+        "month": "2026-10"
       },
       {
         "id": "mqpf3wand2hny",
@@ -7337,6 +7348,7 @@
       }
     ],
     "pricingPlan": [],
-    "marquePlan": []
+    "marquePlan": [],
+    "marchePlanScheduled": true
   }
 }
