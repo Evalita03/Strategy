@@ -6097,8 +6097,12 @@ function openAgentConsole(slug) {
 function agentDataSlug(slug) { return slug === 'mako' ? 'orion' : slug; }
 function agentReportsFromData(data) {
   if (!data) return [];
-  if (Array.isArray(data.journal)) return data.journal;
-  return [data];
+  if (!Array.isArray(data.journal)) return [data];
+  // Le cockpit lit la DERNIÈRE entrée comme la plus récente (et l'onglet Journal
+  // reverse() pour afficher du plus récent au plus ancien). On garantit donc l'ordre
+  // chronologique (plus ancienne → plus récente) même si une ronde a été insérée en tête.
+  return data.journal.slice().sort((a, b) =>
+    String((a && a.updated_at) || '').localeCompare(String((b && b.updated_at) || '')));
 }
 function currentAgentName() { const f = findAgentBySlug(currentAgentSlug); return f ? (f.a.prenom || f.a.name) : "l'agent"; }
 
@@ -6370,9 +6374,9 @@ const AGENT_WORKFLOW = {
   // Magnus : ronde À LA DEMANDE (bouton ▶), jamais en auto. Le workflow s'authentifie avec
   // CLAUDE_CODE_OAUTH_TOKEN → ça puise dans ton FORFAIT Claude, pas dans le crédit de ta clé API.
   'chef-produit': { file: 'magnus-ronde.yml', fait: 'relit ton code et écrit un nouveau rapport', bille: 'ça puise dans ton forfait Claude, pas dans ta clé API' },
-  // Orion : ronde auto (lundi) + bouton ▶, sur clé API.
-  'orion':        { file: 'orion-veille.yml', fait: 'lit le web en direct et écrit un nouveau rapport de veille', bille: 'quelques centimes sur ta clé API' },
-  'mako':         { file: 'orion-veille.yml', fait: 'relance la ronde d\'Orion, qui rafraîchit le tableau concurrentiel', bille: 'quelques centimes sur ta clé API' }
+  // Orion : ronde auto (lundi) + bouton ▶. Comme Magnus, il s'authentifie au CLAUDE_CODE_OAUTH_TOKEN → forfait Claude, pas clé API.
+  'orion':        { file: 'orion-veille.yml', fait: 'lit le web en direct et écrit un nouveau rapport de veille', bille: 'ça puise dans ton forfait Claude, pas dans ta clé API' },
+  'mako':         { file: 'orion-veille.yml', fait: 'relance la ronde d\'Orion, qui rafraîchit le tableau concurrentiel', bille: 'ça puise dans ton forfait Claude, pas dans ta clé API' }
 };
 async function runAgentRonde() {
   const wf = AGENT_WORKFLOW[currentAgentSlug];

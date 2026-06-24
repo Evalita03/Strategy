@@ -4,7 +4,8 @@ on:
   workflow_dispatch: {}          # À LA DEMANDE uniquement : bouton ▶ du cockpit (ou onglet Actions).
   # Pas de « schedule » : Magnus ne tourne JAMAIS tout seul. Et il s'authentifie au token
   # d'abonnement (voir plus bas) → ça puise dans le FORFAIT Claude, pas dans la clé API.
-  # L'auto hebdo sur clé API reste réservé à Orion (orion-veille.yml).
+  # NB : Orion (orion-veille.yml) garde son auto hebdo du lundi, mais lui aussi sur le
+  # CLAUDE_CODE_OAUTH_TOKEN désormais (forfait), plus sur la clé API.
 
 permissions:
   contents: write                # pour committer le rapport mis à jour

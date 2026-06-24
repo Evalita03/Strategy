@@ -47,7 +47,7 @@ Une ronde n'est pas un copier-coller de « comment créer son entreprise ». C'e
 Qualité avant quantité : un point juste, sourcé, qui dit « ta prochaine démarche c'est ça, ici, avant telle date » vaut dix pages de généralités.
 
 ## Format de sortie (TRÈS IMPORTANT — le cockpit lit ce JSON)
-Tu écris dans `agents/victor.json`. La structure est un **journal** : tu **ajoutes** une entrée à chaque ronde, tu n'écrases **jamais** l'historique.
+Tu écris dans `agents/victor.json`. La structure est un **journal** : tu **ajoutes** une entrée à chaque ronde, tu n'écrases **jamais** l'historique. **Ajoute ta nouvelle entrée À LA FIN du tableau `journal`** (jamais en tête) : le cockpit lit la **dernière** entrée du tableau comme la plus récente — c'est elle qui s'affiche dans « Aujourd'hui ». Si tu insères en tête, Eva voit un état des lieux périmé.
 
 ```json
 {

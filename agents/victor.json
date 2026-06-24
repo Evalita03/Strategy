@@ -8,13 +8,41 @@
       "synthese": "On part d'une page quasi blanche : l'entreprise n'est pas encore structurée. La priorité, c'est de poser la forme juridique — tout le reste en découle.",
       "etat_global": "Entreprise non encore immatriculée — structuration à lancer.",
       "domaines": [
-        { "nom": "Forme juridique", "statut": "a_faire", "resume": "Choisir le statut (micro-entreprise pour démarrer léger, ou EURL/SASU si tu vises la vente et des charges) — à arbitrer ensemble." },
-        { "nom": "Immatriculation & enregistrement", "statut": "a_faire", "resume": "Dépôt au guichet unique INPI pour obtenir SIRET + code APE. Vient juste après le choix du statut." },
-        { "nom": "Assurances", "statut": "a_faire", "resume": "Souscrire une RC Pro d'éditeur de logiciel (et étudier une cyber-assurance). À faire avant le premier client." },
-        { "nom": "Comptabilité, fiscalité & social", "statut": "a_faire", "resume": "Décider du régime de TVA, des obligations comptables et de l'opportunité d'un expert-comptable. Dépend du statut choisi." },
-        { "nom": "Contrats & conditions", "statut": "a_faire", "resume": "Préparer CGV/CGU et mentions légales de la plateforme. Le volet données du contrat client (DPA) revient à Cléo." },
-        { "nom": "Banque & administratif courant", "statut": "a_faire", "resume": "Ouvrir un compte bancaire dédié et poser une facturation conforme. Après l'immatriculation." },
-        { "nom": "Propriété intellectuelle & marque", "statut": "a_faire", "resume": "Vérifier la disponibilité puis déposer la marque « CPTS Pilot » à l'INPI. À caler avec Stella pour le nom/logo." }
+        {
+          "nom": "Forme juridique",
+          "statut": "a_faire",
+          "resume": "Choisir le statut (micro-entreprise pour démarrer léger, ou EURL/SASU si tu vises la vente et des charges) — à arbitrer ensemble."
+        },
+        {
+          "nom": "Immatriculation & enregistrement",
+          "statut": "a_faire",
+          "resume": "Dépôt au guichet unique INPI pour obtenir SIRET + code APE. Vient juste après le choix du statut."
+        },
+        {
+          "nom": "Assurances",
+          "statut": "a_faire",
+          "resume": "Souscrire une RC Pro d'éditeur de logiciel (et étudier une cyber-assurance). À faire avant le premier client."
+        },
+        {
+          "nom": "Comptabilité, fiscalité & social",
+          "statut": "a_faire",
+          "resume": "Décider du régime de TVA, des obligations comptables et de l'opportunité d'un expert-comptable. Dépend du statut choisi."
+        },
+        {
+          "nom": "Contrats & conditions",
+          "statut": "a_faire",
+          "resume": "Préparer CGV/CGU et mentions légales de la plateforme. Le volet données du contrat client (DPA) revient à Cléo."
+        },
+        {
+          "nom": "Banque & administratif courant",
+          "statut": "a_faire",
+          "resume": "Ouvrir un compte bancaire dédié et poser une facturation conforme. Après l'immatriculation."
+        },
+        {
+          "nom": "Propriété intellectuelle & marque",
+          "statut": "a_faire",
+          "resume": "Vérifier la disponibilité puis déposer la marque « CPTS Pilot » à l'INPI. À caler avec Stella pour le nom/logo."
+        }
       ],
       "prochaine_demarche": {
         "titre": "Choisir la forme juridique de CPTS Pilot",
@@ -23,9 +51,18 @@
       },
       "echeances": [],
       "relais": [
-        { "agent": "Cléo", "sujet": "RGPD, hébergement HDS et clause de protection des données (DPA) du contrat client" },
-        { "agent": "Orion", "sujet": "Réglementaire santé : statut éventuel de « dispositif médical » du logiciel et certification Ségur" },
-        { "agent": "Carla", "sujet": "Devis, facturation et onboarding des CPTS clientes (le commercial, pas l'administratif)" }
+        {
+          "agent": "Cléo",
+          "sujet": "RGPD, hébergement HDS et clause de protection des données (DPA) du contrat client"
+        },
+        {
+          "agent": "Orion",
+          "sujet": "Réglementaire santé : statut éventuel de « dispositif médical » du logiciel et certification Ségur"
+        },
+        {
+          "agent": "Carla",
+          "sujet": "Devis, facturation et onboarding des CPTS clientes (le commercial, pas l'administratif)"
+        }
       ],
       "note": "Premier point d'amorçage, écrit sans vérification web. À ma prochaine ronde, je vérifie à la source (service-public.fr, INPI, URSSAF) et je chiffre les options de statut pour qu'on décide sur du concret. Une chose à la fois : on commence par le statut."
     },
@@ -36,13 +73,41 @@
       "synthese": "Surprise heureuse : ta SASU CPTS Pilot est déjà créée et immatriculée (RCS Pau, mai 2026). Le plus dur est fait. Le chantier bascule de « créer l'entreprise » vers « la rendre vendable et conforme » : assurance, comptabilité, CGV, marque.",
       "etat_global": "SASU créée et immatriculée (RCS Pau, 28/05/2026) — phase post-création : sécuriser et préparer la vente.",
       "domaines": [
-        { "nom": "Forme juridique", "statut": "fait", "resume": "SASU « CPTS Pilot » créée, statuts signés le 14/05/2026 — forme adaptée à la vente et à une associée unique. Objet : édition de logiciels SaaS pour la santé + conseil/formation. ✔" },
-        { "nom": "Immatriculation & enregistrement", "statut": "fait", "resume": "Immatriculée au RCS de Pau le 28/05/2026, Kbis obtenu, dépôt des actes fait, bénéficiaires effectifs (RBE) déclarés. ✔" },
-        { "nom": "Assurances", "statut": "a_faire", "resume": "Aucune attestation RC Pro dans tes documents. À souscrire AVANT le premier client : RC Pro d'éditeur de logiciel (et cyber-assurance en option)." },
-        { "nom": "Comptabilité, fiscalité & social", "statut": "en_cours", "resume": "Une SASU doit tenir une comptabilité complète dès le 1er euro (1er exercice clôturé le 31/12/2026). À mettre en place : expert-comptable ou solution compta, régime de TVA, et ton statut social de présidente (rémunérée ou non)." },
-        { "nom": "Contrats & conditions", "statut": "a_faire", "resume": "CGV/CGU, mentions légales et politique de confidentialité du site à rédiger avant de commercialiser. Le volet protection des données (DPA) → Cléo." },
-        { "nom": "Banque & administratif courant", "statut": "en_cours", "resume": "Le capital (100 €) a été déposé pour créer la société. À confirmer : un compte bancaire pro dédié + une facturation conforme (mentions obligatoires) pour tes futures ventes." },
-        { "nom": "Propriété intellectuelle & marque", "statut": "a_faire", "resume": "Nom de domaine cpts-pilot.fr réservé ✔. Reste à déposer la MARQUE « CPTS Pilot » à l'INPI pour protéger le nom et le logo (à caler avec Stella)." }
+        {
+          "nom": "Forme juridique",
+          "statut": "fait",
+          "resume": "SASU « CPTS Pilot » créée, statuts signés le 14/05/2026 — forme adaptée à la vente et à une associée unique. Objet : édition de logiciels SaaS pour la santé + conseil/formation. ✔"
+        },
+        {
+          "nom": "Immatriculation & enregistrement",
+          "statut": "fait",
+          "resume": "Immatriculée au RCS de Pau le 28/05/2026, Kbis obtenu, dépôt des actes fait, bénéficiaires effectifs (RBE) déclarés. ✔"
+        },
+        {
+          "nom": "Assurances",
+          "statut": "a_faire",
+          "resume": "Aucune attestation RC Pro dans tes documents. À souscrire AVANT le premier client : RC Pro d'éditeur de logiciel (et cyber-assurance en option)."
+        },
+        {
+          "nom": "Comptabilité, fiscalité & social",
+          "statut": "en_cours",
+          "resume": "Une SASU doit tenir une comptabilité complète dès le 1er euro (1er exercice clôturé le 31/12/2026). À mettre en place : expert-comptable ou solution compta, régime de TVA, et ton statut social de présidente (rémunérée ou non)."
+        },
+        {
+          "nom": "Contrats & conditions",
+          "statut": "a_faire",
+          "resume": "CGV/CGU, mentions légales et politique de confidentialité du site à rédiger avant de commercialiser. Le volet protection des données (DPA) → Cléo."
+        },
+        {
+          "nom": "Banque & administratif courant",
+          "statut": "en_cours",
+          "resume": "Le capital (100 €) a été déposé pour créer la société. À confirmer : un compte bancaire pro dédié + une facturation conforme (mentions obligatoires) pour tes futures ventes."
+        },
+        {
+          "nom": "Propriété intellectuelle & marque",
+          "statut": "a_faire",
+          "resume": "Nom de domaine cpts-pilot.fr réservé ✔. Reste à déposer la MARQUE « CPTS Pilot » à l'INPI pour protéger le nom et le logo (à caler avec Stella)."
+        }
       ],
       "prochaine_demarche": {
         "titre": "Mettre en place ta comptabilité (choisir un expert-comptable ou une solution compta)",
@@ -50,32 +115,553 @@
         "domaine": "Comptabilité, fiscalité & social"
       },
       "echeances": [
-        { "titre": "Clôture du 1er exercice social (bilan + liasse fiscale à déposer dans les mois qui suivent)", "date": "31/12/2026", "domaine": "Comptabilité / Fiscal" },
-        { "titre": "Souscrire la RC Pro avant la première vente", "date": "avant le 1er client", "domaine": "Assurances" }
+        {
+          "titre": "Clôture du 1er exercice social (bilan + liasse fiscale à déposer dans les mois qui suivent)",
+          "date": "31/12/2026",
+          "domaine": "Comptabilité / Fiscal"
+        },
+        {
+          "titre": "Souscrire la RC Pro avant la première vente",
+          "date": "avant le 1er client",
+          "domaine": "Assurances"
+        }
       ],
       "checklist": [
-        { "id": "vc-forme", "label": "Créer la société (forme juridique SASU)", "domaine": "Forme juridique", "fait": true },
-        { "id": "vc-immat", "label": "Immatriculer l'entreprise (RCS Pau, Kbis obtenu)", "domaine": "Immatriculation", "fait": true },
-        { "id": "vc-rbe", "label": "Déclarer les bénéficiaires effectifs (RBE)", "domaine": "Immatriculation", "fait": true },
-        { "id": "vc-domiciliation", "label": "Domicilier le siège social", "domaine": "Immatriculation", "fait": true },
-        { "id": "vc-domaine", "label": "Réserver le nom de domaine (cpts-pilot.fr)", "domaine": "Marque", "fait": true },
-        { "id": "vc-compta", "label": "Choisir un expert-comptable (ou une solution de comptabilité en ligne)", "domaine": "Comptabilité, fiscalité & social", "echeance": "priorité", "fait": false },
-        { "id": "vc-tva", "label": "Clarifier ton régime de TVA", "domaine": "Comptabilité, fiscalité & social", "fait": false },
-        { "id": "vc-social", "label": "Clarifier ton statut social de présidente (rémunérée ou non) et les cotisations", "domaine": "Comptabilité, fiscalité & social", "fait": false },
-        { "id": "vc-rcpro", "label": "Souscrire une assurance RC Pro d'éditeur de logiciel", "domaine": "Assurances", "echeance": "avant le 1er client", "fait": false },
-        { "id": "vc-cyber", "label": "Étudier une cyber-assurance (option)", "domaine": "Assurances", "fait": false },
-        { "id": "vc-cgv", "label": "Rédiger les CGV/CGU de la plateforme", "domaine": "Contrats & conditions", "fait": false },
-        { "id": "vc-mentions", "label": "Rédiger mentions légales + politique de confidentialité (RGPD avec Cléo)", "domaine": "Contrats & conditions", "fait": false },
-        { "id": "vc-compte", "label": "Confirmer/ouvrir un compte bancaire pro dédié", "domaine": "Banque", "fait": false },
-        { "id": "vc-facturation", "label": "Mettre en place une facturation conforme (mentions obligatoires)", "domaine": "Banque", "fait": false },
-        { "id": "vc-marque", "label": "Déposer la marque « CPTS Pilot » à l'INPI (avec Stella)", "domaine": "Marque", "fait": false }
+        {
+          "id": "vc-forme",
+          "label": "Créer la société (forme juridique SASU)",
+          "domaine": "Forme juridique",
+          "fait": true
+        },
+        {
+          "id": "vc-immat",
+          "label": "Immatriculer l'entreprise (RCS Pau, Kbis obtenu)",
+          "domaine": "Immatriculation",
+          "fait": true
+        },
+        {
+          "id": "vc-rbe",
+          "label": "Déclarer les bénéficiaires effectifs (RBE)",
+          "domaine": "Immatriculation",
+          "fait": true
+        },
+        {
+          "id": "vc-domiciliation",
+          "label": "Domicilier le siège social",
+          "domaine": "Immatriculation",
+          "fait": true
+        },
+        {
+          "id": "vc-domaine",
+          "label": "Réserver le nom de domaine (cpts-pilot.fr)",
+          "domaine": "Marque",
+          "fait": true
+        },
+        {
+          "id": "vc-compta",
+          "label": "Choisir un expert-comptable (ou une solution de comptabilité en ligne)",
+          "domaine": "Comptabilité, fiscalité & social",
+          "echeance": "priorité",
+          "fait": false
+        },
+        {
+          "id": "vc-tva",
+          "label": "Clarifier ton régime de TVA",
+          "domaine": "Comptabilité, fiscalité & social",
+          "fait": false
+        },
+        {
+          "id": "vc-social",
+          "label": "Clarifier ton statut social de présidente (rémunérée ou non) et les cotisations",
+          "domaine": "Comptabilité, fiscalité & social",
+          "fait": false
+        },
+        {
+          "id": "vc-rcpro",
+          "label": "Souscrire une assurance RC Pro d'éditeur de logiciel",
+          "domaine": "Assurances",
+          "echeance": "avant le 1er client",
+          "fait": false
+        },
+        {
+          "id": "vc-cyber",
+          "label": "Étudier une cyber-assurance (option)",
+          "domaine": "Assurances",
+          "fait": false
+        },
+        {
+          "id": "vc-cgv",
+          "label": "Rédiger les CGV/CGU de la plateforme",
+          "domaine": "Contrats & conditions",
+          "fait": false
+        },
+        {
+          "id": "vc-mentions",
+          "label": "Rédiger mentions légales + politique de confidentialité (RGPD avec Cléo)",
+          "domaine": "Contrats & conditions",
+          "fait": false
+        },
+        {
+          "id": "vc-compte",
+          "label": "Confirmer/ouvrir un compte bancaire pro dédié",
+          "domaine": "Banque",
+          "fait": false
+        },
+        {
+          "id": "vc-facturation",
+          "label": "Mettre en place une facturation conforme (mentions obligatoires)",
+          "domaine": "Banque",
+          "fait": false
+        },
+        {
+          "id": "vc-marque",
+          "label": "Déposer la marque « CPTS Pilot » à l'INPI (avec Stella)",
+          "domaine": "Marque",
+          "fait": false
+        }
       ],
       "relais": [
-        { "agent": "Cléo", "sujet": "RGPD, hébergement HDS et politique de confidentialité / clause DPA du contrat client (tu vas traiter des données de santé)" },
-        { "agent": "Orion", "sujet": "Réglementaire santé : statut éventuel de « dispositif médical » du logiciel et certification Ségur" },
-        { "agent": "Carla", "sujet": "Devis, facturation et onboarding des CPTS clientes (le commercial)" }
+        {
+          "agent": "Cléo",
+          "sujet": "RGPD, hébergement HDS et politique de confidentialité / clause DPA du contrat client (tu vas traiter des données de santé)"
+        },
+        {
+          "agent": "Orion",
+          "sujet": "Réglementaire santé : statut éventuel de « dispositif médical » du logiciel et certification Ségur"
+        },
+        {
+          "agent": "Carla",
+          "sujet": "Devis, facturation et onboarding des CPTS clientes (le commercial)"
+        }
       ],
       "note": "Mise à jour majeure d'après tes vrais documents (Kbis, statuts, certificat de dépôt d'actes, RBE, attestations de domiciliation et de parution). Je n'ai mis ICI aucune donnée personnelle (adresse, date de naissance, n° d'identification) : elles restent dans tes fichiers privés du dossier prive/. Prochaine ronde : je vérifie à la source les points chiffrés (régime de TVA d'une SASU, statut social du président, échéances exactes de dépôt des comptes) et je te propose 2-3 pistes concrètes d'expert-comptable / d'assurance RC Pro."
+    },
+    {
+      "agent": "victor",
+      "updated_at": "2026-06-24",
+      "trigger": "Ronde en session",
+      "synthese": "La SASU est créée et immatriculée : on passe de la « création » à la « mise en route fiscale ». Le courrier des impôts confirme ton SIE (Béarn-Soule, Pau) et tes obligations en ligne. Priorité immédiate : ouvrir ton espace professionnel sur impots.gouv.fr (le code arrive par courrier, ça prend du temps) — c'est le sésame de toutes tes télédéclarations.",
+      "etat_global": "SASU immatriculée — mise en route fiscale et administrative en cours (espace pro, TVA, assurances, marque).",
+      "domaines": [
+        {
+          "nom": "Forme juridique",
+          "statut": "fait",
+          "resume": "SASU « CPTS Pilot », capital 100 €, présidente Eva POULMARCH, statuts signés le 14/05/2026. Siège : 4 rue du Faubourg, 64160 Riupeyrous. 1er exercice clos le 31/12/2026. ✔"
+        },
+        {
+          "nom": "Immatriculation & enregistrement",
+          "statut": "fait",
+          "resume": "Immatriculée au RCS de Pau (28/05/2026), SIE de rattachement confirmé par les impôts = SIE Béarn-Soule, 29 rue Monpezat, 64016 Pau Cedex. ✔"
+        },
+        {
+          "nom": "Assurances",
+          "statut": "a_faire",
+          "resume": "Toujours aucune attestation RC Pro au dossier. À souscrire AVANT le 1er client : RC Pro éditeur de logiciel, + cyber-assurance (option pertinente vu les données traitées)."
+        },
+        {
+          "nom": "Comptabilité, fiscalité & social",
+          "statut": "en_cours",
+          "resume": "Le courrier impôts pose le cadre : obligation de tout télédéclarer/télépayer via l'espace pro (TVA, IS, CFE, CVAE). À faire vite : créer l'espace pro, choisir le régime de TVA, et idéalement un expert-comptable pour le 1er bilan (clôture 31/12/2026)."
+        },
+        {
+          "nom": "Contrats & conditions",
+          "statut": "a_faire",
+          "resume": "CGV/CGU, mentions légales, politique de confidentialité à rédiger avant commercialisation. Volet RGPD/DPA → Cléo."
+        },
+        {
+          "nom": "Banque & administratif courant",
+          "statut": "en_cours",
+          "resume": "Capital déposé à la banque Indy (cf. statuts). À l'activation de l'espace pro, penser à renseigner le compte bancaire pro pour les télépaiements (TVA, IS, CFE)."
+        },
+        {
+          "nom": "Propriété intellectuelle & marque",
+          "statut": "a_faire",
+          "resume": "Domaine cpts-pilot.fr réservé. Reste à déposer la MARQUE « CPTS Pilot » à l'INPI (à caler avec Stella)."
+        }
+      ],
+      "prochaine_demarche": {
+        "titre": "Créer ton espace professionnel sur impots.gouv.fr (mode simplifié)",
+        "pourquoi": "Le courrier de ton SIE (Béarn-Soule) le rend obligatoire : toutes tes déclarations et paiements (TVA, IS, CFE, CVAE) passent par cet espace, et c'est aussi là que tu édites ton attestation de régularité fiscale (utile pour les marchés publics — pertinent avec des clients CPTS). ATTENTION au délai : tu saisis ton SIREN + un e-mail, puis le code d'activation t'est envoyé PAR COURRIER POSTAL sous ~15 jours, et tu as 60 jours pour l'activer. Vérifié sur impots.gouv.fr. À lancer maintenant pour ne pas être bloquée plus tard, notamment avant la déclaration CFE de fin d'année.",
+        "domaine": "Comptabilité, fiscalité & social"
+      },
+      "echeances": [
+        {
+          "titre": "Déclaration initiale de CFE (formulaire 1447-C-SD) à déposer auprès du SIE — obligatoire pour la 1re année (tu es exonérée de CFE l'année de création, mais SEULEMENT si tu déposes cette déclaration)",
+          "date": "2026-12-31",
+          "domaine": "Comptabilité / Fiscal"
+        },
+        {
+          "titre": "Clôture du 1er exercice social (bilan + liasse fiscale)",
+          "date": "2026-12-31",
+          "domaine": "Comptabilité / Fiscal"
+        },
+        {
+          "titre": "Activer l'espace professionnel impots.gouv.fr avec le code reçu par courrier (à faire dans les 60 jours suivant la demande, sinon le code expire)",
+          "date": "dans les 60 jours après la demande de création",
+          "domaine": "Comptabilité / Fiscal"
+        },
+        {
+          "titre": "Approbation des comptes du 1er exercice par l'associée unique (dans les 6 mois après clôture, cf. statuts art. 16)",
+          "date": "avant le 30/06/2027",
+          "domaine": "Comptabilité / Fiscal"
+        },
+        {
+          "titre": "Télédéclaration du résultat (IS) du 1er exercice",
+          "date": "2e jour ouvré après le 1er mai 2027 (~mi-mai 2027)",
+          "domaine": "Comptabilité / Fiscal"
+        },
+        {
+          "titre": "Solde d'IS du 1er exercice à payer",
+          "date": "au plus tard le 15/05/2027",
+          "domaine": "Comptabilité / Fiscal"
+        },
+        {
+          "titre": "1re déclaration annuelle de TVA (CA12) SI tu es au régime réel simplifié — à confirmer selon ton régime de TVA réel",
+          "date": "2e jour ouvré après le 1er mai 2027 (à confirmer)",
+          "domaine": "Comptabilité / Fiscal"
+        },
+        {
+          "titre": "Souscrire la RC Pro avant la première vente",
+          "date": "avant le 1er client",
+          "domaine": "Assurances"
+        }
+      ],
+      "checklist": [
+        {
+          "id": "vc-forme",
+          "label": "Créer la société (forme juridique SASU)",
+          "domaine": "Forme juridique",
+          "fait": true
+        },
+        {
+          "id": "vc-immat",
+          "label": "Immatriculer l'entreprise (RCS Pau, Kbis obtenu)",
+          "domaine": "Immatriculation",
+          "fait": true
+        },
+        {
+          "id": "vc-rbe",
+          "label": "Déclarer les bénéficiaires effectifs (RBE)",
+          "domaine": "Immatriculation",
+          "fait": true
+        },
+        {
+          "id": "vc-domiciliation",
+          "label": "Domicilier le siège social",
+          "domaine": "Immatriculation",
+          "fait": true
+        },
+        {
+          "id": "vc-domaine",
+          "label": "Réserver le nom de domaine (cpts-pilot.fr)",
+          "domaine": "Marque",
+          "fait": true
+        },
+        {
+          "id": "vc-espacepro",
+          "label": "Créer et activer l'espace professionnel sur impots.gouv.fr (code par courrier sous ~15 j, à activer sous 60 j)",
+          "domaine": "Comptabilité, fiscalité & social",
+          "echeance": "priorité",
+          "fait": false
+        },
+        {
+          "id": "vc-cfe",
+          "label": "Déposer la déclaration initiale de CFE (1447-C-SD) avant le 31/12/2026",
+          "domaine": "Comptabilité, fiscalité & social",
+          "echeance": "2026-12-31",
+          "fait": false
+        },
+        {
+          "id": "vc-compta",
+          "label": "Choisir un expert-comptable (ou une solution de comptabilité en ligne)",
+          "domaine": "Comptabilité, fiscalité & social",
+          "fait": false
+        },
+        {
+          "id": "vc-tva",
+          "label": "Clarifier ton régime de TVA (franchise en base ou réel — attention : le régime réel simplifié disparaît au 01/01/2027)",
+          "domaine": "Comptabilité, fiscalité & social",
+          "fait": false
+        },
+        {
+          "id": "vc-social",
+          "label": "Clarifier ton statut social de présidente (rémunérée ou non) et les cotisations",
+          "domaine": "Comptabilité, fiscalité & social",
+          "fait": false
+        },
+        {
+          "id": "vc-rcpro",
+          "label": "Souscrire une assurance RC Pro d'éditeur de logiciel",
+          "domaine": "Assurances",
+          "echeance": "avant le 1er client",
+          "fait": false
+        },
+        {
+          "id": "vc-cyber",
+          "label": "Étudier une cyber-assurance (option)",
+          "domaine": "Assurances",
+          "fait": false
+        },
+        {
+          "id": "vc-cgv",
+          "label": "Rédiger les CGV/CGU de la plateforme",
+          "domaine": "Contrats & conditions",
+          "fait": false
+        },
+        {
+          "id": "vc-mentions",
+          "label": "Rédiger mentions légales + politique de confidentialité (RGPD avec Cléo)",
+          "domaine": "Contrats & conditions",
+          "fait": false
+        },
+        {
+          "id": "vc-compte",
+          "label": "Confirmer/ouvrir un compte bancaire pro dédié + le renseigner dans l'espace pro pour les télépaiements",
+          "domaine": "Banque",
+          "fait": false
+        },
+        {
+          "id": "vc-facturation",
+          "label": "Mettre en place une facturation conforme (mentions obligatoires)",
+          "domaine": "Banque",
+          "fait": false
+        },
+        {
+          "id": "vc-marque",
+          "label": "Déposer la marque « CPTS Pilot » à l'INPI (avec Stella)",
+          "domaine": "Marque",
+          "fait": false
+        }
+      ],
+      "relais": [
+        {
+          "agent": "Cléo",
+          "sujet": "RGPD, hébergement HDS et politique de confidentialité / clause DPA du contrat client (données de santé)"
+        },
+        {
+          "agent": "Orion",
+          "sujet": "Réglementaire santé : statut éventuel de « dispositif médical » du logiciel et certification Ségur"
+        },
+        {
+          "agent": "Carla",
+          "sujet": "Devis, facturation et onboarding des CPTS clientes ; attestation de régularité fiscale utile pour répondre à des marchés publics"
+        }
+      ],
+      "note": "Ronde appuyée sur tes 2 vrais documents (statuts signés + courrier impôts.gouv.fr). Tout est vérifié à la source : création de l'espace pro (code postal ~15 j, activation sous 60 j), exonération de CFE l'année de création MAIS sous condition de déposer la déclaration 1447-C-SD avant le 31/12/2026, IS du 1er exercice déclaré/payé en mai 2027, pas d'acomptes d'IS la 1re année. Point à clarifier avec ton expert-comptable : ton RÉGIME DE TVA réel (franchise en base vs réel) — je n'ai pas tes chiffres prévisionnels ; et note que le régime réel simplifié de TVA disparaît au 01/01/2027. Aucune donnée personnelle sensible recopiée ici (elles restent dans prive/)."
+    },
+    {
+      "agent": "victor",
+      "updated_at": "2026-06-24",
+      "trigger": "Ronde en session (complément : courrier greffe de Pau)",
+      "synthese": "Le greffe de Pau confirme que ton dossier RCS est régularisé et te donne ton numéro officiel : RCS Pau / SIREN 105 247 977. C'est exactement le numéro qu'il te faut pour ouvrir ton espace pro impots.gouv.fr. Joint au courrier, un bon de commande de registres : c'est une OFFRE COMMERCIALE du greffe, pas une facture due — tu n'as qu'un seul registre vraiment utile à te procurer, et tu peux le faire parapher gratuitement en mairie.",
+      "etat_global": "SASU immatriculée, SIREN officiel reçu (105 247 977) — mise en route fiscale et administrative en cours.",
+      "domaines": [
+        {
+          "nom": "Forme juridique",
+          "statut": "fait",
+          "resume": "SASU « CPTS Pilot », capital 100 €, présidente Eva POULMARCH, statuts signés le 14/05/2026. 1er exercice clos le 31/12/2026. ✔"
+        },
+        {
+          "nom": "Immatriculation & enregistrement",
+          "statut": "fait",
+          "resume": "RCS régularisé (greffe de Pau). Numéro officiel : RCS PAU / SIREN 105 247 977. Siège : 4 rue du Faubourg, 64160 Riupeyrous. Formalités possibles sur infogreffe.fr. ✔"
+        },
+        {
+          "nom": "Assurances",
+          "statut": "a_faire",
+          "resume": "Toujours aucune RC Pro au dossier. À souscrire AVANT le 1er client : RC Pro éditeur de logiciel + cyber-assurance (option)."
+        },
+        {
+          "nom": "Comptabilité, fiscalité & social",
+          "statut": "en_cours",
+          "resume": "Obligation de tout télédéclarer via l'espace pro (TVA, IS, CFE). À faire : créer l'espace pro (tu as le SIREN maintenant), te procurer le registre des décisions de l'associée unique, choisir un régime de TVA et idéalement un expert-comptable."
+        },
+        {
+          "nom": "Contrats & conditions",
+          "statut": "a_faire",
+          "resume": "CGV/CGU, mentions légales, politique de confidentialité à rédiger avant commercialisation. Volet RGPD/DPA → Cléo."
+        },
+        {
+          "nom": "Banque & administratif courant",
+          "statut": "en_cours",
+          "resume": "Capital déposé à la banque Indy. À renseigner dans l'espace pro pour les télépaiements. NB : le bon de commande du greffe propose un règlement sur un compte Société Générale — n'y règle QUE ce qui t'est utile (voir note)."
+        },
+        {
+          "nom": "Propriété intellectuelle & marque",
+          "statut": "a_faire",
+          "resume": "Domaine cpts-pilot.fr réservé. Reste à déposer la MARQUE « CPTS Pilot » à l'INPI (avec Stella)."
+        }
+      ],
+      "prochaine_demarche": {
+        "titre": "Créer ton espace professionnel sur impots.gouv.fr avec ton SIREN 105 247 977",
+        "pourquoi": "Tu as maintenant le numéro officiel qui te manquait : SIREN 105 247 977 (RCS Pau). C'est l'info de blocage qui est levée. Va sur impots.gouv.fr → « Votre espace professionnel » → « Créer mon espace » (mode simplifié), saisis ce SIREN + un e-mail société. Le code d'activation arrive ensuite PAR COURRIER sous ~15 jours (à activer dans les 60 jours). C'est le préalable à toutes tes déclarations (TVA, IS, CFE) et à ton attestation de régularité fiscale. À lancer cette semaine. En parallèle, tâche secondaire simple : te procurer le registre des décisions de l'associée unique (voir échéances/note).",
+        "domaine": "Comptabilité, fiscalité & social"
+      },
+      "echeances": [
+        {
+          "titre": "Se procurer le registre des décisions de l'associée unique (obligatoire en SASU, prévu art. 12 & 14 de tes statuts) et le faire coter/parapher — gratuitement en MAIRIE du siège ou par le tribunal, PAS forcément via l'offre payante du greffe",
+          "date": "avant ta 1re décision formelle (ex. approbation des comptes 2026)",
+          "domaine": "Comptabilité / Fiscal"
+        },
+        {
+          "titre": "Déclaration initiale de CFE (1447-C-SD) — exonération 1re année conditionnée à ce dépôt",
+          "date": "2026-12-31",
+          "domaine": "Comptabilité / Fiscal"
+        },
+        {
+          "titre": "Clôture du 1er exercice social (bilan + liasse fiscale)",
+          "date": "2026-12-31",
+          "domaine": "Comptabilité / Fiscal"
+        },
+        {
+          "titre": "Activer l'espace pro impots.gouv.fr avec le code reçu par courrier (sous 60 jours, sinon il expire)",
+          "date": "dans les 60 jours après la demande de création",
+          "domaine": "Comptabilité / Fiscal"
+        },
+        {
+          "titre": "Approbation des comptes du 1er exercice par l'associée unique (à consigner au registre des décisions ; dans les 6 mois après clôture, art. 16 des statuts)",
+          "date": "avant le 30/06/2027",
+          "domaine": "Comptabilité / Fiscal"
+        },
+        {
+          "titre": "Télédéclaration du résultat (IS) du 1er exercice + paiement du solde",
+          "date": "déclaration ~mi-mai 2027 / solde au plus tard le 15/05/2027",
+          "domaine": "Comptabilité / Fiscal"
+        },
+        {
+          "titre": "Souscrire la RC Pro avant la première vente",
+          "date": "avant le 1er client",
+          "domaine": "Assurances"
+        }
+      ],
+      "checklist": [
+        {
+          "id": "vc-forme",
+          "label": "Créer la société (forme juridique SASU)",
+          "domaine": "Forme juridique",
+          "fait": true
+        },
+        {
+          "id": "vc-immat",
+          "label": "Immatriculer l'entreprise (RCS Pau 105 247 977, dossier régularisé)",
+          "domaine": "Immatriculation",
+          "fait": true
+        },
+        {
+          "id": "vc-rbe",
+          "label": "Déclarer les bénéficiaires effectifs (RBE)",
+          "domaine": "Immatriculation",
+          "fait": true
+        },
+        {
+          "id": "vc-domiciliation",
+          "label": "Domicilier le siège social",
+          "domaine": "Immatriculation",
+          "fait": true
+        },
+        {
+          "id": "vc-domaine",
+          "label": "Réserver le nom de domaine (cpts-pilot.fr)",
+          "domaine": "Marque",
+          "fait": true
+        },
+        {
+          "id": "vc-espacepro",
+          "label": "Créer et activer l'espace professionnel impots.gouv.fr (SIREN 105 247 977 ; code par courrier ~15 j, activation sous 60 j)",
+          "domaine": "Comptabilité, fiscalité & social",
+          "echeance": "priorité",
+          "fait": false
+        },
+        {
+          "id": "vc-registre",
+          "label": "Se procurer le registre des décisions de l'associée unique + cote/paraphe (mairie du siège, gratuit) — ne PAS sur-acheter au greffe",
+          "domaine": "Comptabilité, fiscalité & social",
+          "fait": false
+        },
+        {
+          "id": "vc-cfe",
+          "label": "Déposer la déclaration initiale de CFE (1447-C-SD) avant le 31/12/2026",
+          "domaine": "Comptabilité, fiscalité & social",
+          "echeance": "2026-12-31",
+          "fait": false
+        },
+        {
+          "id": "vc-compta",
+          "label": "Choisir un expert-comptable (ou une solution de comptabilité en ligne)",
+          "domaine": "Comptabilité, fiscalité & social",
+          "fait": false
+        },
+        {
+          "id": "vc-tva",
+          "label": "Clarifier ton régime de TVA (réel simplifié supprimé au 01/01/2027)",
+          "domaine": "Comptabilité, fiscalité & social",
+          "fait": false
+        },
+        {
+          "id": "vc-social",
+          "label": "Clarifier ton statut social de présidente (rémunérée ou non) et les cotisations",
+          "domaine": "Comptabilité, fiscalité & social",
+          "fait": false
+        },
+        {
+          "id": "vc-rcpro",
+          "label": "Souscrire une assurance RC Pro d'éditeur de logiciel",
+          "domaine": "Assurances",
+          "echeance": "avant le 1er client",
+          "fait": false
+        },
+        {
+          "id": "vc-cyber",
+          "label": "Étudier une cyber-assurance (option)",
+          "domaine": "Assurances",
+          "fait": false
+        },
+        {
+          "id": "vc-cgv",
+          "label": "Rédiger les CGV/CGU de la plateforme",
+          "domaine": "Contrats & conditions",
+          "fait": false
+        },
+        {
+          "id": "vc-mentions",
+          "label": "Rédiger mentions légales + politique de confidentialité (RGPD avec Cléo)",
+          "domaine": "Contrats & conditions",
+          "fait": false
+        },
+        {
+          "id": "vc-compte",
+          "label": "Confirmer/ouvrir un compte bancaire pro dédié + le renseigner dans l'espace pro",
+          "domaine": "Banque",
+          "fait": false
+        },
+        {
+          "id": "vc-facturation",
+          "label": "Mettre en place une facturation conforme (mentions obligatoires)",
+          "domaine": "Banque",
+          "fait": false
+        },
+        {
+          "id": "vc-marque",
+          "label": "Déposer la marque « CPTS Pilot » à l'INPI (avec Stella)",
+          "domaine": "Marque",
+          "fait": false
+        }
+      ],
+      "relais": [
+        {
+          "agent": "Cléo",
+          "sujet": "RGPD, hébergement HDS et politique de confidentialité / clause DPA (données de santé)"
+        },
+        {
+          "agent": "Orion",
+          "sujet": "Réglementaire santé : statut « dispositif médical » du logiciel et certification Ségur"
+        },
+        {
+          "agent": "Carla",
+          "sujet": "Devis, facturation, onboarding CPTS ; attestation de régularité fiscale pour marchés publics"
+        }
+      ],
+      "note": "Lecture du bon de commande du greffe (vérifiée à la source service-public.fr) — À NE PAS tout acheter : (1) Registre des décisions de l'associée unique = OUI obligatoire en SASU (déjà prévu art. 12 & 14 de tes statuts) — un seul registre suffit (le greffe le facture 25 € + 2,85 € de paraphe) ; MAIS la cote et le paraphe peuvent être faits GRATUITEMENT par le maire (ou un adjoint) de la commune du siège, ou par le tribunal — le paraphe « par le greffe » n'est qu'une option payante, pas une obligation de passer par eux. Le registre peut même être tenu sous forme électronique si les statuts le prévoient. Conservation : au moins 5-6 ans. (2) Registres « conseil d'administration » et « conseil de surveillance » = NON, ta SASU n'a pas ces organes, ne les achète pas. (3) Livre-journal et livre d'inventaire = obligations COMPTABLES : en pratique tenus par ton expert-comptable / un logiciel de compta, tu n'as pas à les acheter au greffe. Bilan : au pire tu prends UN registre des décisions (~25-28 €), ou tu le gères en mairie/électronique pour quasi rien. Tout le reste du bon de commande = offre commerciale facultative. SIREN officiel 105 247 977 intégré (donnée d'immatriculation, non sensible)."
     }
   ]
 }
