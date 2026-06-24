@@ -419,7 +419,7 @@
           "date": "2026-06-24"
         }
       ],
-      "concurrence_synthese": "Marché stable en nombre (~7 éditeurs dédiés + les généralistes), mais le mouvement vient des plateformes généralistes : Doctolib muscle sa coordination (Siilo → Doctolib Connect, téléexpertise 2026) et reste l'angle mort n°1 par sa force de frappe. Les dédiés (Citana en tête, Coordo sur le créneau simple/abordable) campent sur le pilotage ACI, devenu un attendu de base. La différenciation se joue sur la simplicité, le regard métier de coordinatrice et l'ouverture (ne pas enfermer la CPTS dans un seul écosystème comme Doctolib).",
+      "concurrence_synthese": "Marché stable en nombre (~7 éditeurs dédiés + les généralistes), mais le mouvement vient des plateformes généralistes : Doctolib muscle sa coordination (Siilo → Doctolib Connect, téléexpertise 2026) et reste l'angle mort n°1 par sa force de frappe. Les dédiés (Citana en tête, Coordo sur le créneau simple/abordable, Plexus Santé qui mord directement sur la cible coordinatrice avec une répartition ACI et un prix bas) campent sur le pilotage ACI, devenu un attendu de base. La différenciation se joue sur la simplicité, le regard métier de coordinatrice et l'ouverture (ne pas enfermer la CPTS dans un seul écosystème comme Doctolib).",
       "concurrents": [
         {
           "nom": "Doctolib (logiciel CPTS + Doctolib Connect)",
@@ -485,6 +485,23 @@
           ],
           "strategie": "Transparence des prix + contenu (comparatif, guides ACI) pour attirer les CPTS qui comparent",
           "vs_toi": "Ton concurrent le plus proche. Différencie-toi par ton regard de coordinatrice de terrain et une vision plus large que la seule orientation patient (vie associative, pilotage global, remontée ACI).",
+          "maj": "2026-06-24"
+        },
+        {
+          "nom": "Plexus Santé",
+          "site": "https://plexus-sante.fr",
+          "categorie": "dédié CPTS",
+          "menace": "directe",
+          "positionnement": "Plateforme de coordination MSP & CPTS pensée pour les coordinateurs : socle documentaire souverain (NextCloud + OnlyOffice, hébergé en France), répartition et suivi des ACI/budgets en temps réel, annuaire de territoire et gestion de projets",
+          "cible": "Coordinateurs/coordinatrices de MSP et de CPTS, y compris les CPTS jeunes (en constitution / pré-ACI)",
+          "prix": "Transparent : 100 € TTC/mois pour les CPTS en constitution ou pré-ACI ; remises pour les adhérents FéeCOIA (5 à 10 % sur 24 mois)",
+          "forces": ["Hébergement français sur socle open-source reconnu (NextCloud/OnlyOffice) — argument souveraineté", "Répartition ACI en temps réel + suivi budgétaire pluriannuel par projet", "Base installée déjà large (~700 structures CPTS/MSP/DAC)", "Apps iOS et Android", "Prix bas et transparent, accessible dès la constitution", "Pensé pour le métier de coordinatrice", "Distribution via fédérations (partenariat FéeCOIA)"],
+          "faiblesses": ["Hébergement « hors périmètre données de santé » (pas un socle HDS pour la donnée patient sensible)", "Cœur documentaire NextCloud généraliste plutôt qu'un outil métier de bout en bout", "Peu/pas orienté soins non programmés et prise de RDV patient", "Expérience proche d'une suite bureautique partagée, moins d'un produit guidé"],
+          "actualite": [
+            { "date": "2026", "fait": "Partenariat FéeCOIA : tarif préférentiel pour les MSP/CPTS adhérentes ; ~700 structures équipées", "source": "https://feecoia.com/plateforme-plexus-sante-un-tarif-preferentiel-pour-tous-nos-adherents/" }
+          ],
+          "strategie": "Prix bas d'entrée pour capter les CPTS dès la constitution, socle documentaire souverain (France/open-source), et distribution par les fédérations et réseaux (FéeCOIA)",
+          "vs_toi": "Concurrent direct sur ta cible (la coordinatrice) et sur la répartition ACI. À ne pas sous-estimer : prix bas et grosse base installée. Démarque-toi par un produit pensé de bout en bout (pilotage + vie de communauté + remontée ACI exploitable) et par une expérience simple et belle, là où Plexus reste un socle NextCloud à organiser soi-même. Surveille leur hébergement : un vrai socle HDS pour la donnée patient est un terrain où tu peux prendre l'avantage.",
           "maj": "2026-06-24"
         },
         {
