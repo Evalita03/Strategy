@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-24T16:58:44.752Z",
+  "exportedAt": "2026-06-24T19:56:56.488Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7134,6 +7134,50 @@
         "enRoadmap": false,
         "etat": "active",
         "taskId": "mqpf0d9wkqfbr"
+      },
+      {
+        "id": "mqshu7e7s4vmq",
+        "key": "faire de la remontée de données aci exploitable ton argument n°1",
+        "titre": "Faire de la remontée de données ACI exploitable ton argument n°1",
+        "type": "coup",
+        "fromDate": "2026-06-24",
+        "agent": "orion",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mqshu7e7stmhv",
+        "key": "préparer les indicateurs « france santé » avant l'avenant cpts",
+        "titre": "Préparer les indicateurs « France Santé » avant l'avenant CPTS",
+        "type": "coup",
+        "fromDate": "2026-06-24",
+        "agent": "orion",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mqshu7e7b5rnx",
+        "key": "aller aux journées nationales des cpts à bordeaux (4-5/11/2026)",
+        "titre": "Aller aux Journées nationales des CPTS à Bordeaux (4-5/11/2026)",
+        "type": "coup",
+        "fromDate": "2026-06-24",
+        "agent": "orion",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mqshu7e766yxi",
+        "key": "jouer l'ouverture contre l'enfermement doctolib",
+        "titre": "Jouer l'ouverture contre l'enfermement Doctolib",
+        "type": "coup",
+        "fromDate": "2026-06-24",
+        "agent": "orion",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
       }
     ],
     "agentChats": {
@@ -7224,7 +7268,7 @@
       }
     },
     "lastSeenReport": {
-      "orion": "2026-06-06",
+      "orion": "2026-06-24",
       "chef-produit": "2026-06-17",
       "victor": "2026-06-22"
     },
