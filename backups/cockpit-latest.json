@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-24T09:29:18.667Z",
+  "exportedAt": "2026-06-24T13:54:59.972Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7187,6 +7187,14 @@
         {
           "role": "assistant",
           "content": "Bonne remarque — et la réponse est simple :\n\n**Doctolib n'est pas un concurrent de CPTS Pilot.**\n\n---\n\n## Pourquoi\n\n- Doctolib est un **outil de prise de rendez-vous et de gestion de cabinet** — il s'adresse aux **praticiens individuels** (agenda, téléconsultation, dossier patient)\n- CPTS Pilot est un **outil de gestion de la structure CPTS elle-même** — il s'adresse à la **coordinatrice** (vie associative, déclarations, trésorerie, pilotage ACI)\n\nCe sont deux niveaux différents :\n- Doctolib = l'outil du **soignant dans son cabinet**\n- CPTS Pilot = l'outil de la **communauté qui fédère ces soignants**\n\n---\n\n## La nuance à avoir en tête\n\nDoctolib pousse depuis quelques années des fonctions de **coordination territoriale** (messagerie sécurisée, partage de créneaux SNP…). Si un jour ils décident d'adresser frontalement le marché CPTS avec une suite dédiée, **ça deviendrait un signal fort à surveiller**.\n\nMais aujourd'hui : pas de produit CPTS chez eux, pas de concurrent direct.\n\n---\n\n**→ Si tu veux, je mets une entrée « à surveiller » sur Doctolib dans mon radar, pour te prévenir si ça bouge ?**"
+        },
+        {
+          "role": "user",
+          "content": "Est-ce que tu peux m'aider"
+        },
+        {
+          "role": "assistant",
+          "content": "⚠ Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits."
         }
       ],
       "mako": [],
@@ -7349,7 +7357,6 @@
     ],
     "pricingPlan": [],
     "marquePlan": [],
-    "marchePlanScheduled": true,
-    "victorCheck": {}
+    "marchePlanScheduled": true
   }
 }
