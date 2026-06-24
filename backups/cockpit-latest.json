@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-24T20:30:13.191Z",
+  "exportedAt": "2026-06-24T20:33:57.124Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -5780,6 +5780,13 @@
         "status": "doing",
         "category": "admin",
         "body": "Préconisé par Victor (Secrétariat général).\n\nTa SASU doit tenir une comptabilité complète dès maintenant, et ton 1er exercice se clôt le 31/12/2026. Un expert-comptable (ou une bonne solution) te cadre d'un coup la TVA, la facturation conforme, ton statut social de présidente et le dépôt des comptes — c'est le socle qui sécurise tout le reste et t'enlève une grosse charge mentale. À poser tôt plutôt que dans l'urgence de fin d'exercice."
+      },
+      {
+        "id": "mqsj5fklyrmk1",
+        "title": "Créer ton espace professionnel sur impots.gouv.fr avec ton SIREN 105 247 977",
+        "status": "doing",
+        "category": "admin",
+        "body": "Préconisé par Victor (Secrétariat général).\n\nTu as maintenant le numéro officiel qui te manquait : SIREN 105 247 977 (RCS Pau). C'est l'info de blocage qui est levée. Va sur impots.gouv.fr → « Votre espace professionnel » → « Créer mon espace » (mode simplifié), saisis ce SIREN + un e-mail société. Le code d'activation arrive ensuite PAR COURRIER sous ~15 jours (à activer dans les 60 jours). C'est le préalable à toutes tes déclarations (TVA, IS, CFE) et à ton attestation de régularité fiscale. À lancer cette semaine. En parallèle, tâche secondaire simple : te procurer le registre des décisions de l'associée unique (voir échéances/note)."
       }
     ],
     "strategie": [],
@@ -7154,6 +7161,18 @@
         "enTache": false,
         "enRoadmap": false,
         "etat": "active"
+      },
+      {
+        "id": "mqsj4p3h7dkra",
+        "key": "créer ton espace professionnel sur impots.gouv.fr avec ton siren 105 247 977",
+        "titre": "Créer ton espace professionnel sur impots.gouv.fr avec ton SIREN 105 247 977",
+        "type": "chantier",
+        "fromDate": "2026-06-24",
+        "agent": "victor",
+        "enTache": true,
+        "enRoadmap": false,
+        "etat": "active",
+        "taskId": "mqsj5fklyrmk1"
       }
     ],
     "agentChats": {
@@ -7279,7 +7298,7 @@
     "lastSeenReport": {
       "orion": "2026-06-24",
       "chef-produit": "2026-06-17",
-      "victor": "2026-06-22"
+      "victor": "2026-06-24"
     },
     "handledPropositions": {},
     "decisions": [],
