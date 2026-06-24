@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-24T20:02:48.435Z",
+  "exportedAt": "2026-06-24T20:05:30.311Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -5958,25 +5958,18 @@
         "body": "Outiller la création d'un espace dédié et isolé pour chaque nouvelle CPTS cliente : sa propre base de données, ses fichiers, son adresse. Préparer un tableau de bord interne pour suivre l'ensemble des CPTS abonnées."
       },
       {
+        "id": "mqsi1ubaf50k9",
+        "title": "Sur chaque onglet, voir combien de tâches attendent d'être traitées",
+        "month": "2026-07",
+        "status": "planned",
+        "body": "Afficher le nombre de tâches en attente directement sur l'onglet concerné (Trésorerie, Réunions, Vie associative…), au lieu de tout regrouper sur Mon Espace. Chaque pastille apparaît pour les personnes qui ont accès à cette section, selon les permissions déjà réglées CPTS par CPTS."
+      },
+      {
         "id": "mqsi1uba9vqro",
         "title": "Démo : remise à zéro entre chaque visiteur",
         "month": "2026-07",
         "status": "planned",
         "body": "Quand plusieurs personnes testent la démo, chacune découvre un espace propre : les saisies du visiteur précédent sont effacées automatiquement avant le suivant. Évite qu'un prospect tombe sur les données laissées par un autre et garantit une première impression toujours nette."
-      },
-      {
-        "id": "mqsi1ubaf50k9",
-        "title": "Sur chaque onglet, voir combien de tâches attendent d'être traitées",
-        "month": null,
-        "status": "planned",
-        "body": "Afficher le nombre de tâches en attente directement sur l'onglet concerné (Trésorerie, Réunions, Vie associative…), au lieu de tout regrouper sur Mon Espace. Chaque pastille apparaît pour les personnes qui ont accès à cette section, selon les permissions déjà réglées CPTS par CPTS."
-      },
-      {
-        "id": "mqsi1ubantl79",
-        "title": "Tableau de bord Actions lancées/pas lancées/ en cours/ prévues",
-        "month": null,
-        "status": "planned",
-        "body": ""
       },
       {
         "id": "mqsi1ubanex2l",
@@ -6077,6 +6070,13 @@
         "body": "Contenu editorial pour le site vitrine (SEO + credibilite). Liste, jamais commence."
       },
       {
+        "id": "mqsi1ubantl79",
+        "title": "Tableau de bord Actions lancées/pas lancées/ en cours/ prévues",
+        "month": "2026-06",
+        "status": "planned",
+        "body": ""
+      },
+      {
         "id": "mqsi1ubao028q",
         "title": "Enrichir Module Coordination",
         "month": "2026-06",
@@ -6146,14 +6146,6 @@
           "text": "La plateforme évolue avec les besoins du terrain, au cas par cas. On ne livre pas un logiciel figé qu'on abandonne ensuite.",
           "size": "normal",
           "group": "Piloter et grandir",
-          "contributions": []
-        },
-        {
-          "id": "mqsi1ubaym6hp",
-          "name": "Design book du logo Mixer",
-          "text": "fais un book autour de cette proposition, avec les differentes couleurs, les mises en situation du logo, logo principal, en touche, etc",
-          "size": "normal",
-          "group": "",
           "contributions": []
         },
         {
