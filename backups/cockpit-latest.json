@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-24T19:56:56.488Z",
+  "exportedAt": "2026-06-24T20:01:34.029Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -6400,22 +6400,6 @@
           "text": "Un mode démo public avec données fictives seedées, pour montrer la plateforme sans jamais exposer de vraies données. (Remise à zéro entre visiteurs en chantier.)",
           "size": "normal",
           "group": "Qualité & sécurité",
-          "contributions": []
-        },
-        {
-          "id": "mqnlvkbl9egip",
-          "name": "Export des justificatifs cote membre",
-          "text": "il faudrait permettre aux membres de recuperer/sauvegarder leurs justificatifs",
-          "size": "normal",
-          "group": "Socle & architecture",
-          "contributions": []
-        },
-        {
-          "id": "mqnlvkblhzacu",
-          "name": "Depense association : workflow validation a 2 etapes",
-          "text": "workflow validation a 2 etapes",
-          "size": "normal",
-          "group": "Socle & architecture",
           "contributions": []
         }
       ],
