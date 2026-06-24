@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-24T16:03:16.640Z",
+  "exportedAt": "2026-06-24T16:08:44.646Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7199,6 +7199,10 @@
         {
           "role": "user",
           "content": "Quels sont les meillleures subventions auxquelles je peux répondre"
+        },
+        {
+          "role": "assistant",
+          "content": "D'après mon dernier rapport, voilà ce qui est le plus pertinent pour toi **maintenant** :\n\n---\n\n## 🥇 Priorité 1 — France 2030 Nouvelle-Aquitaine\n**Échéance : 30/09/2026** — tu as le temps mais c'est bientôt\n\n- Montant : **75 000 € à 500 000 €** (50 % max des dépenses)\n- C'est le volet régional de France 2030, ouvert aux entreprises innovantes de Nouvelle-Aquitaine\n- **C'est probablement ta meilleure cible à court terme**\n\n---\n\n## 🥈 Priorité 2 — Aide innovation numérique responsable (Région NA)\n**Guichet ouvert en permanence**\n\n- Jusqu'à **50 % des dépenses** (60 % si open source)\n- Angle à défendre : impact territorial, accès aux soins, coordination de territoire\n- **Compatible avec France 2030** — les deux peuvent se cumuler\n\n---\n\n## 🥉 Priorité 3 — JEI + CII (statuts fiscaux)\n**Permanent — déclaratif**\n\n- Pas une subvention mais des **exonérations sociales et fiscales** sur tes dépenses R&D\n- Gros levier de trésorerie si tu fais du développement\n- **À vérifier avec ton expert-comptable en priorité**\n\n---\n\n## ⚠️ Ce que je ne sais pas\n\nMon rapport date du **6 juin 2026** — il peut y avoir de nouveaux guichets ouverts depuis. Tu veux que je lance une **▶ Ronde** pour vérifier l'état actuel des AAP ?\n\nEt pour monter les dossiers → c'est plutôt **Carla** (vente/partenariats) ou un conseiller Bpifrance qui peut t'accompagner."
         }
       ],
       "mako": [],
