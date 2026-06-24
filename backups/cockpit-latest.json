@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-24T20:20:04.241Z",
+  "exportedAt": "2026-06-24T20:21:19.713Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7233,6 +7233,14 @@
         {
           "role": "assistant",
           "content": "Bonne question. Voilà comment Doctolib attaque le marché CPTS :\n\n---\n\n## Comment Doctolib s'adresse aux CPTS\n\n**Leur angle d'entrée : les pros, pas la CPTS elle-même.**\n\nDoctolib ne démarche pas la coordinatrice — il est **déjà chez les médecins du territoire**. Et il leur dit :\n> *\"Tu veux partager un créneau de soins non programmés avec ta CPTS ? Orienter un patient ? Envoyer un message sécurisé à un confrère ? Tu as déjà tout ça dans ton Doctolib.\"*\n\n**Ce qu'ils proposent concrètement :**\n- **Agendas partagés** → créneau SNP accessibles aux autres pros du territoire\n- **Doctolib Connect** (ex-Siilo) → messagerie sécurisée entre pros\n- **Téléexpertise** (2026) → en cours de déploiement dans Connect\n- **Adressage patient** → orienter un patient d'un praticien à un autre directement\n\n---\n\n## Pourquoi c'est une menace réelle\n\nLa CPTS peut se dire : *\"tous nos médecins ont déjà Doctolib, on coordonne via Connect, on gère les SNP par les agendas partagés… on n'a pas besoin d'autre outil.\"*\n\n---\n\n## Mais leur angle mort est énorme\n\n- Ça **ne fonctionne que si tous les pros sont sur Doctolib** (les kiné, infirmiers, pharmaciens souvent ne le sont pas)\n- **Zéro pilotage CPTS** : pas de suivi ACI, pas de vie associative, pas de déclarations, pas de trésorerie\n- C'est un outil **de médecin**, pas **de coordinatrice**\n\n---\n\n**Résumé :** Doctolib n'est pas un concurrent frontal — il arrive par la fenêtre (les médecins) et peut convaincre une CPTS qu'elle n'a besoin de rien d'autre. C'est ça, le danger."
+        },
+        {
+          "role": "user",
+          "content": "Oui mais du coup de ce que je comprends, il n'occupent pas le terrain comme moi je le veux, c'est à dire une plateforme de gestion collaborative en interne au sein  de la CPTS ?"
+        },
+        {
+          "role": "assistant",
+          "content": "Exactement. Tu as mis le doigt dessus.\n\n---\n\n## Doctolib vs CPTS Pilot : deux terrains différents\n\n| | Doctolib | CPTS Pilot |\n|---|---|---|\n| **Pour qui ?** | Les médecins du territoire | La CPTS comme organisation |\n| **Quoi ?** | Coordination des soins (RDV, SNP, messagerie) | Gestion interne (tréso, projets, vie asso, ACI…) |\n| **Côté patient** | ✅ Oui | ❌ Non (pas ton sujet) |\n| **Côté coordinatrice** | ❌ Quasi rien | ✅ C'est ton cœur |\n\n---\n\n## Ce que Doctolib ne fera jamais (ou très mal)\n\n- Suivre une déclaration d'activité d'un membre\n- Gérer une dépense association\n- Piloter les indicateurs ACI\n- Animer la vie associative de la CPTS\n- Gérer les rôles internes (coordinatrice, trésorier, secrétaire…)\n\n---\n\n## La conclusion claire\n\nDoctolib outille **les soins** entre pros.\nToi tu outilles **l'organisation** qui les fédère.\n\nCe sont des plans qui se superposent, pas qui se remplacent. Une CPTS pourrait très bien utiliser Doctolib **ET** CPTS Pilot sans redondance.\n\nLa vraie question concurrentielle avec Doctolib c'est donc moins *\"qui gagne ?\"* et plus *\"est-ce que la CPTS comprend qu'elle a besoin des deux ?\"*"
         }
       ],
       "victor": [
