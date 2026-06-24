@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-24T20:26:07.075Z",
+  "exportedAt": "2026-06-24T20:30:13.191Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7249,6 +7249,14 @@
         {
           "role": "assistant",
           "content": "Oui, même logique — voire encore moins menaçant.\n\n---\n\n## Maiia vs CPTS Pilot\n\nMaiia c'est essentiellement :\n- Prise de RDV en ligne\n- Téléconsultation\n- Distribué via les logiciels de cabinet Cegedim\n\n**Encore plus centré \"soins\" que Doctolib.** Aucune brique de gestion interne CPTS identifiée à ce jour.\n\n---\n\n## Ce qui les différencie de Doctolib même\n\nDoctolib au moins a une **page dédiée CPTS** et un discours de coordination de territoire.\n\nMaiia… pas vraiment. C'est un outil de cabinet qui peut servir dans un territoire CPTS, mais sans s'adresser à la CPTS comme organisation.\n\n---\n\n## Mon verdict\n\n| Menace | Doctolib | Maiia |\n|---|---|---|\n| Niveau | ⚠️ Sérieuse (force de frappe) | 🟡 Émergente (à surveiller) |\n| Terrain | Coordination des soins | Prise de RDV / téléconsult |\n| Overlap avec toi | Faible | Quasi nul |\n\n---\n\n**Maiia n'est pas un concurrent direct aujourd'hui.** Je le garde en radar car Cegedim est un gros groupe qui pourrait pivoter — mais là maintenant, tu n'as rien à craindre de ce côté.\n\n> Si tu veux, je demande une ronde à Orion pour vérifier s'ils ont bougé sur le terrain CPTS depuis juin."
+        },
+        {
+          "role": "user",
+          "content": "En fait mes concurrents les plus sérieux c'est medplan et plexus"
+        },
+        {
+          "role": "assistant",
+          "content": "Plexus — je n'ai pas ça dans mon tableau. Dis-m'en plus : c'est quoi, tu l'as croisé où ?\n\nEt pour Medplan, j'ai une fiche mais elle est light. Qu'est-ce que tu sais d'eux que je n'ai pas ?\n\nOn complète ensemble, puis je propose une ronde Orion pour vérifier tout ça proprement."
         }
       ],
       "victor": [
