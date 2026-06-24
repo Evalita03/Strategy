@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-24T20:21:19.713Z",
+  "exportedAt": "2026-06-24T20:22:42.039Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7241,6 +7241,14 @@
         {
           "role": "assistant",
           "content": "Exactement. Tu as mis le doigt dessus.\n\n---\n\n## Doctolib vs CPTS Pilot : deux terrains différents\n\n| | Doctolib | CPTS Pilot |\n|---|---|---|\n| **Pour qui ?** | Les médecins du territoire | La CPTS comme organisation |\n| **Quoi ?** | Coordination des soins (RDV, SNP, messagerie) | Gestion interne (tréso, projets, vie asso, ACI…) |\n| **Côté patient** | ✅ Oui | ❌ Non (pas ton sujet) |\n| **Côté coordinatrice** | ❌ Quasi rien | ✅ C'est ton cœur |\n\n---\n\n## Ce que Doctolib ne fera jamais (ou très mal)\n\n- Suivre une déclaration d'activité d'un membre\n- Gérer une dépense association\n- Piloter les indicateurs ACI\n- Animer la vie associative de la CPTS\n- Gérer les rôles internes (coordinatrice, trésorier, secrétaire…)\n\n---\n\n## La conclusion claire\n\nDoctolib outille **les soins** entre pros.\nToi tu outilles **l'organisation** qui les fédère.\n\nCe sont des plans qui se superposent, pas qui se remplacent. Une CPTS pourrait très bien utiliser Doctolib **ET** CPTS Pilot sans redondance.\n\nLa vraie question concurrentielle avec Doctolib c'est donc moins *\"qui gagne ?\"* et plus *\"est-ce que la CPTS comprend qu'elle a besoin des deux ?\"*"
+        },
+        {
+          "role": "user",
+          "content": "Même logique pour maiia de cecgedim ?"
+        },
+        {
+          "role": "assistant",
+          "content": "Oui, même logique — voire encore moins menaçant.\n\n---\n\n## Maiia vs CPTS Pilot\n\nMaiia c'est essentiellement :\n- Prise de RDV en ligne\n- Téléconsultation\n- Distribué via les logiciels de cabinet Cegedim\n\n**Encore plus centré \"soins\" que Doctolib.** Aucune brique de gestion interne CPTS identifiée à ce jour.\n\n---\n\n## Ce qui les différencie de Doctolib même\n\nDoctolib au moins a une **page dédiée CPTS** et un discours de coordination de territoire.\n\nMaiia… pas vraiment. C'est un outil de cabinet qui peut servir dans un territoire CPTS, mais sans s'adresser à la CPTS comme organisation.\n\n---\n\n## Mon verdict\n\n| Menace | Doctolib | Maiia |\n|---|---|---|\n| Niveau | ⚠️ Sérieuse (force de frappe) | 🟡 Émergente (à surveiller) |\n| Terrain | Coordination des soins | Prise de RDV / téléconsult |\n| Overlap avec toi | Faible | Quasi nul |\n\n---\n\n**Maiia n'est pas un concurrent direct aujourd'hui.** Je le garde en radar car Cegedim est un gros groupe qui pourrait pivoter — mais là maintenant, tu n'as rien à craindre de ce côté.\n\n> Si tu veux, je demande une ronde à Orion pour vérifier s'ils ont bougé sur le terrain CPTS depuis juin."
         }
       ],
       "victor": [
