@@ -374,7 +374,23 @@ body {
 .org-pole-name { font-size: 13.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--slate-900); }
 .org-pole-tag { font-size: 12.5px; color: var(--slate-500); font-style: italic; margin-top: 1px; }
 .org-pole-count { font-size: 11px; font-weight: 700; color: var(--slate-500); white-space: nowrap; background: var(--slate-100); border-radius: 20px; padding: 4px 11px; }
-.org-agents { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 14px; }
+.org-pole-body { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: center; gap: 24px 40px; padding: 32px 4px 10px; overflow-x: auto; }
+.org-chart, .org-chart ul { list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; }
+.org-chart { flex-direction: column; align-items: center; }
+.org-chart li { position: relative; padding: 26px 11px 0; display: flex; flex-direction: column; align-items: center; }
+.org-chart .org-agent { width: 240px; box-sizing: border-box; }
+.org-chart li::before, .org-chart li::after { content: ''; position: absolute; top: 0; height: 26px; width: 50%; border-top: 2px solid var(--slate-300); }
+.org-chart li::before { right: 50%; }
+.org-chart li::after { left: 50%; border-left: 2px solid var(--slate-300); }
+.org-chart li:last-child::before { border-right: 2px solid var(--slate-300); }
+.org-chart li:first-child::before { border: 0; }
+.org-chart li:last-child::after { border: 0; }
+.org-chart li:only-child::before { border: 0; border-right: 2px solid var(--slate-300); }
+.org-chart li:only-child::after { display: none; }
+.org-chart > li { padding-top: 0; }
+.org-chart > li::before, .org-chart > li::after { display: none; }
+.org-chart li > ul { position: relative; padding-top: 26px; }
+.org-chart li > ul::before { content: ''; position: absolute; top: 0; left: 50%; width: 2px; height: 26px; background: var(--slate-300); transform: translateX(-50%); }
 .org-agent { position: relative; background: var(--white); border: 1px solid var(--slate-200); border-radius: 16px; padding: 18px 20px 16px; box-shadow: 0 1px 2px rgba(15,23,42,0.04); transition: transform .15s, box-shadow .15s, border-color .15s; display: flex; flex-direction: column; cursor: pointer; overflow: hidden; }
 .org-agent::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--slate-200); }
 .org-agent.is-active::before { background: linear-gradient(var(--teal-500), var(--teal-700)); }
@@ -5232,60 +5248,45 @@ const ORGANIGRAMME = {
   intro: "L'équipe d'agents qui t'épaule pour piloter CPTS Pilot. On l'étoffe au fil de nos décisions : chaque agent est « embauché » quand le besoin devient réel — pas avant. Un pôle commence souvent avec un seul agent, puis grossit.",
   poles: [
     {
-      name: "Produit", tagline: "Construire et garder le cap",
+      name: "Produit", tagline: "Construire le produit et garder le cap",
       agents: [
         { prenom: "Magnus", name: "Chef Produit", statut: "active", role: "Le coup d'avance",
           mission: "Lit tout le repo et la roadmap, sait toujours où on en est, et projette : prochain chantier, vision, fonctionnalités à déployer.",
           quand: "« Par quoi je commence ? Où on en est ? Qu'est-ce qui vient après ? »" },
-        { prenom: "Otto", name: "Monitoring", statut: "todo", role: "La plateforme en marche",
+        { prenom: "Otto", name: "Monitoring", statut: "todo", manager: "Magnus", role: "La plateforme en marche",
           mission: "Surveille le produit en production et fait remonter bugs, alertes et incidents (Sentry) directement sur le cockpit.",
-          quand: "« Est-ce que ça tourne ? Qu'est-ce qui a planté ? »" }
-      ]
-    },
-    {
-      name: "Sécurité & Conformité", tagline: "Protéger le code et les données",
-      agents: [
-        { prenom: "Iris", name: "Audit Risk", statut: "todo", role: "Le code sous contrôle",
+          quand: "« Est-ce que ça tourne ? Qu'est-ce qui a planté ? »" },
+        { prenom: "Iris", name: "Audit Risk", statut: "todo", manager: "Magnus", role: "Le code sous contrôle",
           mission: "Inspecte le code : failles de sécurité, dette technique. Les remonte et propose les corrections pour sécuriser.",
           quand: "« Mon code est-il sûr et propre ? »" },
-        { prenom: "Cléo", name: "Le DPO", statut: "todo", role: "Les données protégées",
+        { prenom: "Cléo", name: "Le DPO", statut: "todo", manager: "Magnus", role: "Les données protégées",
           mission: "Veille à la conformité des données : RGPD, hébergement, usage CPTS. Détecte les manquements et propose comment les couvrir.",
           quand: "« Est-ce que j'ai le droit ? C'est conforme ? »" }
       ]
     },
     {
-      name: "Marché", tagline: "Regarder dehors",
+      name: "Business", tagline: "Trouver les clients, porter la marque, garder l'avance",
       agents: [
+        { prenom: "Carla", name: "Cheffe Développement Commercial", slug: "carla", statut: "active", role: "Le commercial",
+          mission: "Aujourd'hui commercial : prospection des CPTS, démo, devis, onboarding. Demain : facturation et gestion clients. Un pôle qui grossira.",
+          quand: "« Comment je trouve et je signe des CPTS ? »" },
+        { prenom: "Stella", name: "Le Studio", statut: "todo", manager: "Carla", role: "Marque & communication",
+          mission: "Identité visuelle, logo, positionnement, contenus et diffusion. S'adapte à la vision et aux décisions prises.",
+          quand: "« Comment je me présente et je communique ? »" },
         { prenom: "Orion", name: "L'Observatoire", slug: "orion", statut: "active", role: "La veille",
           mission: "Ouvert sur le monde, il lit le web en direct : réglementaire (réformes CPTS, ACI, financements), ministère & gouvernement, Assurance Maladie, santé publique, concurrents et opportunités. Il en tire signaux, prédictions et coups d'avance pour te garder bien placée sur le marché.",
           quand: "« Qu'est-ce qui bouge sur le marché ? Où va le secteur ? Quelle opportunité saisir ? »" },
-        { prenom: "Mako", name: "Le Requin", slug: "mako", statut: "active", role: "La concurrence à la loupe", reliéA: "orion",
+        { prenom: "Mako", name: "Le Requin", slug: "mako", statut: "active", manager: "Orion", reliéA: "orion", role: "La concurrence à la loupe",
           mission: "Relié à Orion : il traque les concurrents et te dresse un tableau de bord clair — prix, positionnement, actualité, stratégie, forces et faiblesses, et comment t'en démarquer. Alimenté par les rondes d'Orion.",
           quand: "« Que font les concurrents ? Leurs prix ? Comment je me démarque ? »" }
       ]
     },
     {
-      name: "Marque", tagline: "La voix et l'image",
+      name: "Gestion", tagline: "Tenir l'entreprise debout et en règle",
       agents: [
-        { prenom: "Stella", name: "Le Studio", statut: "todo", role: "Marque & communication",
-          mission: "Identité visuelle, logo, positionnement, contenus et diffusion. S'adapte à la vision et aux décisions prises.",
-          quand: "« Comment je me présente et je communique ? »" }
-      ]
-    },
-    {
-      name: "Administration & Gestion", tagline: "Préparer le terrain de l'entreprise",
-      agents: [
-        { prenom: "Victor", name: "Le Secrétariat général", slug: "victor", statut: "active", role: "L'entreprise en règle",
+        { prenom: "Victor", name: "Le Gestionnaire", slug: "victor", statut: "active", role: "L'entreprise en règle",
           mission: "Prépare le terrain administratif, juridique et de gestion pour que CPTS Pilot soit opérationnelle et conforme : forme juridique, immatriculation, assurances, comptabilité/fiscalité/social, contrats & CGV, banque, marque. Il tient le registre des obligations et te dit la prochaine démarche. Le RGPD/hébergement revient à Cléo, le réglementaire santé à Orion.",
           quand: "« Par quel statut je commence ? Qu'est-ce qu'il me reste pour être en règle ? Quelle échéance arrive ? »" }
-      ]
-    },
-    {
-      name: "Business", tagline: "Trouver et tenir les clients",
-      agents: [
-        { prenom: "Carla", name: "Le Business", slug: "carla", statut: "active", role: "Commercial → gestion clients",
-          mission: "Aujourd'hui commercial : prospection des CPTS, démo, devis, onboarding. Demain : facturation et gestion clients. Un pôle qui grossira.",
-          quand: "« Comment je trouve et je signe des CPTS ? »" }
       ]
     }
   ]
@@ -5296,8 +5297,8 @@ const orgStatut = {
   active: { label: "Actif",           cls: "org-badge-active" }
 };
 const ORG_POLE_ICONS = {
-  "Produit": "🧭", "Sécurité & Conformité": "🛡️", "Marché": "🔭",
-  "Marque": "🎨", "Administration & Gestion": "🏛️", "Business": "🤝"
+  "Produit": "🧭", "Business": "🤝", "Gestion": "🏛️",
+  "Sécurité & Conformité": "🛡️", "Marché": "🔭", "Marque": "🎨", "Administration & Gestion": "🏛️"
 };
 const ORG_AVATAR_GRADS = [
   ['#2563EB', '#1E3A8A'], ['#0D9488', '#0F766E'], ['#7C3AED', '#5B21B6'],
@@ -5328,6 +5329,12 @@ function renderOrganigramme(content, actions) {
   </div>`;
   o.poles.forEach(pole => {
     const icon = ORG_POLE_ICONS[pole.name] || '◆';
+    const chefs = pole.agents.filter(a => !a.manager);
+    const trees = chefs.map(chef => {
+      const reports = pole.agents.filter(a => a.manager === chef.prenom);
+      const kids = reports.length ? `<ul>${reports.map(r => `<li>${orgCard(r)}</li>`).join('')}</ul>` : '';
+      return `<ul class="org-chart"><li>${orgCard(chef)}${kids}</li></ul>`;
+    }).join('');
     html += `<div class="org-pole">
       <div class="org-pole-head">
         <span class="org-pole-icon">${icon}</span>
@@ -5337,32 +5344,31 @@ function renderOrganigramme(content, actions) {
         </div>
         <span class="org-pole-count">${pole.agents.length} agent${pole.agents.length > 1 ? 's' : ''}</span>
       </div>
-      <div class="org-agents">
-        ${pole.agents.map(a => {
-          const s = orgStatut[a.statut] || orgStatut.todo;
-          const nom = a.prenom || a.name;
-          const initial = (nom || '?').trim().charAt(0).toUpperCase();
-          const stateCls = a.statut === 'active' ? 'is-active' : (a.statut === 'next' ? 'is-next' : '');
-          return `<div class="org-agent ${stateCls}" onclick="openAgentConsole('${a.slug || slugifyAgent(a.name)}')">
-            <div class="org-agent-top">
-              <span class="org-avatar" style="background:${orgAvatarGrad(nom)}">${esc(initial)}</span>
-              <div class="org-agent-id">
-                <div class="org-agent-name">${esc(nom)}</div>
-                ${a.prenom ? `<div class="org-agent-fn">${esc(a.name)}</div>` : ''}
-              </div>
-              <span class="org-badge ${s.cls}">${s.label}</span>
-            </div>
-            <div class="org-agent-sub">${esc(a.role)}</div>
-            <div class="org-agent-mission">${esc(a.mission)}</div>
-            <div class="org-agent-quand">${esc(a.quand)}</div>
-            <div class="org-agent-cta">Ouvrir la fiche →</div>
-          </div>`;
-        }).join('')}
-      </div>
+      <div class="org-pole-body">${trees}</div>
     </div>`;
   });
   html += '</div>';
   content.innerHTML = html;
+}
+function orgCard(a) {
+  const s = orgStatut[a.statut] || orgStatut.todo;
+  const nom = a.prenom || a.name;
+  const initial = (nom || '?').trim().charAt(0).toUpperCase();
+  const stateCls = a.statut === 'active' ? 'is-active' : (a.statut === 'next' ? 'is-next' : '');
+  return `<div class="org-agent ${stateCls}" onclick="openAgentConsole('${a.slug || slugifyAgent(a.name)}')">
+    <div class="org-agent-top">
+      <span class="org-avatar" style="background:${orgAvatarGrad(nom)}">${esc(initial)}</span>
+      <div class="org-agent-id">
+        <div class="org-agent-name">${esc(nom)}</div>
+        ${a.prenom ? `<div class="org-agent-fn">${esc(a.name)}</div>` : ''}
+      </div>
+      <span class="org-badge ${s.cls}">${s.label}</span>
+    </div>
+    <div class="org-agent-sub">${esc(a.role)}</div>
+    <div class="org-agent-mission">${esc(a.mission)}</div>
+    <div class="org-agent-quand">${esc(a.quand)}</div>
+    <div class="org-agent-cta">Ouvrir la fiche →</div>
+  </div>`;
 }
 function slugifyAgent(name) {
   return (name || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
@@ -5464,7 +5470,7 @@ function createTaskFromDemarche(ev) {
   const dup = state.tasks.find(t => (t.title || '').trim().toLowerCase() === titre.toLowerCase() && t.status !== 'done');
   if (dup) { if (btn) { btn.textContent = 'Déjà dans ton To do'; btn.disabled = true; btn.classList.add('cap-task-btn-done'); } return; }
   const id = uid();
-  state.tasks.push({ id, title: titre, status: 'todo', category: 'admin', body: 'Préconisé par Victor (Secrétariat général).\n\n' + (ld.pd.pourquoi || '') });
+  state.tasks.push({ id, title: titre, status: 'todo', category: 'admin', body: 'Préconisé par Victor (Le Gestionnaire).\n\n' + (ld.pd.pourquoi || '') });
   const pr = upsertPreco(titre, 'chantier', ld.date, 'victor');
   if (pr && pr.p) { pr.p.enTache = true; pr.p.taskId = id; if (pr.p.etat === 'ecartee') pr.p.etat = 'active'; }
   save();
@@ -5476,7 +5482,7 @@ function createJalonFromDemarche(ev) {
   if (roadmapHas(titre)) { if (btn) { btn.textContent = 'Déjà dans la roadmap'; btn.disabled = true; btn.classList.add('cap-task-btn-done'); } return; }
   state.roadmap = state.roadmap || [];
   const jid = uid();
-  rmInsertOrdered({ id: jid, title: titre, month: currentMonthStr(), status: 'planned', body: 'Préconisé par Victor (Secrétariat général).\n\n' + (ld.pd.pourquoi || '') });
+  rmInsertOrdered({ id: jid, title: titre, month: currentMonthStr(), status: 'planned', body: 'Préconisé par Victor (Le Gestionnaire).\n\n' + (ld.pd.pourquoi || '') });
   const pr = upsertPreco(titre, 'chantier', ld.date, 'victor');
   if (pr && pr.p) { pr.p.enRoadmap = true; pr.p.jalonId = jid; if (pr.p.etat === 'ecartee') pr.p.etat = 'active'; }
   save();
@@ -6312,8 +6318,12 @@ IMPORTANT : dans ce chat tu n'as PAS d'accès web en direct (navigateur). Tu t'a
 IMPORTANT : dans ce chat tu n'as PAS d'accès web en direct. Tu t'appuies sur le tableau concurrentiel ci-dessous (rempli par Orion) + ce qu'Eva te dit. Pour des données fraîches, propose une « ronde » (▶ Faire tourner) qui relance Orion.`;
   }
   if (slug === 'victor') {
-    return `Tu es Victor, le Secrétariat général de CPTS Pilot — l'agent qui prépare le terrain administratif, juridique et de gestion de l'entreprise. Tu discutes avec Eva, coordinatrice CPTS et fondatrice solo de CPTS Pilot (plateforme de gestion pour les CPTS — Communautés Professionnelles Territoriales de Santé). Elle code seule, débute, et n'est ni juriste ni gestionnaire. Ton : d'égale à égale, rassurant et méthodique, zéro jargon, réponses courtes et structurées (markdown : **gras**, listes à puces). Tu transformes chaque obligation en UNE action concrète : quoi, où le faire, quoi préparer, avant quand. Tes domaines : forme juridique, immatriculation (guichet unique INPI), assurances (RC Pro), comptabilité/fiscalité/social (URSSAF, TVA, expert-comptable), contrats & CGV, mentions légales, banque pro, dépôt de marque. Tu hiérarchises : tu dis toujours par quoi commencer. Tu ne fais PAS : le RGPD / l'hébergement HDS / le DPA (→ Cléo, le DPO), le réglementaire santé et le statut « dispositif médical » du logiciel (→ Orion), la prospection/facturation des CPTS clientes (→ Carla), le code (→ Iris/Magnus) : renvoie vers le bon agent.
+    return `Tu es Victor, le Gestionnaire de CPTS Pilot — l'agent qui prépare et tient le terrain administratif, juridique et de gestion de l'entreprise. Tu discutes avec Eva, coordinatrice CPTS et fondatrice solo de CPTS Pilot (plateforme de gestion pour les CPTS — Communautés Professionnelles Territoriales de Santé). Elle code seule, débute, et n'est ni juriste ni gestionnaire. Ton : d'égale à égale, rassurant et méthodique, zéro jargon, réponses courtes et structurées (markdown : **gras**, listes à puces). Tu transformes chaque obligation en UNE action concrète : quoi, où le faire, quoi préparer, avant quand. Tes domaines : forme juridique, immatriculation (guichet unique INPI), assurances (RC Pro), comptabilité/fiscalité/social (URSSAF, TVA, expert-comptable), contrats & CGV, mentions légales, banque pro, dépôt de marque. Tu hiérarchises : tu dis toujours par quoi commencer. Tu ne fais PAS : le RGPD / l'hébergement HDS / le DPA (→ Cléo, le DPO), le réglementaire santé et le statut « dispositif médical » du logiciel (→ Orion), la prospection/facturation des CPTS clientes (→ Carla), le code (→ Iris/Magnus) : renvoie vers le bon agent.
 IMPORTANT : dans ce chat tu n'as PAS d'accès web en direct. Tu t'appuies sur ton dernier rapport ci-dessous + ce qu'Eva te dit. Pour tout chiffre, taux, seuil ou échéance qui engage, ne réponds jamais « de mémoire » : dis que tu le vérifieras à la source (service-public.fr, INPI, URSSAF, impots.gouv.fr) lors d'une « ronde » (▶ Faire tourner).`;
+  }
+  if (slug === 'carla') {
+    return `Tu es Carla, la Cheffe Développement Commercial de CPTS Pilot — l'agente qui aide Eva à trouver et signer ses premières CPTS clientes. Tu discutes avec Eva, coordinatrice CPTS et fondatrice de CPTS Pilot (plateforme de gestion pour les CPTS — Communautés Professionnelles Territoriales de Santé). Elle débute la vente et ça l'intimide : ton rôle est de lui enlever cette peur. Ton : d'égale à égale, chaleureux, encourageant, concret, zéro jargon commercial, réponses courtes et structurées (markdown : **gras**, listes à puces). Tu transformes chaque étape en UNE action faisable : à qui, avec quels mots (donne un exemple de message court), quoi préparer, quand relancer. Tes domaines : cible & qualification des CPTS, prospection & prise de contact, pitch & démo, offre & devis (le commercial — la conformité du devis/de la facture revient à Victor), onboarding, suivi & fidélisation. Son meilleur atout : elle vit le problème de l'intérieur, elle parle aux CPTS en consœur. POSTURE MARQUE IMPÉRATIVE : jamais nommer ni dénigrer la concurrence, jamais « solo » ni « débrouillardise », ton non-corporate ; tu parles de ce qu'on apporte (« fait pour les CPTS, l'outil s'adapte à elles »). Tu ne fais PAS : le produit / la démo (→ Magnus), l'administratif / CGV / facturation conforme (→ Victor), le RGPD / la sécurité des données (→ Cléo), le réglementaire / les financements (→ Orion), l'identité visuelle (→ Stella).
+IMPORTANT : si le produit n'est pas encore présentable (Magnus signale des finitions), ne pousse jamais Eva à envoyer un lien à froid : prépare le terrain (liste de cibles, pitch, modèle de devis). Pour des données fraîches de marché (volumétrie CPTS, territoire), propose une « ronde » d'Orion.`;
   }
   return `Tu es Magnus, le Chef Produit de CPTS Pilot (plateforme de gestion pour les CPTS — Communautés Professionnelles Territoriales de Santé). Tu discutes avec Eva, coordinatrice CPTS et fondatrice solo qui code seule et débute sur Git. Ton : d'égale à égale, simple, zéro jargon inutile, franc et bienveillant, réponses courtes et bien structurées (markdown : **gras**, listes à puces). Tu parles produit et stratégie produit — pas marketing, juridique ni sécurité (tu renvoies vers les autres agents si besoin).
 IMPORTANT : dans ce chat tu n'as PAS accès au code en direct (navigateur). Tu t'appuies sur le contexte ci-dessous + ce qu'Eva te dit. Si une question demande de relire le code à jour, dis-le et propose une « ronde » en session.`;
