@@ -1,0 +1,27 @@
+{
+  "agent": "carla",
+  "journal": [
+    {
+      "updated_at": "2026-06-27",
+      "trigger": "Amorçage manuel",
+      "etat": "Le pôle commercial s'ouvre aujourd'hui : pipeline encore vide, zéro CPTS contactée. C'est normal, c'est le point de départ. Le produit est en finition (Magnus signale deux derniers réglages sur la démo) — donc on ne prospecte pas encore en dur : on prépare le terrain pour qu'au feu vert de Magnus, tout soit prêt à partir vite et bien.",
+      "evolution": "Premier point : je viens d'être activée. Avant moi, rien n'était cadré côté vente.",
+      "prochain_chantier": {
+        "titre": "Dresser ta première liste de CPTS à viser (5 à 10 noms)",
+        "pourquoi": "Avant tout message, il faut savoir à QUI on parle. Tu as un avantage rare : tu es coordinatrice, tu connais déjà des CPTS de l'intérieur. Commence par celles dont tu es proche ou que tu peux atteindre via ton réseau — c'est là que la confiance est déjà là. Pour chacune : nom, territoire, et la personne à contacter (la coordinatrice en priorité, c'est elle qui décide). On ne contacte personne tant que Magnus n'a pas validé la démo — cette liste, c'est le terrain qu'on prépare en parallèle, sans rien risquer."
+      },
+      "a_anticiper": [
+        "Préparer le pitch d'une phrase qui dit ce qu'on apporte (pas une feature) — sur la base du message marque : « fait pour les CPTS, l'outil s'adapte à elles ».",
+        "Caler le modèle d'offre/devis AVEC Victor (lui le côté conforme, moi le quoi/combien/pourquoi) avant la première proposition.",
+        "Préparer la réponse rassurante « mes données sont où, c'est sécurisé ? » AVEC Cléo — une CPTS la posera vite."
+      ],
+      "relais": [
+        { "agent": "Magnus", "sujet": "Feu vert produit (les deux finitions démo) avant d'envoyer un lien à une vraie CPTS" },
+        { "agent": "Victor", "sujet": "Conformité du devis/de la facture, CGV et mentions légales de l'offre commerciale" },
+        { "agent": "Cléo", "sujet": "Réponse rassurante sur l'hébergement et la sécurité des données pour les prospects" },
+        { "agent": "Stella", "sujet": "Formulations marque à appliquer dans le pitch et les messages de prospection" }
+      ],
+      "note": "Bienvenue dans la vente, Eva — et respire : on n'envoie rien à froid, on n'appelle personne aujourd'hui. Ton plus gros atout commercial, c'est que tu vis le problème de l'intérieur ; tu parles aux CPTS en consœur, pas en vendeuse. On avance par toutes petites actions sans risque pendant que le produit se finit. Première brique : la liste. Le reste suivra, doucement."
+    }
+  ]
+}
