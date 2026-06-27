@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-27T20:05:50.481Z",
+  "exportedAt": "2026-06-27T20:14:50.460Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7298,7 +7298,8 @@
     "lastSeenReport": {
       "orion": "2026-06-24",
       "chef-produit": "2026-06-21",
-      "victor": "2026-06-24"
+      "victor": "2026-06-24",
+      "smoke": "2026-06-27"
     },
     "handledPropositions": {},
     "decisions": [],
