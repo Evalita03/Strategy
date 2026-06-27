@@ -632,6 +632,36 @@ body {
 .vic-card-nom { font-weight: 700; font-size: 13px; color: var(--slate-700); }
 .vic-card-txt { font-size: 12.5px; color: var(--slate-600); line-height: 1.5; }
 .vic-tag { display: inline-block; font-size: 11px; font-weight: 700; background: #F5ECD9; color: #A16207; border-radius: 6px; padding: 1px 7px; vertical-align: middle; }
+/* Agent Smoke — santé, compteurs, anomalies */
+.smk-health { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 13px; border-radius: 10px; padding: 7px 14px; margin-bottom: 14px; border: 1px solid; }
+.smk-health-green  { color: #15803D; background: #DCFCE7; border-color: #BBF7D0; }
+.smk-health-orange { color: var(--orange-600); background: var(--orange-100); border-color: #FED7AA; }
+.smk-health-red    { color: var(--red-600); background: var(--red-100); border-color: #FECACA; }
+.smk-health-dot { font-size: 11px; line-height: 1; }
+.smk-alert { display: flex; align-items: flex-start; gap: 6px; font-size: 13px; line-height: 1.55; color: var(--red-600); background: var(--red-100); border: 1px solid #FECACA; border-radius: 10px; padding: 11px 14px; margin-bottom: 14px; }
+.smk-counters { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+.smk-counter { display: flex; flex-direction: column; align-items: center; gap: 2px; border: 1px solid var(--slate-200); border-radius: 12px; padding: 12px 8px; background: var(--slate-50); }
+.smk-c-num { font-size: 26px; font-weight: 800; line-height: 1; }
+.smk-c-lbl { font-size: 11.5px; font-weight: 600; color: var(--slate-500); text-transform: uppercase; letter-spacing: 0.03em; }
+.smk-c-bloquant  { border-color: #FECACA; background: var(--red-100); }
+.smk-c-bloquant  .smk-c-num { color: var(--red-600); }
+.smk-c-important { border-color: #FED7AA; background: var(--orange-100); }
+.smk-c-important .smk-c-num { color: var(--orange-600); }
+.smk-c-mineur    { border-color: #FDE68A; background: #FEF9C3; }
+.smk-c-mineur    .smk-c-num { color: #A16207; }
+.smk-ano-list { display: flex; flex-direction: column; gap: 9px; }
+.smk-ano { border: 1px solid var(--slate-200); border-left: 3px solid var(--slate-300); border-radius: 10px; padding: 11px 13px; background: #fff; }
+.smk-ano-bloquant  { border-left-color: var(--red-600); }
+.smk-ano-important { border-left-color: var(--orange-600); }
+.smk-ano-mineur    { border-left-color: #EAB308; }
+.smk-ano-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 5px; }
+.smk-ano-titre { font-weight: 700; font-size: 13.5px; color: var(--slate-700); flex: 1; min-width: 0; }
+.smk-sev { display: inline-block; font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; border-radius: 6px; padding: 2px 7px; }
+.smk-sev-bloquant  { color: var(--red-600); background: var(--red-100); }
+.smk-sev-important { color: var(--orange-600); background: var(--orange-100); }
+.smk-sev-mineur    { color: #A16207; background: #FEF9C3; }
+.smk-ano-meta { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 11.5px; color: var(--slate-500); margin-bottom: 4px; }
+.smk-ano-resume { font-size: 12.5px; color: var(--slate-600); line-height: 1.5; }
 /* Victor — le Dossier (documents confiés) */
 .vic-dossier-intro { font-size: 13px; color: var(--slate-600); line-height: 1.6; margin-bottom: 12px; max-width: 760px; }
 .vic-dossier-note { font-size: 12.5px; color: var(--slate-600); line-height: 1.55; background: #F5ECD9; border: 1px solid #E7D7B5; border-radius: 10px; padding: 11px 14px; margin-bottom: 16px; }
@@ -5256,6 +5286,9 @@ const ORGANIGRAMME = {
         { prenom: "Otto", name: "Monitoring", statut: "todo", manager: "Magnus", role: "La plateforme en marche",
           mission: "Surveille le produit en production et fait remonter bugs, alertes et incidents (Sentry) directement sur le cockpit.",
           quand: "« Est-ce que ça tourne ? Qu'est-ce qui a planté ? »" },
+        { prenom: "Smoke", name: "Smoke Tests", slug: "smoke", statut: "active", manager: "Magnus", role: "Les fonctions vitales répondent",
+          mission: "Relié à un agent du repo plateforme qui exécute les smoke tests : Smoke recueille ses rapports et te remonte, en clair, si les fonctions vitales du produit répondent — surtout après un déploiement.",
+          quand: "« Rien de cassé après la dernière mise en ligne ? L'essentiel répond-il ? »" },
         { prenom: "Iris", name: "Audit Risk", statut: "todo", manager: "Magnus", role: "Le code sous contrôle",
           mission: "Inspecte le code : failles de sécurité, dette technique. Les remonte et propose les corrections pour sécuriser.",
           quand: "« Mon code est-il sûr et propre ? »" },
@@ -5439,6 +5472,97 @@ function victorStatutChip(st) {
   const map = { fait: { cls: 'org-badge-active', label: '✓ fait' }, en_cours: { cls: 'org-badge-next', label: '⏳ en cours' }, a_faire: { cls: 'org-badge-todo', label: 'à faire' } };
   const s = map[st] || map.a_faire;
   return `<span class="org-badge ${s.cls}">${s.label}</span>`;
+}
+// ============ AGENT SMOKE (smoke tests de la plateforme, lus dans Plateforme-CPTS/smoketest.json) ============
+const SMOKE_SEV = {
+  bloquant:  { ordre: 0, label: 'bloquant',  cls: 'smk-sev-bloquant' },
+  important: { ordre: 1, label: 'important', cls: 'smk-sev-important' },
+  mineur:    { ordre: 2, label: 'mineur',    cls: 'smk-sev-mineur' }
+};
+// État de santé : rouge si bloquants, orange si « important », vert sinon
+function smokeHealth(r) {
+  const s = (r && r.synthese) || {};
+  if ((s.bloquant || 0) > 0)  return { cls: 'smk-health-red',    dot: '🔴', label: "À corriger d'urgence" };
+  if ((s.important || 0) > 0) return { cls: 'smk-health-orange', dot: '🟠', label: 'Points à regarder' };
+  return { cls: 'smk-health-green', dot: '🟢', label: 'Tout répond' };
+}
+function smokeStatutChip(st) {
+  const map = { ouvert: { cls: 'org-badge-todo', label: 'ouvert' }, corrige: { cls: 'org-badge-active', label: '✓ corrigé' }, ignore: { cls: 'org-badge-next', label: 'ignoré' } };
+  const s = map[st] || map.ouvert;
+  return `<span class="org-badge ${s.cls}">${s.label}</span>`;
+}
+function smokeEmpty(latest) {
+  const noToken = latest && /token/.test(latest.note || '');
+  const why = latest && latest.note ? ` (${esc(latest.note)})` : '';
+  const hint = noToken
+    ? "Configure ta sauvegarde GitHub (⚙ en bas de la barre latérale) pour que Smoke puisse lire ses rapports."
+    : "Dès que l'agent de test aura tourné sur la plateforme, sa première passe s'affichera ici.";
+  return `<div class="agent-report-empty">Pas encore de passe de Smoke${why}.<br>${hint}</div>`;
+}
+function smokeSortedAnomalies(r) {
+  const arr = Array.isArray(r.anomalies) ? r.anomalies.slice() : [];
+  return arr.sort((a, b) => {
+    const sa = (SMOKE_SEV[a.severite] || SMOKE_SEV.mineur).ordre;
+    const sb = (SMOKE_SEV[b.severite] || SMOKE_SEV.mineur).ordre;
+    if (sa !== sb) return sa - sb;                                  // sévérité d'abord
+    return String(a.module || '').localeCompare(String(b.module || '')); // puis module
+  });
+}
+function smokeAnomalyList(anos) {
+  return `<div class="smk-ano-list">${anos.map(a => {
+    const sev = SMOKE_SEV[a.severite] || SMOKE_SEV.mineur;
+    const loc = [a.module, a.ecran].filter(Boolean).map(esc).join(' · ');
+    return `<div class="smk-ano smk-ano-${esc(a.severite || 'mineur')}">
+      <div class="smk-ano-top">
+        <span class="smk-sev ${sev.cls}">${sev.label}</span>
+        <span class="smk-ano-titre">${esc(a.titre || 'Anomalie')}</span>
+        ${smokeStatutChip(a.statut)}
+      </div>
+      <div class="smk-ano-meta">${loc ? `<span class="smk-ano-loc">📍 ${loc}</span>` : ''}${a.role ? `<span class="smk-ano-role">👤 ${esc(a.role)}</span>` : ''}${a.detecte_le ? `<span class="smk-ano-date">🗓 ${esc(a.detecte_le)}</span>` : ''}</div>
+      ${a.resume ? `<div class="smk-ano-resume">${esc(a.resume)}</div>` : ''}
+    </div>`;
+  }).join('')}</div>`;
+}
+function renderSmokeToday(r) {
+  const dp = r.derniere_passe || {};
+  const s = r.synthese || {};
+  const h = smokeHealth(r);
+  const when = dp.date ? esc(String(dp.date).replace('T', ' à ')) : (r.updated_at ? esc(r.updated_at) : '');
+  let out = `<div class="agent-report-head"><span class="agent-report-title">Dernière passe de smoke tests</span><span class="agent-report-when">${when}</span></div>`;
+  out += `<div class="smk-health ${h.cls}"><span class="smk-health-dot">${h.dot}</span><span class="smk-health-lbl">${esc(h.label)}</span></div>`;
+  if ((s.bloquant || 0) > 0) {
+    out += `<div class="smk-alert">⛔ <strong>${s.bloquant} anomalie${s.bloquant > 1 ? 's' : ''} bloquante${s.bloquant > 1 ? 's' : ''}</strong> — une fonction vitale ne répond pas. À traiter en priorité.</div>`;
+  }
+  out += `<div class="smk-counters">
+    <div class="smk-counter smk-c-bloquant"><span class="smk-c-num">${s.bloquant || 0}</span><span class="smk-c-lbl">bloquant${(s.bloquant||0) > 1 ? 's' : ''}</span></div>
+    <div class="smk-counter smk-c-important"><span class="smk-c-num">${s.important || 0}</span><span class="smk-c-lbl">important${(s.important||0) > 1 ? 's' : ''}</span></div>
+    <div class="smk-counter smk-c-mineur"><span class="smk-c-num">${s.mineur || 0}</span><span class="smk-c-lbl">mineur${(s.mineur||0) > 1 ? 's' : ''}</span></div>
+  </div>`;
+  const bits = [];
+  if (dp.routes_testees != null) bits.push(`<strong>${dp.routes_testees}</strong> routes testées`);
+  if (dp.roles_testes != null) bits.push(`<strong>${dp.roles_testes}</strong> rôles`);
+  if (dp.total_anomalies != null) bits.push(`<strong>${dp.total_anomalies}</strong> anomalie${dp.total_anomalies > 1 ? 's' : ''} relevée${dp.total_anomalies > 1 ? 's' : ''}`);
+  if (bits.length) out += `<div class="report-evolution">🔎 ${bits.join(' · ')}</div>`;
+  const anos = smokeSortedAnomalies(r);
+  if (anos.length) {
+    out += `<div class="agent-report-block"><div class="arb-label">Anomalies à regarder</div>${smokeAnomalyList(anos.slice(0, 3))}</div>`;
+    if (anos.length > 3) out += `<div class="report-btn-row"><button class="cap-task-btn" onclick="setAgentTab('anomalies')">Voir les ${anos.length} anomalies →</button></div>`;
+  } else {
+    out += `<div class="agent-report-block"><div class="arb-text">Aucune anomalie sur cette passe : tout ce qui a été testé répond. 🎉</div></div>`;
+  }
+  return out;
+}
+function renderSmokeAnomalies(r) {
+  const anos = smokeSortedAnomalies(r);
+  if (!anos.length) return `<div class="agent-report-empty">Aucune anomalie sur la dernière passe : tout ce qui a été testé répond. 🎉</div>`;
+  return `<div class="agent-report" style="border:none;padding:0">${smokeAnomalyList(anos)}</div>`;
+}
+// Recharge le rapport de Smoke depuis Plateforme-CPTS/smoketest.json à la demande
+async function refreshSmokeReport() {
+  const box = document.getElementById('agent-tab-body');
+  if (box) box.innerHTML = `<div class="agent-report-loading">Lecture du dernier rapport de Smoke…</div>`;
+  agentConsoleData = await fetchSmokeReport().catch(() => ({}));
+  renderAgentTabBody();
 }
 function renderVictorToday(r) {
   const when = r.updated_at ? `Mis à jour le ${esc(r.updated_at)}${r.trigger ? ' · ' + esc(r.trigger) : ''}` : '';
@@ -6093,7 +6217,7 @@ function mdToHtml(t) {
   if (inList) out.push('</ul>');
   return out.join('\n').replace(/\n(?!<\/?(?:ul|li))/g, '<br>').replace(/\n/g, '');
 }
-const agentTabLabel = { today: "Aujourd'hui", cap: 'Cap commercial', financements: '🎯 Financements', local: '📍 Mon 64', board: '🦈 Concurrence', checklist: '✅ Check-list', dossier: '📁 Dossier', suivi: 'Suivi', journal: 'Journal', carnet: 'Carnet', chat: 'Échanger', fiche: 'Fiche' };
+const agentTabLabel = { today: "Aujourd'hui", cap: 'Cap commercial', financements: '🎯 Financements', local: '📍 Mon 64', board: '🦈 Concurrence', anomalies: 'Anomalies', checklist: '✅ Check-list', dossier: '📁 Dossier', suivi: 'Suivi', journal: 'Journal', carnet: 'Carnet', chat: 'Échanger', fiche: 'Fiche' };
 
 function openAgentConsole(slug) {
   currentAgentSlug = slug; agentTab = (slug === 'mako') ? 'board' : 'today'; agentConsoleData = null;
@@ -6117,10 +6241,13 @@ function renderAgentConsole(content, actions) {
   if (!f) { content.innerHTML = '<div class="panel"><div class="empty"><p>Agent introuvable.</p></div></div>'; return; }
   const a = f.a, s = orgStatut[a.statut] || orgStatut.todo;
   document.getElementById('view-title').textContent = 'Espace ' + (a.prenom || a.name);
-  actions.innerHTML = `
-    <button class="btn btn-ghost" onclick="goTo('strat-organigramme')">← Equipe</button>
-    <button class="btn btn-ghost" onclick="runAgentRonde()">▶ Faire tourner</button>
-    <button class="btn btn-ghost" onclick="openAgentConfigModal()">⚙ Régler</button>`;
+  // Smoke ne « tourne » pas ici : son agent de test vit sur Plateforme-CPTS. On rafraîchit son rapport.
+  actions.innerHTML = currentAgentSlug === 'smoke'
+    ? `<button class="btn btn-ghost" onclick="goTo('strat-organigramme')">← Equipe</button>
+       <button class="btn btn-ghost" onclick="refreshSmokeReport()">↻ Rafraîchir le rapport</button>`
+    : `<button class="btn btn-ghost" onclick="goTo('strat-organigramme')">← Equipe</button>
+       <button class="btn btn-ghost" onclick="runAgentRonde()">▶ Faire tourner</button>
+       <button class="btn btn-ghost" onclick="openAgentConfigModal()">⚙ Régler</button>`;
   content.innerHTML = `
     <div class="panel" style="max-width:1000px">
       <div class="agent-console-head">
@@ -6129,11 +6256,17 @@ function renderAgentConsole(content, actions) {
         <div class="ac-fresh" id="ac-fresh"></div>
       </div>
       <div class="agent-tabs">
-        ${(currentAgentSlug === 'orion' ? ['today', 'financements', 'local', 'suivi', 'journal', 'chat', 'fiche'] : currentAgentSlug === 'mako' ? ['board', 'chat', 'fiche'] : currentAgentSlug === 'chef-produit' ? ['today', 'cap', 'suivi', 'journal', 'carnet', 'chat', 'fiche'] : currentAgentSlug === 'victor' ? ['today', 'checklist', 'dossier', 'suivi', 'journal', 'chat', 'fiche'] : ['today', 'suivi', 'journal', 'chat', 'fiche']).map(t => `<button class="agent-tab ${agentTab === t ? 'is-active' : ''}" onclick="setAgentTab('${t}')">${agentTabLabel[t]}</button>`).join('')}
+        ${(currentAgentSlug === 'orion' ? ['today', 'financements', 'local', 'suivi', 'journal', 'chat', 'fiche'] : currentAgentSlug === 'mako' ? ['board', 'chat', 'fiche'] : currentAgentSlug === 'chef-produit' ? ['today', 'cap', 'suivi', 'journal', 'carnet', 'chat', 'fiche'] : currentAgentSlug === 'victor' ? ['today', 'checklist', 'dossier', 'suivi', 'journal', 'chat', 'fiche'] : currentAgentSlug === 'smoke' ? ['today', 'anomalies', 'fiche'] : ['today', 'suivi', 'journal', 'chat', 'fiche']).map(t => `<button class="agent-tab ${agentTab === t ? 'is-active' : ''}" onclick="setAgentTab('${t}')">${agentTabLabel[t]}</button>`).join('')}
       </div>
       <div class="agent-tab-body" id="agent-tab-body"><div class="agent-report-loading">Chargement…</div></div>
     </div>`;
   if (agentConsoleData !== null) { renderAgentTabBody(); }
+  else if (currentAgentSlug === 'smoke') {
+    // Smoke ne stocke pas en local : son rapport vit dans Plateforme-CPTS/smoketest.json (lu en direct)
+    fetchSmokeReport()
+      .then(data => { agentConsoleData = data || {}; renderAgentTabBody(); })
+      .catch(() => { agentConsoleData = {}; renderAgentTabBody(); });
+  }
   else {
     fetch('agents/' + agentDataSlug(currentAgentSlug) + '.json?t=' + Date.now())
       .then(r => r.ok ? r.json() : false)
@@ -6174,8 +6307,10 @@ function renderAgentTabBody() {
     if (latest && latest.updated_at) markReportSeen(currentAgentSlug, latest.updated_at);
     if (currentAgentSlug === 'orion') box.innerHTML = (latest && (latest.synthese || latest.reglementaire)) ? renderObservatoire(latest) : agentEmpty(a);
     else if (currentAgentSlug === 'victor') box.innerHTML = (latest && (latest.synthese || latest.domaines)) ? `<div class="agent-report" style="border:none;padding:0">${renderVictorToday(latest)}</div>` : agentEmpty(a);
+    else if (currentAgentSlug === 'smoke') box.innerHTML = (latest && latest.derniere_passe) ? `<div class="agent-report" style="border:none;padding:0">${renderSmokeToday(latest)}</div>` : smokeEmpty(latest);
     else box.innerHTML = latest && (latest.etat || latest.prochain_chantier) ? `<div class="agent-report" style="border:none;padding:0">${renderAgentReport(latest)}</div>` : agentEmpty(a);
   }
+  else if (agentTab === 'anomalies') box.innerHTML = (latest && latest.derniere_passe) ? renderSmokeAnomalies(latest) : smokeEmpty(latest);
   else if (agentTab === 'cap') box.innerHTML = renderAgentTabCap(latest);
   else if (agentTab === 'carnet') box.innerHTML = renderAgentTabCarnet();
   else if (agentTab === 'suivi') box.innerHTML = renderAgentTabSuivi();
@@ -6229,8 +6364,10 @@ function renderAgentTabFiche(f) {
     <div class="ac-fiche-row"><span class="ac-fiche-label">Rôle</span><span>${esc(a.role)}</span></div>
     <div class="ac-fiche-block"><div class="ac-fiche-label">Mission</div><div class="ac-fiche-text">${esc(a.mission)}</div></div>
     <div class="ac-fiche-block"><div class="ac-fiche-label">Quand l'appeler</div><div class="ac-fiche-text">${esc(a.quand)}</div></div>
-    <div class="ac-fiche-note">Ses instructions complètes (pour ses rondes) vivent dans <code>.claude/agents/${esc(currentAgentSlug)}.md</code> — lisibles et modifiables à tout moment.</div>
-    <div class="ac-fiche-row" style="align-items:center"><span class="ac-fiche-label">Réglages</span><button class="btn btn-ghost btn-sm" onclick="openAgentConfigModal()">⚙ Régler le chat (modèle, consignes)</button></div>
+    ${currentAgentSlug === 'smoke'
+      ? `<div class="ac-fiche-note">Smoke ne tourne pas dans ce cockpit : son agent de test vit sur le repo <code>Evalita03/Plateforme-CPTS</code> et publie ses passes dans <code>smoketest.json</code>. Le cockpit lit ce rapport en direct (bouton <strong>↻ Rafraîchir</strong>).</div>`
+      : `<div class="ac-fiche-note">Ses instructions complètes (pour ses rondes) vivent dans <code>.claude/agents/${esc(currentAgentSlug)}.md</code> — lisibles et modifiables à tout moment.</div>
+    <div class="ac-fiche-row" style="align-items:center"><span class="ac-fiche-label">Réglages</span><button class="btn btn-ghost btn-sm" onclick="openAgentConfigModal()">⚙ Régler le chat (modèle, consignes)</button></div>`}
   </div>`;
 }
 function getAgentConfig(slug) { if (!state.agentConfig || typeof state.agentConfig !== 'object') state.agentConfig = {}; return state.agentConfig[slug] || {}; }
@@ -8136,6 +8273,26 @@ async function fetchDynamicRoadmap() {
     return { items: Array.isArray(parsed.items) ? parsed.items : [], updated_at: parsed.updated_at };
   } catch (e) {
     return { items: [], note: 'lecture impossible : ' + e.message };
+  }
+}
+
+// Lit Plateforme-CPTS/smoketest.json (rapport de l'agent Smoke, même plomberie que roadmap)
+async function fetchSmokeReport() {
+  const cfg = getGhConfig();
+  if (!cfg.token) return { empty: true, note: 'token GitHub non configuré' };
+  const owner = cfg.owner || 'Evalita03';
+  const url = `https://api.github.com/repos/${owner}/Plateforme-CPTS/contents/smoketest.json?ref=main&t=${Date.now()}`;
+  try {
+    const resp = await fetch(url, {
+      headers: { 'Authorization': `token ${cfg.token}`, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    if (resp.status === 404) return { empty: true, note: 'pas encore de passe' };
+    if (!resp.ok) { const e = await resp.json().catch(()=>({})); return { empty: true, note: `API GitHub : ${e.message || resp.status}` }; }
+    const data = await resp.json();
+    const parsed = JSON.parse(b64ToUtf8(data.content));
+    return parsed && typeof parsed === 'object' ? parsed : { empty: true, note: 'rapport illisible' };
+  } catch (e) {
+    return { empty: true, note: 'lecture impossible : ' + e.message };
   }
 }
 
