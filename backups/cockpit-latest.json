@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-28T09:07:47.267Z",
+  "exportedAt": "2026-06-28T09:10:40.353Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -5787,6 +5787,12 @@
         "status": "doing",
         "category": "admin",
         "body": "Préconisé par Victor (Secrétariat général).\n\nTu as maintenant le numéro officiel qui te manquait : SIREN 105 247 977 (RCS Pau). C'est l'info de blocage qui est levée. Va sur impots.gouv.fr → « Votre espace professionnel » → « Créer mon espace » (mode simplifié), saisis ce SIREN + un e-mail société. Le code d'activation arrive ensuite PAR COURRIER sous ~15 jours (à activer dans les 60 jours). C'est le préalable à toutes tes déclarations (TVA, IS, CFE) et à ton attestation de régularité fiscale. À lancer cette semaine. En parallèle, tâche secondaire simple : te procurer le registre des décisions de l'associée unique (voir échéances/note)."
+      },
+      {
+        "id": "mqxkiub1gv1ep",
+        "title": "Rendre effectif mon compte pro - commencer à payer en pro",
+        "status": "doing",
+        "body": ""
       }
     ],
     "strategie": [],
