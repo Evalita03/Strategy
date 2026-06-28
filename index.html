@@ -5986,11 +5986,14 @@ function renderObservatoire(r, opts) {
   // Opportunités
   if (Array.isArray(r.opportunites) && r.opportunites.length) {
     nav.push([sid('obs-opportunites'), '🌱 Opportunités']);
-    const cards = r.opportunites.map(x => `<div class="obs-card">
+    const cards = r.opportunites.map((x, i) => `<div class="obs-card">
       <div class="obs-card-top"><div class="obs-card-titre">${esc(x.titre || '')}</div>${x.echeance ? `<span class="obs-badge obs-imp-moyen">⏳ ${esc(x.echeance)}</span>` : ''}</div>
       ${x.detail ? `<div class="obs-card-detail">${esc(x.detail)}</div>` : ''}
       ${x.lecture ? `<div class="obs-lecture">${esc(x.lecture)}</div>` : ''}
       <div class="obs-card-foot">${obsSrc(x.source, 'source')}</div>
+      ${hist ? '' : (pisteAdded(x.titre || '')
+        ? `<div class="obs-fin-actionrow"><span class="fin-added">✓ planifiée</span></div>`
+        : `<div class="obs-fin-actionrow"><button class="cap-task-btn" onclick="addOppPiste(event, ${i})">+ planifier</button></div>`)}
     </div>`).join('');
     sections.push(obsSection(sid('obs-opportunites'), '🌱', 'Opportunités à saisir', r.opportunites.length, cards));
   }
@@ -6323,7 +6326,7 @@ function renderAgentConsole(content, actions) {
         <div class="ac-fresh" id="ac-fresh"></div>
       </div>
       <div class="agent-tabs">
-        ${(currentAgentSlug === 'orion' ? ['today', 'financements', 'local', 'suivi', 'journal', 'chat', 'fiche'] : currentAgentSlug === 'mako' ? ['board', 'chat', 'fiche'] : currentAgentSlug === 'chef-produit' ? ['today', 'cap', 'suivi', 'journal', 'carnet', 'chat', 'fiche'] : currentAgentSlug === 'victor' ? ['today', 'checklist', 'dossier', 'suivi', 'journal', 'chat', 'fiche'] : currentAgentSlug === 'smoke' ? ['today', 'fiche'] : ['today', 'suivi', 'journal', 'chat', 'fiche']).map(t => `<button class="agent-tab ${agentTab === t ? 'is-active' : ''}" onclick="setAgentTab('${t}')">${(currentAgentSlug === 'orion' && t === 'today') ? '🔭 Écosystème' : agentTabLabel[t]}</button>`).join('')}
+        ${(currentAgentSlug === 'orion' ? ['today', 'financements', 'suivi', 'journal', 'chat', 'fiche'] : currentAgentSlug === 'mako' ? ['board', 'chat', 'fiche'] : currentAgentSlug === 'chef-produit' ? ['today', 'cap', 'suivi', 'journal', 'carnet', 'chat', 'fiche'] : currentAgentSlug === 'victor' ? ['today', 'checklist', 'dossier', 'suivi', 'journal', 'chat', 'fiche'] : currentAgentSlug === 'smoke' ? ['today', 'fiche'] : ['today', 'suivi', 'journal', 'chat', 'fiche']).map(t => `<button class="agent-tab ${agentTab === t ? 'is-active' : ''}" onclick="setAgentTab('${t}')">${(currentAgentSlug === 'orion' && t === 'today') ? '🔭 Écosystème' : agentTabLabel[t]}</button>`).join('')}
       </div>
       <div class="agent-tab-body" id="agent-tab-body"><div class="agent-report-loading">Chargement…</div></div>
     </div>`;
@@ -6478,6 +6481,13 @@ function addFinPiste(ev, kind, idx) {
   const list = kind === 'sub' ? fin.subventions : fin.appels_projets;
   const x = (Array.isArray(list) ? list : [])[idx]; if (!x) return;
   openPistePlanner({ title: (x.titre || '').trim(), why: x.lecture || x.detail || '', body: finPisteBody(x), type: 'coup', dest: 'financements', theme: kind === 'sub' ? 'Subventions' : 'Appels à projets' });
+}
+// Bouton « + planifier » sur une opportunité (écosystème)
+function addOppPiste(ev, idx) {
+  const reps = agentReportsFromData(agentConsoleData);
+  const r = reps[reps.length - 1] || {};
+  const x = (Array.isArray(r.opportunites) ? r.opportunites : [])[idx]; if (!x) return;
+  openPistePlanner({ title: (x.titre || '').trim(), why: x.lecture || x.detail || '', body: [x.detail, x.echeance ? 'Échéance : ' + x.echeance : '', x.lecture ? 'Pour toi : ' + x.lecture : '', x.source ? 'Source : ' + x.source : ''].filter(Boolean).join('\n\n'), type: 'coup', dest: 'financements', theme: 'Appels à projets' });
 }
 function confirmAddPiste() {
   const slug = currentAgentSlug;
