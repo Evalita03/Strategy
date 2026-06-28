@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-28T09:23:41.263Z",
+  "exportedAt": "2026-06-28T09:28:40.785Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7315,6 +7315,14 @@
         {
           "role": "assistant",
           "content": "Bonne question — voilà ce que je peux te dire avec mon rapport actuel, et ce que je dois vérifier à la source avant de t'engager sur des chiffres précis.\n\n---\n\n**Ce que tu peux faire dès maintenant (sans vérification)**\n\n- **Toutes tes dépenses pro passent par le compte pro** — on vient d'en parler ✔\n- **Garde TOUTES tes factures** au nom de CPTS Pilot SAS (GitHub, Scalingo, domaine, téléphone pro, matériel…) — sans facture au nom de la société, pas de déduction\n- **Ton matériel informatique** (ordi, écran, etc.) : si tu l'as acheté après la création de la société (14/05/2026), il peut être inscrit à l'actif ou passé en charge — à voir avec ton expert-comptable\n- **Ton téléphone** : si tu l'utilises pour le pro, une quote-part est déductible\n- **Frais de formation** : si tu suis des formations (code, gestion, marketing…), c'est une charge pro déductible\n\n---\n\n**Ce que je dois vérifier à la source avant de te donner des chiffres**\n\n⚠️ Ces points concernent des taux, seuils et règles fiscales qui changent — je ne veux pas te dire une bêtise :\n\n- Le seuil exact de **franchise en base de TVA** en 2026 (si tu es en dessous, tu ne factures pas la TVA et tu ne la récupères pas non plus — double impact)\n- Les règles de **déduction de TVA** sur les achats pro selon ton régime\n- Le plafond de **déductibilité des frais de repas** et déplacements\n- Les règles d'**amortissement du matériel** vs passage en charge directe\n\n→ Je vérifierai tout ça lors d'une **▶ Ronde** (impots.gouv.fr + URSSAF)\n\n---\n\n**Mon conseil le plus important**\n\n> Le meilleur \"optimiseur de charges\" pour toi right now, c'est de **choisir ton expert-comptable** (tâche active dans ton suivi).\n\nPourquoi c'est prioritaire :\n- Il choisit avec toi le **régime de TVA** le plus adapté à ta situation\n- Il cadre le **régime IS** et les amortissements\n- Il te dit si tu te **rémunères ou pas** cette année (impact cotisations URSSAF)\n- Il t'évite des erreurs qui coûtent plus cher que ses honoraires\n\n---\n\n**Une question pour avancer :** tu as déjà des pistes d'expert-comptable, ou tu veux qu'on cade ensemble les critères pour en choisir un adapté à une SASU solo SaaS ?"
+        },
+        {
+          "role": "user",
+          "content": "tu peux me rajouter une check liste dédiée à l'optimisation des frais pros ?"
+        },
+        {
+          "role": "assistant",
+          "content": "Je suis content que tu y penses — mais je vais être honnête avec toi :\n\n---\n\n**Je ne peux pas créer cette checklist correctement aujourd'hui**\n\nVoici pourquoi :\n\n- Une checklist d'optimisation fiscale **engage des chiffres précis** (seuils TVA, plafonds déduction, taux amortissement…)\n- Je n'ai pas accès web en direct → je ne peux pas vérifier les valeurs 2026 à la source\n- Te donner une liste avec de mauvaises données = **risque réel** pour toi (redressement, mauvaise décision)\n\n---\n\n**Ce que je propose à la place**\n\n> **▶ Faire tourner une Ronde** ciblée sur ce sujet\n\nJe prépare une liste de points précis à vérifier (impots.gouv.fr, URSSAF, BOFiP), et je te reviens avec une checklist fiable et chiffrée.\n\nLes points que je vais vérifier :\n- Seuil franchise en base TVA 2026\n- Déduction TVA sur achats pro (selon régime)\n- Amortissement matériel vs charge directe\n- Plafonds frais de repas / déplacement\n- Statut social présidente non rémunérée vs rémunérée (impact cotisations)\n- Compte courant d'associée : règles de rémunération\n\n---\n\n**Tu veux que je lance cette Ronde ?** Je te reviens avec quelque chose de solide plutôt que d'improviser."
         }
       ]
     },
