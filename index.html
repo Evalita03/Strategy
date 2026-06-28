@@ -1154,6 +1154,12 @@ body {
 .mp-sugg-orion { background: var(--blue-50); color: var(--blue-700); }
 .mp-sugg-mako { background: #FEE2E2; color: #B91C1C; }
 .mp-sugg-carla { background: var(--teal-100); color: var(--teal-700); }
+/* Renvoi léger vers l'espace des agents (remplace la liste complète dans le plan) */
+.mp-pointer { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 12px; padding: 10px 14px; margin: 0 0 18px; }
+.mp-pointer-txt { font-size: 12.5px; color: var(--slate-600); line-height: 1.4; }
+.mp-pointer-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-left: auto; }
+.mp-pointer-chip { border: none; cursor: pointer; font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; border-radius: 20px; padding: 5px 11px; transition: filter .15s; }
+.mp-pointer-chip:hover { filter: brightness(0.94); }
 .mp-sugg-txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .mp-sugg-title { font-size: 13px; font-weight: 700; color: var(--slate-800); line-height: 1.35; }
 .mp-sugg-why { font-size: 11.5px; color: var(--slate-500); line-height: 1.4; }
@@ -7166,52 +7172,26 @@ function computeMarcheSuggestions() {
   // On masque ce qui est déjà dans la trame (même intitulé) ou explicitement ignoré
   const have = new Set((state.marchePlan || []).map(x => (x.title || '').trim().toLowerCase()));
   const dismissed = new Set(state.marcheSuggDismissed || []);
-  return sugg.filter(s => !have.has(s.title.toLowerCase()) && !dismissed.has(s.key));
+  // On exclut aussi ce qui est déjà en roadmap (ajouté depuis l'espace de l'agent)
+  return sugg.filter(s => !have.has(s.title.toLowerCase()) && !dismissed.has(s.key) && !roadmapHas(s.title));
 }
 function marcheSuggestionsHtml() {
   if (marcheAgentData === null) return `<div class="mp-agents mp-agents-loading">🛰️ Lecture de tes agents…</div>`;
   marcheSuggestions = computeMarcheSuggestions();
   if (!marcheSuggestions.length) return '';
-  return `<div class="mp-agents">
-    <div class="mp-agents-head"><span class="mp-agents-title">🛰️ Repéré par tes agents</span><span class="mp-agents-hint">Orion, Mako &amp; Carla — à intégrer (ou ignorer)</span></div>
-    ${marcheSuggestions.map((s, i) => `<div class="mp-sugg">
-      <span class="mp-sugg-src mp-sugg-${s.source.toLowerCase()}">${esc(s.source)}</span>
-      <span class="mp-sugg-txt"><span class="mp-sugg-title">${esc(s.title)}</span>${s.why ? `<span class="mp-sugg-why">${esc(s.why.slice(0, 130))}${s.why.length > 130 ? '…' : ''}</span>` : ''}</span>
-      <button class="btn btn-ghost btn-sm" onclick="openAddSuggestion(${i})">+ Ajouter au plan</button>
-      <button class="mp-sugg-x" title="Ignorer cette suggestion" onclick="dismissMarcheSuggestion(${i})">✕</button>
-    </div>`).join('')}
+  // Renvoi léger : la matière vit dans l'espace de chaque agent ; ici juste un rappel + des raccourcis
+  const slugOf = { orion: 'orion', mako: 'mako', carla: 'carla' };
+  const counts = {};
+  marcheSuggestions.forEach(s => { const k = s.source.toLowerCase(); counts[k] = (counts[k] || 0) + 1; });
+  const n = marcheSuggestions.length;
+  const chips = Object.keys(counts).map(k =>
+    `<button class="mp-pointer-chip mp-sugg-${k}" onclick="openAgentConsole('${slugOf[k] || k}')">${esc(k.charAt(0).toUpperCase() + k.slice(1))} · ${counts[k]} →</button>`
+  ).join('');
+  return `<div class="mp-pointer">
+    <span class="mp-pointer-txt">🛰️ <strong>${n} trouvaille${n > 1 ? 's' : ''}</strong> de tes agents à regarder — ouvre leur espace pour ajouter à ta roadmap</span>
+    <span class="mp-pointer-chips">${chips}</span>
   </div>`;
 }
-function openAddSuggestion(i) {
-  const s = marcheSuggestions[i]; if (!s) return;
-  const m = document.getElementById('modal'); m.classList.remove('qc-mode', 'modal-wide');
-  m.innerHTML = `
-    <h2>Ajouter au plan de marché</h2>
-    <p style="font-size:13px;color:var(--slate-600);line-height:1.55;margin-bottom:14px">« <b>${esc(s.title)}</b> » — proposé par <b>${esc(s.source)}</b>. Choisis le thème où le ranger dans ta trame.</p>
-    <div class="field"><label>Thème</label><select id="sugg-theme">${MARCHE_THEMES.map(t => `<option value="${esc(t)}" ${t === s.defaultTheme ? 'selected' : ''}>${esc(t)}</option>`).join('')}</select></div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
-      <button class="btn btn-primary" onclick="confirmAddSuggestion(${i})">Ajouter</button>
-    </div>`;
-  document.getElementById('modal-overlay').classList.add('open');
-}
-function confirmAddSuggestion(i) {
-  const s = marcheSuggestions[i]; if (!s) { closeModal(); return; }
-  const theme = document.getElementById('sugg-theme').value || s.defaultTheme;
-  state.marchePlan = state.marchePlan || [];
-  if (!state.marchePlan.some(x => (x.title || '').trim().toLowerCase() === s.title.toLowerCase())) {
-    state.marchePlan.push({ id: uid(), theme, title: s.title, status: 'planned', body: s.body || '', source: s.source });
-  }
-  save(); closeModal(); render();
-  vivierToast('✓ Ajouté à ta trame (' + theme + ')');
-}
-function dismissMarcheSuggestion(i) {
-  const s = marcheSuggestions[i]; if (!s) return;
-  state.marcheSuggDismissed = state.marcheSuggDismissed || [];
-  if (!state.marcheSuggDismissed.includes(s.key)) state.marcheSuggDismissed.push(s.key);
-  save(); render();
-}
-
 // ============ VUE PROSPECTS ============
 const statutLabels = { contact:'Premier contact', demo:'Démo planifiée', nego:'En négociation', client:'Client signé' };
 const statutClass = { contact:'status-contact', demo:'status-demo', nego:'status-nego', client:'status-client' };
@@ -7909,7 +7889,7 @@ async function backupToGithub(silent) {
     // un vieux SHA et le PUT échoue avec "does not match").
     async function fetchSha() {
       const getResp = await fetch(`${apiUrl}?ref=${branch}&t=${Date.now()}`, {
-        headers: { ...headers, 'Cache-Control': 'no-cache' },
+        headers,
         cache: 'no-store'
       });
       if (getResp.ok) return (await getResp.json()).sha;
