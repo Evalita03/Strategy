@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-28T15:58:06.416Z",
+  "exportedAt": "2026-06-28T16:00:57.198Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7459,6 +7459,15 @@
         "month": "2026-06"
       },
       {
+        "id": "mqxz2833owkri",
+        "theme": "Canaux & go-to-market",
+        "title": "Dresser ta première liste de CPTS à viser (5 à 10 noms)",
+        "status": "planned",
+        "body": "Repéré par Carla (commercial).\n\nAvant tout message, il faut savoir à QUI on parle. Tu as un avantage rare : tu es coordinatrice, tu connais déjà des CPTS de l'intérieur. Commence par celles dont tu es proche ou que tu peux atteindre via ton réseau — c'est là que la confiance est déjà là. Pour chacune : nom, territoire, et la personne à contacter (la coordinatrice en priorité, c'est elle qui décide). On ne contacte personne tant que Magnus n'a pas validé la démo — cette liste, c'est le terrain qu'on prépare en parallèle, sans rien risquer.",
+        "source": "Carla (commercial)",
+        "month": "2026-07"
+      },
+      {
         "id": "mqnludaqhga0x",
         "theme": "Veille concurrentielle",
         "title": "Recenser leurs prix publics et positionnements",
@@ -7467,12 +7476,13 @@
         "month": "2026-07"
       },
       {
-        "id": "mqnludaq3voxk",
-        "theme": "Ciblage",
-        "title": "Définir les 3 CPTS prioritaires à approcher",
+        "id": "mqpf3wand2hny",
+        "theme": "Argumentaire",
+        "title": "Faire de « financé par l'enveloppe ACI » un argument commercial central",
         "status": "planned",
-        "body": "Choisir où concentrer l'effort en premier, avec un critère clair.",
-        "month": "2026-06"
+        "body": "L'abonnement logiciel est une dépense ACI éligible : c'est un levier d'achat décisif pour une CPTS.\n\nÀ faire : Préparer une phrase claire et un mini-justificatif (référence ACI) à donner aux CPTS prospectes.",
+        "source": "Orion",
+        "month": "2026-07"
       },
       {
         "id": "mqnludaqgtyzy",
@@ -7497,6 +7507,33 @@
         "status": "planned",
         "body": "Le message d'ouverture et le support qui l'accompagne.",
         "month": "2026-09"
+      },
+      {
+        "id": "mqxz2kqj3kdz3",
+        "theme": "Argumentaire",
+        "title": "Préparer la réponse rassurante « mes données sont où, c'est sécurisé ? » AVEC Cléo — une CPTS la posera vite.",
+        "status": "planned",
+        "body": "Repéré par Carla (commercial).\n\n",
+        "source": "Carla (commercial)",
+        "month": "2026-08"
+      },
+      {
+        "id": "mqxz2fohyuq5p",
+        "theme": "Argumentaire",
+        "title": "Caler le modèle d'offre/devis AVEC Victor (lui le côté conforme, moi le quoi/combien/pourquoi) avant la première proposition.",
+        "status": "planned",
+        "body": "Repéré par Carla (commercial).\n\n",
+        "source": "Carla (commercial)",
+        "month": "2026-08"
+      },
+      {
+        "id": "mqxz2b25y02zh",
+        "theme": "Argumentaire",
+        "title": "Préparer le pitch d'une phrase qui dit ce qu'on apporte (pas une feature) — sur la base du message marque : « fait pour les CPTS, l'outil s'adapte à elles ».",
+        "status": "planned",
+        "body": "Repéré par Carla (commercial).\n\n",
+        "source": "Carla (commercial)",
+        "month": "2026-08"
       },
       {
         "id": "mqnludaq8w367",
@@ -7529,46 +7566,6 @@
         "status": "planned",
         "body": "Un exemple concret vaut mille arguments.",
         "month": "2026-10"
-      },
-      {
-        "id": "mqpf3wand2hny",
-        "theme": "Argumentaire",
-        "title": "Faire de « financé par l'enveloppe ACI » un argument commercial central",
-        "status": "planned",
-        "body": "L'abonnement logiciel est une dépense ACI éligible : c'est un levier d'achat décisif pour une CPTS.\n\nÀ faire : Préparer une phrase claire et un mini-justificatif (référence ACI) à donner aux CPTS prospectes.",
-        "source": "Orion"
-      },
-      {
-        "id": "mqxz2833owkri",
-        "theme": "Canaux & go-to-market",
-        "title": "Dresser ta première liste de CPTS à viser (5 à 10 noms)",
-        "status": "planned",
-        "body": "Repéré par Carla (commercial).\n\nAvant tout message, il faut savoir à QUI on parle. Tu as un avantage rare : tu es coordinatrice, tu connais déjà des CPTS de l'intérieur. Commence par celles dont tu es proche ou que tu peux atteindre via ton réseau — c'est là que la confiance est déjà là. Pour chacune : nom, territoire, et la personne à contacter (la coordinatrice en priorité, c'est elle qui décide). On ne contacte personne tant que Magnus n'a pas validé la démo — cette liste, c'est le terrain qu'on prépare en parallèle, sans rien risquer.",
-        "source": "Carla (commercial)"
-      },
-      {
-        "id": "mqxz2b25y02zh",
-        "theme": "Argumentaire",
-        "title": "Préparer le pitch d'une phrase qui dit ce qu'on apporte (pas une feature) — sur la base du message marque : « fait pour les CPTS, l'outil s'adapte à elles ».",
-        "status": "planned",
-        "body": "Repéré par Carla (commercial).\n\n",
-        "source": "Carla (commercial)"
-      },
-      {
-        "id": "mqxz2fohyuq5p",
-        "theme": "Argumentaire",
-        "title": "Caler le modèle d'offre/devis AVEC Victor (lui le côté conforme, moi le quoi/combien/pourquoi) avant la première proposition.",
-        "status": "planned",
-        "body": "Repéré par Carla (commercial).\n\n",
-        "source": "Carla (commercial)"
-      },
-      {
-        "id": "mqxz2kqj3kdz3",
-        "theme": "Argumentaire",
-        "title": "Préparer la réponse rassurante « mes données sont où, c'est sécurisé ? » AVEC Cléo — une CPTS la posera vite.",
-        "status": "planned",
-        "body": "Repéré par Carla (commercial).\n\n",
-        "source": "Carla (commercial)"
       }
     ],
     "marchePlanSeeded": true,
