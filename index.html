@@ -374,7 +374,7 @@ body {
 .org-pole-name { font-size: 13.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--slate-900); }
 .org-pole-tag { font-size: 12.5px; color: var(--slate-500); font-style: italic; margin-top: 1px; }
 .org-pole-count { font-size: 11px; font-weight: 700; color: var(--slate-500); white-space: nowrap; background: var(--slate-100); border-radius: 20px; padding: 4px 11px; }
-.org-pole-body { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: center; gap: 14px 34px; padding: 16px 4px 4px; overflow-x: auto; }
+.org-pole-body { position: relative; display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: center; gap: 14px 34px; padding: 16px 4px 4px; overflow-x: auto; }
 .org-chart, .org-chart ul { list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; }
 .org-chart { flex-direction: column; align-items: center; }
 .org-chart li { position: relative; padding: 16px 9px 0; display: flex; flex-direction: column; align-items: center; }
@@ -415,9 +415,13 @@ body {
 .org-agent.is-capteur { background: var(--slate-50); border-style: dashed; border-color: var(--slate-300); box-shadow: none; }
 .org-agent.is-capteur::before { background: repeating-linear-gradient(180deg, var(--slate-300) 0 5px, transparent 5px 9px); }
 .org-capteur-tag { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--slate-500); background: var(--white); border: 1px dashed var(--slate-300); border-radius: 20px; padding: 3px 9px; white-space: nowrap; flex-shrink: 0; align-self: flex-start; }
-/* Lien « alimente » — flux d'information, pas de hiérarchie */
-.org-feed { margin-top: 8px; font-size: 11.5px; font-weight: 700; color: var(--blue-700); background: var(--blue-50); border: 1px dashed var(--blue-100); border-radius: 9px; padding: 4px 10px; display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; }
-.org-feed-arrow { font-size: 15px; line-height: 1; transform: translateY(1px); }
+/* Lien « alimente » — flèche tracée (flux d'info, hors chaîne de commandement) */
+.org-feed-layer { position: absolute; top: 0; left: 0; pointer-events: none; overflow: visible; }
+.org-feed-path { fill: none; stroke: var(--blue-500); stroke-width: 2; stroke-dasharray: 1.5 5; stroke-linecap: round; }
+.org-feed-head { fill: none; stroke: var(--blue-500); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.org-feed-dot { fill: var(--blue-500); }
+.org-feed-label-bg { fill: var(--blue-50); stroke: var(--blue-100); stroke-width: 1; }
+.org-feed-label { fill: var(--blue-700); font: 700 10.5px 'Manrope', system-ui, sans-serif; letter-spacing: 0.03em; }
 /* Modale agent — fiche mission + dernier rapport */
 .agent-fiche { background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 12px; padding: 16px 18px; margin-bottom: 18px; }
 .agent-fiche-role { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--blue-700); margin-bottom: 10px; }
@@ -5372,17 +5376,68 @@ function renderOrganigramme(content, actions) {
   });
   html += '</div>';
   content.innerHTML = html;
+  requestAnimationFrame(drawOrgFeeds);
 }
+// Trace les flèches « alimente » (flux d'info) par-dessus l'arbre hiérarchique
+const SVGNS = 'http://www.w3.org/2000/svg';
+function svgEl(tag, attrs) {
+  const el = document.createElementNS(SVGNS, tag);
+  for (const k in attrs) el.setAttribute(k, attrs[k]);
+  return el;
+}
+function drawOrgFeeds() {
+  if (typeof currentView !== 'undefined' && currentView !== 'strat-organigramme') return;
+  const bodies = document.querySelectorAll('.org-pole-body');
+  ORGANIGRAMME.poles.forEach((pole, pi) => {
+    const body = bodies[pi]; if (!body) return;
+    const old = body.querySelector('.org-feed-layer'); if (old) old.remove();
+    const links = [];
+    pole.agents.forEach(a => {
+      if (!a.alimente) return;
+      const src = body.querySelector('.org-agent[data-agent="' + (a.prenom || a.name) + '"]'); if (!src) return;
+      a.alimente.forEach(tn => {
+        const tgt = body.querySelector('.org-agent[data-agent="' + tn + '"]'); if (tgt) links.push([src, tgt]);
+      });
+    });
+    if (!links.length) return;
+    const br = body.getBoundingClientRect();
+    const pos = el => { const r = el.getBoundingClientRect();
+      return { l: r.left - br.left + body.scrollLeft, t: r.top - br.top + body.scrollTop, w: r.width, h: r.height }; };
+    const svg = svgEl('svg', { class: 'org-feed-layer', width: body.scrollWidth, height: body.scrollHeight });
+    links.forEach(([srcEl, tgtEl]) => {
+      const S = pos(srcEl), T = pos(tgtEl);
+      const leftward = (T.l + T.w / 2) < (S.l + S.w / 2);
+      const sax = leftward ? S.l : S.l + S.w, say = S.t + S.h / 2;
+      const tax = leftward ? T.l + T.w : T.l, tay = T.t + T.h / 2;
+      const off = Math.max(40, Math.abs(sax - tax) * 0.4), bow = 22;
+      const c1x = leftward ? sax - off : sax + off, c1y = say + bow;
+      const c2x = leftward ? tax + off : tax - off, c2y = tay + bow;
+      svg.appendChild(svgEl('path', { class: 'org-feed-path', d: `M ${sax} ${say} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${tax} ${tay}` }));
+      svg.appendChild(svgEl('circle', { class: 'org-feed-dot', cx: sax, cy: say, r: 3 }));
+      const ang = Math.atan2(tay - c2y, tax - c2x), ah = 7;
+      const ax1 = tax + ah * Math.cos(ang + Math.PI - 0.5), ay1 = tay + ah * Math.sin(ang + Math.PI - 0.5);
+      const ax2 = tax + ah * Math.cos(ang + Math.PI + 0.5), ay2 = tay + ah * Math.sin(ang + Math.PI + 0.5);
+      svg.appendChild(svgEl('path', { class: 'org-feed-head', d: `M ${ax1} ${ay1} L ${tax} ${tay} L ${ax2} ${ay2}` }));
+      const mx = 0.125 * sax + 0.375 * c1x + 0.375 * c2x + 0.125 * tax;
+      const my = 0.125 * say + 0.375 * c1y + 0.375 * c2y + 0.125 * tay;
+      const tw = 62;
+      svg.appendChild(svgEl('rect', { class: 'org-feed-label-bg', x: mx - tw / 2, y: my - 9, width: tw, height: 17, rx: 8 }));
+      const label = svgEl('text', { class: 'org-feed-label', x: mx, y: my + 3.5, 'text-anchor': 'middle' });
+      label.textContent = 'alimente';
+      svg.appendChild(label);
+    });
+    body.appendChild(svg);
+  });
+}
+let orgFeedTimer = null;
+window.addEventListener('resize', () => { clearTimeout(orgFeedTimer); orgFeedTimer = setTimeout(drawOrgFeeds, 120); });
 function orgCard(a) {
   const s = orgStatut[a.statut] || orgStatut.todo;
   const nom = a.prenom || a.name;
   const initial = (nom || '?').trim().charAt(0).toUpperCase();
   const stateCls = a.statut === 'active' ? 'is-active' : (a.statut === 'next' ? 'is-next' : '');
   const capteurCls = a.capteur ? ' is-capteur' : '';
-  const feed = a.alimente && a.alimente.length
-    ? `<div class="org-feed"><span class="org-feed-arrow">⤳</span> alimente ${a.alimente.map(esc).join(' · ')}</div>`
-    : '';
-  return `<div class="org-agent ${stateCls}${capteurCls}" onclick="openAgentConsole('${a.slug || slugifyAgent(a.name)}')">
+  return `<div class="org-agent ${stateCls}${capteurCls}" data-agent="${esc(nom)}" onclick="openAgentConsole('${a.slug || slugifyAgent(a.name)}')">
     <div class="org-agent-top">
       <span class="org-avatar" style="background:${orgAvatarGrad(nom)}">${esc(initial)}</span>
       <div class="org-agent-id">
@@ -5393,7 +5448,6 @@ function orgCard(a) {
     </div>
     <div class="org-agent-sub">${esc(a.role)}</div>
     <div class="org-agent-mission">${esc(a.mission)}</div>
-    ${feed}
     <div class="org-agent-quand">${esc(a.quand)}</div>
     <div class="org-agent-cta">Ouvrir la fiche →</div>
   </div>`;
