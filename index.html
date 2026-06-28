@@ -411,6 +411,13 @@ body {
 .org-agent-quand { margin-top: 8px; font-size: 12px; color: var(--slate-500); font-style: italic; border-top: 1px dashed var(--slate-200); padding-top: 7px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .org-agent-cta { margin-top: 8px; font-size: 11.5px; font-weight: 700; color: var(--blue-700); opacity: 0; max-height: 0; overflow: hidden; transition: opacity .15s, max-height .15s; }
 .org-agent:hover .org-agent-cta { opacity: 1; max-height: 24px; }
+/* Capteurs (instruments) — rattachés mais hors chaîne de commandement */
+.org-agent.is-capteur { background: var(--slate-50); border-style: dashed; border-color: var(--slate-300); box-shadow: none; }
+.org-agent.is-capteur::before { background: repeating-linear-gradient(180deg, var(--slate-300) 0 5px, transparent 5px 9px); }
+.org-capteur-tag { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--slate-500); background: var(--white); border: 1px dashed var(--slate-300); border-radius: 20px; padding: 3px 9px; white-space: nowrap; flex-shrink: 0; align-self: flex-start; }
+/* Lien « alimente » — flux d'information, pas de hiérarchie */
+.org-feed { margin-top: 8px; font-size: 11.5px; font-weight: 700; color: var(--blue-700); background: var(--blue-50); border: 1px dashed var(--blue-100); border-radius: 9px; padding: 4px 10px; display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; }
+.org-feed-arrow { font-size: 15px; line-height: 1; transform: translateY(1px); }
 /* Modale agent — fiche mission + dernier rapport */
 .agent-fiche { background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 12px; padding: 16px 18px; margin-bottom: 18px; }
 .agent-fiche-role { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--blue-700); margin-bottom: 10px; }
@@ -5265,10 +5272,10 @@ const ORGANIGRAMME = {
         { prenom: "Magnus", name: "Chef Produit", statut: "active", role: "Le coup d'avance",
           mission: "Lit tout le repo et la roadmap, sait toujours où on en est, et projette : prochain chantier, vision, fonctionnalités à déployer.",
           quand: "« Par quoi je commence ? Où on en est ? Qu'est-ce qui vient après ? »" },
-        { prenom: "Otto", name: "Monitoring", statut: "todo", manager: "Magnus", role: "La plateforme en marche",
+        { prenom: "Otto", name: "Monitoring", statut: "todo", manager: "Magnus", capteur: true, role: "La plateforme en marche",
           mission: "Surveille le produit en production et fait remonter bugs, alertes et incidents (Sentry) directement sur le cockpit.",
           quand: "« Est-ce que ça tourne ? Qu'est-ce qui a planté ? »" },
-        { prenom: "Smoke", name: "Smoke Tests", slug: "smoke", statut: "active", manager: "Magnus", role: "Les fonctions vitales répondent",
+        { prenom: "Smoke", name: "Smoke Tests", slug: "smoke", statut: "active", manager: "Magnus", capteur: true, alimente: ["Iris", "Cléo"], role: "Les fonctions vitales répondent",
           mission: "Relié à un agent du repo plateforme qui exécute les smoke tests : Smoke recueille ses rapports et te remonte, en clair, si les fonctions vitales du produit répondent — surtout après un déploiement.",
           quand: "« Rien de cassé après la dernière mise en ligne ? L'essentiel répond-il ? »" },
         { prenom: "Iris", name: "Audit Risk", statut: "todo", manager: "Magnus", role: "Le code sous contrôle",
@@ -5288,7 +5295,7 @@ const ORGANIGRAMME = {
         { prenom: "Stella", name: "Le Studio", statut: "todo", manager: "Carla", role: "Marque & communication",
           mission: "Identité visuelle, logo, positionnement, contenus et diffusion. S'adapte à la vision et aux décisions prises.",
           quand: "« Comment je me présente et je communique ? »" },
-        { prenom: "Orion", name: "L'Observatoire", slug: "orion", statut: "active", role: "La veille",
+        { prenom: "Orion", name: "L'Observatoire", slug: "orion", statut: "active", alimente: ["Carla"], role: "La veille",
           mission: "Ouvert sur le monde, il lit le web en direct : réglementaire (réformes CPTS, ACI, financements), ministère & gouvernement, Assurance Maladie, santé publique, concurrents et opportunités. Il en tire signaux, prédictions et coups d'avance pour te garder bien placée sur le marché.",
           quand: "« Qu'est-ce qui bouge sur le marché ? Où va le secteur ? Quelle opportunité saisir ? »" },
         { prenom: "Mako", name: "Le Requin", slug: "mako", statut: "active", manager: "Orion", reliéA: "orion", role: "La concurrence à la loupe",
@@ -5346,7 +5353,8 @@ function renderOrganigramme(content, actions) {
     const icon = ORG_POLE_ICONS[pole.name] || '◆';
     const chefs = pole.agents.filter(a => !a.manager);
     const trees = chefs.map(chef => {
-      const reports = pole.agents.filter(a => a.manager === chef.prenom);
+      const reports = pole.agents.filter(a => a.manager === chef.prenom)
+        .sort((a, b) => (a.capteur ? 1 : 0) - (b.capteur ? 1 : 0)); // auditeurs d'abord, capteurs ensuite
       const kids = reports.length ? `<ul>${reports.map(r => `<li>${orgCard(r)}</li>`).join('')}</ul>` : '';
       return `<ul class="org-chart"><li>${orgCard(chef)}${kids}</li></ul>`;
     }).join('');
@@ -5370,17 +5378,22 @@ function orgCard(a) {
   const nom = a.prenom || a.name;
   const initial = (nom || '?').trim().charAt(0).toUpperCase();
   const stateCls = a.statut === 'active' ? 'is-active' : (a.statut === 'next' ? 'is-next' : '');
-  return `<div class="org-agent ${stateCls}" onclick="openAgentConsole('${a.slug || slugifyAgent(a.name)}')">
+  const capteurCls = a.capteur ? ' is-capteur' : '';
+  const feed = a.alimente && a.alimente.length
+    ? `<div class="org-feed"><span class="org-feed-arrow">⤳</span> alimente ${a.alimente.map(esc).join(' · ')}</div>`
+    : '';
+  return `<div class="org-agent ${stateCls}${capteurCls}" onclick="openAgentConsole('${a.slug || slugifyAgent(a.name)}')">
     <div class="org-agent-top">
       <span class="org-avatar" style="background:${orgAvatarGrad(nom)}">${esc(initial)}</span>
       <div class="org-agent-id">
         <div class="org-agent-name">${esc(nom)}</div>
         ${a.prenom ? `<div class="org-agent-fn">${esc(a.name)}</div>` : ''}
       </div>
-      <span class="org-badge ${s.cls}">${s.label}</span>
+      ${a.capteur ? '<span class="org-capteur-tag">Capteur</span>' : `<span class="org-badge ${s.cls}">${s.label}</span>`}
     </div>
     <div class="org-agent-sub">${esc(a.role)}</div>
     <div class="org-agent-mission">${esc(a.mission)}</div>
+    ${feed}
     <div class="org-agent-quand">${esc(a.quand)}</div>
     <div class="org-agent-cta">Ouvrir la fiche →</div>
   </div>`;
