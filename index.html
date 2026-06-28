@@ -374,7 +374,13 @@ body {
 .org-pole-name { font-size: 13.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--slate-900); }
 .org-pole-tag { font-size: 12.5px; color: var(--slate-500); font-style: italic; margin-top: 1px; }
 .org-pole-count { font-size: 11px; font-weight: 700; color: var(--slate-500); white-space: nowrap; background: var(--slate-100); border-radius: 20px; padding: 4px 11px; }
-.org-pole-body { position: relative; display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: center; gap: 14px 34px; padding: 16px 4px 4px; overflow-x: auto; }
+.org-pole-body { position: relative; display: flex; flex-direction: column; align-items: center; gap: 18px; padding: 16px 4px 8px; overflow-x: auto; }
+.org-hierarchy { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: center; gap: 14px 34px; width: 100%; }
+/* Zone capteurs — hors hiérarchie, au service du pôle */
+.org-instruments { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 10px; border-top: 1px dashed var(--slate-200); padding-top: 16px; }
+.org-instruments-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--slate-400); }
+.org-instruments-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
+.org-instruments-row .org-agent { width: 240px; box-sizing: border-box; }
 .org-chart, .org-chart ul { list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; }
 .org-chart { flex-direction: column; align-items: center; }
 .org-chart li { position: relative; padding: 16px 9px 0; display: flex; flex-direction: column; align-items: center; }
@@ -5355,13 +5361,19 @@ function renderOrganigramme(content, actions) {
   </div>`;
   o.poles.forEach(pole => {
     const icon = ORG_POLE_ICONS[pole.name] || '◆';
-    const chefs = pole.agents.filter(a => !a.manager);
+    // Les capteurs sortent de la hiérarchie : ils ne sont pas dans la chaîne de commandement
+    const chefs = pole.agents.filter(a => !a.manager && !a.capteur);
+    const capteurs = pole.agents.filter(a => a.capteur);
     const trees = chefs.map(chef => {
-      const reports = pole.agents.filter(a => a.manager === chef.prenom)
-        .sort((a, b) => (a.capteur ? 1 : 0) - (b.capteur ? 1 : 0)); // auditeurs d'abord, capteurs ensuite
+      const reports = pole.agents.filter(a => a.manager === chef.prenom && !a.capteur);
       const kids = reports.length ? `<ul>${reports.map(r => `<li>${orgCard(r)}</li>`).join('')}</ul>` : '';
       return `<ul class="org-chart"><li>${orgCard(chef)}${kids}</li></ul>`;
     }).join('');
+    const instruments = capteurs.length ? `
+      <div class="org-instruments">
+        <div class="org-instruments-label">Capteurs · au service du pôle</div>
+        <div class="org-instruments-row">${capteurs.map(orgCard).join('')}</div>
+      </div>` : '';
     html += `<div class="org-pole">
       <div class="org-pole-head">
         <span class="org-pole-icon">${icon}</span>
@@ -5371,7 +5383,10 @@ function renderOrganigramme(content, actions) {
         </div>
         <span class="org-pole-count">${pole.agents.length} agent${pole.agents.length > 1 ? 's' : ''}</span>
       </div>
-      <div class="org-pole-body">${trees}</div>
+      <div class="org-pole-body">
+        <div class="org-hierarchy">${trees}</div>
+        ${instruments}
+      </div>
     </div>`;
   });
   html += '</div>';
@@ -5384,6 +5399,14 @@ function svgEl(tag, attrs) {
   const el = document.createElementNS(SVGNS, tag);
   for (const k in attrs) el.setAttribute(k, attrs[k]);
   return el;
+}
+// Point d'accroche sur le bord de la carte tourné vers la cible (+ normale sortante)
+function edgeAnchor(C, towardX, towardY) {
+  const cx = C.l + C.w / 2, cy = C.t + C.h / 2;
+  const dx = towardX - cx, dy = towardY - cy;
+  if (Math.abs(dx) * C.h >= Math.abs(dy) * C.w)
+    return { x: dx >= 0 ? C.l + C.w : C.l, y: cy, nx: dx >= 0 ? 1 : -1, ny: 0 };
+  return { x: cx, y: dy >= 0 ? C.t + C.h : C.t, nx: 0, ny: dy >= 0 ? 1 : -1 };
 }
 function drawOrgFeeds() {
   if (typeof currentView !== 'undefined' && currentView !== 'strat-organigramme') return;
@@ -5406,12 +5429,12 @@ function drawOrgFeeds() {
     const svg = svgEl('svg', { class: 'org-feed-layer', width: body.scrollWidth, height: body.scrollHeight });
     links.forEach(([srcEl, tgtEl]) => {
       const S = pos(srcEl), T = pos(tgtEl);
-      const leftward = (T.l + T.w / 2) < (S.l + S.w / 2);
-      const sax = leftward ? S.l : S.l + S.w, say = S.t + S.h / 2;
-      const tax = leftward ? T.l + T.w : T.l, tay = T.t + T.h / 2;
-      const off = Math.max(40, Math.abs(sax - tax) * 0.4), bow = 22;
-      const c1x = leftward ? sax - off : sax + off, c1y = say + bow;
-      const c2x = leftward ? tax + off : tax - off, c2y = tay + bow;
+      const sa = edgeAnchor(S, T.l + T.w / 2, T.t + T.h / 2);
+      const ta = edgeAnchor(T, S.l + S.w / 2, S.t + S.h / 2);
+      const sax = sa.x, say = sa.y, tax = ta.x, tay = ta.y;
+      const off = Math.min(90, Math.max(38, Math.hypot(tax - sax, tay - say) * 0.4));
+      const c1x = sax + sa.nx * off, c1y = say + sa.ny * off;
+      const c2x = tax + ta.nx * off, c2y = tay + ta.ny * off;
       svg.appendChild(svgEl('path', { class: 'org-feed-path', d: `M ${sax} ${say} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${tax} ${tay}` }));
       svg.appendChild(svgEl('circle', { class: 'org-feed-dot', cx: sax, cy: say, r: 3 }));
       const ang = Math.atan2(tay - c2y, tax - c2x), ah = 7;
