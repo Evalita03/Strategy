@@ -1153,6 +1153,7 @@ body {
 .mp-sugg-src { flex: 0 0 auto; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; border-radius: 20px; padding: 3px 9px; }
 .mp-sugg-orion { background: var(--blue-50); color: var(--blue-700); }
 .mp-sugg-mako { background: #FEE2E2; color: #B91C1C; }
+.mp-sugg-carla { background: var(--teal-100); color: var(--teal-700); }
 .mp-sugg-txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .mp-sugg-title { font-size: 13px; font-weight: 700; color: var(--slate-800); line-height: 1.35; }
 .mp-sugg-why { font-size: 11.5px; color: var(--slate-500); line-height: 1.4; }
@@ -4818,7 +4819,8 @@ const SECTION_FEUILLETS = {
   marque:  [{ key: 'strat', label: 'Vitrine' },   { key: 'plan', label: "Plan d'action" }],
 };
 // Plan d'action « Prise de marché » : données d'Orion/Mako lues pour proposer des suggestions
-let marcheAgentData = null;      // null = pas encore chargé ; {} = chargé/vide
+let marcheAgentData = null;      // null = pas encore chargé ; {} = chargé/vide (Orion/Mako)
+let marcheCarlaData = null;      // rapport de Carla (dév. commercial)
 let marcheAgentLoading = false;
 let marcheSuggestions = [];      // suggestions calculées au dernier rendu (référencées par index)
 
@@ -7109,15 +7111,17 @@ function deleteAction(planKey, id) {
 function ensureMarcheAgentData() {
   if (marcheAgentData !== null || marcheAgentLoading) return;
   marcheAgentLoading = true;
-  // Mako lit les données d'Orion → on charge le même fichier (agents/orion.json)
-  fetch('agents/' + agentDataSlug('mako') + '.json?t=' + Date.now())
-    .then(r => r.ok ? r.json() : false)
-    .then(d => { marcheAgentData = d || {}; })
-    .catch(() => { marcheAgentData = {}; })
-    .finally(() => {
-      marcheAgentLoading = false;
-      if (currentView === 'strat-marche' && sectionTab.marche === 'plan') render();
-    });
+  // Mako lit les données d'Orion (même fichier) ; Carla a le sien → on charge les deux
+  Promise.all([
+    fetch('agents/' + agentDataSlug('mako') + '.json?t=' + Date.now()).then(r => r.ok ? r.json() : false).catch(() => false),
+    fetch('agents/carla.json?t=' + Date.now()).then(r => r.ok ? r.json() : false).catch(() => false)
+  ]).then(([veille, carla]) => {
+    marcheAgentData = veille || {};
+    marcheCarlaData = carla || {};
+  }).finally(() => {
+    marcheAgentLoading = false;
+    if (currentView === 'strat-marche' && sectionTab.marche === 'plan') render();
+  });
 }
 function computeMarcheSuggestions() {
   const reps = agentReportsFromData(marcheAgentData);
@@ -7141,17 +7145,35 @@ function computeMarcheSuggestions() {
       body: [c.positionnement, c.vs_toi ? 'Se démarquer : ' + c.vs_toi : ''].filter(Boolean).join('\n\n')
     });
   });
+  // Carla (Cheffe Dév. Commercial) → la matière de conquête commerciale
+  const cReps = agentReportsFromData(marcheCarlaData);
+  const cr = cReps[cReps.length - 1] || {};
+  if (cr.prochain_chantier && cr.prochain_chantier.titre) {
+    const pc = cr.prochain_chantier;
+    sugg.push({
+      key: 'carla:chantier:' + pc.titre.trim().toLowerCase(), source: 'Carla', defaultTheme: 'Canaux & go-to-market',
+      title: pc.titre.trim(), why: pc.pourquoi || '', body: pc.pourquoi || ''
+    });
+  }
+  (Array.isArray(cr.a_anticiper) ? cr.a_anticiper : []).forEach(a => {
+    const t = (typeof a === 'string' ? a : (a && a.titre) || '').trim();
+    if (!t) return;
+    sugg.push({
+      key: 'carla:antic:' + t.toLowerCase().slice(0, 70), source: 'Carla', defaultTheme: 'Argumentaire',
+      title: t.length > 90 ? t.slice(0, 87) + '…' : t, why: '', body: typeof a === 'string' ? '' : (a.pourquoi || '')
+    });
+  });
   // On masque ce qui est déjà dans la trame (même intitulé) ou explicitement ignoré
   const have = new Set((state.marchePlan || []).map(x => (x.title || '').trim().toLowerCase()));
   const dismissed = new Set(state.marcheSuggDismissed || []);
   return sugg.filter(s => !have.has(s.title.toLowerCase()) && !dismissed.has(s.key));
 }
 function marcheSuggestionsHtml() {
-  if (marcheAgentData === null) return `<div class="mp-agents mp-agents-loading">🛰️ Lecture de la veille d'Orion…</div>`;
+  if (marcheAgentData === null) return `<div class="mp-agents mp-agents-loading">🛰️ Lecture de tes agents…</div>`;
   marcheSuggestions = computeMarcheSuggestions();
   if (!marcheSuggestions.length) return '';
   return `<div class="mp-agents">
-    <div class="mp-agents-head"><span class="mp-agents-title">🛰️ Repéré par tes agents</span><span class="mp-agents-hint">Orion &amp; Mako — à intégrer (ou ignorer)</span></div>
+    <div class="mp-agents-head"><span class="mp-agents-title">🛰️ Repéré par tes agents</span><span class="mp-agents-hint">Orion, Mako &amp; Carla — à intégrer (ou ignorer)</span></div>
     ${marcheSuggestions.map((s, i) => `<div class="mp-sugg">
       <span class="mp-sugg-src mp-sugg-${s.source.toLowerCase()}">${esc(s.source)}</span>
       <span class="mp-sugg-txt"><span class="mp-sugg-title">${esc(s.title)}</span>${s.why ? `<span class="mp-sugg-why">${esc(s.why.slice(0, 130))}${s.why.length > 130 ? '…' : ''}</span>` : ''}</span>
