@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-28T09:31:09.943Z",
+  "exportedAt": "2026-06-28T09:32:39.771Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7323,6 +7323,14 @@
         {
           "role": "assistant",
           "content": "Je suis content que tu y penses — mais je vais être honnête avec toi :\n\n---\n\n**Je ne peux pas créer cette checklist correctement aujourd'hui**\n\nVoici pourquoi :\n\n- Une checklist d'optimisation fiscale **engage des chiffres précis** (seuils TVA, plafonds déduction, taux amortissement…)\n- Je n'ai pas accès web en direct → je ne peux pas vérifier les valeurs 2026 à la source\n- Te donner une liste avec de mauvaises données = **risque réel** pour toi (redressement, mauvaise décision)\n\n---\n\n**Ce que je propose à la place**\n\n> **▶ Faire tourner une Ronde** ciblée sur ce sujet\n\nJe prépare une liste de points précis à vérifier (impots.gouv.fr, URSSAF, BOFiP), et je te reviens avec une checklist fiable et chiffrée.\n\nLes points que je vais vérifier :\n- Seuil franchise en base TVA 2026\n- Déduction TVA sur achats pro (selon régime)\n- Amortissement matériel vs charge directe\n- Plafonds frais de repas / déplacement\n- Statut social présidente non rémunérée vs rémunérée (impact cotisations)\n- Compte courant d'associée : règles de rémunération\n\n---\n\n**Tu veux que je lance cette Ronde ?** Je te reviens avec quelque chose de solide plutôt que d'improviser."
+        },
+        {
+          "role": "user",
+          "content": "comment je peux afvoir mon numéro de tva ?"
+        },
+        {
+          "role": "assistant",
+          "content": "Bonne nouvelle : pour une SASU, le numéro de TVA intracommunautaire est **calculé automatiquement** à partir de ton SIREN.\n\n---\n\n**La formule**\n\n> **FR + clé de 2 chiffres + SIREN**\n> Soit : **FR + clé + 105 247 977**\n\nLa clé se calcule avec ton SIREN — je ne veux pas te donner le résultat de tête car si je me trompe d'un chiffre c'est problématique.\n\n---\n\n**Comment l'obtenir de façon sûre : 2 options**\n\n- **Option 1 — Via l'espace pro impots.gouv.fr** (la plus fiable)\n  Une fois ton espace créé et activé, ton numéro de TVA apparaît directement dans ton espace → c'est la source officielle\n  \n- **Option 2 — Via le site VIES (Commission européenne)**\n  → vies.ec.europa.eu → tu saisis ton SIREN → il te confirme ton numéro et sa validité\n\n---\n\n**Ce que ça change pour toi maintenant**\n\n- Ce numéro doit apparaître sur **toutes tes factures** dès que tu dépasses le seuil de franchise en base de TVA (à vérifier en Ronde)\n- Il te sert aussi pour tes **abonnements pro européens** (GitHub, Scalingo…) → à renseigner dans tes infos de facturation pour ne pas payer la TVA étrangère\n\n---\n\n**Action :** crée ton espace pro impots.gouv.fr → ton numéro TVA y sera affiché. C'est de toute façon ta priorité n°1 du moment. 😊"
         }
       ]
     },
