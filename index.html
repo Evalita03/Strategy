@@ -6426,31 +6426,52 @@ function agentPistesHtml(slug, r) {
     </div>`).join('')}
   </div>`;
 }
+const PISTE_BY = { orion: 'Orion (Observatoire)', mako: 'Mako (concurrence)', carla: 'Carla (commercial)', 'chef-produit': 'Magnus (Chef Produit)', victor: 'Victor (Gestion)' };
+// Clic sur une piste → on demande d'abord SUR QUEL MOIS la positionner
 function addPisteToRoadmap(ev, i) {
-  const btn = ev && ev.currentTarget;
   const slug = currentAgentSlug;
   const p = currentAgentPistes[i]; if (!p) return;
-  if (pisteAdded(slug, p.title)) { if (btn) { btn.textContent = '✓ Déjà ajouté'; btn.disabled = true; btn.classList.add('cap-task-btn-done'); } return; }
-  const labels = { orion: 'Orion (Observatoire)', mako: 'Mako (concurrence)', carla: 'Carla (commercial)', 'chef-produit': 'Magnus (Chef Produit)', victor: 'Victor (Gestion)' };
-  const by = labels[slug] || currentAgentName();
+  if (pisteAdded(slug, p.title)) return;
+  const cfg = AGENT_PLAN[slug];
+  const dest = cfg ? cfg.dest : 'ta roadmap';
+  const m = document.getElementById('modal'); m.classList.remove('qc-mode', 'modal-wide');
+  m.innerHTML = `
+    <h2>Ajouter à ton ${esc(dest)}</h2>
+    <p style="font-size:13px;color:var(--slate-600);line-height:1.55;margin-bottom:14px">« <b>${esc(p.title)}</b> ». Sur quel mois veux-tu la positionner ?</p>
+    <div class="field"><label>Mois</label>
+      <select id="piste-month">${roadmapMonthOptions(currentMonthStr())}</select></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="confirmAddPiste(${i})">Ajouter</button>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function confirmAddPiste(i) {
+  const slug = currentAgentSlug;
+  const p = currentAgentPistes[i]; if (!p) { closeModal(); return; }
+  if (pisteAdded(slug, p.title)) { closeModal(); render(); return; }
+  const sel = document.getElementById('piste-month');
+  const month = (sel && sel.value) || null;
+  const by = PISTE_BY[slug] || currentAgentName();
   const body = 'Repéré par ' + by + '.\n\n' + (p.body || '');
   const cfg = AGENT_PLAN[slug];
   if (cfg) {
     // → plan d'action thématique (ex. Prise de marché)
     const store = state[cfg.store] = Array.isArray(state[cfg.store]) ? state[cfg.store] : [];
     const theme = p.theme || (PLAN_DEFS[cfg.section] && PLAN_DEFS[cfg.section].themes[0]) || '';
-    store.push({ id: uid(), theme, title: p.title, status: 'planned', body, source: by });
+    store.push({ id: uid(), theme, title: p.title, status: 'planned', body, source: by, month });
   } else {
     // → roadmap globale
     state.roadmap = state.roadmap || [];
-    rmInsertOrdered({ id: uid(), title: p.title, month: null, status: 'planned', body });
+    rmInsertOrdered({ id: uid(), title: p.title, month, status: 'planned', body });
   }
   if (slug !== 'mako') {
     const pr = upsertPreco(p.title, p.type || 'coup', '', slug);
     if (pr && pr.p) { pr.p.enRoadmap = true; if (pr.p.etat === 'ecartee') pr.p.etat = 'active'; }
   }
-  save();
-  if (btn) { btn.textContent = cfg ? '✓ Ajouté au plan' : '✓ Ajouté à la roadmap'; btn.disabled = true; btn.classList.add('cap-task-btn-done'); }
+  save(); closeModal();
+  vivierToast('✓ Ajouté · ' + (month ? monthLabel(month) : 'à planifier'));
+  render();
 }
 
 function renderAgentTabJournal(reps) {
