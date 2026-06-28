@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-28T09:35:08.795Z",
+  "exportedAt": "2026-06-28T09:36:38.488Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7339,6 +7339,14 @@
         {
           "role": "assistant",
           "content": "Bonne question — voilà ce que ça veut dire concrètement pour toi :\n\n---\n\n**Ta situation**\n\nTu es une **entreprise française** (CPTS Pilot SAS) → tu tombes dans la dernière case :\n\n> *\"Les entreprises et les particuliers français seront soumis à la TVA française\"*\n\n---\n\n**Ce que ça engage concrètement**\n\n- Scalingo va **ajouter la TVA française** (20%) sur tes factures\n- C'est normal et légal — tu ne peux pas y échapper en tant qu'entreprise française\n\n---\n\n**La bonne nouvelle**\n\nSi tu es **assujettie à la TVA** (= tu as un numéro de TVA actif et tu dépasses le seuil de franchise) :\n- Tu paies la TVA à Scalingo ✔\n- Mais tu la **récupères** ensuite via ta déclaration de TVA ✔\n- → La TVA est **neutre** pour toi\n\nSi tu es encore en **franchise en base de TVA** (= en dessous du seuil, pas encore de numéro TVA actif) :\n- Tu paies la TVA à Scalingo ✔\n- Mais tu **ne peux pas la récupérer** ✖\n- → La TVA est un **coût réel** pour toi\n\n---\n\n**Ce que tu fais maintenant**\n\n- Renseigne ton **SIREN 105 247 977** dans le profil Scalingo (même sans numéro TVA finalisé)\n- Dès que tu as ton numéro TVA → tu le mets à jour chez Scalingo\n\n---\n\n**⚠️ Le point à trancher rapidement**\n\nTon régime de TVA exact (franchise ou assujettie) → c'est précisément ce que je vais vérifier en **▶ Ronde**, et ce que ton expert-comptable doit cadrer avec toi en priorité."
+        },
+        {
+          "role": "user",
+          "content": "je suis assujettie à la tva moi ?"
+        },
+        {
+          "role": "assistant",
+          "content": "Honnêtement : **je ne sais pas avec certitude** — et c'est une question qui engage, donc je ne veux pas te répondre de mémoire.\n\n---\n\n**Ce que je sais avec mon rapport**\n\n- La question du régime de TVA est **dans ta checklist** (vc-tva) — pas encore tranchée\n- Le régime \"réel simplifié\" est **supprimé au 01/01/2027** — ça change les options disponibles\n- Tu n'as pas encore d'expert-comptable pour cadrer ça\n\n---\n\n**Ce que ça dépend (les variables clés)**\n\n- Ton **chiffre d'affaires** actuel et prévisionnel\n- Le **seuil de franchise en base** 2026 (que je dois vérifier à la source — les seuils ont été modifiés récemment)\n- Le fait que tu aies ou non **déclaré un régime** à l'immatriculation\n\n---\n\n**Ce que je te conseille**\n\nDeux actions en parallèle :\n\n1. **Court terme** → appelle ou écris au Service des Impôts des Entreprises (SIE) de Pau — ils te disent en 5 minutes quel régime TVA est attaché à ton SIREN\n   \n2. **Fond** → c'est exactement le genre de décision à prendre **avec ton expert-comptable** (franchise vs réel normal = impact direct sur ta trésorerie et tes factures clients)\n\n---\n\n**Et je lance une ▶ Ronde** pour vérifier les seuils 2026 à la source — je te reviens avec des chiffres fiables."
         }
       ]
     },
