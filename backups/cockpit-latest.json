@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-28T13:51:09.994Z",
-  "origin": "auto-backup",
+  "exportedAt": "2026-06-28T13:54:18.375Z",
+  "origin": "manual-backup",
   "data": {
     "nodes": [
       {
@@ -7186,6 +7186,50 @@
         "enRoadmap": false,
         "etat": "active",
         "taskId": "mqsj5fklyrmk1"
+      },
+      {
+        "id": "mqxujmor8mwc8",
+        "key": "dresser ta première liste de cpts à viser (5 à 10 noms)",
+        "titre": "Dresser ta première liste de CPTS à viser (5 à 10 noms)",
+        "type": "chantier",
+        "fromDate": "2026-06-27",
+        "agent": "carla",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mqxujmorqpmn6",
+        "key": "préparer le pitch d'une phrase qui dit ce qu'on apporte (pas une feature) — sur la base du message marque : « fait pour ",
+        "titre": "Préparer le pitch d'une phrase qui dit ce qu'on apporte (pas une feature) — sur la base du message marque : « fait pour les CPTS, l'outil s'adapte à elles ».",
+        "type": "anticiper",
+        "fromDate": "2026-06-27",
+        "agent": "carla",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mqxujmorlcezs",
+        "key": "caler le modèle d'offre/devis avec victor (lui le côté conforme, moi le quoi/combien/pourquoi) avant la première proposi",
+        "titre": "Caler le modèle d'offre/devis AVEC Victor (lui le côté conforme, moi le quoi/combien/pourquoi) avant la première proposition.",
+        "type": "anticiper",
+        "fromDate": "2026-06-27",
+        "agent": "carla",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mqxujmorh1jxx",
+        "key": "préparer la réponse rassurante « mes données sont où, c'est sécurisé ? » avec cléo — une cpts la posera vite.",
+        "titre": "Préparer la réponse rassurante « mes données sont où, c'est sécurisé ? » AVEC Cléo — une CPTS la posera vite.",
+        "type": "anticiper",
+        "fromDate": "2026-06-27",
+        "agent": "carla",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
       }
     ],
     "agentChats": {
@@ -7360,7 +7404,8 @@
       "orion": "2026-06-24",
       "chef-produit": "2026-06-21",
       "victor": "2026-06-24",
-      "smoke": "2026-06-27"
+      "smoke": "2026-06-27",
+      "carla": "2026-06-27"
     },
     "handledPropositions": {},
     "decisions": [],
