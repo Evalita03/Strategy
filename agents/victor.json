@@ -662,6 +662,69 @@
         }
       ],
       "note": "Lecture du bon de commande du greffe (vérifiée à la source service-public.fr) — À NE PAS tout acheter : (1) Registre des décisions de l'associée unique = OUI obligatoire en SASU (déjà prévu art. 12 & 14 de tes statuts) — un seul registre suffit (le greffe le facture 25 € + 2,85 € de paraphe) ; MAIS la cote et le paraphe peuvent être faits GRATUITEMENT par le maire (ou un adjoint) de la commune du siège, ou par le tribunal — le paraphe « par le greffe » n'est qu'une option payante, pas une obligation de passer par eux. Le registre peut même être tenu sous forme électronique si les statuts le prévoient. Conservation : au moins 5-6 ans. (2) Registres « conseil d'administration » et « conseil de surveillance » = NON, ta SASU n'a pas ces organes, ne les achète pas. (3) Livre-journal et livre d'inventaire = obligations COMPTABLES : en pratique tenus par ton expert-comptable / un logiciel de compta, tu n'as pas à les acheter au greffe. Bilan : au pire tu prends UN registre des décisions (~25-28 €), ou tu le gères en mairie/électronique pour quasi rien. Tout le reste du bon de commande = offre commerciale facultative. SIREN officiel 105 247 977 intégré (donnée d'immatriculation, non sensible)."
+    },
+    {
+      "agent": "victor",
+      "updated_at": "2026-06-28",
+      "trigger": "Question d'Eva : registre des décisions de l'associé unique en format électronique",
+      "synthese": "Les statuts de CPTS Pilot imposent un registre « coté et paraphé » (papier) et ne prévoient pas la forme électronique : le registre numérique n'est donc pas autorisé en l'état, faute de clause statutaire requise par l'art. R.227-1-1 du Code de commerce.",
+      "etat_global": "SASU immatriculée et en règle ; registre des décisions à tenir en papier coté/paraphé tant que les statuts ne sont pas modifiés.",
+      "domaines": [
+        {
+          "nom": "Forme juridique",
+          "statut": "fait",
+          "resume": "SASU constituée, statuts signés du 14/05/2026. Art.14 : registre des décisions « coté et paraphé » (papier) — pas de clause de tenue électronique."
+        },
+        {
+          "nom": "Immatriculation & enregistrement",
+          "statut": "fait",
+          "resume": "RCS Pau 28/05/2026, SIREN 105 247 977."
+        },
+        {
+          "nom": "Assurances",
+          "statut": "a_faire",
+          "resume": "RC Pro éditeur de logiciel + cyber toujours à souscrire avant commercialisation."
+        },
+        {
+          "nom": "Comptabilité, fiscalité & social",
+          "statut": "en_cours",
+          "resume": "1er exercice clos 31/12/2026 ; 1re approbation des comptes par l'associée unique à inscrire au registre des décisions avant le 30/06/2027."
+        },
+        {
+          "nom": "Contrats & conditions",
+          "statut": "a_faire",
+          "resume": "CGV/CGU + mentions légales de la plateforme à rédiger (volet RGPD/DPA → Cléo)."
+        },
+        {
+          "nom": "Banque & administratif courant",
+          "statut": "en_cours",
+          "resume": "Compte pro Indy. Registre des décisions à mettre en place et tenir (papier coté/paraphé en l'état ; numérique possible seulement après modif statutaire)."
+        },
+        {
+          "nom": "Propriété intellectuelle & marque",
+          "statut": "a_faire",
+          "resume": "Dépôt marque « CPTS Pilot » à l'INPI à lancer (identité avec Stella)."
+        }
+      ],
+      "prochaine_demarche": {
+        "titre": "Choisir : tenir le registre des décisions en papier coté/paraphé (légal, gratuit) OU modifier l'art.14 des statuts pour autoriser le registre électronique",
+        "pourquoi": "L'art. R.227-1-1 C.com. n'ouvre la tenue électronique que si les statuts la prévoient ; ceux d'Eva imposent encore le papier « coté et paraphé ». Décision à prendre avant la 1re décision formelle (approbation des comptes mi-2027).",
+        "domaine": "Forme juridique"
+      },
+      "echeances": [
+        {
+          "titre": "1re approbation des comptes par l'associée unique (à consigner au registre des décisions)",
+          "date": "2027-06-30",
+          "domaine": "Comptabilité, fiscalité & social"
+        }
+      ],
+      "relais": [
+        {
+          "agent": "Cléo",
+          "sujet": "Conservation/sécurité des documents si données personnelles ; RGPD & HDS de la plateforme"
+        }
+      ],
+      "note": "Point de droit vérifié à la source : art. R.227-1-1 C.com. (décret 02/12/2019). Le numérique exige signature électronique avancée eIDAS + horodatage probant, et surtout une clause statutaire. Vu une SASU solo avec peu de décisions/an, le registre papier coté/paraphé reste la voie la plus simple et économique."
     }
   ]
 }

@@ -1170,6 +1170,9 @@ body {
 .ac-piste-txt { flex: 1; min-width: 0; }
 .ac-piste-title { font-size: 13px; font-weight: 700; color: var(--slate-800); line-height: 1.35; }
 .ac-piste-why { font-size: 11.5px; color: var(--slate-500); line-height: 1.4; margin-top: 2px; }
+/* Bouton « + planifier » sur une carte de financement */
+.obs-fin-actionrow { display: flex; justify-content: flex-end; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--slate-200); }
+.fin-added { font-size: 11.5px; font-weight: 700; color: var(--teal-700); }
 .mp-sugg-txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .mp-sugg-title { font-size: 13px; font-weight: 700; color: var(--slate-800); line-height: 1.35; }
 .mp-sugg-why { font-size: 11.5px; color: var(--slate-500); line-height: 1.4; }
@@ -6131,8 +6134,11 @@ function finDelai(echeance) {
   if (/ouvert|permanent|continu|guichet/.test(low)) return { label: s || 'en continu', sub: 'guichet ouvert en continu', urg: 'open', rank: 50000 };
   return { label: s || 'à préciser', sub: 'date à confirmer', urg: 'watch', rank: 60000 };
 }
-function finCard(x) {
+function finCard(x, kind, oi) {
   const dl = finDelai(x.echeance);
+  const action = kind ? (pisteAdded(x.titre || '')
+    ? `<div class="obs-fin-actionrow"><span class="fin-added">✓ dans ton plan Financements</span></div>`
+    : `<div class="obs-fin-actionrow"><button class="cap-task-btn" onclick="addFinPiste(event,'${kind}',${oi})">+ planifier</button></div>`) : '';
   return `<div class="obs-card obs-card-fin">
     <div class="obs-card-top"><div class="obs-card-titre">${esc(x.titre || '')}</div>${finPerimBadge(x)}</div>
     <div class="obs-fin-delai obs-delai-${dl.urg}"><span class="obs-delai-k">⏳ Délai pour répondre</span><span class="obs-delai-v">${esc(dl.label)}${dl.sub ? ` · ${esc(dl.sub)}` : ''}</span></div>
@@ -6141,6 +6147,7 @@ function finCard(x) {
     ${x.detail ? `<div class="obs-card-detail">${esc(x.detail)}</div>` : ''}
     ${x.lecture ? `<div class="obs-lecture">${esc(x.lecture)}</div>` : ''}
     <div class="obs-card-foot">${obsSrc(x.source, 'voir le dispositif')}${x.date ? `<span class="obs-date">${esc(x.date)}</span>` : ''}</div>
+    ${action}
   </div>`;
 }
 function renderObsFinancements(r) {
@@ -6157,16 +6164,18 @@ function renderObsFinancements(r) {
     </div>`;
   }
   const chips = `<div class="obs-nav">${[['tout', 'Tout'], ['national', 'France'], ['regional', '📍 Mon 64']].map(([v, l]) => `<button class="obs-nav-chip ${obsFinFilter === v ? 'is-active' : ''}" onclick="setObsFinFilter('${v}')">${esc(l)}</button>`).join('')}</div>`;
-  const byDelai = (a, b) => finDelai(a.echeance).rank - finDelai(b.echeance).rank; // les échéances les plus proches d'abord
-  const aap = allAap.filter(finPasses).slice().sort(byDelai), sub = allSub.filter(finPasses).slice().sort(byDelai);
-  const grp = (icon, titre, desc, list) => list.length ? `<section class="obs-section">
+  // on garde l'index ORIGINAL (oi) pour pouvoir retrouver la fiche au clic « + planifier »
+  const byDelai = (a, b) => finDelai(a.x.echeance).rank - finDelai(b.x.echeance).rank; // les échéances les plus proches d'abord
+  const wrap = arr => arr.map((x, oi) => ({ x, oi }));
+  const aap = wrap(allAap).filter(o => finPasses(o.x)).sort(byDelai), sub = wrap(allSub).filter(o => finPasses(o.x)).sort(byDelai);
+  const grp = (icon, titre, desc, list, kind) => list.length ? `<section class="obs-section">
       <div class="obs-sec-head"><span class="obs-sec-icon">${icon}</span><h3>${esc(titre)}</h3><span class="obs-sec-count">${list.length}</span></div>
       <div class="obs-fin-desc">${esc(desc)}</div>
-      <div class="obs-sec-body">${list.map(finCard).join('')}</div>
+      <div class="obs-sec-body">${list.map(o => finCard(o.x, kind, o.oi)).join('')}</div>
     </section>` : '';
   const body = (aap.length || sub.length)
-    ? grp('📣', 'Appels à projets', "Compétitifs, avec une date limite : il faut candidater et être sélectionné.", aap)
-      + grp('💶', 'Subventions', "Dispositifs d'aide ouverts : tu déposes un dossier dès que tu remplis les critères.", sub)
+    ? grp('📣', 'Appels à projets', "Compétitifs, avec une date limite : il faut candidater et être sélectionné.", aap, 'aap')
+      + grp('💶', 'Subventions', "Dispositifs d'aide ouverts : tu déposes un dossier dès que tu remplis les critères.", sub, 'sub')
     : `<div class="agent-report-empty" style="margin-top:14px">Rien sur ce périmètre pour l'instant — reviens sur « Tout ».</div>`;
   const srcBlock = (fin.sources && fin.sources.length)
     ? obsSection('obs-fin-src', '📚', 'Sources', fin.sources.length, `<ul class="obs-sources">${fin.sources.map(x => `<li>${obsSrc(x.url, x.titre || x.url)}${x.date ? ` <span class="obs-date">${esc(x.date)}</span>` : ''}</li>`).join('')}</ul>`)
@@ -6314,7 +6323,7 @@ function renderAgentConsole(content, actions) {
         <div class="ac-fresh" id="ac-fresh"></div>
       </div>
       <div class="agent-tabs">
-        ${(currentAgentSlug === 'orion' ? ['today', 'financements', 'local', 'suivi', 'journal', 'chat', 'fiche'] : currentAgentSlug === 'mako' ? ['board', 'chat', 'fiche'] : currentAgentSlug === 'chef-produit' ? ['today', 'cap', 'suivi', 'journal', 'carnet', 'chat', 'fiche'] : currentAgentSlug === 'victor' ? ['today', 'checklist', 'dossier', 'suivi', 'journal', 'chat', 'fiche'] : currentAgentSlug === 'smoke' ? ['today', 'fiche'] : ['today', 'suivi', 'journal', 'chat', 'fiche']).map(t => `<button class="agent-tab ${agentTab === t ? 'is-active' : ''}" onclick="setAgentTab('${t}')">${agentTabLabel[t]}</button>`).join('')}
+        ${(currentAgentSlug === 'orion' ? ['today', 'financements', 'local', 'suivi', 'journal', 'chat', 'fiche'] : currentAgentSlug === 'mako' ? ['board', 'chat', 'fiche'] : currentAgentSlug === 'chef-produit' ? ['today', 'cap', 'suivi', 'journal', 'carnet', 'chat', 'fiche'] : currentAgentSlug === 'victor' ? ['today', 'checklist', 'dossier', 'suivi', 'journal', 'chat', 'fiche'] : currentAgentSlug === 'smoke' ? ['today', 'fiche'] : ['today', 'suivi', 'journal', 'chat', 'fiche']).map(t => `<button class="agent-tab ${agentTab === t ? 'is-active' : ''}" onclick="setAgentTab('${t}')">${(currentAgentSlug === 'orion' && t === 'today') ? '🔭 Écosystème' : agentTabLabel[t]}</button>`).join('')}
       </div>
       <div class="agent-tab-body" id="agent-tab-body"><div class="agent-report-loading">Chargement…</div></div>
     </div>`;
@@ -6405,12 +6414,10 @@ function agentPistes(slug, r) {
   // push(titre, pourquoi, corps, type, destinationParDéfaut, thèmeParDéfaut)
   const push = (title, why, body, type, dest, theme) => { const t = (title || '').trim(); if (t) out.push({ title: t, why: why || '', body: body || '', type: type || 'piste', dest: dest || 'roadmap', theme: theme || '' }); };
   if (slug === 'orion') {
+    // Seuls les COUPS D'AVANCE (recommandations synthétisées) entrent ici.
+    // Les financements/subventions/AAP NE sont PAS déversés : ils se sélectionnent un par un
+    // depuis l'onglet Financements (bouton « + planifier » sur chaque carte).
     (Array.isArray(r.coups_avance) ? r.coups_avance : []).forEach(c => c && push(c.titre, c.pourquoi, [c.pourquoi, c.action ? 'À faire : ' + c.action : ''].filter(Boolean).join('\n\n'), 'coup', 'marche', 'Canaux & go-to-market'));
-    // Opportunités, appels à projets et subventions → plan Financements (le but premier d'Orion)
-    (Array.isArray(r.opportunites) ? r.opportunites : []).forEach(o => o && push(o.titre, o.lecture || o.detail, [o.detail, o.echeance ? 'Échéance : ' + o.echeance : '', o.lecture ? 'Pour toi : ' + o.lecture : '', o.source ? 'Source : ' + o.source : ''].filter(Boolean).join('\n\n'), 'coup', 'financements', 'Appels à projets'));
-    const fin = (r.financements && typeof r.financements === 'object') ? r.financements : {};
-    (Array.isArray(fin.appels_projets) ? fin.appels_projets : []).forEach(a => a && push(a.titre, a.lecture || a.detail, finPisteBody(a), 'coup', 'financements', 'Appels à projets'));
-    (Array.isArray(fin.subventions) ? fin.subventions : []).forEach(s => s && push(s.titre, s.lecture || s.detail, finPisteBody(s), 'coup', 'financements', 'Subventions'));
   } else if (slug === 'mako') {
     (Array.isArray(r.concurrents) ? r.concurrents : []).forEach(c => c && c.nom && push('Surveiller ' + c.nom, c.vs_toi || c.positionnement, [c.positionnement, c.vs_toi ? 'Se démarquer : ' + c.vs_toi : ''].filter(Boolean).join('\n\n'), 'coup', 'marche', 'Veille concurrentielle'));
   } else if (slug === 'carla') {
@@ -6443,9 +6450,11 @@ function agentPistesHtml(slug, r) {
   </div>`;
 }
 // Clic sur une piste → on choisit la DESTINATION (plan) + le MOIS
-function addPisteToRoadmap(ev, i) {
-  const p = currentAgentPistes[i]; if (!p) return;
-  if (pisteAdded(p.title)) return;
+let pendingPiste = null;
+function openPistePlanner(p) {
+  if (!p || !p.title) return;
+  if (pisteAdded(p.title)) { vivierToast('Déjà dans tes plans'); return; }
+  pendingPiste = p;
   const m = document.getElementById('modal'); m.classList.remove('qc-mode', 'modal-wide');
   m.innerHTML = `
     <h2>Planifier cette piste</h2>
@@ -6456,13 +6465,23 @@ function addPisteToRoadmap(ev, i) {
       <select id="piste-month">${roadmapMonthOptions(currentMonthStr())}</select></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
-      <button class="btn btn-primary" onclick="confirmAddPiste(${i})">Ajouter</button>
+      <button class="btn btn-primary" onclick="confirmAddPiste()">Ajouter</button>
     </div>`;
   document.getElementById('modal-overlay').classList.add('open');
 }
-function confirmAddPiste(i) {
+function addPisteToRoadmap(ev, i) { openPistePlanner(currentAgentPistes[i]); }
+// Bouton « + planifier » sur une carte de financement (appel à projets / subvention)
+function addFinPiste(ev, kind, idx) {
+  const reps = agentReportsFromData(agentConsoleData);
+  const r = reps[reps.length - 1] || {};
+  const fin = (r.financements && typeof r.financements === 'object') ? r.financements : {};
+  const list = kind === 'sub' ? fin.subventions : fin.appels_projets;
+  const x = (Array.isArray(list) ? list : [])[idx]; if (!x) return;
+  openPistePlanner({ title: (x.titre || '').trim(), why: x.lecture || x.detail || '', body: finPisteBody(x), type: 'coup', dest: 'financements', theme: kind === 'sub' ? 'Subventions' : 'Appels à projets' });
+}
+function confirmAddPiste() {
   const slug = currentAgentSlug;
-  const p = currentAgentPistes[i]; if (!p) { closeModal(); return; }
+  const p = pendingPiste; if (!p) { closeModal(); return; }
   if (pisteAdded(p.title)) { closeModal(); render(); return; }
   const month = (document.getElementById('piste-month') || {}).value || null;
   const destKey = (document.getElementById('piste-dest') || {}).value || p.dest || 'roadmap';
@@ -6484,6 +6503,7 @@ function confirmAddPiste(i) {
     const pr = upsertPreco(p.title, p.type || 'coup', '', slug);
     if (pr && pr.p) { pr.p.enRoadmap = true; if (pr.p.etat === 'ecartee') pr.p.etat = 'active'; }
   }
+  pendingPiste = null;
   save(); closeModal();
   vivierToast('✓ Ajouté · ' + dest.label + (month ? ' · ' + monthLabel(month) : ' · à planifier'));
   render();
