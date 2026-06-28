@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-28T09:21:10.124Z",
+  "exportedAt": "2026-06-28T09:22:39.840Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7307,6 +7307,10 @@
         {
           "role": "assistant",
           "content": "Oui, c'est exactement ce qu'il faut faire — et le plus tôt possible. Voici pourquoi et comment :\n\n---\n\n**Pourquoi oui, absolument**\n\n- Toute dépense pro payée depuis ton compte **perso** devient une dépense **mixte** = galère comptable, et tu perds la déductibilité fiscale propre\n- Payer depuis le compte **pro CPTS Pilot SAS** = la dépense est clairement une charge de l'entreprise, déductible du résultat imposable (IS)\n- Ça construit ton historique bancaire pro (utile si tu cherches un financement un jour)\n\n---\n\n**Ce que tu fais concrètement**\n\n- **Virement de toi → compte pro** : tu fais un apport en compte courant d'associée (pas un salaire, pas un don — juste toi qui \"prêtes\" de l'argent à ta société)\n- **Toutes les souscriptions** (GitHub, Scalingo, nom de domaine, hébergement…) → **carte ou prélèvement du compte pro**\n- **Mettre à jour les infos de facturation** chez chaque fournisseur : raison sociale **CPTS Pilot SAS**, adresse du siège, et ton **numéro de SIREN 105 247 977** (pour récupérer des factures au nom de la société)\n\n---\n\n**Un point à confirmer avec ton expert-comptable**\n\nLe montant et les modalités des avances en compte courant d'associée — c'est simple mais ça se formalise correctement. Je te le rappellerai quand tu auras choisi ton expert-comptable (tâche active).\n\n---\n\n**Action immédiate :** mets à jour tes infos de facturation chez GitHub et Scalingo cette semaine — récupère des factures au nom de CPTS Pilot SAS dès maintenant."
+        },
+        {
+          "role": "user",
+          "content": "N'hésite pas à me donner tous les conseils possibles pour optimiser mes dépenses et charges pro"
         }
       ]
     },
