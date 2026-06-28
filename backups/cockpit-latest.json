@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-28T16:39:18.356Z",
+  "exportedAt": "2026-06-28T16:44:29.421Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7247,6 +7247,17 @@
         "enTache": false,
         "enRoadmap": true,
         "etat": "active"
+      },
+      {
+        "id": "mqy0q84dfvdj0",
+        "key": "choisir : tenir le registre des décisions en papier coté/paraphé (légal, gratuit) ou modifier l'art.14 des statuts pour ",
+        "titre": "Choisir : tenir le registre des décisions en papier coté/paraphé (légal, gratuit) OU modifier l'art.14 des statuts pour autoriser le registre électronique",
+        "type": "chantier",
+        "fromDate": "2026-06-28",
+        "agent": "victor",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
       }
     ],
     "agentChats": {
@@ -7428,7 +7439,7 @@
     "lastSeenReport": {
       "orion": "2026-06-24",
       "chef-produit": "2026-06-21",
-      "victor": "2026-06-24",
+      "victor": "2026-06-28",
       "smoke": "2026-06-27",
       "carla": "2026-06-27"
     },
