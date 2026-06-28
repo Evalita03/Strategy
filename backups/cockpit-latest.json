@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-28T14:28:36.337Z",
+  "exportedAt": "2026-06-28T14:40:22.132Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -5992,6 +5992,20 @@
         "body": ""
       },
       {
+        "id": "mqxwb9sh69pl4",
+        "title": "Faire de la remontée de données ACI exploitable ton argument n°1",
+        "month": null,
+        "status": "planned",
+        "body": "Repéré par Orion (Observatoire).\n\nL'ACI renforce l'obligation de remontée de données exploitables, et les avenants France Santé conditionnent l'argent à des indicateurs de performance. Excel ne sait pas le faire proprement.\n\nÀ faire : Construire (ou mettre en avant) une fonction qui produit, en un clic, les données/indicateurs attendus par la CPAM et l'ARS. En faire le cœur du pitch commercial."
+      },
+      {
+        "id": "mqxwbdvakuqua",
+        "title": "Aller aux Journées nationales des CPTS à Bordeaux (4-5/11/2026)",
+        "month": null,
+        "status": "planned",
+        "body": "Repéré par Orion (Observatoire).\n\nL'événement national de référence des CPTS se tient sur ton terrain (Nouvelle-Aquitaine) — rare occasion de rencontrer prospects, fédérations et institutionnels à domicile.\n\nÀ faire : Bloquer les dates, préparer un pitch et une démo, viser les coordinateurs de CPTS du 64 et de la région présents."
+      },
+      {
         "id": "mqxn6w6c9lx39",
         "title": "Décider comment chaque CPTS est hébergée : espace partagé ou espace dédié",
         "month": "2026-07",
@@ -7139,8 +7153,9 @@
         "fromDate": "2026-06-24",
         "agent": "orion",
         "enTache": false,
-        "enRoadmap": false,
-        "etat": "active"
+        "enRoadmap": true,
+        "etat": "active",
+        "jalonId": "mqxwb9sh69pl4"
       },
       {
         "id": "mqshu7e7stmhv",
@@ -7161,8 +7176,9 @@
         "fromDate": "2026-06-24",
         "agent": "orion",
         "enTache": false,
-        "enRoadmap": false,
-        "etat": "active"
+        "enRoadmap": true,
+        "etat": "active",
+        "jalonId": "mqxwbdvakuqua"
       },
       {
         "id": "mqshu7e766yxi",
