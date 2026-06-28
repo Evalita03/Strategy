@@ -5943,6 +5943,7 @@ function obsSection(id, icon, titre, count, inner) {
 function renderObservatoire(r, opts) {
   opts = opts || {};
   const hist = !!opts.historique;
+  const noActions = hist || !!opts.hideActions; // masque les boutons d'ajout (déjà portés ailleurs)
   const idp = opts.idSuffix || '';            // suffixe d'ancre (rapports archivés → ids uniques)
   if (!hist) orionReport = r;                  // les boutons « + roadmap » pointent toujours sur le rapport vivant
   const sid = id => id + idp;
@@ -6006,7 +6007,7 @@ function renderObservatoire(r, opts) {
       <div class="obs-card-titre">♟️ ${esc(x.titre || '')}</div>
       ${x.pourquoi ? `<div class="obs-card-detail"><strong>Pourquoi.</strong> ${esc(x.pourquoi)}</div>` : ''}
       ${x.action ? `<div class="obs-lecture"><strong>À faire.</strong> ${esc(x.action)}</div>` : ''}
-      ${hist ? '' : `<div class="report-btn-row"><button class="cap-task-btn cap-task-btn-alt" onclick="createJalonFromCoup(event, ${i})">+ Ajouter à la roadmap</button></div>`}
+      ${noActions ? '' : `<div class="report-btn-row"><button class="cap-task-btn cap-task-btn-alt" onclick="createJalonFromCoup(event, ${i})">+ Ajouter à la roadmap</button></div>`}
     </div>`).join('');
     sections.push(obsSection(sid('obs-coups'), '♟️', "Coups d'avance", r.coups_avance.length, cards));
   }
@@ -6357,7 +6358,7 @@ function renderAgentTabBody() {
     if (latest && latest.updated_at) markReportSeen(currentAgentSlug, latest.updated_at);
     const pistes = currentAgentSlug === 'smoke' ? '' : agentPistesHtml(currentAgentSlug, latest);
     const hide = currentAgentPistes.length > 0; // ne pas répéter les boutons dans le rapport en dessous
-    if (currentAgentSlug === 'orion') box.innerHTML = pistes + ((latest && (latest.synthese || latest.reglementaire)) ? renderObservatoire(latest) : agentEmpty(a));
+    if (currentAgentSlug === 'orion') box.innerHTML = pistes + ((latest && (latest.synthese || latest.reglementaire)) ? renderObservatoire(latest, { hideActions: hide }) : agentEmpty(a));
     else if (currentAgentSlug === 'victor') box.innerHTML = pistes + ((latest && (latest.synthese || latest.domaines)) ? `<div class="agent-report" style="border:none;padding:0">${renderVictorToday(latest, hide)}</div>` : agentEmpty(a));
     else if (currentAgentSlug === 'smoke') box.innerHTML = (latest && latest.derniere_passe) ? `<div class="agent-report" style="border:none;padding:0">${renderSmokeToday(latest)}</div>` : smokeEmpty(latest);
     else box.innerHTML = pistes + (latest && (latest.etat || latest.prochain_chantier) ? `<div class="agent-report" style="border:none;padding:0">${renderAgentReport(latest, hide)}</div>` : agentEmpty(a));
@@ -6377,15 +6378,24 @@ function renderAgentTabBody() {
 function agentEmpty(a) { return `<div class="agent-report-empty">Aucun rapport pour le moment. ${a && a.statut === 'active' ? 'Lance une ronde pour générer son premier point.' : "Cet agent n'est pas encore créé."}</div>`; }
 
 // ===== « Repéré pour toi » : les trouvailles actionnables d'un agent, en tête de son espace =====
+// Chaque agent alimente SON plan : Orion/Mako/Carla → Plan d'action Prise de marché ; les autres → roadmap globale.
+const AGENT_PLAN = {
+  orion: { store: 'marchePlan', section: 'marche', dest: 'plan Prise de marché' },
+  mako:  { store: 'marchePlan', section: 'marche', dest: 'plan Prise de marché' },
+  carla: { store: 'marchePlan', section: 'marche', dest: 'plan Prise de marché' },
+};
 let currentAgentPistes = [];
 function agentPistes(slug, r) {
   if (!r) return [];
   const out = [];
-  const push = (title, why, body, type) => { const t = (title || '').trim(); if (t) out.push({ title: t, why: why || '', body: body || '', type: type || 'piste' }); };
+  const push = (title, why, body, type, theme) => { const t = (title || '').trim(); if (t) out.push({ title: t, why: why || '', body: body || '', type: type || 'piste', theme: theme || '' }); };
   if (slug === 'orion') {
-    (Array.isArray(r.coups_avance) ? r.coups_avance : []).forEach(c => c && push(c.titre, c.pourquoi, [c.pourquoi, c.action ? 'À faire : ' + c.action : ''].filter(Boolean).join('\n\n'), 'coup'));
+    (Array.isArray(r.coups_avance) ? r.coups_avance : []).forEach(c => c && push(c.titre, c.pourquoi, [c.pourquoi, c.action ? 'À faire : ' + c.action : ''].filter(Boolean).join('\n\n'), 'coup', 'Canaux & go-to-market'));
   } else if (slug === 'mako') {
-    (Array.isArray(r.concurrents) ? r.concurrents : []).forEach(c => c && c.nom && push('Surveiller ' + c.nom, c.vs_toi || c.positionnement, [c.positionnement, c.vs_toi ? 'Se démarquer : ' + c.vs_toi : ''].filter(Boolean).join('\n\n'), 'coup'));
+    (Array.isArray(r.concurrents) ? r.concurrents : []).forEach(c => c && c.nom && push('Surveiller ' + c.nom, c.vs_toi || c.positionnement, [c.positionnement, c.vs_toi ? 'Se démarquer : ' + c.vs_toi : ''].filter(Boolean).join('\n\n'), 'coup', 'Veille concurrentielle'));
+  } else if (slug === 'carla') {
+    if (r.prochain_chantier && r.prochain_chantier.titre) push(r.prochain_chantier.titre, r.prochain_chantier.pourquoi, r.prochain_chantier.pourquoi, 'chantier', 'Canaux & go-to-market');
+    (Array.isArray(r.a_anticiper) ? r.a_anticiper : []).forEach(x => { const t = typeof x === 'string' ? x : (x && x.titre); push(t, '', typeof x === 'string' ? '' : (x && x.pourquoi), 'anticiper', 'Argumentaire'); });
   } else {
     if (r.prochain_chantier && r.prochain_chantier.titre) push(r.prochain_chantier.titre, r.prochain_chantier.pourquoi, r.prochain_chantier.pourquoi, 'chantier');
     if (r.prochaine_demarche && r.prochaine_demarche.titre) push(r.prochaine_demarche.titre, r.prochaine_demarche.pourquoi, r.prochaine_demarche.pourquoi, 'chantier');
@@ -6393,35 +6403,54 @@ function agentPistes(slug, r) {
   }
   return out;
 }
+// Une piste est-elle déjà dans le plan de destination de son agent ?
+function pisteAdded(slug, title) {
+  const cfg = AGENT_PLAN[slug];
+  const arr = cfg ? (state[cfg.store] || []) : (state.roadmap || []);
+  return arr.some(x => (x.title || '').trim().toLowerCase() === title.trim().toLowerCase());
+}
 function agentPistesHtml(slug, r) {
   const all = agentPistes(slug, r);
-  currentAgentPistes = all.filter(p => !roadmapHas(p.title));
+  currentAgentPistes = all.filter(p => !pisteAdded(slug, p.title));
   if (!all.length) return '';
+  const cfg = AGENT_PLAN[slug];
+  const destLabel = cfg ? cfg.dest : 'ta roadmap';
+  const btnLabel = cfg ? '→ plan marché' : '+ roadmap';
   if (!currentAgentPistes.length)
-    return `<div class="ac-pistes-done">✓ Tout ce que ${esc(currentAgentName())} a repéré est déjà dans ta roadmap.</div>`;
+    return `<div class="ac-pistes-done">✓ Tout ce que ${esc(currentAgentName())} a repéré est déjà dans ton ${esc(destLabel)}.</div>`;
   return `<div class="ac-pistes">
-    <div class="ac-pistes-head"><span class="ac-pistes-title">💡 Repéré pour toi</span><span class="ac-pistes-hint">à envoyer dans ta roadmap d'un clic</span></div>
+    <div class="ac-pistes-head"><span class="ac-pistes-title">💡 Repéré pour toi</span><span class="ac-pistes-hint">à envoyer dans ton ${esc(destLabel)} d'un clic</span></div>
     ${currentAgentPistes.map((p, i) => `<div class="ac-piste">
       <div class="ac-piste-txt"><div class="ac-piste-title">${esc(p.title)}</div>${p.why ? `<div class="ac-piste-why">${esc(p.why.slice(0, 160))}${p.why.length > 160 ? '…' : ''}</div>` : ''}</div>
-      <button class="cap-task-btn" onclick="addPisteToRoadmap(event, ${i})">+ roadmap</button>
+      <button class="cap-task-btn" onclick="addPisteToRoadmap(event, ${i})">${btnLabel}</button>
     </div>`).join('')}
   </div>`;
 }
 function addPisteToRoadmap(ev, i) {
   const btn = ev && ev.currentTarget;
+  const slug = currentAgentSlug;
   const p = currentAgentPistes[i]; if (!p) return;
-  if (roadmapHas(p.title)) { if (btn) { btn.textContent = '✓ Déjà dans la roadmap'; btn.disabled = true; btn.classList.add('cap-task-btn-done'); } return; }
-  state.roadmap = state.roadmap || [];
-  const jid = uid();
+  if (pisteAdded(slug, p.title)) { if (btn) { btn.textContent = '✓ Déjà ajouté'; btn.disabled = true; btn.classList.add('cap-task-btn-done'); } return; }
   const labels = { orion: 'Orion (Observatoire)', mako: 'Mako (concurrence)', carla: 'Carla (commercial)', 'chef-produit': 'Magnus (Chef Produit)', victor: 'Victor (Gestion)' };
-  const by = labels[currentAgentSlug] || currentAgentName();
-  rmInsertOrdered({ id: jid, title: p.title, month: null, status: 'planned', body: 'Repéré par ' + by + '.\n\n' + (p.body || '') });
-  if (currentAgentSlug !== 'mako') {
-    const pr = upsertPreco(p.title, p.type || 'coup', '', currentAgentSlug);
-    if (pr && pr.p) { pr.p.enRoadmap = true; pr.p.jalonId = jid; if (pr.p.etat === 'ecartee') pr.p.etat = 'active'; }
+  const by = labels[slug] || currentAgentName();
+  const body = 'Repéré par ' + by + '.\n\n' + (p.body || '');
+  const cfg = AGENT_PLAN[slug];
+  if (cfg) {
+    // → plan d'action thématique (ex. Prise de marché)
+    const store = state[cfg.store] = Array.isArray(state[cfg.store]) ? state[cfg.store] : [];
+    const theme = p.theme || (PLAN_DEFS[cfg.section] && PLAN_DEFS[cfg.section].themes[0]) || '';
+    store.push({ id: uid(), theme, title: p.title, status: 'planned', body, source: by });
+  } else {
+    // → roadmap globale
+    state.roadmap = state.roadmap || [];
+    rmInsertOrdered({ id: uid(), title: p.title, month: null, status: 'planned', body });
+  }
+  if (slug !== 'mako') {
+    const pr = upsertPreco(p.title, p.type || 'coup', '', slug);
+    if (pr && pr.p) { pr.p.enRoadmap = true; if (pr.p.etat === 'ecartee') pr.p.etat = 'active'; }
   }
   save();
-  if (btn) { btn.textContent = '✓ Ajouté à la roadmap'; btn.disabled = true; btn.classList.add('cap-task-btn-done'); }
+  if (btn) { btn.textContent = cfg ? '✓ Ajouté au plan' : '✓ Ajouté à la roadmap'; btn.disabled = true; btn.classList.add('cap-task-btn-done'); }
 }
 
 function renderAgentTabJournal(reps) {
