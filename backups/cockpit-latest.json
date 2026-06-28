@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-28T09:32:39.771Z",
+  "exportedAt": "2026-06-28T09:35:08.795Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7331,6 +7331,14 @@
         {
           "role": "assistant",
           "content": "Bonne nouvelle : pour une SASU, le numéro de TVA intracommunautaire est **calculé automatiquement** à partir de ton SIREN.\n\n---\n\n**La formule**\n\n> **FR + clé de 2 chiffres + SIREN**\n> Soit : **FR + clé + 105 247 977**\n\nLa clé se calcule avec ton SIREN — je ne veux pas te donner le résultat de tête car si je me trompe d'un chiffre c'est problématique.\n\n---\n\n**Comment l'obtenir de façon sûre : 2 options**\n\n- **Option 1 — Via l'espace pro impots.gouv.fr** (la plus fiable)\n  Une fois ton espace créé et activé, ton numéro de TVA apparaît directement dans ton espace → c'est la source officielle\n  \n- **Option 2 — Via le site VIES (Commission européenne)**\n  → vies.ec.europa.eu → tu saisis ton SIREN → il te confirme ton numéro et sa validité\n\n---\n\n**Ce que ça change pour toi maintenant**\n\n- Ce numéro doit apparaître sur **toutes tes factures** dès que tu dépasses le seuil de franchise en base de TVA (à vérifier en Ronde)\n- Il te sert aussi pour tes **abonnements pro européens** (GitHub, Scalingo…) → à renseigner dans tes infos de facturation pour ne pas payer la TVA étrangère\n\n---\n\n**Action :** crée ton espace pro impots.gouv.fr → ton numéro TVA y sera affiché. C'est de toute façon ta priorité n°1 du moment. 😊"
+        },
+        {
+          "role": "user",
+          "content": "Je créee mon profil facturation sur scalingo, ils me disent ca, cca engage quoi pour  moi : Scalingo est une entreprise française, donc :\n\nLes entreprises non européennes sont exonérées d'impôt\nLes entreprises européennes ne seront pas soumises à la TVA si elles saisissent leur numéro d'identification fiscale européen.\nLes personnes physiques européennes seront soumises à la TVA de leur pays d'origine.\nLes entreprises et les particuliers français seront soumis à la TVA française."
+        },
+        {
+          "role": "assistant",
+          "content": "Bonne question — voilà ce que ça veut dire concrètement pour toi :\n\n---\n\n**Ta situation**\n\nTu es une **entreprise française** (CPTS Pilot SAS) → tu tombes dans la dernière case :\n\n> *\"Les entreprises et les particuliers français seront soumis à la TVA française\"*\n\n---\n\n**Ce que ça engage concrètement**\n\n- Scalingo va **ajouter la TVA française** (20%) sur tes factures\n- C'est normal et légal — tu ne peux pas y échapper en tant qu'entreprise française\n\n---\n\n**La bonne nouvelle**\n\nSi tu es **assujettie à la TVA** (= tu as un numéro de TVA actif et tu dépasses le seuil de franchise) :\n- Tu paies la TVA à Scalingo ✔\n- Mais tu la **récupères** ensuite via ta déclaration de TVA ✔\n- → La TVA est **neutre** pour toi\n\nSi tu es encore en **franchise en base de TVA** (= en dessous du seuil, pas encore de numéro TVA actif) :\n- Tu paies la TVA à Scalingo ✔\n- Mais tu **ne peux pas la récupérer** ✖\n- → La TVA est un **coût réel** pour toi\n\n---\n\n**Ce que tu fais maintenant**\n\n- Renseigne ton **SIREN 105 247 977** dans le profil Scalingo (même sans numéro TVA finalisé)\n- Dès que tu as ton numéro TVA → tu le mets à jour chez Scalingo\n\n---\n\n**⚠️ Le point à trancher rapidement**\n\nTon régime de TVA exact (franchise ou assujettie) → c'est précisément ce que je vais vérifier en **▶ Ronde**, et ce que ton expert-comptable doit cadrer avec toi en priorité."
         }
       ]
     },
