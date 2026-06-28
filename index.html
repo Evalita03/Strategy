@@ -1742,6 +1742,7 @@ tr:hover td { background: var(--blue-50); }
           <div class="nav-subitem" data-view="strat-dev"><span class="sub-bullet"></span>Dev</div>
           <div class="nav-subitem" data-view="strat-marche"><span class="sub-bullet"></span>Prise de marché</div>
           <div class="nav-subitem" data-view="strat-pricing"><span class="sub-bullet"></span>Tarification</div>
+          <div class="nav-subitem" data-view="strat-financements"><span class="sub-bullet"></span>Financements</div>
           <div class="nav-subitem" data-view="strat-marque"><span class="sub-bullet"></span>Marque &amp; com'</div>
         </div>
       </div>
@@ -1863,7 +1864,7 @@ function load() {
   ensureBeta();
   // Stratégie globale en piliers (par section)
   if (!state.strategiePillars) state.strategiePillars = {};
-  ['vision','marche','pricing','dev','marque'].forEach(s => { if (!Array.isArray(state.strategiePillars[s])) state.strategiePillars[s] = []; });
+  ['vision','marche','pricing','financements','dev','marque'].forEach(s => { if (!Array.isArray(state.strategiePillars[s])) state.strategiePillars[s] = []; });
   if (!state.strategieSeeded) {
     const defaults = {
       vision: ['Notre cap', 'Pour qui', 'Pourquoi maintenant'],
@@ -1918,6 +1919,7 @@ const titles = {
   idees:'Idées',
   'strat-marche':'Stratégie — Prise de marché',
   'strat-pricing':'Stratégie — Tarification',
+  'strat-financements':'Stratégie — Financements',
   'strat-marque':"Stratégie — Marque & com'",
   'strat-dev':'Stratégie — Dev',
   'strat-organigramme':'Équipe',
@@ -2016,6 +2018,7 @@ function render() {
   else if (currentView === 'strat-vision') renderStrategie(content, actions, 'vision');
   else if (currentView === 'strat-marche') renderStrategie(content, actions, 'marche');
   else if (currentView === 'strat-pricing') renderStrategie(content, actions, 'pricing');
+  else if (currentView === 'strat-financements') renderStrategie(content, actions, 'financements');
   else if (currentView === 'strat-marque') renderStrategie(content, actions, 'marque');
   else if (currentView === 'strat-dev') renderStrategie(content, actions, 'dev');
   else if (currentView === 'strat-organigramme') renderOrganigramme(content, actions);
@@ -4761,6 +4764,7 @@ const stratMeta = {
   vision:  { label:'Vision',          accent:'cap',     fallback:'Là où on va, et pourquoi.',                prompt:'Ta vision : où tu veux emmener CPTS Pilot, ta raison d’être, ton cap à long terme.' },
   marche:  { label:'Prise de marché', accent:'marché',  fallback:'À qui on s’adresse, et comment on entre.', prompt:'Comment tu attaques le marché : cibles prioritaires, canaux, arguments, go-to-market.' },
   pricing: { label:'Tarification',    accent:'rapport', fallback:'Notre rapport au prix, posé clair.',        prompt:'Ton modèle de prix : offres, paliers, logique tarifaire.' },
+  financements: { label:'Financements', accent:'Financements', fallback:'Aller chercher subventions et appels à projets.', prompt:'Ta stratégie de financement : appels à projets, subventions, dispositifs (Ségur, France 2030, ARS…) et comment tu montes les dossiers.' },
   dev:     { label:'Dev',             accent:'Dev',     fallback:'Le COMMENT : comment c’est construit et opéré.', prompt:'Tes partis pris techniques : architecture, hébergement, infra, sécurité, choix d’outils.' },
   marque:  { label:"Marque & com'",   accent:'com',     fallback:'Notre image et comment on la diffuse.',  prompt:'Ton identité visuelle (logo, couleurs, charte), ton site vitrine, tes contenus et ta présence en ligne (SEO, réseaux, webmarketing).' }
 };
@@ -4802,12 +4806,13 @@ function renderStratHero(section) {
     </div>
   </div>`;
 }
-const sectionLabels = { vision:'Vision', marche:'Prise de marché', pricing:'Tarification', dev:'Dev', marque:"Marque & com'" };
+const sectionLabels = { vision:'Vision', marche:'Prise de marché', pricing:'Tarification', financements:'Financements', dev:'Dev', marque:"Marque & com'" };
 // Catégories de repli (servent UNIQUEMENT si un volet est encore vide) — alignées sur le seed réel
 const STRAT_SUGGESTED_GROUPS = {
   vision:  ['Cap & origine', 'Différenciation', 'Identité & posture', 'Engagement & destination'],
   marche:  ['Cibles & problème', 'Arguments par profil', 'Go-to-market', 'Rassurance'],
   pricing: ["L'offre", 'Phase pilote & pitch', 'Philosophie'],
+  financements: ['Dispositifs & sources', 'Éligibilité', 'Dossiers types'],
   dev:     ['Socle & architecture', 'Hébergement & souveraineté', 'Qualité & sécurité'],
   marque:  ['Identité visuelle', 'Site vitrine', 'Contenus & présence en ligne']
 };
@@ -4819,19 +4824,20 @@ function stratGroupOptions(section) {
 // Toutes les catégories réellement en place, tous volets confondus (pour la modale de promotion)
 function allStratGroupsInUse() {
   const out = [];
-  ['vision', 'marche', 'pricing', 'dev', 'marque'].forEach(s => stratGroupOptions(s).forEach(g => out.push(g)));
+  ['vision', 'marche', 'pricing', 'financements', 'dev', 'marque'].forEach(s => stratGroupOptions(s).forEach(g => out.push(g)));
   return [...new Set(out)];
 }
 function findPillar(section, pid) { return (state.strategiePillars[section]||[]).find(p=>p.id===pid); }
 
-let expandedGroups = { vision: new Set(), marche: new Set(), pricing: new Set(), dev: new Set(), marque: new Set() };
+let expandedGroups = { vision: new Set(), marche: new Set(), pricing: new Set(), financements: new Set(), dev: new Set(), marque: new Set() };
 // Sections à feuillets : onglet actif par section (« strat » = encarts | autre = feuillet dédié)
-let sectionTab = { marche: 'strat', dev: 'strat', pricing: 'strat', marque: 'strat' };
+let sectionTab = { marche: 'strat', dev: 'strat', pricing: 'strat', financements: 'plan', marque: 'strat' };
 // Quels feuillets pour quelles sections (le 1er = le contenu d'origine de la section)
 const SECTION_FEUILLETS = {
   marche:  [{ key: 'strat', label: 'Stratégie' }, { key: 'plan', label: "Plan d'action" }],
   dev:     [{ key: 'strat', label: 'Stratégie' }, { key: 'roadmap', label: 'Roadmap' }],
   pricing: [{ key: 'strat', label: 'Stratégie' }, { key: 'plan', label: "Plan d'action" }],
+  financements: [{ key: 'strat', label: 'Stratégie' }, { key: 'plan', label: "Plan d'action" }],
   marque:  [{ key: 'strat', label: 'Vitrine' },   { key: 'plan', label: "Plan d'action" }],
 };
 // Plan d'action « Prise de marché » : données d'Orion/Mako lues pour proposer des suggestions
@@ -5059,6 +5065,7 @@ function renderStrategie(content, actions, section) {
   if (section === 'marque') return tab === 'plan' ? renderPlan(content, actions, 'marque') : renderMarqueShowcase(content, actions);
   if (section === 'marche'  && tab === 'plan')    return renderPlan(content, actions, 'marche');
   if (section === 'pricing' && tab === 'plan')    return renderPlan(content, actions, 'pricing');
+  if (section === 'financements' && tab === 'plan') return renderPlan(content, actions, 'financements');
   if (section === 'dev'     && tab === 'roadmap') return renderDevRoadmap(content, actions);
   actions.innerHTML = `<button class="btn btn-primary" onclick="addEncart('${section}')">+ Encart</button>`;
   const encarts = state.strategiePillars[section] || [];
@@ -6378,66 +6385,73 @@ function renderAgentTabBody() {
 function agentEmpty(a) { return `<div class="agent-report-empty">Aucun rapport pour le moment. ${a && a.statut === 'active' ? 'Lance une ronde pour générer son premier point.' : "Cet agent n'est pas encore créé."}</div>`; }
 
 // ===== « Repéré pour toi » : les trouvailles actionnables d'un agent, en tête de son espace =====
-// Chaque agent alimente SON plan : Orion/Mako/Carla → Plan d'action Prise de marché ; les autres → roadmap globale.
-const AGENT_PLAN = {
-  orion: { store: 'marchePlan', section: 'marche', dest: 'plan Prise de marché' },
-  mako:  { store: 'marchePlan', section: 'marche', dest: 'plan Prise de marché' },
-  carla: { store: 'marchePlan', section: 'marche', dest: 'plan Prise de marché' },
-};
+// Chaque piste porte une destination PAR DÉFAUT (modifiable à l'ajout) : un plan d'action thématique ou la roadmap globale.
+const PISTE_DESTS = [
+  { key: 'marche',       label: 'Prise de marché', store: 'marchePlan',       section: 'marche' },
+  { key: 'financements', label: 'Financements',    store: 'financementsPlan', section: 'financements' },
+  { key: 'pricing',      label: 'Tarification',    store: 'pricingPlan',      section: 'pricing' },
+  { key: 'marque',       label: "Marque & com'",   store: 'marquePlan',       section: 'marque' },
+  { key: 'roadmap',      label: 'Roadmap globale', store: 'roadmap' },
+];
+function pisteDestByKey(k) { return PISTE_DESTS.find(d => d.key === k) || PISTE_DESTS[PISTE_DESTS.length - 1]; }
+const PISTE_BY = { orion: 'Orion (Observatoire)', mako: 'Mako (concurrence)', carla: 'Carla (commercial)', 'chef-produit': 'Magnus (Chef Produit)', victor: 'Victor (Gestion)' };
 let currentAgentPistes = [];
+function finPisteBody(x) {
+  return [x.organisme ? 'Organisme : ' + x.organisme : '', x.montant ? 'Montant : ' + x.montant : '', x.echeance ? 'Échéance : ' + x.echeance : '', x.detail, x.lecture ? 'Pour toi : ' + x.lecture : '', x.source ? 'Source : ' + x.source : ''].filter(Boolean).join('\n\n');
+}
 function agentPistes(slug, r) {
   if (!r) return [];
   const out = [];
-  const push = (title, why, body, type, theme) => { const t = (title || '').trim(); if (t) out.push({ title: t, why: why || '', body: body || '', type: type || 'piste', theme: theme || '' }); };
+  // push(titre, pourquoi, corps, type, destinationParDéfaut, thèmeParDéfaut)
+  const push = (title, why, body, type, dest, theme) => { const t = (title || '').trim(); if (t) out.push({ title: t, why: why || '', body: body || '', type: type || 'piste', dest: dest || 'roadmap', theme: theme || '' }); };
   if (slug === 'orion') {
-    (Array.isArray(r.coups_avance) ? r.coups_avance : []).forEach(c => c && push(c.titre, c.pourquoi, [c.pourquoi, c.action ? 'À faire : ' + c.action : ''].filter(Boolean).join('\n\n'), 'coup', 'Canaux & go-to-market'));
+    (Array.isArray(r.coups_avance) ? r.coups_avance : []).forEach(c => c && push(c.titre, c.pourquoi, [c.pourquoi, c.action ? 'À faire : ' + c.action : ''].filter(Boolean).join('\n\n'), 'coup', 'marche', 'Canaux & go-to-market'));
+    // Opportunités, appels à projets et subventions → plan Financements (le but premier d'Orion)
+    (Array.isArray(r.opportunites) ? r.opportunites : []).forEach(o => o && push(o.titre, o.lecture || o.detail, [o.detail, o.echeance ? 'Échéance : ' + o.echeance : '', o.lecture ? 'Pour toi : ' + o.lecture : '', o.source ? 'Source : ' + o.source : ''].filter(Boolean).join('\n\n'), 'coup', 'financements', 'Appels à projets'));
+    const fin = (r.financements && typeof r.financements === 'object') ? r.financements : {};
+    (Array.isArray(fin.appels_projets) ? fin.appels_projets : []).forEach(a => a && push(a.titre, a.lecture || a.detail, finPisteBody(a), 'coup', 'financements', 'Appels à projets'));
+    (Array.isArray(fin.subventions) ? fin.subventions : []).forEach(s => s && push(s.titre, s.lecture || s.detail, finPisteBody(s), 'coup', 'financements', 'Subventions'));
   } else if (slug === 'mako') {
-    (Array.isArray(r.concurrents) ? r.concurrents : []).forEach(c => c && c.nom && push('Surveiller ' + c.nom, c.vs_toi || c.positionnement, [c.positionnement, c.vs_toi ? 'Se démarquer : ' + c.vs_toi : ''].filter(Boolean).join('\n\n'), 'coup', 'Veille concurrentielle'));
+    (Array.isArray(r.concurrents) ? r.concurrents : []).forEach(c => c && c.nom && push('Surveiller ' + c.nom, c.vs_toi || c.positionnement, [c.positionnement, c.vs_toi ? 'Se démarquer : ' + c.vs_toi : ''].filter(Boolean).join('\n\n'), 'coup', 'marche', 'Veille concurrentielle'));
   } else if (slug === 'carla') {
-    if (r.prochain_chantier && r.prochain_chantier.titre) push(r.prochain_chantier.titre, r.prochain_chantier.pourquoi, r.prochain_chantier.pourquoi, 'chantier', 'Canaux & go-to-market');
-    (Array.isArray(r.a_anticiper) ? r.a_anticiper : []).forEach(x => { const t = typeof x === 'string' ? x : (x && x.titre); push(t, '', typeof x === 'string' ? '' : (x && x.pourquoi), 'anticiper', 'Argumentaire'); });
+    if (r.prochain_chantier && r.prochain_chantier.titre) push(r.prochain_chantier.titre, r.prochain_chantier.pourquoi, r.prochain_chantier.pourquoi, 'chantier', 'marche', 'Canaux & go-to-market');
+    (Array.isArray(r.a_anticiper) ? r.a_anticiper : []).forEach(x => { const t = typeof x === 'string' ? x : (x && x.titre); push(t, '', typeof x === 'string' ? '' : (x && x.pourquoi), 'anticiper', 'marche', 'Argumentaire'); });
   } else {
-    if (r.prochain_chantier && r.prochain_chantier.titre) push(r.prochain_chantier.titre, r.prochain_chantier.pourquoi, r.prochain_chantier.pourquoi, 'chantier');
-    if (r.prochaine_demarche && r.prochaine_demarche.titre) push(r.prochaine_demarche.titre, r.prochaine_demarche.pourquoi, r.prochaine_demarche.pourquoi, 'chantier');
-    (Array.isArray(r.a_anticiper) ? r.a_anticiper : []).forEach(x => { const t = typeof x === 'string' ? x : (x && x.titre); push(t, '', typeof x === 'string' ? '' : (x && x.pourquoi), 'anticiper'); });
+    if (r.prochain_chantier && r.prochain_chantier.titre) push(r.prochain_chantier.titre, r.prochain_chantier.pourquoi, r.prochain_chantier.pourquoi, 'chantier', 'roadmap');
+    if (r.prochaine_demarche && r.prochaine_demarche.titre) push(r.prochaine_demarche.titre, r.prochaine_demarche.pourquoi, r.prochaine_demarche.pourquoi, 'chantier', 'roadmap');
+    (Array.isArray(r.a_anticiper) ? r.a_anticiper : []).forEach(x => { const t = typeof x === 'string' ? x : (x && x.titre); push(t, '', typeof x === 'string' ? '' : (x && x.pourquoi), 'anticiper', 'roadmap'); });
   }
   return out;
 }
-// Une piste est-elle déjà dans le plan de destination de son agent ?
-function pisteAdded(slug, title) {
-  const cfg = AGENT_PLAN[slug];
-  const arr = cfg ? (state[cfg.store] || []) : (state.roadmap || []);
-  return arr.some(x => (x.title || '').trim().toLowerCase() === title.trim().toLowerCase());
+// Une piste est-elle déjà quelque part (un plan d'action OU la roadmap) ?
+function pisteAdded(title) {
+  const t = (title || '').trim().toLowerCase();
+  return PISTE_DESTS.some(d => (state[d.store] || []).some(x => (x.title || '').trim().toLowerCase() === t));
 }
 function agentPistesHtml(slug, r) {
   const all = agentPistes(slug, r);
-  currentAgentPistes = all.filter(p => !pisteAdded(slug, p.title));
+  currentAgentPistes = all.filter(p => !pisteAdded(p.title));
   if (!all.length) return '';
-  const cfg = AGENT_PLAN[slug];
-  const destLabel = cfg ? cfg.dest : 'ta roadmap';
-  const btnLabel = cfg ? '→ plan marché' : '+ roadmap';
   if (!currentAgentPistes.length)
-    return `<div class="ac-pistes-done">✓ Tout ce que ${esc(currentAgentName())} a repéré est déjà dans ton ${esc(destLabel)}.</div>`;
+    return `<div class="ac-pistes-done">✓ Tout ce que ${esc(currentAgentName())} a repéré est déjà classé dans tes plans.</div>`;
   return `<div class="ac-pistes">
-    <div class="ac-pistes-head"><span class="ac-pistes-title">💡 Repéré pour toi</span><span class="ac-pistes-hint">à envoyer dans ton ${esc(destLabel)} d'un clic</span></div>
+    <div class="ac-pistes-head"><span class="ac-pistes-title">💡 Repéré pour toi</span><span class="ac-pistes-hint">à classer dans un plan et dater, d'un clic</span></div>
     ${currentAgentPistes.map((p, i) => `<div class="ac-piste">
       <div class="ac-piste-txt"><div class="ac-piste-title">${esc(p.title)}</div>${p.why ? `<div class="ac-piste-why">${esc(p.why.slice(0, 160))}${p.why.length > 160 ? '…' : ''}</div>` : ''}</div>
-      <button class="cap-task-btn" onclick="addPisteToRoadmap(event, ${i})">${btnLabel}</button>
+      <button class="cap-task-btn" onclick="addPisteToRoadmap(event, ${i})">+ planifier</button>
     </div>`).join('')}
   </div>`;
 }
-const PISTE_BY = { orion: 'Orion (Observatoire)', mako: 'Mako (concurrence)', carla: 'Carla (commercial)', 'chef-produit': 'Magnus (Chef Produit)', victor: 'Victor (Gestion)' };
-// Clic sur une piste → on demande d'abord SUR QUEL MOIS la positionner
+// Clic sur une piste → on choisit la DESTINATION (plan) + le MOIS
 function addPisteToRoadmap(ev, i) {
-  const slug = currentAgentSlug;
   const p = currentAgentPistes[i]; if (!p) return;
-  if (pisteAdded(slug, p.title)) return;
-  const cfg = AGENT_PLAN[slug];
-  const dest = cfg ? cfg.dest : 'ta roadmap';
+  if (pisteAdded(p.title)) return;
   const m = document.getElementById('modal'); m.classList.remove('qc-mode', 'modal-wide');
   m.innerHTML = `
-    <h2>Ajouter à ton ${esc(dest)}</h2>
-    <p style="font-size:13px;color:var(--slate-600);line-height:1.55;margin-bottom:14px">« <b>${esc(p.title)}</b> ». Sur quel mois veux-tu la positionner ?</p>
+    <h2>Planifier cette piste</h2>
+    <p style="font-size:13px;color:var(--slate-600);line-height:1.55;margin-bottom:14px">« <b>${esc(p.title)}</b> ». Choisis où la ranger, et sur quel mois.</p>
+    <div class="field"><label>Destination</label>
+      <select id="piste-dest">${PISTE_DESTS.map(d => `<option value="${d.key}" ${d.key === p.dest ? 'selected' : ''}>${esc(d.label)}</option>`).join('')}</select></div>
     <div class="field"><label>Mois</label>
       <select id="piste-month">${roadmapMonthOptions(currentMonthStr())}</select></div>
     <div class="modal-actions">
@@ -6449,16 +6463,17 @@ function addPisteToRoadmap(ev, i) {
 function confirmAddPiste(i) {
   const slug = currentAgentSlug;
   const p = currentAgentPistes[i]; if (!p) { closeModal(); return; }
-  if (pisteAdded(slug, p.title)) { closeModal(); render(); return; }
-  const sel = document.getElementById('piste-month');
-  const month = (sel && sel.value) || null;
+  if (pisteAdded(p.title)) { closeModal(); render(); return; }
+  const month = (document.getElementById('piste-month') || {}).value || null;
+  const destKey = (document.getElementById('piste-dest') || {}).value || p.dest || 'roadmap';
+  const dest = pisteDestByKey(destKey);
   const by = PISTE_BY[slug] || currentAgentName();
   const body = 'Repéré par ' + by + '.\n\n' + (p.body || '');
-  const cfg = AGENT_PLAN[slug];
-  if (cfg) {
-    // → plan d'action thématique (ex. Prise de marché)
-    const store = state[cfg.store] = Array.isArray(state[cfg.store]) ? state[cfg.store] : [];
-    const theme = p.theme || (PLAN_DEFS[cfg.section] && PLAN_DEFS[cfg.section].themes[0]) || '';
+  if (dest.section) {
+    // → plan d'action thématique (Prise de marché, Financements, Tarification, Marque)
+    const store = state[dest.store] = Array.isArray(state[dest.store]) ? state[dest.store] : [];
+    const themes = (PLAN_DEFS[dest.section] && PLAN_DEFS[dest.section].themes) || [];
+    const theme = themes.includes(p.theme) ? p.theme : (themes[0] || '');
     store.push({ id: uid(), theme, title: p.title, status: 'planned', body, source: by, month });
   } else {
     // → roadmap globale
@@ -6470,7 +6485,7 @@ function confirmAddPiste(i) {
     if (pr && pr.p) { pr.p.enRoadmap = true; if (pr.p.etat === 'ecartee') pr.p.etat = 'active'; }
   }
   save(); closeModal();
-  vivierToast('✓ Ajouté · ' + (month ? monthLabel(month) : 'à planifier'));
+  vivierToast('✓ Ajouté · ' + dest.label + (month ? ' · ' + monthLabel(month) : ' · à planifier'));
   render();
 }
 
@@ -7034,6 +7049,7 @@ function deleteRoadmapItem(id) {
 // ============ PLAN D'ACTION — PRISE DE MARCHÉ (trame thématique) ============
 const MARCHE_THEMES = ['Veille concurrentielle', 'Ciblage', 'Canaux & go-to-market', 'Argumentaire', 'Rassurance'];
 const PRICING_THEMES = ['Modèle & paliers', 'Contractualisation', 'Facturation & encaissement', 'Suivi & relances'];
+const FINANCEMENTS_THEMES = ['Appels à projets', 'Subventions', 'Montage de dossier', 'Suivi & échéances'];
 const MARQUE_THEMES = ['Identité & charte', 'Site vitrine', 'Contenus & éditorial', 'Réseaux & visibilité'];
 const mpIcon = { done: '✓', doing: '▸', planned: '◯' };
 // Définition d'un « plan d'action » par section (store = clé dans state, themes = catégories, withAgents = suggestions Orion/Mako)
@@ -7047,6 +7063,11 @@ const PLAN_DEFS = {
     section: 'pricing', store: 'pricingPlan', themes: PRICING_THEMES, withAgents: false,
     intro: "Les process opérationnels de tarification, rangés par thème. À construire ensemble — clique « + Action » pour démarrer.",
     empty: "Aucune action pour l'instant. C'est ici qu'on passera du théorique à l'opérationnel : facturation, contractualisation, paliers, relances…<br>Clique « + Action » pour démarrer — on explorera le contenu ensemble."
+  },
+  financements: {
+    section: 'financements', store: 'financementsPlan', themes: FINANCEMENTS_THEMES, withAgents: false,
+    intro: "Le plan pour aller chercher des financements : appels à projets et subventions repérés par Orion, à instruire et déposer. Clique la pastille pour faire avancer, ou la ligne pour éditer.",
+    empty: "Aucune action pour l'instant. Quand Orion repère un appel à projets ou une subvention, envoie-le ici depuis son espace (bloc « Repéré pour toi ») — puis monte et dépose ton dossier.<br>Ou clique « + Action » pour démarrer à la main."
   },
   marque: {
     section: 'marque', store: 'marquePlan', themes: MARQUE_THEMES, withAgents: false,
@@ -7285,7 +7306,7 @@ function computeMarcheSuggestions() {
   const have = new Set((state.marchePlan || []).map(x => (x.title || '').trim().toLowerCase()));
   const dismissed = new Set(state.marcheSuggDismissed || []);
   // On exclut aussi ce qui est déjà en roadmap (ajouté depuis l'espace de l'agent)
-  return sugg.filter(s => !have.has(s.title.toLowerCase()) && !dismissed.has(s.key) && !roadmapHas(s.title));
+  return sugg.filter(s => !have.has(s.title.toLowerCase()) && !dismissed.has(s.key) && !pisteAdded(s.title));
 }
 function marcheSuggestionsHtml() {
   if (marcheAgentData === null) return `<div class="mp-agents mp-agents-loading">🛰️ Lecture de tes agents…</div>`;
