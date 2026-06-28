@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-28T16:04:47.800Z",
+  "exportedAt": "2026-06-28T16:13:41.281Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7407,6 +7407,10 @@
         {
           "role": "assistant",
           "content": "Honnêtement : **je ne sais pas avec certitude** — et c'est une question qui engage, donc je ne veux pas te répondre de mémoire.\n\n---\n\n**Ce que je sais avec mon rapport**\n\n- La question du régime de TVA est **dans ta checklist** (vc-tva) — pas encore tranchée\n- Le régime \"réel simplifié\" est **supprimé au 01/01/2027** — ça change les options disponibles\n- Tu n'as pas encore d'expert-comptable pour cadrer ça\n\n---\n\n**Ce que ça dépend (les variables clés)**\n\n- Ton **chiffre d'affaires** actuel et prévisionnel\n- Le **seuil de franchise en base** 2026 (que je dois vérifier à la source — les seuils ont été modifiés récemment)\n- Le fait que tu aies ou non **déclaré un régime** à l'immatriculation\n\n---\n\n**Ce que je te conseille**\n\nDeux actions en parallèle :\n\n1. **Court terme** → appelle ou écris au Service des Impôts des Entreprises (SIE) de Pau — ils te disent en 5 minutes quel régime TVA est attaché à ton SIREN\n   \n2. **Fond** → c'est exactement le genre de décision à prendre **avec ton expert-comptable** (franchise vs réel normal = impact direct sur ta trésorerie et tes factures clients)\n\n---\n\n**Et je lance une ▶ Ronde** pour vérifier les seuils 2026 à la source — je te reviens avec des chiffres fiables."
+        },
+        {
+          "role": "user",
+          "content": "explique moi ce que je dois faire au sujet du registre des décisions de l'associé unique"
         }
       ]
     },
