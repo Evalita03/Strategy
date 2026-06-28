@@ -1160,6 +1160,16 @@ body {
 .mp-pointer-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-left: auto; }
 .mp-pointer-chip { border: none; cursor: pointer; font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; border-radius: 20px; padding: 5px 11px; transition: filter .15s; }
 .mp-pointer-chip:hover { filter: brightness(0.94); }
+/* Bloc « Repéré pour toi » en tête de l'espace d'un agent */
+.ac-pistes { background: linear-gradient(135deg, var(--blue-50), var(--white)); border: 1px solid var(--blue-100); border-radius: 14px; padding: 13px 15px; margin-bottom: 18px; }
+.ac-pistes-done { background: var(--slate-50); border: 1px dashed var(--slate-200); border-radius: 12px; padding: 11px 14px; margin-bottom: 18px; font-size: 12.5px; color: var(--slate-500); }
+.ac-pistes-head { display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap; margin-bottom: 9px; }
+.ac-pistes-title { font-size: 12.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--blue-700); }
+.ac-pistes-hint { font-size: 11px; color: var(--slate-400); }
+.ac-piste { display: flex; align-items: center; gap: 11px; background: var(--white); border: 1px solid var(--slate-200); border-radius: 10px; padding: 9px 11px; margin-top: 8px; }
+.ac-piste-txt { flex: 1; min-width: 0; }
+.ac-piste-title { font-size: 13px; font-weight: 700; color: var(--slate-800); line-height: 1.35; }
+.ac-piste-why { font-size: 11.5px; color: var(--slate-500); line-height: 1.4; margin-top: 2px; }
 .mp-sugg-txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .mp-sugg-title { font-size: 13px; font-weight: 700; color: var(--slate-800); line-height: 1.35; }
 .mp-sugg-why { font-size: 11.5px; color: var(--slate-500); line-height: 1.4; }
@@ -5526,17 +5536,18 @@ async function openAgentModal(slug) {
     if (box) box.innerHTML = `<div class="agent-report-empty">Rapport indisponible pour le moment.</div>`;
   }
 }
-function renderAgentReport(r) {
+function renderAgentReport(r, hideActions) {
   const when = r.updated_at ? `Mis à jour le ${esc(r.updated_at)}${r.trigger ? ' · ' + esc(r.trigger) : ''}` : '';
   let h = `<div class="agent-report-head"><span class="agent-report-title">Dernier rapport</span><span class="agent-report-when">${when}</span></div>`;
   if (r.etat) h += `<div class="agent-report-block"><div class="arb-label">Où on en est</div><div class="arb-text">${esc(r.etat)}</div></div>`;
   if (r.evolution) h += `<div class="report-evolution">📈 <strong>Depuis la dernière ronde&nbsp;:</strong> ${esc(r.evolution)}</div>`;
   if (r.prochain_chantier) {
     const pc = r.prochain_chantier;
-    h += `<div class="agent-report-block"><div class="arb-label">Prochain chantier</div><div class="arb-text"><strong>${esc(pc.titre || '')}</strong>${pc.pourquoi ? ' — ' + esc(pc.pourquoi) : ''}</div>${pc.titre ? `<div class="report-btn-row"><button class="cap-task-btn" onclick="createTaskFromChantier(event)">+ Créer la tâche</button><button class="cap-task-btn cap-task-btn-alt" onclick="createJalonFromChantier(event)">+ Ajouter à la roadmap</button></div>` : ''}</div>`;
+    const btns = (pc.titre && !hideActions) ? `<div class="report-btn-row"><button class="cap-task-btn" onclick="createTaskFromChantier(event)">+ Créer la tâche</button><button class="cap-task-btn cap-task-btn-alt" onclick="createJalonFromChantier(event)">+ Ajouter à la roadmap</button></div>` : '';
+    h += `<div class="agent-report-block"><div class="arb-label">Prochain chantier</div><div class="arb-text"><strong>${esc(pc.titre || '')}</strong>${pc.pourquoi ? ' — ' + esc(pc.pourquoi) : ''}</div>${btns}</div>`;
   }
   if (Array.isArray(r.a_anticiper) && r.a_anticiper.length)
-    h += `<div class="agent-report-block"><div class="arb-label">À anticiper</div><ul class="arb-list">${r.a_anticiper.map((x, i) => `<li>${esc(x)} <button class="jalon-mini" onclick="createJalonFromAnticipe(event, ${i})">+ roadmap</button></li>`).join('')}</ul></div>`;
+    h += `<div class="agent-report-block"><div class="arb-label">À anticiper</div><ul class="arb-list">${r.a_anticiper.map((x, i) => `<li>${esc(x)}${hideActions ? '' : ` <button class="jalon-mini" onclick="createJalonFromAnticipe(event, ${i})">+ roadmap</button>`}</li>`).join('')}</ul></div>`;
   h += renderRelais(r);
   h += renderPropositions(r);
   if (r.note) h += `<div class="agent-report-note">${esc(r.note)}</div>`;
@@ -5602,7 +5613,7 @@ async function refreshSmokeReport() {
   agentConsoleData = await fetchSmokeReport().catch(() => ({}));
   renderAgentTabBody();
 }
-function renderVictorToday(r) {
+function renderVictorToday(r, hideActions) {
   const when = r.updated_at ? `Mis à jour le ${esc(r.updated_at)}${r.trigger ? ' · ' + esc(r.trigger) : ''}` : '';
   let h = `<div class="agent-report-head"><span class="agent-report-title">État administratif</span><span class="agent-report-when">${when}</span></div>`;
   if (r.synthese) h += `<div class="agent-report-block"><div class="arb-label">En un mot</div><div class="arb-text">${esc(r.synthese)}</div></div>`;
@@ -5612,7 +5623,8 @@ function renderVictorToday(r) {
   }
   if (r.prochaine_demarche && r.prochaine_demarche.titre) {
     const pd = r.prochaine_demarche;
-    h += `<div class="agent-report-block"><div class="arb-label">La prochaine démarche</div><div class="arb-text"><strong>${esc(pd.titre)}</strong>${pd.domaine ? ` <span class="vic-tag">${esc(pd.domaine)}</span>` : ''}${pd.pourquoi ? ' — ' + esc(pd.pourquoi) : ''}</div><div class="report-btn-row"><button class="cap-task-btn" onclick="createTaskFromDemarche(event)">+ Créer la tâche</button><button class="cap-task-btn cap-task-btn-alt" onclick="createJalonFromDemarche(event)">+ Ajouter à la roadmap</button></div></div>`;
+    const btns = hideActions ? '' : `<div class="report-btn-row"><button class="cap-task-btn" onclick="createTaskFromDemarche(event)">+ Créer la tâche</button><button class="cap-task-btn cap-task-btn-alt" onclick="createJalonFromDemarche(event)">+ Ajouter à la roadmap</button></div>`;
+    h += `<div class="agent-report-block"><div class="arb-label">La prochaine démarche</div><div class="arb-text"><strong>${esc(pd.titre)}</strong>${pd.domaine ? ` <span class="vic-tag">${esc(pd.domaine)}</span>` : ''}${pd.pourquoi ? ' — ' + esc(pd.pourquoi) : ''}</div>${btns}</div>`;
   }
   if (Array.isArray(r.echeances) && r.echeances.length) {
     h += `<div class="agent-report-block"><div class="arb-label">Échéances à ne pas rater</div><ul class="arb-list">${r.echeances.map(e => `<li>${e.date ? `<strong>${esc(e.date)}</strong> — ` : ''}${esc(e.titre || '')}${e.domaine ? ` <span class="vic-tag">${esc(e.domaine)}</span>` : ''}</li>`).join('')}</ul></div>`;
@@ -6343,15 +6355,17 @@ function renderAgentTabBody() {
   const f = findAgentBySlug(currentAgentSlug); const a = f ? f.a : {};
   if (agentTab === 'today') {
     if (latest && latest.updated_at) markReportSeen(currentAgentSlug, latest.updated_at);
-    if (currentAgentSlug === 'orion') box.innerHTML = (latest && (latest.synthese || latest.reglementaire)) ? renderObservatoire(latest) : agentEmpty(a);
-    else if (currentAgentSlug === 'victor') box.innerHTML = (latest && (latest.synthese || latest.domaines)) ? `<div class="agent-report" style="border:none;padding:0">${renderVictorToday(latest)}</div>` : agentEmpty(a);
+    const pistes = currentAgentSlug === 'smoke' ? '' : agentPistesHtml(currentAgentSlug, latest);
+    const hide = currentAgentPistes.length > 0; // ne pas répéter les boutons dans le rapport en dessous
+    if (currentAgentSlug === 'orion') box.innerHTML = pistes + ((latest && (latest.synthese || latest.reglementaire)) ? renderObservatoire(latest) : agentEmpty(a));
+    else if (currentAgentSlug === 'victor') box.innerHTML = pistes + ((latest && (latest.synthese || latest.domaines)) ? `<div class="agent-report" style="border:none;padding:0">${renderVictorToday(latest, hide)}</div>` : agentEmpty(a));
     else if (currentAgentSlug === 'smoke') box.innerHTML = (latest && latest.derniere_passe) ? `<div class="agent-report" style="border:none;padding:0">${renderSmokeToday(latest)}</div>` : smokeEmpty(latest);
-    else box.innerHTML = latest && (latest.etat || latest.prochain_chantier) ? `<div class="agent-report" style="border:none;padding:0">${renderAgentReport(latest)}</div>` : agentEmpty(a);
+    else box.innerHTML = pistes + (latest && (latest.etat || latest.prochain_chantier) ? `<div class="agent-report" style="border:none;padding:0">${renderAgentReport(latest, hide)}</div>` : agentEmpty(a));
   }
   else if (agentTab === 'cap') box.innerHTML = renderAgentTabCap(latest);
   else if (agentTab === 'carnet') box.innerHTML = renderAgentTabCarnet();
   else if (agentTab === 'suivi') box.innerHTML = renderAgentTabSuivi();
-  else if (agentTab === 'board') box.innerHTML = renderMakoBoard(latest);
+  else if (agentTab === 'board') box.innerHTML = agentPistesHtml('mako', latest) + renderMakoBoard(latest);
   else if (agentTab === 'financements') box.innerHTML = renderObsFinancements(latest);
   else if (agentTab === 'local') box.innerHTML = renderObsLocal(latest);
   else if (agentTab === 'checklist') box.innerHTML = renderVictorChecklist(latest);
@@ -6361,6 +6375,54 @@ function renderAgentTabBody() {
   else if (agentTab === 'chat') { box.innerHTML = renderAgentTabChat(); scrollChatBottom(); }
 }
 function agentEmpty(a) { return `<div class="agent-report-empty">Aucun rapport pour le moment. ${a && a.statut === 'active' ? 'Lance une ronde pour générer son premier point.' : "Cet agent n'est pas encore créé."}</div>`; }
+
+// ===== « Repéré pour toi » : les trouvailles actionnables d'un agent, en tête de son espace =====
+let currentAgentPistes = [];
+function agentPistes(slug, r) {
+  if (!r) return [];
+  const out = [];
+  const push = (title, why, body, type) => { const t = (title || '').trim(); if (t) out.push({ title: t, why: why || '', body: body || '', type: type || 'piste' }); };
+  if (slug === 'orion') {
+    (Array.isArray(r.coups_avance) ? r.coups_avance : []).forEach(c => c && push(c.titre, c.pourquoi, [c.pourquoi, c.action ? 'À faire : ' + c.action : ''].filter(Boolean).join('\n\n'), 'coup'));
+  } else if (slug === 'mako') {
+    (Array.isArray(r.concurrents) ? r.concurrents : []).forEach(c => c && c.nom && push('Surveiller ' + c.nom, c.vs_toi || c.positionnement, [c.positionnement, c.vs_toi ? 'Se démarquer : ' + c.vs_toi : ''].filter(Boolean).join('\n\n'), 'coup'));
+  } else {
+    if (r.prochain_chantier && r.prochain_chantier.titre) push(r.prochain_chantier.titre, r.prochain_chantier.pourquoi, r.prochain_chantier.pourquoi, 'chantier');
+    if (r.prochaine_demarche && r.prochaine_demarche.titre) push(r.prochaine_demarche.titre, r.prochaine_demarche.pourquoi, r.prochaine_demarche.pourquoi, 'chantier');
+    (Array.isArray(r.a_anticiper) ? r.a_anticiper : []).forEach(x => { const t = typeof x === 'string' ? x : (x && x.titre); push(t, '', typeof x === 'string' ? '' : (x && x.pourquoi), 'anticiper'); });
+  }
+  return out;
+}
+function agentPistesHtml(slug, r) {
+  const all = agentPistes(slug, r);
+  currentAgentPistes = all.filter(p => !roadmapHas(p.title));
+  if (!all.length) return '';
+  if (!currentAgentPistes.length)
+    return `<div class="ac-pistes-done">✓ Tout ce que ${esc(currentAgentName())} a repéré est déjà dans ta roadmap.</div>`;
+  return `<div class="ac-pistes">
+    <div class="ac-pistes-head"><span class="ac-pistes-title">💡 Repéré pour toi</span><span class="ac-pistes-hint">à envoyer dans ta roadmap d'un clic</span></div>
+    ${currentAgentPistes.map((p, i) => `<div class="ac-piste">
+      <div class="ac-piste-txt"><div class="ac-piste-title">${esc(p.title)}</div>${p.why ? `<div class="ac-piste-why">${esc(p.why.slice(0, 160))}${p.why.length > 160 ? '…' : ''}</div>` : ''}</div>
+      <button class="cap-task-btn" onclick="addPisteToRoadmap(event, ${i})">+ roadmap</button>
+    </div>`).join('')}
+  </div>`;
+}
+function addPisteToRoadmap(ev, i) {
+  const btn = ev && ev.currentTarget;
+  const p = currentAgentPistes[i]; if (!p) return;
+  if (roadmapHas(p.title)) { if (btn) { btn.textContent = '✓ Déjà dans la roadmap'; btn.disabled = true; btn.classList.add('cap-task-btn-done'); } return; }
+  state.roadmap = state.roadmap || [];
+  const jid = uid();
+  const labels = { orion: 'Orion (Observatoire)', mako: 'Mako (concurrence)', carla: 'Carla (commercial)', 'chef-produit': 'Magnus (Chef Produit)', victor: 'Victor (Gestion)' };
+  const by = labels[currentAgentSlug] || currentAgentName();
+  rmInsertOrdered({ id: jid, title: p.title, month: null, status: 'planned', body: 'Repéré par ' + by + '.\n\n' + (p.body || '') });
+  if (currentAgentSlug !== 'mako') {
+    const pr = upsertPreco(p.title, p.type || 'coup', '', currentAgentSlug);
+    if (pr && pr.p) { pr.p.enRoadmap = true; pr.p.jalonId = jid; if (pr.p.etat === 'ecartee') pr.p.etat = 'active'; }
+  }
+  save();
+  if (btn) { btn.textContent = '✓ Ajouté à la roadmap'; btn.disabled = true; btn.classList.add('cap-task-btn-done'); }
+}
 
 function renderAgentTabJournal(reps) {
   const real = reps.filter(r => r && (r.etat || r.prochain_chantier || r.synthese));
