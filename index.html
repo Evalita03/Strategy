@@ -7905,13 +7905,15 @@ async function backupToGithub(silent) {
     'Content-Type': 'application/json'
   };
   try {
-    // 1. Récupère le SHA actuel (si le fichier existe déjà)
-    let sha = null;
-    const getResp = await fetch(`${apiUrl}?ref=${branch}`, { headers });
-    if (getResp.ok) {
-      const data = await getResp.json();
-      sha = data.sha;
-    } else if (getResp.status !== 404) {
+    // Lit le SHA actuel du fichier sur Github, sans cache (sinon on récupère
+    // un vieux SHA et le PUT échoue avec "does not match").
+    async function fetchSha() {
+      const getResp = await fetch(`${apiUrl}?ref=${branch}&t=${Date.now()}`, {
+        headers: { ...headers, 'Cache-Control': 'no-cache' },
+        cache: 'no-store'
+      });
+      if (getResp.ok) return (await getResp.json()).sha;
+      if (getResp.status === 404) return null;
       const err = await getResp.json().catch(() => ({}));
       throw new Error(err.message || `Lecture impossible (${getResp.status})`);
     }
@@ -7922,15 +7924,23 @@ async function backupToGithub(silent) {
       origin: silent ? 'auto-backup' : 'manual-backup',
       data: state
     };
-    const body = {
-      message: `Backup cockpit ${new Date().toLocaleString('fr-FR')}`,
-      content: utf8ToBase64(JSON.stringify(snapshot, null, 2)),
-      branch
-    };
-    if (sha) body.sha = sha;
-    // 3. PUT
-    const putResp = await fetch(apiUrl, { method: 'PUT', headers, body: JSON.stringify(body) });
-    if (!putResp.ok) {
+    // 3. PUT, avec retry si conflit de SHA (le fichier a bougé entre-temps)
+    let sha = await fetchSha();
+    let putResp;
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const body = {
+        message: `Backup cockpit ${new Date().toLocaleString('fr-FR')}`,
+        content: utf8ToBase64(JSON.stringify(snapshot, null, 2)),
+        branch
+      };
+      if (sha) body.sha = sha;
+      putResp = await fetch(apiUrl, { method: 'PUT', headers, body: JSON.stringify(body) });
+      if (putResp.ok) break;
+      // 409 = conflit de SHA : on relit le vrai SHA et on réessaie
+      if (putResp.status === 409 && attempt < 2) {
+        sha = await fetchSha();
+        continue;
+      }
       const err = await putResp.json().catch(() => ({}));
       throw new Error(err.message || `Échec (${putResp.status})`);
     }
