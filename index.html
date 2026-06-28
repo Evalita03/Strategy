@@ -8008,6 +8008,21 @@ async function doManualBackup() {
   if (btn) { btn.disabled = true; btn.textContent = '… sauvegarde en cours'; }
   await backupToGithub(false);
   if (btn) { btn.disabled = false; btn.textContent = '↑ Sauvegarder maintenant'; }
+  refreshSettingsBackupStatus();
+}
+
+// Met à jour la ligne de statut du panneau Réglages (s'il est ouvert),
+// pour que l'erreur s'efface dès qu'une sauvegarde réussit.
+function refreshSettingsBackupStatus() {
+  const el = document.getElementById('settings-backup-status');
+  if (!el) return;
+  const cfg = getGhConfig();
+  let dot, status;
+  if (!cfg.token) { dot = 'var(--slate-500)'; status = 'Backup Github non configuré'; }
+  else if (cfg.lastError) { dot = 'var(--red-600)'; status = 'Erreur : ' + esc(cfg.lastError); }
+  else if (cfg.lastBackup) { dot = 'var(--teal-600)'; status = 'Dernière sauvegarde ' + formatRelativeDate(cfg.lastBackup); }
+  else { dot = 'var(--orange-600)'; status = 'En attente du premier backup'; }
+  el.innerHTML = `<span class="status-dot" style="background:${dot}"></span>${status}`;
 }
 
 function startAutoBackup() {
@@ -8050,7 +8065,7 @@ function openSettingsModal() {
     <h2>Réglages & sauvegarde</h2>
     <div class="settings-section">
       <h3>Sauvegarde Github</h3>
-      <div class="settings-status"><span class="status-dot" style="background:${dot}"></span>${status}</div>
+      <div class="settings-status" id="settings-backup-status"><span class="status-dot" style="background:${dot}"></span>${status}</div>
       <div class="settings-row">
         <button class="btn btn-ghost" onclick="openGhConfigModal()">${cfg.token?'Reconfigurer':'☁ Configurer'}</button>
         <button class="btn btn-primary" id="manual-backup-btn" onclick="doManualBackup()">↑ Sauvegarder maintenant</button>
