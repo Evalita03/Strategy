@@ -1,837 +1,1764 @@
 {
-  "agent": "orion",
-  "journal": [
+ "agent": "orion",
+ "journal": [
+  {
+   "updated_at": "2026-06-06",
+   "trigger": "première veille",
+   "synthese": "Gros mouvement de fond : le gouvernement veut transformer les CPTS en « Communautés France Santé » via le PLFSS 2026 (enveloppe de 130 M€, ~50 000 €/structure), avec un avenant à l'ACI à négocier dans les 6 mois suivant la loi. Les médecins généralistes s'y opposent fermement. Côté marché, au moins 7 logiciels CPTS sont déjà en concurrence, tous centrés sur le pilotage des indicateurs ACI. Plusieurs financements (Ségur numérique, appels à projets ARS) restent ouverts.",
+   "reglementaire": [
     {
-      "updated_at": "2026-06-06",
-      "trigger": "première veille",
-      "synthese": "Gros mouvement de fond : le gouvernement veut transformer les CPTS en « Communautés France Santé » via le PLFSS 2026 (enveloppe de 130 M€, ~50 000 €/structure), avec un avenant à l'ACI à négocier dans les 6 mois suivant la loi. Les médecins généralistes s'y opposent fermement. Côté marché, au moins 7 logiciels CPTS sont déjà en concurrence, tous centrés sur le pilotage des indicateurs ACI. Plusieurs financements (Ségur numérique, appels à projets ARS) restent ouverts.",
-      "reglementaire": [
-        {
-          "titre": "Transformation des CPTS en « Communautés France Santé »",
-          "detail": "Amendement gouvernemental au PLFSS 2026 (déposé le 04/11/2025) pour renommer les CPTS en « Communautés France Santé » (CFS) et créer un réseau « France Santé » inspiré de France Services. Enveloppe dédiée de 130 M€, soit ~50 000 € par structure labellisée.",
-          "impact": "fort",
-          "lecture": "pour toi : c'est LE sujet à suivre. Si la loi passe, le vocabulaire (« CPTS » → « Communauté France Santé »), les missions et le financement changent. CPTS Pilot doit pouvoir suivre ce rebranding sans s'enfermer trop tôt (le texte n'est pas définitif).",
-          "source": "https://www.assemblee-nationale.fr/dyn/17/amendements/1907/AN/2568",
-          "date": "2025-11-04"
-        },
-        {
-          "titre": "Avenant à l'ACI CPTS à négocier sous 6 mois",
-          "detail": "La loi prévoit que l'Assurance Maladie engage, dans les 6 mois suivant sa promulgation, la négociation d'un avenant à l'ACI pour adapter le financement aux nouvelles missions : animation du réseau France Santé, soutien aux projets locaux, et possible emploi direct de professionnels.",
-          "impact": "fort",
-          "lecture": "pour toi : de nouveaux indicateurs et de nouvelles missions financées arrivent → autant d'éléments à outiller dans la plateforme. Anticiper ces briques = un argument de vente fort le jour où l'avenant sort.",
-          "source": "https://www.ameli.fr/exercice-coordonne/textes-reference/accord-conventionnel-interprofessionnel-pour-les-cpts/accord-conventionnel-interprofessionnel-pour-les-cpts",
-          "date": "2026-04-01"
-        },
-        {
-          "titre": "Forte opposition des médecins généralistes",
-          "detail": "Les syndicats de médecins généralistes dénoncent une « manœuvre » et s'opposent au changement de nom et à la réforme des CPTS en Communautés France Santé.",
-          "impact": "moyen",
-          "lecture": "pour toi : la réforme n'est pas jouée. Reste agile sur le vocabulaire produit tant que le texte n'est pas promulgué — ne renomme pas tout « France Santé » prématurément.",
-          "source": "https://www.whatsupdoc-lemag.fr/article/les-medecins-generalistes-vent-debout-contre-la-transformation-des-cpts-en-communautes",
-          "date": "2026-01-01"
-        }
-      ],
-      "concurrence": [
-        {
-          "acteur": "Coordo",
-          "fait": "Logiciel CPTS centré sur l'orientation patient et le pilotage des indicateurs ACI. Démo à partir de 149 € HT/mois, sans engagement. Publie un comparatif des 7 logiciels CPTS du marché.",
-          "lecture": "pour toi : repère de prix utile (~150 €/mois en entrée). Le comparatif qu'ils publient est un bon thermomètre du marché — à relire à chaque ronde.",
-          "source": "https://www.coordo.fr/ressources/logiciels-cpts/comparatif-logiciels-cpts/",
-          "date": "2026-01-01"
-        },
-        {
-          "acteur": "Citana (Anamnese)",
-          "fait": "L'un des plus anciens spécialistes du marché CPTS, vise les CPTS structurées qui veulent une large couverture fonctionnelle : statistiques en temps réel, reporting automatisé, indicateurs ACI pour la CPAM et l'ARS.",
-          "lecture": "pour toi : concurrent installé et complet → ta différenciation doit être la simplicité et la prise en main, pas la course aux fonctionnalités.",
-          "source": "https://www.anamnese.care/citana",
-          "date": "2026-01-01"
-        },
-        {
-          "acteur": "Albert (albertsante.fr)",
-          "fait": "Outil d'aide au pilotage par les indicateurs ACI et d'analyse du territoire par profession (ETP, visites à domicile, langues parlées) pour cibler les projets de santé.",
-          "lecture": "pour toi : le pilotage ACI est devenu le terrain de jeu commun de tous les concurrents. C'est un attendu de base, pas un avantage — il faut faire mieux ou plus simple.",
-          "source": "https://albertsante.fr/aide-pilotage-indicateurs-aci",
-          "date": "2026-01-01"
-        },
-        {
-          "acteur": "Autres acteurs identifiés",
-          "fait": "CPTS+, SimplyMed, inzee.Care Coordination, Plexus Santé, Medplan, CPTS France : annuaire local, soins non programmés, agenda, partage de ressources, site web de la communauté.",
-          "lecture": "pour toi : marché déjà peuplé (7+ acteurs). À cartographier finement (qui fait quoi, à quel prix) pour trouver le créneau où CPTS Pilot est clairement meilleur.",
-          "source": "https://www.coordo.fr/ressources/logiciels-cpts/comparatif-logiciels-cpts/",
-          "date": "2026-01-01"
-        }
-      ],
-      "concurrence_synthese": "Le marché des logiciels CPTS compte déjà 7+ acteurs, tous structurés autour du pilotage des indicateurs ACI. Deux familles : les suites larges et chères (Citana, CPTS France — sur devis, 3 à 15 k€/an, longues à déployer) et les outils légers, rapides et abordables (Coordo à 149 €/mois). Ta place naturelle est sur le créneau simple/rapide/de terrain, là où les gros sont lourds.",
-      "concurrents": [
-        {
-          "nom": "Citana (groupe Anamnèse)",
-          "site": "https://www.citana.care/logiciel-cpts",
-          "positionnement": "La suite complète d'exercice coordonné — le plus ancien et le plus large du marché",
-          "cible": "CPTS structurées (> 50 000 hab.) avec un coordinateur dédié",
-          "prix": "Sur devis — environ 3 000 à 15 000 €/an selon la taille",
-          "forces": ["40+ protocoles pluripro prêts à l'emploi", "Partage sécurisé d'informations", "Soins non programmés intégrés", "Acteur installé et capitalisé (groupe Anamnèse)"],
-          "faiblesses": ["Paramétrage long (plusieurs mois)", "Prise en main qui exige de l'accompagnement", "Trop lourd et cher pour une petite CPTS"],
-          "actualite": [
-            { "date": "2022", "fait": "Racheté par le groupe Anamnèse", "source": "https://www.anamnese.care/citana" },
-            { "date": "2026", "fait": "inzee.Care (adressage grand public) rapproché de la marque Citana", "source": "https://cpts-synapse.fr/divers/inzee-care-devient-citana/" }
-          ],
-          "strategie": "Couverture fonctionnelle maximale + distribution via l'écosystème Anamnèse (inzee.Care, Paymed)",
-          "vs_toi": "Ta carte maîtresse face à Citana : la simplicité et la rapidité de mise en route. Vise les CPTS petites et moyennes qui veulent démarrer vite, sans projet de déploiement de plusieurs mois.",
-          "maj": "2026-06-06"
-        },
-        {
-          "nom": "Coordo",
-          "site": "https://www.coordo.fr",
-          "positionnement": "Outil léger et rapide à déployer : annuaire interne, orientation patient, pilotage ACI",
-          "cible": "CPTS qui veulent un outil simple, vite en place",
-          "prix": "149 € HT/mois, sans engagement",
-          "forces": ["Prix transparent et bas", "Déploiement rapide", "Sans engagement", "Excellent marketing de contenu (le comparatif de référence du marché)"],
-          "faiblesses": ["Périmètre fonctionnel étroit (orientation patient surtout)", "Moins complet pour les grosses CPTS"],
-          "actualite": [
-            { "date": "2026", "fait": "Publie le comparatif de référence des 7 logiciels CPTS — capte ainsi les CPTS en recherche", "source": "https://www.coordo.fr/ressources/logiciels-cpts/comparatif-logiciels-cpts/" }
-          ],
-          "strategie": "Transparence des prix + contenu (le comparatif) pour attirer les CPTS qui comparent",
-          "vs_toi": "C'est ton concurrent le plus proche en positionnement (simple et abordable). Différencie-toi par ton regard de coordinatrice de terrain et une vision plus large que la seule orientation patient (vie associative, pilotage global).",
-          "maj": "2026-06-06"
-        },
-        {
-          "nom": "Albert (albertsante.fr)",
-          "site": "https://albertsante.fr/aide-pilotage-indicateurs-aci",
-          "positionnement": "Spécialiste du pilotage des indicateurs ACI et de l'analyse de territoire",
-          "cible": "CPTS qui veulent piloter par la donnée",
-          "prix": "Non communiqué",
-          "forces": ["Analyse fine du territoire (ETP, visites à domicile, langues parlées)", "Ciblage des projets de santé par la data"],
-          "faiblesses": ["Outil d'analyse, pas une suite de gestion complète"],
-          "actualite": [],
-          "strategie": "Devenir l'outil incontournable sur la donnée ACI et le diagnostic de territoire",
-          "vs_toi": "Plutôt complémentaire que frontal — mais il confirme que « le pilotage ACI » est un attendu de base. Assure-toi de bien le couvrir chez toi, simplement.",
-          "maj": "2026-06-06"
-        },
-        {
-          "nom": "SimplyMed",
-          "site": "https://www.simplymed.fr/logiciel-gestion-soins-non-programmes-cpts",
-          "positionnement": "Gestion des soins non programmés (SNP) et régulation des créneaux sur le territoire",
-          "cible": "CPTS dont la priorité est l'accès aux soins / SNP",
-          "prix": "Non communiqué",
-          "forces": ["Spécialiste reconnu des soins non programmés", "Améliore concrètement l'accès aux soins"],
-          "faiblesses": ["Centré SNP : couverture CPTS partielle"],
-          "actualite": [],
-          "strategie": "Se positionner sur la mission « accès aux soins », très visible politiquement",
-          "vs_toi": "Si tu couvres bien les SNP en plus du reste, tu offres une solution plus complète qu'un outil mono-mission.",
-          "maj": "2026-06-06"
-        },
-        {
-          "nom": "Medplan",
-          "site": "https://medplan.fr/",
-          "positionnement": "Plateforme collaborative de gestion pour MSP, CPTS et associations de santé",
-          "cible": "Structures d'exercice coordonné (MSP + CPTS)",
-          "prix": "Non communiqué",
-          "forces": ["Couvre plusieurs types de structures", "Approche collaborative et évolutive"],
-          "faiblesses": ["Positionnement moins net (généraliste MSP/CPTS)"],
-          "actualite": [],
-          "strategie": "Adresser large (MSP + CPTS + associations) avec une plateforme évolutive",
-          "vs_toi": "Sa polyvalence est aussi un flou : un outil pensé CPTS de bout en bout (le tien) parle mieux à une coordinatrice CPTS.",
-          "maj": "2026-06-06"
-        },
-        {
-          "nom": "CPTS+",
-          "site": "https://www.coordo.fr/ressources/logiciels-cpts/comparatif-logiciels-cpts/",
-          "positionnement": "Animation de communauté : annuaire local, soins non programmés, agenda, site web, partage de ressources",
-          "cible": "CPTS qui veulent animer et faire grandir leur communauté",
-          "prix": "Non communiqué",
-          "forces": ["Bon sur la vie de communauté et l'annuaire", "Site web de la CPTS inclus"],
-          "faiblesses": ["Moins orienté pilotage / indicateurs"],
-          "actualite": [],
-          "strategie": "Faciliter l'élargissement et l'animation de la communauté",
-          "vs_toi": "Terrain proche du tien sur la « vie associative ». À surveiller de près : compare fonction par fonction pour rester devant sur la simplicité.",
-          "maj": "2026-06-06"
-        }
-      ],
-      "opportunites": [
-        {
-          "titre": "Abonnement logiciel = dépense éligible à l'ACI",
-          "detail": "Selon l'ACI, les outils numériques de coordination (annuaires, outils de partage patient) sont des dépenses éligibles ; l'abonnement à un logiciel CPTS entre dans la ligne « acquisition et maintenance des outils de coordination ».",
-          "echeance": "permanent",
-          "lecture": "pour toi : argument de vente clé → l'abonnement à CPTS Pilot peut être financé par l'enveloppe ACI de la CPTS. À mettre en avant noir sur blanc dans ton discours commercial.",
-          "source": "https://www.coordo.fr/ressources/logiciels-cpts/comparatif-logiciels-cpts/"
-        },
-        {
-          "titre": "Appel à projets ARS Île-de-France (innovations numériques)",
-          "detail": "AAP « innovations organisationnelles s'appuyant sur une solution technologique ou numérique » : dépôt avant le 02/06/2026 14h, sélection en octobre 2026. Les CPTS peuvent être porteuses de projet.",
-          "echeance": "dépôt clos le 02/06/2026 (édition à resurveiller)",
-          "lecture": "pour toi : ce type d'AAP régional finance les CPTS qui s'équipent en numérique → une porte d'entrée pour accompagner tes futures clientes. Surveiller l'équivalent dans TON territoire (à préciser).",
-          "source": "https://www.iledefrance.ars.sante.fr/mise-en-place-de-projets-dinnovations-organisationnelles-sappuyant-sur-une-solution-technologique-0"
-        },
-        {
-          "titre": "Ségur du numérique en santé & AAP de l'ANS",
-          "detail": "Le Ségur numérique (financé par des fonds européens) et l'Agence du Numérique en Santé portent des appels à projets (« Structures 3.0 », « Tiers-lieux d'expérimentation », Mon espace santé).",
-          "echeance": "vagues successives — à resurveiller",
-          "lecture": "pour toi : sources de financement et de légitimité (interopérabilité, Mon espace santé). À garder à l'œil pour aligner la plateforme sur les standards attendus.",
-          "source": "https://esante.gouv.fr/lagence/appels-a-projets"
-        }
-      ],
-      "signaux": [
-        {
-          "signal": "Tous les concurrents convergent vers « le pilotage des indicateurs ACI ».",
-          "lecture": "ce que ça annonce : l'ACI est la colonne vertébrale du marché. La différenciation se jouera ailleurs — simplicité, accompagnement, vie associative, expérience utilisateur."
-        },
-        {
-          "signal": "L'État pousse une logique de « réseau » et de label unique (France Santé / France Services).",
-          "lecture": "ce que ça annonce : montée du besoin de lisibilité et de mise en réseau entre structures → opportunité produit autour de la collaboration inter-CPTS."
-        }
-      ],
-      "predictions": [
-        {
-          "horizon": "6 mois",
-          "scenario": "Si le PLFSS 2026 est promulgué, la négociation de l'avenant ACI s'ouvre (obligation légale sous 6 mois) et précise les nouvelles missions/indicateurs financés.",
-          "confiance": "élevée",
-          "implication": "pour toi : prépare-toi à outiller de nouvelles missions (animation réseau, projets locaux). Être prêt le jour de l'avenant = un coup d'avance commercial net."
-        },
-        {
-          "horizon": "12 mois",
-          "scenario": "Le vocabulaire « Communauté France Santé » commence à s'imposer dans les documents officiels et les CPAM/ARS, malgré l'opposition.",
-          "confiance": "moyenne",
-          "implication": "pour toi : prévois de pouvoir basculer le vocabulaire de la plateforme (libellés paramétrables) sans tout réécrire."
-        },
-        {
-          "horizon": "18 mois",
-          "scenario": "Consolidation du marché des logiciels CPTS (rachats / abandons parmi les 7+ acteurs) ; les survivants se distinguent par la simplicité et l'accompagnement humain.",
-          "confiance": "moyenne",
-          "implication": "pour toi : ta carte maîtresse de fondatrice-coordinatrice, c'est le terrain et la simplicité. Capitalise dessus plutôt que sur la surenchère de fonctions."
-        }
-      ],
-      "coups_avance": [
-        {
-          "titre": "Rendre le vocabulaire de la plateforme paramétrable (CPTS ↔ Communauté France Santé)",
-          "pourquoi": "La réforme peut renommer les CPTS. Les libellés en dur deviendraient datés du jour au lendemain.",
-          "action": "Prévoir des libellés centralisés/paramétrables pour basculer le nom sans refonte, dès que la loi tranche."
-        },
-        {
-          "titre": "Faire de « financé par l'enveloppe ACI » un argument commercial central",
-          "pourquoi": "L'abonnement logiciel est une dépense ACI éligible : c'est un levier d'achat décisif pour une CPTS.",
-          "action": "Préparer une phrase claire et un mini-justificatif (référence ACI) à donner aux CPTS prospectes."
-        },
-        {
-          "titre": "Cartographier finement les 7 concurrents (fonctions + prix)",
-          "pourquoi": "Le marché est déjà peuplé ; sans carte précise, impossible de positionner CPTS Pilot.",
-          "action": "Construire un tableau comparatif interne (acteur, cible, fonctions, prix, point faible) à partir du comparatif Coordo, et le tenir à jour à chaque ronde."
-        }
-      ],
-      "sources": [
-        { "titre": "Amendement PLFSS 2026 n°2568 (renommage CPTS → Communautés France Santé)", "url": "https://www.assemblee-nationale.fr/dyn/17/amendements/1907/AN/2568", "date": "2025-11-04" },
-        { "titre": "Médecins généralistes contre la transformation des CPTS (What's up Doc)", "url": "https://www.whatsupdoc-lemag.fr/article/les-medecins-generalistes-vent-debout-contre-la-transformation-des-cpts-en-communautes", "date": "2026-01-01" },
-        { "titre": "ACI CPTS — ameli.fr (textes de référence)", "url": "https://www.ameli.fr/exercice-coordonne/textes-reference/accord-conventionnel-interprofessionnel-pour-les-cpts/accord-conventionnel-interprofessionnel-pour-les-cpts", "date": "2026-04-01" },
-        { "titre": "Comparatif logiciels CPTS 2026 (Coordo)", "url": "https://www.coordo.fr/ressources/logiciels-cpts/comparatif-logiciels-cpts/", "date": "2026-01-01" },
-        { "titre": "Appel à projets innovations numériques — ARS Île-de-France", "url": "https://www.iledefrance.ars.sante.fr/mise-en-place-de-projets-dinnovations-organisationnelles-sappuyant-sur-une-solution-technologique-0", "date": "2026-06-02" },
-        { "titre": "Appels à projets — Agence du Numérique en Santé", "url": "https://esante.gouv.fr/lagence/appels-a-projets", "date": "2026-01-01" }
-      ],
-      "local": {
-        "synthese": "Sur ton terrain (64 / Nouvelle-Aquitaine), l'ARS finance activement la structuration des CPTS (recrutement et formation de coordinateurs via le programme PACTE SOIN PRIMAIRE). Un accompagnement à la formation des infirmiers en pratique avancée (IPA) en CPTS clôt le 12/06/2026. Et les municipales de mars 2026 ont renouvelé plusieurs interlocuteurs locaux (Pau, Bayonne, Biarritz).",
-        "opportunites": [
-          {
-            "titre": "Accompagnement à la formation des IPA en CPTS — Nouvelle-Aquitaine 2026",
-            "detail": "Dispositif ARS Nouvelle-Aquitaine d'accompagnement à la formation des infirmiers en pratique avancée au sein des CPTS de la région.",
-            "echeance": "dépôt avant le 12/06/2026",
-            "lecture": "pour toi : les CPTS du 64 qui montent un volet IPA sont en mouvement — un bon angle de conversation et un signe de CPTS dynamiques (donc clientes potentielles motivées).",
-            "source": "https://demarche.numerique.gouv.fr/commencer/accompagnement-a-la-formation-des-infirmiers-eres-en-pratique-avancee-en-cpts-en-nouvelle-aquitaine-2026"
-          },
-          {
-            "titre": "PACTE SOIN PRIMAIRE — soutien aux CPTS en formation (ARS NA)",
-            "detail": "L'ARS Nouvelle-Aquitaine soutient les CPTS en cours de constitution pour recruter un coordinateur et financer sa formation.",
-            "echeance": "dispositif courant — à resurveiller",
-            "lecture": "pour toi : les CPTS qui recrutent un coordinateur sont exactement ta cible (le coordinateur est ton utilisateur). Repère-les : ce sont des prospects au bon moment.",
-            "source": "https://www.nouvelle-aquitaine.ars.sante.fr/communautes-professionnelles-territoriales-de-sante-cpts"
-          },
-          {
-            "titre": "Tous les appels à projets en cours — ARS Nouvelle-Aquitaine",
-            "detail": "Page officielle listant les appels à projets / candidatures / manifestations d'intérêt en cours dans la région.",
-            "echeance": "à consulter à chaque ronde",
-            "lecture": "pour toi : c'est LE radar à garder ouvert pour ton territoire. Orion la balaiera à chaque ronde.",
-            "source": "https://www.nouvelle-aquitaine.ars.sante.fr/liste-appels-projet-candidature"
-          }
-        ],
-        "concurrence": [
-          {
-            "acteur": "Les CPTS déjà installées dans le 64 (Pau, Bayonne, Pays Basque, Béarn)",
-            "fait": "Des annuaires publics recensent les CPTS du département des Pyrénées-Atlantiques (Santé.fr, maisons-et-poles-de-sante.com).",
-            "lecture": "pour toi : ce ne sont pas des concurrents mais ta carte de prospects locaux. À cartographier (laquelle est équipée, par qui) pour démarcher au plus près.",
-            "source": "https://www.sante.fr/categories/communaute-professionnelle-territoriale-de-sante-cpts/64-pyrenees-atlantiques",
-            "date": "2026-01-01"
-          }
-        ],
-        "signaux": [
-          {
-            "signal": "Municipales de mars 2026 : François Bayrou battu à Pau, Serge Blanco élu à Biarritz, Jean-René Etchegaray reconduit à Bayonne.",
-            "lecture": "ce que ça annonce : des interlocuteurs locaux en partie renouvelés (élus, politiques santé municipales) → relations à (re)tisser ; opportunité de te positionner tôt auprès des nouvelles équipes."
-          }
-        ],
-        "sources": [
-          { "titre": "Appels à projets en cours — ARS Nouvelle-Aquitaine", "url": "https://www.nouvelle-aquitaine.ars.sante.fr/liste-appels-projet-candidature", "date": "2026-01-01" },
-          { "titre": "Accompagnement formation IPA en CPTS — Nouvelle-Aquitaine 2026", "url": "https://demarche.numerique.gouv.fr/commencer/accompagnement-a-la-formation-des-infirmiers-eres-en-pratique-avancee-en-cpts-en-nouvelle-aquitaine-2026", "date": "2026-06-12" },
-          { "titre": "CPTS — ARS Nouvelle-Aquitaine", "url": "https://www.nouvelle-aquitaine.ars.sante.fr/communautes-professionnelles-territoriales-de-sante-cpts", "date": "2026-01-01" },
-          { "titre": "Annuaire des CPTS du 64 — Santé.fr", "url": "https://www.sante.fr/categories/communaute-professionnelle-territoriale-de-sante-cpts/64-pyrenees-atlantiques", "date": "2026-01-01" },
-          { "titre": "Résultats municipales 2026 Pyrénées-Atlantiques — France 3", "url": "https://france3-regions.franceinfo.fr/nouvelle-aquitaine/pyrenees-atlantiques/carte-municipales-2026-retrouvez-les-resultats-a-pau-bayonne-biarritz-et-dans-les-autres-communes-des-pyrenees-atlantiques-3318273.html", "date": "2026-03-15" }
-        ]
-      },
-      "financements": {
-        "synthese": "Pour CPTS Pilot (jeune éditeur de logiciel santé), deux étages de financement : le national via France 2030 / Bpifrance (stratégie Santé numérique), et le régional via la Région Nouvelle-Aquitaine (aides à l'innovation). Plusieurs guichets sont déjà ouverts.",
-        "appels_projets": [
-          {
-            "titre": "France 2030 — Stratégie d'accélération « Santé numérique »",
-            "organisme": "Bpifrance (pour l'État / France 2030)",
-            "perimetre": "national",
-            "montant": "selon projet",
-            "echeance": "vagues successives — à surveiller",
-            "detail": "Soutien aux solutions e-santé innovantes pour faire de la France un leader de la santé numérique. Dépôt en ligne sur la plateforme Bpifrance (picxel).",
-            "lecture": "pour toi : c'est le dispositif le plus aligné avec CPTS Pilot. À garder en radar permanent et préparer un dossier dès qu'une vague s'ouvre.",
-            "source": "https://www.bpifrance.fr/sante",
-            "date": "2026-01-01"
-          },
-          {
-            "titre": "Projets d'innovation — France 2030 Nouvelle-Aquitaine",
-            "organisme": "Région Nouvelle-Aquitaine / Bpifrance",
-            "perimetre": "regional",
-            "montant": "75 000 € à 500 000 € (50 % max des dépenses)",
-            "echeance": "ouvert jusqu'au 30/09/2026",
-            "detail": "Volet régional de France 2030 pour financer les projets d'innovation des entreprises de Nouvelle-Aquitaine.",
-            "lecture": "pour toi : échéance concrète et montant significatif. C'est probablement ta cible #1 à court terme — vérifie l'éligibilité et vise le dépôt avant le 30/09/2026.",
-            "source": "https://www.france2030-en-nouvelle-aquitaine.fr/projets-davenir-innovation/",
-            "date": "2026-01-01"
-          },
-          {
-            "titre": "Grand Défi « Dispositifs médicaux numériques au service du bien vieillir »",
-            "organisme": "France 2030 (ministères / Bpifrance)",
-            "perimetre": "national",
-            "montant": "selon projet",
-            "echeance": "à vérifier",
-            "detail": "Appel à projets pour les dispositifs médicaux numériques dédiés au bien vieillir.",
-            "lecture": "pour toi : pertinent seulement si CPTS Pilot développe un volet « dispositif médical numérique » / parcours personnes âgées. Sinon, à ignorer.",
-            "source": "https://solidarites.gouv.fr/france-2030-ouverture-de-lappel-projets-du-grand-defi-dispositifs-medicaux-numeriques-au-service-du-bien-vieillir",
-            "date": "2026-01-01"
-          }
-        ],
-        "subventions": [
-          {
-            "titre": "Aide à l'innovation pour les start-up de Nouvelle-Aquitaine",
-            "organisme": "Région Nouvelle-Aquitaine",
-            "perimetre": "regional",
-            "montant": "subvention (taux selon dépenses)",
-            "echeance": "guichet ouvert",
-            "detail": "Soutien R&D aux jeunes entreprises innovantes de la région. Critères : start-up innovante immatriculée depuis moins de 5 ans, avec au minimum 100 000 € de fonds propres.",
-            "lecture": "pour toi : vérifie d'abord ton éligibilité (ancienneté < 5 ans, fonds propres ≥ 100 000 €). Si tu coches, c'est une aide régionale accessible.",
-            "source": "https://les-aides.nouvelle-aquitaine.fr/economie-et-emploi/innovation-start",
-            "date": "2026-01-01"
-          },
-          {
-            "titre": "Aide à l'innovation numérique responsable — Nouvelle-Aquitaine",
-            "organisme": "Région Nouvelle-Aquitaine",
-            "perimetre": "regional",
-            "montant": "jusqu'à 50 % (60 % pour logiciels libres / communs numériques)",
-            "echeance": "guichet ouvert",
-            "detail": "Soutient les innovations numériques au service des transitions (impact environnemental, social, sociétal, territorial) ou réduisant leur propre empreinte.",
-            "lecture": "pour toi : angle « numérique responsable / impact territorial » — CPTS Pilot peut sans doute le défendre (accès aux soins, coordination de territoire). Taux bonifié si open source.",
-            "source": "https://les-aides.nouvelle-aquitaine.fr/economie-et-emploi/innovation-numerique-responsable",
-            "date": "2026-01-01"
-          },
-          {
-            "titre": "Statut Jeune Entreprise Innovante (JEI)",
-            "organisme": "État (national)",
-            "perimetre": "national",
-            "montant": "exonérations sociales / fiscales",
-            "echeance": "permanent (sous conditions de R&D)",
-            "detail": "Statut ouvrant des allègements pour les jeunes entreprises engageant des dépenses de R&D.",
-            "lecture": "pour toi : gros levier de trésorerie si tu fais de la R&D. À vérifier avec un expert-comptable — modalités et seuils à confirmer.",
-            "source": "https://www.bpifrance.fr/sante",
-            "date": "2026-01-01"
-          },
-          {
-            "titre": "Crédit d'Impôt Innovation (CII)",
-            "organisme": "État (national)",
-            "perimetre": "national",
-            "montant": "crédit d'impôt sur dépenses d'innovation",
-            "echeance": "permanent (déclaratif)",
-            "detail": "Pour les PME : crédit d'impôt sur les dépenses de conception de prototypes / installations pilotes de produits nouveaux.",
-            "lecture": "pour toi : complémentaire au statut JEI. À confirmer avec un expert-comptable (éligibilité des dépenses logicielles).",
-            "source": "https://www.bpifrance.fr/sante",
-            "date": "2026-01-01"
-          }
-        ],
-        "sources": [
-          { "titre": "Bpifrance — Santé (France 2030)", "url": "https://www.bpifrance.fr/sante", "date": "2026-01-01" },
-          { "titre": "Projets d'innovation — France 2030 Nouvelle-Aquitaine", "url": "https://www.france2030-en-nouvelle-aquitaine.fr/projets-davenir-innovation/", "date": "2026-01-01" },
-          { "titre": "Guide des aides — Région Nouvelle-Aquitaine (innovation start-up)", "url": "https://les-aides.nouvelle-aquitaine.fr/economie-et-emploi/innovation-start", "date": "2026-01-01" },
-          { "titre": "Aide à l'innovation numérique responsable — Nouvelle-Aquitaine", "url": "https://les-aides.nouvelle-aquitaine.fr/economie-et-emploi/innovation-numerique-responsable", "date": "2026-01-01" }
-        ]
-      },
-      "note": "Première veille de mise en route, faite à la main pour remplir ton observatoire dès le départ. Périmètre national pour cette première (ton territoire — département 64, Pyrénées-Atlantiques, ARS Nouvelle-Aquitaine — sera couvert dès la prochaine ronde). À partir de maintenant, Orion refait ce travail tout seul chaque lundi, et tu peux le déclencher à la demande avec ▶ Faire tourner. Plusieurs dates sont approximatives (marquées au mieux) : Orion les affinera et les vérifiera à la source à ses prochaines rondes."
+     "titre": "Transformation des CPTS en « Communautés France Santé »",
+     "detail": "Amendement gouvernemental au PLFSS 2026 (déposé le 04/11/2025) pour renommer les CPTS en « Communautés France Santé » (CFS) et créer un réseau « France Santé » inspiré de France Services. Enveloppe dédiée de 130 M€, soit ~50 000 € par structure labellisée.",
+     "impact": "fort",
+     "lecture": "pour toi : c'est LE sujet à suivre. Si la loi passe, le vocabulaire (« CPTS » → « Communauté France Santé »), les missions et le financement changent. CPTS Pilot doit pouvoir suivre ce rebranding sans s'enfermer trop tôt (le texte n'est pas définitif).",
+     "source": "https://www.assemblee-nationale.fr/dyn/17/amendements/1907/AN/2568",
+     "date": "2025-11-04"
     },
     {
-      "updated_at": "2026-06-24",
-      "trigger": "ronde auto",
-      "synthese": "Correction majeure depuis le 06/06 : la LFSS 2026 a été promulguée le 31/12/2025 (et non en attente). Le renommage des CPTS en « Communautés France Santé » a été ABANDONNÉ dans le texte final — les CPTS gardent leur nom et leur gouvernance, mais un « Réseau France Santé » (label de structures) est créé, avec mission d'appui confiée aux CPTS. Le vrai chantier financement se joue sur les avenants ACI « France Santé » : l'avenant 2 ACI des MSP a été signé le 04/06/2026 (publication fin juin), rejeté par MG France ; l'équivalent côté CPTS suivra. Côté concurrence, Doctolib accélère : Siilo est devenu Doctolib Connect (nov. 2025) avec téléexpertise en 2026. Les Journées nationales des CPTS 2026 se tiennent à Bordeaux (4-5/11) — sur ton terrain.",
-      "reglementaire": [
-        {
-          "titre": "LFSS 2026 promulguée — renommage des CPTS abandonné, Réseau France Santé créé",
-          "detail": "La loi de financement de la Sécurité sociale 2026 a été adoptée définitivement le 16/12/2025 et publiée au JO le 31/12/2025. La transformation des CPTS en « Communautés France Santé » a été retirée (Assemblée puis Sénat l'ont rejetée) : les CPTS restent des communautés territoriales pilotées par les professionnels. En revanche, un « Réseau France Santé » (label de structures d'accès aux soins) est bien créé, avec une mission d'appui confiée aux CPTS.",
-          "impact": "fort",
-          "lecture": "pour toi : bonne nouvelle — pas besoin de renommer la plateforme. Le terme « CPTS » reste valable. Garde quand même tes libellés paramétrables, car la notion « France Santé » va apparaître dans le vocabulaire officiel (label, missions d'appui). C'est une correction de mon rapport du 06/06 qui croyait le renommage encore en jeu.",
-          "source": "https://www.concourspluripro.fr/exercice-pluriprofessionnel/coordination/les-cpts-resteront-des-communautes-territoriales",
-          "date": "2025-12-31"
-        },
-        {
-          "titre": "Avenant 2 ACI des MSP « France Santé » signé le 04/06/2026 — rejeté par MG France",
-          "detail": "L'avenant 2 à l'ACI des maisons de santé (MSP) a été signé le 04/06/2026 (publication attendue fin juin 2026). Il conditionne ~50 000 €/an par structure (jusqu'à +62 % pour celles intégrant le dispositif France Santé) à des engagements : RDV sous 48 h, présence le samedi matin et 3 soirs/semaine, participation à l'accès aux soins non programmés. MG France (Dr Giannotti) le rejette, jugeant les indicateurs « inatteignables » et l'argent conditionné à « en faire plus sans gagner plus ». Signature avant juillet 2026 pour un financement plein.",
-          "impact": "fort",
-          "lecture": "pour toi : c'est l'avenant MSP, mais il préfigure le modèle qui sera décliné côté CPTS (financement à la performance, indicateurs France Santé : RDV 48 h, SNP, prévention). Anticipe d'outiller ces indicateurs — c'est ce qui sera financé et donc demandé par tes futures clientes.",
-          "source": "https://www.egora.fr/actus-pro/exercice-coordonne/faites-en-encore-plus-pour-ne-pas-gagner-plus-pourquoi-mg-france",
-          "date": "2026-06-04"
-        },
-        {
-          "titre": "ACI CPTS en vigueur : jusqu'à 580 000 € de rémunération à la performance",
-          "detail": "Rappel cadré à la source : l'ACI CPTS (avenant 2, en vigueur) porte la rémunération à la performance jusqu'à ~580 000 €/an pour les territoires > 175 000 hab. (au lieu de 450 000 €), avec une hausse d'environ 30 %, de nouveaux indicateurs de prévention (santé sexuelle, dépistages, vaccination), un renforcement de l'obligation de remontée de données exploitables, et un accompagnement « accélérateur » à la constitution.",
-          "impact": "moyen",
-          "lecture": "pour toi : l'« obligation de remontée de données exploitables » est ta porte d'entrée produit n°1 — une CPTS a un besoin réglementaire de produire ces données proprement. Positionne CPTS Pilot comme l'outil qui sécurise le versement ACI en facilitant cette remontée.",
-          "source": "https://www.coordo.fr/ressources/creer-cpts/aci-cpts-financement/",
-          "date": "2026-06-24"
-        },
-        {
-          "titre": "Régulation de l'installation des médecins — navette parlementaire en cours",
-          "detail": "Les propositions de loi sur les déserts médicaux (Garot à l'Assemblée, Mouiller au Sénat) poursuivent leur navette : conditionnement de l'installation en zones bien dotées à un engagement en zone sous-dense, sous autorisation de l'ARS. Ligne gouvernementale 2026 : pas de coercition généralisée stricte, mais CPTS/MSP, télémédecine et IPA placés au cœur de la stratégie d'accès aux soins.",
-          "impact": "moyen",
-          "lecture": "pour toi : les CPTS sont confirmées comme l'outil-pivot de l'accès aux soins. Plus elles sont centrales politiquement, plus elles seront financées et structurées — donc plus elles ont besoin d'un outil de pilotage. Vent porteur pour ton marché.",
-          "source": "https://www.publicsenat.fr/actualites/sante/installation-des-medecins-deserts-medicaux-le-senat-adopte-la-proposition-de-loi-pour-ameliorer-lacces-aux-soins-dans-les-territoires",
-          "date": "2026-06-24"
-        }
-      ],
-      "concurrence": [
-        {
-          "acteur": "Doctolib",
-          "fait": "Doctolib Siilo (messagerie sécurisée pro) est devenu « Doctolib Connect » le 05/11/2025, avec l'ajout de la téléexpertise courant 2026 et une intégration renforcée à la suite Doctolib. Le logiciel CPTS « Coordination, Collaboration, Adressage » reste actif, adossé à la base installée des médecins (agendas Doctolib).",
-          "lecture": "pour toi : c'est le plus gros angle mort. Doctolib renforce sa brique collaboration/coordination (Connect + téléexpertise), de quoi mordre sur le besoin CPTS via sa force de frappe. Son talon d'Achille : l'effet n'opère que si TOUS les pros du territoire sont sur Doctolib — ton ouverture (multi-éditeurs, MSSanté) est ta réponse.",
-          "source": "https://doctolib.zendesk.com/hc/fr/articles/24755141353876-Doctolib-Siilo-devient-Doctolib-Connect",
-          "date": "2025-11-05"
-        },
-        {
-          "acteur": "Coordo",
-          "fait": "Maintient son comparatif de référence des logiciels CPTS et une page « financement ACI 2026 » très complète, captant les CPTS qui cherchent à comprendre/sécuriser leur ACI. Toujours positionné prix transparent (~149 €/mois).",
-          "lecture": "pour toi : ton concurrent le plus proche en positionnement. Son marketing de contenu (comparatif + guides ACI) est sa vraie arme. Inspire-toi : produis ton propre contenu de coordinatrice de terrain pour capter les recherches.",
-          "source": "https://www.coordo.fr/ressources/logiciels-cpts/comparatif-logiciels-cpts/",
-          "date": "2026-06-24"
-        }
-      ],
-      "concurrence_synthese": "Marché stable en nombre (~7 éditeurs dédiés + les généralistes), mais le mouvement vient des plateformes généralistes : Doctolib muscle sa coordination (Siilo → Doctolib Connect, téléexpertise 2026) et reste l'angle mort n°1 par sa force de frappe. Les dédiés (Citana en tête, Coordo sur le créneau simple/abordable, Plexus Santé qui mord directement sur la cible coordinatrice avec une répartition ACI et un prix bas) campent sur le pilotage ACI, devenu un attendu de base. La différenciation se joue sur la simplicité, le regard métier de coordinatrice et l'ouverture (ne pas enfermer la CPTS dans un seul écosystème comme Doctolib).",
-      "concurrents": [
-        {
-          "nom": "Doctolib (logiciel CPTS + Doctolib Connect)",
-          "site": "https://info.doctolib.fr/cpts/",
-          "categorie": "plateforme généraliste avec offre CPTS",
-          "menace": "serieuse",
-          "positionnement": "Coordination, collaboration et adressage patient adossés à la base installée Doctolib (agendas des médecins du territoire)",
-          "cible": "CPTS dont les pros sont déjà majoritairement équipés Doctolib",
-          "prix": "Non communiqué (sur devis / lié aux contrats Doctolib Pro)",
-          "forces": ["Force de frappe et notoriété massives", "Intégration native avec les agendas des médecins", "Doctolib Connect (ex-Siilo) + téléexpertise 2026", "Prise de RDV pour patients orientés directement dans l'agenda"],
-          "faiblesses": ["Effet réseau conditionné à l'adoption Doctolib par tous les pros", "Pas pensé « pilotage CPTS / ACI » de bout en bout", "Logique d'enfermement dans l'écosystème Doctolib", "Pas l'outil d'une coordinatrice (orienté médecins)"],
-          "actualite": [
-            { "date": "2025-11-05", "fait": "Doctolib Siilo devient Doctolib Connect ; téléexpertise annoncée pour 2026", "source": "https://doctolib.zendesk.com/hc/fr/articles/24755141353876-Doctolib-Siilo-devient-Doctolib-Connect" }
-          ],
-          "strategie": "Capter la coordination de territoire par l'effet réseau de sa base de médecins et l'élargissement de Connect (messagerie + téléexpertise)",
-          "vs_toi": "Démarque-toi par l'ouverture (multi-éditeurs, MSSanté, pas d'enfermement) et par le pilotage CPTS/ACI pensé pour une coordinatrice — pas pour vendre des agendas. Doctolib outille les pros ; toi tu outilles la communauté et son pilotage.",
-          "maj": "2026-06-24"
-        },
-        {
-          "nom": "Maiia (Cegedim Santé)",
-          "site": "https://www.maiia.com",
-          "categorie": "plateforme généraliste avec offre CPTS",
-          "menace": "emergente",
-          "positionnement": "Plateforme de prise de RDV / téléconsultation du groupe Cegedim, adossée aux logiciels métier Cegedim",
-          "cible": "Pros et structures déjà dans l'écosystème Cegedim",
-          "prix": "Non communiqué",
-          "forces": ["Adossé à Cegedim (gros éditeur de logiciels santé)", "Brique RDV + téléconsultation"],
-          "faiblesses": ["Pas d'offre CPTS dédiée clairement identifiée à ce jour (à vérifier à chaque ronde)", "Moins visible que Doctolib sur la coordination CPTS"],
-          "actualite": [],
-          "strategie": "Distribuer via l'écosystème Cegedim (logiciels de cabinet, MSSanté)",
-          "vs_toi": "Pas d'offre CPTS dédiée repérée à ce jour (réversible, à re-vérifier). Si elle émerge, ta différenciation reste la spécialisation CPTS et l'indépendance vis-à-vis d'un grand groupe.",
-          "maj": "2026-06-24"
-        },
-        {
-          "nom": "Citana (groupe Anamnèse)",
-          "site": "https://www.citana.care/logiciel-cpts",
-          "categorie": "dédié CPTS",
-          "menace": "directe",
-          "positionnement": "La suite complète d'exercice coordonné — le plus ancien et le plus large du marché",
-          "cible": "CPTS structurées (> 50 000 hab.) avec un coordinateur dédié",
-          "prix": "Sur devis — environ 3 000 à 15 000 €/an selon la taille",
-          "forces": ["40+ protocoles pluripro prêts à l'emploi", "Partage sécurisé d'informations", "Soins non programmés intégrés", "Acteur installé et capitalisé (groupe Anamnèse)"],
-          "faiblesses": ["Paramétrage long (plusieurs mois)", "Prise en main qui exige de l'accompagnement", "Trop lourd et cher pour une petite CPTS"],
-          "actualite": [
-            { "date": "2026", "fait": "inzee.Care (adressage grand public) rapproché de la marque Citana", "source": "https://cpts-synapse.fr/divers/inzee-care-devient-citana/" }
-          ],
-          "strategie": "Couverture fonctionnelle maximale + distribution via l'écosystème Anamnèse",
-          "vs_toi": "Ta carte maîtresse : simplicité et rapidité de mise en route. Vise les CPTS petites/moyennes qui veulent démarrer vite, sans projet de déploiement de plusieurs mois.",
-          "maj": "2026-06-24"
-        },
-        {
-          "nom": "Coordo",
-          "site": "https://www.coordo.fr",
-          "categorie": "dédié CPTS",
-          "menace": "directe",
-          "positionnement": "Outil léger et rapide à déployer : annuaire interne, orientation patient, pilotage ACI",
-          "cible": "CPTS qui veulent un outil simple, vite en place",
-          "prix": "149 € HT/mois, sans engagement",
-          "forces": ["Prix transparent et bas", "Déploiement rapide", "Sans engagement", "Excellent marketing de contenu (comparatif + guides ACI)"],
-          "faiblesses": ["Périmètre fonctionnel étroit (orientation patient surtout)", "Moins complet pour les grosses CPTS"],
-          "actualite": [
-            { "date": "2026", "fait": "Maintient le comparatif de référence + page financement ACI 2026 pour capter les CPTS qui comparent", "source": "https://www.coordo.fr/ressources/creer-cpts/aci-cpts-financement/" }
-          ],
-          "strategie": "Transparence des prix + contenu (comparatif, guides ACI) pour attirer les CPTS qui comparent",
-          "vs_toi": "Ton concurrent le plus proche. Différencie-toi par ton regard de coordinatrice de terrain et une vision plus large que la seule orientation patient (vie associative, pilotage global, remontée ACI).",
-          "maj": "2026-06-24"
-        },
-        {
-          "nom": "Plexus Santé",
-          "site": "https://plexus-sante.fr",
-          "categorie": "dédié CPTS",
-          "menace": "directe",
-          "positionnement": "Plateforme de coordination MSP & CPTS pensée pour les coordinateurs : socle documentaire souverain (NextCloud + OnlyOffice, hébergé en France), répartition et suivi des ACI/budgets en temps réel, annuaire de territoire et gestion de projets",
-          "cible": "Coordinateurs/coordinatrices de MSP et de CPTS, y compris les CPTS jeunes (en constitution / pré-ACI)",
-          "prix": "Transparent : 100 € TTC/mois pour les CPTS en constitution ou pré-ACI ; remises pour les adhérents FéeCOIA (5 à 10 % sur 24 mois)",
-          "forces": ["Hébergement français sur socle open-source reconnu (NextCloud/OnlyOffice) — argument souveraineté", "Répartition ACI en temps réel + suivi budgétaire pluriannuel par projet", "Base installée déjà large (~700 structures CPTS/MSP/DAC)", "Apps iOS et Android", "Prix bas et transparent, accessible dès la constitution", "Pensé pour le métier de coordinatrice", "Distribution via fédérations (partenariat FéeCOIA)"],
-          "faiblesses": ["Hébergement « hors périmètre données de santé » (pas un socle HDS pour la donnée patient sensible)", "Cœur documentaire NextCloud généraliste plutôt qu'un outil métier de bout en bout", "Peu/pas orienté soins non programmés et prise de RDV patient", "Expérience proche d'une suite bureautique partagée, moins d'un produit guidé"],
-          "actualite": [
-            { "date": "2026", "fait": "Partenariat FéeCOIA : tarif préférentiel pour les MSP/CPTS adhérentes ; ~700 structures équipées", "source": "https://feecoia.com/plateforme-plexus-sante-un-tarif-preferentiel-pour-tous-nos-adherents/" }
-          ],
-          "strategie": "Prix bas d'entrée pour capter les CPTS dès la constitution, socle documentaire souverain (France/open-source), et distribution par les fédérations et réseaux (FéeCOIA)",
-          "vs_toi": "Concurrent direct sur ta cible (la coordinatrice) et sur la répartition ACI. À ne pas sous-estimer : prix bas et grosse base installée. Démarque-toi par un produit pensé de bout en bout (pilotage + vie de communauté + remontée ACI exploitable) et par une expérience simple et belle, là où Plexus reste un socle NextCloud à organiser soi-même. Surveille leur hébergement : un vrai socle HDS pour la donnée patient est un terrain où tu peux prendre l'avantage.",
-          "maj": "2026-06-24"
-        },
-        {
-          "nom": "Albert (albertsante.fr)",
-          "site": "https://albertsante.fr/aide-pilotage-indicateurs-aci",
-          "categorie": "dédié CPTS",
-          "menace": "indirecte",
-          "positionnement": "Spécialiste du pilotage des indicateurs ACI et de l'analyse de territoire",
-          "cible": "CPTS qui veulent piloter par la donnée",
-          "prix": "Non communiqué",
-          "forces": ["Analyse fine du territoire (ETP, visites à domicile, langues parlées)", "Ciblage des projets de santé par la data"],
-          "faiblesses": ["Outil d'analyse, pas une suite de gestion complète"],
-          "actualite": [],
-          "strategie": "Devenir l'outil incontournable sur la donnée ACI et le diagnostic de territoire",
-          "vs_toi": "Plutôt complémentaire — il confirme que la donnée ACI est un attendu de base. Couvre-le simplement chez toi, en l'articulant à l'obligation de remontée de données exploitables.",
-          "maj": "2026-06-24"
-        },
-        {
-          "nom": "SimplyMed",
-          "site": "https://www.simplymed.fr/logiciel-gestion-soins-non-programmes-cpts",
-          "categorie": "dédié CPTS",
-          "menace": "indirecte",
-          "positionnement": "Gestion des soins non programmés (SNP) et régulation des créneaux sur le territoire",
-          "cible": "CPTS dont la priorité est l'accès aux soins / SNP",
-          "prix": "Non communiqué",
-          "forces": ["Spécialiste reconnu des soins non programmés", "Aligné sur la mission accès aux soins (très financée par France Santé)"],
-          "faiblesses": ["Centré SNP : couverture CPTS partielle"],
-          "actualite": [],
-          "strategie": "Se positionner sur la mission « accès aux soins / RDV 48 h », au cœur du financement France Santé",
-          "vs_toi": "Si tu couvres bien les SNP en plus du reste, tu offres une solution plus complète qu'un outil mono-mission.",
-          "maj": "2026-06-24"
-        },
-        {
-          "nom": "Medplan",
-          "site": "https://medplan.fr/",
-          "categorie": "dédié CPTS",
-          "menace": "indirecte",
-          "positionnement": "Plateforme collaborative de gestion pour MSP, CPTS et associations de santé",
-          "cible": "Structures d'exercice coordonné (MSP + CPTS)",
-          "prix": "Non communiqué",
-          "forces": ["Couvre plusieurs types de structures", "Approche collaborative et évolutive"],
-          "faiblesses": ["Positionnement moins net (généraliste MSP/CPTS)"],
-          "actualite": [],
-          "strategie": "Adresser large (MSP + CPTS + associations) avec une plateforme évolutive",
-          "vs_toi": "Sa polyvalence est aussi un flou : un outil pensé CPTS de bout en bout parle mieux à une coordinatrice CPTS.",
-          "maj": "2026-06-24"
-        },
-        {
-          "nom": "CPTS+",
-          "site": "https://www.coordo.fr/ressources/logiciels-cpts/comparatif-logiciels-cpts/",
-          "categorie": "dédié CPTS",
-          "menace": "indirecte",
-          "positionnement": "Animation de communauté : annuaire local, soins non programmés, agenda, site web, partage de ressources",
-          "cible": "CPTS qui veulent animer et faire grandir leur communauté",
-          "prix": "Non communiqué",
-          "forces": ["Bon sur la vie de communauté et l'annuaire", "Site web de la CPTS inclus"],
-          "faiblesses": ["Moins orienté pilotage / indicateurs"],
-          "actualite": [],
-          "strategie": "Faciliter l'élargissement et l'animation de la communauté",
-          "vs_toi": "Terrain proche du tien sur la « vie associative ». À surveiller : compare fonction par fonction pour rester devant sur la simplicité.",
-          "maj": "2026-06-24"
-        },
-        {
-          "nom": "La solution « maison » (Excel / Drive / WhatsApp)",
-          "site": "",
-          "categorie": "solution maison",
-          "menace": "serieuse",
-          "positionnement": "Le choix par défaut, gratuit, d'une CPTS sans outil dédié : tableurs, Google Drive, messageries grand public",
-          "cible": "CPTS jeunes, petites, sans budget logiciel ou coordinateur dédié",
-          "prix": "Gratuit (coût caché : temps, erreurs, données non exploitables)",
-          "forces": ["Gratuit et déjà en place", "Aucune décision d'achat à prendre", "Familier"],
-          "faiblesses": ["Aucune sécurité ni conformité", "Données non exploitables pour la remontée ACI", "Chronophage, fragile, non collaboratif", "Risque de perte/dispersion"],
-          "actualite": [],
-          "strategie": "Inertie : « on a toujours fait comme ça »",
-          "vs_toi": "Ton vrai concurrent quotidien. Argument décisif : l'ACI impose une remontée de données exploitables — Excel ne la sécurise pas, CPTS Pilot oui. Le logiciel se finance par l'enveloppe ACI : le « gratuit » coûte en fait le versement.",
-          "maj": "2026-06-24"
-        }
-      ],
-      "opportunites": [
-        {
-          "titre": "Ségur du numérique en santé — Vague 2 (financement versé à l'éditeur)",
-          "detail": "La vague 2 du Ségur finance la montée vers des solutions référencées, via le mécanisme SONS (financement versé directement à l'éditeur, pas à la structure). Calendrier 2026 : demandes d'avance jusqu'au 23/09/2026 (hôpital), 10/11/2026 (imagerie), 16/12/2026 (médecine de ville / LGC).",
-          "echeance": "avances jusqu'au 16/12/2026 (médecine de ville)",
-          "lecture": "pour toi : à explorer prudemment. Les couloirs Ségur visent surtout les logiciels métier (LGC, DPI…), pas directement les outils de coordination CPTS. Mais l'interopérabilité Ségur/MSsanté devient un attendu — aligne-toi sur les standards pour ne pas être hors-jeu, même sans financement direct.",
-          "source": "https://esante.gouv.fr/ens/segur-numerique-sante/vague-2"
-        },
-        {
-          "titre": "Appels à projets de l'Agence du Numérique en Santé (Structures 3.0, Mon espace santé)",
-          "detail": "L'ANS porte des AAP récurrents (« Structures 3.0 » pour évaluer des solutions numériques innovantes, « Mon espace santé »). Vagues successives à resurveiller.",
-          "echeance": "vagues successives — à resurveiller",
-          "lecture": "pour toi : source de légitimité et d'alignement (Mon espace santé, interopérabilité). Garde la page AAP de l'ANS en radar pour candidater quand une vague colle à CPTS Pilot.",
-          "source": "https://esante.gouv.fr/lagence/appels-a-projets"
-        }
-      ],
-      "signaux": [
-        {
-          "signal": "Le financement bascule vers une logique « France Santé » à la performance (RDV 48 h, SNP, présence élargie), testée d'abord sur les MSP.",
-          "lecture": "ce que ça annonce : les mêmes indicateurs vont arriver dans l'ACI CPTS. L'outil qui sait suivre et prouver ces indicateurs deviendra indispensable pour sécuriser le financement."
-        },
-        {
-          "signal": "Les syndicats de médecins (MG France) rejettent l'avenant France Santé jugé « plus d'efforts sans plus de gains ».",
-          "lecture": "ce que ça annonce : tension et incertitude — le calendrier de l'avenant CPTS pourrait glisser. Reste agile, ne mise pas tout sur une date ; mais prépare les briques car le sens (performance, données) est clair."
-        },
-        {
-          "signal": "Doctolib étend sa brique collaboration (Connect + téléexpertise) au-delà de la simple prise de RDV.",
-          "lecture": "ce que ça annonce : les généralistes grignotent la coordination. Ta défense durable = l'ouverture (ne pas enfermer la CPTS) et la spécialisation métier coordinatrice."
-        }
-      ],
-      "predictions": [
-        {
-          "horizon": "6 mois",
-          "scenario": "Un avenant ACI CPTS « France Santé » est mis en négociation (sur le modèle de l'avenant MSP du 04/06/2026), avec des indicateurs de performance (accès aux soins, RDV rapides, prévention) et un renforcement de la remontée de données.",
-          "confiance": "élevée",
-          "implication": "pour toi : prépare dès maintenant le suivi de ces indicateurs et une remontée de données propre. Être prêt le jour de l'avenant = argument de vente décisif."
-        },
-        {
-          "horizon": "12 mois",
-          "scenario": "Le label « France Santé » s'installe dans le vocabulaire officiel (structures labellisées, missions d'appui des CPTS), sans renommer les CPTS.",
-          "confiance": "moyenne",
-          "implication": "pour toi : ajoute la notion « France Santé » comme une couche (label, missions d'appui) plutôt qu'un renommage. Garde tes libellés souples."
-        },
-        {
-          "horizon": "18 mois",
-          "scenario": "Les plateformes généralistes (Doctolib en tête) poussent leur offre de coordination ; les éditeurs dédiés survivants se distinguent par la simplicité, l'accompagnement humain et l'ouverture.",
-          "confiance": "moyenne",
-          "implication": "pour toi : capitalise sur ton ADN de coordinatrice de terrain et sur l'indépendance/ouverture, là où Doctolib enferme."
-        }
-      ],
-      "coups_avance": [
-        {
-          "titre": "Faire de la remontée de données ACI exploitable ton argument n°1",
-          "pourquoi": "L'ACI renforce l'obligation de remontée de données exploitables, et les avenants France Santé conditionnent l'argent à des indicateurs de performance. Excel ne sait pas le faire proprement.",
-          "action": "Construire (ou mettre en avant) une fonction qui produit, en un clic, les données/indicateurs attendus par la CPAM et l'ARS. En faire le cœur du pitch commercial."
-        },
-        {
-          "titre": "Préparer les indicateurs « France Santé » avant l'avenant CPTS",
-          "pourquoi": "L'avenant MSP du 04/06/2026 montre le modèle (RDV 48 h, SNP, prévention) qui sera décliné aux CPTS sous ~6 mois.",
-          "action": "Lister ces indicateurs et prévoir leur suivi dans la plateforme, pour être prêt le jour où l'avenant CPTS sort."
-        },
-        {
-          "titre": "Aller aux Journées nationales des CPTS à Bordeaux (4-5/11/2026)",
-          "pourquoi": "L'événement national de référence des CPTS se tient sur ton terrain (Nouvelle-Aquitaine) — rare occasion de rencontrer prospects, fédérations et institutionnels à domicile.",
-          "action": "Bloquer les dates, préparer un pitch et une démo, viser les coordinateurs de CPTS du 64 et de la région présents."
-        },
-        {
-          "titre": "Jouer l'ouverture contre l'enfermement Doctolib",
-          "pourquoi": "Doctolib muscle sa coordination mais n'opère qu'en vase clos (effet réseau Doctolib). C'est sa faille.",
-          "action": "Mettre en avant l'interopérabilité (MSSanté, multi-éditeurs) comme promesse : « votre CPTS reste libre, quel que soit le logiciel de chaque pro »."
-        }
-      ],
-      "sources": [
-        { "titre": "Les CPTS resteront des communautés territoriales — l'Assemblée modifie France santé (Concours Pluripro)", "url": "https://www.concourspluripro.fr/exercice-pluriprofessionnel/coordination/les-cpts-resteront-des-communautes-territoriales", "date": "2025-12-01" },
-        { "titre": "PLFSS 2026 : ce qui change pour la santé (info.gouv.fr)", "url": "https://www.info.gouv.fr/actualite/plfss-2026-ce-qui-change-pour-la-sante-les-familles-et-les-retraites", "date": "2026-01-01" },
-        { "titre": "Pourquoi MG France rejette l'avenant France Santé (Egora)", "url": "https://www.egora.fr/actus-pro/exercice-coordonne/faites-en-encore-plus-pour-ne-pas-gagner-plus-pourquoi-mg-france", "date": "2026-06-04" },
-        { "titre": "ACI CPTS : tout comprendre du financement 2026 (Coordo)", "url": "https://www.coordo.fr/ressources/creer-cpts/aci-cpts-financement/", "date": "2026-06-24" },
-        { "titre": "Réseau France santé — la proximité de l'accès aux soins (sante.gouv.fr)", "url": "https://sante.gouv.fr/actualites-presse/actualites-du-ministere/article/reseau-france-sante-la-proximite-de-l-acces-aux-soins", "date": "2026-01-01" },
-        { "titre": "Doctolib Siilo devient Doctolib Connect (aide Doctolib)", "url": "https://doctolib.zendesk.com/hc/fr/articles/24755141353876-Doctolib-Siilo-devient-Doctolib-Connect", "date": "2025-11-05" },
-        { "titre": "Déserts médicaux : le Sénat adopte la PPL accès aux soins (Public Sénat)", "url": "https://www.publicsenat.fr/actualites/sante/installation-des-medecins-deserts-medicaux-le-senat-adopte-la-proposition-de-loi-pour-ameliorer-lacces-aux-soins-dans-les-territoires", "date": "2026-06-24" },
-        { "titre": "Ségur du numérique en santé — Vague 2 (ANS)", "url": "https://esante.gouv.fr/ens/segur-numerique-sante/vague-2", "date": "2026-06-24" }
-      ],
-      "financements": {
-        "synthese": "Deux étages confirmés pour CPTS Pilot (jeune éditeur santé en Nouvelle-Aquitaine) : le national via France 2030 / Bpifrance (Santé numérique, concours i-Nov / i-Lab, Pionniers de l'IA) et le régional via la Région Nouvelle-Aquitaine (France 2030 régional, aides à l'innovation). Plusieurs concours nationaux ont des vagues à dates fixes (i-Lab clos le 03/02/2026 — guetter l'édition suivante) ; côté régional, France 2030 NA reste ouvert jusqu'au 30/09/2026.",
-        "appels_projets": [
-          {
-            "titre": "France 2030 — Stratégie d'accélération « Santé numérique »",
-            "organisme": "Bpifrance (pour l'État / France 2030)",
-            "perimetre": "national",
-            "montant": "selon projet",
-            "echeance": "vagues successives — à surveiller",
-            "detail": "Soutien aux solutions e-santé innovantes. Dépôt en ligne sur la plateforme Bpifrance. Le dispositif le plus aligné avec CPTS Pilot.",
-            "lecture": "pour toi : radar permanent. Prépare un dossier-type pour candidater dès qu'une vague pertinente s'ouvre.",
-            "source": "https://www.bpifrance.fr/nos-appels-a-projets-concours",
-            "date": "2026-06-24"
-          },
-          {
-            "titre": "Concours d'innovation i-Nov (France 2030)",
-            "organisme": "Bpifrance / ADEME",
-            "perimetre": "national",
-            "montant": "subvention + avance (selon projet)",
-            "echeance": "par vagues — à confirmer la prochaine ouverture",
-            "detail": "Soutient les projets innovants de start-up et PME pour faire émerger des leaders. Volets thématiques incluant la santé numérique.",
-            "lecture": "pour toi : format adapté à une PME innovante comme CPTS Pilot. Surveille l'ouverture de la prochaine vague et le volet santé.",
-            "source": "https://www.bpifrance.fr/nos-appels-a-projets-concours",
-            "date": "2026-06-24"
-          },
-          {
-            "titre": "Concours d'innovation i-Lab — 28e édition",
-            "organisme": "Bpifrance (France 2030)",
-            "perimetre": "national",
-            "montant": "jusqu'à ~600 000 € selon catégorie",
-            "echeance": "édition close le 03/02/2026 — guetter la 29e édition (≈ fin 2026)",
-            "detail": "Concours pour les projets de création d'entreprises technologiques innovantes (28e édition du 25/11/2025 au 03/02/2026).",
-            "lecture": "pour toi : la fenêtre 2026 est passée. Note-le pour la prochaine édition (ouverture probable fin 2026) si tu as un projet de création/levée à ce moment.",
-            "source": "https://www.bpifrance.fr/nos-appels-a-projets-concours/concours-dinnovation-i-lab",
-            "date": "2026-06-24"
-          },
-          {
-            "titre": "Appel à projets « Pionniers de l'intelligence artificielle »",
-            "organisme": "Bpifrance (France 2030)",
-            "perimetre": "national",
-            "montant": "selon projet",
-            "echeance": "relevés successifs (05/11/2025, 10/03/2026, 02/06/2026 passés) — prochain relevé à confirmer",
-            "detail": "Soutient les projets intégrant l'IA dans des secteurs stratégiques dont la santé.",
-            "lecture": "pour toi : pertinent seulement si CPTS Pilot intègre une brique IA (aide au pilotage, analyse de données). Sinon, à ignorer.",
-            "source": "https://www.bpifrance.fr/nos-appels-a-projets-concours/appel-a-projets-des-pionniers-de-lintelligence-artificielle",
-            "date": "2026-06-24"
-          },
-          {
-            "titre": "Projets d'innovation — France 2030 Nouvelle-Aquitaine",
-            "organisme": "Région Nouvelle-Aquitaine / Bpifrance",
-            "perimetre": "regional",
-            "montant": "75 000 € à 500 000 € (50 % max des dépenses)",
-            "echeance": "ouvert jusqu'au 30/09/2026 (à reconfirmer à la source)",
-            "detail": "Volet régional de France 2030 pour financer les projets d'innovation des entreprises de Nouvelle-Aquitaine.",
-            "lecture": "pour toi : probablement ta cible #1 à court terme — échéance et montant concrets. Vérifie l'éligibilité et vise le dépôt avant le 30/09/2026.",
-            "source": "https://www.france2030-en-nouvelle-aquitaine.fr/projets-davenir-innovation/",
-            "date": "2026-06-24"
-          }
-        ],
-        "subventions": [
-          {
-            "titre": "Statut Jeune Entreprise Innovante (JEI)",
-            "organisme": "État (national)",
-            "perimetre": "national",
-            "montant": "exonérations sociales / fiscales",
-            "echeance": "permanent (sous conditions de R&D)",
-            "detail": "Allègements pour les jeunes entreprises engageant des dépenses de R&D.",
-            "lecture": "pour toi : gros levier de trésorerie si tu fais de la R&D. À cadrer avec un expert-comptable (seuils, % de dépenses R&D).",
-            "source": "https://www.bpifrance.fr/nos-appels-a-projets-concours",
-            "date": "2026-06-24"
-          },
-          {
-            "titre": "Crédit d'Impôt Innovation (CII)",
-            "organisme": "État (national)",
-            "perimetre": "national",
-            "montant": "crédit d'impôt sur dépenses d'innovation",
-            "echeance": "permanent (déclaratif)",
-            "detail": "Pour les PME : crédit d'impôt sur la conception de prototypes / installations pilotes de produits nouveaux.",
-            "lecture": "pour toi : complémentaire au statut JEI. À confirmer avec un expert-comptable (éligibilité des dépenses logicielles).",
-            "source": "https://www.bpifrance.fr/nos-appels-a-projets-concours",
-            "date": "2026-06-24"
-          },
-          {
-            "titre": "Aide à l'innovation pour les start-up de Nouvelle-Aquitaine",
-            "organisme": "Région Nouvelle-Aquitaine",
-            "perimetre": "regional",
-            "montant": "subvention (taux selon dépenses)",
-            "echeance": "guichet ouvert",
-            "detail": "Soutien R&D aux jeunes entreprises innovantes : start-up immatriculée depuis moins de 5 ans, ≥ 100 000 € de fonds propres.",
-            "lecture": "pour toi : vérifie ton éligibilité (ancienneté < 5 ans, fonds propres ≥ 100 000 €). Si tu coches, c'est accessible.",
-            "source": "https://les-aides.nouvelle-aquitaine.fr/economie-et-emploi/innovation-start",
-            "date": "2026-06-24"
-          },
-          {
-            "titre": "Aide à l'innovation numérique responsable — Nouvelle-Aquitaine",
-            "organisme": "Région Nouvelle-Aquitaine",
-            "perimetre": "regional",
-            "montant": "jusqu'à 50 % (60 % pour logiciels libres / communs numériques)",
-            "echeance": "guichet ouvert",
-            "detail": "Soutient les innovations numériques au service des transitions ou réduisant leur empreinte.",
-            "lecture": "pour toi : angle « numérique responsable / impact territorial » défendable (accès aux soins, coordination de territoire). Taux bonifié si open source.",
-            "source": "https://les-aides.nouvelle-aquitaine.fr/economie-et-emploi/innovation-numerique-responsable",
-            "date": "2026-06-24"
-          }
-        ],
-        "sources": [
-          { "titre": "Appels à projets et concours — Bpifrance", "url": "https://www.bpifrance.fr/nos-appels-a-projets-concours", "date": "2026-06-24" },
-          { "titre": "Concours d'innovation i-Lab — Bpifrance", "url": "https://www.bpifrance.fr/nos-appels-a-projets-concours/concours-dinnovation-i-lab", "date": "2026-06-24" },
-          { "titre": "Projets d'innovation — France 2030 Nouvelle-Aquitaine", "url": "https://www.france2030-en-nouvelle-aquitaine.fr/projets-davenir-innovation/", "date": "2026-06-24" },
-          { "titre": "Guide des aides — Région Nouvelle-Aquitaine", "url": "https://les-aides.nouvelle-aquitaine.fr/economie-et-emploi/innovation-start", "date": "2026-06-24" }
-        ]
-      },
-      "local": {
-        "synthese": "Gros signal pour ton terrain : les Journées nationales des CPTS 2026 se tiennent à BORDEAUX (4-5/11), en Nouvelle-Aquitaine — une occasion rare de réseauter à domicile. Côté financement, l'ARS Nouvelle-Aquitaine a un AAP immobilier MSP (FMIS, clos le 31/07/2026) et un AMI « équité d'accès aux soins » avec un volet santé numérique. Les CPTS du 64 (Pau Béarn à Lescar, Pays Basque) sont structurées et constituent ta carte de prospects locaux.",
-        "reglementaire": [],
-        "concurrence": [
-          {
-            "acteur": "CPTS Pau Béarn (siège à Lescar, 64)",
-            "fait": "CPTS structurée et active sur le bassin de Pau (présente sur HelloAsso, Santé.fr, annuaire entreprises). Le territoire Grand Pau regroupe 3 intercommunalités.",
-            "lecture": "pour toi : prospect local prioritaire. Identifie sa coordinatrice/son coordinateur et son outillage actuel pour un démarchage ciblé.",
-            "source": "https://annuaire-entreprises.data.gouv.fr/etablissement/93452686400012",
-            "date": "2026-06-24"
-          },
-          {
-            "acteur": "CPTS du Pays Basque (agglo CAPB, 312 000 hab.)",
-            "fait": "L'agglomération Pays Basque (158 communes, 312 000 hab.) a adopté un budget 2026 de 602 M€. Territoire dense, propice à des CPTS de grande taille.",
-            "lecture": "pour toi : les grosses CPTS (> 175 000 hab.) ouvrent droit aux plafonds ACI les plus élevés (jusqu'à 580 000 €) — donc du budget pour s'équiper. Cible à fort potentiel sur le Pays Basque.",
-            "source": "https://www.francebleu.fr/nouvelle-aquitaine/pyrenees-atlantiques-64/bayonne/le-budget-2026-de-l-agglomeration-pays-basque-adopte-a-l-unanimite-des-232-delegues-communautaires-1463098",
-            "date": "2026-06-24"
-          }
-        ],
-        "opportunites": [
-          {
-            "titre": "Journées nationales des CPTS 2026 — Bordeaux (4-5/11/2026)",
-            "detail": "L'événement national de référence des CPTS se tient au Palais 2 l'Atlantique à Bordeaux les 4 et 5 novembre 2026. Programme détaillé communiqué à partir de mi-juin 2026.",
-            "echeance": "4-5/11/2026 (à Bordeaux)",
-            "lecture": "pour toi : LE rendez-vous à ne pas manquer, et il est sur ton terrain. Prospects, fédérations (FCPTS) et institutionnels réunis. Bloque les dates et prépare démo + pitch.",
-            "source": "https://www.fcpts.org/journees-nationales-cpts/"
-          },
-          {
-            "titre": "AMI « équité d'accès aux soins » — ARS Nouvelle-Aquitaine (volet santé numérique)",
-            "detail": "Appel à manifestation d'intérêt de l'ARS NA pour l'égal accès aux soins, comportant un volet « soutien au déploiement de solutions de santé numérique dans les territoires » et un volet « organisations collaboratives innovantes ».",
-            "echeance": "à confirmer à la source (candidature par mail à l'ARS NA)",
-            "lecture": "pour toi : un AMI régional qui finance précisément le déploiement de solutions numériques en territoire — angle direct pour accompagner tes futures CPTS clientes. Vérifie les dates exactes sur la page AAP de l'ARS.",
-            "source": "https://www.nouvelle-aquitaine.ars.sante.fr/liste-appels-projet-candidature"
-          },
-          {
-            "titre": "Radar AAP — ARS Nouvelle-Aquitaine (en cours)",
-            "detail": "Parmi les AAP en cours : soutien immobilier MSP (FMIS 2026, clos 31/07/2026), « Un chez-soi d'abord » Dordogne (10/09/2026), divers AAP médico-sociaux. Pas d'AAP strictement CPTS/numérique grand public ouvert à ce jour repéré.",
-            "echeance": "FMIS MSP : 31/07/2026 — page à balayer à chaque ronde",
-            "lecture": "pour toi : garde cette page ouverte. Le FMIS MSP n'est pas pour toi directement (immobilier), mais signale les territoires qui structurent leur offre — donc des CPTS en mouvement à proximité.",
-            "source": "https://www.nouvelle-aquitaine.ars.sante.fr/liste-appels-projet-candidature"
-          }
-        ],
-        "signaux": [
-          {
-            "signal": "L'agglo Pays Basque adopte un budget 2026 de 602 M€ ; les contrats de territoire 2023-2025 entrent en phase de transition vers la génération suivante en 2026.",
-            "lecture": "ce que ça annonce : des arbitrages budgétaires et de nouveaux contrats de territoire se préparent dans le 64 — fenêtre pour que la santé de proximité (et son outillage) soit inscrite à l'agenda local."
-          }
-        ],
-        "predictions": [],
-        "coups_avance": [],
-        "sources": [
-          { "titre": "Journées nationales des CPTS — FCPTS (Bordeaux 4-5/11/2026)", "url": "https://www.fcpts.org/journees-nationales-cpts/", "date": "2026-06-24" },
-          { "titre": "Appels à projets en cours — ARS Nouvelle-Aquitaine", "url": "https://www.nouvelle-aquitaine.ars.sante.fr/liste-appels-projet-candidature", "date": "2026-06-24" },
-          { "titre": "Budget 2026 de l'agglomération Pays Basque (France Bleu)", "url": "https://www.francebleu.fr/nouvelle-aquitaine/pyrenees-atlantiques-64/bayonne/le-budget-2026-de-l-agglomeration-pays-basque-adopte-a-l-unanimite-des-232-delegues-communautaires-1463098", "date": "2026-06-24" },
-          { "titre": "CPTS Pau Béarn — annuaire des entreprises", "url": "https://annuaire-entreprises.data.gouv.fr/etablissement/93452686400012", "date": "2026-06-24" }
-        ]
-      },
-      "note": "Ronde du 24/06/2026 (18 jours après la première veille). Correction importante apportée : la LFSS 2026 est promulguée depuis le 31/12/2025 et le renommage des CPTS en « Communautés France Santé » a été abandonné (le rapport du 06/06 le croyait encore en jeu). Le vrai sujet financement se déplace sur les avenants ACI « France Santé » (MSP signé le 04/06/2026, CPTS à suivre). Quelques dates restent « à confirmer à la source » (vagues i-Nov, AMI ARS NA, France 2030 NA) : seront affinées à la prochaine ronde. Doctolib ajouté au tableau concurrents (manquant au 06/06), ainsi que Maiia et la solution « maison »."
+     "titre": "Avenant à l'ACI CPTS à négocier sous 6 mois",
+     "detail": "La loi prévoit que l'Assurance Maladie engage, dans les 6 mois suivant sa promulgation, la négociation d'un avenant à l'ACI pour adapter le financement aux nouvelles missions : animation du réseau France Santé, soutien aux projets locaux, et possible emploi direct de professionnels.",
+     "impact": "fort",
+     "lecture": "pour toi : de nouveaux indicateurs et de nouvelles missions financées arrivent → autant d'éléments à outiller dans la plateforme. Anticiper ces briques = un argument de vente fort le jour où l'avenant sort.",
+     "source": "https://www.ameli.fr/exercice-coordonne/textes-reference/accord-conventionnel-interprofessionnel-pour-les-cpts/accord-conventionnel-interprofessionnel-pour-les-cpts",
+     "date": "2026-04-01"
+    },
+    {
+     "titre": "Forte opposition des médecins généralistes",
+     "detail": "Les syndicats de médecins généralistes dénoncent une « manœuvre » et s'opposent au changement de nom et à la réforme des CPTS en Communautés France Santé.",
+     "impact": "moyen",
+     "lecture": "pour toi : la réforme n'est pas jouée. Reste agile sur le vocabulaire produit tant que le texte n'est pas promulgué — ne renomme pas tout « France Santé » prématurément.",
+     "source": "https://www.whatsupdoc-lemag.fr/article/les-medecins-generalistes-vent-debout-contre-la-transformation-des-cpts-en-communautes",
+     "date": "2026-01-01"
     }
-  ]
+   ],
+   "concurrence": [
+    {
+     "acteur": "Coordo",
+     "fait": "Logiciel CPTS centré sur l'orientation patient et le pilotage des indicateurs ACI. Démo à partir de 149 € HT/mois, sans engagement. Publie un comparatif des 7 logiciels CPTS du marché.",
+     "lecture": "pour toi : repère de prix utile (~150 €/mois en entrée). Le comparatif qu'ils publient est un bon thermomètre du marché — à relire à chaque ronde.",
+     "source": "https://www.coordo.fr/ressources/logiciels-cpts/comparatif-logiciels-cpts/",
+     "date": "2026-01-01"
+    },
+    {
+     "acteur": "Citana (Anamnese)",
+     "fait": "L'un des plus anciens spécialistes du marché CPTS, vise les CPTS structurées qui veulent une large couverture fonctionnelle : statistiques en temps réel, reporting automatisé, indicateurs ACI pour la CPAM et l'ARS.",
+     "lecture": "pour toi : concurrent installé et complet → ta différenciation doit être la simplicité et la prise en main, pas la course aux fonctionnalités.",
+     "source": "https://www.anamnese.care/citana",
+     "date": "2026-01-01"
+    },
+    {
+     "acteur": "Albert (albertsante.fr)",
+     "fait": "Outil d'aide au pilotage par les indicateurs ACI et d'analyse du territoire par profession (ETP, visites à domicile, langues parlées) pour cibler les projets de santé.",
+     "lecture": "pour toi : le pilotage ACI est devenu le terrain de jeu commun de tous les concurrents. C'est un attendu de base, pas un avantage — il faut faire mieux ou plus simple.",
+     "source": "https://albertsante.fr/aide-pilotage-indicateurs-aci",
+     "date": "2026-01-01"
+    },
+    {
+     "acteur": "Autres acteurs identifiés",
+     "fait": "CPTS+, SimplyMed, inzee.Care Coordination, Plexus Santé, Medplan, CPTS France : annuaire local, soins non programmés, agenda, partage de ressources, site web de la communauté.",
+     "lecture": "pour toi : marché déjà peuplé (7+ acteurs). À cartographier finement (qui fait quoi, à quel prix) pour trouver le créneau où CPTS Pilot est clairement meilleur.",
+     "source": "https://www.coordo.fr/ressources/logiciels-cpts/comparatif-logiciels-cpts/",
+     "date": "2026-01-01"
+    }
+   ],
+   "concurrence_synthese": "Le marché des logiciels CPTS compte déjà 7+ acteurs, tous structurés autour du pilotage des indicateurs ACI. Deux familles : les suites larges et chères (Citana, CPTS France — sur devis, 3 à 15 k€/an, longues à déployer) et les outils légers, rapides et abordables (Coordo à 149 €/mois). Ta place naturelle est sur le créneau simple/rapide/de terrain, là où les gros sont lourds.",
+   "concurrents": [
+    {
+     "nom": "Citana (groupe Anamnèse)",
+     "site": "https://www.citana.care/logiciel-cpts",
+     "positionnement": "La suite complète d'exercice coordonné — le plus ancien et le plus large du marché",
+     "cible": "CPTS structurées (> 50 000 hab.) avec un coordinateur dédié",
+     "prix": "Sur devis — environ 3 000 à 15 000 €/an selon la taille",
+     "forces": [
+      "40+ protocoles pluripro prêts à l'emploi",
+      "Partage sécurisé d'informations",
+      "Soins non programmés intégrés",
+      "Acteur installé et capitalisé (groupe Anamnèse)"
+     ],
+     "faiblesses": [
+      "Paramétrage long (plusieurs mois)",
+      "Prise en main qui exige de l'accompagnement",
+      "Trop lourd et cher pour une petite CPTS"
+     ],
+     "actualite": [
+      {
+       "date": "2022",
+       "fait": "Racheté par le groupe Anamnèse",
+       "source": "https://www.anamnese.care/citana"
+      },
+      {
+       "date": "2026",
+       "fait": "inzee.Care (adressage grand public) rapproché de la marque Citana",
+       "source": "https://cpts-synapse.fr/divers/inzee-care-devient-citana/"
+      }
+     ],
+     "strategie": "Couverture fonctionnelle maximale + distribution via l'écosystème Anamnèse (inzee.Care, Paymed)",
+     "vs_toi": "Ta carte maîtresse face à Citana : la simplicité et la rapidité de mise en route. Vise les CPTS petites et moyennes qui veulent démarrer vite, sans projet de déploiement de plusieurs mois.",
+     "maj": "2026-06-06"
+    },
+    {
+     "nom": "Coordo",
+     "site": "https://www.coordo.fr",
+     "positionnement": "Outil léger et rapide à déployer : annuaire interne, orientation patient, pilotage ACI",
+     "cible": "CPTS qui veulent un outil simple, vite en place",
+     "prix": "149 € HT/mois, sans engagement",
+     "forces": [
+      "Prix transparent et bas",
+      "Déploiement rapide",
+      "Sans engagement",
+      "Excellent marketing de contenu (le comparatif de référence du marché)"
+     ],
+     "faiblesses": [
+      "Périmètre fonctionnel étroit (orientation patient surtout)",
+      "Moins complet pour les grosses CPTS"
+     ],
+     "actualite": [
+      {
+       "date": "2026",
+       "fait": "Publie le comparatif de référence des 7 logiciels CPTS — capte ainsi les CPTS en recherche",
+       "source": "https://www.coordo.fr/ressources/logiciels-cpts/comparatif-logiciels-cpts/"
+      }
+     ],
+     "strategie": "Transparence des prix + contenu (le comparatif) pour attirer les CPTS qui comparent",
+     "vs_toi": "C'est ton concurrent le plus proche en positionnement (simple et abordable). Différencie-toi par ton regard de coordinatrice de terrain et une vision plus large que la seule orientation patient (vie associative, pilotage global).",
+     "maj": "2026-06-06"
+    },
+    {
+     "nom": "Albert (albertsante.fr)",
+     "site": "https://albertsante.fr/aide-pilotage-indicateurs-aci",
+     "positionnement": "Spécialiste du pilotage des indicateurs ACI et de l'analyse de territoire",
+     "cible": "CPTS qui veulent piloter par la donnée",
+     "prix": "Non communiqué",
+     "forces": [
+      "Analyse fine du territoire (ETP, visites à domicile, langues parlées)",
+      "Ciblage des projets de santé par la data"
+     ],
+     "faiblesses": [
+      "Outil d'analyse, pas une suite de gestion complète"
+     ],
+     "actualite": [],
+     "strategie": "Devenir l'outil incontournable sur la donnée ACI et le diagnostic de territoire",
+     "vs_toi": "Plutôt complémentaire que frontal — mais il confirme que « le pilotage ACI » est un attendu de base. Assure-toi de bien le couvrir chez toi, simplement.",
+     "maj": "2026-06-06"
+    },
+    {
+     "nom": "SimplyMed",
+     "site": "https://www.simplymed.fr/logiciel-gestion-soins-non-programmes-cpts",
+     "positionnement": "Gestion des soins non programmés (SNP) et régulation des créneaux sur le territoire",
+     "cible": "CPTS dont la priorité est l'accès aux soins / SNP",
+     "prix": "Non communiqué",
+     "forces": [
+      "Spécialiste reconnu des soins non programmés",
+      "Améliore concrètement l'accès aux soins"
+     ],
+     "faiblesses": [
+      "Centré SNP : couverture CPTS partielle"
+     ],
+     "actualite": [],
+     "strategie": "Se positionner sur la mission « accès aux soins », très visible politiquement",
+     "vs_toi": "Si tu couvres bien les SNP en plus du reste, tu offres une solution plus complète qu'un outil mono-mission.",
+     "maj": "2026-06-06"
+    },
+    {
+     "nom": "Medplan",
+     "site": "https://medplan.fr/",
+     "positionnement": "Plateforme collaborative de gestion pour MSP, CPTS et associations de santé",
+     "cible": "Structures d'exercice coordonné (MSP + CPTS)",
+     "prix": "Non communiqué",
+     "forces": [
+      "Couvre plusieurs types de structures",
+      "Approche collaborative et évolutive"
+     ],
+     "faiblesses": [
+      "Positionnement moins net (généraliste MSP/CPTS)"
+     ],
+     "actualite": [],
+     "strategie": "Adresser large (MSP + CPTS + associations) avec une plateforme évolutive",
+     "vs_toi": "Sa polyvalence est aussi un flou : un outil pensé CPTS de bout en bout (le tien) parle mieux à une coordinatrice CPTS.",
+     "maj": "2026-06-06"
+    },
+    {
+     "nom": "CPTS+",
+     "site": "https://www.coordo.fr/ressources/logiciels-cpts/comparatif-logiciels-cpts/",
+     "positionnement": "Animation de communauté : annuaire local, soins non programmés, agenda, site web, partage de ressources",
+     "cible": "CPTS qui veulent animer et faire grandir leur communauté",
+     "prix": "Non communiqué",
+     "forces": [
+      "Bon sur la vie de communauté et l'annuaire",
+      "Site web de la CPTS inclus"
+     ],
+     "faiblesses": [
+      "Moins orienté pilotage / indicateurs"
+     ],
+     "actualite": [],
+     "strategie": "Faciliter l'élargissement et l'animation de la communauté",
+     "vs_toi": "Terrain proche du tien sur la « vie associative ». À surveiller de près : compare fonction par fonction pour rester devant sur la simplicité.",
+     "maj": "2026-06-06"
+    }
+   ],
+   "opportunites": [
+    {
+     "titre": "Abonnement logiciel = dépense éligible à l'ACI",
+     "detail": "Selon l'ACI, les outils numériques de coordination (annuaires, outils de partage patient) sont des dépenses éligibles ; l'abonnement à un logiciel CPTS entre dans la ligne « acquisition et maintenance des outils de coordination ».",
+     "echeance": "permanent",
+     "lecture": "pour toi : argument de vente clé → l'abonnement à CPTS Pilot peut être financé par l'enveloppe ACI de la CPTS. À mettre en avant noir sur blanc dans ton discours commercial.",
+     "source": "https://www.coordo.fr/ressources/logiciels-cpts/comparatif-logiciels-cpts/"
+    },
+    {
+     "titre": "Appel à projets ARS Île-de-France (innovations numériques)",
+     "detail": "AAP « innovations organisationnelles s'appuyant sur une solution technologique ou numérique » : dépôt avant le 02/06/2026 14h, sélection en octobre 2026. Les CPTS peuvent être porteuses de projet.",
+     "echeance": "dépôt clos le 02/06/2026 (édition à resurveiller)",
+     "lecture": "pour toi : ce type d'AAP régional finance les CPTS qui s'équipent en numérique → une porte d'entrée pour accompagner tes futures clientes. Surveiller l'équivalent dans TON territoire (à préciser).",
+     "source": "https://www.iledefrance.ars.sante.fr/mise-en-place-de-projets-dinnovations-organisationnelles-sappuyant-sur-une-solution-technologique-0"
+    },
+    {
+     "titre": "Ségur du numérique en santé & AAP de l'ANS",
+     "detail": "Le Ségur numérique (financé par des fonds européens) et l'Agence du Numérique en Santé portent des appels à projets (« Structures 3.0 », « Tiers-lieux d'expérimentation », Mon espace santé).",
+     "echeance": "vagues successives — à resurveiller",
+     "lecture": "pour toi : sources de financement et de légitimité (interopérabilité, Mon espace santé). À garder à l'œil pour aligner la plateforme sur les standards attendus.",
+     "source": "https://esante.gouv.fr/lagence/appels-a-projets"
+    }
+   ],
+   "signaux": [
+    {
+     "signal": "Tous les concurrents convergent vers « le pilotage des indicateurs ACI ».",
+     "lecture": "ce que ça annonce : l'ACI est la colonne vertébrale du marché. La différenciation se jouera ailleurs — simplicité, accompagnement, vie associative, expérience utilisateur."
+    },
+    {
+     "signal": "L'État pousse une logique de « réseau » et de label unique (France Santé / France Services).",
+     "lecture": "ce que ça annonce : montée du besoin de lisibilité et de mise en réseau entre structures → opportunité produit autour de la collaboration inter-CPTS."
+    }
+   ],
+   "predictions": [
+    {
+     "horizon": "6 mois",
+     "scenario": "Si le PLFSS 2026 est promulgué, la négociation de l'avenant ACI s'ouvre (obligation légale sous 6 mois) et précise les nouvelles missions/indicateurs financés.",
+     "confiance": "élevée",
+     "implication": "pour toi : prépare-toi à outiller de nouvelles missions (animation réseau, projets locaux). Être prêt le jour de l'avenant = un coup d'avance commercial net."
+    },
+    {
+     "horizon": "12 mois",
+     "scenario": "Le vocabulaire « Communauté France Santé » commence à s'imposer dans les documents officiels et les CPAM/ARS, malgré l'opposition.",
+     "confiance": "moyenne",
+     "implication": "pour toi : prévois de pouvoir basculer le vocabulaire de la plateforme (libellés paramétrables) sans tout réécrire."
+    },
+    {
+     "horizon": "18 mois",
+     "scenario": "Consolidation du marché des logiciels CPTS (rachats / abandons parmi les 7+ acteurs) ; les survivants se distinguent par la simplicité et l'accompagnement humain.",
+     "confiance": "moyenne",
+     "implication": "pour toi : ta carte maîtresse de fondatrice-coordinatrice, c'est le terrain et la simplicité. Capitalise dessus plutôt que sur la surenchère de fonctions."
+    }
+   ],
+   "coups_avance": [
+    {
+     "titre": "Rendre le vocabulaire de la plateforme paramétrable (CPTS ↔ Communauté France Santé)",
+     "pourquoi": "La réforme peut renommer les CPTS. Les libellés en dur deviendraient datés du jour au lendemain.",
+     "action": "Prévoir des libellés centralisés/paramétrables pour basculer le nom sans refonte, dès que la loi tranche."
+    },
+    {
+     "titre": "Faire de « financé par l'enveloppe ACI » un argument commercial central",
+     "pourquoi": "L'abonnement logiciel est une dépense ACI éligible : c'est un levier d'achat décisif pour une CPTS.",
+     "action": "Préparer une phrase claire et un mini-justificatif (référence ACI) à donner aux CPTS prospectes."
+    },
+    {
+     "titre": "Cartographier finement les 7 concurrents (fonctions + prix)",
+     "pourquoi": "Le marché est déjà peuplé ; sans carte précise, impossible de positionner CPTS Pilot.",
+     "action": "Construire un tableau comparatif interne (acteur, cible, fonctions, prix, point faible) à partir du comparatif Coordo, et le tenir à jour à chaque ronde."
+    }
+   ],
+   "sources": [
+    {
+     "titre": "Amendement PLFSS 2026 n°2568 (renommage CPTS → Communautés France Santé)",
+     "url": "https://www.assemblee-nationale.fr/dyn/17/amendements/1907/AN/2568",
+     "date": "2025-11-04"
+    },
+    {
+     "titre": "Médecins généralistes contre la transformation des CPTS (What's up Doc)",
+     "url": "https://www.whatsupdoc-lemag.fr/article/les-medecins-generalistes-vent-debout-contre-la-transformation-des-cpts-en-communautes",
+     "date": "2026-01-01"
+    },
+    {
+     "titre": "ACI CPTS — ameli.fr (textes de référence)",
+     "url": "https://www.ameli.fr/exercice-coordonne/textes-reference/accord-conventionnel-interprofessionnel-pour-les-cpts/accord-conventionnel-interprofessionnel-pour-les-cpts",
+     "date": "2026-04-01"
+    },
+    {
+     "titre": "Comparatif logiciels CPTS 2026 (Coordo)",
+     "url": "https://www.coordo.fr/ressources/logiciels-cpts/comparatif-logiciels-cpts/",
+     "date": "2026-01-01"
+    },
+    {
+     "titre": "Appel à projets innovations numériques — ARS Île-de-France",
+     "url": "https://www.iledefrance.ars.sante.fr/mise-en-place-de-projets-dinnovations-organisationnelles-sappuyant-sur-une-solution-technologique-0",
+     "date": "2026-06-02"
+    },
+    {
+     "titre": "Appels à projets — Agence du Numérique en Santé",
+     "url": "https://esante.gouv.fr/lagence/appels-a-projets",
+     "date": "2026-01-01"
+    }
+   ],
+   "local": {
+    "synthese": "Sur ton terrain (64 / Nouvelle-Aquitaine), l'ARS finance activement la structuration des CPTS (recrutement et formation de coordinateurs via le programme PACTE SOIN PRIMAIRE). Un accompagnement à la formation des infirmiers en pratique avancée (IPA) en CPTS clôt le 12/06/2026. Et les municipales de mars 2026 ont renouvelé plusieurs interlocuteurs locaux (Pau, Bayonne, Biarritz).",
+    "opportunites": [
+     {
+      "titre": "Accompagnement à la formation des IPA en CPTS — Nouvelle-Aquitaine 2026",
+      "detail": "Dispositif ARS Nouvelle-Aquitaine d'accompagnement à la formation des infirmiers en pratique avancée au sein des CPTS de la région.",
+      "echeance": "dépôt avant le 12/06/2026",
+      "lecture": "pour toi : les CPTS du 64 qui montent un volet IPA sont en mouvement — un bon angle de conversation et un signe de CPTS dynamiques (donc clientes potentielles motivées).",
+      "source": "https://demarche.numerique.gouv.fr/commencer/accompagnement-a-la-formation-des-infirmiers-eres-en-pratique-avancee-en-cpts-en-nouvelle-aquitaine-2026"
+     },
+     {
+      "titre": "PACTE SOIN PRIMAIRE — soutien aux CPTS en formation (ARS NA)",
+      "detail": "L'ARS Nouvelle-Aquitaine soutient les CPTS en cours de constitution pour recruter un coordinateur et financer sa formation.",
+      "echeance": "dispositif courant — à resurveiller",
+      "lecture": "pour toi : les CPTS qui recrutent un coordinateur sont exactement ta cible (le coordinateur est ton utilisateur). Repère-les : ce sont des prospects au bon moment.",
+      "source": "https://www.nouvelle-aquitaine.ars.sante.fr/communautes-professionnelles-territoriales-de-sante-cpts"
+     },
+     {
+      "titre": "Tous les appels à projets en cours — ARS Nouvelle-Aquitaine",
+      "detail": "Page officielle listant les appels à projets / candidatures / manifestations d'intérêt en cours dans la région.",
+      "echeance": "à consulter à chaque ronde",
+      "lecture": "pour toi : c'est LE radar à garder ouvert pour ton territoire. Orion la balaiera à chaque ronde.",
+      "source": "https://www.nouvelle-aquitaine.ars.sante.fr/liste-appels-projet-candidature"
+     }
+    ],
+    "concurrence": [
+     {
+      "acteur": "Les CPTS déjà installées dans le 64 (Pau, Bayonne, Pays Basque, Béarn)",
+      "fait": "Des annuaires publics recensent les CPTS du département des Pyrénées-Atlantiques (Santé.fr, maisons-et-poles-de-sante.com).",
+      "lecture": "pour toi : ce ne sont pas des concurrents mais ta carte de prospects locaux. À cartographier (laquelle est équipée, par qui) pour démarcher au plus près.",
+      "source": "https://www.sante.fr/categories/communaute-professionnelle-territoriale-de-sante-cpts/64-pyrenees-atlantiques",
+      "date": "2026-01-01"
+     }
+    ],
+    "signaux": [
+     {
+      "signal": "Municipales de mars 2026 : François Bayrou battu à Pau, Serge Blanco élu à Biarritz, Jean-René Etchegaray reconduit à Bayonne.",
+      "lecture": "ce que ça annonce : des interlocuteurs locaux en partie renouvelés (élus, politiques santé municipales) → relations à (re)tisser ; opportunité de te positionner tôt auprès des nouvelles équipes."
+     }
+    ],
+    "sources": [
+     {
+      "titre": "Appels à projets en cours — ARS Nouvelle-Aquitaine",
+      "url": "https://www.nouvelle-aquitaine.ars.sante.fr/liste-appels-projet-candidature",
+      "date": "2026-01-01"
+     },
+     {
+      "titre": "Accompagnement formation IPA en CPTS — Nouvelle-Aquitaine 2026",
+      "url": "https://demarche.numerique.gouv.fr/commencer/accompagnement-a-la-formation-des-infirmiers-eres-en-pratique-avancee-en-cpts-en-nouvelle-aquitaine-2026",
+      "date": "2026-06-12"
+     },
+     {
+      "titre": "CPTS — ARS Nouvelle-Aquitaine",
+      "url": "https://www.nouvelle-aquitaine.ars.sante.fr/communautes-professionnelles-territoriales-de-sante-cpts",
+      "date": "2026-01-01"
+     },
+     {
+      "titre": "Annuaire des CPTS du 64 — Santé.fr",
+      "url": "https://www.sante.fr/categories/communaute-professionnelle-territoriale-de-sante-cpts/64-pyrenees-atlantiques",
+      "date": "2026-01-01"
+     },
+     {
+      "titre": "Résultats municipales 2026 Pyrénées-Atlantiques — France 3",
+      "url": "https://france3-regions.franceinfo.fr/nouvelle-aquitaine/pyrenees-atlantiques/carte-municipales-2026-retrouvez-les-resultats-a-pau-bayonne-biarritz-et-dans-les-autres-communes-des-pyrenees-atlantiques-3318273.html",
+      "date": "2026-03-15"
+     }
+    ]
+   },
+   "financements": {
+    "synthese": "Pour CPTS Pilot (jeune éditeur de logiciel santé), deux étages de financement : le national via France 2030 / Bpifrance (stratégie Santé numérique), et le régional via la Région Nouvelle-Aquitaine (aides à l'innovation). Plusieurs guichets sont déjà ouverts.",
+    "appels_projets": [
+     {
+      "titre": "France 2030 — Stratégie d'accélération « Santé numérique »",
+      "organisme": "Bpifrance (pour l'État / France 2030)",
+      "perimetre": "national",
+      "montant": "selon projet",
+      "echeance": "vagues successives — à surveiller",
+      "detail": "Soutien aux solutions e-santé innovantes pour faire de la France un leader de la santé numérique. Dépôt en ligne sur la plateforme Bpifrance (picxel).",
+      "lecture": "pour toi : c'est le dispositif le plus aligné avec CPTS Pilot. À garder en radar permanent et préparer un dossier dès qu'une vague s'ouvre.",
+      "source": "https://www.bpifrance.fr/sante",
+      "date": "2026-01-01"
+     },
+     {
+      "titre": "Projets d'innovation — France 2030 Nouvelle-Aquitaine",
+      "organisme": "Région Nouvelle-Aquitaine / Bpifrance",
+      "perimetre": "regional",
+      "montant": "75 000 € à 500 000 € (50 % max des dépenses)",
+      "echeance": "ouvert jusqu'au 30/09/2026",
+      "detail": "Volet régional de France 2030 pour financer les projets d'innovation des entreprises de Nouvelle-Aquitaine.",
+      "lecture": "pour toi : échéance concrète et montant significatif. C'est probablement ta cible #1 à court terme — vérifie l'éligibilité et vise le dépôt avant le 30/09/2026.",
+      "source": "https://www.france2030-en-nouvelle-aquitaine.fr/projets-davenir-innovation/",
+      "date": "2026-01-01"
+     },
+     {
+      "titre": "Grand Défi « Dispositifs médicaux numériques au service du bien vieillir »",
+      "organisme": "France 2030 (ministères / Bpifrance)",
+      "perimetre": "national",
+      "montant": "selon projet",
+      "echeance": "à vérifier",
+      "detail": "Appel à projets pour les dispositifs médicaux numériques dédiés au bien vieillir.",
+      "lecture": "pour toi : pertinent seulement si CPTS Pilot développe un volet « dispositif médical numérique » / parcours personnes âgées. Sinon, à ignorer.",
+      "source": "https://solidarites.gouv.fr/france-2030-ouverture-de-lappel-projets-du-grand-defi-dispositifs-medicaux-numeriques-au-service-du-bien-vieillir",
+      "date": "2026-01-01"
+     }
+    ],
+    "subventions": [
+     {
+      "titre": "Aide à l'innovation pour les start-up de Nouvelle-Aquitaine",
+      "organisme": "Région Nouvelle-Aquitaine",
+      "perimetre": "regional",
+      "montant": "subvention (taux selon dépenses)",
+      "echeance": "guichet ouvert",
+      "detail": "Soutien R&D aux jeunes entreprises innovantes de la région. Critères : start-up innovante immatriculée depuis moins de 5 ans, avec au minimum 100 000 € de fonds propres.",
+      "lecture": "pour toi : vérifie d'abord ton éligibilité (ancienneté < 5 ans, fonds propres ≥ 100 000 €). Si tu coches, c'est une aide régionale accessible.",
+      "source": "https://les-aides.nouvelle-aquitaine.fr/economie-et-emploi/innovation-start",
+      "date": "2026-01-01"
+     },
+     {
+      "titre": "Aide à l'innovation numérique responsable — Nouvelle-Aquitaine",
+      "organisme": "Région Nouvelle-Aquitaine",
+      "perimetre": "regional",
+      "montant": "jusqu'à 50 % (60 % pour logiciels libres / communs numériques)",
+      "echeance": "guichet ouvert",
+      "detail": "Soutient les innovations numériques au service des transitions (impact environnemental, social, sociétal, territorial) ou réduisant leur propre empreinte.",
+      "lecture": "pour toi : angle « numérique responsable / impact territorial » — CPTS Pilot peut sans doute le défendre (accès aux soins, coordination de territoire). Taux bonifié si open source.",
+      "source": "https://les-aides.nouvelle-aquitaine.fr/economie-et-emploi/innovation-numerique-responsable",
+      "date": "2026-01-01"
+     },
+     {
+      "titre": "Statut Jeune Entreprise Innovante (JEI)",
+      "organisme": "État (national)",
+      "perimetre": "national",
+      "montant": "exonérations sociales / fiscales",
+      "echeance": "permanent (sous conditions de R&D)",
+      "detail": "Statut ouvrant des allègements pour les jeunes entreprises engageant des dépenses de R&D.",
+      "lecture": "pour toi : gros levier de trésorerie si tu fais de la R&D. À vérifier avec un expert-comptable — modalités et seuils à confirmer.",
+      "source": "https://www.bpifrance.fr/sante",
+      "date": "2026-01-01"
+     },
+     {
+      "titre": "Crédit d'Impôt Innovation (CII)",
+      "organisme": "État (national)",
+      "perimetre": "national",
+      "montant": "crédit d'impôt sur dépenses d'innovation",
+      "echeance": "permanent (déclaratif)",
+      "detail": "Pour les PME : crédit d'impôt sur les dépenses de conception de prototypes / installations pilotes de produits nouveaux.",
+      "lecture": "pour toi : complémentaire au statut JEI. À confirmer avec un expert-comptable (éligibilité des dépenses logicielles).",
+      "source": "https://www.bpifrance.fr/sante",
+      "date": "2026-01-01"
+     }
+    ],
+    "sources": [
+     {
+      "titre": "Bpifrance — Santé (France 2030)",
+      "url": "https://www.bpifrance.fr/sante",
+      "date": "2026-01-01"
+     },
+     {
+      "titre": "Projets d'innovation — France 2030 Nouvelle-Aquitaine",
+      "url": "https://www.france2030-en-nouvelle-aquitaine.fr/projets-davenir-innovation/",
+      "date": "2026-01-01"
+     },
+     {
+      "titre": "Guide des aides — Région Nouvelle-Aquitaine (innovation start-up)",
+      "url": "https://les-aides.nouvelle-aquitaine.fr/economie-et-emploi/innovation-start",
+      "date": "2026-01-01"
+     },
+     {
+      "titre": "Aide à l'innovation numérique responsable — Nouvelle-Aquitaine",
+      "url": "https://les-aides.nouvelle-aquitaine.fr/economie-et-emploi/innovation-numerique-responsable",
+      "date": "2026-01-01"
+     }
+    ]
+   },
+   "note": "Première veille de mise en route, faite à la main pour remplir ton observatoire dès le départ. Périmètre national pour cette première (ton territoire — département 64, Pyrénées-Atlantiques, ARS Nouvelle-Aquitaine — sera couvert dès la prochaine ronde). À partir de maintenant, Orion refait ce travail tout seul chaque lundi, et tu peux le déclencher à la demande avec ▶ Faire tourner. Plusieurs dates sont approximatives (marquées au mieux) : Orion les affinera et les vérifiera à la source à ses prochaines rondes."
+  },
+  {
+   "updated_at": "2026-06-24",
+   "trigger": "ronde auto",
+   "synthese": "Correction majeure depuis le 06/06 : la LFSS 2026 a été promulguée le 31/12/2025 (et non en attente). Le renommage des CPTS en « Communautés France Santé » a été ABANDONNÉ dans le texte final — les CPTS gardent leur nom et leur gouvernance, mais un « Réseau France Santé » (label de structures) est créé, avec mission d'appui confiée aux CPTS. Le vrai chantier financement se joue sur les avenants ACI « France Santé » : l'avenant 2 ACI des MSP a été signé le 04/06/2026 (publication fin juin), rejeté par MG France ; l'équivalent côté CPTS suivra. Côté concurrence, Doctolib accélère : Siilo est devenu Doctolib Connect (nov. 2025) avec téléexpertise en 2026. Les Journées nationales des CPTS 2026 se tiennent à Bordeaux (4-5/11) — sur ton terrain.",
+   "reglementaire": [
+    {
+     "titre": "LFSS 2026 promulguée — renommage des CPTS abandonné, Réseau France Santé créé",
+     "detail": "La loi de financement de la Sécurité sociale 2026 a été adoptée définitivement le 16/12/2025 et publiée au JO le 31/12/2025. La transformation des CPTS en « Communautés France Santé » a été retirée (Assemblée puis Sénat l'ont rejetée) : les CPTS restent des communautés territoriales pilotées par les professionnels. En revanche, un « Réseau France Santé » (label de structures d'accès aux soins) est bien créé, avec une mission d'appui confiée aux CPTS.",
+     "impact": "fort",
+     "lecture": "pour toi : bonne nouvelle — pas besoin de renommer la plateforme. Le terme « CPTS » reste valable. Garde quand même tes libellés paramétrables, car la notion « France Santé » va apparaître dans le vocabulaire officiel (label, missions d'appui). C'est une correction de mon rapport du 06/06 qui croyait le renommage encore en jeu.",
+     "source": "https://www.concourspluripro.fr/exercice-pluriprofessionnel/coordination/les-cpts-resteront-des-communautes-territoriales",
+     "date": "2025-12-31"
+    },
+    {
+     "titre": "Avenant 2 ACI des MSP « France Santé » signé le 04/06/2026 — rejeté par MG France",
+     "detail": "L'avenant 2 à l'ACI des maisons de santé (MSP) a été signé le 04/06/2026 (publication attendue fin juin 2026). Il conditionne ~50 000 €/an par structure (jusqu'à +62 % pour celles intégrant le dispositif France Santé) à des engagements : RDV sous 48 h, présence le samedi matin et 3 soirs/semaine, participation à l'accès aux soins non programmés. MG France (Dr Giannotti) le rejette, jugeant les indicateurs « inatteignables » et l'argent conditionné à « en faire plus sans gagner plus ». Signature avant juillet 2026 pour un financement plein.",
+     "impact": "fort",
+     "lecture": "pour toi : c'est l'avenant MSP, mais il préfigure le modèle qui sera décliné côté CPTS (financement à la performance, indicateurs France Santé : RDV 48 h, SNP, prévention). Anticipe d'outiller ces indicateurs — c'est ce qui sera financé et donc demandé par tes futures clientes.",
+     "source": "https://www.egora.fr/actus-pro/exercice-coordonne/faites-en-encore-plus-pour-ne-pas-gagner-plus-pourquoi-mg-france",
+     "date": "2026-06-04"
+    },
+    {
+     "titre": "ACI CPTS en vigueur : jusqu'à 580 000 € de rémunération à la performance",
+     "detail": "Rappel cadré à la source : l'ACI CPTS (avenant 2, en vigueur) porte la rémunération à la performance jusqu'à ~580 000 €/an pour les territoires > 175 000 hab. (au lieu de 450 000 €), avec une hausse d'environ 30 %, de nouveaux indicateurs de prévention (santé sexuelle, dépistages, vaccination), un renforcement de l'obligation de remontée de données exploitables, et un accompagnement « accélérateur » à la constitution.",
+     "impact": "moyen",
+     "lecture": "pour toi : l'« obligation de remontée de données exploitables » est ta porte d'entrée produit n°1 — une CPTS a un besoin réglementaire de produire ces données proprement. Positionne CPTS Pilot comme l'outil qui sécurise le versement ACI en facilitant cette remontée.",
+     "source": "https://www.coordo.fr/ressources/creer-cpts/aci-cpts-financement/",
+     "date": "2026-06-24"
+    },
+    {
+     "titre": "Régulation de l'installation des médecins — navette parlementaire en cours",
+     "detail": "Les propositions de loi sur les déserts médicaux (Garot à l'Assemblée, Mouiller au Sénat) poursuivent leur navette : conditionnement de l'installation en zones bien dotées à un engagement en zone sous-dense, sous autorisation de l'ARS. Ligne gouvernementale 2026 : pas de coercition généralisée stricte, mais CPTS/MSP, télémédecine et IPA placés au cœur de la stratégie d'accès aux soins.",
+     "impact": "moyen",
+     "lecture": "pour toi : les CPTS sont confirmées comme l'outil-pivot de l'accès aux soins. Plus elles sont centrales politiquement, plus elles seront financées et structurées — donc plus elles ont besoin d'un outil de pilotage. Vent porteur pour ton marché.",
+     "source": "https://www.publicsenat.fr/actualites/sante/installation-des-medecins-deserts-medicaux-le-senat-adopte-la-proposition-de-loi-pour-ameliorer-lacces-aux-soins-dans-les-territoires",
+     "date": "2026-06-24"
+    }
+   ],
+   "concurrence": [
+    {
+     "acteur": "Doctolib",
+     "fait": "Doctolib Siilo (messagerie sécurisée pro) est devenu « Doctolib Connect » le 05/11/2025, avec l'ajout de la téléexpertise courant 2026 et une intégration renforcée à la suite Doctolib. Le logiciel CPTS « Coordination, Collaboration, Adressage » reste actif, adossé à la base installée des médecins (agendas Doctolib).",
+     "lecture": "pour toi : c'est le plus gros angle mort. Doctolib renforce sa brique collaboration/coordination (Connect + téléexpertise), de quoi mordre sur le besoin CPTS via sa force de frappe. Son talon d'Achille : l'effet n'opère que si TOUS les pros du territoire sont sur Doctolib — ton ouverture (multi-éditeurs, MSSanté) est ta réponse.",
+     "source": "https://doctolib.zendesk.com/hc/fr/articles/24755141353876-Doctolib-Siilo-devient-Doctolib-Connect",
+     "date": "2025-11-05"
+    },
+    {
+     "acteur": "Coordo",
+     "fait": "Maintient son comparatif de référence des logiciels CPTS et une page « financement ACI 2026 » très complète, captant les CPTS qui cherchent à comprendre/sécuriser leur ACI. Toujours positionné prix transparent (~149 €/mois).",
+     "lecture": "pour toi : ton concurrent le plus proche en positionnement. Son marketing de contenu (comparatif + guides ACI) est sa vraie arme. Inspire-toi : produis ton propre contenu de coordinatrice de terrain pour capter les recherches.",
+     "source": "https://www.coordo.fr/ressources/logiciels-cpts/comparatif-logiciels-cpts/",
+     "date": "2026-06-24"
+    }
+   ],
+   "concurrence_synthese": "Marché stable en nombre (~7 éditeurs dédiés + les généralistes), mais le mouvement vient des plateformes généralistes : Doctolib muscle sa coordination (Siilo → Doctolib Connect, téléexpertise 2026) et reste l'angle mort n°1 par sa force de frappe. Les dédiés (Citana en tête, Coordo sur le créneau simple/abordable, Plexus Santé qui mord directement sur la cible coordinatrice avec une répartition ACI et un prix bas) campent sur le pilotage ACI, devenu un attendu de base. La différenciation se joue sur la simplicité, le regard métier de coordinatrice et l'ouverture (ne pas enfermer la CPTS dans un seul écosystème comme Doctolib).",
+   "concurrents": [
+    {
+     "nom": "Doctolib (logiciel CPTS + Doctolib Connect)",
+     "site": "https://info.doctolib.fr/cpts/",
+     "categorie": "plateforme généraliste avec offre CPTS",
+     "menace": "serieuse",
+     "positionnement": "Coordination, collaboration et adressage patient adossés à la base installée Doctolib (agendas des médecins du territoire)",
+     "cible": "CPTS dont les pros sont déjà majoritairement équipés Doctolib",
+     "prix": "Non communiqué (sur devis / lié aux contrats Doctolib Pro)",
+     "forces": [
+      "Force de frappe et notoriété massives",
+      "Intégration native avec les agendas des médecins",
+      "Doctolib Connect (ex-Siilo) + téléexpertise 2026",
+      "Prise de RDV pour patients orientés directement dans l'agenda"
+     ],
+     "faiblesses": [
+      "Effet réseau conditionné à l'adoption Doctolib par tous les pros",
+      "Pas pensé « pilotage CPTS / ACI » de bout en bout",
+      "Logique d'enfermement dans l'écosystème Doctolib",
+      "Pas l'outil d'une coordinatrice (orienté médecins)"
+     ],
+     "actualite": [
+      {
+       "date": "2025-11-05",
+       "fait": "Doctolib Siilo devient Doctolib Connect ; téléexpertise annoncée pour 2026",
+       "source": "https://doctolib.zendesk.com/hc/fr/articles/24755141353876-Doctolib-Siilo-devient-Doctolib-Connect"
+      }
+     ],
+     "strategie": "Capter la coordination de territoire par l'effet réseau de sa base de médecins et l'élargissement de Connect (messagerie + téléexpertise)",
+     "vs_toi": "Démarque-toi par l'ouverture (multi-éditeurs, MSSanté, pas d'enfermement) et par le pilotage CPTS/ACI pensé pour une coordinatrice — pas pour vendre des agendas. Doctolib outille les pros ; toi tu outilles la communauté et son pilotage.",
+     "maj": "2026-06-24"
+    },
+    {
+     "nom": "Maiia (Cegedim Santé)",
+     "site": "https://www.maiia.com",
+     "categorie": "plateforme généraliste avec offre CPTS",
+     "menace": "emergente",
+     "positionnement": "Plateforme de prise de RDV / téléconsultation du groupe Cegedim, adossée aux logiciels métier Cegedim",
+     "cible": "Pros et structures déjà dans l'écosystème Cegedim",
+     "prix": "Non communiqué",
+     "forces": [
+      "Adossé à Cegedim (gros éditeur de logiciels santé)",
+      "Brique RDV + téléconsultation"
+     ],
+     "faiblesses": [
+      "Pas d'offre CPTS dédiée clairement identifiée à ce jour (à vérifier à chaque ronde)",
+      "Moins visible que Doctolib sur la coordination CPTS"
+     ],
+     "actualite": [],
+     "strategie": "Distribuer via l'écosystème Cegedim (logiciels de cabinet, MSSanté)",
+     "vs_toi": "Pas d'offre CPTS dédiée repérée à ce jour (réversible, à re-vérifier). Si elle émerge, ta différenciation reste la spécialisation CPTS et l'indépendance vis-à-vis d'un grand groupe.",
+     "maj": "2026-06-24"
+    },
+    {
+     "nom": "Citana (groupe Anamnèse)",
+     "site": "https://www.citana.care/logiciel-cpts",
+     "categorie": "dédié CPTS",
+     "menace": "directe",
+     "positionnement": "La suite complète d'exercice coordonné — le plus ancien et le plus large du marché",
+     "cible": "CPTS structurées (> 50 000 hab.) avec un coordinateur dédié",
+     "prix": "Sur devis — environ 3 000 à 15 000 €/an selon la taille",
+     "forces": [
+      "40+ protocoles pluripro prêts à l'emploi",
+      "Partage sécurisé d'informations",
+      "Soins non programmés intégrés",
+      "Acteur installé et capitalisé (groupe Anamnèse)"
+     ],
+     "faiblesses": [
+      "Paramétrage long (plusieurs mois)",
+      "Prise en main qui exige de l'accompagnement",
+      "Trop lourd et cher pour une petite CPTS"
+     ],
+     "actualite": [
+      {
+       "date": "2026",
+       "fait": "inzee.Care (adressage grand public) rapproché de la marque Citana",
+       "source": "https://cpts-synapse.fr/divers/inzee-care-devient-citana/"
+      }
+     ],
+     "strategie": "Couverture fonctionnelle maximale + distribution via l'écosystème Anamnèse",
+     "vs_toi": "Ta carte maîtresse : simplicité et rapidité de mise en route. Vise les CPTS petites/moyennes qui veulent démarrer vite, sans projet de déploiement de plusieurs mois.",
+     "maj": "2026-06-24"
+    },
+    {
+     "nom": "Coordo",
+     "site": "https://www.coordo.fr",
+     "categorie": "dédié CPTS",
+     "menace": "directe",
+     "positionnement": "Outil léger et rapide à déployer : annuaire interne, orientation patient, pilotage ACI",
+     "cible": "CPTS qui veulent un outil simple, vite en place",
+     "prix": "149 € HT/mois, sans engagement",
+     "forces": [
+      "Prix transparent et bas",
+      "Déploiement rapide",
+      "Sans engagement",
+      "Excellent marketing de contenu (comparatif + guides ACI)"
+     ],
+     "faiblesses": [
+      "Périmètre fonctionnel étroit (orientation patient surtout)",
+      "Moins complet pour les grosses CPTS"
+     ],
+     "actualite": [
+      {
+       "date": "2026",
+       "fait": "Maintient le comparatif de référence + page financement ACI 2026 pour capter les CPTS qui comparent",
+       "source": "https://www.coordo.fr/ressources/creer-cpts/aci-cpts-financement/"
+      }
+     ],
+     "strategie": "Transparence des prix + contenu (comparatif, guides ACI) pour attirer les CPTS qui comparent",
+     "vs_toi": "Ton concurrent le plus proche. Différencie-toi par ton regard de coordinatrice de terrain et une vision plus large que la seule orientation patient (vie associative, pilotage global, remontée ACI).",
+     "maj": "2026-06-24"
+    },
+    {
+     "nom": "Plexus Santé",
+     "site": "https://plexus-sante.fr",
+     "categorie": "dédié CPTS",
+     "menace": "directe",
+     "positionnement": "Plateforme de coordination MSP & CPTS pensée pour les coordinateurs : socle documentaire souverain (NextCloud + OnlyOffice, hébergé en France), répartition et suivi des ACI/budgets en temps réel, annuaire de territoire et gestion de projets",
+     "cible": "Coordinateurs/coordinatrices de MSP et de CPTS, y compris les CPTS jeunes (en constitution / pré-ACI)",
+     "prix": "Transparent : 100 € TTC/mois pour les CPTS en constitution ou pré-ACI ; remises pour les adhérents FéeCOIA (5 à 10 % sur 24 mois)",
+     "forces": [
+      "Hébergement français sur socle open-source reconnu (NextCloud/OnlyOffice) — argument souveraineté",
+      "Répartition ACI en temps réel + suivi budgétaire pluriannuel par projet",
+      "Base installée déjà large (~700 structures CPTS/MSP/DAC)",
+      "Apps iOS et Android",
+      "Prix bas et transparent, accessible dès la constitution",
+      "Pensé pour le métier de coordinatrice",
+      "Distribution via fédérations (partenariat FéeCOIA)"
+     ],
+     "faiblesses": [
+      "Hébergement « hors périmètre données de santé » (pas un socle HDS pour la donnée patient sensible)",
+      "Cœur documentaire NextCloud généraliste plutôt qu'un outil métier de bout en bout",
+      "Peu/pas orienté soins non programmés et prise de RDV patient",
+      "Expérience proche d'une suite bureautique partagée, moins d'un produit guidé"
+     ],
+     "actualite": [
+      {
+       "date": "2026",
+       "fait": "Partenariat FéeCOIA : tarif préférentiel pour les MSP/CPTS adhérentes ; ~700 structures équipées",
+       "source": "https://feecoia.com/plateforme-plexus-sante-un-tarif-preferentiel-pour-tous-nos-adherents/"
+      }
+     ],
+     "strategie": "Prix bas d'entrée pour capter les CPTS dès la constitution, socle documentaire souverain (France/open-source), et distribution par les fédérations et réseaux (FéeCOIA)",
+     "vs_toi": "Concurrent direct sur ta cible (la coordinatrice) et sur la répartition ACI. À ne pas sous-estimer : prix bas et grosse base installée. Démarque-toi par un produit pensé de bout en bout (pilotage + vie de communauté + remontée ACI exploitable) et par une expérience simple et belle, là où Plexus reste un socle NextCloud à organiser soi-même. Surveille leur hébergement : un vrai socle HDS pour la donnée patient est un terrain où tu peux prendre l'avantage.",
+     "maj": "2026-06-24"
+    },
+    {
+     "nom": "Albert (albertsante.fr)",
+     "site": "https://albertsante.fr/aide-pilotage-indicateurs-aci",
+     "categorie": "dédié CPTS",
+     "menace": "indirecte",
+     "positionnement": "Spécialiste du pilotage des indicateurs ACI et de l'analyse de territoire",
+     "cible": "CPTS qui veulent piloter par la donnée",
+     "prix": "Non communiqué",
+     "forces": [
+      "Analyse fine du territoire (ETP, visites à domicile, langues parlées)",
+      "Ciblage des projets de santé par la data"
+     ],
+     "faiblesses": [
+      "Outil d'analyse, pas une suite de gestion complète"
+     ],
+     "actualite": [],
+     "strategie": "Devenir l'outil incontournable sur la donnée ACI et le diagnostic de territoire",
+     "vs_toi": "Plutôt complémentaire — il confirme que la donnée ACI est un attendu de base. Couvre-le simplement chez toi, en l'articulant à l'obligation de remontée de données exploitables.",
+     "maj": "2026-06-24"
+    },
+    {
+     "nom": "SimplyMed",
+     "site": "https://www.simplymed.fr/logiciel-gestion-soins-non-programmes-cpts",
+     "categorie": "dédié CPTS",
+     "menace": "indirecte",
+     "positionnement": "Gestion des soins non programmés (SNP) et régulation des créneaux sur le territoire",
+     "cible": "CPTS dont la priorité est l'accès aux soins / SNP",
+     "prix": "Non communiqué",
+     "forces": [
+      "Spécialiste reconnu des soins non programmés",
+      "Aligné sur la mission accès aux soins (très financée par France Santé)"
+     ],
+     "faiblesses": [
+      "Centré SNP : couverture CPTS partielle"
+     ],
+     "actualite": [],
+     "strategie": "Se positionner sur la mission « accès aux soins / RDV 48 h », au cœur du financement France Santé",
+     "vs_toi": "Si tu couvres bien les SNP en plus du reste, tu offres une solution plus complète qu'un outil mono-mission.",
+     "maj": "2026-06-24"
+    },
+    {
+     "nom": "Medplan",
+     "site": "https://medplan.fr/",
+     "categorie": "dédié CPTS",
+     "menace": "indirecte",
+     "positionnement": "Plateforme collaborative de gestion pour MSP, CPTS et associations de santé",
+     "cible": "Structures d'exercice coordonné (MSP + CPTS)",
+     "prix": "Non communiqué",
+     "forces": [
+      "Couvre plusieurs types de structures",
+      "Approche collaborative et évolutive"
+     ],
+     "faiblesses": [
+      "Positionnement moins net (généraliste MSP/CPTS)"
+     ],
+     "actualite": [],
+     "strategie": "Adresser large (MSP + CPTS + associations) avec une plateforme évolutive",
+     "vs_toi": "Sa polyvalence est aussi un flou : un outil pensé CPTS de bout en bout parle mieux à une coordinatrice CPTS.",
+     "maj": "2026-06-24"
+    },
+    {
+     "nom": "CPTS+",
+     "site": "https://www.coordo.fr/ressources/logiciels-cpts/comparatif-logiciels-cpts/",
+     "categorie": "dédié CPTS",
+     "menace": "indirecte",
+     "positionnement": "Animation de communauté : annuaire local, soins non programmés, agenda, site web, partage de ressources",
+     "cible": "CPTS qui veulent animer et faire grandir leur communauté",
+     "prix": "Non communiqué",
+     "forces": [
+      "Bon sur la vie de communauté et l'annuaire",
+      "Site web de la CPTS inclus"
+     ],
+     "faiblesses": [
+      "Moins orienté pilotage / indicateurs"
+     ],
+     "actualite": [],
+     "strategie": "Faciliter l'élargissement et l'animation de la communauté",
+     "vs_toi": "Terrain proche du tien sur la « vie associative ». À surveiller : compare fonction par fonction pour rester devant sur la simplicité.",
+     "maj": "2026-06-24"
+    },
+    {
+     "nom": "La solution « maison » (Excel / Drive / WhatsApp)",
+     "site": "",
+     "categorie": "solution maison",
+     "menace": "serieuse",
+     "positionnement": "Le choix par défaut, gratuit, d'une CPTS sans outil dédié : tableurs, Google Drive, messageries grand public",
+     "cible": "CPTS jeunes, petites, sans budget logiciel ou coordinateur dédié",
+     "prix": "Gratuit (coût caché : temps, erreurs, données non exploitables)",
+     "forces": [
+      "Gratuit et déjà en place",
+      "Aucune décision d'achat à prendre",
+      "Familier"
+     ],
+     "faiblesses": [
+      "Aucune sécurité ni conformité",
+      "Données non exploitables pour la remontée ACI",
+      "Chronophage, fragile, non collaboratif",
+      "Risque de perte/dispersion"
+     ],
+     "actualite": [],
+     "strategie": "Inertie : « on a toujours fait comme ça »",
+     "vs_toi": "Ton vrai concurrent quotidien. Argument décisif : l'ACI impose une remontée de données exploitables — Excel ne la sécurise pas, CPTS Pilot oui. Le logiciel se finance par l'enveloppe ACI : le « gratuit » coûte en fait le versement.",
+     "maj": "2026-06-24"
+    }
+   ],
+   "opportunites": [
+    {
+     "titre": "Ségur du numérique en santé — Vague 2 (financement versé à l'éditeur)",
+     "detail": "La vague 2 du Ségur finance la montée vers des solutions référencées, via le mécanisme SONS (financement versé directement à l'éditeur, pas à la structure). Calendrier 2026 : demandes d'avance jusqu'au 23/09/2026 (hôpital), 10/11/2026 (imagerie), 16/12/2026 (médecine de ville / LGC).",
+     "echeance": "avances jusqu'au 16/12/2026 (médecine de ville)",
+     "lecture": "pour toi : à explorer prudemment. Les couloirs Ségur visent surtout les logiciels métier (LGC, DPI…), pas directement les outils de coordination CPTS. Mais l'interopérabilité Ségur/MSsanté devient un attendu — aligne-toi sur les standards pour ne pas être hors-jeu, même sans financement direct.",
+     "source": "https://esante.gouv.fr/ens/segur-numerique-sante/vague-2"
+    },
+    {
+     "titre": "Appels à projets de l'Agence du Numérique en Santé (Structures 3.0, Mon espace santé)",
+     "detail": "L'ANS porte des AAP récurrents (« Structures 3.0 » pour évaluer des solutions numériques innovantes, « Mon espace santé »). Vagues successives à resurveiller.",
+     "echeance": "vagues successives — à resurveiller",
+     "lecture": "pour toi : source de légitimité et d'alignement (Mon espace santé, interopérabilité). Garde la page AAP de l'ANS en radar pour candidater quand une vague colle à CPTS Pilot.",
+     "source": "https://esante.gouv.fr/lagence/appels-a-projets"
+    }
+   ],
+   "signaux": [
+    {
+     "signal": "Le financement bascule vers une logique « France Santé » à la performance (RDV 48 h, SNP, présence élargie), testée d'abord sur les MSP.",
+     "lecture": "ce que ça annonce : les mêmes indicateurs vont arriver dans l'ACI CPTS. L'outil qui sait suivre et prouver ces indicateurs deviendra indispensable pour sécuriser le financement."
+    },
+    {
+     "signal": "Les syndicats de médecins (MG France) rejettent l'avenant France Santé jugé « plus d'efforts sans plus de gains ».",
+     "lecture": "ce que ça annonce : tension et incertitude — le calendrier de l'avenant CPTS pourrait glisser. Reste agile, ne mise pas tout sur une date ; mais prépare les briques car le sens (performance, données) est clair."
+    },
+    {
+     "signal": "Doctolib étend sa brique collaboration (Connect + téléexpertise) au-delà de la simple prise de RDV.",
+     "lecture": "ce que ça annonce : les généralistes grignotent la coordination. Ta défense durable = l'ouverture (ne pas enfermer la CPTS) et la spécialisation métier coordinatrice."
+    }
+   ],
+   "predictions": [
+    {
+     "horizon": "6 mois",
+     "scenario": "Un avenant ACI CPTS « France Santé » est mis en négociation (sur le modèle de l'avenant MSP du 04/06/2026), avec des indicateurs de performance (accès aux soins, RDV rapides, prévention) et un renforcement de la remontée de données.",
+     "confiance": "élevée",
+     "implication": "pour toi : prépare dès maintenant le suivi de ces indicateurs et une remontée de données propre. Être prêt le jour de l'avenant = argument de vente décisif."
+    },
+    {
+     "horizon": "12 mois",
+     "scenario": "Le label « France Santé » s'installe dans le vocabulaire officiel (structures labellisées, missions d'appui des CPTS), sans renommer les CPTS.",
+     "confiance": "moyenne",
+     "implication": "pour toi : ajoute la notion « France Santé » comme une couche (label, missions d'appui) plutôt qu'un renommage. Garde tes libellés souples."
+    },
+    {
+     "horizon": "18 mois",
+     "scenario": "Les plateformes généralistes (Doctolib en tête) poussent leur offre de coordination ; les éditeurs dédiés survivants se distinguent par la simplicité, l'accompagnement humain et l'ouverture.",
+     "confiance": "moyenne",
+     "implication": "pour toi : capitalise sur ton ADN de coordinatrice de terrain et sur l'indépendance/ouverture, là où Doctolib enferme."
+    }
+   ],
+   "coups_avance": [
+    {
+     "titre": "Faire de la remontée de données ACI exploitable ton argument n°1",
+     "pourquoi": "L'ACI renforce l'obligation de remontée de données exploitables, et les avenants France Santé conditionnent l'argent à des indicateurs de performance. Excel ne sait pas le faire proprement.",
+     "action": "Construire (ou mettre en avant) une fonction qui produit, en un clic, les données/indicateurs attendus par la CPAM et l'ARS. En faire le cœur du pitch commercial."
+    },
+    {
+     "titre": "Préparer les indicateurs « France Santé » avant l'avenant CPTS",
+     "pourquoi": "L'avenant MSP du 04/06/2026 montre le modèle (RDV 48 h, SNP, prévention) qui sera décliné aux CPTS sous ~6 mois.",
+     "action": "Lister ces indicateurs et prévoir leur suivi dans la plateforme, pour être prêt le jour où l'avenant CPTS sort."
+    },
+    {
+     "titre": "Aller aux Journées nationales des CPTS à Bordeaux (4-5/11/2026)",
+     "pourquoi": "L'événement national de référence des CPTS se tient sur ton terrain (Nouvelle-Aquitaine) — rare occasion de rencontrer prospects, fédérations et institutionnels à domicile.",
+     "action": "Bloquer les dates, préparer un pitch et une démo, viser les coordinateurs de CPTS du 64 et de la région présents."
+    },
+    {
+     "titre": "Jouer l'ouverture contre l'enfermement Doctolib",
+     "pourquoi": "Doctolib muscle sa coordination mais n'opère qu'en vase clos (effet réseau Doctolib). C'est sa faille.",
+     "action": "Mettre en avant l'interopérabilité (MSSanté, multi-éditeurs) comme promesse : « votre CPTS reste libre, quel que soit le logiciel de chaque pro »."
+    }
+   ],
+   "sources": [
+    {
+     "titre": "Les CPTS resteront des communautés territoriales — l'Assemblée modifie France santé (Concours Pluripro)",
+     "url": "https://www.concourspluripro.fr/exercice-pluriprofessionnel/coordination/les-cpts-resteront-des-communautes-territoriales",
+     "date": "2025-12-01"
+    },
+    {
+     "titre": "PLFSS 2026 : ce qui change pour la santé (info.gouv.fr)",
+     "url": "https://www.info.gouv.fr/actualite/plfss-2026-ce-qui-change-pour-la-sante-les-familles-et-les-retraites",
+     "date": "2026-01-01"
+    },
+    {
+     "titre": "Pourquoi MG France rejette l'avenant France Santé (Egora)",
+     "url": "https://www.egora.fr/actus-pro/exercice-coordonne/faites-en-encore-plus-pour-ne-pas-gagner-plus-pourquoi-mg-france",
+     "date": "2026-06-04"
+    },
+    {
+     "titre": "ACI CPTS : tout comprendre du financement 2026 (Coordo)",
+     "url": "https://www.coordo.fr/ressources/creer-cpts/aci-cpts-financement/",
+     "date": "2026-06-24"
+    },
+    {
+     "titre": "Réseau France santé — la proximité de l'accès aux soins (sante.gouv.fr)",
+     "url": "https://sante.gouv.fr/actualites-presse/actualites-du-ministere/article/reseau-france-sante-la-proximite-de-l-acces-aux-soins",
+     "date": "2026-01-01"
+    },
+    {
+     "titre": "Doctolib Siilo devient Doctolib Connect (aide Doctolib)",
+     "url": "https://doctolib.zendesk.com/hc/fr/articles/24755141353876-Doctolib-Siilo-devient-Doctolib-Connect",
+     "date": "2025-11-05"
+    },
+    {
+     "titre": "Déserts médicaux : le Sénat adopte la PPL accès aux soins (Public Sénat)",
+     "url": "https://www.publicsenat.fr/actualites/sante/installation-des-medecins-deserts-medicaux-le-senat-adopte-la-proposition-de-loi-pour-ameliorer-lacces-aux-soins-dans-les-territoires",
+     "date": "2026-06-24"
+    },
+    {
+     "titre": "Ségur du numérique en santé — Vague 2 (ANS)",
+     "url": "https://esante.gouv.fr/ens/segur-numerique-sante/vague-2",
+     "date": "2026-06-24"
+    }
+   ],
+   "financements": {
+    "synthese": "Deux étages confirmés pour CPTS Pilot (jeune éditeur santé en Nouvelle-Aquitaine) : le national via France 2030 / Bpifrance (Santé numérique, concours i-Nov / i-Lab, Pionniers de l'IA) et le régional via la Région Nouvelle-Aquitaine (France 2030 régional, aides à l'innovation). Plusieurs concours nationaux ont des vagues à dates fixes (i-Lab clos le 03/02/2026 — guetter l'édition suivante) ; côté régional, France 2030 NA reste ouvert jusqu'au 30/09/2026.",
+    "appels_projets": [
+     {
+      "titre": "France 2030 — Stratégie d'accélération « Santé numérique »",
+      "organisme": "Bpifrance (pour l'État / France 2030)",
+      "perimetre": "national",
+      "montant": "selon projet",
+      "echeance": "vagues successives — à surveiller",
+      "detail": "Soutien aux solutions e-santé innovantes. Dépôt en ligne sur la plateforme Bpifrance. Le dispositif le plus aligné avec CPTS Pilot.",
+      "lecture": "pour toi : radar permanent. Prépare un dossier-type pour candidater dès qu'une vague pertinente s'ouvre.",
+      "source": "https://www.bpifrance.fr/nos-appels-a-projets-concours",
+      "date": "2026-06-24"
+     },
+     {
+      "titre": "Concours d'innovation i-Nov (France 2030)",
+      "organisme": "Bpifrance / ADEME",
+      "perimetre": "national",
+      "montant": "subvention + avance (selon projet)",
+      "echeance": "par vagues — à confirmer la prochaine ouverture",
+      "detail": "Soutient les projets innovants de start-up et PME pour faire émerger des leaders. Volets thématiques incluant la santé numérique.",
+      "lecture": "pour toi : format adapté à une PME innovante comme CPTS Pilot. Surveille l'ouverture de la prochaine vague et le volet santé.",
+      "source": "https://www.bpifrance.fr/nos-appels-a-projets-concours",
+      "date": "2026-06-24"
+     },
+     {
+      "titre": "Concours d'innovation i-Lab — 28e édition",
+      "organisme": "Bpifrance (France 2030)",
+      "perimetre": "national",
+      "montant": "jusqu'à ~600 000 € selon catégorie",
+      "echeance": "édition close le 03/02/2026 — guetter la 29e édition (≈ fin 2026)",
+      "detail": "Concours pour les projets de création d'entreprises technologiques innovantes (28e édition du 25/11/2025 au 03/02/2026).",
+      "lecture": "pour toi : la fenêtre 2026 est passée. Note-le pour la prochaine édition (ouverture probable fin 2026) si tu as un projet de création/levée à ce moment.",
+      "source": "https://www.bpifrance.fr/nos-appels-a-projets-concours/concours-dinnovation-i-lab",
+      "date": "2026-06-24"
+     },
+     {
+      "titre": "Appel à projets « Pionniers de l'intelligence artificielle »",
+      "organisme": "Bpifrance (France 2030)",
+      "perimetre": "national",
+      "montant": "selon projet",
+      "echeance": "relevés successifs (05/11/2025, 10/03/2026, 02/06/2026 passés) — prochain relevé à confirmer",
+      "detail": "Soutient les projets intégrant l'IA dans des secteurs stratégiques dont la santé.",
+      "lecture": "pour toi : pertinent seulement si CPTS Pilot intègre une brique IA (aide au pilotage, analyse de données). Sinon, à ignorer.",
+      "source": "https://www.bpifrance.fr/nos-appels-a-projets-concours/appel-a-projets-des-pionniers-de-lintelligence-artificielle",
+      "date": "2026-06-24"
+     },
+     {
+      "titre": "Projets d'innovation — France 2030 Nouvelle-Aquitaine",
+      "organisme": "Région Nouvelle-Aquitaine / Bpifrance",
+      "perimetre": "regional",
+      "montant": "75 000 € à 500 000 € (50 % max des dépenses)",
+      "echeance": "ouvert jusqu'au 30/09/2026 (à reconfirmer à la source)",
+      "detail": "Volet régional de France 2030 pour financer les projets d'innovation des entreprises de Nouvelle-Aquitaine.",
+      "lecture": "pour toi : probablement ta cible #1 à court terme — échéance et montant concrets. Vérifie l'éligibilité et vise le dépôt avant le 30/09/2026.",
+      "source": "https://www.france2030-en-nouvelle-aquitaine.fr/projets-davenir-innovation/",
+      "date": "2026-06-24"
+     }
+    ],
+    "subventions": [
+     {
+      "titre": "Statut Jeune Entreprise Innovante (JEI)",
+      "organisme": "État (national)",
+      "perimetre": "national",
+      "montant": "exonérations sociales / fiscales",
+      "echeance": "permanent (sous conditions de R&D)",
+      "detail": "Allègements pour les jeunes entreprises engageant des dépenses de R&D.",
+      "lecture": "pour toi : gros levier de trésorerie si tu fais de la R&D. À cadrer avec un expert-comptable (seuils, % de dépenses R&D).",
+      "source": "https://www.bpifrance.fr/nos-appels-a-projets-concours",
+      "date": "2026-06-24"
+     },
+     {
+      "titre": "Crédit d'Impôt Innovation (CII)",
+      "organisme": "État (national)",
+      "perimetre": "national",
+      "montant": "crédit d'impôt sur dépenses d'innovation",
+      "echeance": "permanent (déclaratif)",
+      "detail": "Pour les PME : crédit d'impôt sur la conception de prototypes / installations pilotes de produits nouveaux.",
+      "lecture": "pour toi : complémentaire au statut JEI. À confirmer avec un expert-comptable (éligibilité des dépenses logicielles).",
+      "source": "https://www.bpifrance.fr/nos-appels-a-projets-concours",
+      "date": "2026-06-24"
+     },
+     {
+      "titre": "Aide à l'innovation pour les start-up de Nouvelle-Aquitaine",
+      "organisme": "Région Nouvelle-Aquitaine",
+      "perimetre": "regional",
+      "montant": "subvention (taux selon dépenses)",
+      "echeance": "guichet ouvert",
+      "detail": "Soutien R&D aux jeunes entreprises innovantes : start-up immatriculée depuis moins de 5 ans, ≥ 100 000 € de fonds propres.",
+      "lecture": "pour toi : vérifie ton éligibilité (ancienneté < 5 ans, fonds propres ≥ 100 000 €). Si tu coches, c'est accessible.",
+      "source": "https://les-aides.nouvelle-aquitaine.fr/economie-et-emploi/innovation-start",
+      "date": "2026-06-24"
+     },
+     {
+      "titre": "Aide à l'innovation numérique responsable — Nouvelle-Aquitaine",
+      "organisme": "Région Nouvelle-Aquitaine",
+      "perimetre": "regional",
+      "montant": "jusqu'à 50 % (60 % pour logiciels libres / communs numériques)",
+      "echeance": "guichet ouvert",
+      "detail": "Soutient les innovations numériques au service des transitions ou réduisant leur empreinte.",
+      "lecture": "pour toi : angle « numérique responsable / impact territorial » défendable (accès aux soins, coordination de territoire). Taux bonifié si open source.",
+      "source": "https://les-aides.nouvelle-aquitaine.fr/economie-et-emploi/innovation-numerique-responsable",
+      "date": "2026-06-24"
+     }
+    ],
+    "sources": [
+     {
+      "titre": "Appels à projets et concours — Bpifrance",
+      "url": "https://www.bpifrance.fr/nos-appels-a-projets-concours",
+      "date": "2026-06-24"
+     },
+     {
+      "titre": "Concours d'innovation i-Lab — Bpifrance",
+      "url": "https://www.bpifrance.fr/nos-appels-a-projets-concours/concours-dinnovation-i-lab",
+      "date": "2026-06-24"
+     },
+     {
+      "titre": "Projets d'innovation — France 2030 Nouvelle-Aquitaine",
+      "url": "https://www.france2030-en-nouvelle-aquitaine.fr/projets-davenir-innovation/",
+      "date": "2026-06-24"
+     },
+     {
+      "titre": "Guide des aides — Région Nouvelle-Aquitaine",
+      "url": "https://les-aides.nouvelle-aquitaine.fr/economie-et-emploi/innovation-start",
+      "date": "2026-06-24"
+     }
+    ]
+   },
+   "local": {
+    "synthese": "Gros signal pour ton terrain : les Journées nationales des CPTS 2026 se tiennent à BORDEAUX (4-5/11), en Nouvelle-Aquitaine — une occasion rare de réseauter à domicile. Côté financement, l'ARS Nouvelle-Aquitaine a un AAP immobilier MSP (FMIS, clos le 31/07/2026) et un AMI « équité d'accès aux soins » avec un volet santé numérique. Les CPTS du 64 (Pau Béarn à Lescar, Pays Basque) sont structurées et constituent ta carte de prospects locaux.",
+    "reglementaire": [],
+    "concurrence": [
+     {
+      "acteur": "CPTS Pau Béarn (siège à Lescar, 64)",
+      "fait": "CPTS structurée et active sur le bassin de Pau (présente sur HelloAsso, Santé.fr, annuaire entreprises). Le territoire Grand Pau regroupe 3 intercommunalités.",
+      "lecture": "pour toi : prospect local prioritaire. Identifie sa coordinatrice/son coordinateur et son outillage actuel pour un démarchage ciblé.",
+      "source": "https://annuaire-entreprises.data.gouv.fr/etablissement/93452686400012",
+      "date": "2026-06-24"
+     },
+     {
+      "acteur": "CPTS du Pays Basque (agglo CAPB, 312 000 hab.)",
+      "fait": "L'agglomération Pays Basque (158 communes, 312 000 hab.) a adopté un budget 2026 de 602 M€. Territoire dense, propice à des CPTS de grande taille.",
+      "lecture": "pour toi : les grosses CPTS (> 175 000 hab.) ouvrent droit aux plafonds ACI les plus élevés (jusqu'à 580 000 €) — donc du budget pour s'équiper. Cible à fort potentiel sur le Pays Basque.",
+      "source": "https://www.francebleu.fr/nouvelle-aquitaine/pyrenees-atlantiques-64/bayonne/le-budget-2026-de-l-agglomeration-pays-basque-adopte-a-l-unanimite-des-232-delegues-communautaires-1463098",
+      "date": "2026-06-24"
+     }
+    ],
+    "opportunites": [
+     {
+      "titre": "Journées nationales des CPTS 2026 — Bordeaux (4-5/11/2026)",
+      "detail": "L'événement national de référence des CPTS se tient au Palais 2 l'Atlantique à Bordeaux les 4 et 5 novembre 2026. Programme détaillé communiqué à partir de mi-juin 2026.",
+      "echeance": "4-5/11/2026 (à Bordeaux)",
+      "lecture": "pour toi : LE rendez-vous à ne pas manquer, et il est sur ton terrain. Prospects, fédérations (FCPTS) et institutionnels réunis. Bloque les dates et prépare démo + pitch.",
+      "source": "https://www.fcpts.org/journees-nationales-cpts/"
+     },
+     {
+      "titre": "AMI « équité d'accès aux soins » — ARS Nouvelle-Aquitaine (volet santé numérique)",
+      "detail": "Appel à manifestation d'intérêt de l'ARS NA pour l'égal accès aux soins, comportant un volet « soutien au déploiement de solutions de santé numérique dans les territoires » et un volet « organisations collaboratives innovantes ».",
+      "echeance": "à confirmer à la source (candidature par mail à l'ARS NA)",
+      "lecture": "pour toi : un AMI régional qui finance précisément le déploiement de solutions numériques en territoire — angle direct pour accompagner tes futures CPTS clientes. Vérifie les dates exactes sur la page AAP de l'ARS.",
+      "source": "https://www.nouvelle-aquitaine.ars.sante.fr/liste-appels-projet-candidature"
+     },
+     {
+      "titre": "Radar AAP — ARS Nouvelle-Aquitaine (en cours)",
+      "detail": "Parmi les AAP en cours : soutien immobilier MSP (FMIS 2026, clos 31/07/2026), « Un chez-soi d'abord » Dordogne (10/09/2026), divers AAP médico-sociaux. Pas d'AAP strictement CPTS/numérique grand public ouvert à ce jour repéré.",
+      "echeance": "FMIS MSP : 31/07/2026 — page à balayer à chaque ronde",
+      "lecture": "pour toi : garde cette page ouverte. Le FMIS MSP n'est pas pour toi directement (immobilier), mais signale les territoires qui structurent leur offre — donc des CPTS en mouvement à proximité.",
+      "source": "https://www.nouvelle-aquitaine.ars.sante.fr/liste-appels-projet-candidature"
+     }
+    ],
+    "signaux": [
+     {
+      "signal": "L'agglo Pays Basque adopte un budget 2026 de 602 M€ ; les contrats de territoire 2023-2025 entrent en phase de transition vers la génération suivante en 2026.",
+      "lecture": "ce que ça annonce : des arbitrages budgétaires et de nouveaux contrats de territoire se préparent dans le 64 — fenêtre pour que la santé de proximité (et son outillage) soit inscrite à l'agenda local."
+     }
+    ],
+    "predictions": [],
+    "coups_avance": [],
+    "sources": [
+     {
+      "titre": "Journées nationales des CPTS — FCPTS (Bordeaux 4-5/11/2026)",
+      "url": "https://www.fcpts.org/journees-nationales-cpts/",
+      "date": "2026-06-24"
+     },
+     {
+      "titre": "Appels à projets en cours — ARS Nouvelle-Aquitaine",
+      "url": "https://www.nouvelle-aquitaine.ars.sante.fr/liste-appels-projet-candidature",
+      "date": "2026-06-24"
+     },
+     {
+      "titre": "Budget 2026 de l'agglomération Pays Basque (France Bleu)",
+      "url": "https://www.francebleu.fr/nouvelle-aquitaine/pyrenees-atlantiques-64/bayonne/le-budget-2026-de-l-agglomeration-pays-basque-adopte-a-l-unanimite-des-232-delegues-communautaires-1463098",
+      "date": "2026-06-24"
+     },
+     {
+      "titre": "CPTS Pau Béarn — annuaire des entreprises",
+      "url": "https://annuaire-entreprises.data.gouv.fr/etablissement/93452686400012",
+      "date": "2026-06-24"
+     }
+    ]
+   },
+   "note": "Ronde du 24/06/2026 (18 jours après la première veille). Correction importante apportée : la LFSS 2026 est promulguée depuis le 31/12/2025 et le renommage des CPTS en « Communautés France Santé » a été abandonné (le rapport du 06/06 le croyait encore en jeu). Le vrai sujet financement se déplace sur les avenants ACI « France Santé » (MSP signé le 04/06/2026, CPTS à suivre). Quelques dates restent « à confirmer à la source » (vagues i-Nov, AMI ARS NA, France 2030 NA) : seront affinées à la prochaine ronde. Doctolib ajouté au tableau concurrents (manquant au 06/06), ainsi que Maiia et la solution « maison »."
+  },
+  {
+   "updated_at": "2026-06-29",
+   "trigger": "ronde auto",
+   "synthese": "Ronde courte (5 jours après le 24/06) : peu de national neuf mais une étape franchie — l'avenant 2 ACI MSP « France Santé » est désormais OFFICIALISÉ (signé le 05/06 par 25 syndicats + 9 orgs de centres de santé, circulaire interministérielle au BO du 18/06, point d'étape ministère le 17/06). Les structures ont jusqu'à mi-juillet 2026 (10-14/07 selon sources) pour adhérer au réseau France Santé sur demarche.numerique.gouv.fr, avec +62 % de financement à la clé. C'est MSP only : l'avenant CPTS reste à venir (signal fort). Côté concurrence, deux mouvements pour Mako : Maiia (Cegedim) a bien une offre CPTS dédiée ET active (correction de mon « pas d'offre » du 24/06) → passe en menace sérieuse ; et un acteur jusqu'ici hors radar, Interstis (plateforme collaborative SecNumCloud, 1600 clients), cible explicitement les CPTS. France 2030 Nouvelle-Aquitaine confirmé ouvert jusqu'au 30/09/2026.",
+   "reglementaire": [
+    {
+     "titre": "Avenant 2 ACI MSP « France Santé » officialisé — circulaire au BO du 18/06, adhésion jusqu'à mi-juillet 2026",
+     "detail": "L'avenant 2 à l'ACI des maisons de santé a été signé le 05/06/2026 par 25 syndicats de professionnels libéraux et 9 organisations de centres de santé. Une circulaire interministérielle a été publiée au Bulletin officiel du 18/06/2026 et le ministère a fait un point d'étape le 17/06. Les structures doivent compléter leur engagement au réseau France Santé sur demarche.numerique.gouv.fr d'ici la date de publication, au plus tard mi-juillet 2026 (10/07 selon Concours Pluripro). Intégrer France Santé apporte ~+62 % de financement moyen. ~2 660 centres de santé et 1 100+ MSP déjà concernés.",
+     "impact": "fort",
+     "lecture": "pour toi : le modèle « France Santé » (financement bonifié conditionné à des engagements d'accès aux soins) entre en vigueur concrètement, mais côté MSP seulement. C'est le patron de ce qui arrivera côté CPTS. La fenêtre d'adhésion express (mi-juillet) montre un calendrier serré et piloté par formulaire en ligne — anticipe que tes futures clientes CPTS auront, elles aussi, des engagements à déclarer et à prouver. Outiller la preuve (indicateurs, remontée) reste ton angle n°1.",
+     "source": "https://www.concourspluripro.fr/exercice-pluriprofessionnel/coordination/cest-officiel-les-maisons-et-les-centres-de-sante-ont",
+     "date": "2026-06-17"
+    },
+    {
+     "titre": "Pas encore d'avenant ACI CPTS « France Santé » — négociation MSP close le 22/05, CPTS à suivre",
+     "detail": "Les négociations ACI MSP ont abouti à un texte définitif le 22/05/2026 après 6 séances depuis le 26/02. À ce jour, aucun avenant équivalent n'est signé ni daté pour les CPTS : le réseau France Santé est posé par la LFSS 2026, décliné d'abord sur les MSP et centres de santé.",
+     "impact": "moyen",
+     "lecture": "pour toi : tu as encore une fenêtre d'avance. Le sens est connu (performance, accès aux soins, données), le texte CPTS n'est pas encore là. Prépare les briques maintenant pour être prête le jour de l'annonce — ne mise pas sur une date précise, mais sur la direction.",
+     "source": "https://www.ameli.fr/exercice-coordonne/textes-reference/accord-conventionnel-interprofessionnel-pour-les-cpts",
+     "date": "2026-06-29"
+    }
+   ],
+   "concurrence": [
+    {
+     "acteur": "Maiia (Cegedim Santé)",
+     "fait": "Vérifié à la source : Maiia a une offre CPTS DÉDIÉE et active (Maiia Agenda référencé SAS et Ségur SAS, Maiia Connect messagerie sécurisée + annuaire RPPS, Maiia Téléconsultation, canaux dédiés aux actions de prévention, pilotage). © 2026 Cegedim Santé. Cela corrige mon constat du 24/06 (« pas d'offre CPTS dédiée clairement identifiée »).",
+     "lecture": "pour toi : un deuxième géant (après Doctolib) confirme une offre CPTS complète, adossée aux logiciels de cabinet Cegedim (Crossway, RM Soft) et au SAS. Même faille que Doctolib : l'intérêt dépend du fait que les pros du territoire soient déjà chez Cegedim. Ta réponse reste l'ouverture multi-éditeurs + le pilotage CPTS pensé pour une coordinatrice.",
+     "source": "https://www.cegedim-sante.com/solutions-sante-cegedim/pluripro-solutions/offre-cpts/",
+     "date": "2026-06-29"
+    },
+    {
+     "acteur": "Interstis",
+     "fait": "Acteur jusqu'ici absent de mon tableau : Interstis (Interstis Solutions, 100 % français) propose une plateforme collaborative ciblant explicitement les CPTS — messagerie, agenda partagé, gestion de projet, suite bureautique co-éditée, GED, visio — sur un environnement référencé SecNumCloud. Revendique 1 600 clients et 800 000 utilisateurs.",
+     "lecture": "pour toi : nouvel entrant sérieux à surveiller, fort argument souveraineté/sécurité (SecNumCloud, plus exigeant que l'hébergement Plexus). Mais c'est un intranet collaboratif généraliste habillé CPTS, pas un outil métier de pilotage/ACI de bout en bout. Ta différenciation : produit CPTS guidé (pilotage, vie de communauté, remontée ACI) vs boîte à outils à organiser soi-même.",
+     "source": "https://www.interstis.fr/secteur/sante/cpts/",
+     "date": "2026-06-29"
+    }
+   ],
+   "concurrence_synthese": "Le mouvement de fond se confirme : les plateformes généralistes occupent le terrain CPTS. Après Doctolib, Maiia (Cegedim) est désormais confirmé avec une offre CPTS dédiée et active (Agenda SAS, Connect, téléconsultation) — il passe d'« émergent » à « sérieux ». Nouveau venu repéré cette ronde : Interstis, plateforme collaborative SecNumCloud (1 600 clients) qui cible les CPTS — fort sur la sécurité/souveraineté mais c'est un intranet collaboratif, pas un outil de pilotage ACI. Les dédiés (Citana, Coordo, Plexus, SimplyMed, CPTS France, CPTS+, Medplan) restent stables et campent sur le pilotage ACI devenu un attendu. La différenciation d'Eva tient toujours sur : simplicité, regard métier de coordinatrice, produit de bout en bout et ouverture (ne pas enfermer la CPTS dans un écosystème).",
+   "concurrents": [
+    {
+     "nom": "Doctolib (logiciel CPTS + Doctolib Connect)",
+     "site": "https://info.doctolib.fr/cpts/",
+     "categorie": "plateforme généraliste avec offre CPTS",
+     "menace": "serieuse",
+     "positionnement": "Coordination, collaboration et adressage patient adossés à la base installée Doctolib (agendas des médecins du territoire)",
+     "cible": "CPTS dont les pros sont déjà majoritairement équipés Doctolib",
+     "prix": "Non communiqué (sur devis / lié aux contrats Doctolib Pro)",
+     "forces": [
+      "Force de frappe et notoriété massives",
+      "Intégration native avec les agendas des médecins",
+      "Doctolib Connect (ex-Siilo) + téléexpertise 2026",
+      "Prise de RDV pour patients orientés directement dans l'agenda"
+     ],
+     "faiblesses": [
+      "Effet réseau conditionné à l'adoption Doctolib par tous les pros",
+      "Pas pensé « pilotage CPTS / ACI » de bout en bout",
+      "Logique d'enfermement dans l'écosystème Doctolib",
+      "Pas l'outil d'une coordinatrice (orienté médecins)"
+     ],
+     "actualite": [
+      {
+       "date": "2025-11-05",
+       "fait": "Doctolib Siilo devient Doctolib Connect ; téléexpertise annoncée pour 2026",
+       "source": "https://doctolib.zendesk.com/hc/fr/articles/24755141353876-Doctolib-Siilo-devient-Doctolib-Connect"
+      }
+     ],
+     "strategie": "Capter la coordination de territoire par l'effet réseau de sa base de médecins et l'élargissement de Connect (messagerie + téléexpertise)",
+     "vs_toi": "Démarque-toi par l'ouverture (multi-éditeurs, MSSanté, pas d'enfermement) et par le pilotage CPTS/ACI pensé pour une coordinatrice — pas pour vendre des agendas. Doctolib outille les pros ; toi tu outilles la communauté et son pilotage.",
+     "maj": "2026-06-24"
+    },
+    {
+     "nom": "Maiia (Cegedim Santé)",
+     "site": "https://www.cegedim-sante.com/solutions-sante-cegedim/pluripro-solutions/offre-cpts/",
+     "categorie": "plateforme généraliste avec offre CPTS",
+     "menace": "serieuse",
+     "positionnement": "Suite de services CPTS du groupe Cegedim : agenda partagé (Maiia Agenda, référencé SAS/Ségur SAS), messagerie sécurisée + annuaire RPPS (Maiia Connect), téléconsultation, canaux de prévention, adossés aux logiciels de cabinet Cegedim (Crossway, RM Soft)",
+     "cible": "CPTS dont les pros sont déjà équipés Cegedim / dans l'écosystème Cegedim",
+     "prix": "Sur devis (fourchette estimée 3 000 à 15 000 €/an selon taille, source comparatif Coordo)",
+     "forces": [
+      "Adossé à Cegedim, gros éditeur de logiciels de cabinet (forte base installée médecins)",
+      "Maiia Agenda référencé SAS et Ségur SAS (accès aux soins / soins non programmés)",
+      "Maiia Connect : messagerie sécurisée + annuaire RPPS + visio + gestion de tâches",
+      "Téléconsultation intégrée et canaux de prévention"
+     ],
+     "faiblesses": [
+      "Intérêt conditionné à l'équipement Cegedim des pros du territoire",
+      "Logique d'écosystème (enfermement Cegedim)",
+      "Moins visible/lisible que Doctolib sur le créneau CPTS",
+      "Orienté outils des pros, pas pilotage CPTS d'une coordinatrice"
+     ],
+     "actualite": [
+      {
+       "date": "2026-06-29",
+       "fait": "Offre CPTS dédiée confirmée et active à la source (Maiia Agenda SAS/Ségur, Connect, téléconsultation, prévention) — correction du constat du 24/06 « pas d'offre dédiée »",
+       "source": "https://www.cegedim-sante.com/solutions-sante-cegedim/pluripro-solutions/offre-cpts/"
+      }
+     ],
+     "strategie": "Distribuer l'offre CPTS via l'écosystème Cegedim (logiciels de cabinet, MSSanté) et le référencement SAS/Ségur",
+     "vs_toi": "Même parade que pour Doctolib : ouverture multi-éditeurs et indépendance vis-à-vis d'un grand groupe, plus un pilotage CPTS/ACI pensé pour la coordinatrice. Maiia outille les agendas et la messagerie ; toi, le pilotage de la communauté.",
+     "maj": "2026-06-29"
+    },
+    {
+     "nom": "Interstis",
+     "site": "https://www.interstis.fr/secteur/sante/cpts/",
+     "categorie": "coordination adjacente",
+     "menace": "serieuse",
+     "positionnement": "Plateforme collaborative française (100 % FR) ciblant les CPTS : messagerie, agenda partagé, gestion de projet, suite bureautique co-éditée, GED, visioconférence, sur environnement référencé SecNumCloud",
+     "cible": "CPTS (et structures) cherchant un espace collaboratif sécurisé souverain",
+     "prix": "Non communiqué (devis / démo sur demande)",
+     "forces": [
+      "Référencement SecNumCloud — argument sécurité/souveraineté fort (au-dessus d'un hébergement français standard)",
+      "Base installée large revendiquée (1 600 clients, 800 000 utilisateurs)",
+      "Suite collaborative complète (co-édition, GED, visio, messagerie)",
+      "Double authentification, conformité données sensibles revendiquée"
+     ],
+     "faiblesses": [
+      "Intranet collaboratif généraliste habillé CPTS, pas un outil métier de pilotage CPTS",
+      "Pas de pilotage/répartition ACI de bout en bout identifié",
+      "Peu/pas orienté soins non programmés et parcours patient",
+      "Expérience « boîte à outils » à organiser soi-même"
+     ],
+     "actualite": [
+      {
+       "date": "2026-06-29",
+       "fait": "Repéré cette ronde comme acteur ciblant explicitement les CPTS (page secteur santé/CPTS active)",
+       "source": "https://www.interstis.fr/secteur/sante/cpts/"
+      }
+     ],
+     "strategie": "Capter les CPTS et structures sensibles à la sécurité/souveraineté via le référencement SecNumCloud et une suite collaborative déjà éprouvée",
+     "vs_toi": "Démarque-toi par un produit CPTS guidé et de bout en bout (pilotage, vie de communauté, remontée ACI exploitable) là où Interstis reste un espace collaboratif à configurer. Surveille leur argument SecNumCloud : c'est leur vraie force de vente.",
+     "maj": "2026-06-29"
+    },
+    {
+     "nom": "eBrigade",
+     "site": "https://ebrigade.app/logiciel-cpts-gestion-communaute-professionnelle-sante-ebrigade/",
+     "categorie": "dédié CPTS",
+     "menace": "emergente",
+     "positionnement": "Logiciel de gestion RH / planning / missions / membres à l'origine généraliste (associations, secours), décliné en offre CPTS (gestion de la communauté, planning, missions)",
+     "cible": "CPTS cherchant surtout à gérer membres, plannings et missions/bénévolat",
+     "prix": "Non communiqué (à vérifier)",
+     "forces": [
+      "Brique RH / planning / gestion des membres mature",
+      "Outil éprouvé hors santé, décliné CPTS"
+     ],
+     "faiblesses": [
+      "Origine non santé, périmètre CPTS partiel (pas de pilotage ACI ni parcours patient identifié) — à vérifier",
+      "Positionnement CPTS encore à confirmer (page non vérifiable à cette ronde : redirection)"
+     ],
+     "actualite": [
+      {
+       "date": "2026-06-29",
+       "fait": "Repéré comme proposant une offre CPTS (gestion de communauté/planning) ; détails à vérifier (page en redirection lors de la ronde)",
+       "source": "https://ebrigade.app/articles/comparatif-des-logiciels-cpts-quelle-solution-de-gestion-choisir-en-2025/"
+      }
+     ],
+     "strategie": "Étendre un outil de gestion RH/planning éprouvé vers le marché CPTS",
+     "vs_toi": "Couverture CPTS partielle (gestion membres/planning) ; un outil pensé CPTS de bout en bout (pilotage + ACI + parcours) parle plus à une coordinatrice. À reverifier à la prochaine ronde.",
+     "maj": "2026-06-29"
+    },
+    {
+     "nom": "Citana (groupe Anamnèse)",
+     "site": "https://www.anamnese.care/citana",
+     "categorie": "dédié CPTS",
+     "menace": "directe",
+     "positionnement": "La suite complète d'exercice coordonné — le plus ancien et le plus large du marché",
+     "cible": "CPTS structurées (> 50 000 hab.) avec un coordinateur dédié",
+     "prix": "Sur devis — environ 3 000 à 15 000 €/an selon la taille",
+     "forces": [
+      "40+ protocoles pluripro prêts à l'emploi",
+      "Partage sécurisé d'informations",
+      "Soins non programmés intégrés",
+      "Acteur installé et capitalisé (groupe Anamnèse)"
+     ],
+     "faiblesses": [
+      "Paramétrage long (plusieurs mois)",
+      "Prise en main qui exige de l'accompagnement",
+      "Trop lourd et cher pour une petite CPTS"
+     ],
+     "actualite": [
+      {
+       "date": "2026-06-29",
+       "fait": "Toujours en tête du comparatif CPTS 2026 ; publie une feuille de route télémédecine 2026-2028 (blog Anamnèse)",
+       "source": "https://blog.anamnese.care/feuille-de-route-2026-2028-telemedecine-citana-cpts-exercice-coordonne"
+      }
+     ],
+     "strategie": "Couverture fonctionnelle maximale + distribution via l'écosystème Anamnèse",
+     "vs_toi": "Ta carte maîtresse : simplicité et rapidité de mise en route. Vise les CPTS petites/moyennes qui veulent démarrer vite, sans projet de déploiement de plusieurs mois.",
+     "maj": "2026-06-29"
+    },
+    {
+     "nom": "Coordo",
+     "site": "https://www.coordo.fr",
+     "categorie": "dédié CPTS",
+     "menace": "directe",
+     "positionnement": "Outil léger et rapide à déployer : annuaire interne, orientation patient, pilotage ACI",
+     "cible": "CPTS qui veulent un outil simple, vite en place",
+     "prix": "149 € HT/mois, sans engagement",
+     "forces": [
+      "Prix transparent et bas",
+      "Déploiement rapide",
+      "Sans engagement",
+      "Excellent marketing de contenu (comparatif + guides ACI)"
+     ],
+     "faiblesses": [
+      "Périmètre fonctionnel étroit (orientation patient surtout)",
+      "Moins complet pour les grosses CPTS"
+     ],
+     "actualite": [
+      {
+       "date": "2026-06-29",
+       "fait": "Maintient son comparatif de référence « 7 acteurs analysés » version 2026, arme de captation des CPTS qui comparent",
+       "source": "https://www.coordo.fr/ressources/logiciels-cpts/comparatif-logiciels-cpts/"
+      }
+     ],
+     "strategie": "Transparence des prix + contenu (comparatif, guides ACI) pour attirer les CPTS qui comparent",
+     "vs_toi": "Ton concurrent le plus proche. Différencie-toi par ton regard de coordinatrice de terrain et une vision plus large que la seule orientation patient (vie associative, pilotage global, remontée ACI).",
+     "maj": "2026-06-29"
+    },
+    {
+     "nom": "Plexus Santé",
+     "site": "https://plexus-sante.fr",
+     "categorie": "dédié CPTS",
+     "menace": "directe",
+     "positionnement": "Plateforme de coordination MSP & CPTS pensée pour les coordinateurs : socle documentaire souverain (NextCloud + OnlyOffice, hébergé en France), répartition et suivi des ACI/budgets en temps réel, annuaire de territoire et gestion de projets",
+     "cible": "Coordinateurs/coordinatrices de MSP et de CPTS, y compris les CPTS jeunes (en constitution / pré-ACI)",
+     "prix": "Transparent : 100 € TTC/mois pour les CPTS en constitution ou pré-ACI ; remises pour les adhérents FéeCOIA (5 à 10 % sur 24 mois)",
+     "forces": [
+      "Hébergement français sur socle open-source reconnu (NextCloud/OnlyOffice) — argument souveraineté",
+      "Répartition ACI en temps réel + suivi budgétaire pluriannuel par projet",
+      "Base installée déjà large (~700 structures CPTS/MSP/DAC)",
+      "Apps iOS et Android",
+      "Prix bas et transparent, accessible dès la constitution",
+      "Pensé pour le métier de coordinatrice",
+      "Distribution via fédérations (partenariat FéeCOIA)"
+     ],
+     "faiblesses": [
+      "Hébergement « hors périmètre données de santé » (pas un socle HDS pour la donnée patient sensible)",
+      "Cœur documentaire NextCloud généraliste plutôt qu'un outil métier de bout en bout",
+      "Peu/pas orienté soins non programmés et prise de RDV patient",
+      "Expérience proche d'une suite bureautique partagée, moins d'un produit guidé"
+     ],
+     "actualite": [
+      {
+       "date": "2026",
+       "fait": "Partenariat FéeCOIA : tarif préférentiel pour les MSP/CPTS adhérentes ; ~700 structures équipées",
+       "source": "https://feecoia.com/plateforme-plexus-sante-un-tarif-preferentiel-pour-tous-nos-adherents/"
+      }
+     ],
+     "strategie": "Prix bas d'entrée pour capter les CPTS dès la constitution, socle documentaire souverain (France/open-source), et distribution par les fédérations et réseaux (FéeCOIA)",
+     "vs_toi": "Concurrent direct sur ta cible (la coordinatrice) et sur la répartition ACI. À ne pas sous-estimer : prix bas et grosse base installée. Démarque-toi par un produit pensé de bout en bout (pilotage + vie de communauté + remontée ACI exploitable) et par une expérience simple et belle, là où Plexus reste un socle NextCloud à organiser soi-même. Surveille leur hébergement : un vrai socle HDS pour la donnée patient est un terrain où tu peux prendre l'avantage.",
+     "maj": "2026-06-29"
+    },
+    {
+     "nom": "CPTS France",
+     "site": "https://cpts-france.fr/",
+     "categorie": "dédié CPTS",
+     "menace": "indirecte",
+     "positionnement": "Application web collaborative et de coordination dédiée aux CPTS (travail collaboratif, construction et suivi du projet de santé)",
+     "cible": "CPTS cherchant un outil collaboratif dédié",
+     "prix": "Sur devis (fourchette suites larges 3 000 à 15 000 €/an selon comparatif)",
+     "forces": [
+      "Spécialisé CPTS",
+      "Approche collaborative / projet de santé"
+     ],
+     "faiblesses": [
+      "Moins visible/documenté que Citana ou Coordo",
+      "Positionnement à préciser (pilotage ACI peu mis en avant)"
+     ],
+     "actualite": [],
+     "strategie": "Se positionner comme l'outil collaboratif dédié à la construction du projet de santé CPTS",
+     "vs_toi": "Terrain proche sur le collaboratif ; différencie-toi par le pilotage et la remontée ACI exploitable, et par une expérience simple de coordinatrice.",
+     "maj": "2026-06-29"
+    },
+    {
+     "nom": "Albert (albertsante.fr)",
+     "site": "https://albertsante.fr/aide-pilotage-indicateurs-aci",
+     "categorie": "dédié CPTS",
+     "menace": "indirecte",
+     "positionnement": "Spécialiste du pilotage des indicateurs ACI et de l'analyse de territoire",
+     "cible": "CPTS qui veulent piloter par la donnée",
+     "prix": "Non communiqué",
+     "forces": [
+      "Analyse fine du territoire (ETP, visites à domicile, langues parlées)",
+      "Ciblage des projets de santé par la data"
+     ],
+     "faiblesses": [
+      "Outil d'analyse, pas une suite de gestion complète"
+     ],
+     "actualite": [],
+     "strategie": "Devenir l'outil incontournable sur la donnée ACI et le diagnostic de territoire",
+     "vs_toi": "Plutôt complémentaire — il confirme que la donnée ACI est un attendu de base. Couvre-le simplement chez toi, en l'articulant à l'obligation de remontée de données exploitables.",
+     "maj": "2026-06-24"
+    },
+    {
+     "nom": "SimplyMed",
+     "site": "https://www.simplymed.fr/logiciel-gestion-soins-non-programmes-cpts",
+     "categorie": "dédié CPTS",
+     "menace": "indirecte",
+     "positionnement": "Gestion des soins non programmés (SNP) et régulation des créneaux sur le territoire",
+     "cible": "CPTS dont la priorité est l'accès aux soins / SNP",
+     "prix": "Non communiqué",
+     "forces": [
+      "Spécialiste reconnu des soins non programmés",
+      "Aligné sur la mission accès aux soins (très financée par France Santé)"
+     ],
+     "faiblesses": [
+      "Centré SNP : couverture CPTS partielle"
+     ],
+     "actualite": [],
+     "strategie": "Se positionner sur la mission « accès aux soins / RDV 48 h », au cœur du financement France Santé",
+     "vs_toi": "Si tu couvres bien les SNP en plus du reste, tu offres une solution plus complète qu'un outil mono-mission.",
+     "maj": "2026-06-24"
+    },
+    {
+     "nom": "Medplan",
+     "site": "https://medplan.fr/",
+     "categorie": "dédié CPTS",
+     "menace": "indirecte",
+     "positionnement": "Plateforme collaborative de gestion pour MSP, CPTS et associations de santé",
+     "cible": "Structures d'exercice coordonné (MSP + CPTS)",
+     "prix": "Non communiqué",
+     "forces": [
+      "Couvre plusieurs types de structures",
+      "Approche collaborative et évolutive"
+     ],
+     "faiblesses": [
+      "Positionnement moins net (généraliste MSP/CPTS)"
+     ],
+     "actualite": [],
+     "strategie": "Adresser large (MSP + CPTS + associations) avec une plateforme évolutive",
+     "vs_toi": "Sa polyvalence est aussi un flou : un outil pensé CPTS de bout en bout parle mieux à une coordinatrice CPTS.",
+     "maj": "2026-06-24"
+    },
+    {
+     "nom": "CPTS+",
+     "site": "https://www.coordo.fr/ressources/logiciels-cpts/comparatif-logiciels-cpts/",
+     "categorie": "dédié CPTS",
+     "menace": "indirecte",
+     "positionnement": "Animation de communauté : annuaire local, soins non programmés, agenda, site web, partage de ressources",
+     "cible": "CPTS qui veulent animer et faire grandir leur communauté",
+     "prix": "Non communiqué",
+     "forces": [
+      "Bon sur la vie de communauté et l'annuaire",
+      "Site web de la CPTS inclus"
+     ],
+     "faiblesses": [
+      "Moins orienté pilotage / indicateurs"
+     ],
+     "actualite": [],
+     "strategie": "Faciliter l'élargissement et l'animation de la communauté",
+     "vs_toi": "Terrain proche du tien sur la « vie associative ». À surveiller : compare fonction par fonction pour rester devant sur la simplicité.",
+     "maj": "2026-06-24"
+    },
+    {
+     "nom": "La solution « maison » (Excel / Drive / WhatsApp)",
+     "site": "",
+     "categorie": "solution maison",
+     "menace": "serieuse",
+     "positionnement": "Le choix par défaut, gratuit, d'une CPTS sans outil dédié : tableurs, Google Drive, messageries grand public",
+     "cible": "CPTS jeunes, petites, sans budget logiciel ou coordinateur dédié",
+     "prix": "Gratuit (coût caché : temps, erreurs, données non exploitables)",
+     "forces": [
+      "Gratuit et déjà en place",
+      "Aucune décision d'achat à prendre",
+      "Familier"
+     ],
+     "faiblesses": [
+      "Aucune sécurité ni conformité",
+      "Données non exploitables pour la remontée ACI",
+      "Chronophage, fragile, non collaboratif",
+      "Risque de perte/dispersion"
+     ],
+     "actualite": [],
+     "strategie": "Inertie : « on a toujours fait comme ça »",
+     "vs_toi": "Ton vrai concurrent quotidien. Argument décisif : l'ACI impose une remontée de données exploitables — Excel ne la sécurise pas, CPTS Pilot oui. Le logiciel se finance par l'enveloppe ACI : le « gratuit » coûte en fait le versement.",
+     "maj": "2026-06-24"
+    }
+   ],
+   "opportunites": [
+    {
+     "titre": "Journées nationales des CPTS 2026 — Bordeaux (4-5/11/2026)",
+     "detail": "L'événement national de référence des CPTS se tient à Bordeaux (Palais 2 l'Atlantique) les 4-5 novembre 2026, en Nouvelle-Aquitaine. Programme détaillé diffusé à partir de mi-juin 2026.",
+     "echeance": "4-5/11/2026 (Bordeaux)",
+     "lecture": "pour toi : rappel prioritaire — l'événement national est sur ton terrain. Bloque les dates, prépare démo + pitch, vise les coordinateurs du 64 et de la région. (Détail aussi dans le bloc local.)",
+     "source": "https://www.fcpts.org/journees-nationales-cpts/"
+    },
+    {
+     "titre": "Indicateurs du pacte déserts médicaux publiés tous les 3 mois en open data départemental",
+     "detail": "Le gouvernement publie 10 indicateurs de suivi du pacte de lutte contre les déserts médicaux tous les 3 mois, en open data, à l'échelle départementale. 151 zones rouges identifiées (2,5 M patients).",
+     "echeance": "publication trimestrielle (open data)",
+     "lecture": "pour toi : matière gratuite et officielle pour argumenter auprès des CPTS du 64 (état des lieux territorial chiffré) et nourrir ton diagnostic de territoire. Un appui pour ton discours commercial local.",
+     "source": "https://inspection-travail.gouv.fr/grands-dossiers/un-meilleur-acces-aux-soins-pour-tous-sur-le-territoire/article/pacte-de-lutte-contre-les-deserts-medicaux-151-zones-prioritaires-identifiees"
+    }
+   ],
+   "signaux": [
+    {
+     "signal": "Le modèle « France Santé » passe de la loi à l'opérationnel — d'abord sur les MSP (adhésion par formulaire en ligne, fenêtre express jusqu'à mi-juillet 2026, +62 % de financement).",
+     "lecture": "ce que ça annonce : la mécanique (engagements déclarés + financement bonifié) est désormais rodée côté MSP ; elle sera dupliquée aux CPTS. L'outil qui aide à déclarer et prouver les engagements deviendra un réflexe."
+    },
+    {
+     "signal": "Deuxième géant (Maiia/Cegedim) confirmé avec une offre CPTS dédiée, après Doctolib ; un nouvel acteur souverain (Interstis, SecNumCloud) cible aussi les CPTS.",
+     "lecture": "ce que ça annonce : le marché CPTS attire les grosses plateformes et les acteurs « sécurité/souveraineté ». La bataille se déplace vers la confiance (hébergement, conformité) et l'ouverture — prépare tes arguments sur ces deux axes."
+    },
+    {
+     "signal": "Ségur vague 2 durcit interopérabilité, cybersécurité et intégration MSSanté ; MSSanté posé comme attendu pour acter les orientations CPTS.",
+     "lecture": "ce que ça annonce : l'interopérabilité (MSSanté en tête) devient un ticket d'entrée, pas un bonus. Aligne-toi sur les standards pour ne pas être hors-jeu, même sans financement Ségur direct."
+    }
+   ],
+   "predictions": [
+    {
+     "horizon": "6 mois",
+     "scenario": "Ouverture d'une négociation (ou d'un avenant) ACI CPTS « France Santé » calquée sur le modèle MSP du printemps 2026 : engagements d'accès aux soins (RDV rapides, SNP, prévention) conditionnant un financement bonifié, déclarés/prouvés en ligne.",
+     "confiance": "élevée",
+     "implication": "pour toi : prépare dès maintenant le suivi de ces engagements et une remontée propre. Être prête le jour de l'annonce CPTS = argument de vente décisif."
+    },
+    {
+     "horizon": "12 mois",
+     "scenario": "Concentration de la pression concurrentielle des plateformes (Doctolib, Maiia/Cegedim) et montée des acteurs « souveraineté » (Interstis SecNumCloud, Plexus France/open-source) ; la sécurité/hébergement devient un critère d'achat de premier plan pour les CPTS.",
+     "confiance": "moyenne",
+     "implication": "pour toi : clarifie ta promesse d'hébergement/conformité (idéalement HDS pour la donnée patient) et ton ouverture multi-éditeurs — c'est là que se jouera la confiance face aux géants et aux acteurs souverains."
+    },
+    {
+     "horizon": "18 mois",
+     "scenario": "Le label « France Santé » s'installe dans le vocabulaire et les financements (MSP puis CPTS) sans renommer les CPTS ; les éditeurs survivants se distinguent par la simplicité, l'accompagnement humain et l'ouverture.",
+     "confiance": "moyenne",
+     "implication": "pour toi : capitalise sur ton ADN de coordinatrice de terrain et sur l'indépendance/ouverture, là où les géants enferment. Garde tes libellés « France Santé » paramétrables."
+    }
+   ],
+   "coups_avance": [
+    {
+     "titre": "Outiller la « déclaration + preuve » des engagements France Santé",
+     "pourquoi": "Côté MSP, l'adhésion France Santé passe par une déclaration en ligne (demarche.numerique.gouv.fr) et le financement bonifié dépend d'engagements à tenir. Le même mécanisme arrivera aux CPTS.",
+     "action": "Concevoir/mettre en avant une fonction qui aide la CPTS à suivre ses engagements (accès aux soins, SNP, prévention) et à produire la preuve attendue. En faire un argument prêt pour le jour de l'avenant CPTS."
+    },
+    {
+     "titre": "Préparer la riposte « confiance » face à Maiia et Interstis",
+     "pourquoi": "Maiia (Cegedim) confirme une offre CPTS dédiée et Interstis avance l'argument SecNumCloud. La bataille se déplace vers la sécurité/souveraineté et l'ouverture.",
+     "action": "Clarifier noir sur blanc ton hébergement (France, idéalement HDS), ta conformité RGPD (→ Cléo) et ton ouverture multi-éditeurs/MSSanté. En faire une page argument et un point de pitch."
+    },
+    {
+     "titre": "Cibler les CPTS nommées du 64 avant la rentrée",
+     "pourquoi": "Tu as désormais des prospects locaux identifiés (CPTS Pau Béarn à Lescar, CPTS Pau Agglo Santé, CPTS des 3 Provinces Basse-Navarre-Soule-Béarn — coordinatrice Jenofa Lamarque) et un grand rendez-vous à domicile (Journées CPTS Bordeaux 4-5/11).",
+     "action": "Construire une courte liste de prospects 64 avec contact/coordinatrice et outillage actuel ; préparer une approche avant les Journées de Bordeaux. (À relayer à Carla pour l'exécution commerciale.)"
+    }
+   ],
+   "sources": [
+    {
+     "titre": "C'est officiel : MSP et centres de santé ont signé leur avenant France Santé (Concours Pluripro)",
+     "url": "https://www.concourspluripro.fr/exercice-pluriprofessionnel/coordination/cest-officiel-les-maisons-et-les-centres-de-sante-ont",
+     "date": "2026-06-17"
+    },
+    {
+     "titre": "L'avenant 2 à l'ACI des structures pluriprofessionnelles (ameli.fr)",
+     "url": "https://www.ameli.fr/exercice-coordonne/textes-reference/accord-national-structure-sante/avenant-2",
+     "date": "2026-06-29"
+    },
+    {
+     "titre": "Offre CPTS Maiia / Cegedim Santé",
+     "url": "https://www.cegedim-sante.com/solutions-sante-cegedim/pluripro-solutions/offre-cpts/",
+     "date": "2026-06-29"
+    },
+    {
+     "titre": "Interstis — plateforme collaborative pour les CPTS",
+     "url": "https://www.interstis.fr/secteur/sante/cpts/",
+     "date": "2026-06-29"
+    },
+    {
+     "titre": "Comparatif logiciels CPTS 2026 (Coordo)",
+     "url": "https://www.coordo.fr/ressources/logiciels-cpts/comparatif-logiciels-cpts/",
+     "date": "2026-06-29"
+    },
+    {
+     "titre": "Au cœur du Ségur numérique — vague 2 (ANS / esante.gouv.fr)",
+     "url": "https://esante.gouv.fr/actualites/au-coeur-du-segur-numerique",
+     "date": "2026-06-29"
+    },
+    {
+     "titre": "Pacte déserts médicaux : 151 zones prioritaires, 10 indicateurs trimestriels (ministère)",
+     "url": "https://inspection-travail.gouv.fr/grands-dossiers/un-meilleur-acces-aux-soins-pour-tous-sur-le-territoire/article/pacte-de-lutte-contre-les-deserts-medicaux-151-zones-prioritaires",
+     "date": "2026-06-29"
+    }
+   ],
+   "financements": {
+    "synthese": "Pas de nouveau guichet national majeur en 5 jours, mais une confirmation utile au régional : France 2030 Nouvelle-Aquitaine « Projets d'innovation » est bien ouvert jusqu'au 30/09/2026 (75 K€ à 500 K€, 50 % max) — c'est la cible #1 court terme pour CPTS Pilot. Au national, le radar reste France 2030 / Bpifrance (Santé numérique, i-Nov / i-Lab par vagues) + statut JEI et CII. Côté ARS NA, aucun AAP « santé numérique / CPTS » ouvert à ce jour (FMIS MSP encore ouvert au 31/07/2026, mais c'est de l'immobilier).",
+    "appels_projets": [
+     {
+      "titre": "Projets d'innovation — France 2030 Nouvelle-Aquitaine",
+      "organisme": "Région Nouvelle-Aquitaine / Bpifrance",
+      "perimetre": "regional",
+      "montant": "75 000 € à 500 000 € (50 % max des dépenses éligibles)",
+      "echeance": "ouvert jusqu'au 30/09/2026 (confirmé à la source)",
+      "detail": "Cible les projets d'innovation (y compris non technologique) portés par une entreprise individuelle, PME ou ETI de Nouvelle-Aquitaine. Deux phases : « faisabilité » et « développement / pré-industrialisation ». Ouvert depuis le 19/06/2025.",
+      "lecture": "pour toi : ta cible #1 à court terme — échéance et montant concrets, profil aligné (jeune éditeur logiciel innovant en NA). Vise un dépôt avant le 30/09/2026 ; cadre le dossier avec un accompagnant (cluster, ADI, expert).",
+      "source": "https://www.france2030-en-nouvelle-aquitaine.fr/projets-davenir-innovation/",
+      "date": "2026-06-29"
+     },
+     {
+      "titre": "France 2030 — Stratégie d'accélération « Santé numérique »",
+      "organisme": "Bpifrance (pour l'État / France 2030)",
+      "perimetre": "national",
+      "montant": "selon projet",
+      "echeance": "vagues successives — à surveiller",
+      "detail": "Soutien aux solutions e-santé innovantes. Dépôt sur la plateforme Bpifrance. Le dispositif national le plus aligné avec CPTS Pilot.",
+      "lecture": "pour toi : radar permanent. Prépare un dossier-type pour candidater dès qu'une vague pertinente s'ouvre.",
+      "source": "https://www.bpifrance.fr/nos-appels-a-projets-concours",
+      "date": "2026-06-29"
+     },
+     {
+      "titre": "Concours d'innovation i-Nov (France 2030)",
+      "organisme": "Bpifrance / ADEME",
+      "perimetre": "national",
+      "montant": "subvention + avance (selon projet)",
+      "echeance": "par vagues — prochaine ouverture à confirmer",
+      "detail": "Soutient les projets innovants de start-up et PME, volets thématiques incluant la santé numérique.",
+      "lecture": "pour toi : format adapté à une PME innovante. Surveille l'ouverture de la prochaine vague et le volet santé.",
+      "source": "https://www.bpifrance.fr/nos-appels-a-projets-concours",
+      "date": "2026-06-29"
+     },
+     {
+      "titre": "Concours d'innovation i-Lab — prochaine édition",
+      "organisme": "Bpifrance (France 2030)",
+      "perimetre": "national",
+      "montant": "jusqu'à ~600 000 € selon catégorie",
+      "echeance": "28e édition close le 03/02/2026 — guetter l'ouverture de la 29e (≈ fin 2026)",
+      "detail": "Concours pour les projets de création d'entreprises technologiques innovantes.",
+      "lecture": "pour toi : fenêtre 2026 passée. À noter pour la prochaine édition si tu as un projet de création/levée à ce moment.",
+      "source": "https://www.bpifrance.fr/nos-appels-a-projets-concours/concours-dinnovation-i-lab",
+      "date": "2026-06-29"
+     }
+    ],
+    "subventions": [
+     {
+      "titre": "Statut Jeune Entreprise Innovante (JEI)",
+      "organisme": "État (national)",
+      "perimetre": "national",
+      "montant": "exonérations sociales / fiscales",
+      "echeance": "permanent (sous conditions de R&D)",
+      "detail": "Allègements pour les jeunes entreprises engageant des dépenses de R&D.",
+      "lecture": "pour toi : gros levier de trésorerie si tu fais de la R&D. À cadrer avec un expert-comptable (seuils, % de dépenses R&D).",
+      "source": "https://www.bpifrance.fr/nos-appels-a-projets-concours",
+      "date": "2026-06-29"
+     },
+     {
+      "titre": "Crédit d'Impôt Innovation (CII)",
+      "organisme": "État (national)",
+      "perimetre": "national",
+      "montant": "crédit d'impôt sur dépenses d'innovation",
+      "echeance": "permanent (déclaratif)",
+      "detail": "Pour les PME : crédit d'impôt sur la conception de prototypes / installations pilotes de produits nouveaux.",
+      "lecture": "pour toi : complémentaire au statut JEI. À confirmer avec un expert-comptable (éligibilité des dépenses logicielles).",
+      "source": "https://www.bpifrance.fr/nos-appels-a-projets-concours",
+      "date": "2026-06-29"
+     },
+     {
+      "titre": "Aide à l'innovation pour les start-up de Nouvelle-Aquitaine",
+      "organisme": "Région Nouvelle-Aquitaine",
+      "perimetre": "regional",
+      "montant": "subvention (taux selon dépenses)",
+      "echeance": "guichet ouvert",
+      "detail": "Soutien R&D aux jeunes entreprises innovantes : start-up immatriculée depuis moins de 5 ans, ≥ 100 000 € de fonds propres.",
+      "lecture": "pour toi : vérifie ton éligibilité (ancienneté < 5 ans, fonds propres ≥ 100 000 €). Si tu coches, c'est accessible.",
+      "source": "https://les-aides.nouvelle-aquitaine.fr/economie-et-emploi/innovation-start",
+      "date": "2026-06-29"
+     },
+     {
+      "titre": "Aide à l'innovation numérique responsable — Nouvelle-Aquitaine",
+      "organisme": "Région Nouvelle-Aquitaine",
+      "perimetre": "regional",
+      "montant": "jusqu'à 50 % (60 % pour logiciels libres / communs numériques)",
+      "echeance": "guichet ouvert",
+      "detail": "Soutient les innovations numériques au service des transitions ou réduisant leur empreinte.",
+      "lecture": "pour toi : angle « numérique responsable / impact territorial » défendable (accès aux soins, coordination de territoire). Taux bonifié si open source.",
+      "source": "https://les-aides.nouvelle-aquitaine.fr/economie-et-emploi/innovation-numerique-responsable",
+      "date": "2026-06-29"
+     }
+    ],
+    "sources": [
+     {
+      "titre": "Projets d'innovation — France 2030 Nouvelle-Aquitaine",
+      "url": "https://www.france2030-en-nouvelle-aquitaine.fr/projets-davenir-innovation/",
+      "date": "2026-06-29"
+     },
+     {
+      "titre": "Appels à projets et concours — Bpifrance",
+      "url": "https://www.bpifrance.fr/nos-appels-a-projets-concours",
+      "date": "2026-06-29"
+     },
+     {
+      "titre": "Guide des aides — Région Nouvelle-Aquitaine",
+      "url": "https://les-aides.nouvelle-aquitaine.fr/economie-et-emploi/innovation-start",
+      "date": "2026-06-29"
+     }
+    ]
+   },
+   "local": {
+    "synthese": "Rien de neuf côté guichets locaux en 5 jours : l'ARS Nouvelle-Aquitaine n'affiche aucun AAP « CPTS / santé numérique » ouvert (FMIS immobilier MSP encore ouvert au 31/07/2026 ; ~19 AAP en cours, surtout médico-social). Le grand rendez-vous reste les Journées nationales des CPTS à Bordeaux (4-5/11/2026), sur ton terrain. Avancée prospection : trois CPTS du 64 sont nommément identifiées (Pau Béarn à Lescar, Pau Agglo Santé, des 3 Provinces Basse-Navarre-Soule-Béarn — coordinatrice Jenofa Lamarque), avec un DAC 64 structuré en 3 antennes (Bayonne, Pau, Sauveterre-de-Béarn).",
+    "reglementaire": [],
+    "concurrence": [
+     {
+      "acteur": "CPTS des 3 Provinces Basse-Navarre-Soule-Béarn (Saint-Palais, 64)",
+      "fait": "CPTS identifiée sur le territoire Basse-Navarre / Soule / Béarn, coordinatrice Jenofa Lamarque. S'ajoute à la CPTS Pau Béarn (Lescar) et à la CPTS Pau Agglo Santé déjà repérées.",
+      "lecture": "pour toi : nouveau prospect local nommé, avec une coordinatrice identifiée — point de contact direct. À ajouter à ta courte liste 64. (À relayer à Carla pour l'exécution.)",
+      "source": "https://www.saint-palais.fr/associations/communaute-professionnelle-territoriale-de-sante-cpts-3-provinces-basse-navarre-soule-bearn/",
+      "date": "2026-06-29"
+     },
+     {
+      "acteur": "DAC 64 (Dispositif d'Appui à la Coordination des Pyrénées-Atlantiques)",
+      "fait": "Le DAC 64 est organisé en 3 antennes pluridisciplinaires : Bayonne (Côte basque, Basse-Navarre, Soule), Pau (Pau agglo, Est-Béarn) et Sauveterre-de-Béarn (Lacq-Orthez, Béarn des gaves, Oloron-Haut Béarn).",
+      "lecture": "pour toi : le DAC n'est pas un concurrent mais un acteur-pivot de la coordination locale — utile à connaître pour comprendre l'écosystème et identifier les CPTS actives par antenne. Réseau d'introduction potentiel.",
+      "source": "https://www.dac-64.fr/le-dispositif-dappui-la-coordination",
+      "date": "2026-06-29"
+     }
+    ],
+    "opportunites": [
+     {
+      "titre": "Journées nationales des CPTS 2026 — Bordeaux (4-5/11/2026)",
+      "detail": "L'événement national de référence des CPTS se tient au Palais 2 l'Atlantique à Bordeaux les 4-5 novembre 2026. Programme détaillé à partir de mi-juin 2026.",
+      "echeance": "4-5/11/2026 (Bordeaux)",
+      "lecture": "pour toi : LE rendez-vous à domicile. Bloque les dates, prépare démo + pitch, vise les coordinateurs du 64 et de la région.",
+      "source": "https://www.fcpts.org/journees-nationales-cpts/"
+     },
+     {
+      "titre": "Radar AAP — ARS Nouvelle-Aquitaine (en cours)",
+      "detail": "~19 AAP en cours, majoritairement médico-social. Soutien immobilier MSP (FMIS 2026) encore ouvert au 31/07/2026. Aucun AAP « CPTS / santé numérique » grand public ouvert repéré à cette ronde ; l'AMI « équité d'accès aux soins » n'est plus listé clairement (à reconfirmer à la source).",
+      "echeance": "FMIS MSP : 31/07/2026 — page à balayer à chaque ronde",
+      "lecture": "pour toi : pas d'AAP directement pour toi cette ronde. Le FMIS MSP (immobilier) n'est pas ta cible mais signale les territoires qui structurent leur offre — donc des CPTS en mouvement à proximité. Garde la page en radar.",
+      "source": "https://www.nouvelle-aquitaine.ars.sante.fr/liste-appels-projet-candidature"
+     }
+    ],
+    "signaux": [
+     {
+      "signal": "Trois CPTS nommées et un DAC structuré en 3 antennes couvrent l'ensemble du 64 (Côte basque, Béarn, Pau).",
+      "lecture": "ce que ça annonce : un maillage CPTS déjà en place sur ton département — terrain de prospection concret et cartographiable, plutôt qu'un marché à créer."
+     }
+    ],
+    "predictions": [],
+    "coups_avance": [],
+    "sources": [
+     {
+      "titre": "Journées nationales des CPTS — FCPTS (Bordeaux 4-5/11/2026)",
+      "url": "https://www.fcpts.org/journees-nationales-cpts/",
+      "date": "2026-06-29"
+     },
+     {
+      "titre": "Appels à projets en cours — ARS Nouvelle-Aquitaine",
+      "url": "https://www.nouvelle-aquitaine.ars.sante.fr/liste-appels-projet-candidature",
+      "date": "2026-06-29"
+     },
+     {
+      "titre": "CPTS des 3 Provinces Basse-Navarre-Soule-Béarn (mairie de Saint-Palais)",
+      "url": "https://www.saint-palais.fr/associations/communaute-professionnelle-territoriale-de-sante-cpts-3-provinces-basse-navarre-soule-bearn/",
+      "date": "2026-06-29"
+     },
+     {
+      "titre": "DAC 64 — Dispositif d'Appui à la Coordination",
+      "url": "https://www.dac-64.fr/le-dispositif-dappui-la-coordination",
+      "date": "2026-06-29"
+     }
+    ]
+   },
+   "note": "Ronde du 29/06/2026 (5 jours après le 24/06). Fenêtre courte : peu de national neuf. Fait marquant — l'avenant 2 ACI MSP « France Santé » est officialisé (signé 05/06, circulaire BO 18/06, point d'étape ministère 17/06), adhésion jusqu'à mi-juillet 2026 ; c'est MSP only, l'avenant CPTS reste à venir. Concurrence : Maiia (Cegedim) confirmé avec offre CPTS dédiée (correction du « pas d'offre » du 24/06) → menace passée à sérieuse ; deux nouveaux entrants ajoutés au tableau — Interstis (plateforme collaborative SecNumCloud, vérifiée à la source) et eBrigade (module CPTS, partiellement vérifié, page en redirection → à reverifier). France 2030 NA confirmé ouvert jusqu'au 30/09/2026. Quelques points « à reconfirmer » : date exacte limite d'adhésion France Santé (10 vs 14/07 selon sources), AMI ARS NA équité d'accès aux soins (plus listé clairement)."
+  }
+ ]
 }
