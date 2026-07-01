@@ -1162,7 +1162,7 @@ body {
 .mp-pointer-chip:hover { filter: brightness(0.94); }
 /* Bloc « Repéré pour toi » en tête de l'espace d'un agent */
 .ac-pistes { background: linear-gradient(135deg, var(--blue-50), var(--white)); border: 1px solid var(--blue-100); border-radius: 14px; padding: 13px 15px; margin-bottom: 18px; }
-.ac-pistes-done { background: var(--slate-50); border: 1px dashed var(--slate-200); border-radius: 12px; padding: 11px 14px; margin-bottom: 18px; font-size: 12.5px; color: var(--slate-500); }
+.ac-pistes-done { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: var(--slate-50); border: 1px dashed var(--slate-200); border-radius: 12px; padding: 11px 14px; margin-bottom: 18px; font-size: 12.5px; color: var(--slate-500); }
 .ac-pistes-head { display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap; margin-bottom: 9px; }
 .ac-pistes-title { font-size: 12.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--blue-700); }
 .ac-pistes-hint { font-size: 11px; color: var(--slate-400); }
@@ -1170,6 +1170,16 @@ body {
 .ac-piste-txt { flex: 1; min-width: 0; }
 .ac-piste-title { font-size: 13px; font-weight: 700; color: var(--slate-800); line-height: 1.35; }
 .ac-piste-why { font-size: 11.5px; color: var(--slate-500); line-height: 1.4; margin-top: 2px; }
+.ac-piste-x { flex: 0 0 auto; width: 26px; height: 26px; border-radius: 50%; border: none; background: none; color: var(--slate-400); font-size: 13px; cursor: pointer; transition: background .15s, color .15s; }
+.ac-piste-x:hover { background: var(--red-100); color: var(--red-600); }
+.ac-pistes-archlink { margin-left: auto; border: none; background: none; font-family: inherit; font-size: 11.5px; font-weight: 600; color: var(--slate-500); cursor: pointer; padding: 3px 8px; border-radius: 7px; transition: background .15s, color .15s; }
+.ac-pistes-archlink:hover { background: var(--slate-100); color: var(--slate-700); }
+.ac-arch-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; max-height: 52vh; overflow-y: auto; }
+.ac-arch-row { display: flex; align-items: center; gap: 11px; background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 10px; padding: 9px 11px; }
+.ac-arch-txt { flex: 1; min-width: 0; }
+.ac-arch-title { font-size: 13px; font-weight: 700; color: var(--slate-700); line-height: 1.35; }
+.ac-arch-why { font-size: 11.5px; color: var(--slate-500); line-height: 1.4; margin-top: 2px; }
+.ac-arch-meta { font-size: 10.5px; color: var(--slate-400); margin-top: 3px; }
 /* Bouton « + planifier » sur une carte de financement */
 .obs-fin-actionrow { display: flex; justify-content: flex-end; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--slate-200); }
 .fin-added { font-size: 11.5px; font-weight: 700; color: var(--teal-700); }
@@ -6438,19 +6448,62 @@ function pisteAdded(title) {
   const t = (title || '').trim().toLowerCase();
   return PISTE_DESTS.some(d => (state[d.store] || []).some(x => (x.title || '').trim().toLowerCase() === t));
 }
+// ---- Archive des pistes écartées (par agent) : clé stable slug:titre, donc une piste
+// écartée ne revient plus dans « Repéré pour toi », même aux rondes suivantes. ----
+function pisteKey(slug, title) { return (slug || '') + ':' + (title || '').trim().toLowerCase(); }
+function pisteArchive() { return Array.isArray(state.pistesArchive) ? state.pistesArchive : (state.pistesArchive = []); }
+function pisteArchived(slug, title) { const k = pisteKey(slug, title); return pisteArchive().some(a => a.key === k); }
 function agentPistesHtml(slug, r) {
   const all = agentPistes(slug, r);
-  currentAgentPistes = all.filter(p => !pisteAdded(p.title));
-  if (!all.length) return '';
-  if (!currentAgentPistes.length)
-    return `<div class="ac-pistes-done">✓ Tout ce que ${esc(currentAgentName())} a repéré est déjà classé dans tes plans.</div>`;
+  currentAgentPistes = all.filter(p => !pisteAdded(p.title) && !pisteArchived(slug, p.title));
+  const archN = pisteArchive().filter(a => a.slug === slug).length;
+  const archLink = archN ? `<button class="ac-pistes-archlink" onclick="openPistesArchive()">🗑 Écartés · ${archN}</button>` : '';
+  if (!currentAgentPistes.length) {
+    if (!all.length && !archN) return '';
+    return `<div class="ac-pistes-done"><span>✓ Tout ce que ${esc(currentAgentName())} a repéré est déjà classé ou écarté.</span>${archLink}</div>`;
+  }
   return `<div class="ac-pistes">
-    <div class="ac-pistes-head"><span class="ac-pistes-title">💡 Repéré pour toi</span><span class="ac-pistes-hint">à classer dans un plan et dater, d'un clic</span></div>
+    <div class="ac-pistes-head"><span class="ac-pistes-title">💡 Repéré pour toi</span><span class="ac-pistes-hint">à classer dans un plan, ou à écarter</span>${archLink}</div>
     ${currentAgentPistes.map((p, i) => `<div class="ac-piste">
       <div class="ac-piste-txt"><div class="ac-piste-title">${esc(p.title)}</div>${p.why ? `<div class="ac-piste-why">${esc(p.why.slice(0, 160))}${p.why.length > 160 ? '…' : ''}</div>` : ''}</div>
       <button class="cap-task-btn" onclick="addPisteToRoadmap(event, ${i})">+ planifier</button>
+      <button class="ac-piste-x" onclick="dismissPiste(event, ${i})" title="Écarter — archiver sans planifier">✕</button>
     </div>`).join('')}
   </div>`;
+}
+// Écarter une piste → elle part dans l'archive (retrouvable via « Écartés »)
+function dismissPiste(ev, i) {
+  if (ev) ev.stopPropagation();
+  const p = currentAgentPistes[i]; if (!p) return;
+  const slug = currentAgentSlug;
+  const key = pisteKey(slug, p.title);
+  const arch = pisteArchive();
+  if (!arch.some(a => a.key === key))
+    arch.push({ id: uid(), key, slug, title: p.title, why: p.why || '', by: PISTE_BY[slug] || currentAgentName(), at: new Date().toISOString().slice(0, 10) });
+  save(); render();
+  vivierToast('✕ Écarté · retrouvable dans « Écartés »');
+}
+// Réactiver une piste écartée → elle reviendra dans « Repéré pour toi »
+function restorePiste(id) {
+  state.pistesArchive = pisteArchive().filter(a => a.id !== id);
+  save(); render(); openPistesArchive();
+}
+// Modale : consulter tout ce qui a été écarté pour l'agent courant
+function openPistesArchive() {
+  const slug = currentAgentSlug;
+  const arch = pisteArchive().filter(a => a.slug === slug).slice().reverse();
+  const m = document.getElementById('modal'); m.classList.remove('qc-mode', 'modal-wide');
+  m.innerHTML = `
+    <h2>Écartés — ${esc(currentAgentName())}</h2>
+    <p style="font-size:13px;color:var(--slate-600);line-height:1.55;margin-bottom:14px">Les trouvailles que tu as écartées. Elles ne reviennent plus dans « Repéré pour toi », même aux prochaines rondes. Réactive-en une à tout moment.</p>
+    ${arch.length ? `<div class="ac-arch-list">${arch.map(a => `<div class="ac-arch-row">
+      <div class="ac-arch-txt"><div class="ac-arch-title">${esc(a.title)}</div>${a.why ? `<div class="ac-arch-why">${esc(a.why.slice(0, 140))}${a.why.length > 140 ? '…' : ''}</div>` : ''}<div class="ac-arch-meta">Écarté le ${esc(a.at || '')}</div></div>
+      <button class="suivi-btn suivi-btn-ghost" onclick="restorePiste('${a.id}')">Réactiver</button>
+    </div>`).join('')}</div>` : `<div class="ac-pistes-done">Rien d'écarté pour l'instant.</div>`}
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Fermer</button>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
 }
 // Clic sur une piste → on choisit la DESTINATION (plan) + le MOIS
 let pendingPiste = null;
