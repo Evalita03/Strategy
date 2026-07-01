@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-06-28T17:55:59.097Z",
+  "exportedAt": "2026-07-01T08:53:12.577Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7255,6 +7255,39 @@
         "type": "chantier",
         "fromDate": "2026-06-28",
         "agent": "victor",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mr1u8npnv7j56",
+        "key": "outiller la « déclaration + preuve » des engagements france santé",
+        "titre": "Outiller la « déclaration + preuve » des engagements France Santé",
+        "type": "coup",
+        "fromDate": "2026-06-29",
+        "agent": "orion",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mr1u8npnsbseo",
+        "key": "préparer la riposte « confiance » face à maiia et interstis",
+        "titre": "Préparer la riposte « confiance » face à Maiia et Interstis",
+        "type": "coup",
+        "fromDate": "2026-06-29",
+        "agent": "orion",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mr1u8npn6gh9h",
+        "key": "cibler les cpts nommées du 64 avant la rentrée",
+        "titre": "Cibler les CPTS nommées du 64 avant la rentrée",
+        "type": "coup",
+        "fromDate": "2026-06-29",
+        "agent": "orion",
         "enTache": false,
         "enRoadmap": false,
         "etat": "active"
