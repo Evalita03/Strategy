@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-07-01T09:13:11.655Z",
+  "exportedAt": "2026-07-01T09:15:30.545Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7613,6 +7613,24 @@
         "status": "planned",
         "body": "Un exemple concret vaut mille arguments.",
         "month": "2026-10"
+      },
+      {
+        "id": "mr1v11rjrv6o0",
+        "theme": "Veille concurrentielle",
+        "title": "Surveiller Maiia (Cegedim Santé)",
+        "status": "planned",
+        "body": "Repéré par Mako (concurrence).\n\nSuite de services CPTS du groupe Cegedim : agenda partagé (Maiia Agenda, référencé SAS/Ségur SAS), messagerie sécurisée + annuaire RPPS (Maiia Connect), téléconsultation, canaux de prévention, adossés aux logiciels de cabinet Cegedim (Crossway, RM Soft)\n\nSe démarquer : Même parade que pour Doctolib : ouverture multi-éditeurs et indépendance vis-à-vis d'un grand groupe, plus un pilotage CPTS/ACI pensé pour la coordinatrice. Maiia outille les agendas et la messagerie ; toi, le pilotage de la communauté.",
+        "source": "Mako (concurrence)",
+        "month": "2026-07"
+      },
+      {
+        "id": "mr1v16di5j5r5",
+        "theme": "Veille concurrentielle",
+        "title": "Surveiller Interstis",
+        "status": "planned",
+        "body": "Repéré par Mako (concurrence).\n\nPlateforme collaborative française (100 % FR) ciblant les CPTS : messagerie, agenda partagé, gestion de projet, suite bureautique co-éditée, GED, visioconférence, sur environnement référencé SecNumCloud\n\nSe démarquer : Démarque-toi par un produit CPTS guidé et de bout en bout (pilotage, vie de communauté, remontée ACI exploitable) là où Interstis reste un espace collaboratif à configurer. Surveille leur argument SecNumCloud : c'est leur vraie force de vente.",
+        "source": "Mako (concurrence)",
+        "month": "2026-07"
       }
     ],
     "marchePlanSeeded": true,
