@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-07-01T09:23:12.482Z",
+  "exportedAt": "2026-07-01T09:30:46.357Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -6123,6 +6123,13 @@
         "month": "2026-07",
         "status": "planned",
         "body": "Terminer les deux derniers volets du contrat ACI : le suivi des indicateurs et le dialogue de gestion. Une fois ces modules prêts, ouvrir un tableau de bord en lecture seule aux membres du bureau, du conseil d'administration et de la gouvernance, et permettre à certains habilités d'agir sur le dialogue de gestion."
+      },
+      {
+        "id": "mr1vk0ladmpi8",
+        "title": "Rendre la démo publique envoyable sans accompagnement (reset entre visiteurs + domaine cohérent)",
+        "month": "2026-07",
+        "status": "planned",
+        "body": "Repéré par Magnus (Chef Produit).\n\nInchangé depuis le 17/06 parce que non traité : tu as construit beaucoup (Coordination, audit) mais pas fermé les deux trous qui séparent « je te fais une démo » de « va voir sur cpts-pilot.fr/demo ». 1) Le reset à l'entrée est désactivé depuis le 06/06 (demo/routes.py:479) : ton verrou exclusif évite le télescopage en direct, mais un visiteur qui revient retombe sur un sandbox pollué. 2) Le domaine est faux dans le JSON-LD et les emails (cptspilot.fr sans tiret) : SEO envoyé sur le mauvais domaine et contact@ peut-être mort. Deux petits fix à fort effet, seuls devant toi avant de laisser Carla prospecter avec un lien qui tient tout seul."
       }
     ],
     "strategiePillars": {
@@ -6992,7 +6999,7 @@
         "fromDate": "2026-06-17",
         "agent": "chef-produit",
         "enTache": false,
-        "enRoadmap": false,
+        "enRoadmap": true,
         "etat": "active"
       },
       {
@@ -7284,6 +7291,61 @@
         "enTache": false,
         "enRoadmap": false,
         "etat": "active"
+      },
+      {
+        "id": "mr1vjoek3s5ey",
+        "key": "reset démo (roadmap planned juillet) : à fiabiliser avant d'envoyer le lien — vider dans le bon ordre de dépendances (le",
+        "titre": "Reset démo (roadmap planned juillet) : à fiabiliser avant d'envoyer le lien — vider dans le bon ordre de dépendances (les FK/500 qui avaient calé le 06/06) ou recharger un dump de seed. Le verrou exclusif ne le remplace pas.",
+        "type": "anticiper",
+        "fromDate": "2026-07-01",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mr1vjoekrmq5z",
+        "key": "domaine cptspilot.fr vs cpts-pilot.fr (home.html:29, _tarifs.html:24, _migration_drawer.html:44) : fix de 10 min, mais r",
+        "titre": "Domaine cptspilot.fr vs cpts-pilot.fr (home.html:29, _tarifs.html:24, _migration_drawer.html:44) : fix de 10 min, mais risque image/SEO/email réel — à faire avant toute diffusion du lien.",
+        "type": "anticiper",
+        "fromDate": "2026-07-01",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mr1vjoekp3n01",
+        "key": "vrai prochain gros chantier produit derrière les finitions démo : trancher l'hébergement (jalon « décider comment chaque",
+        "titre": "Vrai prochain gros chantier produit derrière les finitions démo : trancher l'hébergement (jalon « Décider comment chaque CPTS est hébergée : espace partagé ou espace dédié », planned juillet). Décision structurante qui commande la « Mise en service d'une nouvelle CPTS cliente » — à arbitrer avant d'engager une 2e CPTS.",
+        "type": "anticiper",
+        "fromDate": "2026-07-01",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mr1vjoeksx4zz",
+        "key": "le module d'audit/smoke-test est un atout : fais-le tourner (python -m audit.run_audit) avant chaque diffusion démo — il",
+        "titre": "Le module d'audit/smoke-test est un atout : fais-le tourner (python -m audit.run_audit) avant chaque diffusion démo — il remonte 500/RBAC/flux argent et alimente smoketest.json dans le cockpit.",
+        "type": "anticiper",
+        "fromDate": "2026-07-01",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mr1vjoek1hl0p",
+        "key": "session_status.md toujours figé au 16/02 (4,5 mois) alors que le code a beaucoup bougé (coordination, audit) : à rafraîc",
+        "titre": "SESSION_STATUS.md toujours figé au 16/02 (4,5 mois) alors que le code a beaucoup bougé (Coordination, audit) : à rafraîchir avant le multi-CPTS pour ne pas repartir d'une fausse photo.",
+        "type": "anticiper",
+        "fromDate": "2026-07-01",
+        "agent": "chef-produit",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
       }
     ],
     "agentChats": {
@@ -7465,7 +7527,7 @@
     },
     "lastSeenReport": {
       "orion": "2026-06-29",
-      "chef-produit": "2026-06-21",
+      "chef-produit": "2026-07-01",
       "victor": "2026-06-28",
       "smoke": "2026-06-27",
       "carla": "2026-06-27"
