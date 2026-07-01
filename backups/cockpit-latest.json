@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-07-01T09:50:00.571Z",
+  "exportedAt": "2026-07-01T09:52:03.556Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -5988,7 +5988,7 @@
         "id": "mr1uif5204pp9",
         "title": "Tableau de bord Actions lancées/pas lancées/ en cours/ prévues",
         "month": null,
-        "status": "planned",
+        "status": "done",
         "body": ""
       },
       {
@@ -6111,6 +6111,13 @@
         "body": "Réalisé hors roadmap — acté d'après la ronde de Magnus.\n\nVrai outil livré le 27/06 sans aucun jalon : audit/ — harness instance jetable (harness.py), balayage routes×rôles 500+RBAC (routes_sweep.py, rbac_matrix.py), oracle flux argent Playwright (money_flow.py), orchestrateur run_audit.py -> smoketest.json + suite de tests. Documenté dans CLAUDE.md. À poser sur le fil pour rendre ce chantier visible dans ton pilotage."
       },
       {
+        "id": "mr1wc4dzyxoc6",
+        "title": "Verrou d'accès exclusif à la démo (1 visiteur à la fois)",
+        "month": "2026-06",
+        "status": "done",
+        "body": "Réalisé hors roadmap — acté d'après la ronde de Magnus.\n\nGarde-fou démo réel toujours sans jalon (proposé le 21/06, non encore acté) : models/demo.py DemoState.try_acquire_lock/lock_status + page templates/demo/occupied.html. À poser sur le fil."
+      },
+      {
         "id": "mr1uif52trv2i",
         "title": "Integration aux sites web existants des CPTS",
         "month": "2026-08",
@@ -6137,6 +6144,13 @@
         "month": "2026-07",
         "status": "planned",
         "body": "Repéré par Magnus (Chef Produit).\n\nInchangé depuis le 17/06 parce que non traité : tu as construit beaucoup (Coordination, audit) mais pas fermé les deux trous qui séparent « je te fais une démo » de « va voir sur cpts-pilot.fr/demo ». 1) Le reset à l'entrée est désactivé depuis le 06/06 (demo/routes.py:479) : ton verrou exclusif évite le télescopage en direct, mais un visiteur qui revient retombe sur un sandbox pollué. 2) Le domaine est faux dans le JSON-LD et les emails (cptspilot.fr sans tiret) : SEO envoyé sur le mauvais domaine et contact@ peut-être mort. Deux petits fix à fort effet, seuls devant toi avant de laisser Carla prospecter avec un lien qui tient tout seul."
+      },
+      {
+        "id": "mr1wc2h8fanc8",
+        "title": "Corriger l'incohérence de domaine (cptspilot.fr -> cpts-pilot.fr)",
+        "month": "2026-07",
+        "status": "planned",
+        "body": "Proposé par Magnus.\n\nLe site officiel est cpts-pilot.fr (app.py) mais le JSON-LD (home.html:29) et les emails de contact (_tarifs.html:24, _migration_drawer.html:44) disent cptspilot.fr : SEO faussé, contact@ peut-être inexistant. Petit fix, gros risque d'image — non traité depuis le 17/06."
       }
     ],
     "strategiePillars": {
@@ -7541,7 +7555,10 @@
     },
     "handledPropositions": {
       "décaler|Démo : remise à zéro entre chaque visiteur": "applied",
-      "acter|Module d'audit / smoke-test de la plateforme": "applied"
+      "acter|Module d'audit / smoke-test de la plateforme": "applied",
+      "ajouter|Corriger l'incohérence de domaine (cptspilot.fr -> cpts-pilot.fr)": "applied",
+      "acter|Verrou d'accès exclusif à la démo (1 visiteur à la fois)": "applied",
+      "clore|Tableau de bord Actions lancées/pas lancées/ en cours/ prévues": "applied"
     },
     "decisions": [],
     "beta": {
@@ -7819,6 +7836,51 @@
         "title": "Surveiller La solution « maison » (Excel / Drive / WhatsApp)",
         "why": "Ton vrai concurrent quotidien. Argument décisif : l'ACI impose une remontée de données exploitables — Excel ne la sécurise pas, CPTS Pilot oui. Le logiciel se finance par l'enveloppe ACI : le « gratuit » coûte en fait le versement.",
         "by": "Mako (concurrence)",
+        "at": "2026-07-01"
+      },
+      {
+        "id": "mr1wc983bowm9",
+        "key": "chef-produit:reset démo (roadmap planned juillet) : à fiabiliser avant d'envoyer le lien — vider dans le bon ordre de dépendances (les fk/500 qui avaient calé le 06/06) ou recharger un dump de seed. le verrou exclusif ne le remplace pas.",
+        "slug": "chef-produit",
+        "title": "Reset démo (roadmap planned juillet) : à fiabiliser avant d'envoyer le lien — vider dans le bon ordre de dépendances (les FK/500 qui avaient calé le 06/06) ou recharger un dump de seed. Le verrou exclusif ne le remplace pas.",
+        "why": "",
+        "by": "Magnus (Chef Produit)",
+        "at": "2026-07-01"
+      },
+      {
+        "id": "mr1wc9onb98pb",
+        "key": "chef-produit:domaine cptspilot.fr vs cpts-pilot.fr (home.html:29, _tarifs.html:24, _migration_drawer.html:44) : fix de 10 min, mais risque image/seo/email réel — à faire avant toute diffusion du lien.",
+        "slug": "chef-produit",
+        "title": "Domaine cptspilot.fr vs cpts-pilot.fr (home.html:29, _tarifs.html:24, _migration_drawer.html:44) : fix de 10 min, mais risque image/SEO/email réel — à faire avant toute diffusion du lien.",
+        "why": "",
+        "by": "Magnus (Chef Produit)",
+        "at": "2026-07-01"
+      },
+      {
+        "id": "mr1wca6k0u4xg",
+        "key": "chef-produit:vrai prochain gros chantier produit derrière les finitions démo : trancher l'hébergement (jalon « décider comment chaque cpts est hébergée : espace partagé ou espace dédié », planned juillet). décision structurante qui commande la « mise en service d'une nouvelle cpts cliente » — à arbitrer avant d'engager une 2e cpts.",
+        "slug": "chef-produit",
+        "title": "Vrai prochain gros chantier produit derrière les finitions démo : trancher l'hébergement (jalon « Décider comment chaque CPTS est hébergée : espace partagé ou espace dédié », planned juillet). Décision structurante qui commande la « Mise en service d'une nouvelle CPTS cliente » — à arbitrer avant d'engager une 2e CPTS.",
+        "why": "",
+        "by": "Magnus (Chef Produit)",
+        "at": "2026-07-01"
+      },
+      {
+        "id": "mr1wcakwso6rc",
+        "key": "chef-produit:le module d'audit/smoke-test est un atout : fais-le tourner (python -m audit.run_audit) avant chaque diffusion démo — il remonte 500/rbac/flux argent et alimente smoketest.json dans le cockpit.",
+        "slug": "chef-produit",
+        "title": "Le module d'audit/smoke-test est un atout : fais-le tourner (python -m audit.run_audit) avant chaque diffusion démo — il remonte 500/RBAC/flux argent et alimente smoketest.json dans le cockpit.",
+        "why": "",
+        "by": "Magnus (Chef Produit)",
+        "at": "2026-07-01"
+      },
+      {
+        "id": "mr1wcazahokbe",
+        "key": "chef-produit:session_status.md toujours figé au 16/02 (4,5 mois) alors que le code a beaucoup bougé (coordination, audit) : à rafraîchir avant le multi-cpts pour ne pas repartir d'une fausse photo.",
+        "slug": "chef-produit",
+        "title": "SESSION_STATUS.md toujours figé au 16/02 (4,5 mois) alors que le code a beaucoup bougé (Coordination, audit) : à rafraîchir avant le multi-CPTS pour ne pas repartir d'une fausse photo.",
+        "why": "",
+        "by": "Magnus (Chef Produit)",
         "at": "2026-07-01"
       }
     ]
