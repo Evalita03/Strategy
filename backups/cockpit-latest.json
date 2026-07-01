@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-07-01T09:48:03.400Z",
+  "exportedAt": "2026-07-01T09:49:03.914Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -6104,6 +6104,13 @@
         "body": "Le pilotage du contrat ACI gagne un véritable outil de plan d'action : pour chaque action, la coordinatrice organise ses étapes en chantiers menés en parallèle, avec responsable, échéance et avancement d'ensemble. Une nouvelle vue repère d'un coup d'œil les actions qui n'ont pas encore de réunion prévue, et chaque action peut recevoir des documents, partagés automatiquement avec le groupe de travail concerné. La navigation est réorganisée en sous-onglets clairs (planification, réunions, enveloppes et budget, indicateurs) et l'onglet Gestion des tâches est épuré."
       },
       {
+        "id": "mr1w8e7yww107",
+        "title": "Module d'audit / smoke-test de la plateforme",
+        "month": "2026-06",
+        "status": "done",
+        "body": "Réalisé hors roadmap — acté d'après la ronde de Magnus.\n\nVrai outil livré le 27/06 sans aucun jalon : audit/ — harness instance jetable (harness.py), balayage routes×rôles 500+RBAC (routes_sweep.py, rbac_matrix.py), oracle flux argent Playwright (money_flow.py), orchestrateur run_audit.py -> smoketest.json + suite de tests. Documenté dans CLAUDE.md. À poser sur le fil pour rendre ce chantier visible dans ton pilotage."
+      },
+      {
         "id": "mr1uif52trv2i",
         "title": "Integration aux sites web existants des CPTS",
         "month": "2026-08",
@@ -7533,7 +7540,8 @@
       "carla": "2026-06-27"
     },
     "handledPropositions": {
-      "décaler|Démo : remise à zéro entre chaque visiteur": "applied"
+      "décaler|Démo : remise à zéro entre chaque visiteur": "applied",
+      "acter|Module d'audit / smoke-test de la plateforme": "applied"
     },
     "decisions": [],
     "beta": {
