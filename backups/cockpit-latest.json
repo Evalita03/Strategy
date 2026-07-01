@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-07-01T09:03:11.644Z",
+  "exportedAt": "2026-07-01T09:07:21.741Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7454,7 +7454,8 @@
           "role": "assistant",
           "content": "C'est une obligation simple — voilà tout ce que tu dois savoir :\n\n---\n\n**C'est quoi ce registre ?**\n\nEn SASU, tu es seule associée. Chaque décision importante que tu prends **\"officiellement\"** doit être écrite et datée dans ce registre. C'est ton équivalent des \"procès-verbaux d'assemblée générale\" dans une société classique.\n\n**Exemples de décisions à y consigner :**\n- Approbation des comptes annuels (obligatoire chaque année)\n- Te verser une rémunération\n- Modifier les statuts\n- Toute décision stratégique formelle\n\n---\n\n**Pourquoi c'est obligatoire**\n\n- Prévu dans **tes statuts** (articles 12 et 14)\n- Obligatoire légalement en SASU\n- Sans registre = risque en cas de contrôle ou litige\n\n---\n\n**Ce que tu fais concrètement**\n\n**Option 1 — Registre papier (la plus simple)**\n- Achète un registre chez un papetier (~5-10€) ou utilise celui du greffe (~25€)\n- Fais le **coter et parapher gratuitement à la mairie de Riupeyrous** (tu te présentes avec le registre, ils numérotent les pages et signent)\n- C'est fait ✔\n\n**Option 2 — Registre électronique**\n- Possible si tes statuts le prévoient expressément\n- À vérifier dans tes statuts — si ce n'est pas prévu, reste sur le papier pour l'instant\n\n---\n\n**Ta première décision à y consigner**\n\nElle est peut-être déjà en retard : **la décision de constitution de la société** ou toute décision prise depuis le 14/05/2026. Demande à ton expert-comptable de te confirmer ce qui doit y figurer rétroactivement.\n\n---\n\n**Ce que tu N'as PAS besoin d'acheter**\n\n- ❌ Registre conseil d'administration → ta SASU n'en a pas\n- ❌ Registre conseil de surveillance → idem\n- ❌ Livre-journal / livre d'inventaire → c'est ton expert-comptable qui les tient\n\n---\n\n**Action concrète**\n> Achète un registre simple + passe à la mairie de Riupeyrous pour le faire coter/parapher. 30 minutes, quasi gratuit. À faire avant ta première décision formelle (approbation des comptes fin 2026 au plus tard)."
         }
-      ]
+      ],
+      "carla": []
     },
     "agentConfig": {
       "orion": {
@@ -7463,7 +7464,7 @@
       }
     },
     "lastSeenReport": {
-      "orion": "2026-06-24",
+      "orion": "2026-06-29",
       "chef-produit": "2026-06-21",
       "victor": "2026-06-28",
       "smoke": "2026-06-27",
