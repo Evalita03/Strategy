@@ -2264,7 +2264,7 @@ function registerReportPrecos(r, agentSlug) {
   if (!r) return;
   const date = r.updated_at || ''; let added = false;
   if (r.prochain_chantier && r.prochain_chantier.titre) { const res = upsertPreco(r.prochain_chantier.titre, 'chantier', date, agentSlug); if (res && res.added) added = true; }
-  if (Array.isArray(r.a_anticiper)) r.a_anticiper.forEach(x => { const res = upsertPreco(String(x), 'anticiper', date, agentSlug); if (res && res.added) added = true; });
+  if (Array.isArray(r.a_anticiper)) r.a_anticiper.forEach(x => { const t = antTitre(x); if (!t) return; const res = upsertPreco(t, 'anticiper', date, agentSlug); if (res && res.added) added = true; });
   // Victor : sa « prochaine démarche » se suit comme une préconisation
   if (r.prochaine_demarche && r.prochaine_demarche.titre) { const res = upsertPreco(r.prochaine_demarche.titre, 'chantier', date, agentSlug); if (res && res.added) added = true; }
   // Orion : ses « coups d'avance » se suivent comme des préconisations
@@ -2337,11 +2337,12 @@ function createJalonFromAnticipe(ev, idx) {
   const r = chefProduitReport;
   const item = r && Array.isArray(r.a_anticiper) ? r.a_anticiper[idx] : null;
   if (!item) return;
-  const titre = String(item).trim();
+  const titre = antTitre(item);
+  if (!titre) return;
   if (roadmapHas(titre)) { if (btn) { btn.textContent = '✓ déjà'; btn.disabled = true; } return; }
   state.roadmap = state.roadmap || [];
   const jid = uid();
-  rmInsertOrdered({ id: jid, title: titre, month: null, status: 'planned', body: 'Anticipé par Magnus (Chef Produit).' });
+  rmInsertOrdered({ id: jid, title: titre, month: null, status: 'planned', body: 'Anticipé par Magnus (Chef Produit).' + (antBody(item) ? '\n\n' + antBody(item) : '') });
   const pr = upsertPreco(titre, 'anticiper', r.updated_at || '', 'chef-produit');
   if (pr && pr.p) { pr.p.enRoadmap = true; pr.p.jalonId = jid; }
   save();
@@ -5567,7 +5568,7 @@ function renderAgentReport(r, hideActions) {
     h += `<div class="agent-report-block"><div class="arb-label">Prochain chantier</div><div class="arb-text"><strong>${esc(pc.titre || '')}</strong>${pc.pourquoi ? ' — ' + esc(pc.pourquoi) : ''}</div>${btns}</div>`;
   }
   if (Array.isArray(r.a_anticiper) && r.a_anticiper.length)
-    h += `<div class="agent-report-block"><div class="arb-label">À anticiper</div><ul class="arb-list">${r.a_anticiper.map((x, i) => `<li>${esc(x)}${hideActions ? '' : ` <button class="jalon-mini" onclick="createJalonFromAnticipe(event, ${i})">+ roadmap</button>`}</li>`).join('')}</ul></div>`;
+    h += `<div class="agent-report-block"><div class="arb-label">À anticiper</div><ul class="arb-list">${r.a_anticiper.map((x, i) => `<li${antBody(x) ? ` title="${esc(antBody(x))}"` : ''}>${esc(antTitre(x))}${hideActions ? '' : ` <button class="jalon-mini" onclick="createJalonFromAnticipe(event, ${i})">+ roadmap</button>`}</li>`).join('')}</ul></div>`;
   h += renderRelais(r);
   h += renderPropositions(r);
   if (r.note) h += `<div class="agent-report-note">${esc(r.note)}</div>`;
@@ -6398,7 +6399,7 @@ function renderAgentTabBody() {
   else if (agentTab === 'board') box.innerHTML = agentPistesHtml('mako', latest) + renderMakoBoard(latest);
   else if (agentTab === 'financements') box.innerHTML = renderObsFinancements(latest);
   else if (agentTab === 'local') box.innerHTML = renderObsLocal(latest);
-  else if (agentTab === 'checklist') box.innerHTML = renderVictorChecklist(latest);
+  else if (agentTab === 'checklist') box.innerHTML = renderVictorChecklist([...reps].reverse().find(x => x && Array.isArray(x.checklist) && x.checklist.length) || latest);
   else if (agentTab === 'dossier') box.innerHTML = renderVictorDossier();
   else if (agentTab === 'journal') box.innerHTML = (currentAgentSlug === 'orion') ? renderObsJournal(reps) : renderAgentTabJournal(reps);
   else if (agentTab === 'fiche') box.innerHTML = renderAgentTabFiche(f);
@@ -6421,11 +6422,34 @@ let currentAgentPistes = [];
 function finPisteBody(x) {
   return [x.organisme ? 'Organisme : ' + x.organisme : '', x.montant ? 'Montant : ' + x.montant : '', x.echeance ? 'Échéance : ' + x.echeance : '', x.detail, x.lecture ? 'Pour toi : ' + x.lecture : '', x.source ? 'Source : ' + x.source : ''].filter(Boolean).join('\n\n');
 }
+// --- Intitulés courts « flash » : un item = un groupement de mots lisible d'un coup d'œil,
+// le détail bascule dans la description (visible au clic). Filet de sécurité si un agent
+// émet malgré tout une phrase longue : on raccourcit l'affiché et on garde le texte complet. ---
+function antTitre(x) { return (typeof x === 'string' ? x : (x && x.titre) || '').trim(); }
+function antBody(x)  { return typeof x === 'string' ? '' : ((x && x.pourquoi) || ''); }
+function pisteShort(t) {
+  t = (t || '').trim();
+  if (t.length <= 48) return t;
+  // couper au premier séparateur naturel s'il tombe bien (une « tête » de phrase parlante)
+  const m = t.match(/^(.{6,48}?)\s*[\(:—–,]/);
+  if (m && m[1].trim().length >= 12) return m[1].trim();
+  // sinon, rogner aux mots
+  const cut = t.slice(0, 46);
+  return cut.slice(0, cut.lastIndexOf(' ') > 20 ? cut.lastIndexOf(' ') : 46).trim() + '…';
+}
 function agentPistes(slug, r) {
   if (!r) return [];
   const out = [];
   // push(titre, pourquoi, corps, type, destinationParDéfaut, thèmeParDéfaut)
-  const push = (title, why, body, type, dest, theme) => { const t = (title || '').trim(); if (t) out.push({ title: t, why: why || '', body: body || '', type: type || 'piste', dest: dest || 'roadmap', theme: theme || '' }); };
+  // Si le titre est trop long, on le raccourcit pour l'affichage/la roadmap et on préserve
+  // le libellé complet en tête de la description (rien n'est perdu, tout est lisible au clic).
+  const push = (title, why, body, type, dest, theme) => {
+    const t = (title || '').trim(); if (!t) return;
+    const short = pisteShort(t);
+    let b = body || '';
+    if (short !== t) b = b ? t + '\n\n' + b : t;
+    out.push({ title: short, why: why || '', body: b, type: type || 'piste', dest: dest || 'roadmap', theme: theme || '' });
+  };
   if (slug === 'orion') {
     // Seuls les COUPS D'AVANCE (recommandations synthétisées) entrent ici.
     // Les financements/subventions/AAP NE sont PAS déversés : ils se sélectionnent un par un
@@ -6513,8 +6537,9 @@ function openPistePlanner(p) {
   pendingPiste = p;
   const m = document.getElementById('modal'); m.classList.remove('qc-mode', 'modal-wide');
   m.innerHTML = `
-    <h2>Planifier cette piste</h2>
-    <p style="font-size:13px;color:var(--slate-600);line-height:1.55;margin-bottom:14px">« <b>${esc(p.title)}</b> ». Choisis où la ranger, et sur quel mois.</p>
+    <h2>${esc(p.title)}</h2>
+    ${p.body ? `<div class="rm-detail-body" style="margin:6px 0 16px">${esc(p.body)}</div>` : (p.why ? `<p style="font-size:13px;color:var(--slate-600);line-height:1.55;margin-bottom:14px">${esc(p.why)}</p>` : '')}
+    <p style="font-size:13px;color:var(--slate-600);line-height:1.55;margin-bottom:14px">Choisis où la ranger, et sur quel mois.</p>
     <div class="field"><label>Destination</label>
       <select id="piste-dest">${PISTE_DESTS.map(d => `<option value="${d.key}" ${d.key === p.dest ? 'selected' : ''}>${esc(d.label)}</option>`).join('')}</select></div>
     <div class="field"><label>Mois</label>
