@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-07-01T09:49:03.914Z",
+  "exportedAt": "2026-07-01T09:50:00.571Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7721,6 +7721,106 @@
     "marquePlan": [],
     "marchePlanScheduled": true,
     "victorCheck": {},
-    "pistesArchive": []
+    "pistesArchive": [
+      {
+        "id": "mr1w9k3pd9bmn",
+        "key": "mako:surveiller doctolib (logiciel cpts + doctolib connect)",
+        "slug": "mako",
+        "title": "Surveiller Doctolib (logiciel CPTS + Doctolib Connect)",
+        "why": "Démarque-toi par l'ouverture (multi-éditeurs, MSSanté, pas d'enfermement) et par le pilotage CPTS/ACI pensé pour une coordinatrice — pas pour vendre des agendas. Doctolib outille les pros ; toi tu outilles la communauté et son pilotage.",
+        "by": "Mako (concurrence)",
+        "at": "2026-07-01"
+      },
+      {
+        "id": "mr1w9kirxpfaf",
+        "key": "mako:surveiller ebrigade",
+        "slug": "mako",
+        "title": "Surveiller eBrigade",
+        "why": "Couverture CPTS partielle (gestion membres/planning) ; un outil pensé CPTS de bout en bout (pilotage + ACI + parcours) parle plus à une coordinatrice. À reverifier à la prochaine ronde.",
+        "by": "Mako (concurrence)",
+        "at": "2026-07-01"
+      },
+      {
+        "id": "mr1w9kv5icf24",
+        "key": "mako:surveiller citana (groupe anamnèse)",
+        "slug": "mako",
+        "title": "Surveiller Citana (groupe Anamnèse)",
+        "why": "Ta carte maîtresse : simplicité et rapidité de mise en route. Vise les CPTS petites/moyennes qui veulent démarrer vite, sans projet de déploiement de plusieurs mois.",
+        "by": "Mako (concurrence)",
+        "at": "2026-07-01"
+      },
+      {
+        "id": "mr1w9l81hwkh6",
+        "key": "mako:surveiller coordo",
+        "slug": "mako",
+        "title": "Surveiller Coordo",
+        "why": "Ton concurrent le plus proche. Différencie-toi par ton regard de coordinatrice de terrain et une vision plus large que la seule orientation patient (vie associative, pilotage global, remontée ACI).",
+        "by": "Mako (concurrence)",
+        "at": "2026-07-01"
+      },
+      {
+        "id": "mr1w9ljinrhdj",
+        "key": "mako:surveiller plexus santé",
+        "slug": "mako",
+        "title": "Surveiller Plexus Santé",
+        "why": "Concurrent direct sur ta cible (la coordinatrice) et sur la répartition ACI. À ne pas sous-estimer : prix bas et grosse base installée. Démarque-toi par un produit pensé de bout en bout (pilotage + vie de communauté + remontée ACI exploitable) et par une expérience simple et belle, là où Plexus reste un socle NextCloud à organiser soi-même. Surveille leur hébergement : un vrai socle HDS pour la donnée patient est un terrain où tu peux prendre l'avantage.",
+        "by": "Mako (concurrence)",
+        "at": "2026-07-01"
+      },
+      {
+        "id": "mr1w9luji34vn",
+        "key": "mako:surveiller cpts france",
+        "slug": "mako",
+        "title": "Surveiller CPTS France",
+        "why": "Terrain proche sur le collaboratif ; différencie-toi par le pilotage et la remontée ACI exploitable, et par une expérience simple de coordinatrice.",
+        "by": "Mako (concurrence)",
+        "at": "2026-07-01"
+      },
+      {
+        "id": "mr1w9m8pjmyi1",
+        "key": "mako:surveiller albert (albertsante.fr)",
+        "slug": "mako",
+        "title": "Surveiller Albert (albertsante.fr)",
+        "why": "Plutôt complémentaire — il confirme que la donnée ACI est un attendu de base. Couvre-le simplement chez toi, en l'articulant à l'obligation de remontée de données exploitables.",
+        "by": "Mako (concurrence)",
+        "at": "2026-07-01"
+      },
+      {
+        "id": "mr1w9mp7lk6a1",
+        "key": "mako:surveiller simplymed",
+        "slug": "mako",
+        "title": "Surveiller SimplyMed",
+        "why": "Si tu couvres bien les SNP en plus du reste, tu offres une solution plus complète qu'un outil mono-mission.",
+        "by": "Mako (concurrence)",
+        "at": "2026-07-01"
+      },
+      {
+        "id": "mr1w9n40mlwos",
+        "key": "mako:surveiller medplan",
+        "slug": "mako",
+        "title": "Surveiller Medplan",
+        "why": "Sa polyvalence est aussi un flou : un outil pensé CPTS de bout en bout parle mieux à une coordinatrice CPTS.",
+        "by": "Mako (concurrence)",
+        "at": "2026-07-01"
+      },
+      {
+        "id": "mr1w9nhccy1j5",
+        "key": "mako:surveiller cpts+",
+        "slug": "mako",
+        "title": "Surveiller CPTS+",
+        "why": "Terrain proche du tien sur la « vie associative ». À surveiller : compare fonction par fonction pour rester devant sur la simplicité.",
+        "by": "Mako (concurrence)",
+        "at": "2026-07-01"
+      },
+      {
+        "id": "mr1w9nthhgzpk",
+        "key": "mako:surveiller la solution « maison » (excel / drive / whatsapp)",
+        "slug": "mako",
+        "title": "Surveiller La solution « maison » (Excel / Drive / WhatsApp)",
+        "why": "Ton vrai concurrent quotidien. Argument décisif : l'ACI impose une remontée de données exploitables — Excel ne la sécurise pas, CPTS Pilot oui. Le logiciel se finance par l'enveloppe ACI : le « gratuit » coûte en fait le versement.",
+        "by": "Mako (concurrence)",
+        "at": "2026-07-01"
+      }
+    ]
   }
 }
