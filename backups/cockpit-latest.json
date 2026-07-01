@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-07-01T09:52:03.556Z",
+  "exportedAt": "2026-07-01T09:55:01.350Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -5964,32 +5964,18 @@
         "body": "Chaque membre retrouve dans son espace tout l'historique de ses heures, frais et virements, avec recherche, filtres par période (mois, trimestre, année) et téléchargement en tableur ou PDF, pièces justificatives comprises."
       },
       {
+        "id": "mr1uif5204pp9",
+        "title": "Tableau de bord Actions lancées/pas lancées/ en cours/ prévues",
+        "month": "2026-07",
+        "status": "done",
+        "body": ""
+      },
+      {
         "id": "mr1uif52yzdfj",
-        "title": "Mise en service d'une nouvelle CPTS cliente",
+        "title": "Mise en service d'une instance CPTS pour béta test",
         "month": "2026-07",
         "status": "planned",
         "body": "Outiller la création d'un espace dédié et isolé pour chaque nouvelle CPTS cliente : sa propre base de données, ses fichiers, son adresse. Préparer un tableau de bord interne pour suivre l'ensemble des CPTS abonnées."
-      },
-      {
-        "id": "mr1uif52fqxd9",
-        "title": "Démo : remise à zéro entre chaque visiteur",
-        "month": null,
-        "status": "planned",
-        "body": "Quand plusieurs personnes testent la démo, chacune découvre un espace propre : les saisies du visiteur précédent sont effacées automatiquement avant le suivant. Évite qu'un prospect tombe sur les données laissées par un autre et garantit une première impression toujours nette."
-      },
-      {
-        "id": "mr1uif52ari1e",
-        "title": "Sur chaque onglet, voir combien de tâches attendent d'être traitées",
-        "month": null,
-        "status": "planned",
-        "body": "Afficher le nombre de tâches en attente directement sur l'onglet concerné (Trésorerie, Réunions, Vie associative…), au lieu de tout regrouper sur Mon Espace. Chaque pastille apparaît pour les personnes qui ont accès à cette section, selon les permissions déjà réglées CPTS par CPTS."
-      },
-      {
-        "id": "mr1uif5204pp9",
-        "title": "Tableau de bord Actions lancées/pas lancées/ en cours/ prévues",
-        "month": null,
-        "status": "done",
-        "body": ""
       },
       {
         "id": "mr1uif52pfprq",
@@ -5997,6 +5983,13 @@
         "month": "2026-07",
         "status": "planned",
         "body": "Trancher l'architecture d'hébergement : une seule base partagée par toutes les CPTS, ou un espace dédié (base de données + fichiers) par CPTS. Décision structurante qui pèse sur les coûts, la sécurité des données, la montée en charge et la façon de mettre en service chaque nouvelle CPTS. À arbitrer avant d'engager les premières CPTS clientes."
+      },
+      {
+        "id": "mr1uif52ari1e",
+        "title": "Sur chaque onglet, voir combien de tâches attendent d'être traitées",
+        "month": "2026-08",
+        "status": "planned",
+        "body": "Afficher le nombre de tâches en attente directement sur l'onglet concerné (Trésorerie, Réunions, Vie associative…), au lieu de tout regrouper sur Mon Espace. Chaque pastille apparaît pour les personnes qui ont accès à cette section, selon les permissions déjà réglées CPTS par CPTS."
       },
       {
         "id": "mr1uif52wl1uq",
@@ -7883,6 +7876,7 @@
         "by": "Magnus (Chef Produit)",
         "at": "2026-07-01"
       }
-    ]
+    ],
+    "financementsPlan": []
   }
 }
