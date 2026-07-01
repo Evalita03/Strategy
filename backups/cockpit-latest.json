@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-07-01T09:55:01.350Z",
+  "exportedAt": "2026-07-01T13:45:30.641Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7875,8 +7875,25 @@
         "why": "",
         "by": "Magnus (Chef Produit)",
         "at": "2026-07-01"
+      },
+      {
+        "id": "mr24nk60acomj",
+        "key": "mako:surveiller doctolib",
+        "slug": "mako",
+        "title": "Surveiller Doctolib",
+        "why": "Démarque-toi par l'ouverture (multi-éditeurs, MSSanté, pas d'enfermement) et par le pilotage CPTS/ACI pensé pour une coordinatrice — pas pour vendre des agendas. Doctolib outille les pros ; toi tu outilles la communauté et son pilotage.",
+        "by": "Mako (concurrence)",
+        "at": "2026-07-01"
+      },
+      {
+        "id": "mr24nm0vlb494",
+        "key": "mako:surveiller la solution « maison »",
+        "slug": "mako",
+        "title": "Surveiller La solution « maison »",
+        "why": "Ton vrai concurrent quotidien. Argument décisif : l'ACI impose une remontée de données exploitables — Excel ne la sécurise pas, CPTS Pilot oui. Le logiciel se finance par l'enveloppe ACI : le « gratuit » coûte en fait le versement.",
+        "by": "Mako (concurrence)",
+        "at": "2026-07-01"
       }
-    ],
-    "financementsPlan": []
+    ]
   }
 }
