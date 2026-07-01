@@ -415,6 +415,99 @@
         }
       ],
       "note": "Semaine de rangement plus que de construction — et c'est OK : tu as clos deux jalons que je portais et trié tes idées. Mais les deux finitions démo que je te signale depuis le 17/06 sont toujours là, vérifiées dans le code. Bonne surprise : ton verrou « 1 visiteur à la fois » est un vrai bout de travail qui n'apparaissait nulle part — je te propose de l'acter pour qu'il compte. Prochaine action unique : corrige le domaine (cpts-pilot.fr partout, 3 fichiers, 10 minutes), puis fiabilise le reset démo — et on passe la main à Carla pour la 1re CPTS."
+    },
+    {
+      "updated_at": "2026-07-01",
+      "trigger": "ronde auto",
+      "etat": "Grosse quinzaine de code après un rapport calme le 21/06. Deux chantiers réels ont atterri sur main. (1) 2e vague de la refonte Coordination le 28/06 : nav 2 niveaux (3 tuiles + sous-feuillets), plan d'action en volets parallèles avec avancement global, suivi des réunions par mission/action (+ alerte « sans réunion »), documents de la fiche action (upload/download, visibles côté groupe de travail), onglet Indicateurs dédié, budget/indicateurs devenus sous-feuillets, et une vue d'ensemble « feu » (à lancer / lancées / stand-by). C'est bien tracé : tes jalons « Refonte de l'onglet Coordination (Suivi Contrat ACI) » et « Coordination : plan d'action guidé, suivi des réunions et documents par action » sont déjà en vert. (2) Le 27/06, tu as livré un module d'audit/smoke-test complet (audit/ : harness sur instance jetable, balayage routes×rôles, oracle flux argent Playwright, matrice RBAC, run_audit → smoketest.json + suite de tests) — un vrai outil qui n'a AUCUN jalon. Les deux finitions démo que je pointe depuis le 17/06 restent ouvertes, revérifiées dans le code : reset démo toujours désactivé (demo/routes.py:479, « Reset à l'entrée DÉSACTIVÉ 2026-06-06 ») et domaine incohérent (cptspilot.fr sans tiret sur home.html:29, _tarifs.html:24, _migration_drawer.html:44 alors que l'officiel est cpts-pilot.fr).",
+      "evolution": "Après une semaine calme, deux gros chantiers ont atterri (Coordination 2e vague, bien jalonnée + un module d'audit livré hors roadmap) — mais les 2 finitions démo (reset + domaine) sont toujours là, strictement inchangées.",
+      "prochain_chantier": {
+        "titre": "Rendre la démo publique envoyable sans accompagnement (reset entre visiteurs + domaine cohérent)",
+        "pourquoi": "Inchangé depuis le 17/06 parce que non traité : tu as construit beaucoup (Coordination, audit) mais pas fermé les deux trous qui séparent « je te fais une démo » de « va voir sur cpts-pilot.fr/demo ». 1) Le reset à l'entrée est désactivé depuis le 06/06 (demo/routes.py:479) : ton verrou exclusif évite le télescopage en direct, mais un visiteur qui revient retombe sur un sandbox pollué. 2) Le domaine est faux dans le JSON-LD et les emails (cptspilot.fr sans tiret) : SEO envoyé sur le mauvais domaine et contact@ peut-être mort. Deux petits fix à fort effet, seuls devant toi avant de laisser Carla prospecter avec un lien qui tient tout seul."
+      },
+      "a_anticiper": [
+        "Reset démo (roadmap planned juillet) : à fiabiliser avant d'envoyer le lien — vider dans le bon ordre de dépendances (les FK/500 qui avaient calé le 06/06) ou recharger un dump de seed. Le verrou exclusif ne le remplace pas.",
+        "Domaine cptspilot.fr vs cpts-pilot.fr (home.html:29, _tarifs.html:24, _migration_drawer.html:44) : fix de 10 min, mais risque image/SEO/email réel — à faire avant toute diffusion du lien.",
+        "Vrai prochain gros chantier produit derrière les finitions démo : trancher l'hébergement (jalon « Décider comment chaque CPTS est hébergée : espace partagé ou espace dédié », planned juillet). Décision structurante qui commande la « Mise en service d'une nouvelle CPTS cliente » — à arbitrer avant d'engager une 2e CPTS.",
+        "Le module d'audit/smoke-test est un atout : fais-le tourner (python -m audit.run_audit) avant chaque diffusion démo — il remonte 500/RBAC/flux argent et alimente smoketest.json dans le cockpit.",
+        "SESSION_STATUS.md toujours figé au 16/02 (4,5 mois) alors que le code a beaucoup bougé (Coordination, audit) : à rafraîchir avant le multi-CPTS pour ne pas repartir d'une fausse photo."
+      ],
+      "cap_commercial": {
+        "pret_a_vendre": "Prêt à montrer en live (cpts-pilot.fr, France), à un cheveu de « prêt à envoyer le lien seul ». Rien n'a bougé sur ce front : il manque toujours le reset démo fiabilisé et la cohérence de domaine.",
+        "demo_ready": [
+          "Pilotage Coordination ACI enrichi : nav 2 niveaux, plan d'action en volets, suivi des réunions par action, documents par action, vue d'ensemble « feu » (à lancer/lancées/stand-by)",
+          "Trésorerie complète avec fléchage ACI / fonctionnement (override + rollback, testé)",
+          "Switcher démo « Vu comme » : les vues par rôle en un écran (démo)",
+          "Cockpit « Mon Espace » + bandeau d'accueil à pastilles par rôle",
+          "Validation des déclarations (refus motivé, relances, archivage)",
+          "Vie associative (annonces intégrées) + historique personnel des indemnisations (exports CSV/Excel/PDF/ZIP)",
+          "Vitrine de vente + plateforme en ligne (Scalingo France, S3 OVH)",
+          "Filet qualité interne : module d'audit/smoke-test (routes×rôles + flux argent) mobilisable avant chaque démo"
+        ],
+        "bloqueurs_vente": [
+          "Reset démo désactivé (demo/routes.py:479) : un prospect qui revient peut voir un sandbox pollué — à fiabiliser avant d'envoyer le lien",
+          "Domaine incohérent : JSON-LD + emails pointent cptspilot.fr alors que le site est cpts-pilot.fr (SEO faussé, contact@ possiblement injoignable)",
+          "Sauvegardes DB prod + secrets/HTTPS non confirmés : pas de données d'une vraie CPTS sans filet de restauration vérifié"
+        ],
+        "chemin_critique": [
+          "Corriger l'incohérence de domaine (cptspilot.fr -> cpts-pilot.fr) dans home.html et les mailto",
+          "Fiabiliser le reset démo entre visiteurs",
+          "Boucler sauvegardes DB prod + secrets + HTTPS (avec Audit + DPO)",
+          "Envoyer le lien démo à une 1re CPTS pilote -> obtenir un engagement de test"
+        ]
+      },
+      "propositions_roadmap": [
+        {
+          "action": "acter",
+          "titre": "Module d'audit / smoke-test de la plateforme",
+          "pourquoi": "Vrai outil livré le 27/06 sans aucun jalon : audit/ — harness instance jetable (harness.py), balayage routes×rôles 500+RBAC (routes_sweep.py, rbac_matrix.py), oracle flux argent Playwright (money_flow.py), orchestrateur run_audit.py -> smoketest.json + suite de tests. Documenté dans CLAUDE.md. À poser sur le fil pour rendre ce chantier visible dans ton pilotage.",
+          "mois": "2026-06"
+        },
+        {
+          "action": "clore",
+          "titre": "Tableau de bord Actions lancées/pas lancées/ en cours/ prévues",
+          "pourquoi": "Réalisé et prouvé : templates/coordination/vue_ensemble.html affiche les actions ACI en colonnes « feu » (À lancer / Lancées / Stand-by, avec route PUT /api/coordination/action/<id>/feu) et templates/coordination/suivi_actions.html propose les onglets « Lancées / En préparation ». Livré le 28/06 (commits 646b72b, cc5bbb5)."
+        },
+        {
+          "action": "acter",
+          "titre": "Verrou d'accès exclusif à la démo (1 visiteur à la fois)",
+          "pourquoi": "Garde-fou démo réel toujours sans jalon (proposé le 21/06, non encore acté) : models/demo.py DemoState.try_acquire_lock/lock_status + page templates/demo/occupied.html. À poser sur le fil.",
+          "mois": "2026-06"
+        },
+        {
+          "action": "décaler",
+          "titre": "Démo : remise à zéro entre chaque visiteur",
+          "pourquoi": "À garder en tête de liste : dernier vrai trou produit avant d'envoyer le lien seul. Toujours désactivé (demo/routes.py:479) ; ni le verrou exclusif ni la 2e vague Coordination ne l'ont traité cette quinzaine."
+        },
+        {
+          "action": "ajouter",
+          "titre": "Corriger l'incohérence de domaine (cptspilot.fr -> cpts-pilot.fr)",
+          "pourquoi": "Le site officiel est cpts-pilot.fr (app.py) mais le JSON-LD (home.html:29) et les emails de contact (_tarifs.html:24, _migration_drawer.html:44) disent cptspilot.fr : SEO faussé, contact@ peut-être inexistant. Petit fix, gros risque d'image — non traité depuis le 17/06."
+        }
+      ],
+      "relais": [
+        {
+          "agent": "Iris (Audit)",
+          "sujet": "Un module d'audit/smoke-test interne existe désormais (audit/run_audit -> smoketest.json) : à intégrer à ta boucle avant go-live. Et toujours à confirmer : secrets/variables prod Scalingo, clés S3 OVH, HTTPS cpts-pilot.fr et surtout sauvegardes/restauration PostgreSQL avant d'accueillir une vraie CPTS."
+        },
+        {
+          "agent": "Cléo (DPO)",
+          "sujet": "Hébergement France réel (Scalingo Paris + S3 OVH) : valider localisation des données, registre des traitements et la mention « Made in France » avant toute donnée d'une CPTS réelle et toute promesse publique."
+        },
+        {
+          "agent": "Le Studio (marque)",
+          "sujet": "Trancher l'adresse de contact : contact@cptspilot.fr (sans tiret) figure sur la vitrine alors que le domaine est cpts-pilot.fr — l'email est peut-être mort ; et brief marque du 17/06 (docs/cpts-pilot-brand-brief.md) à exploiter."
+        },
+        {
+          "agent": "Carla (Business)",
+          "sujet": "Produit démo-ready en live, pilotage Coordination ACI très complet à montrer : dès le reset démo et la cohérence domaine réglés, viser une 1re CPTS pilote prête à un engagement de test."
+        }
+      ],
+      "faits": [
+        "Refonte de l'onglet Coordination (Suivi Contrat ACI)",
+        "Coordination : plan d'action guidé, suivi des réunions et documents par action"
+      ],
+      "note": "Belle quinzaine de construction : la Coordination ACI est passée à un vrai pilotage à deux niveaux (volets, suivi réunions, documents, indicateurs) et tu t'es même offert un module d'audit qui va te sécuriser avant chaque démo — je te le propose en « acté » pour qu'il compte. Deux choses seulement, et elles n'ont pas bougé depuis le 17/06 : le reset démo (demo/routes.py:479) et le domaine (cpts-pilot.fr partout, 3 fichiers, 10 min). Prochaine action unique : corrige le domaine, puis fiabilise le reset — et on passe la main à Carla pour la 1re CPTS."
     }
   ]
 }
