@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-07-03T15:02:48.654Z",
+  "exportedAt": "2026-07-03T15:04:01.935Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7522,7 +7522,7 @@
       "orion": "2026-06-29",
       "chef-produit": "2026-07-01",
       "victor": "2026-06-28",
-      "smoke": "2026-06-27",
+      "smoke": "2026-07-03",
       "carla": "2026-06-27"
     },
     "handledPropositions": {
