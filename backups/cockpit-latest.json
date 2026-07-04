@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-07-04T09:42:25.772Z",
+  "exportedAt": "2026-07-04T09:45:34.492Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7527,6 +7527,14 @@
         {
           "role": "assistant",
           "content": "Non, c'est même **le bon moment** — voilà pourquoi :\n\n---\n\n**Pourquoi maintenant c'est bien**\n\n- Ta roadmap indique **\"Mise en service d'une nouvelle CPTS cliente\" en juillet 2026** — c'est dans quelques semaines\n- Tu ne peux pas onboarder un premier client **sans CGV** — tu serais exposée sans filet juridique\n- Rédiger maintenant = tu as le temps de le faire **sans urgence**\n\n---\n\n**Ce que les CGV/CGU doivent couvrir pour toi**\n\n- Objet du service (plateforme SaaS de gestion CPTS)\n- Prix et modalités de paiement\n- Durée et résiliation\n- Responsabilités et limitations\n- Propriété intellectuelle (ton code, tes données)\n- Conditions d'accès et d'utilisation\n- **Volet RGPD/données personnelles → Cléo** ⚠️\n\n---\n\n**Ce que je te conseille**\n\nDeux choses en parallèle :\n\n1. **Avec moi** → on structure le squelette des CGV (objet, prix, responsabilités, résiliation)\n2. **Avec Cléo** → elle complète le volet RGPD, DPA (Data Processing Agreement), mentions légales données de santé\n\n---\n\n**⚠️ Un point important**\n\nTes clients sont des **CPTS** (associations loi 1901 financées par l'Assurance Maladie) — pas des particuliers. Ça change la nature de tes CGV :\n- Ce sont des **contrats B2B** (business to business)\n- Les règles de protection du consommateur ne s'appliquent pas\n- Mais tu dois être très précis sur la **limitation de responsabilité** (tu gères des données sensibles)\n\n---\n\n**Tu veux qu'on commence à structurer le squelette ensemble ?** Je te pose 5 questions et on a une base solide en 15 minutes."
+        },
+        {
+          "role": "user",
+          "content": "J'ai aps encore de CPTS cliente en fait, je suis en béta test là"
+        },
+        {
+          "role": "assistant",
+          "content": "Ah, merci pour la précision — ça change le calendrier mais pas la direction :\n\n---\n\n**Ce que ça veut dire concrètement**\n\n- Pas de client = pas d'urgence immédiate sur les CGV ✔\n- Mais la **beta test** n'est pas sans risque non plus :\n\n> **Qui utilise la plateforme en beta ?**\n- Si c'est **toi seule** → zéro risque juridique, pas besoin de CGV maintenant\n- Si c'est **une ou plusieurs CPTS** qui testent → même gratuitement, tu as besoin d'un minimum de couverture juridique\n\n---\n\n**Pourquoi même une beta \"gratuite\" engage**\n\n- Si une CPTS perd des données pendant le test → elle peut se retourner contre toi\n- Sans contrat = pas de limitation de ta responsabilité\n- Un simple **\"contrat de beta test\"** (1-2 pages) suffit à ce stade — bien plus léger que des CGV complètes\n\n---\n\n**Ma recommandation**\n\n| Situation | Ce qu'il te faut |\n|---|---|\n| Beta solo (toi seule) | Rien pour l'instant |\n| Beta avec une CPTS | Contrat de beta test léger |\n| Premier vrai client | CGV/CGU complètes |\n\n---\n\n**Question directe :** ta beta test implique des utilisateurs réels dans une CPTS, ou c'est encore en interne ?"
         }
       ],
       "carla": []
