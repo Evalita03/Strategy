@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "exportedAt": "2026-07-04T10:02:25.743Z",
-  "origin": "auto-backup",
+  "exportedAt": "2026-07-09T14:30:15.095Z",
+  "origin": "manual-backup",
   "data": {
     "nodes": [
       {
@@ -7347,6 +7347,39 @@
         "type": "chantier",
         "fromDate": "2026-06-28",
         "agent": "victor",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mrdlspwwwt4nb",
+        "key": "candidater au volet 2 ami ars na",
+        "titre": "Candidater au Volet 2 AMI ARS NA",
+        "type": "coup",
+        "fromDate": "2026-07-06",
+        "agent": "orion",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mrdlspwwb6v9q",
+        "key": "preuve des engagements france santé",
+        "titre": "Preuve des engagements France Santé",
+        "type": "coup",
+        "fromDate": "2026-07-06",
+        "agent": "orion",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
+      },
+      {
+        "id": "mrdlspwwfprad",
+        "key": "cibler les cpts du 64",
+        "titre": "Cibler les CPTS du 64",
+        "type": "coup",
+        "fromDate": "2026-07-06",
+        "agent": "orion",
         "enTache": false,
         "enRoadmap": false,
         "etat": "active"
