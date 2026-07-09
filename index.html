@@ -586,6 +586,40 @@ body {
 .mako-vs-t { font-size: 12.5px; color: #7F1D1D; line-height: 1.5; }
 .mako-site-btn { display: inline-block; font-size: 12px; font-weight: 700; color: var(--slate-600); text-decoration: none; margin-top: 2px; }
 .mako-site-btn:hover { color: var(--blue-700); }
+/* Mako — comparatif sur le terrain (matrice + grille par carte) */
+.mako-mx-wrap { margin-top: 16px; background: var(--white); border: 1px solid var(--slate-200); border-radius: 16px; padding: 16px 18px; box-shadow: 0 1px 3px rgba(15,23,42,0.04); }
+.mako-mx-title { font-size: 13.5px; font-weight: 800; color: var(--slate-900); letter-spacing: -0.01em; }
+.mako-mx-sub { font-size: 12px; color: var(--slate-500); line-height: 1.5; margin: 3px 0 12px; }
+.mako-mx-scroll { overflow-x: auto; }
+.mako-mx { border-collapse: separate; border-spacing: 0; width: 100%; }
+.mako-mx th, .mako-mx td { padding: 8px 7px; text-align: center; border-bottom: 1px solid var(--slate-100); }
+.mako-mx-ax { font-size: 10.5px; font-weight: 700; color: var(--slate-500); text-transform: uppercase; letter-spacing: 0.02em; vertical-align: bottom; white-space: nowrap; cursor: help; }
+.mako-mx-name { text-align: left; font-weight: 700; font-size: 12.5px; color: var(--slate-800); white-space: nowrap; position: sticky; left: 0; background: var(--white); padding-right: 16px; }
+.mako-mx-corner { color: var(--slate-400); font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.03em; }
+.mako-mx-self td, .mako-mx-self th { background: var(--blue-50); }
+.mako-mx-self .mako-mx-name { color: var(--blue-700); }
+.mako-mx-you { font-size: 9.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: #fff; background: var(--blue-500); border-radius: 20px; padding: 1px 7px; margin-left: 5px; vertical-align: middle; }
+.mako-mx-cell { font-weight: 800; font-size: 15px; cursor: help; }
+.mako-mx-oui { color: #15803D; }
+.mako-mx-partiel { color: #B45309; }
+.mako-mx-non { color: #DC2626; }
+.mako-mx-na { color: var(--slate-300); }
+.mako-mx-legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px; }
+.mako-mx-lg { font-size: 11px; font-weight: 700; }
+.mako-mx-lg.mako-mx-oui { color: #15803D; }
+.mako-mx-lg.mako-mx-partiel { color: #B45309; }
+.mako-mx-lg.mako-mx-non { color: #DC2626; }
+.mako-mx-lg.mako-mx-na { color: var(--slate-400); }
+.mako-axgrid { display: flex; flex-direction: column; gap: 5px; }
+.mako-ax { display: flex; align-items: baseline; gap: 8px; font-size: 12px; line-height: 1.4; }
+.mako-ax-sym { font-weight: 800; width: 13px; flex-shrink: 0; text-align: center; }
+.mako-ax-oui .mako-ax-sym { color: #15803D; }
+.mako-ax-partiel .mako-ax-sym { color: #B45309; }
+.mako-ax-non .mako-ax-sym { color: #DC2626; }
+.mako-ax-na .mako-ax-sym { color: var(--slate-300); }
+.mako-ax-lbl { color: var(--slate-700); font-weight: 600; white-space: nowrap; }
+.mako-ax-note { color: var(--slate-500); font-weight: 400; }
+.mako-ax-na .mako-ax-lbl { color: var(--slate-400); }
 /* Mot du Chef Produit sur la page d'accueil */
 .today-cap { margin: 0 0 22px; padding: 18px 20px; background: var(--blue-50); border: 1px solid var(--blue-100); border-left: 3px solid var(--blue-500); border-radius: 12px; }
 .today-cap-hidden { display: none; }
@@ -6226,6 +6260,43 @@ function makoColor(name) {
   let s = 0; for (const ch of (name || 'x')) s += ch.charCodeAt(0);
   return palette[s % palette.length];
 }
+// Les 6 axes du comparatif : le terrain d'Eva = la gestion interne d'une CPTS.
+const MAKO_AXES = [
+  { key: 'roles',         label: 'Rôles & gouvernance',      abbr: 'Rôles',        hint: 'Donner à chacun sa place : coordinatrice, trésorier, secrétaire, référents de missions' },
+  { key: 'vie_asso',      label: 'Vie associative',          abbr: 'Vie asso',     hint: 'Adhérents/membres, bureau, AG, réunions, décisions' },
+  { key: 'budget',        label: 'Budget & trésorerie',      abbr: 'Budget',       hint: 'Budget, subventions, dépenses, suivi financier' },
+  { key: 'projet_aci',    label: 'Projet des actions ACI',   abbr: 'Projet ACI',   hint: 'Piloter les actions ACI comme des projets : qui, quoi, quand — pas la simple remontée de chiffres' },
+  { key: 'reporting_aci', label: 'Suivi & reporting ACI',    abbr: 'Reporting ACI',hint: 'Indicateurs, remontée à l’Assurance Maladie — le terrain commun des concurrents' },
+  { key: 'coordination',  label: 'Coordination interne',     abbr: 'Coordination', hint: 'Infos, tâches partagées, agenda de l’équipe CPTS' },
+];
+// CPTS Pilot, c'est son terrain : couvre les 6 axes (ligne de référence du comparatif).
+const MAKO_SELF = { roles: 'oui', vie_asso: 'oui', budget: 'oui', projet_aci: 'oui', reporting_aci: 'oui', coordination: 'oui' };
+function makoNiv(v) {
+  const raw = (v && typeof v === 'object') ? v.niveau : v;
+  const k = String(raw || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').trim();
+  if (['oui', 'complet', 'fort', 'plein', 'total'].includes(k)) return { cls: 'oui', sym: '✓', label: 'Couvre' };
+  if (['partiel', 'partielle', 'moyen', 'limite', 'basique'].includes(k)) return { cls: 'partiel', sym: '~', label: 'Partiel' };
+  if (['non', 'aucun', 'faible', 'nul', 'zero'].includes(k)) return { cls: 'non', sym: '✕', label: 'Ne fait pas' };
+  return { cls: 'na', sym: '–', label: 'Non évalué' };
+}
+function makoNote(v) { return (v && typeof v === 'object' && v.note) ? String(v.note) : ''; }
+function renderMakoMatrix(list) {
+  const withComp = list.filter(c => c && c.comparatif && typeof c.comparatif === 'object');
+  if (!withComp.length) return '';
+  const cell = v => { const n = makoNiv(v); return `<td class="mako-mx-cell mako-mx-${n.cls}" title="${esc(n.label)}">${n.sym}</td>`; };
+  const head = MAKO_AXES.map(a => `<th class="mako-mx-ax" title="${esc(a.hint)}">${esc(a.abbr)}</th>`).join('');
+  const selfRow = `<tr class="mako-mx-self"><th class="mako-mx-name">CPTS Pilot<span class="mako-mx-you">toi</span></th>${MAKO_AXES.map(a => cell(MAKO_SELF[a.key])).join('')}</tr>`;
+  const rows = withComp.map(c => `<tr><th class="mako-mx-name">${esc(c.nom || '')}</th>${MAKO_AXES.map(a => cell(c.comparatif[a.key])).join('')}</tr>`).join('');
+  return `<div class="mako-mx-wrap">
+    <div class="mako-mx-title">⚔️ Comparatif sur ton terrain</div>
+    <div class="mako-mx-sub">La gestion interne d'une CPTS — le seul périmètre qui compte pour toi. Vert = ils le font aussi ; rouge = un terrain que tu peux prendre.</div>
+    <div class="mako-mx-scroll"><table class="mako-mx">
+      <thead><tr><th class="mako-mx-name mako-mx-corner">Sur quel terrain ?</th>${head}</tr></thead>
+      <tbody>${selfRow}${rows}</tbody>
+    </table></div>
+    <div class="mako-mx-legend"><span class="mako-mx-lg mako-mx-oui">✓ Couvre</span><span class="mako-mx-lg mako-mx-partiel">~ Partiel</span><span class="mako-mx-lg mako-mx-non">✕ Ne fait pas</span><span class="mako-mx-lg mako-mx-na">– Non évalué</span></div>
+  </div>`;
+}
 function renderMakoBoard(r) {
   const list = (r && Array.isArray(r.concurrents)) ? r.concurrents : [];
   const fr = reportFreshness(r && r.updated_at);
@@ -6238,6 +6309,7 @@ function renderMakoBoard(r) {
       <div class="agent-report-empty" style="margin-top:14px">Pas encore de fiches concurrents. Lance une ronde d'Orion (onglet Orion → <strong>▶ Faire tourner</strong>) : il remplira ce tableau.</div>
     </div>`;
   }
+  const matrix = renderMakoMatrix(list);
   const cards = list.map(c => {
     const forces = (Array.isArray(c.forces) ? c.forces : []).map(x => `<div class="mako-li">${esc(x)}</div>`).join('');
     const faibl = (Array.isArray(c.faiblesses) ? c.faiblesses : []).map(x => `<div class="mako-li">${esc(x)}</div>`).join('');
@@ -6246,6 +6318,11 @@ function renderMakoBoard(r) {
     const mzKey = String(c.menace || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
     const mzLabel = { directe: 'Menace directe', serieuse: 'Menace sérieuse', indirecte: 'Menace indirecte', emergente: 'Émergente', peripherique: 'Périphérique' }[mzKey];
     const tags = `${mzLabel ? `<span class="mako-menace mako-menace-${mzKey}">${esc(mzLabel)}</span>` : ''}${c.categorie ? `<span class="mako-cat">${esc(c.categorie)}</span>` : ''}`;
+    const comp = (c.comparatif && typeof c.comparatif === 'object') ? c.comparatif : null;
+    const axgrid = comp ? `<div class="mako-block"><div class="mako-block-k">🧭 Sur ton terrain (gestion interne CPTS)</div><div class="mako-axgrid">${MAKO_AXES.map(a => {
+      const n = makoNiv(comp[a.key]), note = makoNote(comp[a.key]);
+      return `<div class="mako-ax mako-ax-${n.cls}"><span class="mako-ax-sym">${n.sym}</span><span class="mako-ax-lbl">${esc(a.label)}</span>${note ? `<span class="mako-ax-note">${esc(note)}</span>` : ''}</div>`;
+    }).join('')}</div></div>` : '';
     return `<div class="mako-card">
       <div class="mako-card-head">
         <div class="mako-avatar" style="background:${makoColor(c.nom)}">${esc(initial)}</div>
@@ -6260,6 +6337,7 @@ function renderMakoBoard(r) {
         ${c.prix ? `<div class="mako-key mako-key-prix"><span class="mako-key-k">💶 Prix</span><span class="mako-key-v">${esc(c.prix)}</span></div>` : ''}
         ${c.cible ? `<div class="mako-key mako-key-cible"><span class="mako-key-k">🎯 Cible</span><span class="mako-key-v">${esc(c.cible)}</span></div>` : ''}
       </div>` : ''}
+      ${axgrid}
       ${(forces || faibl) ? `<div class="mako-fofa">
         ${forces ? `<div class="mako-panel mako-forces"><div class="mako-fofa-k">✓ Forces</div>${forces}</div>` : ''}
         ${faibl ? `<div class="mako-panel mako-faibl"><div class="mako-fofa-k">✕ Faiblesses</div>${faibl}</div>` : ''}
@@ -6270,7 +6348,7 @@ function renderMakoBoard(r) {
       ${c.site ? `<a class="mako-site-btn" href="${esc(c.site)}" target="_blank" rel="noopener">Voir leur site →</a>` : ''}
     </div>`;
   }).join('');
-  return `<div class="observatoire">${intro}<div class="mako-grid">${cards}</div></div>`;
+  return `<div class="observatoire">${intro}${matrix}<div class="mako-grid">${cards}</div></div>`;
 }
 
 // ============ CONSOLE D'AGENT (Espace Magnus) ============

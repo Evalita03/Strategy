@@ -81,7 +81,7 @@ Tu écris **uniquement** le fichier `agents/orion.json`. Tu **ajoutes** un nouve
       ],
       "concurrence_synthese": "vue d'ensemble du marché concurrentiel en 2-3 phrases (en-tête du tableau de Mako).",
       "concurrents": [
-        { "nom": "…", "site": "url", "categorie": "dédié CPTS | plateforme généraliste avec offre CPTS | coordination adjacente | solution maison", "menace": "directe | serieuse | indirecte | emergente | peripherique", "positionnement": "…", "cible": "…", "prix": "… / « sur devis » / « non communiqué »", "forces": ["…"], "faiblesses": ["…"], "actualite": [ { "date": "…", "fait": "…", "source": "url" } ], "strategie": "…", "vs_toi": "comment Eva s'en démarque", "maj": "AAAA-MM-JJ" }
+        { "nom": "…", "site": "url", "categorie": "dédié CPTS | plateforme généraliste avec offre CPTS | coordination adjacente | solution maison", "menace": "directe | serieuse | indirecte | emergente | peripherique", "positionnement": "…", "cible": "…", "prix": "… / « sur devis » / « non communiqué »", "comparatif": { "roles": "oui|partiel|non", "vie_asso": "oui|partiel|non", "budget": "oui|partiel|non", "projet_aci": "oui|partiel|non", "reporting_aci": "oui|partiel|non", "coordination": "oui|partiel|non" }, "forces": ["…"], "faiblesses": ["…"], "actualite": [ { "date": "…", "fait": "…", "source": "url" } ], "strategie": "…", "vs_toi": "comment Eva s'en démarque", "maj": "AAAA-MM-JJ" }
       ],
       "opportunites": [
         { "titre": "…", "detail": "…", "echeance": "…", "lecture": "pour toi : …", "source": "url" }
@@ -93,7 +93,7 @@ Tu écris **uniquement** le fichier `agents/orion.json`. Tu **ajoutes** un nouve
         { "horizon": "6 mois|12 mois|18 mois", "scenario": "…", "confiance": "élevée|moyenne|faible", "implication": "pour toi : …" }
       ],
       "coups_avance": [
-        { "titre": "…", "pourquoi": "…", "action": "ce qu'Eva devrait préparer maintenant" }
+        { "titre": "titre COURT : 3-5 mots max, un groupement de mots (voir règle des intitulés)", "pourquoi": "…", "action": "ce qu'Eva devrait préparer maintenant" }
       ],
       "sources": [
         { "titre": "…", "url": "…", "date": "AAAA-MM-JJ" }
@@ -120,7 +120,19 @@ Tu écris **uniquement** le fichier `agents/orion.json`. Tu **ajoutes** un nouve
 }
 ```
 
+**Règle des intitulés — court et flash.** Tout `titre` de recommandation (un `coups_avance`, et le `titre` d'un `appels_projets`/`subventions`/`opportunites`) doit être un **groupement de mots lisible d'un coup d'œil : 3-5 mots, ~40 caractères max, jamais une phrase**. C'est ce qui atterrit dans « Repéré pour toi » puis dans les **cases de la roadmap** d'Eva — ça doit tenir et se comprendre en un flash. Tout le contexte (le pourquoi, quoi faire, l'échéance, les chiffres) va dans `pourquoi`/`action`/`detail`/`lecture`, **jamais dans le titre**. Exemple : ❌ `"Outiller la « déclaration + preuve » des engagements France Santé"` → ✅ `"titre": "Preuve des engagements France Santé"` + le détail dans `pourquoi`/`action`.
+
 **Tableau concurrentiel (`concurrents`) — pour Mako, l'agent de veille concurrentielle.** À chaque ronde, applique d'abord la **règle de qualification ci-dessus** (les 4 familles, le test fonctionnel, la vérification à la source), puis tiens à jour une **fiche par concurrent**. Couvre les 4 familles, pas seulement les éditeurs dédiés : Citana/Anamnèse, Coordo, Albert, SimplyMed, Medplan, CPTS+, Plexus Santé, CPTS France, inzee.Care… **mais aussi les généralistes avec offre CPTS — Doctolib (+ Doctolib Team/Siilo), Maiia/Cegedim, Keldoc…** Chaque fiche : `nom`, `site`, `categorie` (la famille), `menace` (`directe`/`serieuse`/`indirecte`/`emergente`/`peripherique`), `positionnement`, `cible`, `prix` (chiffré si public, sinon « sur devis »/« non communiqué »), `forces`, `faiblesses`, `actualite` (faits datés + source), `strategie`, et `vs_toi` (**comment Eva s'en démarque**). Mets `maj` à la date du jour pour chaque fiche revue. Vérifie les sites des concurrents (`WebFetch`) et les comparatifs (ex. coordo.fr). Renseigne aussi `concurrence_synthese`. C'est ce bloc qui alimente le tableau de bord de **Mako** dans le cockpit.
+
+**Le `comparatif` — compare uniquement sur LE terrain d'Eva (la gestion interne d'une CPTS).** C'est le champ le plus important de la fiche : il place chaque concurrent face à CPTS Pilot sur **le seul périmètre qui compte pour Eva** — faire tourner l'association CPTS de l'intérieur, pas l'orientation patient. Ne compare pas sur des fonctions hors-sujet (téléconsultation, agenda patient, messagerie de soins…) : reste sur ces **6 axes** et note pour chacun `oui` (le fait vraiment), `partiel` (bricolé / accessoire / via un module tiers) ou `non` (ne le fait pas) — vérifié à la source (`WebFetch`), jamais de mémoire ; dans le doute → `partiel`. Les 6 axes :
+1. **`roles`** — Rôles & gouvernance : donner à chacun sa place (coordinatrice, trésorier, secrétaire, référents de missions).
+2. **`vie_asso`** — Vie associative : adhérents/membres, bureau, AG, réunions, décisions.
+3. **`budget`** — Gestion budgétaire & trésorerie : budget, subventions, dépenses, suivi financier.
+4. **`projet_aci`** — Gestion de **projet** des actions ACI : piloter les actions comme des projets (qui fait quoi, quand, où on en est) — **pas** la simple remontée de chiffres.
+5. **`reporting_aci`** — Suivi & reporting ACI : indicateurs, remontée à l'Assurance Maladie (le terrain commun où tous les concurrents sont forts — c'est un attendu de base, pas un avantage).
+6. **`coordination`** — Coordination interne des membres : infos, tâches partagées, agenda de l'équipe CPTS.
+
+La lecture stratégique qui doit ressortir : les concurrents sont pleins sur `reporting_aci` (et l'orientation patient, hors grille), mais creux sur la vie interne de l'asso (`roles`, `vie_asso`, `budget`, `projet_aci`) — **c'est là qu'Eva gagne**. Fais que `vs_toi` pointe cet écart concret. Si tu n'as pas encore la donnée pour un axe, mets `partiel` et signale-le dans `vs_toi` plutôt que de laisser le champ vide.
 
 **Financements (`financements`)** : surveille spécifiquement les **appels à projets** (compétitifs, datés) et **subventions** (dispositifs ouverts) auxquels **CPTS Pilot, l'entreprise d'Eva** (jeune éditeur de logiciel santé, en Nouvelle-Aquitaine), peut candidater — **national + Nouvelle-Aquitaine/64**. **Balaie systématiquement, à chaque ronde, ces guichets** (pour rater le moins possible) :
 - **National** : Bpifrance — appels à projets & concours (`bpifrance.fr/nos-appels-a-projets-concours`, i-Nov / i-Lab) ; France 2030 et sa stratégie « Santé numérique » ; **G_NIUS — guide des financements e-santé** (`gnius.esante.gouv.fr/fr/financement`) ; les agrégateurs publics **Aides-territoires** (`aides-territoires.beta.gouv.fr`) et **les-aides.fr** ; dispositifs transverses (statut JEI, Crédit d'Impôt Innovation/Recherche).

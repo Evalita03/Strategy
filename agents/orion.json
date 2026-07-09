@@ -198,14 +198,14 @@
    ],
    "opportunites": [
     {
-     "titre": "Abonnement logiciel = dépense éligible à l'ACI",
+     "titre": "Logiciel éligible à l'ACI",
      "detail": "Selon l'ACI, les outils numériques de coordination (annuaires, outils de partage patient) sont des dépenses éligibles ; l'abonnement à un logiciel CPTS entre dans la ligne « acquisition et maintenance des outils de coordination ».",
      "echeance": "permanent",
      "lecture": "pour toi : argument de vente clé → l'abonnement à CPTS Pilot peut être financé par l'enveloppe ACI de la CPTS. À mettre en avant noir sur blanc dans ton discours commercial.",
      "source": "https://www.coordo.fr/ressources/logiciels-cpts/comparatif-logiciels-cpts/"
     },
     {
-     "titre": "Appel à projets ARS Île-de-France (innovations numériques)",
+     "titre": "AAP ARS Île-de-France numérique",
      "detail": "AAP « innovations organisationnelles s'appuyant sur une solution technologique ou numérique » : dépôt avant le 02/06/2026 14h, sélection en octobre 2026. Les CPTS peuvent être porteuses de projet.",
      "echeance": "dépôt clos le 02/06/2026 (édition à resurveiller)",
      "lecture": "pour toi : ce type d'AAP régional finance les CPTS qui s'équipent en numérique → une porte d'entrée pour accompagner tes futures clientes. Surveiller l'équivalent dans TON territoire (à préciser).",
@@ -251,17 +251,17 @@
    ],
    "coups_avance": [
     {
-     "titre": "Rendre le vocabulaire de la plateforme paramétrable (CPTS ↔ Communauté France Santé)",
+     "titre": "Vocabulaire plateforme paramétrable",
      "pourquoi": "La réforme peut renommer les CPTS. Les libellés en dur deviendraient datés du jour au lendemain.",
      "action": "Prévoir des libellés centralisés/paramétrables pour basculer le nom sans refonte, dès que la loi tranche."
     },
     {
-     "titre": "Faire de « financé par l'enveloppe ACI » un argument commercial central",
+     "titre": "Argument « financé par l'ACI »",
      "pourquoi": "L'abonnement logiciel est une dépense ACI éligible : c'est un levier d'achat décisif pour une CPTS.",
      "action": "Préparer une phrase claire et un mini-justificatif (référence ACI) à donner aux CPTS prospectes."
     },
     {
-     "titre": "Cartographier finement les 7 concurrents (fonctions + prix)",
+     "titre": "Cartographier les concurrents",
      "pourquoi": "Le marché est déjà peuplé ; sans carte précise, impossible de positionner CPTS Pilot.",
      "action": "Construire un tableau comparatif interne (acteur, cible, fonctions, prix, point faible) à partir du comparatif Coordo, et le tenir à jour à chaque ronde."
     }
@@ -302,21 +302,21 @@
     "synthese": "Sur ton terrain (64 / Nouvelle-Aquitaine), l'ARS finance activement la structuration des CPTS (recrutement et formation de coordinateurs via le programme PACTE SOIN PRIMAIRE). Un accompagnement à la formation des infirmiers en pratique avancée (IPA) en CPTS clôt le 12/06/2026. Et les municipales de mars 2026 ont renouvelé plusieurs interlocuteurs locaux (Pau, Bayonne, Biarritz).",
     "opportunites": [
      {
-      "titre": "Accompagnement à la formation des IPA en CPTS — Nouvelle-Aquitaine 2026",
+      "titre": "Formation IPA en CPTS (NA)",
       "detail": "Dispositif ARS Nouvelle-Aquitaine d'accompagnement à la formation des infirmiers en pratique avancée au sein des CPTS de la région.",
       "echeance": "dépôt avant le 12/06/2026",
       "lecture": "pour toi : les CPTS du 64 qui montent un volet IPA sont en mouvement — un bon angle de conversation et un signe de CPTS dynamiques (donc clientes potentielles motivées).",
       "source": "https://demarche.numerique.gouv.fr/commencer/accompagnement-a-la-formation-des-infirmiers-eres-en-pratique-avancee-en-cpts-en-nouvelle-aquitaine-2026"
      },
      {
-      "titre": "PACTE SOIN PRIMAIRE — soutien aux CPTS en formation (ARS NA)",
+      "titre": "Pacte Soin Primaire (ARS NA)",
       "detail": "L'ARS Nouvelle-Aquitaine soutient les CPTS en cours de constitution pour recruter un coordinateur et financer sa formation.",
       "echeance": "dispositif courant — à resurveiller",
       "lecture": "pour toi : les CPTS qui recrutent un coordinateur sont exactement ta cible (le coordinateur est ton utilisateur). Repère-les : ce sont des prospects au bon moment.",
       "source": "https://www.nouvelle-aquitaine.ars.sante.fr/communautes-professionnelles-territoriales-de-sante-cpts"
      },
      {
-      "titre": "Tous les appels à projets en cours — ARS Nouvelle-Aquitaine",
+      "titre": "AAP en cours — ARS NA",
       "detail": "Page officielle listant les appels à projets / candidatures / manifestations d'intérêt en cours dans la région.",
       "echeance": "à consulter à chaque ronde",
       "lecture": "pour toi : c'est LE radar à garder ouvert pour ton territoire. Orion la balaiera à chaque ronde.",
@@ -370,7 +370,7 @@
     "synthese": "Pour CPTS Pilot (jeune éditeur de logiciel santé), deux étages de financement : le national via France 2030 / Bpifrance (stratégie Santé numérique), et le régional via la Région Nouvelle-Aquitaine (aides à l'innovation). Plusieurs guichets sont déjà ouverts.",
     "appels_projets": [
      {
-      "titre": "France 2030 — Stratégie d'accélération « Santé numérique »",
+      "titre": "France 2030 — Santé numérique",
       "organisme": "Bpifrance (pour l'État / France 2030)",
       "perimetre": "national",
       "montant": "selon projet",
@@ -381,7 +381,7 @@
       "date": "2026-01-01"
      },
      {
-      "titre": "Projets d'innovation — France 2030 Nouvelle-Aquitaine",
+      "titre": "France 2030 Nouvelle-Aquitaine",
       "organisme": "Région Nouvelle-Aquitaine / Bpifrance",
       "perimetre": "regional",
       "montant": "75 000 € à 500 000 € (50 % max des dépenses)",
@@ -392,7 +392,7 @@
       "date": "2026-01-01"
      },
      {
-      "titre": "Grand Défi « Dispositifs médicaux numériques au service du bien vieillir »",
+      "titre": "Grand Défi DM numériques",
       "organisme": "France 2030 (ministères / Bpifrance)",
       "perimetre": "national",
       "montant": "selon projet",
@@ -405,7 +405,7 @@
     ],
     "subventions": [
      {
-      "titre": "Aide à l'innovation pour les start-up de Nouvelle-Aquitaine",
+      "titre": "Aide innovation start-up NA",
       "organisme": "Région Nouvelle-Aquitaine",
       "perimetre": "regional",
       "montant": "subvention (taux selon dépenses)",
@@ -416,7 +416,7 @@
       "date": "2026-01-01"
      },
      {
-      "titre": "Aide à l'innovation numérique responsable — Nouvelle-Aquitaine",
+      "titre": "Aide numérique responsable NA",
       "organisme": "Région Nouvelle-Aquitaine",
       "perimetre": "regional",
       "montant": "jusqu'à 50 % (60 % pour logiciels libres / communs numériques)",
@@ -782,14 +782,14 @@
    ],
    "opportunites": [
     {
-     "titre": "Ségur du numérique en santé — Vague 2 (financement versé à l'éditeur)",
+     "titre": "Ségur numérique — Vague 2",
      "detail": "La vague 2 du Ségur finance la montée vers des solutions référencées, via le mécanisme SONS (financement versé directement à l'éditeur, pas à la structure). Calendrier 2026 : demandes d'avance jusqu'au 23/09/2026 (hôpital), 10/11/2026 (imagerie), 16/12/2026 (médecine de ville / LGC).",
      "echeance": "avances jusqu'au 16/12/2026 (médecine de ville)",
      "lecture": "pour toi : à explorer prudemment. Les couloirs Ségur visent surtout les logiciels métier (LGC, DPI…), pas directement les outils de coordination CPTS. Mais l'interopérabilité Ségur/MSsanté devient un attendu — aligne-toi sur les standards pour ne pas être hors-jeu, même sans financement direct.",
      "source": "https://esante.gouv.fr/ens/segur-numerique-sante/vague-2"
     },
     {
-     "titre": "Appels à projets de l'Agence du Numérique en Santé (Structures 3.0, Mon espace santé)",
+     "titre": "AAP Agence du Numérique en Santé",
      "detail": "L'ANS porte des AAP récurrents (« Structures 3.0 » pour évaluer des solutions numériques innovantes, « Mon espace santé »). Vagues successives à resurveiller.",
      "echeance": "vagues successives — à resurveiller",
      "lecture": "pour toi : source de légitimité et d'alignement (Mon espace santé, interopérabilité). Garde la page AAP de l'ANS en radar pour candidater quand une vague colle à CPTS Pilot.",
@@ -832,22 +832,22 @@
    ],
    "coups_avance": [
     {
-     "titre": "Faire de la remontée de données ACI exploitable ton argument n°1",
+     "titre": "Remontée ACI = argument n°1",
      "pourquoi": "L'ACI renforce l'obligation de remontée de données exploitables, et les avenants France Santé conditionnent l'argent à des indicateurs de performance. Excel ne sait pas le faire proprement.",
      "action": "Construire (ou mettre en avant) une fonction qui produit, en un clic, les données/indicateurs attendus par la CPAM et l'ARS. En faire le cœur du pitch commercial."
     },
     {
-     "titre": "Préparer les indicateurs « France Santé » avant l'avenant CPTS",
+     "titre": "Indicateurs France Santé en avance",
      "pourquoi": "L'avenant MSP du 04/06/2026 montre le modèle (RDV 48 h, SNP, prévention) qui sera décliné aux CPTS sous ~6 mois.",
      "action": "Lister ces indicateurs et prévoir leur suivi dans la plateforme, pour être prêt le jour où l'avenant CPTS sort."
     },
     {
-     "titre": "Aller aux Journées nationales des CPTS à Bordeaux (4-5/11/2026)",
+     "titre": "Journées nationales CPTS Bordeaux",
      "pourquoi": "L'événement national de référence des CPTS se tient sur ton terrain (Nouvelle-Aquitaine) — rare occasion de rencontrer prospects, fédérations et institutionnels à domicile.",
      "action": "Bloquer les dates, préparer un pitch et une démo, viser les coordinateurs de CPTS du 64 et de la région présents."
     },
     {
-     "titre": "Jouer l'ouverture contre l'enfermement Doctolib",
+     "titre": "Ouverture contre enfermement Doctolib",
      "pourquoi": "Doctolib muscle sa coordination mais n'opère qu'en vase clos (effet réseau Doctolib). C'est sa faille.",
      "action": "Mettre en avant l'interopérabilité (MSSanté, multi-éditeurs) comme promesse : « votre CPTS reste libre, quel que soit le logiciel de chaque pro »."
     }
@@ -898,7 +898,7 @@
     "synthese": "Deux étages confirmés pour CPTS Pilot (jeune éditeur santé en Nouvelle-Aquitaine) : le national via France 2030 / Bpifrance (Santé numérique, concours i-Nov / i-Lab, Pionniers de l'IA) et le régional via la Région Nouvelle-Aquitaine (France 2030 régional, aides à l'innovation). Plusieurs concours nationaux ont des vagues à dates fixes (i-Lab clos le 03/02/2026 — guetter l'édition suivante) ; côté régional, France 2030 NA reste ouvert jusqu'au 30/09/2026.",
     "appels_projets": [
      {
-      "titre": "France 2030 — Stratégie d'accélération « Santé numérique »",
+      "titre": "France 2030 — Santé numérique",
       "organisme": "Bpifrance (pour l'État / France 2030)",
       "perimetre": "national",
       "montant": "selon projet",
@@ -931,7 +931,7 @@
       "date": "2026-06-24"
      },
      {
-      "titre": "Appel à projets « Pionniers de l'intelligence artificielle »",
+      "titre": "AAP Pionniers de l'IA",
       "organisme": "Bpifrance (France 2030)",
       "perimetre": "national",
       "montant": "selon projet",
@@ -942,7 +942,7 @@
       "date": "2026-06-24"
      },
      {
-      "titre": "Projets d'innovation — France 2030 Nouvelle-Aquitaine",
+      "titre": "France 2030 Nouvelle-Aquitaine",
       "organisme": "Région Nouvelle-Aquitaine / Bpifrance",
       "perimetre": "regional",
       "montant": "75 000 € à 500 000 € (50 % max des dépenses)",
@@ -977,7 +977,7 @@
       "date": "2026-06-24"
      },
      {
-      "titre": "Aide à l'innovation pour les start-up de Nouvelle-Aquitaine",
+      "titre": "Aide innovation start-up NA",
       "organisme": "Région Nouvelle-Aquitaine",
       "perimetre": "regional",
       "montant": "subvention (taux selon dépenses)",
@@ -988,7 +988,7 @@
       "date": "2026-06-24"
      },
      {
-      "titre": "Aide à l'innovation numérique responsable — Nouvelle-Aquitaine",
+      "titre": "Aide numérique responsable NA",
       "organisme": "Région Nouvelle-Aquitaine",
       "perimetre": "regional",
       "montant": "jusqu'à 50 % (60 % pour logiciels libres / communs numériques)",
@@ -1043,21 +1043,21 @@
     ],
     "opportunites": [
      {
-      "titre": "Journées nationales des CPTS 2026 — Bordeaux (4-5/11/2026)",
+      "titre": "Journées nationales CPTS 2026",
       "detail": "L'événement national de référence des CPTS se tient au Palais 2 l'Atlantique à Bordeaux les 4 et 5 novembre 2026. Programme détaillé communiqué à partir de mi-juin 2026.",
       "echeance": "4-5/11/2026 (à Bordeaux)",
       "lecture": "pour toi : LE rendez-vous à ne pas manquer, et il est sur ton terrain. Prospects, fédérations (FCPTS) et institutionnels réunis. Bloque les dates et prépare démo + pitch.",
       "source": "https://www.fcpts.org/journees-nationales-cpts/"
      },
      {
-      "titre": "AMI « équité d'accès aux soins » — ARS Nouvelle-Aquitaine (volet santé numérique)",
+      "titre": "AMI équité d'accès aux soins",
       "detail": "Appel à manifestation d'intérêt de l'ARS NA pour l'égal accès aux soins, comportant un volet « soutien au déploiement de solutions de santé numérique dans les territoires » et un volet « organisations collaboratives innovantes ».",
       "echeance": "à confirmer à la source (candidature par mail à l'ARS NA)",
       "lecture": "pour toi : un AMI régional qui finance précisément le déploiement de solutions numériques en territoire — angle direct pour accompagner tes futures CPTS clientes. Vérifie les dates exactes sur la page AAP de l'ARS.",
       "source": "https://www.nouvelle-aquitaine.ars.sante.fr/liste-appels-projet-candidature"
      },
      {
-      "titre": "Radar AAP — ARS Nouvelle-Aquitaine (en cours)",
+      "titre": "Radar AAP — ARS NA",
       "detail": "Parmi les AAP en cours : soutien immobilier MSP (FMIS 2026, clos 31/07/2026), « Un chez-soi d'abord » Dordogne (10/09/2026), divers AAP médico-sociaux. Pas d'AAP strictement CPTS/numérique grand public ouvert à ce jour repéré.",
       "echeance": "FMIS MSP : 31/07/2026 — page à balayer à chaque ronde",
       "lecture": "pour toi : garde cette page ouverte. Le FMIS MSP n'est pas pour toi directement (immobilier), mais signale les territoires qui structurent leur offre — donc des CPTS en mouvement à proximité.",
@@ -1166,7 +1166,15 @@
      ],
      "strategie": "Capter la coordination de territoire par l'effet réseau de sa base de médecins et l'élargissement de Connect (messagerie + téléexpertise)",
      "vs_toi": "Démarque-toi par l'ouverture (multi-éditeurs, MSSanté, pas d'enfermement) et par le pilotage CPTS/ACI pensé pour une coordinatrice — pas pour vendre des agendas. Doctolib outille les pros ; toi tu outilles la communauté et son pilotage.",
-     "maj": "2026-06-24"
+     "maj": "2026-06-24",
+     "comparatif": {
+      "roles": "non",
+      "vie_asso": "non",
+      "budget": "non",
+      "projet_aci": "non",
+      "reporting_aci": "partiel",
+      "coordination": "oui"
+     }
     },
     {
      "nom": "Maiia (Cegedim Santé)",
@@ -1197,7 +1205,15 @@
      ],
      "strategie": "Distribuer l'offre CPTS via l'écosystème Cegedim (logiciels de cabinet, MSSanté) et le référencement SAS/Ségur",
      "vs_toi": "Même parade que pour Doctolib : ouverture multi-éditeurs et indépendance vis-à-vis d'un grand groupe, plus un pilotage CPTS/ACI pensé pour la coordinatrice. Maiia outille les agendas et la messagerie ; toi, le pilotage de la communauté.",
-     "maj": "2026-06-29"
+     "maj": "2026-06-29",
+     "comparatif": {
+      "roles": "non",
+      "vie_asso": "non",
+      "budget": "non",
+      "projet_aci": "non",
+      "reporting_aci": "non",
+      "coordination": "oui"
+     }
     },
     {
      "nom": "Interstis",
@@ -1228,7 +1244,15 @@
      ],
      "strategie": "Capter les CPTS et structures sensibles à la sécurité/souveraineté via le référencement SecNumCloud et une suite collaborative déjà éprouvée",
      "vs_toi": "Démarque-toi par un produit CPTS guidé et de bout en bout (pilotage, vie de communauté, remontée ACI exploitable) là où Interstis reste un espace collaboratif à configurer. Surveille leur argument SecNumCloud : c'est leur vraie force de vente.",
-     "maj": "2026-06-29"
+     "maj": "2026-06-29",
+     "comparatif": {
+      "roles": "partiel",
+      "vie_asso": "partiel",
+      "budget": "non",
+      "projet_aci": "partiel",
+      "reporting_aci": "non",
+      "coordination": "oui"
+     }
     },
     {
      "nom": "eBrigade",
@@ -1255,7 +1279,15 @@
      ],
      "strategie": "Étendre un outil de gestion RH/planning éprouvé vers le marché CPTS",
      "vs_toi": "Couverture CPTS partielle (gestion membres/planning) ; un outil pensé CPTS de bout en bout (pilotage + ACI + parcours) parle plus à une coordinatrice. À reverifier à la prochaine ronde.",
-     "maj": "2026-06-29"
+     "maj": "2026-06-29",
+     "comparatif": {
+      "roles": "oui",
+      "vie_asso": "oui",
+      "budget": "partiel",
+      "projet_aci": "partiel",
+      "reporting_aci": "non",
+      "coordination": "oui"
+     }
     },
     {
      "nom": "Citana (groupe Anamnèse)",
@@ -1285,7 +1317,15 @@
      ],
      "strategie": "Couverture fonctionnelle maximale + distribution via l'écosystème Anamnèse",
      "vs_toi": "Ta carte maîtresse : simplicité et rapidité de mise en route. Vise les CPTS petites/moyennes qui veulent démarrer vite, sans projet de déploiement de plusieurs mois.",
-     "maj": "2026-06-29"
+     "maj": "2026-06-29",
+     "comparatif": {
+      "roles": "partiel",
+      "vie_asso": "partiel",
+      "budget": "partiel",
+      "projet_aci": "oui",
+      "reporting_aci": "oui",
+      "coordination": "oui"
+     }
     },
     {
      "nom": "Coordo",
@@ -1314,7 +1354,15 @@
      ],
      "strategie": "Transparence des prix + contenu (comparatif, guides ACI) pour attirer les CPTS qui comparent",
      "vs_toi": "Ton concurrent le plus proche. Différencie-toi par ton regard de coordinatrice de terrain et une vision plus large que la seule orientation patient (vie associative, pilotage global, remontée ACI).",
-     "maj": "2026-06-29"
+     "maj": "2026-06-29",
+     "comparatif": {
+      "roles": "non",
+      "vie_asso": "non",
+      "budget": "non",
+      "projet_aci": "partiel",
+      "reporting_aci": "oui",
+      "coordination": "partiel"
+     }
     },
     {
      "nom": "Plexus Santé",
@@ -1348,7 +1396,15 @@
      ],
      "strategie": "Prix bas d'entrée pour capter les CPTS dès la constitution, socle documentaire souverain (France/open-source), et distribution par les fédérations et réseaux (FéeCOIA)",
      "vs_toi": "Concurrent direct sur ta cible (la coordinatrice) et sur la répartition ACI. À ne pas sous-estimer : prix bas et grosse base installée. Démarque-toi par un produit pensé de bout en bout (pilotage + vie de communauté + remontée ACI exploitable) et par une expérience simple et belle, là où Plexus reste un socle NextCloud à organiser soi-même. Surveille leur hébergement : un vrai socle HDS pour la donnée patient est un terrain où tu peux prendre l'avantage.",
-     "maj": "2026-06-29"
+     "maj": "2026-06-29",
+     "comparatif": {
+      "roles": "partiel",
+      "vie_asso": "partiel",
+      "budget": "oui",
+      "projet_aci": "oui",
+      "reporting_aci": "oui",
+      "coordination": "oui"
+     }
     },
     {
      "nom": "CPTS France",
@@ -1369,7 +1425,15 @@
      "actualite": [],
      "strategie": "Se positionner comme l'outil collaboratif dédié à la construction du projet de santé CPTS",
      "vs_toi": "Terrain proche sur le collaboratif ; différencie-toi par le pilotage et la remontée ACI exploitable, et par une expérience simple de coordinatrice.",
-     "maj": "2026-06-29"
+     "maj": "2026-06-29",
+     "comparatif": {
+      "roles": "partiel",
+      "vie_asso": "partiel",
+      "budget": "non",
+      "projet_aci": "oui",
+      "reporting_aci": "partiel",
+      "coordination": "oui"
+     }
     },
     {
      "nom": "Albert (albertsante.fr)",
@@ -1389,7 +1453,15 @@
      "actualite": [],
      "strategie": "Devenir l'outil incontournable sur la donnée ACI et le diagnostic de territoire",
      "vs_toi": "Plutôt complémentaire — il confirme que la donnée ACI est un attendu de base. Couvre-le simplement chez toi, en l'articulant à l'obligation de remontée de données exploitables.",
-     "maj": "2026-06-24"
+     "maj": "2026-06-24",
+     "comparatif": {
+      "roles": "non",
+      "vie_asso": "non",
+      "budget": "non",
+      "projet_aci": "partiel",
+      "reporting_aci": "oui",
+      "coordination": "non"
+     }
     },
     {
      "nom": "SimplyMed",
@@ -1409,7 +1481,15 @@
      "actualite": [],
      "strategie": "Se positionner sur la mission « accès aux soins / RDV 48 h », au cœur du financement France Santé",
      "vs_toi": "Si tu couvres bien les SNP en plus du reste, tu offres une solution plus complète qu'un outil mono-mission.",
-     "maj": "2026-06-24"
+     "maj": "2026-06-24",
+     "comparatif": {
+      "roles": "non",
+      "vie_asso": "non",
+      "budget": "non",
+      "projet_aci": "non",
+      "reporting_aci": "non",
+      "coordination": "partiel"
+     }
     },
     {
      "nom": "Medplan",
@@ -1429,7 +1509,15 @@
      "actualite": [],
      "strategie": "Adresser large (MSP + CPTS + associations) avec une plateforme évolutive",
      "vs_toi": "Sa polyvalence est aussi un flou : un outil pensé CPTS de bout en bout parle mieux à une coordinatrice CPTS.",
-     "maj": "2026-06-24"
+     "maj": "2026-06-24",
+     "comparatif": {
+      "roles": "partiel",
+      "vie_asso": "partiel",
+      "budget": "partiel",
+      "projet_aci": "partiel",
+      "reporting_aci": "partiel",
+      "coordination": "oui"
+     }
     },
     {
      "nom": "CPTS+",
@@ -1449,7 +1537,15 @@
      "actualite": [],
      "strategie": "Faciliter l'élargissement et l'animation de la communauté",
      "vs_toi": "Terrain proche du tien sur la « vie associative ». À surveiller : compare fonction par fonction pour rester devant sur la simplicité.",
-     "maj": "2026-06-24"
+     "maj": "2026-06-24",
+     "comparatif": {
+      "roles": "non",
+      "vie_asso": "partiel",
+      "budget": "non",
+      "projet_aci": "non",
+      "reporting_aci": "non",
+      "coordination": "oui"
+     }
     },
     {
      "nom": "La solution « maison » (Excel / Drive / WhatsApp)",
@@ -1473,19 +1569,27 @@
      "actualite": [],
      "strategie": "Inertie : « on a toujours fait comme ça »",
      "vs_toi": "Ton vrai concurrent quotidien. Argument décisif : l'ACI impose une remontée de données exploitables — Excel ne la sécurise pas, CPTS Pilot oui. Le logiciel se finance par l'enveloppe ACI : le « gratuit » coûte en fait le versement.",
-     "maj": "2026-06-24"
+     "maj": "2026-06-24",
+     "comparatif": {
+      "roles": "partiel",
+      "vie_asso": "partiel",
+      "budget": "partiel",
+      "projet_aci": "partiel",
+      "reporting_aci": "partiel",
+      "coordination": "partiel"
+     }
     }
    ],
    "opportunites": [
     {
-     "titre": "Journées nationales des CPTS 2026 — Bordeaux (4-5/11/2026)",
+     "titre": "Journées nationales CPTS 2026",
      "detail": "L'événement national de référence des CPTS se tient à Bordeaux (Palais 2 l'Atlantique) les 4-5 novembre 2026, en Nouvelle-Aquitaine. Programme détaillé diffusé à partir de mi-juin 2026.",
      "echeance": "4-5/11/2026 (Bordeaux)",
      "lecture": "pour toi : rappel prioritaire — l'événement national est sur ton terrain. Bloque les dates, prépare démo + pitch, vise les coordinateurs du 64 et de la région. (Détail aussi dans le bloc local.)",
      "source": "https://www.fcpts.org/journees-nationales-cpts/"
     },
     {
-     "titre": "Indicateurs du pacte déserts médicaux publiés tous les 3 mois en open data départemental",
+     "titre": "Open data déserts médicaux",
      "detail": "Le gouvernement publie 10 indicateurs de suivi du pacte de lutte contre les déserts médicaux tous les 3 mois, en open data, à l'échelle départementale. 151 zones rouges identifiées (2,5 M patients).",
      "echeance": "publication trimestrielle (open data)",
      "lecture": "pour toi : matière gratuite et officielle pour argumenter auprès des CPTS du 64 (état des lieux territorial chiffré) et nourrir ton diagnostic de territoire. Un appui pour ton discours commercial local.",
@@ -1528,17 +1632,17 @@
    ],
    "coups_avance": [
     {
-     "titre": "Outiller la « déclaration + preuve » des engagements France Santé",
+     "titre": "Preuve des engagements France Santé",
      "pourquoi": "Côté MSP, l'adhésion France Santé passe par une déclaration en ligne (demarche.numerique.gouv.fr) et le financement bonifié dépend d'engagements à tenir. Le même mécanisme arrivera aux CPTS.",
      "action": "Concevoir/mettre en avant une fonction qui aide la CPTS à suivre ses engagements (accès aux soins, SNP, prévention) et à produire la preuve attendue. En faire un argument prêt pour le jour de l'avenant CPTS."
     },
     {
-     "titre": "Préparer la riposte « confiance » face à Maiia et Interstis",
+     "titre": "Riposte confiance face à Maiia",
      "pourquoi": "Maiia (Cegedim) confirme une offre CPTS dédiée et Interstis avance l'argument SecNumCloud. La bataille se déplace vers la sécurité/souveraineté et l'ouverture.",
      "action": "Clarifier noir sur blanc ton hébergement (France, idéalement HDS), ta conformité RGPD (→ Cléo) et ton ouverture multi-éditeurs/MSSanté. En faire une page argument et un point de pitch."
     },
     {
-     "titre": "Cibler les CPTS nommées du 64 avant la rentrée",
+     "titre": "Cibler les CPTS du 64",
      "pourquoi": "Tu as désormais des prospects locaux identifiés (CPTS Pau Béarn à Lescar, CPTS Pau Agglo Santé, CPTS des 3 Provinces Basse-Navarre-Soule-Béarn — coordinatrice Jenofa Lamarque) et un grand rendez-vous à domicile (Journées CPTS Bordeaux 4-5/11).",
      "action": "Construire une courte liste de prospects 64 avec contact/coordinatrice et outillage actuel ; préparer une approche avant les Journées de Bordeaux. (À relayer à Carla pour l'exécution commerciale.)"
     }
@@ -1584,7 +1688,7 @@
     "synthese": "Pas de nouveau guichet national majeur en 5 jours, mais une confirmation utile au régional : France 2030 Nouvelle-Aquitaine « Projets d'innovation » est bien ouvert jusqu'au 30/09/2026 (75 K€ à 500 K€, 50 % max) — c'est la cible #1 court terme pour CPTS Pilot. Au national, le radar reste France 2030 / Bpifrance (Santé numérique, i-Nov / i-Lab par vagues) + statut JEI et CII. Côté ARS NA, aucun AAP « santé numérique / CPTS » ouvert à ce jour (FMIS MSP encore ouvert au 31/07/2026, mais c'est de l'immobilier).",
     "appels_projets": [
      {
-      "titre": "Projets d'innovation — France 2030 Nouvelle-Aquitaine",
+      "titre": "France 2030 Nouvelle-Aquitaine",
       "organisme": "Région Nouvelle-Aquitaine / Bpifrance",
       "perimetre": "regional",
       "montant": "75 000 € à 500 000 € (50 % max des dépenses éligibles)",
@@ -1595,7 +1699,7 @@
       "date": "2026-06-29"
      },
      {
-      "titre": "France 2030 — Stratégie d'accélération « Santé numérique »",
+      "titre": "France 2030 — Santé numérique",
       "organisme": "Bpifrance (pour l'État / France 2030)",
       "perimetre": "national",
       "montant": "selon projet",
@@ -1617,7 +1721,7 @@
       "date": "2026-06-29"
      },
      {
-      "titre": "Concours d'innovation i-Lab — prochaine édition",
+      "titre": "Concours i-Lab",
       "organisme": "Bpifrance (France 2030)",
       "perimetre": "national",
       "montant": "jusqu'à ~600 000 € selon catégorie",
@@ -1652,7 +1756,7 @@
       "date": "2026-06-29"
      },
      {
-      "titre": "Aide à l'innovation pour les start-up de Nouvelle-Aquitaine",
+      "titre": "Aide innovation start-up NA",
       "organisme": "Région Nouvelle-Aquitaine",
       "perimetre": "regional",
       "montant": "subvention (taux selon dépenses)",
@@ -1663,7 +1767,7 @@
       "date": "2026-06-29"
      },
      {
-      "titre": "Aide à l'innovation numérique responsable — Nouvelle-Aquitaine",
+      "titre": "Aide numérique responsable NA",
       "organisme": "Région Nouvelle-Aquitaine",
       "perimetre": "regional",
       "montant": "jusqu'à 50 % (60 % pour logiciels libres / communs numériques)",
@@ -1713,14 +1817,14 @@
     ],
     "opportunites": [
      {
-      "titre": "Journées nationales des CPTS 2026 — Bordeaux (4-5/11/2026)",
+      "titre": "Journées nationales CPTS 2026",
       "detail": "L'événement national de référence des CPTS se tient au Palais 2 l'Atlantique à Bordeaux les 4-5 novembre 2026. Programme détaillé à partir de mi-juin 2026.",
       "echeance": "4-5/11/2026 (Bordeaux)",
       "lecture": "pour toi : LE rendez-vous à domicile. Bloque les dates, prépare démo + pitch, vise les coordinateurs du 64 et de la région.",
       "source": "https://www.fcpts.org/journees-nationales-cpts/"
      },
      {
-      "titre": "Radar AAP — ARS Nouvelle-Aquitaine (en cours)",
+      "titre": "Radar AAP — ARS NA",
       "detail": "~19 AAP en cours, majoritairement médico-social. Soutien immobilier MSP (FMIS 2026) encore ouvert au 31/07/2026. Aucun AAP « CPTS / santé numérique » grand public ouvert repéré à cette ronde ; l'AMI « équité d'accès aux soins » n'est plus listé clairement (à reconfirmer à la source).",
       "echeance": "FMIS MSP : 31/07/2026 — page à balayer à chaque ronde",
       "lecture": "pour toi : pas d'AAP directement pour toi cette ronde. Le FMIS MSP (immobilier) n'est pas ta cible mais signale les territoires qui structurent leur offre — donc des CPTS en mouvement à proximité. Garde la page en radar.",
