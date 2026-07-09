@@ -1385,6 +1385,45 @@ tr:hover td { background: var(--blue-50); }
 .beta-block details > summary { list-style: none; }
 .beta-block details > summary::-webkit-details-marker { display: none; }
 .beta-block details > summary .beta-q::after { content: ''; }
+/* Signalements des béta-testeurs (lecture seule, depuis Plateforme-CPTS/betatest.json) */
+.bsig-fresh { font-size: 11.5px; font-weight: 600; color: var(--teal-700); display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+.bsig-desc { font-size: 13px; color: var(--slate-500); line-height: 1.55; margin: -6px 0 14px; }
+.bsig-counts { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.bsig-count { font-size: 12px; font-weight: 600; color: var(--slate-600); background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 20px; padding: 4px 12px; }
+.bsig-count b { font-weight: 800; color: var(--slate-900); margin-right: 3px; }
+.bsig-count.bsig-c-nouveau { background: var(--blue-50); border-color: var(--blue-100); color: var(--blue-700); }
+.bsig-count.bsig-c-nouveau b { color: var(--blue-700); }
+.bsig-count.bsig-c-pris { background: #FEF3C7; border-color: #FDE68A; color: #B45309; }
+.bsig-count.bsig-c-pris b { color: #B45309; }
+.bsig-count.bsig-c-corrige { background: #ECFDF5; border-color: #A7F3D0; color: #15803D; }
+.bsig-count.bsig-c-corrige b { color: #15803D; }
+.bsig-count.bsig-c-ecarte { background: var(--slate-100); border-color: var(--slate-200); color: var(--slate-500); }
+.bsig-engage { font-size: 13px; color: #92400E; background: #FFFBEB; border: 1px solid #FDE68A; border-left: 3px solid var(--orange-600); border-radius: 10px; padding: 11px 14px; margin-bottom: 16px; line-height: 1.5; }
+.bsig-engage strong { font-weight: 800; }
+.bsig-engage-sub { color: #B45309; }
+.bsig-engage.bsig-engage-ok { color: #15803D; background: #ECFDF5; border-color: #A7F3D0; border-left-color: #15803D; }
+.bsig-list { display: flex; flex-direction: column; gap: 10px; }
+.bsig-item { border: 1px solid var(--slate-200); border-radius: 12px; padding: 13px 15px; background: var(--white); }
+.bsig-item.bsig-todo { border-color: #FCD34D; border-left: 3px solid var(--orange-600); background: #FFFDF7; }
+.bsig-item-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+.bsig-badge { font-size: 11px; font-weight: 700; border-radius: 20px; padding: 2px 9px; white-space: nowrap; }
+.bsig-type-bug { background: #FEF2F2; color: #B91C1C; }
+.bsig-type-incoherence { background: #FEF3C7; color: #B45309; }
+.bsig-type-suggestion { background: var(--blue-50); color: var(--blue-700); }
+.bsig-badge.bsig-st-nouveau { background: var(--blue-100); color: var(--blue-700); }
+.bsig-badge.bsig-st-pris { background: #FDE68A; color: #92400E; }
+.bsig-badge.bsig-st-corrige { background: #A7F3D0; color: #15803D; }
+.bsig-badge.bsig-st-ecarte { background: var(--slate-200); color: var(--slate-600); }
+.bsig-unread { font-size: 10.5px; font-weight: 700; color: var(--blue-700); }
+.bsig-date { margin-left: auto; font-size: 11.5px; color: var(--slate-400); white-space: nowrap; }
+.bsig-msg { font-size: 13.5px; color: var(--slate-800); line-height: 1.55; }
+.bsig-meta { font-size: 12px; color: var(--slate-500); margin-top: 7px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.bsig-role { font-weight: 700; color: var(--slate-600); }
+.bsig-page { color: var(--blue-700); text-decoration: none; font-weight: 600; }
+.bsig-page:hover { text-decoration: underline; }
+.bsig-rep { font-size: 12.5px; color: var(--slate-600); line-height: 1.5; margin-top: 10px; background: var(--slate-50); border-radius: 9px; padding: 9px 12px; }
+.bsig-rep-k { display: block; font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: var(--teal-700); margin-bottom: 3px; }
+.bsig-rep.bsig-rep-empty { color: #B45309; background: #FFFBEB; border: 1px dashed #FDE68A; font-weight: 600; }
 
 /* Modal */
 .modal-overlay {
@@ -7714,28 +7753,129 @@ function betaReconcile() {
   });
 }
 
+// ---- Signalements des béta-testeurs (données live de la plateforme, lecture seule) ----
+const BSIG_TYPE = {
+  bug:         { label: 'Bug',         ico: '🐞', cls: 'bug' },
+  incoherence: { label: 'Incohérence', ico: '🔀', cls: 'incoherence' },
+  suggestion:  { label: 'Suggestion',  ico: '💡', cls: 'suggestion' }
+};
+const BSIG_STATUT = {
+  nouveau:        { label: 'Nouveau',        cls: 'nouveau' },
+  pris_en_compte: { label: 'Pris en compte', cls: 'pris' },
+  corrige:        { label: 'Corrigé',        cls: 'corrige' },
+  ecarte:         { label: 'Écarté',         cls: 'ecarte' }
+};
+const BSIG_ROLE = {
+  tresorier: 'Trésorier', tresoriere: 'Trésorière', coordinateur: 'Coordinateur', coordinatrice: 'Coordinatrice',
+  secretaire: 'Secrétaire', president: 'Président', presidente: 'Présidente', medecin: 'Médecin',
+  referent: 'Référent', referente: 'Référente', membre: 'Membre', infirmier: 'Infirmier', infirmiere: 'Infirmière'
+};
+function bsigRole(r) {
+  if (!r) return '';
+  const k = String(r).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').trim();
+  return BSIG_ROLE[k] || (String(r).charAt(0).toUpperCase() + String(r).slice(1));
+}
+function bsigNeedsReply(s) { return !s.reponse || !String(s.reponse).trim(); }
+
+function betaSignalementsHtml() {
+  if (betaSignalLoading && !betaSignalData) {
+    return `<div class="beta-block"><div class="beta-empty">Chargement des signalements depuis Plateforme-CPTS…</div></div>`;
+  }
+  if (betaSignalError && !betaSignalData) {
+    return `<div class="beta-block">
+      <div class="beta-block-head"><h3>📣 Signalements des béta-testeurs</h3></div>
+      <div class="beta-empty">⚠ ${esc(betaSignalError)}.<br>Le fichier <code>betatest.json</code> est lu en direct dans <code>Plateforme-CPTS</code> (branche main). « ↻ Signalements » réessaie.</div>
+    </div>`;
+  }
+  const d = betaSignalData;
+  if (!d) return '';
+  const list = Array.isArray(d.signalements) ? d.signalements.slice() : [];
+  const counts = { nouveau: 0, pris_en_compte: 0, corrige: 0, ecarte: 0 };
+  list.forEach(s => { if (counts[s.statut] != null) counts[s.statut]++; });
+  const aRepondre = list.filter(bsigNeedsReply).length;
+
+  const head = `<div class="beta-block-head">
+    <h3>📣 Signalements des béta-testeurs${d.instance ? ` · ${esc(d.instance)}` : ''}</h3>
+    ${d.updated_at ? `<span class="bsig-fresh">● Mis à jour le ${fmtFr(d.updated_at)}</span>` : ''}
+  </div>${d.description ? `<p class="bsig-desc">${esc(d.description)}</p>` : ''}`;
+
+  if (!list.length) {
+    return `<div class="beta-block">${head}
+      <div class="beta-empty">Aucun signalement pour l'instant. Les retours des béta-testeurs${d.instance ? ' de ' + esc(d.instance) : ''} apparaîtront ici, en lecture seule.</div>
+    </div>`;
+  }
+
+  const countsHtml = `<div class="bsig-counts">
+    <span class="bsig-count bsig-c-nouveau"><b>${counts.nouveau}</b>Nouveau${counts.nouveau > 1 ? 'x' : ''}</span>
+    <span class="bsig-count bsig-c-pris"><b>${counts.pris_en_compte}</b>Pris en compte</span>
+    <span class="bsig-count bsig-c-corrige"><b>${counts.corrige}</b>Corrigé${counts.corrige > 1 ? 's' : ''}</span>
+    <span class="bsig-count bsig-c-ecarte"><b>${counts.ecarte}</b>Écarté${counts.ecarte > 1 ? 's' : ''}</span>
+  </div>`;
+
+  const engageHtml = aRepondre > 0
+    ? `<div class="bsig-engage"><strong>${aRepondre}</strong> signalement${aRepondre > 1 ? 's' : ''} en attente de ta réponse — <span class="bsig-engage-sub">ce sont tes engagements de retour envers les testeurs</span></div>`
+    : `<div class="bsig-engage bsig-engage-ok">✓ Chaque testeur a eu une réponse — tu es à jour sur tes engagements</div>`;
+
+  // À traiter d'abord (sans réponse ou nouveau), puis du plus récent au plus ancien.
+  list.sort((a, b) => {
+    const pa = (bsigNeedsReply(a) || a.statut === 'nouveau') ? 0 : 1;
+    const pb = (bsigNeedsReply(b) || b.statut === 'nouveau') ? 0 : 1;
+    return (pa - pb) || String(b.created_at || '').localeCompare(String(a.created_at || ''));
+  });
+
+  const items = list.map(s => {
+    const t = BSIG_TYPE[s.type] || { label: s.type || 'Signalement', ico: '•', cls: 'suggestion' };
+    const st = BSIG_STATUT[s.statut] || { label: s.statut || '—', cls: 'nouveau' };
+    const todo = bsigNeedsReply(s) || s.statut === 'nouveau';
+    const rep = bsigNeedsReply(s)
+      ? `<div class="bsig-rep bsig-rep-empty">✋ En attente de ta réponse — engagement envers ${esc(s.auteur || 'le testeur')}</div>`
+      : `<div class="bsig-rep"><span class="bsig-rep-k">Ta réponse</span>${esc(s.reponse)}</div>`;
+    return `<div class="bsig-item${todo ? ' bsig-todo' : ''}">
+      <div class="bsig-item-head">
+        <span class="bsig-badge bsig-type-${t.cls}">${t.ico} ${esc(t.label)}</span>
+        <span class="bsig-badge bsig-st-${st.cls}">${esc(st.label)}</span>
+        ${s.lu === false ? '<span class="bsig-unread" title="Pas encore lu côté plateforme">● non lu</span>' : ''}
+        <span class="bsig-date">${fmtFr(s.created_at)}</span>
+      </div>
+      <div class="bsig-msg">${esc(s.message || '')}</div>
+      <div class="bsig-meta">
+        <span>${esc(s.auteur || 'Anonyme')}${s.role ? ` · <span class="bsig-role">${esc(bsigRole(s.role))}</span>` : ''}</span>
+        ${s.page ? `<span>· <a class="bsig-page" href="${esc(s.page)}" target="_blank" rel="noopener">page signalée ↗</a></span>` : ''}
+      </div>
+      ${rep}
+    </div>`;
+  }).join('');
+
+  return `<div class="beta-block">${head}${countsHtml}${engageHtml}<div class="bsig-list">${items}</div></div>`;
+}
+
 // ============ RENDU DE LA VUE ============
 const BETA_FLASK = '<path d="M9 3h6M10 3v6.5L5.2 18a2 2 0 001.8 3h10a2 2 0 001.8-3L14 9.5V3"/><path d="M7.5 14h9"/>';
 function renderBeta(content, actions) {
   const b = ensureBeta();
+  if (!betaSignalData && !betaSignalLoading && !betaSignalError) loadBetaSignalements(false);
   actions.innerHTML = `
+    <button class="btn btn-ghost" onclick="loadBetaSignalements(true)">↻ Signalements</button>
     <button class="btn btn-ghost" onclick="openBetaConfig()">⚙︎ Configurer</button>
     <button class="btn btn-ghost" onclick="openBetaRetour()">+ Retour</button>
     <button class="btn btn-primary" onclick="openBetaReport()">📄 Rapport CPTS</button>`;
 
   if (!b.signatureDate) {
-    content.innerHTML = `<div class="panel"><div class="empty">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${BETA_FLASK}</svg>
-      <p style="font-size:15px;font-weight:700;color:var(--slate-600);margin-bottom:8px">Suivi béta test — ${BETA.cpts}</p>
-      <p style="max-width:420px;margin:0 auto;line-height:1.6">Pour démarrer, renseigne la <strong>date de signature</strong> de la convention et la liste des <strong>membres invités</strong>. Tout se calcule à partir de là.</p>
-      <button class="btn btn-primary" style="margin-top:20px" onclick="openBetaConfig()">Configurer la béta</button>
-    </div></div>`;
+    content.innerHTML = `<div class="panel" style="max-width:1000px">
+      ${betaSignalementsHtml()}
+      <div class="empty" style="margin-top:6px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${BETA_FLASK}</svg>
+        <p style="font-size:15px;font-weight:700;color:var(--slate-600);margin-bottom:8px">Volet convention — ${BETA.cpts}</p>
+        <p style="max-width:420px;margin:0 auto;line-height:1.6">Les délais de correction et les rapports CPTS démarrent quand tu renseignes la <strong>date de signature</strong> de la convention et les <strong>membres invités</strong>. Les signalements ci-dessus, eux, remontent déjà en direct de la plateforme.</p>
+        <button class="btn btn-primary" style="margin-top:20px" onclick="openBetaConfig()">Configurer la béta</button>
+      </div></div>`;
     return;
   }
 
   content.innerHTML = `<div class="panel" style="max-width:1000px">
     ${betaFlashHtml(b)}
     ${betaActionZoneHtml(b)}
+    ${betaSignalementsHtml()}
     ${betaCptsHtml(b)}
     ${betaUsageHtml(b)}
     ${betaHistoHtml(b)}
@@ -8730,6 +8870,45 @@ async function loadIdeesVivier(force) {
   if (!res || res.idees === null) { ideesError = (res && res.note) || 'lecture impossible'; ideesData = null; }
   else { ideesData = res; ideesError = null; }
   if (currentView === 'idees' && ideaTab === 'vivier') render();
+}
+
+// ===== Signalements des béta-testeurs (Plateforme-CPTS/betatest.json, lecture seule) =====
+// Toute la gestion (statuts, réponses) se fait côté plateforme ; le cockpit ne fait qu'afficher.
+let betaSignalData = null, betaSignalLoading = false, betaSignalError = null;
+async function fetchBetaSignalements() {
+  const cfg = getGhConfig();
+  if (!cfg.token) return { data: null, note: 'token GitHub non configuré' };
+  const owner = cfg.owner || 'Evalita03';
+  const url = `https://api.github.com/repos/${owner}/Plateforme-CPTS/contents/betatest.json?ref=main&t=${Date.now()}`;
+  try {
+    const resp = await fetch(url, {
+      headers: { 'Authorization': `token ${cfg.token}`, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    if (resp.status === 404) return { data: null, note: 'betatest.json pas encore créé côté Plateforme-CPTS' };
+    if (!resp.ok) { const e = await resp.json().catch(()=>({})); return { data: null, note: `API GitHub : ${e.message || resp.status}` }; }
+    const raw = await resp.json();
+    const parsed = JSON.parse(b64ToUtf8(raw.content));
+    return { data: {
+      updated_at: parsed.updated_at || '',
+      instance: parsed.instance || '',
+      description: parsed.description || '',
+      signalements: Array.isArray(parsed.signalements) ? parsed.signalements : []
+    } };
+  } catch (e) {
+    return { data: null, note: 'lecture impossible : ' + e.message };
+  }
+}
+async function loadBetaSignalements(force) {
+  if (betaSignalLoading) return;
+  if (betaSignalData && !force) return;
+  betaSignalLoading = true; betaSignalError = null;
+  if (force) betaSignalData = null;
+  if (currentView === 'beta') render();
+  const res = await fetchBetaSignalements();
+  betaSignalLoading = false;
+  if (!res || !res.data) { betaSignalError = (res && res.note) || 'lecture impossible'; betaSignalData = null; }
+  else { betaSignalData = res.data; betaSignalError = null; }
+  if (currentView === 'beta') render();
 }
 
 async function loadStrategySeed() {
