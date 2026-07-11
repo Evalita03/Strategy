@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-07-11T18:19:22.642Z",
+  "exportedAt": "2026-07-11T18:27:40.878Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -5981,7 +5981,7 @@
         "id": "mrgokggp902fk",
         "title": "Mise en service d'une nouvelle CPTS cliente",
         "month": "2026-07",
-        "status": "planned",
+        "status": "doing",
         "body": "Outiller la création d'un espace dédié et isolé pour chaque nouvelle CPTS cliente : sa propre base de données, ses fichiers, son adresse. Préparer un tableau de bord interne pour suivre l'ensemble des CPTS abonnées."
       },
       {
@@ -6013,25 +6013,11 @@
         "body": "Une vue d'ensemble qui répartit les actions de la CPTS selon leur avancement (prévues, pas encore lancées, en cours, terminées), pour voir d'un coup d'œil où en est le programme d'actions."
       },
       {
-        "id": "mrgokggprgist",
-        "title": "Décider comment chaque CPTS est hébergée : espace partagé ou espace dédié",
-        "month": "2026-07",
-        "status": "planned",
-        "body": "Trancher l'architecture d'hébergement : une seule base partagée par toutes les CPTS, ou un espace dédié (base de données + fichiers) par CPTS. Décision structurante qui pèse sur les coûts, la sécurité des données, la montée en charge et la façon de mettre en service chaque nouvelle CPTS. À arbitrer avant d'engager les premières CPTS clientes."
-      },
-      {
         "id": "mrgokggpras76",
         "title": "Integration aux sites web existants des CPTS",
         "month": "2026-08",
         "status": "planned",
         "body": "Decision Eva 2026-06-06 : idee a CONCRETISER, reste dans le vivier (pas promue en strategie tant que pas faisable). conditionne par DEC-01 (multi-tenant) et un theming profond par tenant. Beaucoup de CPTS ont deja un WordPress avec espace adherent. Arbitrage : ship SaaS pur d'abord, construire le deport seulement si plusieurs prospects bloquent dessus (project_integration_sites_cpts)."
-      },
-      {
-        "id": "mrgokggpakaxc",
-        "title": "Un espace paie pour la coordinatrice salariée",
-        "month": "2026-07",
-        "status": "planned",
-        "body": "La coordinatrice est salariée, pas soignante : « Mes indemnisations » n'a pas de sens pour elle. Lui donner un espace dédié à sa paie, avec au minimum une saisie manuelle du salaire chaque mois et un raccourci « recopier le mois précédent ». Exploré lors du rework de Mon Espace, jamais spécifié (backlog contrat/salaire)."
       },
       {
         "id": "mrgokggpy6uiv",
@@ -6081,6 +6067,13 @@
         "month": "2026-06",
         "status": "done",
         "body": "Voir la plateforme « comme si » on était dans chaque rôle : démo prospects, formation, test des permissions. Réalisé via le sélecteur « Vu comme » de la bannière démo, qui bascule l'affichage d'un rôle à l'autre sans changer de compte."
+      },
+      {
+        "id": "mrgokggpakaxc",
+        "title": "Un espace paie pour la coordinatrice salariée",
+        "month": "2026-08",
+        "status": "planned",
+        "body": "La coordinatrice est salariée, pas soignante : « Mes indemnisations » n'a pas de sens pour elle. Lui donner un espace dédié à sa paie, avec au minimum une saisie manuelle du salaire chaque mois et un raccourci « recopier le mois précédent ». Exploré lors du rework de Mon Espace, jamais spécifié (backlog contrat/salaire)."
       },
       {
         "id": "mrgokggpbde44",
@@ -6158,6 +6151,13 @@
         "month": "2026-09",
         "status": "planned",
         "body": "Aujourd'hui, aucun moyen de joindre l'éditrice depuis la plateforme. Ajouter un premier recours intégré (questions fréquentes, guides, à terme un assistant qui répond automatiquement) puis un formulaire de contact ouvert à tous mais canalisé : la demande passe d'abord par l'aide en ligne, pour filtrer ce qui arrive réellement au support. Cadrage retenu : démarrer par la FAQ nourrie des vraies questions de la béta, brancher l'assistant automatique ensuite."
+      },
+      {
+        "id": "mrgokggprgist",
+        "title": "Décider comment chaque CPTS est hébergée : espace partagé ou espace dédié",
+        "month": "2026-09",
+        "status": "planned",
+        "body": "Trancher l'architecture d'hébergement : une seule base partagée par toutes les CPTS, ou un espace dédié (base de données + fichiers) par CPTS. Décision structurante qui pèse sur les coûts, la sécurité des données, la montée en charge et la façon de mettre en service chaque nouvelle CPTS. À arbitrer avant d'engager les premières CPTS clientes."
       }
     ],
     "strategiePillars": {
