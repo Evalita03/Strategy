@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-07-11T18:09:22.645Z",
+  "exportedAt": "2026-07-11T18:11:05.733Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -5803,364 +5803,357 @@
     },
     "roadmap": [
       {
-        "id": "mrgo5oaant8bn",
+        "id": "mrgokggpkvs1a",
         "title": "Calendrier — modale création contextuelle",
         "month": "2026-02",
         "status": "done",
         "body": "Modale intelligente à 3 modes qui adapte ses champs selon le type d'entrée : Réunion GT (classique), Évènement (premium), Information (deadline / rappel / info diverse)."
       },
       {
-        "id": "mrgo5oaaqgri4",
+        "id": "mrgokggp9628t",
         "title": "Deadlines auto + Émargement",
         "month": "2026-02",
         "status": "done",
         "body": "Sync automatique des tâches Cockpit → entrées calendrier (couleur rouge, badge « Auto (Cockpit) »). Suivi présence en DB avec checkbox + PDF officiel d'émargement GT."
       },
       {
-        "id": "mrgo5oaaud188",
+        "id": "mrgokggp4x82y",
         "title": "Refonte Paramétrages Elite",
         "month": "2026-02",
         "status": "done",
         "body": "Page unique /admin/parametrages refondée à 4 onglets : Missions/Actions, Identité, Utilisateurs, paramètres avancés."
       },
       {
-        "id": "mrgo5oaaprz1k",
+        "id": "mrgokggpnp3mq",
         "title": "Optimisation Calendrier",
         "month": "2026-02",
         "status": "done",
         "body": "Suppression des natures figées, catégories dynamiques en base, pièces jointes multiples sur les entrées, communication post-création (partage WhatsApp + email) extraite du formulaire."
       },
       {
-        "id": "mrgo5oaagn98x",
+        "id": "mrgokggpq967z",
         "title": "Blueprint Meetings extrait",
         "month": "2026-02",
         "status": "done",
         "body": "Extraction de la gestion des réunions dans un module Flask dédié : routes + api + sidebar + intégration FullCalendar."
       },
       {
-        "id": "mrgo5oaajfven",
+        "id": "mrgokggp2ldq3",
         "title": "Hub Projets — refonte",
         "month": "2026-02",
         "status": "done",
         "body": "Transformation de Projets & Groupes en Hub collaboratif : 5 chantiers, onglets Vitrine / Documents / Agenda, assistant de création en 3 étapes, relations multi-membres."
       },
       {
-        "id": "mrgo5oaac8d3n",
+        "id": "mrgokggpmuptc",
         "title": "Custom Roles RBAC",
         "month": "2026-04",
         "status": "done",
         "body": "Rôles personnalisés avec permissions configurables par action et par module + matrice admin. 6 rôles hiérarchiques + rôles libres. Source de vérité unique pour toutes les permissions."
       },
       {
-        "id": "mrgo5oaanui84",
+        "id": "mrgokggpddvj0",
         "title": "Lifecycle des déclarations",
         "month": "2026-04",
         "status": "done",
         "body": "Dé-validation motivée des déclarations, upload de justificatifs autorisé à tout statut, audit trail des transitions (qui a dé-validé, quand, motif)."
       },
       {
-        "id": "mrgo5oaan9a4b",
+        "id": "mrgokggphwiv2",
         "title": "PDF officielle d'émargement",
         "month": "2026-04",
         "status": "done",
         "body": "PDF émargement officiel stocké sur disque, accessible depuis l'historique, l'onglet activité et les justificatifs. Une seule source de vérité de présence."
       },
       {
-        "id": "mrgo5oaa06nh4",
+        "id": "mrgokggp7o5y2",
         "title": "Modal Frais Groupe enrichie",
         "month": "2026-04",
         "status": "done",
         "body": "Modale frais retravaillée avec upload de justificatifs optionnel + badge « sans justificatif » visible pour le trésorier."
       },
       {
-        "id": "mrgo5oaatutpe",
+        "id": "mrgokggpmqqjb",
         "title": "Refonte déclarations d'activité (trésorier)",
         "month": "2026-04",
         "status": "done",
         "body": "Onglet « Nouvelle déclaration » trésorier refondu : déclaration combinée heures + ICPA + frais sur une période en une seule saisie (au lieu de 3 formulaires séparés)."
       },
       {
-        "id": "mrgo5oaah0380",
+        "id": "mrgokggp3eej5",
         "title": "Page Permissions → Admin Gestion",
         "month": "2026-04",
         "status": "done",
         "body": "Page Permissions sortie de Paramétrages vers /admin/permissions, accessible depuis Admin Gestion."
       },
       {
-        "id": "mrgo5oaawound",
+        "id": "mrgokggprdmp1",
         "title": "Workflow déclarations + notifications",
         "month": "2026-04",
         "status": "done",
         "body": "Conteneur unifié des déclarations, validation granulaire des éléments, cloche de notifications dans le hub adhérent."
       },
       {
-        "id": "mrgo5oaa3yuuy",
+        "id": "mrgokggpaqfn4",
         "title": "Gestion des nouvelles inscriptions",
         "month": "2026-04",
         "status": "done",
         "body": "Rôle système « secrétaire », case « auto-inscription », card « Nouvelles inscriptions » dans Vie Associative pour valider les arrivants."
       },
       {
-        "id": "mrgo5oaaerg5d",
+        "id": "mrgokggpjtxt6",
         "title": "Mode Démo public",
         "month": "2026-04",
         "status": "done",
         "body": "Démo publique sur /demo, sandbox seed « CPTS Horizon Santé », 4 profils incarnés, auto-reset toutes les 30 minutes."
       },
       {
-        "id": "mrgo5oaai130e",
+        "id": "mrgokggpux6qp",
         "title": "Statuts unifiés Trésorerie",
         "month": "2026-05",
         "status": "done",
         "body": "Nomenclature unifiée pour heures / frais / virements (valide → en cours de paiement → payé), bascule automatique entre statuts, garde-fous anti-oubli calés sur le rythme de paiement de chaque CPTS."
       },
       {
-        "id": "mrgo5oaajp17b",
+        "id": "mrgokggpnsnu2",
         "title": "Vie Associative — modules",
         "month": "2026-05",
         "status": "done",
         "body": "Modules Documents fondateurs, Assemblées générales, Rubriques libres — préparation pour la démo du 5 mai."
       },
       {
-        "id": "mrgo5oaaed7jq",
+        "id": "mrgokggp9e77g",
         "title": "Démo CPTS pilote (5 mai)",
         "month": "2026-05",
         "status": "done",
         "body": "20 min au bureau de la CPTS pilote : démo live + slides + one-pager distribué. Lancement de la phase pilote de 4 semaines en conditions réelles."
       },
       {
-        "id": "mrgo5oaav3jq5",
+        "id": "mrgokggp4tld1",
         "title": "Site vitrine V1",
         "month": "2026-05",
         "status": "done",
         "body": "Homepage publique sur la racine du domaine, arc narratif en 9 sections + 2 moments interactifs (sélecteur de rôle, carrousel des circuits ACI ↔ Trésorerie)."
       },
       {
-        "id": "mrgo5oaaion7h",
+        "id": "mrgokggp4ro0s",
         "title": "Refonte du site vitrine : nouveau logo et présentation par rôle",
         "month": "2026-07",
         "status": "done",
         "body": "Le site vitrine adopte le nouveau logo animé et l'esthétique de la plateforme. La section « Projetez-vous dans votre rôle » couvre désormais six rôles (président, coordination, trésorerie, secrétaire, vie associative, groupes de travail), les circuits reflètent les vrais parcours de la plateforme et une nouvelle section illustre le paramétrage guidé de la gestion."
       },
       {
-        "id": "mrgo5oaa0ndri",
+        "id": "mrgokggpfei40",
         "title": "Vues par rôle (coordination / trésorier / secrétaire / membre)",
         "month": "2026-06",
         "status": "done",
         "body": "Parcourir la plateforme telle que la voit chaque rôle, sans changer de compte. La direction vérifie d'un coup d'œil les accès et l'expérience réelle de chaque profil."
       },
       {
-        "id": "mrgo5oaazgrps",
+        "id": "mrgokggpltece",
         "title": "Validation des déclarations : refus, relances et archives",
         "month": "2026-06",
         "status": "done",
         "body": "Le trésorier dispose désormais d'un suivi complet des déclarations (heures, frais, dépenses de l'association) : il peut traiter, refuser avec motif et mail automatique, relancer, consulter l'historique et retrouver les pièces archivées au bout de 6 mois. Les droits d'accès restent réglables CPTS par CPTS."
       },
       {
-        "id": "mrgo5oaar6f7f",
+        "id": "mrgokggpztm3h",
         "title": "Site vitrine public CPTS Pilot",
         "month": "2026-06",
         "status": "done",
         "body": "Page d'accueil publique qui présente CPTS Pilot et sert de porte d'entrée commerciale, distincte de l'espace de test. Récit en plusieurs temps, aperçu des vues par rôle et des circuits, avec un accès direct à la démo."
       },
       {
-        "id": "mrgo5oaa6do6c",
+        "id": "mrgokggp2fmud",
         "title": "Historique personnel des indemnisations",
         "month": "2026-06",
         "status": "done",
         "body": "Chaque membre retrouve dans son espace tout l'historique de ses heures, frais et virements, avec recherche, filtres par période (mois, trimestre, année) et téléchargement en tableur ou PDF, pièces justificatives comprises."
       },
       {
-        "id": "mrgo5oaa28fdd",
+        "id": "mrgokggp43buy",
         "title": "Demande d'accès : plus sûre et aux couleurs de CPTS Pilot",
         "month": "2026-07",
         "status": "done",
         "body": "La page où un professionnel demande son accès porte désormais l'identité CPTS Pilot et guide vers un mot de passe solide grâce à une jauge et des critères vérifiés en direct. Elle bloque aussi les robots spammeurs : faux envois détectés silencieusement, demandes en rafale limitées, et possibilité de fermer les inscriptions pour fonctionner sur invitation uniquement."
       },
       {
-        "id": "mrgo5oaazx0z0",
+        "id": "mrgokggp902fk",
         "title": "Mise en service d'une nouvelle CPTS cliente",
         "month": "2026-07",
         "status": "planned",
         "body": "Outiller la création d'un espace dédié et isolé pour chaque nouvelle CPTS cliente : sa propre base de données, ses fichiers, son adresse. Préparer un tableau de bord interne pour suivre l'ensemble des CPTS abonnées."
       },
       {
-        "id": "mrgo5oaajnq3d",
+        "id": "mrgokggp6aqc0",
         "title": "Démo : remise à zéro entre chaque visiteur",
         "month": "2026-07",
         "status": "done",
         "body": "Chaque personne qui teste la démo découvre désormais un espace remis à neuf : les saisies du visiteur précédent sont effacées automatiquement à l'entrée, avec un écran de préparation de quelques secondes. Les instances réelles (béta, CPTS clientes) sont protégées par un verrou : cette remise à zéro ne peut tourner que sur la démo."
       },
       {
-        "id": "mrgo5oaa0czi9",
+        "id": "mrgokggp8ellk",
+        "title": "Espace éditrice : importer les membres depuis un fichier et vérifier les mails",
+        "month": "2026-07",
+        "status": "done",
+        "body": "Un espace de pilotage réservé à l'éditrice, invisible des CPTS, réunit deux premiers outils. L'import des membres depuis un fichier (export HelloAsso) : envoi du fichier, détection des doublons (par e-mail et par nom/prénom), écran de validation avant confirmation, puis bilan détaillé de l'import (créations, complétions, audit). Et l'aperçu des mails automatiques de la plateforme, avec envoi d'un mail de test pour vérifier le rendu."
+      },
+      {
+        "id": "mrgokggpxtagv",
         "title": "Sur chaque onglet, voir combien de tâches attendent d'être traitées",
-        "month": null,
+        "month": "2026-08",
         "status": "planned",
         "body": "Afficher le nombre de tâches en attente directement sur l'onglet concerné (Trésorerie, Réunions, Vie associative…), au lieu de tout regrouper sur Mon Espace. Chaque pastille apparaît pour les personnes qui ont accès à cette section, selon les permissions déjà réglées CPTS par CPTS."
       },
       {
-        "id": "mrgo5oaa00abb",
-        "title": "Tableau de bord Actions lancées/pas lancées/ en cours/ prévues",
-        "month": null,
+        "id": "mrgokggpf57zu",
+        "title": "Un tableau de bord des actions : prévues, lancées, en cours, terminées",
+        "month": "2026-09",
         "status": "planned",
-        "body": ""
+        "body": "Une vue d'ensemble qui répartit les actions de la CPTS selon leur avancement (prévues, pas encore lancées, en cours, terminées), pour voir d'un coup d'œil où en est le programme d'actions."
       },
       {
-        "id": "mrgo5oaao3ff0",
+        "id": "mrgokggprgist",
         "title": "Décider comment chaque CPTS est hébergée : espace partagé ou espace dédié",
         "month": "2026-07",
         "status": "planned",
         "body": "Trancher l'architecture d'hébergement : une seule base partagée par toutes les CPTS, ou un espace dédié (base de données + fichiers) par CPTS. Décision structurante qui pèse sur les coûts, la sécurité des données, la montée en charge et la façon de mettre en service chaque nouvelle CPTS. À arbitrer avant d'engager les premières CPTS clientes."
       },
       {
-        "id": "mrgo5oaa0h6ve",
+        "id": "mrgokggpras76",
         "title": "Integration aux sites web existants des CPTS",
         "month": "2026-08",
         "status": "planned",
         "body": "Decision Eva 2026-06-06 : idee a CONCRETISER, reste dans le vivier (pas promue en strategie tant que pas faisable). conditionne par DEC-01 (multi-tenant) et un theming profond par tenant. Beaucoup de CPTS ont deja un WordPress avec espace adherent. Arbitrage : ship SaaS pur d'abord, construire le deport seulement si plusieurs prospects bloquent dessus (project_integration_sites_cpts)."
       },
       {
-        "id": "mrgo5oaavpiga",
-        "title": "Module RH dedie a la coordinatrice",
+        "id": "mrgokggpakaxc",
+        "title": "Un espace paie pour la coordinatrice salariée",
         "month": "2026-07",
         "status": "planned",
-        "body": "La coordinatrice est salariee, pas soignante : 'Mes Indemnisations' n'a pas de sens pour elle. Explore lors du rework Mon Espace, jamais specifie."
+        "body": "La coordinatrice est salariée, pas soignante : « Mes indemnisations » n'a pas de sens pour elle. Lui donner un espace dédié à sa paie, avec au minimum une saisie manuelle du salaire chaque mois et un raccourci « recopier le mois précédent ». Exploré lors du rework de Mon Espace, jamais spécifié (backlog contrat/salaire)."
       },
       {
-        "id": "mrgo5oaa34a6d",
-        "title": "Module IA tresorerie (viabilite d'un projet)",
+        "id": "mrgokggpy6uiv",
+        "title": "Un assistant qui estime si un projet est finançable",
         "month": "2026-08",
         "status": "planned",
-        "body": "Assistant decisionnel cote tresorerie. Evoque sur la vitrine puis jamais construit."
+        "body": "Assistant décisionnel côté trésorerie, pour évaluer la viabilité financière d'un projet. Évoqué sur la vitrine puis jamais construit."
       },
       {
-        "id": "mrgo5oaasljh1",
-        "title": "GED (gestion electronique de documents)",
-        "month": "2026-07",
+        "id": "mrgokggp04m1p",
+        "title": "Ranger et retrouver tous les documents au même endroit",
+        "month": "2026-08",
         "status": "planned",
-        "body": "Mention incidente, jamais specifiee."
+        "body": "Un espace unique pour classer, chercher et partager les documents de la CPTS (gestion électronique de documents). Mention incidente, jamais spécifiée."
       },
       {
-        "id": "mrgo5oaaojmwt",
+        "id": "mrgokggpmkdfc",
         "title": "Module migration de donnees IA-powered",
         "month": "2026-07",
         "status": "planned",
         "body": "Ingestion Excel/Word/PDF/scans -> remplissage auto + validation humaine. Backlog trace (project_migration_module). A shipper avant les premiers clients payants. La PROMESSE commerciale associee est, elle, un cap-mur (voir CAP-03)."
       },
       {
-        "id": "mrgo5oaa1yaze",
+        "id": "mrgokggpa1jr9",
         "title": "Responsive mobile complet",
         "month": "2026-08",
         "status": "planned",
         "body": "Audit responsive global jamais fait (5 media queries dans ~5900 lignes de CSS). ~2-4 jours estimes. Commencer par dashboard/hub, finir par les tableaux denses (project_responsive_mobile)."
       },
       {
-        "id": "mrgo5oaan4hgx",
+        "id": "mrgokggpdo3iy",
         "title": "Repenser la vue secrétaire (onglet dédié, comme Trésorerie)",
         "month": "2026-08",
         "status": "planned",
         "body": "Le mode vue-par-rôle n'est aujourd'hui pas pleinement respecté pour le secrétariat. Cible : donner au secrétaire un point d'entrée dédié et facilité, sur le modèle de l'onglet Trésorerie. Prolonge l'axe stratégique 'Un outil par rôle' (strategy.json) et rejoint PRD-09 (switcher de vue par rôle)."
       },
       {
-        "id": "mrgo5oaawj38b",
+        "id": "mrgokggpjesaj",
         "title": "Cadrer et clôturer le fléchage (ACI / fonctionnement)",
         "month": "2026-06",
         "status": "done",
         "body": "Préconisé par Magnus (Chef Produit).\n\nC'est le seul chantier ouvert et il répond aux 3 demandes terrain non couvertes (N1/N2/N3 du tracker : dépenses asso, charges fixes, ventilation analytique). Le finir = trésorerie vraiment complète pour vendre ; le laisser ouvert sans cadrage = il s'étale et bloque la suite à 3-6 mois de la commercialisation."
       },
       {
-        "id": "mrgo5oaa536tz",
-        "title": "Switcher de vue par role (transversal)",
+        "id": "mrgokggpfzvwx",
+        "title": "Voir la plateforme comme chaque rôle, depuis un seul compte",
         "month": "2026-06",
-        "status": "planned",
-        "body": "Voir la plateforme 'comme si' on etait dans chaque role : demo prospects, formation, test permissions. Partiellement absorbe par Mon Espace adaptatif mais le switcher transversal reste un backlog a brainstormer (project_switch_vue_roles)."
+        "status": "done",
+        "body": "Voir la plateforme « comme si » on était dans chaque rôle : démo prospects, formation, test des permissions. Réalisé via le sélecteur « Vu comme » de la bannière démo, qui bascule l'affichage d'un rôle à l'autre sans changer de compte."
       },
       {
-        "id": "mrgo5oaaflpwj",
-        "title": "Depense association : modification d'une depense",
-        "month": "2026-06",
+        "id": "mrgokggpbde44",
+        "title": "Modifier une dépense de l'association sans la refaire",
+        "month": "2026-08",
         "status": "planned",
-        "body": "Editer une depense au lieu de supprimer/recreer."
+        "body": "Aujourd'hui, corriger une dépense au nom de l'association oblige à la supprimer puis à la ressaisir. Permettre de l'éditer directement."
       },
       {
-        "id": "mrgo5oaa9gfft",
-        "title": "Module RH",
-        "month": "2026-07",
-        "status": "planned",
-        "body": "Reporte la veille de la demo du 5 mai pour livrer simple (saisie manuelle du salaire chaque mois). Backlog (project_contrat_salaire). Alternative simple : 'copier du mois precedent'."
-      },
-      {
-        "id": "mrgo5oaazu7tf",
+        "id": "mrgokggp2bxm8",
         "title": "Module Création CPTS",
         "month": "2026-08",
         "status": "planned",
         "body": "Accompagnement montage juridique, rédaction lettre d'intention, rédaction diagnostic territorial, éléments de communication territoire, etc. à développer."
       },
       {
-        "id": "mrgo5oaajwz6g",
+        "id": "mrgokggppy6ox",
         "title": "3 guides de fond pour la vitrine",
         "month": "2026-08",
         "status": "planned",
         "body": "Contenu editorial pour le site vitrine (SEO + credibilite). Liste, jamais commence."
       },
       {
-        "id": "mrgo5oaa8f95e",
+        "id": "mrgokggpzntth",
         "title": "Refonte de l'onglet Coordination (Suivi Contrat ACI)",
         "month": "2026-06",
         "status": "done",
         "body": "L'onglet de pilotage du contrat ACI a été entièrement repensé : suivi des actions en deux temps (à préparer / en cours) avec fiche et plan d'action éditables, organigramme visuel des groupes de travail (liens vers les partenaires extérieurs et export PDF), enveloppes et budget plus lisibles (jauge de consommation par mission), et une gestion des tâches simple, par entité (bureau, conseil d'administration, commissions…), façon liste à cocher."
       },
       {
-        "id": "mrgo5oaa9jyuy",
+        "id": "mrgokggpsrs4n",
         "title": "Coordination : plan d'action guidé, suivi des réunions et documents par action",
         "month": "2026-06",
         "status": "done",
         "body": "Le pilotage du contrat ACI gagne un véritable outil de plan d'action : pour chaque action, la coordinatrice organise ses étapes en chantiers menés en parallèle, avec responsable, échéance et avancement d'ensemble. Une nouvelle vue repère d'un coup d'œil les actions qui n'ont pas encore de réunion prévue, et chaque action peut recevoir des documents, partagés automatiquement avec le groupe de travail concerné. La navigation est réorganisée en sous-onglets clairs (planification, réunions, enveloppes et budget, indicateurs) et l'onglet Gestion des tâches est épuré."
       },
       {
-        "id": "mrgo5oaacumsc",
-        "title": "Integration aux sites web existants des CPTS",
-        "month": "2026-08",
-        "status": "planned",
-        "body": "Decision Eva 2026-06-06 : idee a CONCRETISER, reste dans le vivier (pas promue en strategie tant que pas faisable). conditionne par DEC-01 (multi-tenant) et un theming profond par tenant. Beaucoup de CPTS ont deja un WordPress avec espace adherent. Arbitrage : ship SaaS pur d'abord, construire le deport seulement si plusieurs prospects bloquent dessus (project_integration_sites_cpts)."
-      },
-      {
-        "id": "mrgo5oaaexgrk",
+        "id": "mrgokggpj7ez0",
         "title": "Cartographie interactive du territoire",
         "month": "2026-09",
         "status": "planned",
         "body": "Carte des membres epingles + recherche d'un praticien specialise. Vision recurrente, dans l'annuaire, jamais construite."
       },
       {
-        "id": "mrgo5oaal4jhz",
+        "id": "mrgokggp354ni",
         "title": "Suivre les indicateurs du contrat ACI année par année",
         "month": "2026-07",
         "status": "done",
         "body": "Le suivi des indicateurs du contrat ACI est en place : un écran pour l'année en cours, une vue trajectoire sur plusieurs années, et des exports pour le bilan. Chaque nouvelle année démarre par simple recopie de la précédente."
       },
       {
-        "id": "mrgo5oaakos0z",
+        "id": "mrgokggpenyl5",
         "title": "Finaliser le Dialogue de gestion",
         "month": "2026-07",
         "status": "planned",
         "body": "Terminer le dernier volet du contrat ACI : le dialogue de gestion. Une fois ce module prêt, ouvrir un tableau de bord en lecture seule aux membres du bureau, du conseil d'administration et de la gouvernance, et permettre à certains habilités d'agir sur le dialogue de gestion."
       },
       {
-        "id": "mrgo5oaa4g64o",
+        "id": "mrgokggpez2ke",
         "title": "Console éditrice multi-clients",
         "month": "2026-09",
         "status": "planned",
         "body": "Un espace de pilotage à part, hors des instances clientes, pour administrer toutes les CPTS depuis un seul endroit : connexion unique de l'éditrice, état de chaque instance, imports et outils de maintenance. Remplace la connexion compte par compte sur chaque instance."
       },
       {
-        "id": "mrgo5oaa3ipei",
+        "id": "mrgokggp9cd60",
         "title": "Les béta-testeurs signalent un bug ou une idée en deux clics, l'éditrice suit et répond",
         "month": "2026-07",
         "status": "doing",
         "body": "Un bouton « Un souci ? Une idée ? » présent sur toutes les pages de l'instance béta permet à chaque testeur de remonter un bug, une incohérence ou une suggestion au moment où il le rencontre, sans quitter son écran. Les retours arrivent dans l'espace éditrice, où ils sont triés par statut (nouveau, pris en compte, corrigé, écarté) et peuvent recevoir une réponse. Le suivi remonte automatiquement dans le cockpit de pilotage pour tenir les engagements de retour envers les testeurs."
       },
       {
-        "id": "mrgo5oaadcncu",
+        "id": "mrgokggpdfyki",
         "title": "Un bouton d'aide dans la plateforme : réponses aux questions courantes, puis contact du support",
         "month": "2026-09",
         "status": "planned",
@@ -6170,7 +6163,7 @@
     "strategiePillars": {
       "vision": [
         {
-          "id": "mrgo5oaab2tao",
+          "id": "mrgokggoliyk5",
           "name": "Une plateforme faite pour les CPTS",
           "text": "Les outils existants ont été pensés pour d'autres usages, et les CPTS s'y adaptent tant bien que mal. CPTS Pilot inverse la logique : c'est l'outil qui s'adapte à la CPTS, pas l'inverse.",
           "size": "large",
@@ -6178,7 +6171,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaawqtpp",
+          "id": "mrgokggo1z4pf",
           "name": "Née du terrain, par une coordinatrice",
           "text": "CPTS Pilot est construite par une coordinatrice de CPTS, qui vit la réalité au quotidien. Ce n'est pas un logiciel conçu de loin : il répond à des problèmes réellement vécus.",
           "size": "normal",
@@ -6186,7 +6179,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaavrg22",
+          "id": "mrgokggonf7ws",
           "name": "Donner à chacun le pouvoir d'agir",
           "text": "Chaque personne de la CPTS dispose des outils taillés pour sa fonction, et la coordination garde la vision d'ensemble. La gestion devient collective, pas l'affaire d'une seule personne débordée.",
           "size": "large",
@@ -6194,7 +6187,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaake4wm",
+          "id": "mrgokggoboc0k",
           "name": "Chaque rôle à sa place",
           "text": "Une seule plateforme, quatre expériences sur mesure : coordination, trésorerie, secrétariat, membre. Chacun se connecte et trouve directement ce qui le concerne, sans se perdre.",
           "size": "normal",
@@ -6202,7 +6195,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaaafb19",
+          "id": "mrgokggokhuxj",
           "name": "Piloter sereinement, ensemble",
           "text": "Tout est relié : les heures, les frais, les actions, les indicateurs. La coordination pilote sans tout recompiler à la main, et chacun avance avec une information à jour.",
           "size": "normal",
@@ -6210,7 +6203,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaa9uqxu",
+          "id": "mrgokggop8zsz",
           "name": "Un outil qui grandit avec la CPTS",
           "text": "La plateforme évolue avec les besoins du terrain, au cas par cas. On ne livre pas un logiciel figé qu'on abandonne ensuite.",
           "size": "normal",
@@ -6218,7 +6211,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaaoxufk",
+          "id": "mrgokggoxv4vs",
           "name": "Cartographie interactive du territoire",
           "text": "des epingles comme quand on epingle quelque chose sur un mur ; trouver un kine specialise en vestibulaire",
           "size": "normal",
@@ -6226,7 +6219,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaadeank",
+          "id": "mrgokggoraptl",
           "name": "Nom de la plateforme + audit de perception",
           "text": "une gouvernance de CPTS qui voit un logiciel qui s'appelle CPTS Pilot, ca leur donne quoi comme premiere impression ?",
           "size": "normal",
@@ -6234,7 +6227,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaa1dn5f",
+          "id": "mrgokggo9ls5y",
           "name": "Switcher de vue par role (transversal)",
           "text": "un switch de vue globale tresorier, secretaire, president, coordinatrice, conseil d'administration",
           "size": "normal",
@@ -6244,7 +6237,7 @@
       ],
       "marche": [
         {
-          "id": "mrgo5oaa3mszh",
+          "id": "mrgokggoiewvs",
           "name": "Cible première : les coordinateurs",
           "text": "Les coordinatrices et coordinateurs sont à la fois les utilisateurs quotidiens et les décideurs. La vente passe par eux : ce sont eux qui reconnaissent leur réalité dans l'outil et le prescrivent.",
           "size": "large",
@@ -6252,7 +6245,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaae31cf",
+          "id": "mrgokggow5lix",
           "name": "Le tableau de bord de pilotage ACI",
           "text": "Le point fort du produit : une seule vue réunit actions, indicateurs et budget, et prépare le dialogue de gestion avec l'ARS. Les indicateurs se calculent tout seuls à partir des heures et des frais saisis.",
           "size": "large",
@@ -6260,7 +6253,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaa77bbg",
+          "id": "mrgokggo6r609",
           "name": "Des concurrents pensés pour autre chose",
           "text": "Les solutions du marché viennent de métiers proches et ont été adaptées aux CPTS après coup. CPTS Pilot part des CPTS dès la conception — un avantage que les autres ne peuvent pas revendiquer.",
           "size": "normal",
@@ -6268,7 +6261,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaaf4ytr",
+          "id": "mrgokggowvj4o",
           "name": "Le module membre reste optionnel",
           "text": "La plateforme fonctionne sans le module dédié aux membres. La CPTS peut commencer simple puis l'activer plus tard, ce qui réduit la marche à franchir pour adopter l'outil.",
           "size": "normal",
@@ -6276,7 +6269,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaaso78n",
+          "id": "mrgokggoz9r3v",
           "name": "La démo comme porte d'entrée",
           "text": "Un visiteur teste la plateforme en quelques clics, avec des données fictives et sans rien installer. C'est le premier pas commercial : voir avant de se décider.",
           "size": "normal",
@@ -6284,7 +6277,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaattlxe",
+          "id": "mrgokggo0m8hw",
           "name": "Un accompagnement cas par cas",
           "text": "Paramétrage fin des rôles et des accès, personnalisation au plus près du terrain, suivi individualisé. On accompagne chaque CPTS plutôt que de livrer un outil et de la laisser seule.",
           "size": "normal",
@@ -6292,7 +6285,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaarkj9n",
+          "id": "mrgokggotaqqz",
           "name": "Se relier aux institutions (ARS, URPS)",
           "text": "À venir : une connexion avec les instances pour suivre les indicateurs et préparer les dialogues de gestion. C'est aussi un gage de sérieux vis-à-vis des financeurs.",
           "size": "normal",
@@ -6300,7 +6293,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaai5j4v",
+          "id": "mrgokggo3o39f",
           "name": "Des données hébergées en France",
           "text": "Les serveurs et l'hébergement restent en France. Pour des données de santé, c'est un repère de confiance : la CPTS sait où vivent ses informations et qui peut y accéder.",
           "size": "normal",
@@ -6308,7 +6301,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaaot3po",
+          "id": "mrgokggovhaf2",
           "name": "Reprendre vos données sans rupture",
           "text": "Le premier frein pour changer d'outil, c'est de quitter celui qu'on connaît. Nous reprenons l'activité existante — membres, actions, trésorerie, décomptes — pour que la CPTS démarre avec son historique complet, sans repartir de zéro.",
           "size": "normal",
@@ -6316,7 +6309,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaalab2y",
+          "id": "mrgokggobcs2y",
           "name": "Capter les CPTS sans outils de gestion",
           "text": "les CPTS qui n'ont jamais eu de plateforme mais ont des donnees eparpillees, un peu d'Excel, de Word, de PDF EN COURS DE CONSTRUCTION",
           "size": "normal",
@@ -6326,7 +6319,7 @@
       ],
       "pricing": [
         {
-          "id": "mrgo5oaaiv2pu",
+          "id": "mrgokggoy4edv",
           "name": "Un forfait par CPTS, sans compter les utilisateurs",
           "text": "Le prix ne dépend pas du nombre d'utilisateurs : une CPTS de 20 ou de 200 membres paie un forfait clair. Les tailles sont trop variables pour facturer par personne.",
           "size": "large",
@@ -6334,7 +6327,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaa0wx3a",
+          "id": "mrgokggoomgg5",
           "name": "Mensuel, ou annuel à prix réduit",
           "text": "Facturation au mois, avec une option annuelle moins chère pour les CPTS qui s'installent dans la durée.",
           "size": "normal",
@@ -6342,7 +6335,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaazsbzw",
+          "id": "mrgokggo6dunv",
           "name": "Deux à trois formules selon les besoins",
           "text": "Quelques formules différenciées par les modules inclus et le niveau d'accompagnement. Structure encore à finaliser.",
           "size": "normal",
@@ -6350,7 +6343,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaah1j9i",
+          "id": "mrgokggon4fou",
           "name": "Sans engagement",
           "text": "Pas de durée imposée ni de préavis. C'est le signal de confiance le plus fort pour une première adoption : la CPTS reste parce qu'elle y trouve son compte.",
           "size": "normal",
@@ -6358,7 +6351,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaax0yv8",
+          "id": "mrgokggomur2v",
           "name": "Une grille tarifaire publique",
           "text": "Les prix sont affichés, pas cachés derrière un devis. La transparence renforce la confiance et lève un frein avant même le premier contact.",
           "size": "normal",
@@ -6366,7 +6359,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaa1utv5",
+          "id": "mrgokggoioamt",
           "name": "La migration est accompagnée",
           "text": "Le frein numéro un, c'est de quitter ses outils actuels. On reprend les données, on paramètre et on forme : la CPTS n'a qu'à commencer à travailler. Inclus en formule haute ou en option.",
           "size": "normal",
@@ -6374,7 +6367,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaaiw37z",
+          "id": "mrgokggoz5hku",
           "name": "Migration accompagnee : incluse en formule haute OU option payante ?",
           "text": "Migration accompagnee : incluse en formule haute OU option payante",
           "size": "normal",
@@ -6384,7 +6377,7 @@
       ],
       "dev": [
         {
-          "id": "mrgo5oaa04w5f",
+          "id": "mrgokggokax2s",
           "name": "Notre socle technique",
           "text": "« Un monolithe Flask, modulaire et lisible — pas une usine à gaz. »\n\nPython 3.11, ~440 routes organisées en 11 modules métier isolés (trésorerie, coordination, projets, réunions, membres, admin, hub, auth…). Chaque module vit dans son blueprint : on ajoute une brique sans casser les autres.",
           "size": "large",
@@ -6392,7 +6385,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaazvdsy",
+          "id": "mrgokggolc0yn",
           "name": "Pages et API séparées",
           "text": "Chaque module sépare ses pages (routes.py) de son API REST (api.py), avec des conventions homogènes (/api/<module>/…, GET/POST/PUT/DELETE). Migration en cours du modèle « routes à plat » vers ce découpage modulaire.",
           "size": "normal",
@@ -6400,7 +6393,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaadk63h",
+          "id": "mrgokggoy0irv",
           "name": "Une seule base, relationnelle",
           "text": "PostgreSQL, modèle relationnel à clés étrangères : l'intégrité des données est garantie par la base. Une seule base partagée par tous les rôles — la donnée saisie une fois circule partout.",
           "size": "normal",
@@ -6408,7 +6401,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaa1wxtq",
+          "id": "mrgokggolx82s",
           "name": "Rendu serveur, interactivité ciblée",
           "text": "HTML rendu côté serveur (Jinja), assemblé par des partials réutilisables (espaces par rôle, tiroirs, bandeaux). Pas de SPA lourde à maintenir : simple, rapide, accessible.",
           "size": "normal",
@@ -6416,7 +6409,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaa7j8tt",
+          "id": "mrgokggojl30t",
           "name": "Hébergé en France",
           "text": "« Tout tourne en France, chez Scalingo. »\n\nMigration assumée de Railway vers Scalingo (PostgreSQL managé, France). L'hébergement souverain n'est pas qu'un choix technique : c'est un argument RGPD de poids face aux CPTS et à l'ARS. (lié au cap « Hébergement Made in France »)",
           "size": "large",
@@ -6424,7 +6417,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaasjtdo",
+          "id": "mrgokggowzobg",
           "name": "Déploiement continu",
           "text": "Push sur GitHub → webhook → déploiement automatique. gunicorn en production, runtime épinglé (Python 3.11.7), configuration par variables d'environnement. Mettre en ligne = pousser du code.",
           "size": "normal",
@@ -6432,7 +6425,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaawnars",
+          "id": "mrgokggodm06u",
           "name": "PaaS plutôt que VPS",
           "text": "L'auto-hébergement sur VPS est gardé « sous le coude » mais écarté au profit d'un PaaS managé : moins de maintenance serveur, hébergement France, déploiement simple. On investit le temps dans le produit, pas dans l'infra. (carrefour DEC-02)",
           "size": "normal",
@@ -6440,7 +6433,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaawl7k1",
+          "id": "mrgokggokpcwa",
           "name": "Testé bout en bout",
           "text": "Une suite de tests E2E (pytest) couvre les cycles métier critiques : fléchage des déclarations (+ rollback), validation refus/relances/archives, espaces par rôle, historique des indemnisations. Le filet qui permet d'avancer vite sans rien casser.",
           "size": "normal",
@@ -6448,7 +6441,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaaj9877",
+          "id": "mrgokggo1dxye",
           "name": "Sécurité et cloisonnement par rôle",
           "text": "Authentification dédiée et espaces adaptés à chaque rôle (direction, coordination, trésorier, membre) : chacun ne voit que ce qui le concerne. Vigilance continue (failles XSS corrigées au fil de l'eau).",
           "size": "normal",
@@ -6456,7 +6449,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaa8skj1",
+          "id": "mrgokggonqh1r",
           "name": "Démo sans risque",
           "text": "Un mode démo public avec données fictives seedées, pour montrer la plateforme sans jamais exposer de vraies données. (Remise à zéro entre visiteurs en chantier.)",
           "size": "normal",
@@ -6466,7 +6459,7 @@
       ],
       "marque": [
         {
-          "id": "mrgo5oaabca1v",
+          "id": "mrgokggoz7puw",
           "name": "Pourquoi cette sobriété",
           "text": "Premium minimal (esprit Stripe / Vercel) + une chaleur santé (esprit Doctolib). Sérieux mais humain, jamais corporate, jamais intimidant. La sobriété n'est pas un manque : c'est ce qui rend la marque crédible auprès de soignants qui n'ont pas de temps à perdre.",
           "size": "large",
@@ -6474,7 +6467,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaais4j7",
+          "id": "mrgokggo94cf4",
           "name": "Règles intangibles",
           "text": "Fond crème (#FAF7F2), jamais blanc pur. Pas de gradient bleu→teal sur les boutons (le cobalt suffit). Le cobalt reste en 3e position du logo. Ratio logo 1:1, pas de rotation, marge de sécurité 6u.",
           "size": "normal",
@@ -6482,7 +6475,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaafjmyz",
+          "id": "mrgokggoi3kg2",
           "name": "Histoire fondatrice",
           "text": "Construite par une coordinatrice, pour les coordinatrices — née du terrain. C'est l'actif de crédibilité n°1, à utiliser. ⚠️ Ne PAS mentionner que c'est un projet solo ; ne pas nommer les CPTS qui ont nourri la réflexion. Le moment venu : « développé en collaboration avec des CPTS » suffit.",
           "size": "large",
@@ -6490,7 +6483,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaa7jedt",
+          "id": "mrgokggo2pxvs",
           "name": "Cibles",
           "text": "Primaire : coordinateurs/trices (décideurs ET utilisateurs, prescripteurs de la vente — réception positive). Secondaire : professionnels membres (médecins, IDE). Tertiaire : financeurs (ARS, URPS, Assurance Maladie) — crédibilité, pas conversion. Hors cible : grand public, patients.",
           "size": "normal",
@@ -6498,7 +6491,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaaqctv4",
+          "id": "mrgokggo2dbr0",
           "name": "Points forts à mettre en avant",
           "text": "1) Cockpit ACI (vue d'ensemble + indicateurs temps réel + dialogue de gestion ARS — unique). 2) Role-first : chaque rôle son expérience. 3) Module membre optionnel (moins de friction). 4) Migration accompagnée (lève le frein n°1). 5) Accompagnement renforcé (paramétrage fin). 6) Interfaçage institutionnel (roadmap).",
           "size": "normal",
@@ -6506,7 +6499,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaaug1cm",
+          "id": "mrgokggonwy64",
           "name": "Le guidage des rôles",
           "text": "Trésorier, secrétaire, bureau ont besoin d'un outil mais souvent l'ignorent et craignent une interface complexe. Message : « Vous prenez votre rôle, CPTS Pilot vous guide pour l'accomplir. » Ils ne seront pas seuls — pensé pour des soignants, pas des informaticiens.",
           "size": "normal",
@@ -6514,7 +6507,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaaeh3hg",
+          "id": "mrgokggogs56o",
           "name": "Migration accompagnée = l'argument",
           "text": "Le frein n°1 à l'adoption, c'est le passage depuis l'existant. La promesse : « on s'occupe du passage, vous n'avez qu'à commencer à travailler. » À mettre en avant sur la home ET la page Tarifs.",
           "size": "normal",
@@ -6522,7 +6515,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaahd0bk",
+          "id": "mrgokggoqjdqc",
           "name": "Présentation rotative des modules (idée)",
           "text": "Idée du vivier : un carrousel circulaire des modules. ⚠️ Pas dans la structure validée du V1 (Hero → 3 piliers → cockpit showcase → rôles → modules → migration → CTA). À garder comme piste d'animation pour la section modules.",
           "size": "normal",
@@ -6530,7 +6523,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaa3ayea",
+          "id": "mrgokggozj4xi",
           "name": "Concurrence : ne jamais nommer",
           "text": "Plexus, Medplan, CPTS+ : pas conçus nativement pour les CPTS. Concurrent invisible : l'organisation maison Excel/Notion/mails. ⚠️ Ne jamais les nommer sur le site, ne jamais dénigrer les pratiques existantes. On parle de ce qu'on apporte, pas de ce que les autres font mal.",
           "size": "normal",
@@ -6538,7 +6531,7 @@
           "contributions": []
         },
         {
-          "id": "mrgo5oaao8s6z",
+          "id": "mrgokggokpxqa",
           "name": "Questions ouvertes à approfondir",
           "text": "Domaines : cptspilot.fr (+ défensifs). Dépôt INPI classes 9 + 42. Pseudos sociaux @cptspilot. Témoignages : identifier des bêta-testeurs / CPTS pilotes citables. Preuves sociales (chiffres, CPTS en production). Formules et prix exacts à arrêter.",
           "size": "normal",
