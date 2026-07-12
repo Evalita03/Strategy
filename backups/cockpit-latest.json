@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-07-12T20:11:35.810Z",
+  "exportedAt": "2026-07-12T20:14:59.632Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -6020,7 +6020,7 @@
         "id": "mrgokggp902fk",
         "title": "Mise en service d'une nouvelle CPTS cliente",
         "month": "2026-07",
-        "status": "doing",
+        "status": "done",
         "body": "Outiller la création d'un espace dédié et isolé pour chaque nouvelle CPTS cliente : sa propre base de données, ses fichiers, son adresse. Préparer un tableau de bord interne pour suivre l'ensemble des CPTS abonnées."
       },
       {
