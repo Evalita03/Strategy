@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-07-12T11:29:57.632Z",
+  "exportedAt": "2026-07-12T11:51:10.989Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -5811,6 +5811,13 @@
         "title": "Statuts & rémunération : 4 cas de figure non couverts par le modèle",
         "status": "todo",
         "body": "Audit du modèle (2026-07-07) : couvre ~90 % des CPTS (typologies libres, taux/mode par statut, override par membre, taux figé par déclaration). 4 manques structurels à valider en béta : (1) taux par activité/mission — le plus critique car incontournable quand il se présente ; (2) forfaits non horaires structurés (ex : 50 €/réunion) au-delà de l'ICPA ; (3) plafonds/enveloppes d'indemnisation par membre ou statut (ex : 3 000 €/an) avec alerte ; (4) salariat CPTS (déjà au backlog contrat/salaire, hors modèle indemnisation). Recommandation : ne rien construire avant retour béta Pau Béarn."
+      },
+      {
+        "id": "mrhmfofdwpb6j",
+        "title": "Être prête à recevoir les factures électroniques (avant le 01/09/2026)",
+        "status": "todo",
+        "category": "admin",
+        "body": "Échéance suivie par Victor (Le Gestionnaire).\n\nAu 1er septembre 2026, toute entreprise doit pouvoir RECEVOIR ses factures fournisseurs au format électronique. Vérifie si Indy le fait déjà pour toi ; sinon rattache-toi à une plateforme agréée.\n\nOù : Ton outil de gestion (vérifier avec Indy) ou une plateforme agréée (PDP) — annuaire sur impots.gouv.fr"
       }
     ],
     "strategie": [],
@@ -5964,7 +5971,7 @@
         "id": "mrhj4t1kr1c20",
         "title": "Statuts & rémunération : 4 cas de figure non couverts par le modèle",
         "month": "2026-07",
-        "status": "planned",
+        "status": "doing",
         "body": "Depuis le vivier (idée PRD-25).\n\nAudit du modèle (2026-07-07) : couvre ~90 % des CPTS (typologies libres, taux/mode par statut, override par membre, taux figé par déclaration). 4 manques structurels à valider en béta : (1) taux par activité/mission — le plus critique car incontournable quand il se présente ; (2) forfaits non horaires structurés (ex : 50 €/réunion) au-delà de l'ICPA ; (3) plafonds/enveloppes d'indemnisation par membre ou statut (ex : 3 000 €/an) avec alerte ; (4) salariat CPTS (déjà au backlog contrat/salaire, hors modèle indemnisation). Recommandation : ne rien construire avant retour béta Pau Béarn."
       },
       {
@@ -6064,13 +6071,6 @@
         "month": "2026-08",
         "status": "planned",
         "body": "Un espace unique pour classer, chercher et partager les documents de la CPTS (gestion électronique de documents). Mention incidente, jamais spécifiée."
-      },
-      {
-        "id": "mrgokggpmkdfc",
-        "title": "Module migration de donnees IA-powered",
-        "month": "2026-07",
-        "status": "planned",
-        "body": "Ingestion Excel/Word/PDF/scans -> remplissage auto + validation humaine. Backlog trace (project_migration_module). A shipper avant les premiers clients payants. La PROMESSE commerciale associee est, elle, un cap-mur (voir CAP-03)."
       },
       {
         "id": "mrgokggpa1jr9",
@@ -7527,6 +7527,17 @@
         "enTache": false,
         "enRoadmap": false,
         "etat": "active"
+      },
+      {
+        "id": "mrhmfba78mrfo",
+        "key": "être prête à recevoir les e-factures",
+        "titre": "Être prête à recevoir les e-factures",
+        "type": "chantier",
+        "fromDate": "2026-07-12",
+        "agent": "victor",
+        "enTache": false,
+        "enRoadmap": false,
+        "etat": "active"
       }
     ],
     "agentChats": {
@@ -7749,7 +7760,7 @@
     "lastSeenReport": {
       "orion": "2026-06-29",
       "chef-produit": "2026-07-01",
-      "victor": "2026-06-28",
+      "victor": "2026-07-12",
       "smoke": "2026-07-03",
       "carla": "2026-06-27"
     },
@@ -7933,12 +7944,13 @@
       "conc:cpts+",
       "coup:cartographier finement les 7 concurrents (fonctions + prix)"
     ],
-    "victorDocs": [],
     "pricingPlan": [],
     "marquePlan": [],
     "marchePlanScheduled": true,
     "victorCheck": {
-      "vc-espacepro": true
+      "vc-espacepro": true,
+      "vc-registre": true,
+      "vc-compte": true
     },
     "pistesArchive": [
       {
