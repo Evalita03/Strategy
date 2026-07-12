@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-07-11T19:29:22.661Z",
+  "exportedAt": "2026-07-12T08:27:42.836Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -5793,6 +5793,24 @@
         "title": "Rendre effectif mon compte pro - commencer à payer en pro",
         "status": "doing",
         "body": ""
+      },
+      {
+        "id": "mrhj3y6jzzta6",
+        "title": "Migration accompagnee : incluse en formule haute OU option payante ?",
+        "status": "todo",
+        "body": "Choix non tranche. Conditionne la grille tarifaire (DEC-04) et la promesse migration (CAP-03)."
+      },
+      {
+        "id": "mrhj45mgx4quk",
+        "title": "Referencement sur les mots-cles que tapent les CPTS",
+        "status": "todo",
+        "body": "Travail SEO / mots-cles jamais enclenche."
+      },
+      {
+        "id": "mrhj5ajoakjq2",
+        "title": "Statuts & rémunération : 4 cas de figure non couverts par le modèle",
+        "status": "todo",
+        "body": "Audit du modèle (2026-07-07) : couvre ~90 % des CPTS (typologies libres, taux/mode par statut, override par membre, taux figé par déclaration). 4 manques structurels à valider en béta : (1) taux par activité/mission — le plus critique car incontournable quand il se présente ; (2) forfaits non horaires structurés (ex : 50 €/réunion) au-delà de l'ICPA ; (3) plafonds/enveloppes d'indemnisation par membre ou statut (ex : 3 000 €/an) avec alerte ; (4) salariat CPTS (déjà au backlog contrat/salaire, hors modèle indemnisation). Recommandation : ne rien construire avant retour béta Pau Béarn."
       }
     ],
     "strategie": [],
@@ -5934,6 +5952,20 @@
         "month": "2026-05",
         "status": "done",
         "body": "Homepage publique sur la racine du domaine, arc narratif en 9 sections + 2 moments interactifs (sélecteur de rôle, carrousel des circuits ACI ↔ Trésorerie)."
+      },
+      {
+        "id": "mrhj4i6b0cbdt",
+        "title": "Vue lecture seule du Suivi ACI pour bureau / CA / gouvernance",
+        "month": "2026-07",
+        "status": "planned",
+        "body": "Depuis le vivier (idée PRD-24).\n\nChantier C5 de la refonte Coordination, reporté : dépend de la finalisation des modules Suivi des indicateurs + Dialogue de gestion (aujourd'hui en construction). Tant qu'ils ne sont pas construits, pas de support pour cette lecture seule ni pour l'action gouvernance. À reprendre après."
+      },
+      {
+        "id": "mrhj4t1kr1c20",
+        "title": "Statuts & rémunération : 4 cas de figure non couverts par le modèle",
+        "month": "2026-07",
+        "status": "planned",
+        "body": "Depuis le vivier (idée PRD-25).\n\nAudit du modèle (2026-07-07) : couvre ~90 % des CPTS (typologies libres, taux/mode par statut, override par membre, taux figé par déclaration). 4 manques structurels à valider en béta : (1) taux par activité/mission — le plus critique car incontournable quand il se présente ; (2) forfaits non horaires structurés (ex : 50 €/réunion) au-delà de l'ICPA ; (3) plafonds/enveloppes d'indemnisation par membre ou statut (ex : 3 000 €/an) avec alerte ; (4) salariat CPTS (déjà au backlog contrat/salaire, hors modèle indemnisation). Recommandation : ne rien construire avant retour béta Pau Béarn."
       },
       {
         "id": "mrgokggp4ro0s",
@@ -6097,6 +6129,20 @@
         "body": "Contenu editorial pour le site vitrine (SEO + credibilite). Liste, jamais commence."
       },
       {
+        "id": "mrhiycpu8jbh6",
+        "title": "Statistiques  Vie Associative",
+        "month": "2026-08",
+        "status": "planned",
+        "body": "Depuis le vivier (idée PRD-26).\n\nPermettre dans la vie associative de pouvoir faire des statistiques sur les catégories de profession, le ratio des membres du CA ou du bureau investis dans les groupes de travail, le taux de participation général en GT, absentéisme des membres, autres"
+      },
+      {
+        "id": "mrhiymk0viuz1",
+        "title": "Module démarche d'amélioration continue",
+        "month": "2026-08",
+        "status": "planned",
+        "body": "Depuis le vivier (idée PRD-21).\n\nQuestionnaires adhérents, PDS, évaluation investissement, possibilité d'évaluer ses performances et propositions de plan d'actions, illustrations PDCA ,e tc"
+      },
+      {
         "id": "mrgokggpzntth",
         "title": "Refonte de l'onglet Coordination (Suivi Contrat ACI)",
         "month": "2026-06",
@@ -6158,6 +6204,13 @@
         "month": "2026-09",
         "status": "planned",
         "body": "Trancher l'architecture d'hébergement : une seule base partagée par toutes les CPTS, ou un espace dédié (base de données + fichiers) par CPTS. Décision structurante qui pèse sur les coûts, la sécurité des données, la montée en charge et la façon de mettre en service chaque nouvelle CPTS. À arbitrer avant d'engager les premières CPTS clientes."
+      },
+      {
+        "id": "mrhj0pgm1b31m",
+        "title": "Module COPIL SSE",
+        "month": "2026-09",
+        "status": "planned",
+        "body": "Depuis le vivier (idée PRD-23).\n\nDans vie Associative, ou à part : un module de construction d'un copil SSE avec fiches réflexes, marches à suivre, tableau de bord, etc"
       }
     ],
     "strategiePillars": {
@@ -6230,6 +6283,46 @@
           "id": "mrgokggo9ls5y",
           "name": "Switcher de vue par role (transversal)",
           "text": "un switch de vue globale tresorier, secretaire, president, coordinatrice, conseil d'administration",
+          "size": "normal",
+          "group": "Un outil par rôle",
+          "contributions": []
+        },
+        {
+          "id": "mrhizc89ykqd0",
+          "name": "Statistiques  Vie Associative",
+          "text": "Offrir aux CPTS une lecture chiffrée de leur dynamique interne permet de piloter la vie associative avec autant de rigueur que leurs actions de santé. En rendant visibles des indicateurs comme la répartition des professions au sein des instances, le taux d'engagement des membres du CA ou du bureau dans les groupes de travail, ou encore le taux de participation et d'absentéisme en séance, le cockpit devient un véritable outil de gouvernance. Ces données permettent d'identifier des déséquilibres, de valoriser l'implication réelle des membres et d'éclairer les décisions collectives sur un fondement objectif.",
+          "size": "normal",
+          "group": "Faite pour les CPTS",
+          "contributions": []
+        },
+        {
+          "id": "mrhizu823uexa",
+          "name": "Module démarche d'amélioration continue",
+          "text": "Un module dédié à l'amélioration continue permettrait aux CPTS de mesurer régulièrement leurs performances et d'en tirer des orientations concrètes. À partir de questionnaires adressés aux adhérents, d'indicateurs sur la permanence des soins ou encore de l'évaluation de leurs investissements, chaque CPTS disposerait d'une lecture claire de ses résultats. Le module proposerait alors des plans d'actions adaptés, en s'appuyant sur une logique structurée de type PDCA pour ancrer cette démarche dans la durée.",
+          "size": "normal",
+          "group": "Piloter et grandir",
+          "contributions": []
+        },
+        {
+          "id": "mrhj1l8k02l77",
+          "name": "Module COPIL SSE",
+          "text": "Dans vie Associative, ou à part : un module de construction d'un copil SSE avec fiches réflexes, marches à suivre, tableau de bord, etc",
+          "size": "normal",
+          "group": "Faite pour les CPTS",
+          "contributions": []
+        },
+        {
+          "id": "mrhj1whr2e083",
+          "name": "Tableau de bord Actions lancées/pas lancées/ en cours/ prévues",
+          "text": "",
+          "size": "normal",
+          "group": "Un outil par rôle",
+          "contributions": []
+        },
+        {
+          "id": "mrhj26w981eer",
+          "name": "Module RH dedie a la coordinatrice",
+          "text": "qui est un espace qui parle plutot de son suivi RH, les declarations de ses heures mensuelles, ses contrats de travail, les entretiens annuels",
           "size": "normal",
           "group": "Un outil par rôle",
           "contributions": []
@@ -6372,6 +6465,14 @@
           "text": "Migration accompagnee : incluse en formule haute OU option payante",
           "size": "normal",
           "group": "",
+          "contributions": []
+        },
+        {
+          "id": "mrhj57lcvua7m",
+          "name": "Statuts & rémunération : 4 cas de figure non couverts par le modèle",
+          "text": "Le modèle de paramétrage des statuts et des versements couvre environ 90 % des configurations rencontrées en CPTS, mais quatre cas structurels restent hors de sa portée : les taux différenciés par activité ou mission, les forfaits non horaires au-delà de l'ICPA, les plafonds d'indemnisation par membre ou par statut, et les situations de salariat au sein de la CPTS. Ces manques sont identifiés et documentés, mais aucune décision de construction ne sera prise avant les retours du déploiement bêta en cours. L'enjeu est de valider leur fréquence réelle sur le terrain avant d'engager des développements qui pourraient s'avérer superflus pour la majorité des structures.",
+          "size": "normal",
+          "group": "Notre modèle de prix",
           "contributions": []
         }
       ],
@@ -6536,6 +6637,14 @@
           "text": "Domaines : cptspilot.fr (+ défensifs). Dépôt INPI classes 9 + 42. Pseudos sociaux @cptspilot. Témoignages : identifier des bêta-testeurs / CPTS pilotes citables. Preuves sociales (chiffres, CPTS en production). Formules et prix exacts à arrêter.",
           "size": "normal",
           "group": "Contenus & règles de com'",
+          "contributions": []
+        },
+        {
+          "id": "mrhj34kyimh7a",
+          "name": "Design book du logo Mixer",
+          "text": "Le logo validé (proposition 9) mérite d'être documenté dans un book de référence complet, qui fixe les règles d'usage une fois pour toutes. Ce document rassemblera les déclinaisons chromatiques, les versions principales et secondaires, ainsi que les mises en situation concrètes du logo dans l'interface et les supports. Il servira de socle stable pour garantir la cohérence visuelle de CPTS Pilot à mesure que le produit évolue.",
+          "size": "normal",
+          "group": "Identité visuelle",
           "contributions": []
         }
       ],
