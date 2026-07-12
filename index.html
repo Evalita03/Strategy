@@ -8458,11 +8458,16 @@ async function backupToGithub(silent) {
       throw new Error(err.message || `Lecture impossible (${getResp.status})`);
     }
     // 2. Prépare le snapshot
+    // Le repo est PUBLIC : on RETIRE du backup les données privées avant publication.
+    // Le Dossier de Victor (state.victorDocs) reste dans le navigateur d'Eva et dans prive/ ;
+    // il ne doit jamais partir dans backups/cockpit-latest.json (fichier public).
+    const safeState = Object.assign({}, state);
+    delete safeState.victorDocs;
     const snapshot = {
       version: 1,
       exportedAt: new Date().toISOString(),
       origin: silent ? 'auto-backup' : 'manual-backup',
-      data: state
+      data: safeState
     };
     // 3. PUT, avec retry si conflit de SHA (le fichier a bougé entre-temps)
     let sha = await fetchSha();
