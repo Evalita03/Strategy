@@ -724,6 +724,34 @@ body {
 .vic-check-label { font-size: 13.5px; color: var(--slate-700); line-height: 1.45; flex: 1; }
 .vic-check-item.is-done .vic-check-label { color: var(--slate-400); text-decoration: line-through; }
 .vic-check-ech { font-size: 11px; font-weight: 700; background: #F5ECD9; color: #A16207; border-radius: 6px; padding: 2px 8px; white-space: nowrap; align-self: center; }
+/* Victor — le bloc d'alertes « À faire bientôt » (en tête de son Aujourd'hui) */
+.vic-alertes { border: 1px solid #FED7AA; background: var(--orange-100); border-radius: 12px; padding: 12px 15px; margin-bottom: 16px; }
+.vic-alertes.is-hot { border-color: #FECACA; background: var(--red-100); }
+.vic-alertes-head { font-size: 13.5px; color: var(--slate-700); margin-bottom: 8px; }
+.vic-alertes-head strong { color: var(--slate-800); }
+.vic-alertes-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.vic-alertes-list li { font-size: 13px; color: var(--slate-700); line-height: 1.45; }
+.vic-ech-when { font-weight: 800; white-space: nowrap; margin-right: 4px; }
+.vic-ech-ou { font-size: 11.5px; color: var(--slate-500); }
+/* Victor — l'échéancier (obligations récurrentes projetées) */
+.vic-ech-intro { font-size: 12.5px; color: var(--slate-600); line-height: 1.6; margin-bottom: 14px; max-width: 780px; }
+.vic-ech-row { display: flex; align-items: flex-start; gap: 12px; border: 1px solid var(--slate-200); border-left-width: 4px; border-radius: 10px; padding: 11px 14px; background: #fff; margin-bottom: 8px; }
+.vic-ech-row.vic-ech-late, .vic-ech-row.vic-ech-red { border-left-color: var(--red-600); }
+.vic-ech-row.vic-ech-amber { border-left-color: var(--orange-600); }
+.vic-ech-row.vic-ech-green { border-left-color: #86C99A; }
+.vic-ech-dot { font-size: 15px; line-height: 1.4; flex-shrink: 0; }
+.vic-ech-main { flex: 1; min-width: 0; }
+.vic-ech-titre { font-size: 13.5px; font-weight: 700; color: var(--slate-700); line-height: 1.4; }
+.vic-ech-meta { font-size: 12.5px; color: var(--slate-500); margin-top: 3px; }
+.vic-ech-meta strong { color: var(--slate-700); }
+.vic-ech-meta .vic-ech-late, .vic-ech-meta .vic-ech-red { color: var(--red-600); font-weight: 700; }
+.vic-ech-meta .vic-ech-amber { color: #B45309; font-weight: 700; }
+.vic-ech-meta .vic-ech-green { color: #15803D; font-weight: 700; }
+.vic-ech-rec { color: var(--slate-500); }
+.vic-ech-note { font-size: 12px; color: var(--slate-600); line-height: 1.5; margin-top: 5px; }
+.vic-ech-ou-row { font-size: 12px; color: var(--slate-500); margin-top: 4px; }
+.vic-ech-avc { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; color: #A16207; background: #F5ECD9; border-radius: 6px; padding: 1px 6px; vertical-align: middle; }
+.vic-ech-act { flex-shrink: 0; }
 .prop-list { display: flex; flex-direction: column; gap: 10px; }
 .prop-item { display: flex; gap: 12px; align-items: flex-start; justify-content: space-between; border: 1px solid var(--blue-100); border-radius: 12px; padding: 12px 14px; background: var(--blue-50); }
 .prop-main { flex: 1; min-width: 0; }
@@ -5710,6 +5738,7 @@ async function refreshSmokeReport() {
 function renderVictorToday(r, hideActions) {
   const when = r.updated_at ? `Mis à jour le ${esc(r.updated_at)}${r.trigger ? ' · ' + esc(r.trigger) : ''}` : '';
   let h = `<div class="agent-report-head"><span class="agent-report-title">État administratif</span><span class="agent-report-when">${when}</span></div>`;
+  h += vicAlertesBlock();
   if (r.synthese) h += `<div class="agent-report-block"><div class="arb-label">En un mot</div><div class="arb-text">${esc(r.synthese)}</div></div>`;
   if (r.etat_global) h += `<div class="report-evolution">🏛️ <strong>Où en est l'entreprise&nbsp;:</strong> ${esc(r.etat_global)}</div>`;
   if (Array.isArray(r.domaines) && r.domaines.length) {
@@ -5815,6 +5844,96 @@ function renderVictorChecklist(r) {
   });
   h += `</div>`;
   return h;
+}
+// ---- Victor : l'ÉCHÉANCIER — obligations récurrentes projetées dans le temps + alertes ----
+// Victor écrit un tableau `echeancier` dans son rapport (agents/victor.json). Chaque item est une
+// obligation RÉCURRENTE (ou ponctuelle) dont il a vérifié la date à la source. Le cockpit calcule
+// tout seul la prochaine occurrence de chacune, la classe par urgence, et fait remonter les alertes.
+// item = { id, titre, domaine, recurrence:'mensuel|trimestriel|annuel|ponctuel',
+//          jour:1-31, mois:1-12 (annuel/ancre trimestre), date:'AAAA-MM-JJ' (ponctuel),
+//          ou:'où le faire', note, verifie:bool, actif:bool }
+function vicEcheancierSource(reps) {
+  const withE = [...(reps || [])].reverse().find(x => x && Array.isArray(x.echeancier) && x.echeancier.length);
+  return withE ? withE.echeancier : [];
+}
+function vicClampDay(y, m, day) { const last = new Date(y, m + 1, 0).getDate(); return new Date(y, m, Math.min(day, last)); }
+function vicNextOccurrence(item, today) {
+  const rec = item.recurrence;
+  if (rec === 'ponctuel') { const dt = item.date ? new Date(item.date + 'T00:00:00') : null; return (dt && !isNaN(dt.getTime())) ? dt : null; }
+  const y = today.getFullYear(), m = today.getMonth();
+  const jour = Math.max(1, Math.min(31, parseInt(item.jour, 10) || 1));
+  if (rec === 'mensuel') { let c = vicClampDay(y, m, jour); if (c < today) c = vicClampDay(y, m + 1, jour); return c; }
+  if (rec === 'annuel') { const mo = (parseInt(item.mois, 10) || 1) - 1; let c = vicClampDay(y, mo, jour); if (c < today) c = vicClampDay(y + 1, mo, jour); return c; }
+  if (rec === 'trimestriel') {
+    const phase = (((parseInt(item.mois, 10) || 1) - 1) % 3 + 3) % 3;
+    for (let k = 0; k < 14; k++) { const mm = m + k; if ((((mm % 12) % 3) + 3) % 3 === phase) { const c = vicClampDay(y + Math.floor(mm / 12), mm % 12, jour); if (c >= today) return c; } }
+    return null;
+  }
+  return null;
+}
+function vicUrgence(days) {
+  if (days < 0) return { dot: '🔴', label: 'en retard', cls: 'vic-ech-late' };
+  if (days <= 7) return { dot: '🔴', label: days === 0 ? "aujourd'hui" : 'dans ' + days + ' j', cls: 'vic-ech-red' };
+  if (days <= 21) return { dot: '🟠', label: 'dans ' + days + ' j', cls: 'vic-ech-amber' };
+  return { dot: '🟢', label: 'dans ' + days + ' j', cls: 'vic-ech-green' };
+}
+function computeVicEcheances(items) {
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  return (items || []).filter(it => it && it.actif !== false).map(it => {
+    const dt = vicNextOccurrence(it, today); if (!dt) return null;
+    const days = Math.round((dt - today) / 86400000);
+    return { it, date: dt, days, urg: vicUrgence(days) };
+  }).filter(Boolean).sort((a, b) => a.date - b.date);
+}
+function vicRecurrenceLabel(it) {
+  const m = { mensuel: 'chaque mois', trimestriel: 'chaque trimestre', annuel: 'chaque année', ponctuel: 'une seule fois' };
+  return it.recurrence && m[it.recurrence] ? ` · <span class="vic-ech-rec">${m[it.recurrence]}</span>` : '';
+}
+// Bloc d'alertes affiché en tête de l'« Aujourd'hui » de Victor (obligations imminentes / en retard)
+function vicAlertesBlock() {
+  const list = computeVicEcheances(vicEcheancierSource(agentReportsFromData(agentConsoleData))).filter(e => e.days <= 14);
+  if (!list.length) return '';
+  const hot = list.some(e => e.days <= 7);
+  return `<div class="vic-alertes ${hot ? 'is-hot' : ''}">
+    <div class="vic-alertes-head">${hot ? '🔴' : '🟠'} <strong>À faire bientôt</strong> — Victor te le rappelle</div>
+    <ul class="vic-alertes-list">${list.map(e => `<li><span class="vic-ech-when ${e.urg.cls}">${e.urg.dot} ${esc(e.urg.label)}</span> <strong>${esc(e.it.titre)}</strong>${e.it.ou ? ` <span class="vic-ech-ou">— ${esc(e.it.ou)}</span>` : ''}</li>`).join('')}</ul>
+  </div>`;
+}
+function renderVictorEcheancier(reps) {
+  const items = vicEcheancierSource(reps);
+  if (!items.length) return `<div class="agent-report-empty">Pas encore d'échéancier. Victor le construit à sa prochaine ronde : il vérifie tes vraies dates (TVA, CFE, cotisations, dépôt des comptes…) à la source, puis elles s'affichent ici, classées par date, avec une alerte quand elles approchent.</div>`;
+  const list = computeVicEcheances(items);
+  const fmt = dt => dt.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  let h = `<div class="vic-ech">
+    <div class="vic-ech-intro">Tes obligations récurrentes, rangées par date d'échéance. Victor les tient à jour et vérifie chaque date à la source. La prochaine occurrence est recalculée automatiquement — tu vois toujours la date qui arrive. Ajoute-en une à ton To&nbsp;do d'un clic.</div>`;
+  list.forEach(e => {
+    h += `<div class="vic-ech-row ${e.urg.cls}">
+      <div class="vic-ech-dot">${e.urg.dot}</div>
+      <div class="vic-ech-main">
+        <div class="vic-ech-titre">${esc(e.it.titre)}${e.it.domaine ? ` <span class="vic-tag">${esc(e.it.domaine)}</span>` : ''}${e.it.verifie ? '' : ' <span class="vic-ech-avc">à confirmer</span>'}</div>
+        <div class="vic-ech-meta"><strong>${esc(fmt(e.date))}</strong> · <span class="${e.urg.cls}">${esc(e.urg.label)}</span>${vicRecurrenceLabel(e.it)}</div>
+        ${e.it.note ? `<div class="vic-ech-note">${esc(e.it.note)}</div>` : ''}
+        ${e.it.ou ? `<div class="vic-ech-ou-row">📍 ${esc(e.it.ou)}</div>` : ''}
+      </div>
+      <div class="vic-ech-act"><button class="cap-task-btn" onclick="createTaskFromEcheance(event, '${esc(e.it.id || '')}')">+ Tâche</button></div>
+    </div>`;
+  });
+  h += `</div>`;
+  return h;
+}
+function createTaskFromEcheance(ev, id) {
+  const btn = ev && ev.currentTarget;
+  const items = vicEcheancierSource(agentReportsFromData(agentConsoleData));
+  const it = items.find(x => (x.id || '') === id); if (!it) return;
+  const e = computeVicEcheances([it])[0];
+  const dstr = e ? e.date.toLocaleDateString('fr-FR') : '';
+  const titre = it.titre + (dstr ? ` (avant le ${dstr})` : '');
+  const dup = state.tasks.find(t => (t.title || '').trim().toLowerCase() === titre.toLowerCase() && t.status !== 'done');
+  if (dup) { if (btn) { btn.textContent = 'Déjà dans ton To do'; btn.disabled = true; btn.classList.add('cap-task-btn-done'); } return; }
+  const body = ['Échéance suivie par Victor (Le Gestionnaire).', it.note || '', it.ou ? ('Où : ' + it.ou) : ''].filter(Boolean).join('\n\n');
+  state.tasks.push({ id: uid(), title: titre, status: 'todo', category: 'admin', body });
+  save();
+  if (btn) { btn.textContent = '✓ Ajouté à ton To do'; btn.disabled = true; btn.classList.add('cap-task-btn-done'); }
 }
 function openVictorDocModal(id) {
   const docs = getVictorDocs();
@@ -6396,7 +6515,7 @@ function mdToHtml(t) {
   if (inList) out.push('</ul>');
   return out.join('\n').replace(/\n(?!<\/?(?:ul|li))/g, '<br>').replace(/\n/g, '');
 }
-const agentTabLabel = { today: "Aujourd'hui", cap: 'Cap commercial', financements: '🎯 Financements', local: '📍 Mon 64', board: '🦈 Concurrence', checklist: '✅ Check-list', dossier: '📁 Dossier', suivi: 'Suivi', journal: 'Journal', carnet: 'Carnet', chat: 'Échanger', fiche: 'Fiche' };
+const agentTabLabel = { today: "Aujourd'hui", cap: 'Cap commercial', financements: '🎯 Financements', local: '📍 Mon 64', board: '🦈 Concurrence', echeancier: '📅 Échéancier', checklist: '✅ Check-list', dossier: '📁 Dossier', suivi: 'Suivi', journal: 'Journal', carnet: 'Carnet', chat: 'Échanger', fiche: 'Fiche' };
 
 function openAgentConsole(slug) {
   currentAgentSlug = slug; agentTab = (slug === 'mako') ? 'board' : 'today'; agentConsoleData = null;
@@ -6435,7 +6554,7 @@ function renderAgentConsole(content, actions) {
         <div class="ac-fresh" id="ac-fresh"></div>
       </div>
       <div class="agent-tabs">
-        ${(currentAgentSlug === 'orion' ? ['today', 'financements', 'suivi', 'journal', 'chat', 'fiche'] : currentAgentSlug === 'mako' ? ['board', 'chat', 'fiche'] : currentAgentSlug === 'chef-produit' ? ['today', 'cap', 'suivi', 'journal', 'carnet', 'chat', 'fiche'] : currentAgentSlug === 'victor' ? ['today', 'checklist', 'dossier', 'suivi', 'journal', 'chat', 'fiche'] : currentAgentSlug === 'smoke' ? ['today', 'fiche'] : ['today', 'suivi', 'journal', 'chat', 'fiche']).map(t => `<button class="agent-tab ${agentTab === t ? 'is-active' : ''}" onclick="setAgentTab('${t}')">${(currentAgentSlug === 'orion' && t === 'today') ? '🔭 Écosystème' : agentTabLabel[t]}</button>`).join('')}
+        ${(currentAgentSlug === 'orion' ? ['today', 'financements', 'suivi', 'journal', 'chat', 'fiche'] : currentAgentSlug === 'mako' ? ['board', 'chat', 'fiche'] : currentAgentSlug === 'chef-produit' ? ['today', 'cap', 'suivi', 'journal', 'carnet', 'chat', 'fiche'] : currentAgentSlug === 'victor' ? ['today', 'echeancier', 'checklist', 'dossier', 'suivi', 'journal', 'chat', 'fiche'] : currentAgentSlug === 'smoke' ? ['today', 'fiche'] : ['today', 'suivi', 'journal', 'chat', 'fiche']).map(t => `<button class="agent-tab ${agentTab === t ? 'is-active' : ''}" onclick="setAgentTab('${t}')">${(currentAgentSlug === 'orion' && t === 'today') ? '🔭 Écosystème' : agentTabLabel[t]}</button>`).join('')}
       </div>
       <div class="agent-tab-body" id="agent-tab-body"><div class="agent-report-loading">Chargement…</div></div>
     </div>`;
@@ -6497,6 +6616,7 @@ function renderAgentTabBody() {
   else if (agentTab === 'board') box.innerHTML = agentPistesHtml('mako', latest) + renderMakoBoard(latest);
   else if (agentTab === 'financements') box.innerHTML = renderObsFinancements(latest);
   else if (agentTab === 'local') box.innerHTML = renderObsLocal(latest);
+  else if (agentTab === 'echeancier') box.innerHTML = renderVictorEcheancier(reps);
   else if (agentTab === 'checklist') box.innerHTML = renderVictorChecklist([...reps].reverse().find(x => x && Array.isArray(x.checklist) && x.checklist.length) || latest);
   else if (agentTab === 'dossier') box.innerHTML = renderVictorDossier();
   else if (agentTab === 'journal') box.innerHTML = (currentAgentSlug === 'orion') ? renderObsJournal(reps) : renderAgentTabJournal(reps);
