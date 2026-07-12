@@ -5761,12 +5761,9 @@ function createJalonFromDemarche(ev) {
 function getVictorDocs() { if (!Array.isArray(state.victorDocs)) state.victorDocs = []; return state.victorDocs; }
 function renderVictorDossier() {
   const docs = getVictorDocs();
-  const cfg = getGhConfig();
-  const syncNote = cfg.token
-    ? `Tes documents sont gardés dans ton cockpit <strong>et</strong> recopiés dans le repo (<code>agents/victor-docs.json</code>) pour que Victor les lise aussi pendant ses rondes.`
-    : `⚠ Pour l'instant tes documents ne sont gardés que dans <strong>ce navigateur</strong> (et ses sauvegardes). Pour que Victor les lise aussi pendant ses <em>rondes</em>, configure ta sauvegarde GitHub (⚙ en bas de la barre latérale).`;
+  const syncNote = `🔒 <strong>Privé.</strong> Ces documents restent dans <strong>ton navigateur</strong> (ils ne sont <strong>jamais publiés</strong> sur ton repo, qui est public). Victor les voit quand tu <strong>échanges</strong> avec lui. Pour qu'il les relise aussi pendant ses <strong>rondes</strong> automatiques, dépose le vrai fichier dans ton dossier privé <code>prive/</code> sur ta machine.`;
   let h = `<div class="vic-dossier">
-    <div class="vic-dossier-intro">Dépose ici le <strong>contenu</strong> de tes documents importants (statuts, extrait Kbis, attestation d'assurance, conditions…). Victor les garde en tête : il les voit quand tu <strong>échanges</strong> avec lui, et il les relit à chaque <strong>ronde</strong>. Tu peux <strong>importer un fichier</strong> (PDF, .txt, .md…) — le texte en est extrait automatiquement — ou coller le texte à la main.</div>
+    <div class="vic-dossier-intro">Dépose ici le <strong>contenu</strong> de tes documents importants (statuts, extrait Kbis, attestation d'assurance, conditions…). Victor les garde en tête quand tu <strong>échanges</strong> avec lui. Tu peux <strong>importer un fichier</strong> (PDF, .txt, .md…) — le texte en est extrait automatiquement — ou coller le texte à la main.</div>
     <div class="vic-dossier-note">${syncNote}</div>`;
   if (!docs.length) {
     h += `<div class="vic-dossier-empty">Aucun document pour l'instant.</div>`;
@@ -5905,28 +5902,12 @@ function deleteVictorDoc(id) {
   state.victorDocs = getVictorDocs().filter(x => x.id !== id);
   save(); syncVictorDocs(); render();
 }
-// Recopie le dossier dans le repo Strategy (agents/victor-docs.json) pour que les rondes le lisent.
-async function syncVictorDocs() {
-  const cfg = getGhConfig();
-  if (!cfg.token || !cfg.owner || !cfg.repo) return; // pas de token → on reste en local, déjà signalé dans l'onglet
-  const branch = cfg.branch || 'main';
-  const path = 'agents/victor-docs.json';
-  const apiUrl = `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}`;
-  const headers = { 'Authorization': `token ${cfg.token}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' };
-  try {
-    let sha = null;
-    const getResp = await fetch(`${apiUrl}?ref=${branch}&t=${Date.now()}`, { headers });
-    if (getResp.ok) { sha = (await getResp.json()).sha; }
-    else if (getResp.status !== 404) { throw new Error('Lecture impossible (' + getResp.status + ')'); }
-    const payload = { agent: 'victor', updated_at: new Date().toISOString().slice(0, 10), docs: getVictorDocs() };
-    const body = { message: 'Dossier de Victor mis à jour', content: utf8ToBase64(JSON.stringify(payload, null, 2)), branch };
-    if (sha) body.sha = sha;
-    const putResp = await fetch(apiUrl, { method: 'PUT', headers, body: JSON.stringify(body) });
-    if (!putResp.ok) { const err = await putResp.json().catch(() => ({})); throw new Error(err.message || ('Échec (' + putResp.status + ')')); }
-  } catch (e) {
-    console.warn('Sync dossier Victor échouée :', e.message);
-  }
-}
+// CONFIDENTIALITÉ : le repo Strategy est PUBLIC. On NE pousse donc PLUS le Dossier de Victor
+// sur GitHub (ça exposait statuts, courriers, etc.). Les documents restent dans le navigateur
+// d'Eva (localStorage, privé, utilisé dans le chat avec Victor). Pour que Victor les relise
+// pendant ses RONDES, Eva dépose les vrais fichiers dans son dossier privé « prive/ » (gitignoré).
+// Fonction conservée en no-op pour ne pas casser les appelants.
+async function syncVictorDocs() { /* volontairement vide : aucune publication, canal privé */ }
 function propKey(p) { return (p.action || '') + '|' + (p.titre || ''); }
 function renderPropositions(r) {
   const all = Array.isArray(r.propositions_roadmap) ? r.propositions_roadmap : [];
