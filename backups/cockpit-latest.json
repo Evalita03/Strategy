@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-07-12T08:57:01.023Z",
+  "exportedAt": "2026-07-12T08:58:22.472Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7712,6 +7712,14 @@
         {
           "role": "assistant",
           "content": "Ah, merci pour la précision — ça change le calendrier mais pas la direction :\n\n---\n\n**Ce que ça veut dire concrètement**\n\n- Pas de client = pas d'urgence immédiate sur les CGV ✔\n- Mais la **beta test** n'est pas sans risque non plus :\n\n> **Qui utilise la plateforme en beta ?**\n- Si c'est **toi seule** → zéro risque juridique, pas besoin de CGV maintenant\n- Si c'est **une ou plusieurs CPTS** qui testent → même gratuitement, tu as besoin d'un minimum de couverture juridique\n\n---\n\n**Pourquoi même une beta \"gratuite\" engage**\n\n- Si une CPTS perd des données pendant le test → elle peut se retourner contre toi\n- Sans contrat = pas de limitation de ta responsabilité\n- Un simple **\"contrat de beta test\"** (1-2 pages) suffit à ce stade — bien plus léger que des CGV complètes\n\n---\n\n**Ma recommandation**\n\n| Situation | Ce qu'il te faut |\n|---|---|\n| Beta solo (toi seule) | Rien pour l'instant |\n| Beta avec une CPTS | Contrat de beta test léger |\n| Premier vrai client | CGV/CGU complètes |\n\n---\n\n**Question directe :** ta beta test implique des utilisateurs réels dans une CPTS, ou c'est encore en interne ?"
+        },
+        {
+          "role": "user",
+          "content": "Victor j'ai fait de la **** j'ai utilisé ma carte pro là de CPTS pilote pour faire des achats perso sans faire exprès Dismoi quelles sont les conséquences"
+        },
+        {
+          "role": "assistant",
+          "content": "Respire — c'est une erreur courante et **ça se corrige facilement**. Pas de panique.\n\n---\n\n**Les conséquences concrètes**\n\n- **Comptable** : ces dépenses vont apparaître dans les comptes de CPTS Pilot SAS — il faut les identifier et les sortir\n- **Fiscale** : une dépense perso dans les comptes d'une société = elle n'est **pas déductible** et peut être requalifiée en **avantage en nature** si tu te la verses\n- **En cas de contrôle** : les achats persos dans les comptes pro sont un signal d'alerte pour l'administration fiscale\n\n---\n\n**Mais voilà : ça se règle simplement**\n\nUne seule action : **rembourser la société**\n\n> Tu fais un virement de ton compte **perso → compte pro** du montant exact des achats concernés, avec le libellé :\n> **\"Remboursement dépenses personnelles par erreur — [date]\"**\n\nTon expert-comptable note ça comme un remboursement → les comptes sont propres.\n\n---\n\n**Ce que tu fais maintenant**\n\n1. **Liste les achats** concernés (montants + dates)\n2. **Fais le virement** de remboursement dès aujourd'hui\n3. **Note-le** quelque part pour le donner à ton expert-comptable\n\n---\n\n**Pour éviter que ça se reproduise**\n\n- Range ta carte pro dans un endroit distinct de ta carte perso\n- Certaines banques pro permettent de **désactiver la carte** entre les utilisations pro\n\n---\n\nC'est vraiment sans gravité si tu le corriges maintenant. Tu as les montants sous la main ?"
         }
       ],
       "carla": []
