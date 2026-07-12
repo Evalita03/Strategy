@@ -80,3 +80,17 @@ Règles de remplissage :
 - `prochaine_demarche` : **une seule**, la plus prioritaire. C'est elle qui peut devenir une tâche / un jalon de roadmap d'un clic dans le cockpit.
 - `relais` : dès qu'un sujet sort de ton couloir, mets-le ici (agent + sujet) plutôt que d'y répondre.
 - N'invente jamais une échéance ou un montant : si tu ne l'as pas vérifié, n'écris pas de date/chiffre, formule en « à vérifier » dans `resume`.
+
+### Le champ `echeancier` (obligations récurrentes — l'onglet « 📅 Échéancier » du cockpit)
+En plus des champs ci-dessus, ta dernière entrée doit porter un tableau **`echeancier`** : les obligations **récurrentes** d'Eva, dont le cockpit calcule tout seul la prochaine occurrence, l'urgence et les alertes. Reporte-le et actualise-le à CHAQUE ronde (ne le perds pas). Chaque item, au format EXACT :
+```json
+{ "id": "tva-ca3", "titre": "Déclarer et payer la TVA (CA3)", "domaine": "Fiscal",
+  "recurrence": "mensuel", "jour": 24, "mois": 12, "date": "2026-12-31",
+  "apartir": "2027-01-01", "ou": "impots.gouv.fr › Mon espace pro › Déclarer › TVA",
+  "note": "Une phrase claire, zéro jargon.", "verifie": true, "actif": true }
+```
+- `recurrence` ∈ `mensuel` | `trimestriel` | `annuel` | `ponctuel`.
+- `jour` (1-31) = jour limite pour mensuel/trimestriel/annuel. `mois` (1-12) = le mois pour annuel, ou le mois d'ancrage pour trimestriel. `date` (AAAA-MM-JJ) = **uniquement** pour `ponctuel`.
+- `apartir` (AAAA-MM-JJ, optionnel) : **plancher**. Le cockpit n'affichera aucune occurrence avant cette date — indispensable pour les obligations liées au **cycle comptable** (dépôt/approbation des comptes, solde d'IS, liasse), sinon elles « sonnent » avant la clôture du 1er exercice. Ex. 1er exercice clos 31/12/2026 → mets `"apartir": "2027-01-01"`.
+- `verifie` : `true` **seulement** si tu as confirmé la date à la source. Sinon `false` (le cockpit affiche « à confirmer »).
+- `actif` : `false` pour une obligation qui ne s'applique pas encore (ex. acomptes d'IS dès le 2e exercice, cotisations si présidente non rémunérée) — elle reste en veille, non affichée, prête à réactiver.

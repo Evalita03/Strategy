@@ -5857,16 +5857,27 @@ function vicEcheancierSource(reps) {
   return withE ? withE.echeancier : [];
 }
 function vicClampDay(y, m, day) { const last = new Date(y, m + 1, 0).getDate(); return new Date(y, m, Math.min(day, last)); }
+// Prochaine occurrence >= plancher, où plancher = max(aujourd'hui, item.apartir).
+// `apartir` (AAAA-MM-JJ, optionnel) empêche une obligation liée à un cycle (dépôt des comptes,
+// solde d'IS…) de « sonner » avant le début réel de ce cycle (ex. 1er exercice clos le 31/12).
 function vicNextOccurrence(item, today) {
   const rec = item.recurrence;
+  const ap = item.apartir ? new Date(item.apartir + 'T00:00:00') : null;
+  const floor = (ap && !isNaN(ap.getTime()) && ap > today) ? ap : today;
   if (rec === 'ponctuel') { const dt = item.date ? new Date(item.date + 'T00:00:00') : null; return (dt && !isNaN(dt.getTime())) ? dt : null; }
-  const y = today.getFullYear(), m = today.getMonth();
   const jour = Math.max(1, Math.min(31, parseInt(item.jour, 10) || 1));
-  if (rec === 'mensuel') { let c = vicClampDay(y, m, jour); if (c < today) c = vicClampDay(y, m + 1, jour); return c; }
-  if (rec === 'annuel') { const mo = (parseInt(item.mois, 10) || 1) - 1; let c = vicClampDay(y, mo, jour); if (c < today) c = vicClampDay(y + 1, mo, jour); return c; }
+  if (rec === 'mensuel') {
+    for (let k = 0; k < 400; k++) { const d0 = new Date(floor.getFullYear(), floor.getMonth() + k, 1); const c = vicClampDay(d0.getFullYear(), d0.getMonth(), jour); if (c >= floor) return c; }
+    return null;
+  }
+  if (rec === 'annuel') {
+    const mo = (parseInt(item.mois, 10) || 1) - 1;
+    for (let k = 0; k < 50; k++) { const c = vicClampDay(floor.getFullYear() + k, mo, jour); if (c >= floor) return c; }
+    return null;
+  }
   if (rec === 'trimestriel') {
     const phase = (((parseInt(item.mois, 10) || 1) - 1) % 3 + 3) % 3;
-    for (let k = 0; k < 14; k++) { const mm = m + k; if ((((mm % 12) % 3) + 3) % 3 === phase) { const c = vicClampDay(y + Math.floor(mm / 12), mm % 12, jour); if (c >= today) return c; } }
+    for (let k = 0; k < 60; k++) { const d0 = new Date(floor.getFullYear(), floor.getMonth() + k, 1); if ((((d0.getMonth() % 3) + 3) % 3) === phase) { const c = vicClampDay(d0.getFullYear(), d0.getMonth(), jour); if (c >= floor) return c; } }
     return null;
   }
   return null;
