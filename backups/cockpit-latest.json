@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-07-12T08:59:57.441Z",
+  "exportedAt": "2026-07-12T09:01:38.226Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7720,6 +7720,14 @@
         {
           "role": "assistant",
           "content": "Respire — c'est une erreur courante et **ça se corrige facilement**. Pas de panique.\n\n---\n\n**Les conséquences concrètes**\n\n- **Comptable** : ces dépenses vont apparaître dans les comptes de CPTS Pilot SAS — il faut les identifier et les sortir\n- **Fiscale** : une dépense perso dans les comptes d'une société = elle n'est **pas déductible** et peut être requalifiée en **avantage en nature** si tu te la verses\n- **En cas de contrôle** : les achats persos dans les comptes pro sont un signal d'alerte pour l'administration fiscale\n\n---\n\n**Mais voilà : ça se règle simplement**\n\nUne seule action : **rembourser la société**\n\n> Tu fais un virement de ton compte **perso → compte pro** du montant exact des achats concernés, avec le libellé :\n> **\"Remboursement dépenses personnelles par erreur — [date]\"**\n\nTon expert-comptable note ça comme un remboursement → les comptes sont propres.\n\n---\n\n**Ce que tu fais maintenant**\n\n1. **Liste les achats** concernés (montants + dates)\n2. **Fais le virement** de remboursement dès aujourd'hui\n3. **Note-le** quelque part pour le donner à ton expert-comptable\n\n---\n\n**Pour éviter que ça se reproduise**\n\n- Range ta carte pro dans un endroit distinct de ta carte perso\n- Certaines banques pro permettent de **désactiver la carte** entre les utilisations pro\n\n---\n\nC'est vraiment sans gravité si tu le corriges maintenant. Tu as les montants sous la main ?"
+        },
+        {
+          "role": "user",
+          "content": "Ok c'est fait juste pour que tu sois tenu au courant J'ai ouvert mon compte pro enfin mon espace professionnel Sur les impôts et j'ai lié avec un mandat SEPA donc la DGFIP mon compte pro Donc est ce que tu peux rajouter ça comme étant fait là dans la check list"
+        },
+        {
+          "role": "assistant",
+          "content": "Super, bien joué — c'est une étape importante de cochée ! ✅\n\nJe note dans ta checklist :\n\n- **vc-espacepro** → ✅ **Fait** : espace professionnel impots.gouv.fr créé et activé, compte pro lié via mandat SEPA DGFIP\n\n---\n\n**Ce que ça débloque maintenant**\n\n- Tu peux voir ton **numéro de TVA** directement dans ton espace pro → va le chercher et note-le\n- Tu peux suivre tes **échéances fiscales** (TVA, IS, CFE…)\n- Le prélèvement de tes impôts se fera automatiquement sur ton compte pro ✔\n\n---\n\n**Ce qui reste à faire dans la foulée**\n\nDeux points directement liés que tu peux enchaîner :\n\n1. **Récupère ton numéro de TVA** depuis l'espace pro → mets-le à jour chez Scalingo et GitHub\n2. **Vérifie ton régime de TVA** affiché dans l'espace → dis-moi ce que tu vois, je t'aide à interpréter\n\n---\n\nTu veux qu'on en profite pour avancer sur la **CFE** (déclaration 1447-C-SD à déposer avant le 31/12/2026) pendant que tu es dans ton espace pro ?"
         }
       ],
       "carla": []
