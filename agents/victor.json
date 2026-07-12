@@ -971,7 +971,7 @@
           "mois": 5,
           "apartir": "2027-01-01",
           "ou": "impots.gouv.fr › Mon espace pro › Déclarer › TVA (déclaration annuelle CA12 / formulaire 3517-S)",
-          "note": "Régime réel SIMPLIFIÉ : UNE seule déclaration par an, qui régularise toute la TVA de l'exercice. Échéance : 2e jour ouvré après le 1er mai (soit ~5 mai 2027 pour l'exercice 2026 ; date exacte publiée chaque année). Pour ta 1re année, pas d'acompte semestriel (ils se calculent sur la TVA de l'année d'avant, qui n'existe pas) : tout est réglé sur cette CA12. NB : ce régime est supprimé au 01/01/2027 — cette CA12 ne servira donc que pour l'exercice 2026.",
+          "note": "Régime réel SIMPLIFIÉ : UNE seule déclaration par an, qui régularise toute la TVA de l'exercice. Échéance : 2e jour ouvré après le 1er mai (soit ~5 mai 2027 pour l'exercice 2026 ; date exacte publiée chaque année). Pour ta 1re année, pas d'acompte semestriel (ils se calculent sur la TVA de l'année d'avant, qui n'existe pas) : tout est réglé sur cette CA12. NB : ce régime est supprimé au 01/01/2027 — cette CA12 ne servira donc que pour l'exercice 2026. Régime réel simplifié (RSI) confirmé par le mémento fiscal (ROF TVA1).",
           "verifie": true,
           "actif": true
         },
@@ -987,6 +987,18 @@
           "note": "À partir du 01/01/2027, le régime simplifié disparaît : tu passes au réel normal et déclares en CA3. Comme ton chiffre d'affaires est inférieur à 1 M€, la déclaration est TRIMESTRIELLE (et non mensuelle). Le jour limite (entre le 15 et le 24 selon ton SIE Béarn-Soule) est à confirmer dans ton espace pro › Calendrier fiscal.",
           "verifie": false,
           "actif": true
+        },
+        {
+          "id": "tva-acompte-3514",
+          "titre": "Acompte de TVA (avis 3514, régime simplifié)",
+          "domaine": "Fiscal",
+          "recurrence": "annuel",
+          "jour": 24,
+          "mois": 7,
+          "ou": "impots.gouv.fr › Mon espace pro › Déclarer › TVA (avis 3514)",
+          "note": "Le mémento fiscal prévoit des acomptes SEMESTRIELS de TVA (avis 3514, juillet et décembre) au titre du régime simplifié. Mais dans ton cas ils ne devraient jamais tomber : (1) en principe AUCUN acompte la 1re année d'activité, et (2) tu quittes le régime simplifié le 01/01/2027 → ta 1re vraie échéance TVA sera la CA12 de mai 2027 couvrant tout 2026. À confirmer par le SIE (question posée).",
+          "verifie": false,
+          "actif": false
         },
         {
           "id": "is-solde",
@@ -1214,7 +1226,7 @@
           "sujet": "Attestation de régularité fiscale (éditable dans l'espace pro) pour candidater aux marchés publics ; facturation des CPTS"
         }
       ],
-      "note": "Échéancier CORRIGÉ le 12/07/2026 après précision d'Eva et re-vérifié à la source (impots.gouv.fr, service-public.fr, economie.gouv.fr). Corrections : (1) régime TVA = réel SIMPLIFIÉ aujourd'hui → UNE CA12 annuelle (~5 mai 2027) pour l'exercice 2026, pas de CA3 mensuelle ; le simplifié étant supprimé au 01/01/2027, bascule automatique en réel normal avec CA3 TRIMESTRIELLE (CA < 1 M€, l'option mensuelle existe mais n'est pas le défaut). (2) Présidente NON rémunérée = zéro cotisation, ligne cotis-president en veille. (3) Ajout de la réforme FACTURATION ÉLECTRONIQUE : réception obligatoire au 01/09/2026 (toutes entreprises), émission au 01/09/2027 (TPE/PME). Points restant « à confirmer » (verifie:false) : le JOUR exact de la future CA3 trimestrielle (15-24 selon ton SIE) et la date exacte de la liasse 2065 (~20 mai). La CVAE reste hors échéancier (seuil de déclaration 152 500 € de CA non atteint). Les items du cycle comptable portent apartir:2027-01-01 pour ne pas sonner avant la 1re clôture."
+      "note": "Échéancier CORRIGÉ le 12/07/2026 après précision d'Eva et re-vérifié à la source (impots.gouv.fr, service-public.fr, economie.gouv.fr). Corrections : (1) régime TVA = réel SIMPLIFIÉ aujourd'hui → UNE CA12 annuelle (~5 mai 2027) pour l'exercice 2026, pas de CA3 mensuelle ; le simplifié étant supprimé au 01/01/2027, bascule automatique en réel normal avec CA3 TRIMESTRIELLE (CA < 1 M€, l'option mensuelle existe mais n'est pas le défaut). (2) Présidente NON rémunérée = zéro cotisation, ligne cotis-president en veille. (3) Ajout de la réforme FACTURATION ÉLECTRONIQUE : réception obligatoire au 01/09/2026 (toutes entreprises), émission au 01/09/2027 (TPE/PME). Points restant « à confirmer » (verifie:false) : le JOUR exact de la future CA3 trimestrielle (15-24 selon ton SIE) et la date exacte de la liasse 2065 (~20 mai). La CVAE reste hors échéancier (seuil de déclaration 152 500 € de CA non atteint). Les items du cycle comptable portent apartir:2027-01-01 pour ne pas sonner avant la 1re clôture.\n\n[MàJ 12/07 — mémento fiscal reçu] Confirmé : IS au réel normal (ROF IS1) ; TVA réel simplifié, déclaration CA12 annuelle, acompte 3514 semestriel (juillet/décembre) — a priori sans effet vu la 1re année + sortie du RSI au 01/01/2027. N° TVA intracom : FR 19 105247977. CVAE (ROF CVAE1, régime de la déclaration) : CA très inférieur à 152 500 € → aucune CVAE due ; vérifier auprès du SIE si une déclaration reste requise."
     }
   ]
 }
