@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-07-12T09:01:38.226Z",
+  "exportedAt": "2026-07-12T09:03:51.687Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -7728,6 +7728,14 @@
         {
           "role": "assistant",
           "content": "Super, bien joué — c'est une étape importante de cochée ! ✅\n\nJe note dans ta checklist :\n\n- **vc-espacepro** → ✅ **Fait** : espace professionnel impots.gouv.fr créé et activé, compte pro lié via mandat SEPA DGFIP\n\n---\n\n**Ce que ça débloque maintenant**\n\n- Tu peux voir ton **numéro de TVA** directement dans ton espace pro → va le chercher et note-le\n- Tu peux suivre tes **échéances fiscales** (TVA, IS, CFE…)\n- Le prélèvement de tes impôts se fera automatiquement sur ton compte pro ✔\n\n---\n\n**Ce qui reste à faire dans la foulée**\n\nDeux points directement liés que tu peux enchaîner :\n\n1. **Récupère ton numéro de TVA** depuis l'espace pro → mets-le à jour chez Scalingo et GitHub\n2. **Vérifie ton régime de TVA** affiché dans l'espace → dis-moi ce que tu vois, je t'aide à interpréter\n\n---\n\nTu veux qu'on en profite pour avancer sur la **CFE** (déclaration 1447-C-SD à déposer avant le 31/12/2026) pendant que tu es dans ton espace pro ?"
+        },
+        {
+          "role": "user",
+          "content": "guide moi pas à pas pour tout ca, commence pour récupérer mon N° de TVA"
+        },
+        {
+          "role": "assistant",
+          "content": "Voilà le pas à pas :\n\n---\n\n**Étape 1 — Connecte-toi**\n> impots.gouv.fr → **\"Votre espace professionnel\"** → identifie-toi\n\n---\n\n**Étape 2 — Trouve ton numéro de TVA**\n\nUne fois connectée, cherche l'un de ces endroits (selon l'interface) :\n\n- **\"Mes informations\"** ou **\"Mon compte\"**\n- OU **\"Consulter\"** → **\"Mes données fiscales\"**\n- OU directement sur ta **liasse fiscale / avis de situation**\n\nTon numéro TVA doit apparaître sous la forme :\n> **FR XX 105247977**\n\n---\n\n**Étape 3 — Si tu ne le trouves pas**\n\n- Télécharge ton **\"Avis de situation au répertoire Sirene\"** ou ton **attestation fiscale** → le numéro TVA y figure\n- OU appelle le **SIE de Pau** (Service des Impôts des Entreprises) — ils te le donnent en 2 minutes avec ton SIREN\n\n---\n\n**Dis-moi ce que tu vois une fois connectée** — je t'aide à naviguer si tu es bloquée quelque part. 😊"
         }
       ],
       "carla": []
@@ -7929,7 +7937,9 @@
     "pricingPlan": [],
     "marquePlan": [],
     "marchePlanScheduled": true,
-    "victorCheck": {},
+    "victorCheck": {
+      "vc-espacepro": true
+    },
     "pistesArchive": [
       {
         "id": "mr1w9k3pd9bmn",
