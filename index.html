@@ -7738,12 +7738,14 @@ const BETA = {
   dureeMois: 6,            // Art. 3 — durée minimale
   nbRapports: 3,           // Art. 7.4 — bimestriel sur la durée
   intervalleMois: 2,
-  // Délais contractuels de correction (Art. 7.2). « jours » = jours ouvrés approchés.
+  // Délais contractuels de correction (Art. 7.2). « jours » = jours ouvrés approchés
+  // (24 h ouvrables ≈ 1 j ouvré, 72 h ouvrables ≈ 3 j ouvrés).
   sla: {
-    haute:   { label: 'Haute',   jours: 3,    desc: '72 h ouvrables' },
-    normale: { label: 'Normale', jours: 7,    desc: '7 j ouvrés' },
+    haute:   { label: 'Haute',   jours: 1,    desc: '24 h ouvrables' },
+    normale: { label: 'Normale', jours: 3,    desc: '72 h ouvrables' },
     basse:   { label: 'Basse',   jours: null, desc: 'planifié' }
   },
+  rgpdBreachH: 72,          // Art. 6.5 — notification d'une violation de données : 72 h max
   typeLabel: { bug: '🐞 Bug', souhait: '💡 Souhait', autre: '💬 Autre' },
   journalIco: { releve: '🔴', demande: '💡', apporte: '🚀', ajuste: '🔧' }
 };
@@ -7754,7 +7756,7 @@ function ensureBeta() {
   if (typeof b.signatureDate !== 'string') b.signatureDate = '';
   if (!Array.isArray(b.invites)) b.invites = [];     // {id, nom, role}
   if (!Array.isArray(b.retours)) b.retours = [];     // {id, type, titre, description, auteur, priorite, statut, date, dateResolu, taskId, arbitrage}
-  if (!Array.isArray(b.incidents)) b.incidents = []; // {id, date, description, cptsInformeeLe}
+  if (!Array.isArray(b.incidents)) b.incidents = []; // {id, date, description, rgpd, cptsInformeeLe}
   if (!Array.isArray(b.journal)) b.journal = [];     // {id, date, type, texte, ref}
   if (!Array.isArray(b.reports)) b.reports = [];     // {id, no, dateEnvoi, statut}
   return b;
@@ -7792,6 +7794,22 @@ function betaSlaInfo(r) {
   return { etat: ms < 86400000 ? 'bientot' : 'ok', label: 'Reste ' + (j <= 1 ? '< 1 j' : j + ' j'), deadline: dl };
 }
 const betaSlaRank = { depasse: 0, bientot: 1, ok: 2, na: 3, resolu: 4 };
+
+// ---- Incidents : notification à la CPTS (Art. 4.3 « sans délai » / Art. 6.5 « 72 h max » si violation de données) ----
+function betaIncidentDeadline(i) {
+  if (!i || !i.rgpd || !i.date) return null;   // le plafond 72 h ne vaut que pour une violation de données personnelles
+  const d = new Date(i.date); d.setHours(d.getHours() + BETA.rgpdBreachH);
+  return d;
+}
+function betaIncidentInfo(i) {
+  if (i.cptsInformeeLe) return { etat: 'resolu', label: 'Notifiée le ' + fmtFr(i.cptsInformeeLe) };
+  const dl = betaIncidentDeadline(i);
+  if (!dl) return { etat: 'depasse', label: 'À notifier sans délai' };
+  const ms = dl - new Date();
+  if (ms < 0) return { etat: 'depasse', label: '⚠ 72 h RGPD dépassées', deadline: dl };
+  const h = Math.ceil(ms / 3600000);
+  return { etat: h <= 24 ? 'bientot' : 'ok', label: 'Notifier sous ' + (h <= 1 ? '< 1 h' : h + ' h') + ' (RGPD)', deadline: dl };
+}
 
 // ---- Échéancier des rapports bimestriels (Art. 7.4) ----
 function betaReportSchedule(b) {
@@ -8009,10 +8027,12 @@ function betaActionItems(b) {
       btns: `<button class="btn btn-ghost beta-mini" onclick="event.stopPropagation();goToTaskFromToday('${r.taskId}')">Ouvrir</button>
              <button class="btn btn-primary beta-mini" onclick="event.stopPropagation();betaMarkResolved('${r.id}')">Régler</button>` });
   });
-  // Incidents à notifier
-  b.incidents.filter(i => !i.cptsInformeeLe).forEach(() => {
-    items.push({ urg: 0, etat: 'depasse', ico: '⚠️', titre: 'Incident à notifier à la CPTS',
-      meta: 'sans délai (Art. 4.3)',
+  // Incidents à notifier (Art. 4.3 « sans délai » ; violation de données → 72 h max, Art. 6.5)
+  b.incidents.filter(i => !i.cptsInformeeLe).forEach(i => {
+    const info = betaIncidentInfo(i);
+    items.push({ urg: info.etat === 'ok' ? 1 : 0, etat: info.etat === 'ok' ? 'bientot' : 'depasse', ico: '⚠️',
+      titre: 'Incident à notifier à la CPTS',
+      meta: (i.rgpd ? 'Violation de données · ' : 'Sécurité · sans délai · ') + info.label,
       btns: `<button class="btn btn-primary beta-mini" onclick="event.stopPropagation();openBetaIncident()">Notifier</button>` });
   });
   // Rapport à préparer (en retard ou < 14 j)
@@ -8121,7 +8141,7 @@ function betaCptsHtml(b) {
   if (b.incidents.length === 0) {
     incidents = `<div style="font-size:12px;color:var(--slate-400)">Aucun pour l'instant. <a href="#" onclick="openBetaIncident();return false" style="color:var(--blue-700);font-weight:600">+ en consigner un</a></div>`;
   } else {
-    incidents = b.incidents.map(i => `<div class="beta-report-row"><span>${fmtFr(i.date)} — ${esc(i.description.slice(0, 32))}</span><span style="color:var(--slate-500);font-size:12px">${i.cptsInformeeLe ? 'notifiée le ' + fmtFr(i.cptsInformeeLe) : '⚠ à notifier'}</span></div>`).join('')
+    incidents = b.incidents.map(i => { const info = betaIncidentInfo(i); const col = info.etat === 'resolu' ? 'var(--slate-500)' : info.etat === 'ok' ? 'var(--orange-600)' : 'var(--red-600)'; return `<div class="beta-report-row"><span>${fmtFr(i.date)} — ${esc(i.description.slice(0, 32))}${i.rgpd ? ' 🔐' : ''}</span><span style="color:${col};font-size:12px">${esc(info.label)}</span></div>`; }).join('')
       + `<div style="margin-top:8px"><a href="#" onclick="openBetaIncident();return false" style="color:var(--blue-700);font-weight:600;font-size:12px">+ en consigner un</a></div>`;
   }
   return `<div class="beta-block">
@@ -8143,9 +8163,21 @@ function betaCptsHtml(b) {
       <div class="beta-eng-card">
         <h4>Quand la béta s'arrête</h4>
         <ul class="beta-checklist">
-          <li>Proposer l'export des données</li>
-          <li>Supprimer les données sous 30 j</li>
+          <li>Garantir l'export des données (module libre, ou sous 48 h si indisponible)</li>
+          <li>Supprimer toutes les données sous 30 j</li>
+          <li>Purger jusqu'aux sauvegardes hébergeur — zéro donnée conservée</li>
           <li>Envoyer l'attestation de suppression</li>
+        </ul>
+      </div>
+      <div class="beta-eng-card" style="grid-column:1/-1">
+        <h4>🔐 Mes engagements RGPD <span style="font-weight:500;color:var(--slate-400);text-transform:none;letter-spacing:0">(Art. 6.5 — sous-traitante)</span></h4>
+        <ul class="beta-checklist">
+          <li>Registre des traitements tenu pour le compte de la CPTS (art. 30)</li>
+          <li>Minimisation : uniquement les données nécessaires</li>
+          <li>Hébergement 100 % France (Scalingo · OVHcloud · Outscale), aucun transfert hors UE</li>
+          <li>Violation de données notifiée à la CPTS sous 72 h max</li>
+          <li>Assistance à la CPTS pour les droits de ses membres (accès, rectification, effacement…)</li>
+          <li>Aucun sous-traitant ultérieur sans information préalable de la CPTS</li>
         </ul>
       </div>
     </div></div>`;
@@ -8253,7 +8285,8 @@ function openBetaIncident() {
     <h2>Consigner un incident</h2>
     <div class="field"><label>Date de l'incident</label><input id="beta-i-date" type="date" value="${today}"></div>
     <div class="field"><label>Description</label><textarea id="beta-i-desc" placeholder="Nature de l'incident de sécurité / confidentialité…"></textarea></div>
-    <div class="field"><label>CPTS informée le (Art. 4.3 — sans délai)</label><input id="beta-i-info" type="date"></div>
+    <div class="field"><label style="display:flex;align-items:center;gap:8px;font-weight:500"><input id="beta-i-rgpd" type="checkbox" style="width:auto">🔐 Violation de données personnelles (RGPD) — impose une notification sous <strong>72 h max</strong> (Art. 6.5)</label></div>
+    <div class="field"><label>CPTS informée le (Art. 4.3 — sans délai, ou 72 h max si violation de données)</label><input id="beta-i-info" type="date"></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
       <button class="btn btn-primary" onclick="saveBetaIncident()">Enregistrer</button>
@@ -8264,7 +8297,7 @@ function saveBetaIncident() {
   const b = ensureBeta();
   const desc = document.getElementById('beta-i-desc').value.trim();
   if (!desc) return alert('Décris l\'incident.');
-  const inc = { id: uid(), date: document.getElementById('beta-i-date').value, description: desc, cptsInformeeLe: document.getElementById('beta-i-info').value };
+  const inc = { id: uid(), date: document.getElementById('beta-i-date').value, description: desc, rgpd: document.getElementById('beta-i-rgpd').checked, cptsInformeeLe: document.getElementById('beta-i-info').value };
   b.incidents.push(inc);
   betaJournalAdd('ajuste', 'Incident consigné : ' + desc.slice(0, 60), inc.id);
   save(); closeModal(); render();
