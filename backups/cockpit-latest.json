@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-07-13T07:07:16.816Z",
+  "exportedAt": "2026-07-13T07:11:03.541Z",
   "origin": "auto-backup",
   "data": {
     "nodes": [
@@ -5771,7 +5771,7 @@
       {
         "id": "mqngx6vkssgj5",
         "title": "Gérer  le courrier de la DGFIP facturation électronique",
-        "status": "todo",
+        "status": "doing",
         "body": "Indy le fait, à voir"
       },
       {
@@ -5797,7 +5797,7 @@
       {
         "id": "mrhj3y6jzzta6",
         "title": "Migration accompagnee : incluse en formule haute OU option payante ?",
-        "status": "todo",
+        "status": "doing",
         "body": "Choix non tranche. Conditionne la grille tarifaire (DEC-04) et la promesse migration (CAP-03)."
       },
       {
@@ -5815,7 +5815,7 @@
       {
         "id": "mrhmfofdwpb6j",
         "title": "Être prête à recevoir les factures électroniques (avant le 01/09/2026)",
-        "status": "todo",
+        "status": "doing",
         "category": "admin",
         "body": "Échéance suivie par Victor (Le Gestionnaire).\n\nAu 1er septembre 2026, toute entreprise doit pouvoir RECEVOIR ses factures fournisseurs au format électronique. Vérifie si Indy le fait déjà pour toi ; sinon rattache-toi à une plateforme agréée.\n\nOù : Ton outil de gestion (vérifier avec Indy) ou une plateforme agréée (PDP) — annuaire sur impots.gouv.fr"
       }
